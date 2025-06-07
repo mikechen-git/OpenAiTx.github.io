@@ -1,11 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>Open AI Tx - Language Badge Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 300px;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        .style-option {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .preview {
+            background: #f5f5f5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+
+        .copy-button {
+            background: #4169E1;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+
+        .copy-button:hover {
+            background: #4169E1;
+        }
+
+        .badge-container {
+            text-align: center;
+        }
+
+        .markdown-container {
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }
+        .footer a {
+            color: #4169E1;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .description {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0 30px 0;
+            border: 1px solid #e9ecef;
+        }
+        .description h2 {
+            color: #4169E1;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .description p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        .description strong {
+            color: #4169E1;
+        }
+        .description .note {
+            margin-top: 15px;
+            padding: 10px;
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 4px;
+            color: #856404;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Hello Open AI Tx!</h1>
+    <h1>Open AI Tx - Language Badge Generator</h1>
+
+
+
+    <input type="hidden" id="userOrOrg" placeholder="Enter GitHub user/organization name">
+    <input type="hidden" id="project" placeholder="Enter project name">
+
+    <div class="style-option">
+        <h2>Style Option 1 (HTML Badges)</h2>
+        <div class="preview badge-container" id="style1Preview"></div>
+        <button onclick="copyToClipboard('style1Html')" class="copy-button">Copy HTML</button>
+        <textarea id="style1Html" style="display: none;"></textarea>
+    </div>
+
+    <div class="style-option">
+        <h2>Style Option 2 (Markdown Links)</h2>
+        <div class="preview markdown-container" id="style2Preview"></div>
+        <button onclick="copyToClipboard('style2Markdown')" class="copy-button">Copy Markdown</button>
+        <textarea id="style2Markdown" style="display: none;"></textarea>
+    </div>
+
+    <div class="description">
+        <h2>Support/Contribution</h2>
+        <p><strong><a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a> does not need your money, but it does need your computer's computing power, PR contributions, and Tokens.</strong></p>
+        
+        <p>If you would like to have a contribution in the project, all you need to do is:</p>
+        <p>Fork project => Clone project => Choose a script in your language => Fill in your AI token => Run it => Commit & push & create a PR</p>
+        
+        <div class="note">
+            <strong>Note:</strong> Please do not upload or leak your tokens!
+        </div>
+
+        <p style="margin-top: 20px;"><strong>Sync Priority:</strong> If you would like get high sync priority, please create a PR and add your project github link in <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">priority-list.json</a>.</p>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const userOrOrg = urlParams.get('userOrOrg') || '';
+            const project = urlParams.get('project') || '';
+
+            // Set initial values if URL parameters exist
+            if (userOrOrg) document.getElementById('userOrOrg').value = userOrOrg;
+            if (project) document.getElementById('project').value = project;
+
+            // Generate badges on page load if URL parameters exist
+            if (userOrOrg && project) {
+                updateBadges();
+            }
+        });
+
+        function updateBadges() {
+            const userOrOrg = document.getElementById('userOrOrg').value;
+            const project = document.getElementById('project').value;
+
+            if (!userOrOrg || !project) {
+                alert('Please enter both User/Organization and Project name');
+                return;
+            }
+
+            // Update URL without reloading
+            const newUrl = `${window.location.pathname}?userOrOrg=${encodeURIComponent(userOrOrg)}&project=${encodeURIComponent(project)}`;
+            window.history.pushState({}, '', newUrl);
+
+            // Generate Style 1 (HTML Badges)
+            const style1Html = generateStyle1(userOrOrg, project);
+            document.getElementById('style1Preview').innerHTML = style1Html;
+            document.getElementById('style1Html').value = style1Html;
+
+            // Generate Style 2 (Markdown Links)
+            const style2Markdown = generateStyle2(userOrOrg, project);
+            document.getElementById('style2Preview').textContent = style2Markdown;
+            document.getElementById('style2Markdown').value = style2Markdown;
+        }
+
+        function generateStyle1(userOrOrg, project) {
+            const languages = [
+                { code: 'en', name: 'EN' },
+                { code: 'zh-CN', name: '简中' },
+                { code: 'zh-tw', name: '繁中' },
+                { code: 'ja', name: '日本語' },
+                { code: 'ko', name: '한국어' },
+                { code: 'th', name: 'ไทย' },
+                { code: 'fr', name: 'Français' },
+                { code: 'de', name: 'Deutsch' },
+                { code: 'es', name: 'Español' },
+                { code: 'it', name: 'Italiano' },
+                { code: 'ru', name: 'Русский' },
+                { code: 'pt', name: 'Português' },
+                { code: 'nl', name: 'Nederlands' },
+                { code: 'pl', name: 'Polski' },
+                { code: 'ar', name: 'العربية' },
+                { code: 'tr', name: 'Türkçe' },
+                { code: 'vi', name: 'Tiếng Việt' }
+            ];
+
+            const badges = languages.map(lang =>
+                `<a href="https://github.com/OpenAiTx/OpenAiTx/blob/main/projects/${userOrOrg}/${project}/blob/main/README-${lang.code}.md"><img src="https://img.shields.io/badge/${lang.name}-red" alt="version"></a>`
+            ).join('');
+
+            return `<div style="text-align: center"><p>${badges}</p></div>`;
+        }
+
+        function generateStyle2(userOrOrg, project) {
+            const languages = [
+                { code: 'en', name: 'English' },
+                { code: 'zh-CN', name: '简体中文' },
+                { code: 'zh-TW', name: '繁體中文' },
+                { code: 'ja', name: '日本語' },
+                { code: 'ko', name: '한국어' },
+                { code: 'hi', name: 'हिन्दी' },
+                { code: 'th', name: 'ไทย' },
+                { code: 'fr', name: 'Français' },
+                { code: 'de', name: 'Deutsch' },
+                { code: 'es', name: 'Español' },
+                { code: 'it', name: 'Italiano' },
+                { code: 'ru', name: 'Русский' },
+                { code: 'pt', name: 'Português' },
+                { code: 'nl', name: 'Nederlands' },
+                { code: 'pl', name: 'Polski' },
+                { code: 'ar', name: 'العربية' },
+                { code: 'fa', name: 'فارسی' },
+                { code: 'tr', name: 'Türkçe' },
+                { code: 'vi', name: 'Tiếng Việt' },
+                { code: 'id', name: 'Bahasa Indonesia' }
+            ];
+
+            return languages.map(lang =>
+                `[${lang.name}](https://github.com/OpenAiTx/OpenAiTx/blob/main/projects//${userOrOrg}/${project}/blob/main/README-${lang.code}.md)`
+            ).join(' | ');
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.select();
+            document.execCommand('copy');
+            element.style.display = 'none';
+            alert('Copied to clipboard!');
+        }
+    </script>
 </body>
+
 </html>
