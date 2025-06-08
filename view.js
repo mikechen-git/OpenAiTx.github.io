@@ -29,11 +29,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const project = params['project'];
     const lang = params['lang'] || 'en'; // Default to English if no language specified
 
-    // Update GitHub repository link
+    // Update GitHub repository link immediately
     const githubRepoLink = document.getElementById('githubRepoLink');
     if (githubRepoLink && user && project) {
-        githubRepoLink.href = `https://github.com/${user}/${project}`;
+        const repoUrl = `https://github.com/${user}/${project}`;
+        githubRepoLink.href = repoUrl;
         githubRepoLink.textContent = `${user}/${project}`;
+    } else {
+        // Hide the link container if no valid parameters
+        document.querySelector('.header .links').style.display = 'none';
     }
 
     // Validate required parameters
