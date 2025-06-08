@@ -259,15 +259,17 @@
                                     body: JSON.stringify({
                                         project: `https://github.com/${userOrOrg}/${project}`
                                     })
-                                }).catch(error => {
-                                    calert(`Submission failed: ${error.message} ${error.data.error}`);
                                 });
+                                
+                                const data = await response.json();
+                                
                                 if (!response.ok) {
-                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                    throw new Error(data.error || `HTTP error! status: ${response.status}`);
                                 }
+                                
                                 alert('Submission completed');
                             } catch (error) {
-                                alert(`Submission failed: ${error.message} `);
+                                alert(`Submission failed: ${error.message}`);
                             }
                         };
                         const statusDiv = document.createElement('div');
