@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenAI TX - GitHub README Translator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="translate.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">OpenAI TX - GitHub README Translator</h1>
+        
+        <!-- Configuration Form -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Configuration</h5>
+            </div>
+            <div class="card-body">
+                <form id="configForm">
+                    <div class="mb-3">
+                        <label for="githubToken" class="form-label">GitHub Personal Access Token</label>
+                        <input type="password" class="form-control" id="githubToken" required>
+                        <div class="form-text">Required for GitHub API access</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="openAiKey" class="form-label">Azure OpenAI API Key</label>
+                        <input type="password" class="form-control" id="openAiKey" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="openAiEndpoint" class="form-label">Azure OpenAI API Endpoint</label>
+                        <input type="url" class="form-control" id="openAiEndpoint" required>
+                        <div class="form-text">Example: https://your-resource.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-02-15-preview</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Configuration</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Search Form -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Search Projects</h5>
+            </div>
+            <div class="card-body">
+                <form id="searchForm">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="minStars" class="form-label">Minimum Stars</label>
+                            <input type="number" class="form-control" id="minStars" value="20" min="0">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="daysAgo" class="form-label">Days Ago</label>
+                            <input type="number" class="form-control" id="daysAgo" value="30" min="0" max="365">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="perPage" class="form-label">Results Per Page</label>
+                            <input type="number" class="form-control" id="perPage" value="3" min="1" max="10">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Search Projects</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Results Area -->
+        <div id="results" class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Search Results</h5>
+            </div>
+            <div class="card-body">
+                <div id="projectsList" class="list-group">
+                    <!-- Projects will be listed here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Translation Modal -->
+        <div class="modal fade" id="translationModal" tabindex="-1">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Translation Progress</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="translationProgress"></div>
+                        <div id="translationResults" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="translate.js"></script>
+</body>
+</html> 
