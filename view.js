@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Construct the API URL
-    const apiUrl = `https://raw.githubusercontent.com/OpenAiTx/OpenAiTx/refs/heads/main/projects/${user}/${project}/README-${lang}`;
+    const apiUrl = `https://raw.githubusercontent.com/OpenAiTx/OpenAiTx/refs/heads/main/projects/${user}/${project}/README-${lang}.md`;
 
     // Fetch and render the markdown
     fetch(apiUrl)
