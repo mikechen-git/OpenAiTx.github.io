@@ -29,6 +29,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const project = params['project'];
     const lang = params['lang'] || 'en'; // Default to English if no language specified
 
+    // Update GitHub repository link
+    const githubRepoLink = document.getElementById('githubRepoLink');
+    if (githubRepoLink && user && project) {
+        githubRepoLink.href = `https://github.com/${user}/${project}`;
+        githubRepoLink.textContent = `${user}/${project}`;
+    }
+
     // Validate required parameters
     if (!user || !project) {
         document.getElementById('content').innerHTML = `
