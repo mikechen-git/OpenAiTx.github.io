@@ -19,9 +19,23 @@ document.addEventListener('DOMContentLoaded', function() {
     marked.use({
         renderer: {
             heading(text, level) {
-                const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+                // 生成更友好的 ID，保留中文和特殊字符
+                const escapedText = text
+                    .toLowerCase()
+                    .replace(/[^\u4e00-\u9fa5a-z0-9]+/g, '-') // 保留中文、英文和数字
+                    .replace(/^-+|-+$/g, '') // 移除首尾的连字符
+                    .replace(/-+/g, '-'); // 将多个连字符替换为单个
+                
+                // 确保 ID 唯一性
+                const baseId = escapedText;
+                let id = baseId;
+                let counter = 1;
+                while (document.getElementById(id)) {
+                    id = `${baseId}-${counter++}`;
+                }
+                
                 return `
-                    <h${level} id="${escapedText}">
+                    <h${level} id="${id}" class="markdown-heading">
                         ${text}
                     </h${level}>
                 `;
@@ -73,52 +87,135 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchAndRenderMarkdown();
 });
 
-// 添加目录生成和滚动监听功能
+// 优化目录生成函数
 function generateTOC() {
     const tocList = document.getElementById('toc-list');
-    const headings = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6');
+    const headings = document.querySelectorAll('.markdown-body .markdown-heading');
+    
+    // 清空现有目录
+    tocList.innerHTML = '';
     
     if (headings.length === 0) {
         tocList.parentElement.style.display = 'none';
         return;
     }
 
-    const fragment = document.createDocumentFragment();
+    // 显示目录容器
+    tocList.parentElement.style.display = 'block';
+    
+    // 创建目录树结构
+    const tocTree = [];
+    let currentLevel = 0;
+    let currentParent = tocTree;
+    const parentStack = [tocTree];
+
     headings.forEach(heading => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.textContent = heading.textContent;
-        a.href = `#${heading.id}`;
-        a.className = `h${heading.tagName[1]}`;
+        const level = parseInt(heading.tagName[1]);
+        const text = heading.textContent.trim();
+        const id = heading.id;
         
-        a.addEventListener('click', (e) => {
-            e.preventDefault();
-            heading.scrollIntoView({ behavior: 'smooth' });
-            // 更新 URL hash
-            history.pushState(null, null, a.href);
+        // 创建目录项
+        const tocItem = {
+            level,
+            text,
+            id,
+            children: []
+        };
+
+        // 调整层级
+        while (currentLevel < level - 1) {
+            const newParent = parentStack[parentStack.length - 1];
+            if (newParent.children.length > 0) {
+                currentParent = newParent.children[newParent.children.length - 1].children;
+                parentStack.push(currentParent);
+            }
+            currentLevel++;
+        }
+        while (currentLevel > level - 1) {
+            parentStack.pop();
+            currentParent = parentStack[parentStack.length - 1];
+            currentLevel--;
+        }
+
+        // 添加到当前层级
+        currentParent.push(tocItem);
+    });
+
+    // 递归生成目录 HTML
+    function generateTOCHTML(items, level = 0) {
+        if (items.length === 0) return '';
+        
+        const ul = document.createElement('ul');
+        items.forEach(item => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.textContent = item.text;
+            a.href = `#${item.id}`;
+            a.className = `h${item.level}`;
+            
+            // 添加点击事件
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetHeading = document.getElementById(item.id);
+                if (targetHeading) {
+                    // 计算目标位置，考虑固定头部的高度
+                    const headerHeight = document.querySelector('.header').offsetHeight;
+                    const targetPosition = targetHeading.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    
+                    // 平滑滚动
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 更新 URL hash
+                    history.pushState(null, null, a.href);
+                }
+            });
+            
+            li.appendChild(a);
+            
+            // 递归处理子项
+            if (item.children && item.children.length > 0) {
+                const childUl = generateTOCHTML(item.children, level + 1);
+                li.appendChild(childUl);
+            }
+            
+            ul.appendChild(li);
         });
         
-        li.appendChild(a);
-        fragment.appendChild(li);
-    });
-    
-    tocList.appendChild(fragment);
+        return ul;
+    }
+
+    // 生成并添加目录 HTML
+    const tocHTML = generateTOCHTML(tocTree);
+    tocList.appendChild(tocHTML);
 }
 
+// 优化滚动监听函数
 function updateActiveTOCLink() {
-    const headings = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6');
+    const headings = document.querySelectorAll('.markdown-body .markdown-heading');
     const tocLinks = document.querySelectorAll('.toc a');
+    
+    if (headings.length === 0 || tocLinks.length === 0) return;
     
     // 移除所有活动状态
     tocLinks.forEach(link => link.classList.remove('active'));
     
+    // 获取视口位置和头部高度
+    const headerHeight = document.querySelector('.header').offsetHeight;
+    const scrollPosition = window.scrollY + headerHeight + 10; // 添加一些偏移量
+    
     // 找到当前视口中的标题
     let currentHeading = null;
-    const scrollPosition = window.scrollY;
+    let minDistance = Infinity;
     
     headings.forEach(heading => {
-        const headingTop = heading.offsetTop - 100; // 添加一些偏移量
-        if (scrollPosition >= headingTop) {
+        const headingTop = heading.offsetTop;
+        const distance = Math.abs(scrollPosition - headingTop);
+        
+        if (distance < minDistance) {
+            minDistance = distance;
             currentHeading = heading;
         }
     });
@@ -128,6 +225,17 @@ function updateActiveTOCLink() {
         const activeLink = document.querySelector(`.toc a[href="#${currentHeading.id}"]`);
         if (activeLink) {
             activeLink.classList.add('active');
+            
+            // 确保活动链接在目录中可见
+            const tocContainer = document.querySelector('.toc-container');
+            const linkRect = activeLink.getBoundingClientRect();
+            const containerRect = tocContainer.getBoundingClientRect();
+            
+            if (linkRect.top < containerRect.top) {
+                tocContainer.scrollTop += linkRect.top - containerRect.top - 10;
+            } else if (linkRect.bottom > containerRect.bottom) {
+                tocContainer.scrollTop += linkRect.bottom - containerRect.bottom + 10;
+            }
         }
     }
 }
