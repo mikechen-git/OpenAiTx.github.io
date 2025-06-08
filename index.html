@@ -226,19 +226,61 @@
                 return;
             }
 
-            // Update URL without reloading
             const newUrl = `${window.location.pathname}?userOrOrg=${encodeURIComponent(userOrOrg)}&project=${encodeURIComponent(project)}`;
             window.history.pushState({}, '', newUrl);
 
-            // Generate Style 1 (HTML Badges)
             const style1Html = generateStyle1(userOrOrg, project);
             document.getElementById('style1Preview').innerHTML = style1Html;
             document.getElementById('style1Html').value = style1Html;
 
-            // Generate Style 2 (Markdown Links)
             const style2Markdown = generateStyle2(userOrOrg, project);
             document.getElementById('style2Preview').textContent = style2Markdown;
             document.getElementById('style2Markdown').value = style2Markdown;
+
+            checkProjectStatus(userOrOrg, project);
+        }
+
+        function checkProjectStatus(userOrOrg, project) {
+            const apiUrl = `https://raw.githubusercontent.com/OpenAiTx/OpenAiTx/refs/heads/main/projects/${userOrOrg}/${project}/README-en.md`;
+            
+            fetch(apiUrl)
+                .then(response => {
+                    if (response.status === 404) {
+                        const submitButton = document.createElement('button');
+                        submitButton.textContent = 'Submit';
+                        submitButton.style.cssText = 'padding: 8px 16px; background: #2ea44f; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; margin-top: 20px;';
+                        submitButton.onclick = async () => {
+                            try {
+                                const response = await fetch('https://openaitx.com/api/submit-project', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        project: `https://github.com/${userOrOrg}/${project}`
+                                    })
+                                });
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                }
+                                alert('Submission completed');
+                            } catch (error) {
+                                alert(`Submission failed: ${error.message}`);
+                            }
+                        };
+                        const statusDiv = document.createElement('div');
+                        statusDiv.style.cssText = 'text-align: center; padding: 20px; margin-top: 20px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;';
+                        statusDiv.innerHTML = `
+                            <h3 style="margin: 0 0 10px 0; color: #2c3e50;">Project Documentation Not Found</h3>
+                            <p style="margin: 0 0 15px 0; color: #666;">The documentation for this project has not been indexed yet. Click the button below to submit for indexing.</p>
+                        `;
+                        statusDiv.appendChild(submitButton);
+                        document.querySelector('.style-option').insertAdjacentElement('beforebegin', statusDiv);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
 
         function generateStyle1(userOrOrg, project) {
