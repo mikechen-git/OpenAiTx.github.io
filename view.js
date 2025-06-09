@@ -36,6 +36,36 @@ document.addEventListener('DOMContentLoaded', function() {
         githubRepoLink.textContent = `${user}/${project}`;
     }
 
+    // Generate language badges
+    const languageBadges = document.getElementById('languageBadges');
+    if (languageBadges && user && project) {
+        const languages = [
+            { code: 'en', name: 'EN' },
+            { code: 'zh-CN', name: '简中' },
+            { code: 'zh-TW', name: '繁中' },
+            { code: 'ja', name: '日本語' },
+            { code: 'ko', name: '한국어' },
+            { code: 'th', name: 'ไทย' },
+            { code: 'fr', name: 'Français' },
+            { code: 'de', name: 'Deutsch' },
+            { code: 'es', name: 'Español' },
+            { code: 'it', name: 'Italiano' },
+            { code: 'ru', name: 'Русский' },
+            { code: 'pt', name: 'Português' },
+            { code: 'nl', name: 'Nederlands' },
+            { code: 'pl', name: 'Polski' },
+            { code: 'ar', name: 'العربية' },
+            { code: 'tr', name: 'Türkçe' },
+            { code: 'vi', name: 'Tiếng Việt' }
+        ];
+
+        const badges = languages.map(lang =>
+            `<a href="https://openaitx.github.io/view.html?user=${user}&project=${project}&lang=${lang.code}"><img src="https://img.shields.io/badge/${lang.name}-white" alt="version"></a>`
+        ).join(' ');
+
+        languageBadges.innerHTML = badges;
+    }
+
     // Validate required parameters
     if (!user || !project) {
         document.getElementById('content').innerHTML = `
