@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { marked } from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
+import '../styles/markdown.css'
 
 const MarkdownViewer = () => {
   const [searchParams] = useSearchParams()
@@ -203,7 +204,7 @@ const MarkdownViewer = () => {
           return
         }
 
-        // Repository exists, now check if README exists in OpenAiTx repo
+        // Repository exists, now check if README exists
         const apiUrl = `https://raw.githubusercontent.com/OpenAiTx/OpenAiTx/refs/heads/main/projects/${user}/${project}/README-${lang}.md`
         
         const response = await fetch(apiUrl)
@@ -213,8 +214,7 @@ const MarkdownViewer = () => {
           setError({
             type: 'docNotFound',
             title: t.docNotFound,
-            description: t.docNotFoundDesc,
-            showSubmit: true
+            description: t.docNotFoundDesc
           })
           setShowSubmitButton(true)
           setLoading(false)
@@ -228,26 +228,26 @@ const MarkdownViewer = () => {
         const markdown = await response.text()
         
         // Render the markdown
-        const parsedContent = marked.parse(markdown)
-        setContent(parsedContent)
-
-        // Update page title with the first h1 from the markdown - like original
+        const renderedContent = marked.parse(markdown)
+        setContent(renderedContent)
+        
+        // Update page title with the first h1 from the markdown
         const tempDiv = document.createElement('div')
-        tempDiv.innerHTML = parsedContent
+        tempDiv.innerHTML = renderedContent
         const firstH1 = tempDiv.querySelector('h1')
         if (firstH1) {
           document.title = `${firstH1.textContent} - Open AI Tx`
         }
         
-      } catch (err) {
+        setLoading(false)
+      } catch (error) {
+        console.error('Error:', error)
         setError({
           type: 'errorLoading',
           title: t.errorLoading,
           description: t.errorLoadingDesc,
-          details: err.message,
-          list: [t.errorLoadingList1, t.errorLoadingList2, t.errorLoadingList3]
+          details: error.message
         })
-      } finally {
         setLoading(false)
       }
     }
@@ -258,18 +258,18 @@ const MarkdownViewer = () => {
   // Apply syntax highlighting after content is rendered
   useEffect(() => {
     if (content) {
-      // Apply syntax highlighting to all code blocks
-      document.querySelectorAll('pre code').forEach((block) => {
-        hljs.highlightBlock(block)
-      })
+      // Small delay to ensure DOM is updated
+      setTimeout(() => {
+        document.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightElement(block)
+        })
+      }, 100)
     }
   }, [content])
 
   const renderError = () => {
-    if (!error) return null
-
-    const styles = {
-      error: {
+    return (
+      <div className="error" style={{
         textAlign: 'center',
         padding: '40px 20px',
         margin: '20px auto',
@@ -277,60 +277,69 @@ const MarkdownViewer = () => {
         background: '#f8f9fa',
         borderRadius: '8px',
         border: '1px solid #e9ecef'
-      },
-      h2: {
-        margin: '0 0 15px 0',
-        color: '#2c3e50',
-        fontSize: '24px'
-      },
-      p: {
-        margin: '10px 0',
-        color: '#666',
-        lineHeight: '1.6'
-      },
-      ul: {
-        textAlign: 'left',
-        maxWidth: '400px',
-        margin: '15px auto',
-        color: '#666'
-      },
-      li: {
-        margin: '5px 0'
-      },
-      submitButton: {
-        padding: '12px 24px',
-        background: '#2ea44f',
-        color: 'white',
-        border: 'none',
-        borderRadius: '8px',
-        cursor: 'pointer',
-        fontSize: '16px',
-        fontWeight: '600',
-        margin: '25px auto 0 auto',
-        display: 'block',
-        transition: 'all 0.2s ease',
-        boxShadow: '0 2px 4px rgba(46, 164, 79, 0.2)',
-        minWidth: '120px'
-      }
-    }
-
-    return (
-      <div style={styles.error}>
-        <h2 style={styles.h2}>{error.title}</h2>
-        <p style={styles.p}>{error.description}</p>
-        {error.example && <p style={styles.p}>{error.example}</p>}
-        {error.list && (
-          <ul style={styles.ul}>
-            {error.list.map((item, index) => (
-              <li key={index} style={styles.li}>{item}</li>
-            ))}
-          </ul>
+      }}>
+        <h2 style={{
+          margin: '0 0 15px 0',
+          color: '#2c3e50',
+          fontSize: '24px'
+        }}>
+          {error.title}
+        </h2>
+        <p style={{
+          margin: '10px 0',
+          color: '#666',
+          lineHeight: 1.6
+        }}>
+          {error.description}
+        </p>
+        {error.example && (
+          <p style={{
+            margin: '10px 0',
+            color: '#666',
+            lineHeight: 1.6
+          }}>
+            {error.example}
+          </p>
         )}
-        {error.details && <p style={styles.p}>{t.errorDetails} {error.details}</p>}
-        {error.showSubmit && (
+        {error.type === 'errorLoading' && (
+          <>
+            <ul style={{
+              textAlign: 'left',
+              maxWidth: '400px',
+              margin: '15px auto',
+              color: '#666'
+            }}>
+              <li style={{ margin: '5px 0' }}>{t.errorLoadingList1}</li>
+              <li style={{ margin: '5px 0' }}>{t.errorLoadingList2}</li>
+              <li style={{ margin: '5px 0' }}>{t.errorLoadingList3}</li>
+            </ul>
+            <p style={{
+              margin: '10px 0',
+              color: '#666',
+              lineHeight: 1.6
+            }}>
+              {t.errorDetails} {error.details}
+            </p>
+          </>
+        )}
+        {showSubmitButton && (
           <button
-            style={styles.submitButton}
             onClick={handleSubmit}
+            style={{
+              padding: '12px 24px',
+              background: '#2ea44f',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              fontWeight: '600',
+              margin: '25px auto 0 auto',
+              display: 'block',
+              transition: 'all 0.2s ease',
+              boxShadow: '0 2px 4px rgba(46, 164, 79, 0.2)',
+              minWidth: '120px'
+            }}
             onMouseOver={(e) => {
               e.target.style.background = '#2c974b'
               e.target.style.transform = 'translateY(-1px)'
@@ -349,90 +358,32 @@ const MarkdownViewer = () => {
     )
   }
 
-  const styles = {
-    body: {
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
-      lineHeight: 1.6,
-      color: '#24292e',
-      margin: 0,
-      padding: 0,
-      backgroundColor: '#ffffff'
-    },
-    header: {
-      textAlign: 'center',
-      marginBottom: '30px',
-      padding: '20px',
-      backgroundColor: '#f6f8fa',
-      borderBottom: '1px solid #e1e4e8',
-      position: 'relative'
-    },
-    backButton: {
-      position: 'absolute',
-      left: '20px',
-      top: '50%',
-      transform: 'translateY(-50%)',
-      color: '#0366d6',
-      textDecoration: 'none',
-      display: 'flex',
-      alignItems: 'center',
-      fontSize: '14px',
-      padding: '5px 10px',
-      border: '1px solid #e1e4e8',
-      borderRadius: '6px',
-      backgroundColor: '#fff',
-      cursor: 'pointer'
-    },
-    links: {
-      marginTop: '10px',
-      fontSize: '16px'
-    },
-    link: {
-      color: '#0366d6',
-      textDecoration: 'none',
-      marginLeft: '5px'
-    },
-    languageBadges: {
-      marginTop: '15px',
-      textAlign: 'center'
-    },
-    languageBadge: {
-      display: 'inline-block',
-      margin: '2px',
-      textDecoration: 'none'
-    },
-    badgeImg: {
-      height: '20px',
-      borderRadius: '3px'
-    },
-    mainContainer: {
-      margin: '0 auto',
-      width: '100%',
-      maxWidth: '980px',
-      padding: '0 20px'
-    },
-    markdownBody: {
-      boxSizing: 'border-box',
-      minWidth: '200px',
-      maxWidth: '980px',
-      margin: '0 auto',
-      padding: '45px',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
-      fontSize: '16px',
-      lineHeight: 1.5,
-      wordWrap: 'break-word'
-    },
-    loading: {
-      textAlign: 'center',
-      padding: '20px',
-      color: '#666'
-    }
-  }
-
   if (loading) {
     return (
-      <div style={styles.body}>
-        <div style={styles.mainContainer}>
-          <div style={styles.loading}>Loading...</div>
+      <div style={{
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
+        lineHeight: 1.6,
+        color: '#24292e',
+        margin: 0,
+        padding: 0,
+        backgroundColor: '#ffffff',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh'
+      }}>
+        <div style={{
+          margin: '0 auto',
+          width: '100%',
+          maxWidth: '980px',
+          padding: '0 20px'
+        }}>
+          <div style={{
+            textAlign: 'center',
+            padding: '20px',
+            color: '#666'
+          }}>
+            Loading...
+          </div>
         </div>
       </div>
     )
@@ -440,11 +391,43 @@ const MarkdownViewer = () => {
 
   if (error) {
     return (
-      <div style={styles.body}>
-        <div style={styles.header}>
+      <div style={{
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
+        lineHeight: 1.6,
+        color: '#24292e',
+        margin: 0,
+        padding: 0,
+        backgroundColor: '#ffffff',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh'
+      }}>
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '30px',
+          padding: '20px',
+          backgroundColor: '#f6f8fa',
+          borderBottom: '1px solid #e1e4e8',
+          position: 'relative'
+        }}>
           <button 
-            style={styles.backButton}
             onClick={() => window.history.back()}
+            style={{
+              position: 'absolute',
+              left: '20px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: '#0366d6',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              fontSize: '14px',
+              padding: '5px 10px',
+              border: '1px solid #e1e4e8',
+              borderRadius: '6px',
+              backgroundColor: '#fff',
+              cursor: 'pointer'
+            }}
             onMouseOver={(e) => {
               e.target.style.backgroundColor = '#f6f8fa'
               e.target.style.borderColor = '#0366d6'
@@ -456,13 +439,20 @@ const MarkdownViewer = () => {
           >
             ← Back
           </button>
-          <div style={styles.links}>
+          <div style={{
+            marginTop: '10px',
+            fontSize: '16px'
+          }}>
             GitHub Repository: 
             <a 
               href={user && project ? `https://github.com/${user}/${project}` : '#'}
               target="_blank"
               rel="noopener noreferrer"
-              style={styles.link}
+              style={{
+                color: '#0366d6',
+                textDecoration: 'none',
+                marginLeft: '5px'
+              }}
               onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
               onMouseOut={(e) => e.target.style.textDecoration = 'none'}
             >
@@ -470,26 +460,41 @@ const MarkdownViewer = () => {
             </a>
           </div>
           {user && project && (
-            <div style={styles.languageBadges}>
+            <div style={{
+              marginTop: '15px',
+              textAlign: 'center'
+            }}>
               {languages.map(lang => (
                 <a 
                   key={lang.code}
-                  href={`/OpenAiTx.github.io/view?user=${user}&project=${project}&lang=${lang.code}`}
-                  style={styles.languageBadge}
+                  href={`https://openaitx.github.io/view?user=${user}&project=${project}&lang=${lang.code}`}
+                  style={{
+                    display: 'inline-block',
+                    margin: '2px',
+                    textDecoration: 'none'
+                  }}
                   onMouseOver={(e) => e.target.querySelector('img').style.opacity = '0.8'}
                   onMouseOut={(e) => e.target.querySelector('img').style.opacity = '1'}
                 >
                   <img 
                     src={`https://img.shields.io/badge/${lang.name}-white`}
                     alt="version"
-                    style={styles.badgeImg}
+                    style={{
+                      height: '20px',
+                      borderRadius: '3px'
+                    }}
                   />
                 </a>
               ))}
             </div>
           )}
         </div>
-        <div style={styles.mainContainer}>
+        <div style={{
+          margin: '0 auto',
+          width: '100%',
+          maxWidth: '980px',
+          padding: '0 20px'
+        }}>
           {renderError()}
         </div>
       </div>
@@ -497,11 +502,43 @@ const MarkdownViewer = () => {
   }
 
   return (
-    <div style={styles.body}>
-      <div style={styles.header}>
+    <div style={{
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
+      lineHeight: 1.6,
+      color: '#24292e',
+      margin: 0,
+      padding: 0,
+      backgroundColor: '#ffffff',
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: '100vh'
+    }}>
+      <div style={{
+        textAlign: 'center',
+        marginBottom: '30px',
+        padding: '20px',
+        backgroundColor: '#f6f8fa',
+        borderBottom: '1px solid #e1e4e8',
+        position: 'relative'
+      }}>
         <button 
-          style={styles.backButton}
           onClick={() => window.history.back()}
+          style={{
+            position: 'absolute',
+            left: '20px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            color: '#0366d6',
+            textDecoration: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            fontSize: '14px',
+            padding: '5px 10px',
+            border: '1px solid #e1e4e8',
+            borderRadius: '6px',
+            backgroundColor: '#fff',
+            cursor: 'pointer'
+          }}
           onMouseOver={(e) => {
             e.target.style.backgroundColor = '#f6f8fa'
             e.target.style.borderColor = '#0366d6'
@@ -513,43 +550,88 @@ const MarkdownViewer = () => {
         >
           ← Back
         </button>
-        <div style={styles.links}>
+        <div style={{
+          marginTop: '10px',
+          fontSize: '16px'
+        }}>
           GitHub Repository: 
           <a 
             href={`https://github.com/${user}/${project}`}
             target="_blank"
             rel="noopener noreferrer"
-            style={styles.link}
+            style={{
+              color: '#0366d6',
+              textDecoration: 'none',
+              marginLeft: '5px'
+            }}
             onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
             onMouseOut={(e) => e.target.style.textDecoration = 'none'}
           >
             {user}/{project}
           </a>
         </div>
-        <div style={styles.languageBadges}>
+        <div style={{
+          marginTop: '15px',
+          textAlign: 'center'
+        }}>
           {languages.map(lang => (
             <a 
               key={lang.code}
-              href={`/OpenAiTx.github.io/view?user=${user}&project=${project}&lang=${lang.code}`}
-              style={styles.languageBadge}
+              href={`https://openaitx.github.io/view?user=${user}&project=${project}&lang=${lang.code}`}
+              style={{
+                display: 'inline-block',
+                margin: '2px',
+                textDecoration: 'none'
+              }}
               onMouseOver={(e) => e.target.querySelector('img').style.opacity = '0.8'}
               onMouseOut={(e) => e.target.querySelector('img').style.opacity = '1'}
             >
               <img 
                 src={`https://img.shields.io/badge/${lang.name}-white`}
                 alt="version"
-                style={styles.badgeImg}
+                style={{
+                  height: '20px',
+                  borderRadius: '3px'
+                }}
               />
             </a>
           ))}
         </div>
       </div>
-      <div style={styles.mainContainer}>
+      <div style={{
+        margin: '0 auto',
+        width: '100%',
+        maxWidth: '980px',
+        padding: '0 20px'
+      }}>
         <div 
-          style={styles.markdownBody}
+          className="markdown-body"
           dangerouslySetInnerHTML={{ __html: content }}
         />
       </div>
+      <footer style={{
+        textAlign: 'center',
+        marginTop: '40px',
+        padding: '20px',
+        color: '#666',
+        fontSize: '14px',
+        borderTop: '1px solid #e1e4e8'
+      }}>
+        Powered by{' '}
+        <a 
+          href="https://github.com/OpenAiTx/OpenAiTx" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          style={{
+            color: '#2c3e50',
+            textDecoration: 'none'
+          }}
+          onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
+          onMouseOut={(e) => e.target.style.textDecoration = 'none'}
+        >
+          Open AI Tx
+        </a>
+      </footer>
     </div>
   )
 }
