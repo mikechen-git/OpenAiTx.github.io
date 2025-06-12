@@ -108,9 +108,9 @@ const BadgeGenerator = () => {
     
     const badges = style1Languages.map(lang =>
       `<a href="https://openaitx.github.io/view?user=${userOrOrg}&project=${project}&lang=${lang.code}"><img src="https://img.shields.io/badge/${lang.name}-white" alt="version"></a>`
-    ).join(' ')
+    ).join('')
     
-    return `<div style="text-align: center"><p>${badges}</p></div>`
+    return `<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;">${badges}</div>`
   }
 
   const generateStyle2Markdown = () => {
@@ -254,8 +254,8 @@ const BadgeGenerator = () => {
       {/* Input form for testing */}
       <div className="mt-8 p-4 bg-muted/50 rounded-lg border border-border">
         <h3 className="text-lg font-semibold text-foreground mb-4">Test Badge Generation</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex-1">
             <label className="block text-sm font-medium text-muted-foreground mb-2">
               GitHub User/Organization
             </label>
@@ -267,7 +267,7 @@ const BadgeGenerator = () => {
               className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground focus:ring-2 focus:ring-ring focus:border-transparent"
             />
           </div>
-          <div>
+          <div className="flex-1">
             <label className="block text-sm font-medium text-muted-foreground mb-2">
               Project Name
             </label>
