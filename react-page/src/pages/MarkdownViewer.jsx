@@ -132,6 +132,62 @@ const MarkdownViewer = () => {
     { code: 'vi', name: 'Tiếng Việt' }
   ]
 
+  // Header component to avoid duplication
+  const PageHeader = ({ user, project, languages }) => (
+    <header className="text-center mb-8 p-5 bg-gray-50 border-b border-gray-200">
+      <button 
+        onClick={() => window.history.back()}
+        className="absolute left-5 top-1/2 transform -translate-y-1/2 text-blue-600 text-sm px-2.5 py-1.5 border border-gray-200 rounded-md bg-white hover:bg-gray-50 hover:border-blue-600 transition-colors duration-200 flex items-center"
+      >
+        ← Back
+      </button>
+      
+      <div className="mt-2.5 text-base">
+        GitHub Repository: 
+        <a 
+          href={user && project ? `https://github.com/${user}/${project}` : '#'}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 no-underline ml-1.5 hover:underline"
+        >
+          {user && project ? `${user}/${project}` : 'N/A'}
+        </a>
+      </div>
+      
+      {user && project && (
+        <div className="mt-4 flex flex-wrap justify-center items-center gap-1">
+          {languages.map(lang => (
+            <a 
+              key={lang.code}
+              href={`https://openaitx.github.io/view?user=${user}&project=${project}&lang=${lang.code}`}
+              className="no-underline hover:opacity-80 transition-opacity duration-200"
+            >
+              <img 
+                src={`https://img.shields.io/badge/${lang.name}-white`}
+                alt="version"
+                className="h-5 rounded"
+              />
+            </a>
+          ))}
+        </div>
+      )}
+    </header>
+  )
+
+  // Container component to avoid duplication
+  const PageContainer = ({ children }) => (
+    <div className="font-sans leading-6 text-gray-800 m-0 p-0 bg-white flex flex-col min-h-screen">
+      {children}
+    </div>
+  )
+
+  // Content wrapper component
+  const ContentWrapper = ({ children }) => (
+    <div className="mx-auto w-full px-5">
+      {children}
+    </div>
+  )
+
   const handleSubmit = async () => {
     try {
       const response = await fetch('https://openaitx.com/api/submit-project', {
@@ -269,55 +325,26 @@ const MarkdownViewer = () => {
 
   const renderError = () => {
     return (
-      <div className="error" style={{
-        textAlign: 'center',
-        padding: '40px 20px',
-        margin: '20px auto',
-        maxWidth: '600px',
-        background: '#f8f9fa',
-        borderRadius: '8px',
-        border: '1px solid #e9ecef'
-      }}>
-        <h2 style={{
-          margin: '0 0 15px 0',
-          color: '#2c3e50',
-          fontSize: '24px'
-        }}>
+      <div className="text-center py-10 px-5 my-5 mx-auto max-w-2xl bg-gray-50 rounded-lg border border-gray-200">
+        <h2 className="mb-4 text-gray-800 text-2xl font-semibold m-0">
           {error.title}
         </h2>
-        <p style={{
-          margin: '10px 0',
-          color: '#666',
-          lineHeight: 1.6
-        }}>
+        <p className="my-2.5 text-gray-600 leading-6">
           {error.description}
         </p>
         {error.example && (
-          <p style={{
-            margin: '10px 0',
-            color: '#666',
-            lineHeight: 1.6
-          }}>
+          <p className="my-2.5 text-gray-600 leading-6">
             {error.example}
           </p>
         )}
         {error.type === 'errorLoading' && (
           <>
-            <ul style={{
-              textAlign: 'left',
-              maxWidth: '400px',
-              margin: '15px auto',
-              color: '#666'
-            }}>
-              <li style={{ margin: '5px 0' }}>{t.errorLoadingList1}</li>
-              <li style={{ margin: '5px 0' }}>{t.errorLoadingList2}</li>
-              <li style={{ margin: '5px 0' }}>{t.errorLoadingList3}</li>
+            <ul className="text-left max-w-sm my-4 mx-auto text-gray-600 list-disc list-inside">
+              <li className="my-1.5">{t.errorLoadingList1}</li>
+              <li className="my-1.5">{t.errorLoadingList2}</li>
+              <li className="my-1.5">{t.errorLoadingList3}</li>
             </ul>
-            <p style={{
-              margin: '10px 0',
-              color: '#666',
-              lineHeight: 1.6
-            }}>
+            <p className="my-2.5 text-gray-600 leading-6">
               {t.errorDetails} {error.details}
             </p>
           </>
@@ -325,31 +352,7 @@ const MarkdownViewer = () => {
         {showSubmitButton && (
           <button
             onClick={handleSubmit}
-            style={{
-              padding: '12px 24px',
-              background: '#2ea44f',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              fontSize: '16px',
-              fontWeight: '600',
-              margin: '25px auto 0 auto',
-              display: 'block',
-              transition: 'all 0.2s ease',
-              boxShadow: '0 2px 4px rgba(46, 164, 79, 0.2)',
-              minWidth: '120px'
-            }}
-            onMouseOver={(e) => {
-              e.target.style.background = '#2c974b'
-              e.target.style.transform = 'translateY(-1px)'
-              e.target.style.boxShadow = '0 4px 8px rgba(46, 164, 79, 0.3)'
-            }}
-            onMouseOut={(e) => {
-              e.target.style.background = '#2ea44f'
-              e.target.style.transform = 'translateY(0)'
-              e.target.style.boxShadow = '0 2px 4px rgba(46, 164, 79, 0.2)'
-            }}
+            className="py-3 px-6 bg-green-600 text-white border-none rounded-lg cursor-pointer text-base font-semibold mt-6 mx-auto block transition-all duration-200 shadow-sm hover:bg-green-700 hover:-translate-y-px hover:shadow-md min-w-30"
           >
             {t.submit}
           </button>
@@ -360,279 +363,48 @@ const MarkdownViewer = () => {
 
   if (loading) {
     return (
-      <div style={{
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
-        lineHeight: 1.6,
-        color: '#24292e',
-        margin: 0,
-        padding: 0,
-        backgroundColor: '#ffffff',
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh'
-      }}>
-        <div style={{
-          margin: '0 auto',
-          width: '100%',
-          maxWidth: '980px',
-          padding: '0 20px'
-        }}>
-          <div style={{
-            textAlign: 'center',
-            padding: '20px',
-            color: '#666'
-          }}>
+      <PageContainer>
+        <ContentWrapper>
+          <div className="text-center py-5 text-gray-600">
             Loading...
           </div>
-        </div>
-      </div>
+        </ContentWrapper>
+      </PageContainer>
     )
   }
 
   if (error) {
     return (
-      <div style={{
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
-        lineHeight: 1.6,
-        color: '#24292e',
-        margin: 0,
-        padding: 0,
-        backgroundColor: '#ffffff',
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh'
-      }}>
-        <div style={{
-          textAlign: 'center',
-          marginBottom: '30px',
-          padding: '20px',
-          backgroundColor: '#f6f8fa',
-          borderBottom: '1px solid #e1e4e8',
-          position: 'relative'
-        }}>
-          <button 
-            onClick={() => window.history.back()}
-            style={{
-              position: 'absolute',
-              left: '20px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: '#0366d6',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              fontSize: '14px',
-              padding: '5px 10px',
-              border: '1px solid #e1e4e8',
-              borderRadius: '6px',
-              backgroundColor: '#fff',
-              cursor: 'pointer'
-            }}
-            onMouseOver={(e) => {
-              e.target.style.backgroundColor = '#f6f8fa'
-              e.target.style.borderColor = '#0366d6'
-            }}
-            onMouseOut={(e) => {
-              e.target.style.backgroundColor = '#fff'
-              e.target.style.borderColor = '#e1e4e8'
-            }}
-          >
-            ← Back
-          </button>
-          <div style={{
-            marginTop: '10px',
-            fontSize: '16px'
-          }}>
-            GitHub Repository: 
-            <a 
-              href={user && project ? `https://github.com/${user}/${project}` : '#'}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: '#0366d6',
-                textDecoration: 'none',
-                marginLeft: '5px'
-              }}
-              onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
-              onMouseOut={(e) => e.target.style.textDecoration = 'none'}
-            >
-              {user && project ? `${user}/${project}` : 'N/A'}
-            </a>
-          </div>
-          {user && project && (
-            <div style={{
-              marginTop: '15px',
-              textAlign: 'center'
-            }}>
-              {languages.map(lang => (
-                <a 
-                  key={lang.code}
-                  href={`https://openaitx.github.io/view?user=${user}&project=${project}&lang=${lang.code}`}
-                  style={{
-                    display: 'inline-block',
-                    margin: '2px',
-                    textDecoration: 'none'
-                  }}
-                  onMouseOver={(e) => e.target.querySelector('img').style.opacity = '0.8'}
-                  onMouseOut={(e) => e.target.querySelector('img').style.opacity = '1'}
-                >
-                  <img 
-                    src={`https://img.shields.io/badge/${lang.name}-white`}
-                    alt="version"
-                    style={{
-                      height: '20px',
-                      borderRadius: '3px'
-                    }}
-                  />
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-        <div style={{
-          margin: '0 auto',
-          width: '100%',
-          maxWidth: '980px',
-          padding: '0 20px'
-        }}>
+      <PageContainer>
+        <PageHeader user={user} project={project} languages={languages} />
+        <ContentWrapper>
           {renderError()}
-        </div>
-      </div>
+        </ContentWrapper>
+      </PageContainer>
     )
   }
 
   return (
-    <div style={{
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
-      lineHeight: 1.6,
-      color: '#24292e',
-      margin: 0,
-      padding: 0,
-      backgroundColor: '#ffffff',
-      display: 'flex',
-      flexDirection: 'column',
-      minHeight: '100vh'
-    }}>
-      <div style={{
-        textAlign: 'center',
-        marginBottom: '30px',
-        padding: '20px',
-        backgroundColor: '#f6f8fa',
-        borderBottom: '1px solid #e1e4e8',
-        position: 'relative'
-      }}>
-        <button 
-          onClick={() => window.history.back()}
-          style={{
-            position: 'absolute',
-            left: '20px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            color: '#0366d6',
-            textDecoration: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            fontSize: '14px',
-            padding: '5px 10px',
-            border: '1px solid #e1e4e8',
-            borderRadius: '6px',
-            backgroundColor: '#fff',
-            cursor: 'pointer'
-          }}
-          onMouseOver={(e) => {
-            e.target.style.backgroundColor = '#f6f8fa'
-            e.target.style.borderColor = '#0366d6'
-          }}
-          onMouseOut={(e) => {
-            e.target.style.backgroundColor = '#fff'
-            e.target.style.borderColor = '#e1e4e8'
-          }}
-        >
-          ← Back
-        </button>
-        <div style={{
-          marginTop: '10px',
-          fontSize: '16px'
-        }}>
-          GitHub Repository: 
-          <a 
-            href={`https://github.com/${user}/${project}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: '#0366d6',
-              textDecoration: 'none',
-              marginLeft: '5px'
-            }}
-            onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
-            onMouseOut={(e) => e.target.style.textDecoration = 'none'}
-          >
-            {user}/{project}
-          </a>
-        </div>
-        <div style={{
-          marginTop: '15px',
-          textAlign: 'center'
-        }}>
-          {languages.map(lang => (
-            <a 
-              key={lang.code}
-              href={`https://openaitx.github.io/view?user=${user}&project=${project}&lang=${lang.code}`}
-              style={{
-                display: 'inline-block',
-                margin: '2px',
-                textDecoration: 'none'
-              }}
-              onMouseOver={(e) => e.target.querySelector('img').style.opacity = '0.8'}
-              onMouseOut={(e) => e.target.querySelector('img').style.opacity = '1'}
-            >
-              <img 
-                src={`https://img.shields.io/badge/${lang.name}-white`}
-                alt="version"
-                style={{
-                  height: '20px',
-                  borderRadius: '3px'
-                }}
-              />
-            </a>
-          ))}
-        </div>
-      </div>
-      <div style={{
-        margin: '0 auto',
-        width: '100%',
-        maxWidth: '980px',
-        padding: '0 20px'
-      }}>
+    <PageContainer>
+      <PageHeader user={user} project={project} languages={languages} />
+      <ContentWrapper>
         <div 
           className="markdown-body"
           dangerouslySetInnerHTML={{ __html: content }}
         />
-      </div>
-      <footer style={{
-        textAlign: 'center',
-        marginTop: '40px',
-        padding: '20px',
-        color: '#666',
-        fontSize: '14px',
-        borderTop: '1px solid #e1e4e8'
-      }}>
+      </ContentWrapper>
+      <footer className="text-center mt-10 py-5 px-5 text-gray-600 text-sm border-t border-gray-200">
         Powered by{' '}
         <a 
           href="https://github.com/OpenAiTx/OpenAiTx" 
           target="_blank" 
           rel="noopener noreferrer"
-          style={{
-            color: '#2c3e50',
-            textDecoration: 'none'
-          }}
-          onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
-          onMouseOut={(e) => e.target.style.textDecoration = 'none'}
+          className="text-gray-800 no-underline hover:underline"
         >
           Open AI Tx
         </a>
       </footer>
-    </div>
+    </PageContainer>
   )
 }
 
