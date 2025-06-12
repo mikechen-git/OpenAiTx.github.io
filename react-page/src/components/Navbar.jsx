@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Moon, Sun } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { useLanguage } from '../contexts/LanguageContext'
 import NavLanguageSelector from './NavLanguageSelector'
 
@@ -19,36 +20,66 @@ const Navbar = ({ darkMode, setDarkMode }) => {
   ]
 
   return (
-    <nav className="bg-background border-b border-border">
+    <motion.nav 
+      className="bg-background border-b border-border"
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-
-            <span className="text-xl font-bold text-foreground">
-              OpenAITx
-            </span>
-          </Link>
+          <motion.div
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Link to="/" className="flex items-center space-x-3">
+              <motion.span 
+                className="text-xl font-bold text-foreground"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                OpenAITx
+              </motion.span>
+            </Link>
+          </motion.div>
 
           {/* Navigation Links */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => (
-              <Link
+          <motion.div 
+            className="hidden md:flex items-center space-x-1"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            {navItems.map((item, index) => (
+              <motion.div
                 key={item.path}
-                to={item.path}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                  isActive(item.path)
-                    ? 'bg-accent text-accent-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
-                }`}
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.4 + index * 0.1 }}
               >
-                {item.label}
-              </Link>
+                <Link
+                  to={item.path}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                    isActive(item.path)
+                      ? 'bg-accent text-accent-foreground'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Right side controls */}
-          <div className="flex items-center space-x-4">
+          <motion.div 
+            className="flex items-center space-x-4"
+            initial={{ x: 50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             {/* Language Selector */}
             <NavLanguageSelector 
               currentLanguage={currentLanguage}
@@ -57,40 +88,60 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             />
 
             {/* Dark Mode Toggle */}
-            <button
+            <motion.button
               onClick={() => setDarkMode(!darkMode)}
               className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200"
               title={t('nav.darkMode')}
+              whileHover={{ scale: 1.1, rotate: 15 }}
+              whileTap={{ scale: 0.9 }}
             >
-              {darkMode ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
-            </button>
-          </div>
+              <motion.div
+                key={darkMode ? 'sun' : 'moon'}
+                initial={{ rotate: -180, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                {darkMode ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
+              </motion.div>
+            </motion.button>
+          </motion.div>
         </div>
 
         {/* Mobile Navigation */}
-        <div className="md:hidden border-t border-border py-2">
+        <motion.div 
+          className="md:hidden border-t border-border py-2"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.5 }}
+        >
           <div className="flex flex-wrap gap-2">
-            {navItems.map((item) => (
-              <Link
+            {navItems.map((item, index) => (
+              <motion.div
                 key={item.path}
-                to={item.path}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                  isActive(item.path)
-                    ? 'bg-accent text-accent-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
-                }`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.2, delay: 0.6 + index * 0.1 }}
               >
-                {item.label}
-              </Link>
+                <Link
+                  to={item.path}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                    isActive(item.path)
+                      ? 'bg-accent text-accent-foreground'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
-    </nav>
+    </motion.nav>
   )
 }
 

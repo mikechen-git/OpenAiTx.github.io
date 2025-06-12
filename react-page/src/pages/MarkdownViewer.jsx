@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { marked } from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
@@ -134,7 +135,12 @@ const MarkdownViewer = () => {
 
   // Header component to avoid duplication
   const PageHeader = ({ user, project, languages, currentLang }) => (
-    <header className="text-center mb-8 p-5 bg-muted/30 border-b border-border">
+    <motion.header 
+      className="text-center mb-8 p-5 bg-muted/30 border-b border-border"
+      initial={{ y: -50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       {/* <button 
         onClick={() => window.history.back()}
         className="absolute left-5 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground text-sm px-2.5 py-1.5 border border-border rounded-md bg-background hover:bg-accent transition-colors duration-200 flex items-center"
@@ -142,18 +148,25 @@ const MarkdownViewer = () => {
         ← Back
       </button> */}
       
-      <div className="mt-2.5 text-base text-foreground">
+      <motion.div 
+        className="mt-2.5 text-base text-foreground"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
         GitHub Repository: 
-        <a 
+        <motion.a 
           href={user && project ? `https://github.com/${user}/${project}` : '#'}
           target="_blank"
           rel="noopener noreferrer"
           className="text-primary no-underline ml-1.5 hover:underline"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           {user && project ? `${user}/${project}` : 'N/A'}
-        </a>
-      </div>
-    </header>
+        </motion.a>
+      </motion.div>
+    </motion.header>
   )
 
   // Container component to avoid duplication
@@ -307,20 +320,44 @@ const MarkdownViewer = () => {
 
   const renderError = () => {
     return (
-      <div className="text-center py-10 px-5 my-5 mx-auto max-w-2xl bg-muted/30 rounded-lg border border-border">
-        <h2 className="mb-4 text-foreground text-2xl font-semibold m-0">
+      <motion.div 
+        className="text-center py-10 px-5 my-5 mx-auto max-w-2xl bg-muted/30 rounded-lg border border-border"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 100, damping: 15 }}
+      >
+        <motion.h2 
+          className="mb-4 text-foreground text-2xl font-semibold m-0"
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
           {error.title}
-        </h2>
-        <p className="my-2.5 text-muted-foreground leading-6">
+        </motion.h2>
+        <motion.p 
+          className="my-2.5 text-muted-foreground leading-6"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
           {error.description}
-        </p>
+        </motion.p>
         {error.example && (
-          <p className="my-2.5 text-muted-foreground leading-6">
+          <motion.p 
+            className="my-2.5 text-muted-foreground leading-6"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
             {error.example}
-          </p>
+          </motion.p>
         )}
         {error.type === 'errorLoading' && (
-          <>
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
             <ul className="text-left max-w-sm my-4 mx-auto text-muted-foreground list-disc list-inside">
               <li className="my-1.5">{t.errorLoadingList1}</li>
               <li className="my-1.5">{t.errorLoadingList2}</li>
@@ -329,17 +366,22 @@ const MarkdownViewer = () => {
             <p className="my-2.5 text-muted-foreground leading-6">
               {t.errorDetails} {error.details}
             </p>
-          </>
+          </motion.div>
         )}
         {showSubmitButton && (
-          <button
+          <motion.button
             onClick={handleSubmit}
             className="py-3 px-6 bg-primary text-primary-foreground border-none rounded-lg cursor-pointer text-base font-semibold mt-6 mx-auto block transition-all duration-200 hover:bg-primary/90 hover:-translate-y-px min-w-30"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             {t.submit}
-          </button>
+          </motion.button>
         )}
-      </div>
+      </motion.div>
     )
   }
 
@@ -347,9 +389,19 @@ const MarkdownViewer = () => {
     return (
       <PageContainer>
         <ContentWrapper>
-          <div className="text-center py-5 text-muted-foreground">
+          <motion.div 
+            className="text-center py-5 text-muted-foreground"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ 
+              repeat: Infinity, 
+              repeatType: "reverse", 
+              duration: 1,
+              ease: "easeInOut"
+            }}
+          >
             Loading...
-          </div>
+          </motion.div>
         </ContentWrapper>
       </PageContainer>
     )
@@ -370,22 +422,32 @@ const MarkdownViewer = () => {
     <PageContainer>
       <PageHeader user={user} project={project} languages={languages} currentLang={lang} />
       <ContentWrapper>
-        <div 
+        <motion.div 
           className="markdown-body"
           dangerouslySetInnerHTML={{ __html: content }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         />
       </ContentWrapper>
-      <footer className="text-center mt-10 py-5 px-5 text-muted-foreground text-sm border-t border-border">
+      <motion.footer 
+        className="text-center mt-10 py-5 px-5 text-muted-foreground text-sm border-t border-border"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.8 }}
+      >
         Powered by{' '}
-        <a 
+        <motion.a 
           href="https://github.com/OpenAiTx/OpenAiTx" 
           target="_blank" 
           rel="noopener noreferrer"
           className="text-foreground no-underline hover:underline transition-colors"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           Open AI Tx
-        </a>
-      </footer>
+        </motion.a>
+      </motion.footer>
     </PageContainer>
   )
 }

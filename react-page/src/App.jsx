@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from './components/Navbar'
 import BadgeGenerator from './pages/BadgeGenerator'
 import MarkdownViewer from './pages/MarkdownViewer'
@@ -27,6 +28,7 @@ const IndexHtmlRedirect = () => {
 
 function App() {
   const [darkMode, setDarkMode] = useState(false)
+  const location = useLocation()
 
   useEffect(() => {
     if (darkMode) {
@@ -36,22 +38,74 @@ function App() {
     }
   }, [darkMode])
 
+  // 頁面轉場動畫配置
+  const pageVariants = {
+    initial: {
+      opacity: 0,
+      y: 20,
+      scale: 0.98
+    },
+    in: {
+      opacity: 1,
+      y: 0,
+      scale: 1
+    },
+    out: {
+      opacity: 0,
+      y: -20,
+      scale: 0.98
+    }
+  }
+
+  const pageTransition = {
+    type: "tween",
+    ease: "anticipate",
+    duration: 0.4
+  }
+
   return (
     <LanguageProvider>
-      <div className={`min-h-screen bg-background transition-colors duration-200`}>
-        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+      <motion.div 
+        className={`min-h-screen bg-background transition-colors duration-200`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+      >
+        <motion.div
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+        </motion.div>
         
         <main className="container mx-auto px-4 py-8">
-          <Routes>
-            <Route path="/" element={<BadgeGenerator />} />
-            <Route path="/view" element={<MarkdownViewer />} />
-            {/* 向後兼容性：重定向舊的 HTML 路徑 */}
-            <Route path="/view.html" element={<ViewHtmlRedirect />} />
-            <Route path="/index.html" element={<IndexHtmlRedirect />} />
-          </Routes>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial="initial"
+              animate="in"
+              exit="out"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <Routes location={location}>
+                <Route path="/" element={<BadgeGenerator />} />
+                <Route path="/view" element={<MarkdownViewer />} />
+                {/* 向後兼容性：重定向舊的 HTML 路徑 */}
+                <Route path="/view.html" element={<ViewHtmlRedirect />} />
+                <Route path="/index.html" element={<IndexHtmlRedirect />} />
+              </Routes>
+            </motion.div>
+          </AnimatePresence>
         </main>
 
-        <footer className="mt-16 border-t border-border bg-background">
+        <motion.footer 
+          className="mt-16 border-t border-border bg-background"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
           <div className="container mx-auto px-4 py-8 text-center text-muted-foreground">
             <p className="text-sm">
               Powered by{' '}
@@ -65,8 +119,8 @@ function App() {
               </a>
             </p>
           </div>
-        </footer>
-      </div>
+        </motion.footer>
+      </motion.div>
     </LanguageProvider>
   )
 }
