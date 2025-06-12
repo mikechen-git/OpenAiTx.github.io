@@ -107,7 +107,7 @@ const BadgeGenerator = () => {
     if (!userOrOrg || !project) return ''
     
     const badges = style1Languages.map(lang =>
-      `<a href="https://openaitx.github.io/view.html?user=${userOrOrg}&project=${project}&lang=${lang.code}"><img src="https://img.shields.io/badge/${lang.name}-white" alt="version"></a>`
+      `<a href="https://openaitx.github.io/view?user=${userOrOrg}&project=${project}&lang=${lang.code}"><img src="https://img.shields.io/badge/${lang.name}-white" alt="version"></a>`
     ).join(' ')
     
     return `<div style="text-align: center"><p>${badges}</p></div>`
@@ -117,7 +117,7 @@ const BadgeGenerator = () => {
     if (!userOrOrg || !project) return ''
     
     return style2Languages.map(lang =>
-      `[${lang.name}](https://openaitx.github.io/view.html?user=${userOrOrg}&project=${project}&lang=${lang.code})`
+      `[${lang.name}](https://openaitx.github.io/view?user=${userOrOrg}&project=${project}&lang=${lang.code})`
     ).join(' | ')
   }
 

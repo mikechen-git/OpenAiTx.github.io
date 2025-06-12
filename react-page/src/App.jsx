@@ -1,10 +1,29 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
 import BadgeGenerator from './pages/BadgeGenerator'
-
 import MarkdownViewer from './pages/MarkdownViewer'
 import { LanguageProvider } from './contexts/LanguageContext'
+
+// 重定向組件處理 view.html 到 view 的重定向
+const ViewHtmlRedirect = () => {
+  const location = useLocation()
+  
+  // 保持所有查詢參數
+  const searchParams = location.search
+  
+  return <Navigate to={`/view${searchParams}`} replace />
+}
+
+// 重定向組件處理 index.html 到根路徑的重定向
+const IndexHtmlRedirect = () => {
+  const location = useLocation()
+  
+  // 保持所有查詢參數
+  const searchParams = location.search
+  
+  return <Navigate to={`/${searchParams}`} replace />
+}
 
 function App() {
   const [darkMode, setDarkMode] = useState(false)
@@ -26,6 +45,9 @@ function App() {
           <Routes>
             <Route path="/" element={<BadgeGenerator />} />
             <Route path="/view" element={<MarkdownViewer />} />
+            {/* 向後兼容性：重定向舊的 HTML 路徑 */}
+            <Route path="/view.html" element={<ViewHtmlRedirect />} />
+            <Route path="/index.html" element={<IndexHtmlRedirect />} />
           </Routes>
         </main>
 
