@@ -39,6 +39,9 @@ src/
 ### 安裝依賴
 
 ```bash
+# 進入 react-page 目錄
+cd react-page
+
 # 使用 pnpm (推薦)
 pnpm install
 
@@ -49,7 +52,8 @@ npm install
 ### 開發模式
 
 ```bash
-# 啟動開發服務器
+# 在 react-page 目錄中啟動開發服務器
+cd react-page
 pnpm dev
 
 # 或
@@ -61,19 +65,21 @@ npm run dev
 ### 建構生產版本
 
 ```bash
-# 建構生產版本
+# 在 react-page 目錄中建構生產版本
+cd react-page
 pnpm build
 
 # 或
 npm run build
 ```
 
-建構後的檔案將輸出到 `dist/` 目錄。
+建構後的檔案將輸出到 `react-page/dist/` 目錄。
 
 ### 本地預覽生產版本
 
 ```bash
-# 預覽生產版本
+# 在 react-page 目錄中預覽生產版本
+cd react-page
 pnpm preview
 
 # 或
@@ -134,11 +140,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - uses: pnpm/action-setup@v2
-      - run: pnpm install
-      - run: pnpm build
+      - run: cd react-page && pnpm install
+      - run: cd react-page && pnpm build
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './react-page/dist'
 
   deploy:
     needs: build
