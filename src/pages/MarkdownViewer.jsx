@@ -99,12 +99,12 @@ const MarkdownViewer = () => {
   }
 
   const generateLanguageBadges = () => {
-    if (!user || !project) return ''
+    if (!user || !project) return []
     
     return languages.map(language => (
       <a 
         key={language.code}
-        href={`/view?user=${user}&project=${project}&lang=${language.code}`}
+        href={`/OpenAiTx.github.io/view?user=${user}&project=${project}&lang=${language.code}`}
         className="inline-block m-1"
       >
         <img 

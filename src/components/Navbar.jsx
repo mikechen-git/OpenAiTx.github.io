@@ -14,7 +14,6 @@ const Navbar = ({ darkMode, setDarkMode }) => {
 
   const navItems = [
     { path: '/', label: t('nav.home') },
-    { path: '/translate', label: t('nav.translate') },
     { path: '/view', label: t('nav.view') },
   ]
 

@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
 import BadgeGenerator from './pages/BadgeGenerator'
-import Translator from './pages/Translator'
+
 import MarkdownViewer from './pages/MarkdownViewer'
 import { LanguageProvider } from './contexts/LanguageContext'
 
@@ -25,7 +25,6 @@ function App() {
         <main className="container mx-auto px-4 py-8">
           <Routes>
             <Route path="/" element={<BadgeGenerator />} />
-            <Route path="/translate" element={<Translator />} />
             <Route path="/view" element={<MarkdownViewer />} />
           </Routes>
         </main>
