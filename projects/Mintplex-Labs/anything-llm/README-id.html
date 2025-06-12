@@ -1,0 +1,428 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open AI Tx - Markdown Viewer</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Open AI Tx - Markdown Viewer">
+    <meta name="description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html">
+    <meta property="og:title" content="Open AI Tx - Markdown Viewer">
+    <meta property="og:description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css">
+    <script src="js/highlight.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/Mintplex-Labs/anything-llm" id="githubRepoLink" target="_blank">Mintplex-Labs/anything-llm</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Mintplex-Labs&amp;project=anything-llm&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><p><a name="readme-top"></a></p>
+<p align="center">
+  <a href="https://anythingllm.com"><img src="https://github.com/Mintplex-Labs/anything-llm/blob/master/images/wordmark.png?raw=true" alt="Logo AnythingLLM"></a>
+</p>
+
+<div align="center">
+<a href="https://trendshift.io/repositories/2415" target="_blank"><img src="https://trendshift.io/api/badge/repositories/2415" alt="Mintplex-Labs%2Fanything-llm | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"></a>
+</div>
+
+<p align="center">
+    <b>AnythingLLM:</b> Aplikasi AI all-in-one yang Anda cari.<br>
+    Chat dengan dokumen Anda, gunakan AI Agent, sangat dapat dikonfigurasi, multi-pengguna, &amp; tanpa setup yang rumit.
+</p>
+
+<p align="center">
+  <a href="https://discord.gg/6UyHPeGZAC" target="_blank">
+      <img src="https://img.shields.io/badge/chat-mintplex_labs-blue.svg?style=flat&amp;logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAH1UExURQAAAP////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////r6+ubn5+7u7/3+/v39/enq6urq6/v7+97f39rb26eoqT1BQ0pOT4+Rkuzs7cnKykZKS0NHSHl8fdzd3ejo6UxPUUBDRdzc3RwgIh8jJSAkJm5xcvHx8aanqB4iJFBTVezt7V5hYlJVVuLj43p9fiImKCMnKZKUlaaoqSElJ21wcfT09O3u7uvr6zE0Nr6/wCUpK5qcnf7+/nh7fEdKTHx+f0tPUOTl5aipqiouMGtubz5CRDQ4OsTGxufn515hY7a3uH1/gXBydIOFhlVYWvX29qaoqCQoKs7Pz/Pz87/AwUtOUNfY2dHR0mhrbOvr7E5RUy8zNXR2d/f39+Xl5UZJSx0hIzQ3Odra2/z8/GlsbaGjpERHSezs7L/BwScrLTQ4Odna2zM3Obm7u3x/gKSmp9jZ2T1AQu/v71pdXkVISr2+vygsLiInKTg7PaOlpisvMcXGxzk8PldaXPLy8u7u7rm6u7S1tsDBwvj4+MPExbe4ueXm5s/Q0Kyf7ewAAAAodFJOUwAABClsrNjx/QM2l9/7lhmI6jTB/kA1GgKJN+nea6vy/MLZQYeVKK3rVA5tAAAAAWJLR0QB/wIt3gAAAAd0SU1FB+cKBAAmMZBHjXIAAAISSURBVDjLY2CAAkYmZhZWNnYODnY2VhZmJkYGVMDIycXNw6sBBbw8fFycyEoYGfkFBDVQgKAAPyMjQl5IWEQDDYgIC8FUMDKKsmlgAWyiEBWMjGJY5YEqxMAqGMWFNXAAYXGgAkYJSQ2cQFKCkYFRShq3AmkpRgYJbghbU0tbB0Tr6ukbgGhDI10gySfBwCwDUWBsYmpmDqQtLK2sbTQ0bO3sHYA8GWYGWWj4WTs6Obu4ami4OTm7exhqeHp5+4DCVJZBDmqdr7ufn3+ArkZgkJ+fU3CIRmgYWFiOARYGvo5OQUHhEUAFTkF+kVHRsLBgkIeyYmLjwoOc4hMSk5JTnINS06DC8gwcEEZ6RqZGlpOfc3ZObl5+gZ+TR2ERWFyBQQFMF5eklmqUpQb5+ReU61ZUOvkFVVXXQBSAraitq29o1GiKcfLzc29u0mjxBzq0tQ0kww5xZHtHUGeXhkZhdxBYgZ4d0LI6c4gjwd7siQQraOp1AivQ6CuAKZCDBBRQQQNQgUb/BGf3cqCCiZOcnCe3QQIKHNRTpk6bDgpZjRkzg3pBQTBrdtCcuZCgluAD0vPmL1gIdvSixUuWgqNs2YJ+DUhkEYxuggkGmOQUcckrioPTJCOXEnZ5JS5YslbGnuyVERlDDFvGEUPOWvwqaH6RVkHKeuDMK6SKnHlVhTgx8jeTmqy6Eij7K6nLqiGyPwChsa1MUrnq1wAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0xMC0wNFQwMDozODo0OSswMDowMB9V0a8AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMTAtMDRUMDA6Mzg6NDkrMDA6MDBuCGkTAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDIzLTEwLTA0VDAwOjM4OjQ5KzAwOjAwOR1IzAAAAABJRU5ErkJggg==" alt="Discord">
+  </a> |
+  <a href="https://github.com/Mintplex-Labs/anything-llm/blob/master/LICENSE" target="_blank">
+      <img src="https://img.shields.io/static/v1?label=license&amp;message=MIT&amp;color=white" alt="Lisensi">
+  </a> |
+  <a href="https://docs.anythingllm.com" target="_blank">
+    Dokumentasi
+  </a> |
+   <a href="https://my.mintplexlabs.com/aio-checkout?product=anythingllm" target="_blank">
+    Instansi Hosted
+  </a>
+</p>
+
+<p align="center">
+  <b>English</b> · <a href="./locales/README.zh-CN.md">简体中文</a> · <a href="./locales/README.ja-JP.md">日本語</a>
+</p>
+
+<p align="center">
+👉 AnythingLLM untuk desktop (Mac, Windows, &amp; Linux)! <a href="https://anythingllm.com/download" target="_blank"> Unduh Sekarang</a>
+</p>
+
+<p>Aplikasi full-stack yang memungkinkan Anda mengubah dokumen, sumber daya, atau konten apa pun menjadi konteks yang dapat digunakan oleh LLM apa pun sebagai referensi selama percakapan. Aplikasi ini memungkinkan Anda memilih LLM atau Database Vektor yang ingin digunakan serta mendukung manajemen multi-pengguna dan perizinan.</p>
+<p><img src="https://github.com/Mintplex-Labs/anything-llm/assets/16845892/cfc5f47c-bd91-4067-986c-f3f49621a859" alt="Chatting"></p>
+<details>
+<summary><kbd>Tonton demo!</kbd></summary>
+
+<p><a href="https://youtu.be/f95rGD9trL0"><img src="/images/youtube.png" alt="Tonton videonya"></a></p>
+</details>
+
+<h3>Gambaran Produk</h3>
+<p>AnythingLLM adalah aplikasi full-stack di mana Anda dapat menggunakan LLM komersial siap pakai atau LLM open source populer serta solusi vectorDB untuk membangun ChatGPT privat tanpa kompromi yang dapat dijalankan secara lokal maupun di-host secara remote dan dapat chat secara cerdas dengan dokumen apa pun yang Anda sediakan.</p>
+<p>AnythingLLM membagi dokumen Anda ke dalam objek yang disebut <code>workspaces</code>. Workspace berfungsi seperti thread, namun dengan tambahan pengelompokan dokumen Anda. Workspace dapat berbagi dokumen, tapi tidak saling terhubung sehingga Anda dapat menjaga konteks tetap bersih di setiap workspace.</p>
+<h2>Fitur keren AnythingLLM</h2>
+<ul>
+<li>🆕 <a href="https://docs.anythingllm.com/mcp-compatibility/overview"><strong>Kompatibilitas MCP penuh</strong></a></li>
+<li>🆕 <a href="https://docs.anythingllm.com/agent-flows/overview"><strong>Pembangun AI Agent tanpa kode</strong></a></li>
+<li>🖼️ <strong>Dukungan multi-modal (LLM open source dan closed-source!)</strong></li>
+<li><a href="https://docs.anythingllm.com/agent/custom/introduction"><strong>Custom AI Agents</strong></a></li>
+<li>👤 Dukungan instansi multi-user dan permission <em>hanya versi Docker</em></li>
+<li>🦾 Agen di dalam workspace Anda (browsing web, dll)</li>
+<li>💬 <a href="https://github.com/Mintplex-Labs/anythingllm-embed/blob/main/README.md">Widget Chat Custom yang dapat disematkan di situs Anda</a> <em>hanya versi Docker</em></li>
+<li>📖 Dukungan banyak tipe dokumen (PDF, TXT, DOCX, dll)</li>
+<li>UI chat sederhana dengan fungsi Drag-n-Drop dan sitasi yang jelas.</li>
+<li>100% siap untuk deployment di Cloud.</li>
+<li>Bekerja dengan semua <a href="#supported-llms-embedder-models-speech-models-and-vector-databases">penyedia LLM populer open dan closed-source</a>.</li>
+<li>Penghematan biaya &amp; waktu bawaan untuk mengelola dokumen besar dibanding UI chat lain.</li>
+<li>API Developer penuh untuk integrasi custom!</li>
+<li>Dan banyak lagi...install dan buktikan sendiri!</li>
+</ul>
+<h3>LLM, Model Embedder, Model Speech, dan Database Vektor yang Didukung</h3>
+<p><strong>Large Language Models (LLMs):</strong></p>
+<ul>
+<li><a href="/server/storage/models/README.md#text-generation-llm-selection">Model apapun yang kompatibel dengan llama.cpp open-source</a></li>
+<li><a href="https://openai.com">OpenAI</a></li>
+<li><a href="https://openai.com">OpenAI (Generic)</a></li>
+<li><a href="https://azure.microsoft.com/en-us/products/ai-services/openai-service">Azure OpenAI</a></li>
+<li><a href="https://aws.amazon.com/bedrock/">AWS Bedrock</a></li>
+<li><a href="https://www.anthropic.com/">Anthropic</a></li>
+<li><a href="https://build.nvidia.com/explore/discover">NVIDIA NIM (chat models)</a></li>
+<li><a href="https://ai.google.dev/">Google Gemini Pro</a></li>
+<li><a href="https://huggingface.co/">Hugging Face (chat models)</a></li>
+<li><a href="https://ollama.ai/">Ollama (chat models)</a></li>
+<li><a href="https://lmstudio.ai">LM Studio (semua model)</a></li>
+<li><a href="https://localai.io/">LocalAI (semua model)</a></li>
+<li><a href="https://www.together.ai/">Together AI (chat models)</a></li>
+<li><a href="https://fireworks.ai/">Fireworks AI  (chat models)</a></li>
+<li><a href="https://www.perplexity.ai/">Perplexity (chat models)</a></li>
+<li><a href="https://openrouter.ai/">OpenRouter (chat models)</a></li>
+<li><a href="https://deepseek.com/">DeepSeek (chat models)</a></li>
+<li><a href="https://mistral.ai/">Mistral</a></li>
+<li><a href="https://groq.com/">Groq</a></li>
+<li><a href="https://cohere.com/">Cohere</a></li>
+<li><a href="https://github.com/LostRuins/koboldcpp">KoboldCPP</a></li>
+<li><a href="https://github.com/BerriAI/litellm">LiteLLM</a></li>
+<li><a href="https://github.com/oobabooga/text-generation-webui">Text Generation Web UI</a></li>
+<li><a href="https://apipie.ai/">Apipie</a></li>
+<li><a href="https://x.ai/">xAI</a></li>
+<li><a href="https://novita.ai/model-api/product/llm-api?utm_source=github_anything-llm&amp;utm_medium=github_readme&amp;utm_campaign=link">Novita AI (chat models)</a></li>
+<li><a href="https://ppinfra.com?utm_source=github_anything-llm">PPIO</a></li>
+</ul>
+<p><strong>Model Embedder:</strong></p>
+<ul>
+<li><a href="/server/storage/models/README.md">AnythingLLM Native Embedder</a> (default)</li>
+<li><a href="https://openai.com">OpenAI</a></li>
+<li><a href="https://azure.microsoft.com/en-us/products/ai-services/openai-service">Azure OpenAI</a></li>
+<li><a href="https://localai.io/">LocalAI (semua)</a></li>
+<li><a href="https://ollama.ai/">Ollama (semua)</a></li>
+<li><a href="https://lmstudio.ai">LM Studio (semua)</a></li>
+<li><a href="https://cohere.com/">Cohere</a></li>
+</ul>
+<p><strong>Model Transkripsi Audio:</strong></p>
+<ul>
+<li><a href="https://github.com/Mintplex-Labs/anything-llm/tree/master/server/storage/models#audiovideo-transcription">AnythingLLM Built-in</a> (default)</li>
+<li><a href="https://openai.com/">OpenAI</a></li>
+</ul>
+<p><strong>Dukungan TTS (text-to-speech):</strong></p>
+<ul>
+<li>Bawaan browser Native (default)</li>
+<li><a href="https://github.com/rhasspy/piper">PiperTTSLocal - berjalan di browser</a></li>
+<li><a href="https://platform.openai.com/docs/guides/text-to-speech/voice-options">OpenAI TTS</a></li>
+<li><a href="https://elevenlabs.io/">ElevenLabs</a></li>
+<li>Layanan TTS apa pun yang kompatibel dengan OpenAI.</li>
+</ul>
+<p><strong>Dukungan STT (speech-to-text):</strong></p>
+<ul>
+<li>Bawaan browser Native (default)</li>
+</ul>
+<p><strong>Database Vektor:</strong></p>
+<ul>
+<li><a href="https://github.com/lancedb/lancedb">LanceDB</a> (default)</li>
+<li><a href="https://github.com/pgvector/pgvector">PGVector</a></li>
+<li><a href="https://www.datastax.com/products/datastax-astra">Astra DB</a></li>
+<li><a href="https://pinecone.io">Pinecone</a></li>
+<li><a href="https://trychroma.com">Chroma</a></li>
+<li><a href="https://weaviate.io">Weaviate</a></li>
+<li><a href="https://qdrant.tech">Qdrant</a></li>
+<li><a href="https://milvus.io">Milvus</a></li>
+<li><a href="https://zilliz.com">Zilliz</a></li>
+</ul>
+<h3>Gambaran Teknis</h3>
+<p>Monorepo ini terdiri dari enam bagian utama:</p>
+<ul>
+<li><code>frontend</code>: Frontend viteJS + React yang bisa Anda jalankan untuk membuat dan mengelola semua konten yang dapat digunakan LLM.</li>
+<li><code>server</code>: Server NodeJS express untuk menangani semua interaksi dan mengelola vectorDB serta interaksi LLM.</li>
+<li><code>collector</code>: Server NodeJS express yang memproses dan mengurai dokumen dari UI.</li>
+<li><code>docker</code>: Instruksi Docker dan proses build + informasi untuk membangun dari source.</li>
+<li><code>embed</code>: Submodul untuk generasi &amp; pembuatan <a href="https://github.com/Mintplex-Labs/anythingllm-embed">widget embed web</a>.</li>
+<li><code>browser-extension</code>: Submodul untuk <a href="https://github.com/Mintplex-Labs/anythingllm-extension">ekstensi browser chrome</a>.</li>
+</ul>
+<h2>🛳 Self-Hosting</h2>
+<p>Mintplex Labs &amp; komunitas menyediakan berbagai metode deployment, skrip, dan template yang dapat Anda gunakan untuk menjalankan AnythingLLM secara lokal. Lihat tabel di bawah untuk membaca cara deploy di lingkungan yang Anda inginkan atau untuk deploy otomatis.</p>
+<table>
+<thead>
+<tr>
+<th>Docker</th>
+<th>AWS</th>
+<th>GCP</th>
+<th>Digital Ocean</th>
+<th>Render.com</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://raw.githubusercontent.com/Mintplex-Labs/anything-llm/master/docker/HOW_TO_USE_DOCKER.md"><img src="https://raw.githubusercontent.com/Mintplex-Labs/anything-llm/master/images/deployBtns/docker.png" alt="Deploy on Docker"></a></td>
+<td><a href="https://raw.githubusercontent.com/Mintplex-Labs/anything-llm/master/cloud-deployments/aws/cloudformation/DEPLOY.md"><img src="https://raw.githubusercontent.com/Mintplex-Labs/anything-llm/master/images/deployBtns/aws.png" alt="Deploy on AWS"></a></td>
+<td><a href="https://raw.githubusercontent.com/Mintplex-Labs/anything-llm/master/cloud-deployments/gcp/deployment/DEPLOY.md"><img src="https://deploy.cloud.run/button.svg" alt="Deploy on GCP"></a></td>
+<td><a href="https://raw.githubusercontent.com/Mintplex-Labs/anything-llm/master/cloud-deployments/digitalocean/terraform/DEPLOY.md"><img src="https://www.deploytodo.com/do-btn-blue.svg" alt="Deploy on DigitalOcean"></a></td>
+<td><a href="https://render.com/deploy?repo=https://github.com/Mintplex-Labs/anything-llm&amp;branch=render"><img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy on Render.com"></a></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Railway</th>
+<th>RepoCloud</th>
+<th>Elestio</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://railway.app/template/HNSCS1?referralCode=WFgJkn"><img src="https://railway.app/button.svg" alt="Deploy on Railway"></a></td>
+<td><a href="https://repocloud.io/details/?app_id=276"><img src="https://d16t0pc4846x52.cloudfront.net/deploylobe.svg" alt="Deploy on RepoCloud"></a></td>
+<td><a href="https://elest.io/open-source/anythingllm"><img src="https://elest.io/images/logos/deploy-to-elestio-btn.png" alt="Deploy on Elestio"></a></td>
+</tr>
+</tbody></table>
+<p><a href="./BARE_METAL.md">atau setup instansi AnythingLLM produksi tanpa Docker →</a></p>
+<h2>Cara setup untuk pengembangan</h2>
+<ul>
+<li><code>yarn setup</code> Untuk mengisi file <code>.env</code> yang diperlukan di setiap bagian aplikasi (dari root repo).<ul>
+<li>Isi file tersebut sebelum melanjutkan. Pastikan <code>server/.env.development</code> sudah terisi atau aplikasi tidak akan berjalan dengan benar.</li>
+</ul>
+</li>
+<li><code>yarn dev:server</code> Untuk menjalankan server secara lokal (dari root repo).</li>
+<li><code>yarn dev:frontend</code> Untuk menjalankan frontend secara lokal (dari root repo).</li>
+<li><code>yarn dev:collector</code> Untuk menjalankan document collector (dari root repo).</li>
+</ul>
+<p><a href="./server/storage/documents/DOCUMENTS.md">Pelajari tentang dokumen</a></p>
+<p><a href="./server/storage/vector-cache/VECTOR_CACHE.md">Pelajari tentang vector caching</a></p>
+<h2>Aplikasi Eksternal &amp; Integrasi</h2>
+<p><em>Aplikasi berikut tidak dikelola oleh Mintplex Labs, tetapi kompatibel dengan AnythingLLM. Listing di sini bukan endorsement.</em></p>
+<ul>
+<li><a href="https://io.midori-ai.xyz/subsystem/anythingllm/">Midori AI Subsystem Manager</a> - Cara efisien dan sederhana untuk deploy sistem AI menggunakan teknologi Docker container.</li>
+<li><a href="https://coolify.io/docs/services/anythingllm/">Coolify</a> - Deploy AnythingLLM hanya dengan satu klik.</li>
+<li><a href="https://gptlocalhost.com/demo/">GPTLocalhost for Microsoft Word</a> - Add-in Word lokal untuk menggunakan AnythingLLM di Microsoft Word.</li>
+</ul>
+<h2>Telemetri &amp; Privasi</h2>
+<p>AnythingLLM oleh Mintplex Labs Inc memiliki fitur telemetri yang mengumpulkan informasi penggunaan anonim.</p>
+<details>
+<summary><kbd>Selengkapnya tentang Telemetri &amp; Privasi AnythingLLM</kbd></summary>
+
+<h3>Mengapa?</h3>
+<p>Kami menggunakan informasi ini untuk membantu memahami bagaimana AnythingLLM digunakan, menentukan prioritas pengembangan fitur dan perbaikan bug, serta meningkatkan performa dan stabilitas AnythingLLM.</p>
+<h3>Cara keluar</h3>
+<p>Setel <code>DISABLE_TELEMETRY</code> di pengaturan .env server atau docker Anda menjadi "true" untuk menonaktifkan telemetri. Anda juga dapat melakukannya di dalam aplikasi dengan masuk ke sidebar &gt; <code>Privacy</code> dan menonaktifkan telemetri.</p>
+<h3>Apa saja yang secara eksplisit kami lacak?</h3>
+<p>Kami hanya akan melacak detail penggunaan yang membantu kami membuat keputusan produk dan roadmap, secara spesifik:</p>
+<ul>
+<li><p>Tipe instalasi Anda (Docker atau Desktop)</p>
+</li>
+<li><p>Ketika sebuah dokumen ditambahkan atau dihapus. Tidak ada informasi <em>tentang</em> dokumen tersebut. Hanya bahwa peristiwa itu terjadi. Ini memberi kami gambaran penggunaan.</p>
+</li>
+<li><p>Tipe database vektor yang digunakan. Ini membantu kami memprioritaskan perubahan saat pembaruan tiba untuk penyedia tersebut.</p>
+</li>
+<li><p>Tipe penyedia LLM &amp; tag model yang digunakan. Ini membantu kami memprioritaskan perubahan saat pembaruan tiba untuk penyedia atau model tersebut, atau kombinasinya. Contoh: reasoning vs regular, model multi-modal, dll.</p>
+</li>
+<li><p>Ketika sebuah chat dikirim. Ini adalah "peristiwa" yang paling rutin dan memberi kami gambaran tentang aktivitas harian proyek ini di semua instalasi. Sekali lagi, hanya <strong>peristiwa</strong> yang dikirim - kami tidak memiliki informasi mengenai sifat atau isi chat itu sendiri.</p>
+</li>
+</ul>
+<p>Anda dapat memverifikasi klaim ini dengan mencari semua lokasi di mana <code>Telemetry.sendTelemetry</code> dipanggil. Selain itu, peristiwa ini juga ditulis ke log output sehingga Anda dapat melihat data spesifik yang dikirim - jika diaktifkan. <strong>Tidak ada IP atau informasi identifikasi lain yang dikumpulkan</strong>. Penyedia Telemetri adalah <a href="https://posthog.com/">PostHog</a> - layanan pengumpulan telemetri open-source.</p>
+<p>Kami sangat serius dalam menjaga privasi, dan kami berharap Anda memahami bahwa kami ingin belajar bagaimana alat kami digunakan, tanpa menggunakan survei pop-up yang mengganggu, sehingga kami dapat membangun sesuatu yang layak digunakan. Data anonim <em>tidak pernah</em> dibagikan kepada pihak ketiga, kapan pun.</p>
+<p><a href="https://github.com/search?q=repo%3AMintplex-Labs%2Fanything-llm%20.sendTelemetry(&amp;type=code">Lihat semua peristiwa telemetri di source code</a></p>
+</details>
+
+
+<h2>👋 Kontribusi</h2>
+<ul>
+<li>buat issue</li>
+<li>buat PR dengan format nama branch <code>&lt;nomor issue&gt;-&lt;nama singkat&gt;</code></li>
+<li>LGTM dari core-team</li>
+</ul>
+<h2>💖 Sponsor</h2>
+<h3>Sponsor Premium</h3>
+<!-- premium-sponsors (reserved for $100/mth sponsors who request to be called out here and/or are non-private sponsors) -->
+<a href="https://www.dcsdigital.co.uk" target="_blank">
+  <img src="https://a8cforagenciesportfolio.wordpress.com/wp-content/uploads/2024/08/logo-image-232621379.png" height="100px" alt="User avatar: DCS DIGITAL">
+</a>
+<!-- premium-sponsors -->
+
+<h3>Semua Sponsor</h3>
+<!-- all-sponsors --><a href="https://github.com/jaschadub"><img src="https://github.com/jaschadub.png" width="60px" alt="User avatar: Jascha"></a><a href="https://github.com/KickingAss2024"><img src="https://github.com/KickingAss2024.png" width="60px" alt="User avatar: KickAss"></a><a href="https://github.com/ShadowArcanist"><img src="https://github.com/ShadowArcanist.png" width="60px" alt="User avatar: ShadowArcanist"></a><a href="https://github.com/AtlasVIA"><img src="https://github.com/AtlasVIA.png" width="60px" alt="User avatar: Atlas"></a><a href="https://github.com/cope"><img src="https://github.com/cope.png" width="60px" alt="User avatar: Predrag Stojadinović"></a><a href="https://github.com/DiegoSpinola"><img src="https://github.com/DiegoSpinola.png" width="60px" alt="User avatar: Diego Spinola"></a><a href="https://github.com/PortlandKyGuy"><img src="https://github.com/PortlandKyGuy.png" width="60px" alt="User avatar: Kyle"></a><a href="https://github.com/peperunas"><img src="https://github.com/peperunas.png" width="60px" alt="User avatar: Giulio De Pasquale"></a><a href="https://github.com/jasoncdavis0"><img src="https://github.com/jasoncdavis0.png" width="60px" alt="User avatar: "></a><a href="https://github.com/macstadium"><img src="https://github.com/macstadium.png" width="60px" alt="User avatar: MacStadium"></a><a href="https://github.com/armlynobinguar"><img src="https://github.com/armlynobinguar.png" width="60px" alt="User avatar: "></a><a href="https://github.com/MikeHago"><img src="https://github.com/MikeHago.png" width="60px" alt="User avatar: "></a><a href="https://github.com/maaisde"><img src="https://github.com/maaisde.png" width="60px" alt="User avatar: "></a><a href="https://github.com/mhollier117"><img src="https://github.com/mhollier117.png" width="60px" alt="User avatar: "></a><a href="https://github.com/pleabargain"><img src="https://github.com/pleabargain.png" width="60px" alt="User avatar: Dennis"></a><a href="https://github.com/broichan"><img src="https://github.com/broichan.png" width="60px" alt="User avatar: Michael Hamilton, Ph.D."></a><a href="https://github.com/azim-charaniya"><img src="https://github.com/azim-charaniya.png" width="60px" alt="User avatar: "></a><a href="https://github.com/gabriellemon"><img src="https://github.com/gabriellemon.png" width="60px" alt="User avatar: TernaryLabs"></a><a href="https://github.com/CelaDaniel"><img src="https://github.com/CelaDaniel.png" width="60px" alt="User avatar: Daniel Cela"></a><a href="https://github.com/altrsadmin"><img src="https://github.com/altrsadmin.png" width="60px" alt="User avatar: Alesso"></a><a href="https://github.com/bitjungle"><img src="https://github.com/bitjungle.png" width="60px" alt="User avatar: Rune Mathisen"></a><a href="https://github.com/pcrossleyAC"><img src="https://github.com/pcrossleyAC.png" width="60px" alt="User avatar: "></a><a href="https://github.com/saroj-pattnaik"><img src="https://github.com/saroj-pattnaik.png" width="60px" alt="User avatar: "></a><a href="https://github.com/techmedic5"><img src="https://github.com/techmedic5.png" width="60px" alt="User avatar: Alan"></a><a href="https://github.com/ddocta"><img src="https://github.com/ddocta.png" width="60px" alt="User avatar: Damien Peters"></a><a href="https://github.com/dcsdigital"><img src="https://github.com/dcsdigital.png" width="60px" alt="User avatar: DCS Digital"></a><a href="https://github.com/pm7y"><img src="https://github.com/pm7y.png" width="60px" alt="User avatar: Paul Mcilreavy"></a><a href="https://github.com/tilwolf"><img src="https://github.com/tilwolf.png" width="60px" alt="User avatar: Til Wolf"></a><a href="https://github.com/ozzyoss77"><img src="https://github.com/ozzyoss77.png" width="60px" alt="User avatar: Leopoldo Crhistian Riverin Gomez"></a><a href="https://github.com/AlphaEcho11"><img src="https://github.com/AlphaEcho11.png" width="60px" alt="User avatar: AJEsau"></a><a href="https://github.com/svanomm"><img src="https://github.com/svanomm.png" width="60px" alt="User avatar: Steven VanOmmeren"></a><a href="https://github.com/socketbox"><img src="https://github.com/socketbox.png" width="60px" alt="User avatar: Casey Boettcher"></a><a href="https://github.com/zebbern"><img src="https://github.com/zebbern.png" width="60px" alt="User avatar: "></a><a href="https://github.com/avineetbespin"><img src="https://github.com/avineetbespin.png" width="60px" alt="User avatar: Avineet"></a><a href="https://github.com/invictus-1"><img src="https://github.com/invictus-1.png" width="60px" alt="User avatar: Chris"></a><!-- all-sponsors -->
+
+<h2>🌟 Kontributor</h2>
+<p><a href="https://github.com/mintplex-labs/anything-llm/graphs/contributors"><img src="https://contrib.rocks/image?repo=mintplex-labs/anything-llm" alt="anythingllm contributors"></a></p>
+<p><a href="https://star-history.com/#mintplex-labs/anything-llm&amp;Date"><img src="https://api.star-history.com/svg?repos=mintplex-labs/anything-llm&amp;type=Timeline" alt="Star History Chart"></a></p>
+<h2>🔗 Produk Lainnya</h2>
+<ul>
+<li><strong><a href="https://github.com/mintplex-labs/vector-admin">VectorAdmin</a>:</strong> GUI &amp; tool-suite all-in-one untuk mengelola database vektor.</li>
+<li><strong><a href="https://github.com/Mintplex-Labs/openai-assistant-swarm">OpenAI Assistant Swarm</a>:</strong> Ubah seluruh perpustakaan asisten OpenAI Anda menjadi satu pasukan yang dikendalikan dari satu agen.</li>
+</ul>
+<div align="right">
+
+<p><a href="#readme-top"><img src="https://img.shields.io/badge/-BACK_TO_TOP-222628?style=flat-square" alt=""></a></p>
+</div>
+
+<hr>
+<p>Hak Cipta © 2025 <a href="https://github.com/mintplex-labs">Mintplex Labs</a>. <br><br>Proyek ini berlisensi <a href="./LICENSE">MIT</a>.</p>
+<!-- LINK GROUP -->
+
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-09</p>
+<hr>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js"></script>
+
+
+</body></html>

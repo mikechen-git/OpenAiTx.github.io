@@ -1,0 +1,1681 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open AI Tx - Markdown Viewer</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Open AI Tx - Markdown Viewer">
+    <meta name="description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html">
+    <meta property="og:title" content="Open AI Tx - Markdown Viewer">
+    <meta property="og:description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css">
+    <script src="js/highlight.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/mini-software/MiniExcel" id="githubRepoLink" target="_blank">mini-software/MiniExcel</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=MiniExcel&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><div style="text-align: center">
+<p><a href="https://www.nuget.org/packages/MiniExcel"><img src="https://img.shields.io/nuget/v/MiniExcel.svg" alt="NuGet"></a>  <a href="https://www.nuget.org/packages/MiniExcel"><img src="https://img.shields.io/nuget/dt/MiniExcel.svg" alt=""></a>
+<a href="https://ci.appveyor.com/project/mini-software/miniexcel/branch/master"><img src="https://ci.appveyor.com/api/projects/status/b2vustrwsuqx45f4/branch/master?svg=true" alt="Build status"></a>
+<a href="https://gitee.com/dotnetchina/MiniExcel"><img src="https://gitee.com/dotnetchina/MiniExcel/badge/star.svg" alt="star"></a> <a href="https://github.com/mini-software/MiniExcel" rel="nofollow"><img src="https://img.shields.io/github/stars/mini-software/MiniExcel?logo=github" alt="GitHub stars"></a>
+<a href="https://www.nuget.org/packages/MiniExcel"><img src="https://img.shields.io/badge/.NET-%3E%3D%204.5-red.svg" alt="version"></a>
+<a href="https://deepwiki.com/mini-software/MiniExcel"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+</p>
+</div>
+
+<hr>
+<p><a href="https://www.dotnetfoundation.org/"><img align="right" src="https://github.com/dotnet-foundation/swag/blob/main/logo/dotnetfoundation_v4.png?raw=true" width="100"></a></p>
+<div style="text-align: center">
+<p>Questo progetto fa parte della <a href="https://www.dotnetfoundation.org/">.NET Foundation</a> e opera secondo il loro <a href="https://www.dotnetfoundation.org/code-of-conduct">codice di condotta</a>. </p>
+</div>
+
+<hr>
+<div style="text-align: center">
+<p><strong><a href="README.md">English</a> | <a href="README.zh-CN.md">简体中文</a> | <a href="README.zh-Hant.md">繁體中文</a></strong></p>
+</div>
+
+<hr>
+<div style="text-align: center">
+ Il tuo <a href="https://github.com/mini-software/MiniExcel">Star</a> e la tua <a href="https://miniexcel.github.io">Donazione</a> possono rendere MiniExcel migliore
+</div>
+
+<hr>
+<h3>Introduzione</h3>
+<p>MiniExcel è uno strumento .NET semplice ed efficiente per evitare OOM (out of memory) nell'elaborazione di file Excel.</p>
+<p>Attualmente, la maggior parte dei framework più popolari necessita di caricare tutti i dati in memoria per facilitarne l’operazione, ma ciò comporta problemi di consumo di memoria. MiniExcel cerca di utilizzare un algoritmo basato su stream per ridurre l’occupazione originale di 1000 MB a pochi MB ed evitare OOM (out of memory).</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/113086657-ab8bd000-9214-11eb-9563-c970ac1ee35e.png" alt="image"></p>
+<h3>Caratteristiche</h3>
+<ul>
+<li>Basso consumo di memoria, evita OOM (out of memory) e full GC</li>
+<li>Supporta l'elaborazione in tempo reale di ogni riga di dati</li>
+<li>Supporta l'esecuzione differita LINQ, può eseguire query complesse come paginazione veloce e a basso consumo</li>
+<li>Leggero, non richiede Microsoft Office installato, nessun COM+, la dimensione della DLL è inferiore a 400KB</li>
+<li>Stile API semplice per leggere/scrivere/compilare excel</li>
+</ul>
+<h3>Per iniziare</h3>
+<ul>
+<li><p><a href="#getstart1">Importa/Interroga Excel</a></p>
+</li>
+<li><p><a href="#getstart2">Esporta/Crea Excel</a></p>
+</li>
+<li><p><a href="#getstart3">Template Excel</a></p>
+</li>
+<li><p><a href="#getstart4">Nome/Indice/Ignora Attributo Colonna Excel</a></p>
+</li>
+<li><p><a href="#getstart5">Esempi</a></p>
+</li>
+</ul>
+<h3>Installazione</h3>
+<p>Puoi installare il pacchetto <a href="https://www.nuget.org/packages/MiniExcel">da NuGet</a></p>
+<h3>Note di rilascio</h3>
+<p>Consulta le <a href="docs">Note di rilascio</a></p>
+<h3>TODO</h3>
+<p>Consulta la <a href="https://github.com/mini-software/MiniExcel/projects/1?fullscreen=true">TODO</a></p>
+<h3>Prestazioni</h3>
+<p>Il codice per i benchmark si trova in <a href="benchmarks/MiniExcel.Benchmarks/Program.cs">MiniExcel.Benchmarks</a>.</p>
+<p>Il file utilizzato per testare le prestazioni è <a href="benchmarks/MiniExcel.Benchmarks/Test1%2C000%2C000x10.xlsx"><strong>Test1,000,000x10.xlsx</strong></a>, un documento da 32MB contenente 1.000.000 righe * 10 colonne in cui le celle sono riempite con la stringa "HelloWorld".</p>
+<p>Per eseguire tutti i benchmark usa:</p>
+<pre><code class="language-bash hljs">dotnet run -project .\benchmarks\MiniExcel.Benchmarks -c Release -f net9.0 -filter * --<span class="hljs-built_in">join</span>
+</code></pre>
+<p>Puoi trovare i risultati dei benchmark per l’ultimo rilascio <a href="benchmarks/results">qui</a>.</p>
+<h3>Query/Importazione Excel  <a name="getstart1"></a></h3>
+<h4>1. Esegui una query e mappa i risultati su un IEnumerable fortemente tipizzato <a href="https://dotnetfiddle.net/w5WD1J">[Provalo]</a></h4>
+<p>Si consiglia di usare Stream.Query per una migliore efficienza.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UserAccount</span>
+{
+    <span class="hljs-keyword">public</span> Guid ID { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> DateTime BoD { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Age { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span> VIP { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">decimal</span> Points { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+<span class="hljs-keyword">var</span> rows = MiniExcel.Query&lt;UserAccount&gt;(path);
+
+<span class="hljs-comment">// oppure</span>
+
+<span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> stream = File.OpenRead(path))
+    <span class="hljs-keyword">var</span> rows = stream.Query&lt;UserAccount&gt;();
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/111107423-c8c46b80-8591-11eb-982f-c97a2dafb379.png" alt="image"></p>
+<h4>2. Esegui una query e mappala a una lista di oggetti dinamici senza usare l’intestazione <a href="https://dotnetfiddle.net/w5WD1J">[Provalo]</a></h4>
+<ul>
+<li>La chiave dinamica è <code>A.B.C.D..</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>MiniExcel</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Github</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<pre><code class="language-csharp hljs">
+<span class="hljs-keyword">var</span> rows = MiniExcel.Query(path).ToList();
+
+<span class="hljs-comment">// oppure</span>
+<span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> stream = File.OpenRead(path))
+{
+    <span class="hljs-keyword">var</span> rows = stream.Query().ToList();
+
+    Assert.Equal(<span class="hljs-string">"MiniExcel"</span>, rows[<span class="hljs-number">0</span>].A);
+    Assert.Equal(<span class="hljs-number">1</span>, rows[<span class="hljs-number">0</span>].B);
+    Assert.Equal(<span class="hljs-string">"Github"</span>, rows[<span class="hljs-number">1</span>].A);
+    Assert.Equal(<span class="hljs-number">2</span>, rows[<span class="hljs-number">1</span>].B);
+}
+</code></pre>
+<h4>3. Esegui una query con la prima riga come intestazione <a href="https://dotnetfiddle.net/w5WD1J">[Provalo]</a></h4>
+<p>Nota: in caso di nomi di colonna duplicati viene usato l’ultimo a destra</p>
+<p>Excel di input:</p>
+<table>
+<thead>
+<tr>
+<th>Column1</th>
+<th>Column2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MiniExcel</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Github</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<pre><code class="language-csharp hljs">
+<span class="hljs-keyword">var</span> rows = MiniExcel.Query(useHeaderRow:<span class="hljs-literal">true</span>).ToList();
+
+<span class="hljs-comment">// oppure</span>
+
+<span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> stream = File.OpenRead(path))
+{
+    <span class="hljs-keyword">var</span> rows = stream.Query(useHeaderRow:<span class="hljs-literal">true</span>).ToList();
+
+    Assert.Equal(<span class="hljs-string">"MiniExcel"</span>, rows[<span class="hljs-number">0</span>].Column1);
+    Assert.Equal(<span class="hljs-number">1</span>, rows[<span class="hljs-number">0</span>].Column2);
+    Assert.Equal(<span class="hljs-string">"Github"</span>, rows[<span class="hljs-number">1</span>].Column1);
+    Assert.Equal(<span class="hljs-number">2</span>, rows[<span class="hljs-number">1</span>].Column2);
+}
+</code></pre>
+<h4>4. Le query supportano le estensioni LINQ First/Take/Skip ...ecc</h4>
+<p>Query First</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> row = MiniExcel.Query(path).First();
+Assert.Equal(<span class="hljs-string">"HelloWorld"</span>, row.A);
+
+<span class="hljs-comment">// oppure</span>
+
+<span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> stream = File.OpenRead(path))
+{
+    <span class="hljs-keyword">var</span> row = stream.Query().First();
+    Assert.Equal(<span class="hljs-string">"HelloWorld"</span>, row.A);
+}
+</code></pre>
+<p>Prestazioni tra MiniExcel/ExcelDataReader/ClosedXML/EPPlus<br><img src="https://user-images.githubusercontent.com/12729184/111072392-6037a900-8515-11eb-9693-5ce2dad1e460.gif" alt="queryfirst"></p>
+<h4>5. Query per nome del foglio</h4>
+<pre><code class="language-csharp hljs">MiniExcel.Query(path, sheetName: <span class="hljs-string">"SheetName"</span>);
+<span class="hljs-comment">//oppure</span>
+stream.Query(sheetName: <span class="hljs-string">"SheetName"</span>);
+</code></pre>
+<h4>6. Query di tutti i nomi dei fogli e righe</h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> sheetNames = MiniExcel.GetSheetNames(path);
+<span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> sheetName <span class="hljs-keyword">in</span> sheetNames)
+{
+    <span class="hljs-keyword">var</span> rows = MiniExcel.Query(path, sheetName: sheetName);
+}
+</code></pre>
+<h4>7. Ottenere le Colonne</h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> columns = MiniExcel.GetColumns(path); <span class="hljs-comment">// ad esempio risultato : ["A","B"...]</span>
+
+<span class="hljs-keyword">var</span> cnt = columns.Count;  <span class="hljs-comment">// ottenere il numero di colonne</span>
+</code></pre>
+<h4>8. Query Dinamica cast riga in <code>IDictionary&lt;string,object&gt;</code></h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">foreach</span>(IDictionary&lt;<span class="hljs-built_in">string</span>,<span class="hljs-built_in">object</span>&gt; row <span class="hljs-keyword">in</span> MiniExcel.Query(path))
+{
+    <span class="hljs-comment">//..</span>
+}
+
+<span class="hljs-comment">// oppure</span>
+<span class="hljs-keyword">var</span> rows = MiniExcel.Query(path).Cast&lt;IDictionary&lt;<span class="hljs-built_in">string</span>,<span class="hljs-built_in">object</span>&gt;&gt;();
+<span class="hljs-comment">// oppure Query su intervalli specifici (in maiuscolo)</span>
+<span class="hljs-comment">// A2 rappresenta la seconda riga della colonna A, C3 rappresenta la terza riga della colonna C</span>
+<span class="hljs-comment">// Se non vuoi limitare le righe, basta non includere i numeri</span>
+<span class="hljs-keyword">var</span> rows = MiniExcel.QueryRange(path, startCell: <span class="hljs-string">"A2"</span>, endCell: <span class="hljs-string">"C3"</span>).Cast&lt;IDictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;&gt;();
+</code></pre>
+<h4>9. Query Excel che restituisce DataTable</h4>
+<p>Non raccomandato, perché DataTable carica tutti i dati in memoria e perde la caratteristica di basso consumo di memoria di MiniExcel.</p>
+<pre><code class="language-C# hljs language-C">var table = MiniExcel.QueryAsDataTable(path, useHeaderRow: <span class="hljs-literal">true</span>);
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/116673475-07917200-a9d6-11eb-947e-a6f68cce58df.png" alt="image"></p>
+<h4>10. Specificare la cella da cui iniziare a leggere i dati</h4>
+<pre><code class="language-csharp hljs">MiniExcel.Query(path,useHeaderRow:<span class="hljs-literal">true</span>,startCell:<span class="hljs-string">"B3"</span>)
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/117260316-8593c400-ae81-11eb-9877-c087b7ac2b01.png" alt="image"></p>
+<h4>11. Riempire Celle Unite</h4>
+<p>Nota: L'efficienza è inferiore rispetto a <code>non usare il riempimento delle celle unite</code></p>
+<p>Motivo: Lo standard OpenXml posiziona mergeCells in fondo al file, il che porta alla necessità di scorrere due volte lo sheetxml</p>
+<pre><code class="language-csharp hljs">    <span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> OpenXmlConfiguration()
+    {
+        FillMergedCells = <span class="hljs-literal">true</span>
+    };
+    <span class="hljs-keyword">var</span> rows = MiniExcel.Query(path, configuration: config);
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/117973630-3527d500-b35f-11eb-95c3-bde255f8114e.png" alt="image"></p>
+<p>supporta riempimento multi-riga e multi-colonna di lunghezza e larghezza variabile</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/117973820-6d2f1800-b35f-11eb-88d8-555063938108.png" alt="image"></p>
+<h4>12. Lettura di file grandi tramite cache su disco (Disk-Base Cache - SharedString)</h4>
+<p>Se la dimensione di SharedStrings supera i 5 MB, di default MiniExcel utilizzerà la cache su disco locale, ad esempio, <a href="https://github.com/MiniExcel/MiniExcel/files/8403819/NotDuplicateSharedStrings_10x100000.xlsx">10x100000.xlsx</a> (un milione di righe di dati), quando la cache su disco è disabilitata l'uso massimo della memoria è di 195MB, ma con la cache su disco abilitata servono solo 65MB. Nota, questa ottimizzazione richiede un certo costo in termini di efficienza, quindi in questo caso il tempo di lettura aumenta da 7,4 secondi a 27,2 secondi. Se non ne hai bisogno puoi disabilitare la cache su disco con il seguente codice:</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> OpenXmlConfiguration { EnableSharedStringCache = <span class="hljs-literal">false</span> };
+MiniExcel.Query(path,configuration: config)
+</code></pre>
+<p>Puoi usare <code>SharedStringCacheSize</code> per cambiare la dimensione del file sharedString oltre la quale si attiva la cache su disco</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> OpenXmlConfiguration { SharedStringCacheSize=<span class="hljs-number">500</span>*<span class="hljs-number">1024</span>*<span class="hljs-number">1024</span> };
+MiniExcel.Query(path, configuration: config);
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/161411851-1c3f72a7-33b3-4944-84dc-ffc1d16747dd.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/12729184/161411825-17f53ec7-bef4-4b16-b234-e24799ea41b0.png" alt="image"></p>
+<h3>Creare/Esportare Excel  <a name="getstart2"></a></h3>
+<ol>
+<li><p>Deve essere un tipo non astratto con un costruttore pubblico senza parametri.</p>
+</li>
+<li><p>MiniExcel supporta l'esecuzione differita tramite IEnumerable; se vuoi utilizzare meno memoria possibile, per favore non chiamare metodi come ToList</p>
+</li>
+</ol>
+<p>ad esempio: ToList o no uso della memoria<br><img src="https://user-images.githubusercontent.com/12729184/112587389-752b0b00-8e38-11eb-8a52-cfb76c57e5eb.png" alt="image"></p>
+<h4>1. Tipo anonimo o fortemente tipizzato <a href="https://dotnetfiddle.net/w5WD1J">[Provalo]</a></h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> path = Path.Combine(Path.GetTempPath(), <span class="hljs-string">$"<span class="hljs-subst">{Guid.NewGuid()}</span>.xlsx"</span>);
+MiniExcel.SaveAs(path, <span class="hljs-keyword">new</span>[] {
+    <span class="hljs-keyword">new</span> { Column1 = <span class="hljs-string">"MiniExcel"</span>, Column2 = <span class="hljs-number">1</span> },
+    <span class="hljs-keyword">new</span> { Column1 = <span class="hljs-string">"Github"</span>, Column2 = <span class="hljs-number">2</span>}
+});
+</code></pre>
+<h4>2. <code>IEnumerable&lt;IDictionary&lt;string, object&gt;&gt;</code></h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> values = <span class="hljs-keyword">new</span> List&lt;Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;&gt;()
+{
+    <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>,<span class="hljs-built_in">object</span>&gt;{{ <span class="hljs-string">"Column1"</span>, <span class="hljs-string">"MiniExcel"</span> }, { <span class="hljs-string">"Column2"</span>, <span class="hljs-number">1</span> } },
+    <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>,<span class="hljs-built_in">object</span>&gt;{{ <span class="hljs-string">"Column1"</span>, <span class="hljs-string">"Github"</span> }, { <span class="hljs-string">"Column2"</span>, <span class="hljs-number">2</span> } }
+};
+MiniExcel.SaveAs(path, values);
+</code></pre>
+<p>Risultato File Creato:</p>
+<table>
+<thead>
+<tr>
+<th>Column1</th>
+<th>Column2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MiniExcel</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Github</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<h4>3.  IDataReader</h4>
+<ul>
+<li><code>Raccomandato</code>, può evitare di caricare tutti i dati in memoria</li>
+</ul>
+<pre><code class="language-csharp hljs">MiniExcel.SaveAs(path, reader);
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/121275378-149a5e80-c8bc-11eb-85fe-5453552134f0.png" alt="image"></p>
+<p>Esportazione DataReader su più fogli (raccomandato con Dapper ExecuteReader)</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> cnn = Connection)
+{
+    cnn.Open();
+    <span class="hljs-keyword">var</span> sheets = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>,<span class="hljs-built_in">object</span>&gt;();
+    sheets.Add(<span class="hljs-string">"sheet1"</span>, cnn.ExecuteReader(<span class="hljs-string">"select 1 id"</span>));
+    sheets.Add(<span class="hljs-string">"sheet2"</span>, cnn.ExecuteReader(<span class="hljs-string">"select 2 id"</span>));
+    MiniExcel.SaveAs(<span class="hljs-string">"Demo.xlsx"</span>, sheets);
+}
+</code></pre>
+<h4>4. Datatable</h4>
+<ul>
+<li><p><code>Non raccomandato</code>, caricherà tutti i dati in memoria</p>
+</li>
+<li><p>DataTable usa Caption per il nome della colonna prima, poi usa columname</p>
+</li>
+</ul>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> path = Path.Combine(Path.GetTempPath(), <span class="hljs-string">$"<span class="hljs-subst">{Guid.NewGuid()}</span>.xlsx"</span>);
+<span class="hljs-keyword">var</span> table = <span class="hljs-keyword">new</span> DataTable();
+{
+    table.Columns.Add(<span class="hljs-string">"Column1"</span>, <span class="hljs-keyword">typeof</span>(<span class="hljs-built_in">string</span>));
+    table.Columns.Add(<span class="hljs-string">"Column2"</span>, <span class="hljs-keyword">typeof</span>(<span class="hljs-built_in">decimal</span>));
+    table.Rows.Add(<span class="hljs-string">"MiniExcel"</span>, <span class="hljs-number">1</span>);
+    table.Rows.Add(<span class="hljs-string">"Github"</span>, <span class="hljs-number">2</span>);
+}
+
+MiniExcel.SaveAs(path, table);
+</code></pre>
+<h4>5. Dapper Query</h4>
+<p>Grazie a @shaofing #552 , per favore usa <code>CommandDefinition + CommandFlags.NoCache</code></p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> connection = GetConnection(connectionString))
+{
+    <span class="hljs-keyword">var</span> rows = connection.Query(
+        <span class="hljs-keyword">new</span> CommandDefinition(
+            <span class="hljs-string">@"select 'MiniExcel' as Column1,1 as Column2 union all select 'Github',2"</span>
+            , flags: CommandFlags.NoCache)
+        );
+    <span class="hljs-comment">// Nota: QueryAsync lancerà un'eccezione di connessione chiusa</span>
+    MiniExcel.SaveAs(path, rows);
+</code></pre>
+<p>}</p>
+<pre><code class="hljs language-csharp">
+Il codice seguente caricherà tutti i dati <span class="hljs-keyword">in</span> memoria
+
+```<span class="hljs-function">csharp
+<span class="hljs-title">using</span> (<span class="hljs-params"><span class="hljs-keyword">var</span> connection = GetConnection(connectionString</span>))</span>
+{
+    <span class="hljs-keyword">var</span> rows = connection.Query(<span class="hljs-string">@"select 'MiniExcel' as Column1,1 as Column2 union all select 'Github',2"</span>);
+    MiniExcel.SaveAs(path, rows);
+}
+</code></pre>
+<h4>6. SaveAs su MemoryStream  <a href="https://dotnetfiddle.net/JOen0e">[Provalo]</a></h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> stream = <span class="hljs-keyword">new</span> MemoryStream()) <span class="hljs-comment">//supporta FileStream, MemoryStream ecc.</span>
+{
+    stream.SaveAs(values);
+}
+</code></pre>
+<p>esempio: api per esportare excel</p>
+<pre><code class="language-csharp hljs"><span class="hljs-function"><span class="hljs-keyword">public</span> IActionResult <span class="hljs-title">DownloadExcel</span>()</span>
+{
+    <span class="hljs-keyword">var</span> values = <span class="hljs-keyword">new</span>[] {
+        <span class="hljs-keyword">new</span> { Column1 = <span class="hljs-string">"MiniExcel"</span>, Column2 = <span class="hljs-number">1</span> },
+        <span class="hljs-keyword">new</span> { Column1 = <span class="hljs-string">"Github"</span>, Column2 = <span class="hljs-number">2</span>}
+    };
+
+    <span class="hljs-keyword">var</span> memoryStream = <span class="hljs-keyword">new</span> MemoryStream();
+    memoryStream.SaveAs(values);
+    memoryStream.Seek(<span class="hljs-number">0</span>, SeekOrigin.Begin);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> FileStreamResult(memoryStream, <span class="hljs-string">"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"</span>)
+    {
+        FileDownloadName = <span class="hljs-string">"demo.xlsx"</span>
+    };
+}
+</code></pre>
+<h4>7. Creare più fogli</h4>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// 1. Dictionary&lt;string,object&gt;</span>
+<span class="hljs-keyword">var</span> users = <span class="hljs-keyword">new</span>[] { <span class="hljs-keyword">new</span> { Name = <span class="hljs-string">"Jack"</span>, Age = <span class="hljs-number">25</span> }, <span class="hljs-keyword">new</span> { Name = <span class="hljs-string">"Mike"</span>, Age = <span class="hljs-number">44</span> } };
+<span class="hljs-keyword">var</span> department = <span class="hljs-keyword">new</span>[] { <span class="hljs-keyword">new</span> { ID = <span class="hljs-string">"01"</span>, Name = <span class="hljs-string">"HR"</span> }, <span class="hljs-keyword">new</span> { ID = <span class="hljs-string">"02"</span>, Name = <span class="hljs-string">"IT"</span> } };
+<span class="hljs-keyword">var</span> sheets = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;
+{
+    [<span class="hljs-string">"users"</span>] = users,
+    [<span class="hljs-string">"department"</span>] = department
+};
+MiniExcel.SaveAs(path, sheets);
+
+<span class="hljs-comment">// 2. DataSet</span>
+<span class="hljs-keyword">var</span> sheets = <span class="hljs-keyword">new</span> DataSet();
+sheets.Add(UsersDataTable);
+sheets.Add(DepartmentDataTable);
+<span class="hljs-comment">//..</span>
+MiniExcel.SaveAs(path, sheets);
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/118130875-6e7c4580-b430-11eb-9b82-22f02716bd63.png" alt="image"></p>
+<h4>8. Opzioni TableStyles</h4>
+<p>Stile predefinito</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/138234373-cfa97109-b71f-4711-b7f5-0eaaa4a0a3a6.png" alt="image"></p>
+<p>Senza configurazione dello stile</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> OpenXmlConfiguration()
+{
+     TableStyles = TableStyles.None
+};
+MiniExcel.SaveAs(path, <span class="hljs-keyword">value</span>, configuration:config);
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/118784917-f3e57700-b8c2-11eb-8718-8d955b1bc197.png" alt="image"></p>
+<h4>9. AutoFilter</h4>
+<p>Dalla versione v0.19.0  <code>OpenXmlConfiguration.AutoFilter</code> può abilitare/disabilitare AutoFilter, il valore predefinito è <code>true</code>, e il modo per impostare AutoFilter è:</p>
+<pre><code class="language-csharp hljs">MiniExcel.SaveAs(path, <span class="hljs-keyword">value</span>, configuration: <span class="hljs-keyword">new</span> OpenXmlConfiguration() { AutoFilter = <span class="hljs-literal">false</span> });
+</code></pre>
+<h4>10. Creare immagini</h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span>[] {
+    <span class="hljs-keyword">new</span> { Name=<span class="hljs-string">"github"</span>,Image=File.ReadAllBytes(PathHelper.GetFile(<span class="hljs-string">"images/github_logo.png"</span>))},
+    <span class="hljs-keyword">new</span> { Name=<span class="hljs-string">"google"</span>,Image=File.ReadAllBytes(PathHelper.GetFile(<span class="hljs-string">"images/google_logo.png"</span>))},
+    <span class="hljs-keyword">new</span> { Name=<span class="hljs-string">"microsoft"</span>,Image=File.ReadAllBytes(PathHelper.GetFile(<span class="hljs-string">"images/microsoft_logo.png"</span>))},
+    <span class="hljs-keyword">new</span> { Name=<span class="hljs-string">"reddit"</span>,Image=File.ReadAllBytes(PathHelper.GetFile(<span class="hljs-string">"images/reddit_logo.png"</span>))},
+    <span class="hljs-keyword">new</span> { Name=<span class="hljs-string">"statck_overflow"</span>,Image=File.ReadAllBytes(PathHelper.GetFile(<span class="hljs-string">"images/statck_overflow_logo.png"</span>))},
+};
+MiniExcel.SaveAs(path, <span class="hljs-keyword">value</span>);
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/150462383-ad9931b3-ed8d-4221-a1d6-66f799743433.png" alt="image"></p>
+<h4>11. Esportazione file come array di byte</h4>
+<p>Dalla versione 1.22.0, quando il tipo di valore è <code>byte[]</code> il sistema salverà per default il percorso file nella cella e, all'importazione, il sistema potrà convertirlo in <code>byte[]</code>. Se non si desidera utilizzare questa funzione, è possibile impostare <code>OpenXmlConfiguration.EnableConvertByteArray</code> su <code>false</code>, migliorando così l'efficienza del sistema.</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/153702334-c3b834f4-6ae4-4ddf-bd4e-e5005d5d8c6a.png" alt="image"></p>
+<p>Dalla versione 1.22.0, quando il tipo di valore è <code>byte[]</code> il sistema salverà per default il percorso file nella cella e, all'importazione, il sistema potrà convertirlo in <code>byte[]</code>. Se non si desidera utilizzare questa funzione, è possibile impostare <code>OpenXmlConfiguration.EnableConvertByteArray</code> su <code>false</code>, migliorando così l'efficienza del sistema.</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/153702334-c3b834f4-6ae4-4ddf-bd4e-e5005d5d8c6a.png" alt="image"></p>
+<h4>12. Unire le stesse celle verticalmente</h4>
+<p>Questa funzionalità è supportata solo nel formato <code>xlsx</code> e unisce le celle verticalmente tra i tag @merge e @endmerge.<br>È possibile usare @mergelimit per limitare i confini di unione delle celle verticalmente.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> mergedFilePath = Path.Combine(Path.GetTempPath(), <span class="hljs-string">$"<span class="hljs-subst">{Guid.NewGuid().ToString()}</span>.xlsx"</span>);
+
+<span class="hljs-keyword">var</span> path = <span class="hljs-string">@"../../../../../samples/xlsx/TestMergeWithTag.xlsx"</span>;
+
+MiniExcel.MergeSameCells(mergedFilePath, path);
+</code></pre>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> memoryStream = <span class="hljs-keyword">new</span> MemoryStream();
+
+<span class="hljs-keyword">var</span> path = <span class="hljs-string">@"../../../../../samples/xlsx/TestMergeWithTag.xlsx"</span>;
+
+memoryStream.MergeSameCells(path);
+</code></pre>
+<p>Contenuto del file prima e dopo la fusione:</p>
+<p>Senza limite di fusione:</p>
+<img width="318" alt="Screenshot 2023-08-07 at 11 59 24" src="https://github.com/mini-software/MiniExcel/assets/38832863/49cc96b9-6c35-4bf3-8d43-a9752a15b22e">
+
+<img width="318" alt="Screenshot 2023-08-07 at 11 59 57" src="https://github.com/mini-software/MiniExcel/assets/38832863/3fbd529b-3ae6-4bbe-b4d8-2793a5a58010">
+
+<p>Con limite di fusione:</p>
+<img width="346" alt="Screenshot 2023-08-08 at 18 21 00" src="https://github.com/mini-software/MiniExcel/assets/38832863/04049d28-84d5-4c2a-bcff-5847547df5e1">
+
+<img width="346" alt="Screenshot 2023-08-08 at 18 21 40" src="https://github.com/mini-software/MiniExcel/assets/38832863/f5cf8957-b0b0-4831-b8fc-8556299235c2">
+
+<h4>13. Ignora valori null</h4>
+<p>Nuova opzione esplicita per scrivere celle vuote per valori null:</p>
+<pre><code class="language-csharp hljs">DataTable dt = <span class="hljs-keyword">new</span> DataTable();
+
+<span class="hljs-comment">/* ... */</span>
+
+DataRow dr = dt.NewRow();
+
+dr[<span class="hljs-string">"Name1"</span>] = <span class="hljs-string">"Somebody once"</span>;
+dr[<span class="hljs-string">"Name2"</span>] = <span class="hljs-literal">null</span>;
+dr[<span class="hljs-string">"Name3"</span>] = <span class="hljs-string">"told me."</span>;
+
+dt.Rows.Add(dr);
+
+OpenXmlConfiguration configuration = <span class="hljs-keyword">new</span> OpenXmlConfiguration()
+{
+     EnableWriteNullValueCell = <span class="hljs-literal">true</span> <span class="hljs-comment">// Valore predefinito.</span>
+};
+
+MiniExcel.SaveAs(<span class="hljs-string">@"C:\temp\Book1.xlsx"</span>, dt, configuration: configuration);
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/31481586/241419455-3c0aec8a-4e5f-4d83-b7ec-6572124c165d.png" alt="image"></p>
+<pre><code class="language-xml hljs"><span class="hljs-tag">&lt;<span class="hljs-name">x:row</span> <span class="hljs-attr">r</span>=<span class="hljs-string">"2"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x:c</span> <span class="hljs-attr">r</span>=<span class="hljs-string">"A2"</span> <span class="hljs-attr">t</span> =<span class="hljs-string">"str"</span> <span class="hljs-attr">s</span>=<span class="hljs-string">"2"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">x:v</span>&gt;</span>Somebody once<span class="hljs-tag">&lt;/<span class="hljs-name">x:v</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x:c</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x:c</span> <span class="hljs-attr">r</span>=<span class="hljs-string">"B2"</span> <span class="hljs-attr">s</span>=<span class="hljs-string">"2"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">x:c</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x:c</span> <span class="hljs-attr">r</span>=<span class="hljs-string">"C2"</span> <span class="hljs-attr">t</span> =<span class="hljs-string">"str"</span> <span class="hljs-attr">s</span>=<span class="hljs-string">"2"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">x:v</span>&gt;</span>told me.<span class="hljs-tag">&lt;/<span class="hljs-name">x:v</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x:c</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">x:row</span>&gt;</span>
+</code></pre>
+<p>Comportamento precedente:</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">/* ... */</span>
+
+OpenXmlConfiguration configuration = <span class="hljs-keyword">new</span> OpenXmlConfiguration()
+{
+     EnableWriteNullValueCell = <span class="hljs-literal">false</span> <span class="hljs-comment">// Il valore predefinito è true.</span>
+};
+
+MiniExcel.SaveAs(<span class="hljs-string">@"C:\temp\Book1.xlsx"</span>, dt, configuration: configuration);
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/31481586/241419441-c4f27e8f-3f87-46db-a10f-08665864c874.png" alt="image"></p>
+<pre><code class="language-xml hljs"><span class="hljs-tag">&lt;<span class="hljs-name">x:row</span> <span class="hljs-attr">r</span>=<span class="hljs-string">"2"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x:c</span> <span class="hljs-attr">r</span>=<span class="hljs-string">"A2"</span> <span class="hljs-attr">t</span> =<span class="hljs-string">"str"</span> <span class="hljs-attr">s</span>=<span class="hljs-string">"2"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">x:v</span>&gt;</span>Somebody once<span class="hljs-tag">&lt;/<span class="hljs-name">x:v</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x:c</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x:c</span> <span class="hljs-attr">r</span>=<span class="hljs-string">"B2"</span> <span class="hljs-attr">t</span> =<span class="hljs-string">"str"</span> <span class="hljs-attr">s</span>=<span class="hljs-string">"2"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">x:v</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">x:v</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x:c</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x:c</span> <span class="hljs-attr">r</span>=<span class="hljs-string">"C2"</span> <span class="hljs-attr">t</span> =<span class="hljs-string">"str"</span> <span class="hljs-attr">s</span>=<span class="hljs-string">"2"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">x:v</span>&gt;</span>told me.<span class="hljs-tag">&lt;/<span class="hljs-name">x:v</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x:c</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">x:row</span>&gt;</span>
+</code></pre>
+<p>Funziona sia per valori null che per valori DBNull.</p>
+<h4>14. Blocca riquadri (Freeze Panes)</h4>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">/* ... */</span>
+
+OpenXmlConfiguration configuration = <span class="hljs-keyword">new</span> OpenXmlConfiguration()
+{
+    FreezeRowCount = <span class="hljs-number">1</span>,     <span class="hljs-comment">// predefinito è 1</span>
+    FreezeColumnCount = <span class="hljs-number">2</span>   <span class="hljs-comment">// predefinito è 0</span>
+};
+
+MiniExcel.SaveAs(<span class="hljs-string">@"C:\temp\Book1.xlsx"</span>, dt, configuration: configuration);
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/mini-software/MiniExcel/master/docs/images/freeze-pane-1.png" alt="image"></p>
+<h3>Compilare dati su template Excel <a name="getstart3"></a></h3>
+<ul>
+<li>La dichiarazione è simile al template Vue <code>{{nome variabile}}</code>, o al rendering di collezione <code>{{nome collezione.nome campo}}</code></li>
+<li>Il rendering di collezione supporta IEnumerable/DataTable/DapperRow</li>
+</ul>
+<h4>1. Compilazione di base</h4>
+<p>Template:<br><img src="https://user-images.githubusercontent.com/12729184/114537556-ed8d2b00-9c84-11eb-8303-a69f62c41e5b.png" alt="image"></p>
+<p>Risultato:<br><img src="https://user-images.githubusercontent.com/12729184/114537490-d8180100-9c84-11eb-8c69-db58692f3a85.png" alt="image"></p>
+<p>Codice:</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// 1. Con POCO</span>
+<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span>
+{
+    Name = <span class="hljs-string">"Jack"</span>,
+    CreateDate = <span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2021</span>, <span class="hljs-number">01</span>, <span class="hljs-number">01</span>),
+    VIP = <span class="hljs-literal">true</span>,
+    Points = <span class="hljs-number">123</span>
+};
+MiniExcel.SaveAsByTemplate(path, templatePath, <span class="hljs-keyword">value</span>);
+
+
+<span class="hljs-comment">// 2. Con Dictionary</span>
+<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;()
+{
+    [<span class="hljs-string">"Name"</span>] = <span class="hljs-string">"Jack"</span>,
+    [<span class="hljs-string">"CreateDate"</span>] = <span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2021</span>, <span class="hljs-number">01</span>, <span class="hljs-number">01</span>),
+    [<span class="hljs-string">"VIP"</span>] = <span class="hljs-literal">true</span>,
+    [<span class="hljs-string">"Points"</span>] = <span class="hljs-number">123</span>
+};
+MiniExcel.SaveAsByTemplate(path, templatePath, <span class="hljs-keyword">value</span>);
+</code></pre>
+<h4>2. Compilazione dati IEnumerable</h4>
+<blockquote>
+<p>Nota1: Utilizzare il primo IEnumerable con la stessa colonna come base per riempire la lista</p>
+</blockquote>
+<p>Template:<br><img src="https://user-images.githubusercontent.com/12729184/114564652-14f2f080-9ca3-11eb-831f-09e3fedbc5fc.png" alt="image"></p>
+<p>Risultato:<br><img src="https://user-images.githubusercontent.com/12729184/114564204-b2015980-9ca2-11eb-900d-e21249f93f7c.png" alt="image"></p>
+<p>Codice:</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">//1. Con POCO</span>
+<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span>
+{
+    employees = <span class="hljs-keyword">new</span>[] {
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Jack"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Lisa"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"John"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Mike"</span>,department=<span class="hljs-string">"IT"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Neo"</span>,department=<span class="hljs-string">"IT"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Loan"</span>,department=<span class="hljs-string">"IT"</span>}
+    }
+};
+MiniExcel.SaveAsByTemplate(path, templatePath, <span class="hljs-keyword">value</span>);
+
+<span class="hljs-comment">//2. Con Dictionary</span>
+<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;()
+{
+    [<span class="hljs-string">"employees"</span>] = <span class="hljs-keyword">new</span>[] {
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Jack"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Lisa"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"John"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Mike"</span>,department=<span class="hljs-string">"IT"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Neo"</span>,department=<span class="hljs-string">"IT"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Loan"</span>,department=<span class="hljs-string">"IT"</span>}
+    }
+};
+MiniExcel.SaveAsByTemplate(path, templatePath, <span class="hljs-keyword">value</span>);
+</code></pre>
+<h4>3. Compilazione dati complessi</h4>
+<blockquote>
+<p>Nota: Supporta multi-fogli e uso della stessa variabile</p>
+</blockquote>
+<p>Template:</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/114565255-acf0da00-9ca3-11eb-8a7f-8131b2265ae8.png" alt="image"></p>
+<p>Risultato:</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/114565329-bf6b1380-9ca3-11eb-85e3-3969e8bf6378.png" alt="image"></p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// 1. Con POCO</span>
+<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span>
+{
+    title = <span class="hljs-string">"FooCompany"</span>,
+    managers = <span class="hljs-keyword">new</span>[] {
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Jack"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Loan"</span>,department=<span class="hljs-string">"IT"</span>}
+    },
+    employees = <span class="hljs-keyword">new</span>[] {
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Wade"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Felix"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Eric"</span>,department=<span class="hljs-string">"IT"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Keaton"</span>,department=<span class="hljs-string">"IT"</span>}
+    }
+};
+MiniExcel.SaveAsByTemplate(path, templatePath, <span class="hljs-keyword">value</span>);
+
+<span class="hljs-comment">// 2. Con Dictionary</span>
+<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;()
+{
+    [<span class="hljs-string">"title"</span>] = <span class="hljs-string">"FooCompany"</span>,
+    [<span class="hljs-string">"managers"</span>] = <span class="hljs-keyword">new</span>[] {
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Jack"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Loan"</span>,department=<span class="hljs-string">"IT"</span>}
+    },
+    [<span class="hljs-string">"employees"</span>] = <span class="hljs-keyword">new</span>[] {
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Wade"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Felix"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Eric"</span>,department=<span class="hljs-string">"IT"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Keaton"</span>,department=<span class="hljs-string">"IT"</span>}
+    }
+};
+MiniExcel.SaveAsByTemplate(path, templatePath, <span class="hljs-keyword">value</span>);
+</code></pre>
+<h4>4. Prestazioni nella compilazione di grandi quantità di dati</h4>
+<blockquote>
+<p>NOTA: Utilizzare IEnumerable con esecuzione differita, e non ToList, può massimizzare il risparmio di memoria in MiniExcel</p>
+</blockquote>
+<p><img src="https://user-images.githubusercontent.com/12729184/114577091-5046ec80-9cae-11eb-924b-087c7becf8da.png" alt="image"></p>
+<h4>5. Mappatura automatica dei tipi del valore della cella</h4>
+<p>Template</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/114802504-64830a80-9dd0-11eb-8d56-8e8c401b3ace.png" alt="image"></p>
+<p>Risultato</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/114802419-43221e80-9dd0-11eb-9ffe-a2ce34fe7076.png" alt="image"></p>
+<p>Classe</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Poco</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> @string { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span>? @int { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+</code></pre>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-built_in">decimal</span>? @decimal { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">double</span>? @double { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+<span class="hljs-keyword">public</span> DateTime? datetime { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span>? @bool { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+<span class="hljs-keyword">public</span> Guid? Guid { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p>Codice</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> poco = <span class="hljs-keyword">new</span> TestIEnumerableTypePoco { @string = <span class="hljs-string">"string"</span>, @int = <span class="hljs-number">123</span>, @decimal = <span class="hljs-built_in">decimal</span>.Parse(<span class="hljs-string">"123.45"</span>), @double = (<span class="hljs-built_in">double</span>)<span class="hljs-number">123.33</span>, @datetime = <span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2021</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>), @bool = <span class="hljs-literal">true</span>, @Guid = Guid.NewGuid() };
+<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span>
+{
+    Ts = <span class="hljs-keyword">new</span>[] {
+        poco,
+        <span class="hljs-keyword">new</span> TestIEnumerableTypePoco{},
+        <span class="hljs-literal">null</span>,
+        poco
+    }
+};
+MiniExcel.SaveAsByTemplate(path, templatePath, <span class="hljs-keyword">value</span>);
+</code></pre>
+<h4>6. Esempio: Elenco Progetti Github</h4>
+<p>Template</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/115068623-12073280-9f25-11eb-9124-f4b3efcdb2a7.png" alt="image"></p>
+<p>Risultato</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/115068639-1a5f6d80-9f25-11eb-9f45-27c434d19a78.png" alt="image"></p>
+<p>Codice</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> projects = <span class="hljs-keyword">new</span>[]
+{
+    <span class="hljs-keyword">new</span> {Name = <span class="hljs-string">"MiniExcel"</span>,Link=<span class="hljs-string">"https://github.com/mini-software/MiniExcel"</span>,Star=<span class="hljs-number">146</span>, CreateTime=<span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2021</span>,<span class="hljs-number">03</span>,<span class="hljs-number">01</span>)},
+    <span class="hljs-keyword">new</span> {Name = <span class="hljs-string">"HtmlTableHelper"</span>,Link=<span class="hljs-string">"https://github.com/mini-software/HtmlTableHelper"</span>,Star=<span class="hljs-number">16</span>, CreateTime=<span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2020</span>,<span class="hljs-number">02</span>,<span class="hljs-number">01</span>)},
+    <span class="hljs-keyword">new</span> {Name = <span class="hljs-string">"PocoClassGenerator"</span>,Link=<span class="hljs-string">"https://github.com/mini-software/PocoClassGenerator"</span>,Star=<span class="hljs-number">16</span>, CreateTime=<span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2019</span>,<span class="hljs-number">03</span>,<span class="hljs-number">17</span>)}
+};
+<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span>
+{
+    User = <span class="hljs-string">"ITWeiHan"</span>,
+    Projects = projects,
+    TotalStar = projects.Sum(s =&gt; s.Star)
+};
+MiniExcel.SaveAsByTemplate(path, templatePath, <span class="hljs-keyword">value</span>);
+</code></pre>
+<h4>7. Compilazione Dati Raggruppati</h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;()
+{
+    [<span class="hljs-string">"employees"</span>] = <span class="hljs-keyword">new</span>[] {
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Jack"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Jack"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"John"</span>,department=<span class="hljs-string">"HR"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"John"</span>,department=<span class="hljs-string">"IT"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Neo"</span>,department=<span class="hljs-string">"IT"</span>},
+        <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Loan"</span>,department=<span class="hljs-string">"IT"</span>}
+    }
+};
+<span class="hljs-keyword">await</span> MiniExcel.SaveAsByTemplateAsync(path, templatePath, <span class="hljs-keyword">value</span>);
+</code></pre>
+<h5>1. Con tag <code>@group</code> e con tag <code>@header</code></h5>
+<p>Prima</p>
+<p><img src="https://user-images.githubusercontent.com/38832863/218646717-21b9d57a-2be2-4e9a-801b-ae212231d2b4.PNG" alt="before_with_header"></p>
+<p>Dopo</p>
+<p><img src="https://user-images.githubusercontent.com/38832863/218646721-58a7a340-7004-4bc2-af24-cffcb2c20737.PNG" alt="after_with_header"></p>
+<h5>2. Con tag @group e senza tag @header</h5>
+<p>Prima</p>
+<p><img src="https://user-images.githubusercontent.com/38832863/218646873-b12417fa-801b-4890-8e96-669ed3b43902.PNG" alt="before_without_header"></p>
+<p>Dopo</p>
+<p><img src="https://user-images.githubusercontent.com/38832863/218646872-622461ba-342e-49ee-834f-b91ad9c2dac3.PNG" alt="after_without_header"></p>
+<h5>3. Senza tag @group</h5>
+<p>Prima</p>
+<p><img src="https://user-images.githubusercontent.com/38832863/218646975-f52a68eb-e031-43b5-abaa-03b67c052d1a.PNG" alt="without_group"></p>
+<p>Dopo</p>
+<p><img src="https://user-images.githubusercontent.com/38832863/218646974-4a3c0e07-7c66-4088-ad07-b4ad3695b7e1.PNG" alt="without_group_after"></p>
+<h4>8. Istruzioni If/ElseIf/Else all'interno della cella</h4>
+<p>Regole:</p>
+<ol>
+<li>Supporta DateTime, Double, Int con operatori ==, !=, &gt;, &gt;=, &lt;, &lt;=.</li>
+<li>Supporta Stringhe con operatori ==, !=.</li>
+<li>Ogni istruzione deve essere su una nuova riga.</li>
+<li>Deve essere aggiunto uno spazio singolo prima e dopo gli operatori.</li>
+<li>Non deve esserci una nuova riga all'interno delle istruzioni.</li>
+<li>La cella deve essere esattamente nel formato seguente.</li>
+</ol>
+<pre><code class="language-csharp hljs">@if(name == Jack)
+{{employees.name}}
+@elseif(name == Neo)
+Test {{employees.name}}
+@else
+{{employees.department}}
+@endif
+</code></pre>
+<p>Prima</p>
+<p><img src="https://user-images.githubusercontent.com/38832863/235360606-ca654769-ff55-4f5b-98d2-d2ec0edb8173.PNG" alt="if_before"></p>
+<p>Dopo</p>
+<p><img src="https://user-images.githubusercontent.com/38832863/235360609-869bb960-d63d-45ae-8d64-9e8b0d0ab658.PNG" alt="if_after"></p>
+<h4>9. DataTable come parametro</h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> managers = <span class="hljs-keyword">new</span> DataTable();
+{
+    managers.Columns.Add(<span class="hljs-string">"name"</span>);
+    managers.Columns.Add(<span class="hljs-string">"department"</span>);
+    managers.Rows.Add(<span class="hljs-string">"Jack"</span>, <span class="hljs-string">"HR"</span>);
+    managers.Rows.Add(<span class="hljs-string">"Loan"</span>, <span class="hljs-string">"IT"</span>);
+}
+<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;()
+{
+    [<span class="hljs-string">"title"</span>] = <span class="hljs-string">"FooCompany"</span>,
+    [<span class="hljs-string">"managers"</span>] = managers,
+};
+MiniExcel.SaveAsByTemplate(path, templatePath, <span class="hljs-keyword">value</span>);
+</code></pre>
+<h4>10. Formule</h4>
+<h5>1. Esempio</h5>
+<p>Prefissa la tua formula con <code>$</code> e usa <code>$enumrowstart</code> e <code>$enumrowend</code> per indicare i riferimenti all'inizio e alla fine delle righe enumerabili:</p>
+<p><img src="docs/images/template-formulas-1.png" alt="image"></p>
+<p>Quando il template viene renderizzato, il prefisso <code>$</code> verrà rimosso e <code>$enumrowstart</code> e <code>$enumrowend</code> saranno sostituiti con i numeri di riga di inizio e fine dell'enumerabile:</p>
+<p><img src="docs/images/template-formulas-2.png" alt="image"></p>
+<h5>2. Altri esempi di formule:</h5>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Somma</td>
+<td><code>$=SUM(C{{$enumrowstart}}:C{{$enumrowend}})</code></td>
+</tr>
+<tr>
+<td>Media Alt.</td>
+<td><code>$=SUM(C{{$enumrowstart}}:C{{$enumrowend}}) / COUNT(C{{$enumrowstart}}:C{{$enumrowend}})</code></td>
+</tr>
+<tr>
+<td>Intervallo</td>
+<td><code>$=MAX(C{{$enumrowstart}}:C{{$enumrowend}}) - MIN(C{{$enumrowstart}}:C{{$enumrowend}})</code></td>
+</tr>
+</tbody></table>
+<h4>11. Altro</h4>
+<h5>1. Controllo della chiave parametro del template</h5>
+<p>Dalla versione V1.24.0, per impostazione predefinita la chiave parametro mancante nel template viene ignorata e sostituita con una stringa vuota. <code>IgnoreTemplateParameterMissing</code> può controllare se lanciare un'eccezione o meno.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> OpenXmlConfiguration()
+{
+    IgnoreTemplateParameterMissing = <span class="hljs-literal">false</span>,
+};
+MiniExcel.SaveAsByTemplate(path, templatePath, <span class="hljs-keyword">value</span>, config)
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/157464332-e316f829-54aa-4c84-a5aa-9aef337b668d.png" alt="image"></p>
+<h3>Attributo Nome Colonna/Indice/Ignora di Excel <a name="getstart4"></a></h3>
+<h4>1. Specificare il nome della colonna, l’indice della colonna, ignorare la colonna</h4>
+<p>Esempio Excel</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/114230869-3e163700-99ac-11eb-9a90-2039d4b4b313.png" alt="image"></p>
+<p>Codice</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ExcelAttributeDemo</span>
+{
+    [<span class="hljs-meta">ExcelColumnName(<span class="hljs-string">"Column1"</span>)</span>]
+</code></pre>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Test1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+[<span class="hljs-meta">ExcelColumnName(<span class="hljs-string">"Column2"</span>)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Test2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+[<span class="hljs-meta">ExcelIgnore</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Test3 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+[<span class="hljs-meta">ExcelColumnIndex(<span class="hljs-string">"I"</span>)</span>] <span class="hljs-comment">// il sistema convertirà "I" nell'indice 8</span>
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Test4 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Test5 { <span class="hljs-keyword">get</span>; } <span class="hljs-comment">//senza set verrà ignorato</span>
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Test6 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; } <span class="hljs-comment">//set non pubblico verrà ignorato</span>
+[<span class="hljs-meta">ExcelColumnIndex(3)</span>] <span class="hljs-comment">// inizia da 0</span>
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Test7 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+<span class="hljs-keyword">var</span> rows = MiniExcel.Query&lt;ExcelAttributeDemo&gt;(path).ToList();
+Assert.Equal(<span class="hljs-string">"Column1"</span>, rows[<span class="hljs-number">0</span>].Test1);
+Assert.Equal(<span class="hljs-string">"Column2"</span>, rows[<span class="hljs-number">0</span>].Test2);
+Assert.Null(rows[<span class="hljs-number">0</span>].Test3);
+Assert.Equal(<span class="hljs-string">"Test7"</span>, rows[<span class="hljs-number">0</span>].Test4);
+Assert.Null(rows[<span class="hljs-number">0</span>].Test5);
+Assert.Null(rows[<span class="hljs-number">0</span>].Test6);
+Assert.Equal(<span class="hljs-string">"Test4"</span>, rows[<span class="hljs-number">0</span>].Test7);
+</code></pre>
+<h4>2. Formato Personalizzato (ExcelFormatAttribute)</h4>
+<p>Dalla versione V0.21.0 è supportata la classe che contiene il metodo <code>ToString(string content)</code> per il formato</p>
+<p>Classe</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Dto</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">ExcelFormat(<span class="hljs-string">"MMMM dd, yyyy"</span>)</span>]
+    <span class="hljs-keyword">public</span> DateTime InDate { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p>Codice</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span> Dto[] {
+    <span class="hljs-keyword">new</span> Issue241Dto{ Name=<span class="hljs-string">"Jack"</span>,InDate=<span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2021</span>,<span class="hljs-number">01</span>,<span class="hljs-number">04</span>)},
+    <span class="hljs-keyword">new</span> Issue241Dto{ Name=<span class="hljs-string">"Henry"</span>,InDate=<span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2020</span>,<span class="hljs-number">04</span>,<span class="hljs-number">05</span>)},
+};
+MiniExcel.SaveAs(path, <span class="hljs-keyword">value</span>);
+</code></pre>
+<p>Risultato</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/118910788-ab2bcd80-b957-11eb-8d42-bfce36621b1b.png" alt="image"></p>
+<p>La query supporta la conversione personalizzata del formato</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/118911286-87b55280-b958-11eb-9a88-c8ff403d240a.png" alt="image"></p>
+<h4>3. Impostare la Larghezza della Colonna (ExcelColumnWidthAttribute)</h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Dto</span>
+{
+    [<span class="hljs-meta">ExcelColumnWidth(20)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> ID { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [<span class="hljs-meta">ExcelColumnWidth(15.50)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<h4>4. Mappatura di più nomi di colonne sulla stessa proprietà.</h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Dto</span>
+{
+    [<span class="hljs-meta">ExcelColumnName(excelColumnName:<span class="hljs-string">"EmployeeNo"</span>,aliases:new[</span>] { <span class="hljs-string">"EmpNo"</span>,<span class="hljs-string">"No"</span> })]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Empno { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<h4>5. System.ComponentModel.DisplayNameAttribute = ExcelColumnName.excelColumnNameAttribute</h4>
+<p>Dalla versione 1.24.0, il sistema supporta System.ComponentModel.DisplayNameAttribute = ExcelColumnName.excelColumnNameAttribute</p>
+<pre><code class="language-C# hljs language-C">public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestIssueI4TXGTDto</span>
+{</span>
+    public <span class="hljs-type">int</span> ID { get; <span class="hljs-built_in">set</span>; }
+    public <span class="hljs-built_in">string</span> Name { get; <span class="hljs-built_in">set</span>; }
+    [DisplayName(<span class="hljs-string">"Specification"</span>)]
+    public <span class="hljs-built_in">string</span> Spc { get; <span class="hljs-built_in">set</span>; }
+    [DisplayName(<span class="hljs-string">"Unit Price"</span>)]
+    public decimal Up { get; <span class="hljs-built_in">set</span>; }
+}
+</code></pre>
+<h4>6. ExcelColumnAttribute</h4>
+<p>Dalla versione V1.26.0, più attributi possono essere semplificati come:</p>
+<pre><code class="language-csharp hljs">        <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">TestIssueI4ZYUUDto</span>
+        {
+            [<span class="hljs-meta">ExcelColumn(Name = <span class="hljs-string">"ID"</span>,Index =0)</span>]
+            <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> MyProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+            [<span class="hljs-meta">ExcelColumn(Name = <span class="hljs-string">"CreateDate"</span>, Index = 1,Format =<span class="hljs-string">"yyyy-MM"</span>,Width =100)</span>]
+            <span class="hljs-keyword">public</span> DateTime MyProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+        }
+</code></pre>
+<h4>7. DynamicColumnAttribute</h4>
+<p>Dalla versione V1.26.0, possiamo impostare dinamicamente gli attributi della colonna</p>
+<pre><code class="language-csharp hljs">            <span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> OpenXmlConfiguration
+            {
+                DynamicColumns = <span class="hljs-keyword">new</span> DynamicExcelColumn[] {
+                    <span class="hljs-keyword">new</span> DynamicExcelColumn(<span class="hljs-string">"id"</span>){Ignore=<span class="hljs-literal">true</span>},
+                    <span class="hljs-keyword">new</span> DynamicExcelColumn(<span class="hljs-string">"name"</span>){Index=<span class="hljs-number">1</span>,Width=<span class="hljs-number">10</span>},
+                    <span class="hljs-keyword">new</span> DynamicExcelColumn(<span class="hljs-string">"createdate"</span>){Index=<span class="hljs-number">0</span>,Format=<span class="hljs-string">"yyyy-MM-dd"</span>,Width=<span class="hljs-number">15</span>},
+                    <span class="hljs-keyword">new</span> DynamicExcelColumn(<span class="hljs-string">"point"</span>){Index=<span class="hljs-number">2</span>,Name=<span class="hljs-string">"Account Point"</span>},
+                }
+            };
+            <span class="hljs-keyword">var</span> path = PathHelper.GetTempPath();
+            <span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span>[] { <span class="hljs-keyword">new</span> { id = <span class="hljs-number">1</span>, name = <span class="hljs-string">"Jack"</span>, createdate = <span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2022</span>, <span class="hljs-number">04</span>, <span class="hljs-number">12</span>) ,point = <span class="hljs-number">123.456</span>} };
+            MiniExcel.SaveAs(path, <span class="hljs-keyword">value</span>, configuration: config);
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/164510353-5aecbc4e-c3ce-41e8-b6cf-afd55eb23b68.png" alt="image"></p>
+<h4>8. DynamicSheetAttribute</h4>
+<p>Dalla versione V1.31.4 possiamo impostare dinamicamente gli attributi del foglio. Possiamo impostare il nome del foglio e lo stato (visibilità).</p>
+<pre><code class="language-csharp hljs">            <span class="hljs-keyword">var</span> configuration = <span class="hljs-keyword">new</span> OpenXmlConfiguration
+            {
+                DynamicSheets = <span class="hljs-keyword">new</span> DynamicExcelSheet[] {
+                    <span class="hljs-keyword">new</span> DynamicExcelSheet(<span class="hljs-string">"usersSheet"</span>) { Name = <span class="hljs-string">"Users"</span>, State = SheetState.Visible },
+                    <span class="hljs-keyword">new</span> DynamicExcelSheet(<span class="hljs-string">"departmentSheet"</span>) { Name = <span class="hljs-string">"Departments"</span>, State = SheetState.Hidden }
+                }
+            };
+
+            <span class="hljs-keyword">var</span> users = <span class="hljs-keyword">new</span>[] { <span class="hljs-keyword">new</span> { Name = <span class="hljs-string">"Jack"</span>, Age = <span class="hljs-number">25</span> }, <span class="hljs-keyword">new</span> { Name = <span class="hljs-string">"Mike"</span>, Age = <span class="hljs-number">44</span> } };
+            <span class="hljs-keyword">var</span> department = <span class="hljs-keyword">new</span>[] { <span class="hljs-keyword">new</span> { ID = <span class="hljs-string">"01"</span>, Name = <span class="hljs-string">"HR"</span> }, <span class="hljs-keyword">new</span> { ID = <span class="hljs-string">"02"</span>, Name = <span class="hljs-string">"IT"</span> } };
+            <span class="hljs-keyword">var</span> sheets = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;
+            {
+                [<span class="hljs-string">"usersSheet"</span>] = users,
+                [<span class="hljs-string">"departmentSheet"</span>] = department
+            };
+
+            <span class="hljs-keyword">var</span> path = PathHelper.GetTempPath();
+            MiniExcel.SaveAs(path, sheets, configuration: configuration);
+</code></pre>
+<p>Possiamo anche usare il nuovo attributo ExcelSheetAttribute:</p>
+<pre><code class="language-C# hljs language-C">   [ExcelSheet(Name = <span class="hljs-string">"Departments"</span>, State = SheetState.Hidden)]
+   private <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DepartmentDto</span>
+   {</span>
+      [ExcelColumn(Name = <span class="hljs-string">"ID"</span>,Index = <span class="hljs-number">0</span>)]
+      public <span class="hljs-built_in">string</span> ID { get; <span class="hljs-built_in">set</span>; }
+      [ExcelColumn(Name = <span class="hljs-string">"Name"</span>,Index = <span class="hljs-number">1</span>)]
+      public <span class="hljs-built_in">string</span> Name { get; <span class="hljs-built_in">set</span>; }
+   }
+</code></pre>
+<h3>Aggiunta, Eliminazione, Aggiornamento</h3>
+<h4>Aggiunta</h4>
+<p>Dalla versione v1.28.0 è supportato l'inserimento di N righe in CSV dopo l'ultima riga</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// Originale</span>
+{
+    <span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span>[] {
+          <span class="hljs-keyword">new</span> { ID=<span class="hljs-number">1</span>,Name =<span class="hljs-string">"Jack"</span>,InDate=<span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2021</span>,<span class="hljs-number">01</span>,<span class="hljs-number">03</span>)},
+          <span class="hljs-keyword">new</span> { ID=<span class="hljs-number">2</span>,Name =<span class="hljs-string">"Henry"</span>,InDate=<span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2020</span>,<span class="hljs-number">05</span>,<span class="hljs-number">03</span>)},
+    };
+    MiniExcel.SaveAs(path, <span class="hljs-keyword">value</span>);
+}
+<span class="hljs-comment">// Inserisci 1 riga dopo l'ultima</span>
+{
+    <span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span> { ID=<span class="hljs-number">3</span>,Name = <span class="hljs-string">"Mike"</span>, InDate = <span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2021</span>, <span class="hljs-number">04</span>, <span class="hljs-number">23</span>) };
+    MiniExcel.Insert(path, <span class="hljs-keyword">value</span>);
+}
+<span class="hljs-comment">// Inserisci N righe dopo l'ultima</span>
+{
+    <span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span>[] {
+          <span class="hljs-keyword">new</span> { ID=<span class="hljs-number">4</span>,Name =<span class="hljs-string">"Frank"</span>,InDate=<span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2021</span>,<span class="hljs-number">06</span>,<span class="hljs-number">07</span>)},
+          <span class="hljs-keyword">new</span> { ID=<span class="hljs-number">5</span>,Name =<span class="hljs-string">"Gloria"</span>,InDate=<span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2022</span>,<span class="hljs-number">05</span>,<span class="hljs-number">03</span>)},
+</code></pre>
+<pre><code class="language-csharp hljs">};
+MiniExcel.Insert(path, <span class="hljs-keyword">value</span>);
+}
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/191023733-1e2fa732-db5c-4a3a-9722-b891fe5aa069.png" alt="image"></p>
+<p>Dalla versione v1.37.0 è supportato l'inserimento di un nuovo foglio di lavoro Excel in una cartella di lavoro esistente</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// Excel originale</span>
+{
+    <span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span>[] {
+          <span class="hljs-keyword">new</span> { ID=<span class="hljs-number">1</span>,Name =<span class="hljs-string">"Jack"</span>,InDate=<span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2021</span>,<span class="hljs-number">01</span>,<span class="hljs-number">03</span>)},
+          <span class="hljs-keyword">new</span> { ID=<span class="hljs-number">2</span>,Name =<span class="hljs-string">"Henry"</span>,InDate=<span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2020</span>,<span class="hljs-number">05</span>,<span class="hljs-number">03</span>)},
+    };
+    MiniExcel.SaveAs(path, <span class="hljs-keyword">value</span>, sheetName: <span class="hljs-string">"Sheet1"</span>);
+}
+<span class="hljs-comment">// Inserisci un nuovo foglio</span>
+{
+    <span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span> { ID=<span class="hljs-number">3</span>,Name = <span class="hljs-string">"Mike"</span>, InDate = <span class="hljs-keyword">new</span> DateTime(<span class="hljs-number">2021</span>, <span class="hljs-number">04</span>, <span class="hljs-number">23</span>) };
+    MiniExcel.Insert(path, table, sheetName: <span class="hljs-string">"Sheet2"</span>);
+}
+</code></pre>
+<h4>Elimina (in attesa)</h4>
+<h4>Aggiorna (in attesa)</h4>
+<h3>Rilevamento automatico del tipo Excel <a name="getstart5"></a></h3>
+<ul>
+<li>MiniExcel verificherà se si tratta di xlsx o csv in base all’<code>estensione del file</code> per impostazione predefinita, ma potrebbero esserci delle imprecisioni; specificarlo manualmente se necessario.</li>
+<li>Non è possibile rilevare il tipo di excel dallo stream, specificarlo manualmente.</li>
+</ul>
+<pre><code class="language-csharp hljs">stream.SaveAs(excelType:ExcelType.CSV);
+<span class="hljs-comment">//oppure</span>
+stream.SaveAs(excelType:ExcelType.XLSX);
+<span class="hljs-comment">//oppure</span>
+stream.Query(excelType:ExcelType.CSV);
+<span class="hljs-comment">//oppure</span>
+stream.Query(excelType:ExcelType.XLSX);
+</code></pre>
+<h3>CSV</h3>
+<h4>Nota</h4>
+<ul>
+<li>Restituisce di default il tipo <code>string</code>, e il valore non verrà convertito in numero o datetime, a meno che il tipo non sia definito tramite generic fortemente tipizzato.</li>
+</ul>
+<h4>Separatore personalizzato</h4>
+<p>Il separatore predefinito è <code>,</code>, puoi modificarlo tramite la proprietà <code>Seperator</code> per personalizzarlo</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> MiniExcelLibs.Csv.CsvConfiguration()
+{
+    Seperator=<span class="hljs-string">';'</span>
+};
+MiniExcel.SaveAs(path, values,configuration: config);
+</code></pre>
+<p>Dalla versione V1.30.1 è supportata la funzione per separatore personalizzato (grazie a @hyzx86)</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> CsvConfiguration()
+{
+    SplitFn = (row) =&gt; Regex.Split(row, <span class="hljs-string">$"[\t,](?=(?:[^\"]|\"[^\"]*\")*$)"</span>)
+        .Select(s =&gt; Regex.Replace(s.Replace(<span class="hljs-string">"\"\""</span>, <span class="hljs-string">"\""</span>), <span class="hljs-string">"^\"|\"$"</span>, <span class="hljs-string">""</span>)).ToArray()
+};
+<span class="hljs-keyword">var</span> rows = MiniExcel.Query(path, configuration: config).ToList();
+</code></pre>
+<h4>Interruzione di riga personalizzata</h4>
+<p>Il valore predefinito è <code>\r\n</code> come carattere di nuova riga, puoi modificarlo tramite la proprietà <code>NewLine</code> per personalizzarlo</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> MiniExcelLibs.Csv.CsvConfiguration()
+{
+    NewLine=<span class="hljs-string">'\n'</span>
+};
+MiniExcel.SaveAs(path, values,configuration: config);
+</code></pre>
+<h4>Codifica personalizzata</h4>
+<ul>
+<li>La codifica predefinita è "Detect Encoding From Byte Order Marks" (detectEncodingFromByteOrderMarks: true)</li>
+<li>Se hai esigenze di codifica personalizzate, modifica la proprietà StreamReaderFunc / StreamWriterFunc</li>
+</ul>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// Lettura</span>
+<span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> MiniExcelLibs.Csv.CsvConfiguration()
+{
+    StreamReaderFunc = (stream) =&gt; <span class="hljs-keyword">new</span> StreamReader(stream,Encoding.GetEncoding(<span class="hljs-string">"gb2312"</span>))
+};
+<span class="hljs-keyword">var</span> rows = MiniExcel.Query(path, <span class="hljs-literal">true</span>,excelType:ExcelType.CSV,configuration: config);
+
+<span class="hljs-comment">// Scrittura</span>
+<span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> MiniExcelLibs.Csv.CsvConfiguration()
+{
+    StreamWriterFunc = (stream) =&gt; <span class="hljs-keyword">new</span> StreamWriter(stream, Encoding.GetEncoding(<span class="hljs-string">"gb2312"</span>))
+};
+MiniExcel.SaveAs(path, <span class="hljs-keyword">value</span>,excelType:ExcelType.CSV, configuration: config);
+</code></pre>
+<h4>Leggere stringhe vuote come null</h4>
+<p>Per impostazione predefinita, i valori vuoti vengono mappati a string.Empty. Puoi modificare questo comportamento</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> MiniExcelLibs.Csv.CsvConfiguration()
+{
+   ReadEmptyStringAsNull = <span class="hljs-literal">true</span>
+};
+</code></pre>
+<h3>DataReader</h3>
+<h4>1. GetReader</h4>
+<p>Dalla versione 1.23.0, puoi utilizzare GetDataReader</p>
+<pre><code class="language-csharp hljs">    <span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> reader = MiniExcel.GetReader(path,<span class="hljs-literal">true</span>))
+    {
+        <span class="hljs-keyword">while</span> (reader.Read())
+        {
+            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; reader.FieldCount; i++)
+            {
+                <span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = reader.GetValue(i);
+            }
+        }
+    }
+</code></pre>
+<h3>Async</h3>
+<ul>
+<li>Dalla versione v0.17.0 è supportato Async (grazie a isdaniel ( SHIH,BING-SIOU)](<a href="https://github.com/isdaniel">https://github.com/isdaniel</a>))</li>
+</ul>
+<pre><code class="language-csharp hljs"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">SaveAsAsync</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> path, <span class="hljs-built_in">object</span> <span class="hljs-keyword">value</span>, <span class="hljs-built_in">bool</span> printHeader = <span class="hljs-literal">true</span>, <span class="hljs-built_in">string</span> sheetName = <span class="hljs-string">"Sheet1"</span>, ExcelType excelType = ExcelType.UNKNOWN, IConfiguration configuration = <span class="hljs-literal">null</span></span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">SaveAsAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Stream stream, <span class="hljs-built_in">object</span> <span class="hljs-keyword">value</span>, <span class="hljs-built_in">bool</span> printHeader = <span class="hljs-literal">true</span>, <span class="hljs-built_in">string</span> sheetName = <span class="hljs-string">"Sheet1"</span>, ExcelType excelType = ExcelType.XLSX, IConfiguration configuration = <span class="hljs-literal">null</span></span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;IEnumerable&lt;<span class="hljs-built_in">dynamic</span>&gt;&gt; <span class="hljs-title">QueryAsync</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> path, <span class="hljs-built_in">bool</span> useHeaderRow = <span class="hljs-literal">false</span>, <span class="hljs-built_in">string</span> sheetName = <span class="hljs-literal">null</span>, ExcelType excelType = ExcelType.UNKNOWN, <span class="hljs-built_in">string</span> startCell = <span class="hljs-string">"A1"</span>, IConfiguration configuration = <span class="hljs-literal">null</span></span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-title">Task</span>&lt;<span class="hljs-title">IEnumerable</span>&lt;<span class="hljs-title">T</span>&gt;&gt; <span class="hljs-title">QueryAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">this</span> Stream stream, <span class="hljs-built_in">string</span> sheetName = <span class="hljs-literal">null</span>, ExcelType excelType = ExcelType.UNKNOWN, <span class="hljs-built_in">string</span> startCell = <span class="hljs-string">"A1"</span>, IConfiguration configuration = <span class="hljs-literal">null</span></span>) <span class="hljs-keyword">where</span> T : <span class="hljs-keyword">class</span>, <span class="hljs-keyword">new</span>()
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-title">Task</span>&lt;<span class="hljs-title">IEnumerable</span>&lt;<span class="hljs-title">T</span>&gt;&gt; <span class="hljs-title">QueryAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-built_in">string</span> path, <span class="hljs-built_in">string</span> sheetName = <span class="hljs-literal">null</span>, ExcelType excelType = ExcelType.UNKNOWN, <span class="hljs-built_in">string</span> startCell = <span class="hljs-string">"A1"</span>, IConfiguration configuration = <span class="hljs-literal">null</span></span>) <span class="hljs-keyword">where</span> T : <span class="hljs-keyword">class</span>, <span class="hljs-keyword">new</span>()
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;IEnumerable&lt;IDictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;&gt;&gt; <span class="hljs-title">QueryAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Stream stream, <span class="hljs-built_in">bool</span> useHeaderRow = <span class="hljs-literal">false</span>, <span class="hljs-built_in">string</span> sheetName = <span class="hljs-literal">null</span>, ExcelType excelType = ExcelType.UNKNOWN, <span class="hljs-built_in">string</span> startCell = <span class="hljs-string">"A1"</span>, IConfiguration configuration = <span class="hljs-literal">null</span></span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">SaveAsByTemplateAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Stream stream, <span class="hljs-built_in">string</span> templatePath, <span class="hljs-built_in">object</span> <span class="hljs-keyword">value</span></span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">SaveAsByTemplateAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Stream stream, <span class="hljs-built_in">byte</span>[] templateBytes, <span class="hljs-built_in">object</span> <span class="hljs-keyword">value</span></span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">SaveAsByTemplateAsync</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> path, <span class="hljs-built_in">string</span> templatePath, <span class="hljs-built_in">object</span> <span class="hljs-keyword">value</span></span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">SaveAsByTemplateAsync</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> path, <span class="hljs-built_in">byte</span>[] templateBytes, <span class="hljs-built_in">object</span> <span class="hljs-keyword">value</span></span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;DataTable&gt; <span class="hljs-title">QueryAsDataTableAsync</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> path, <span class="hljs-built_in">bool</span> useHeaderRow = <span class="hljs-literal">true</span>, <span class="hljs-built_in">string</span> sheetName = <span class="hljs-literal">null</span>, ExcelType excelType = ExcelType.UNKNOWN, <span class="hljs-built_in">string</span> startCell = <span class="hljs-string">"A1"</span>, IConfiguration configuration = <span class="hljs-literal">null</span></span>)
+</span></code></pre>
+<ul>
+<li>Dalla versione v1.25.0 è supportato il parametro <code>cancellationToken</code>。</li>
+</ul>
+<h3>Altri</h3>
+<h4>1. Enum</h4>
+<p>Assicurati che il nome della proprietà e quello in Excel siano uguali, il sistema effettuerà il mapping automatico (case insensitive)</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/116210595-9784b100-a775-11eb-936f-8e7a8b435961.png" alt="image"></p>
+<p>Dalla versione V0.18.0 è supportata la Description sugli Enum</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Dto</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> I49RYZUserType UserType { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> Type
+{
+    [<span class="hljs-meta">Description(<span class="hljs-string">"Utente Generico"</span>)</span>]
+    V1,
+    [<span class="hljs-meta">Description(<span class="hljs-string">"Amministratore Generico"</span>)</span>]
+    V2,
+    [<span class="hljs-meta">Description(<span class="hljs-string">"Super Amministratore"</span>)</span>]
+    V3
+}
+</code></pre>
+<pre><code class="hljs language-less">
+!<span class="hljs-selector-attr">[image]</span>(<span class="hljs-attribute">https</span>:<span class="hljs-comment">//user-images.githubusercontent.com/12729184/133116630-27cc7161-099a-48b8-9784-cd1e443af3d1.png)</span>
+
+Dalla versione <span class="hljs-number">1.30</span>.<span class="hljs-number">0</span> è supportata la Descrizione Excel verso Enum, grazie a <span class="hljs-variable">@KaneLeung</span>
+
+#### <span class="hljs-number">2</span>. Convertire CSV in XLSX o Convertire XLSX in CSV
+
+<span class="hljs-built_in">``</span>`csharp
+MiniExcel.<span class="hljs-built_in">ConvertXlsxToCsv</span>(xlsxPath, csvPath);
+MiniExcel.<span class="hljs-built_in">ConvertXlsxToCsv</span>(xlsxStream, csvStream);
+MiniExcel.<span class="hljs-built_in">ConvertCsvToXlsx</span>(csvPath, xlsxPath);
+MiniExcel.<span class="hljs-built_in">ConvertCsvToXlsx</span>(csvStream, xlsxStream);
+</code></pre>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> excelStream = <span class="hljs-keyword">new</span> FileStream(path: filePath, FileMode.Open, FileAccess.Read))
+<span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> csvStream = <span class="hljs-keyword">new</span> MemoryStream())
+{
+   MiniExcel.ConvertXlsxToCsv(excelStream, csvStream);
+}
+</code></pre>
+<h4>3. Cultura personalizzata (Custom CultureInfo)</h4>
+<p>Dalla versione 1.22.0, puoi personalizzare la CultureInfo come di seguito, di default il sistema usa <code>CultureInfo.InvariantCulture</code>.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> CsvConfiguration()
+{
+    Culture = <span class="hljs-keyword">new</span> CultureInfo(<span class="hljs-string">"fr-FR"</span>),
+};
+MiniExcel.SaveAs(path, <span class="hljs-keyword">value</span>, configuration: config);
+
+<span class="hljs-comment">// oppure</span>
+MiniExcel.Query(path, configuration: config);
+</code></pre>
+<h4>4. Dimensione Buffer Personalizzata</h4>
+<pre><code class="language-csharp hljs">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Configuration</span> : <span class="hljs-title">IConfiguration</span>
+    {
+        <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> BufferSize { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-number">1024</span> * <span class="hljs-number">512</span>;
+    }
+</code></pre>
+<h4>5. FastMode</h4>
+<p>Il sistema non controllerà la memoria, ma puoi ottenere una velocità di salvataggio maggiore.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> config = <span class="hljs-keyword">new</span> OpenXmlConfiguration() { FastMode = <span class="hljs-literal">true</span> };
+MiniExcel.SaveAs(path, reader,configuration:config);
+</code></pre>
+<h4>6. Inserimento Immagini in Batch (MiniExcel.AddPicture)</h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> images = <span class="hljs-keyword">new</span>[]
+{
+    <span class="hljs-keyword">new</span> MiniExcelPicture
+    {
+        ImageBytes = File.ReadAllBytes(PathHelper.GetFile(<span class="hljs-string">"images/github_logo.png"</span>)),
+        SheetName = <span class="hljs-literal">null</span>, <span class="hljs-comment">// di default null è il primo foglio</span>
+        CellAddress = <span class="hljs-string">"C3"</span>, <span class="hljs-comment">// richiesto</span>
+    },
+    <span class="hljs-keyword">new</span> MiniExcelPicture
+    {
+        ImageBytes = File.ReadAllBytes(PathHelper.GetFile(<span class="hljs-string">"images/google_logo.png"</span>)),
+        PictureType = <span class="hljs-string">"image/png"</span>, <span class="hljs-comment">// di default PictureType = image/png</span>
+        SheetName = <span class="hljs-string">"Demo"</span>,
+        CellAddress = <span class="hljs-string">"C9"</span>, <span class="hljs-comment">// richiesto</span>
+        WidthPx = <span class="hljs-number">100</span>,
+        HeightPx = <span class="hljs-number">100</span>,
+    },
+};
+MiniExcel.AddPicture(path, images);
+</code></pre>
+<p><img src="https://github.com/user-attachments/assets/19c4d241-9753-4ede-96c8-f810c1a22247" alt="Image"></p>
+<h4>7. Ottenere le Dimensioni dei Fogli</h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> dim = MiniExcel.GetSheetDimensions(path);
+</code></pre>
+<h3>Esempi:</h3>
+<h4>1. SQLite &amp; Dapper <code>Large Size File</code> SQL Insert per evitare OOM</h4>
+<p>nota: si prega di non chiamare i metodi ToList/ToArray dopo Query, caricherebbero tutti i dati in memoria</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> connection = <span class="hljs-keyword">new</span> SQLiteConnection(connectionString))
+{
+    connection.Open();
+    <span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> transaction = connection.BeginTransaction())
+    <span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> stream = File.OpenRead(path))
+    {
+       <span class="hljs-keyword">var</span> rows = stream.Query();
+       <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> row <span class="hljs-keyword">in</span> rows)
+             connection.Execute(<span class="hljs-string">"insert into T (A,B) values (@A,@B)"</span>, <span class="hljs-keyword">new</span> { row.A, row.B }, transaction: transaction);
+       transaction.Commit();
+    }
+}
+</code></pre>
+<p>performance:<br><img src="https://user-images.githubusercontent.com/12729184/111072579-2dda7b80-8516-11eb-9843-c01a1edc88ec.png" alt="image"></p>
+<h4>2. Esempio API Download/Upload Excel Xlsx per ASP.NET Core 3.1 o MVC 5 <a href="tests/MiniExcel.Tests.AspNetCore">Provalo</a></h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ApiController</span> : <span class="hljs-title">Controller</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> IActionResult <span class="hljs-title">Index</span>()</span>
+    {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ContentResult
+        {
+            ContentType = <span class="hljs-string">"text/html"</span>,
+            StatusCode = (<span class="hljs-built_in">int</span>)HttpStatusCode.OK,
+            Content = <span class="hljs-string">@"&lt;html&gt;&lt;body&gt;
+&lt;a href='api/DownloadExcel'&gt;DownloadExcel&lt;/a&gt;&lt;br&gt;
+&lt;a href='api/DownloadExcelFromTemplatePath'&gt;DownloadExcelFromTemplatePath&lt;/a&gt;&lt;br&gt;
+&lt;a href='api/DownloadExcelFromTemplateBytes'&gt;DownloadExcelFromTemplateBytes&lt;/a&gt;&lt;br&gt;
+&lt;p&gt;Carica Excel&lt;/p&gt;
+&lt;form method='post' enctype='multipart/form-data' action='/api/uploadexcel'&gt;
+    &lt;input type='file' name='excel'&gt; &lt;br&gt;
+    &lt;input type='submit' &gt;
+&lt;/form&gt;
+&lt;/body&gt;&lt;/html&gt;"</span>
+        };
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> IActionResult <span class="hljs-title">DownloadExcel</span>()</span>
+    {
+        <span class="hljs-keyword">var</span> values = <span class="hljs-keyword">new</span>[] {
+            <span class="hljs-keyword">new</span> { Column1 = <span class="hljs-string">"MiniExcel"</span>, Column2 = <span class="hljs-number">1</span> },
+            <span class="hljs-keyword">new</span> { Column1 = <span class="hljs-string">"Github"</span>, Column2 = <span class="hljs-number">2</span>}
+        };
+        <span class="hljs-keyword">var</span> memoryStream = <span class="hljs-keyword">new</span> MemoryStream();
+        memoryStream.SaveAs(values);
+        memoryStream.Seek(<span class="hljs-number">0</span>, SeekOrigin.Begin);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> FileStreamResult(memoryStream, <span class="hljs-string">"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"</span>)
+        {
+            FileDownloadName = <span class="hljs-string">"demo.xlsx"</span>
+        };
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> IActionResult <span class="hljs-title">DownloadExcelFromTemplatePath</span>()</span>
+    {
+        <span class="hljs-built_in">string</span> templatePath = <span class="hljs-string">"TestTemplateComplex.xlsx"</span>;
+
+        Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt; <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;()
+        {
+            [<span class="hljs-string">"title"</span>] = <span class="hljs-string">"FooCompany"</span>,
+            [<span class="hljs-string">"managers"</span>] = <span class="hljs-keyword">new</span>[] {
+                <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Jack"</span>,department=<span class="hljs-string">"HR"</span>},
+                <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Loan"</span>,department=<span class="hljs-string">"IT"</span>}
+            },
+            [<span class="hljs-string">"employees"</span>] = <span class="hljs-keyword">new</span>[] {
+                <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Wade"</span>,department=<span class="hljs-string">"HR"</span>},
+                <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Felix"</span>,department=<span class="hljs-string">"HR"</span>},
+                <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Eric"</span>,department=<span class="hljs-string">"IT"</span>},
+                <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Keaton"</span>,department=<span class="hljs-string">"IT"</span>}
+            }
+        };
+
+        MemoryStream memoryStream = <span class="hljs-keyword">new</span> MemoryStream();
+        memoryStream.SaveAsByTemplate(templatePath, <span class="hljs-keyword">value</span>);
+        memoryStream.Seek(<span class="hljs-number">0</span>, SeekOrigin.Begin);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> FileStreamResult(memoryStream, <span class="hljs-string">"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"</span>)
+        {
+            FileDownloadName = <span class="hljs-string">"demo.xlsx"</span>
+        };
+    }
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Dictionary&lt;<span class="hljs-built_in">string</span>, Byte[]&gt; TemplateBytesCache = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">byte</span>[]&gt;();
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-title">ApiController</span>()</span>
+    {
+        <span class="hljs-built_in">string</span> templatePath = <span class="hljs-string">"TestTemplateComplex.xlsx"</span>;
+        <span class="hljs-built_in">byte</span>[] bytes = System.IO.File.ReadAllBytes(templatePath);
+        TemplateBytesCache.Add(templatePath, bytes);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> IActionResult <span class="hljs-title">DownloadExcelFromTemplateBytes</span>()</span>
+    {
+        <span class="hljs-built_in">byte</span>[] bytes = TemplateBytesCache[<span class="hljs-string">"TestTemplateComplex.xlsx"</span>];
+
+        Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt; <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;()
+        {
+            [<span class="hljs-string">"title"</span>] = <span class="hljs-string">"FooCompany"</span>,
+            [<span class="hljs-string">"managers"</span>] = <span class="hljs-keyword">new</span>[] {
+                <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Jack"</span>,department=<span class="hljs-string">"HR"</span>},
+                <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Loan"</span>,department=<span class="hljs-string">"IT"</span>}
+</code></pre>
+<pre><code class="language-csharp hljs">            },
+            [<span class="hljs-string">"employees"</span>] = <span class="hljs-keyword">new</span>[] {
+                <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Wade"</span>,department=<span class="hljs-string">"HR"</span>},
+                <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Felix"</span>,department=<span class="hljs-string">"HR"</span>},
+                <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Eric"</span>,department=<span class="hljs-string">"IT"</span>},
+                <span class="hljs-keyword">new</span> {name=<span class="hljs-string">"Keaton"</span>,department=<span class="hljs-string">"IT"</span>}
+            }
+        };
+
+        MemoryStream memoryStream = <span class="hljs-keyword">new</span> MemoryStream();
+        memoryStream.SaveAsByTemplate(bytes, <span class="hljs-keyword">value</span>);
+        memoryStream.Seek(<span class="hljs-number">0</span>, SeekOrigin.Begin);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> FileStreamResult(memoryStream, <span class="hljs-string">"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"</span>)
+        {
+            FileDownloadName = <span class="hljs-string">"demo.xlsx"</span>
+        };
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> IActionResult <span class="hljs-title">UploadExcel</span>(<span class="hljs-params">IFormFile excel</span>)</span>
+    {
+        <span class="hljs-keyword">var</span> stream = <span class="hljs-keyword">new</span> MemoryStream();
+        excel.CopyTo(stream);
+
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> item <span class="hljs-keyword">in</span> stream.Query(<span class="hljs-literal">true</span>))
+        {
+            <span class="hljs-comment">// inserisci la tua logica ecc.</span>
+        }
+
+        <span class="hljs-keyword">return</span> Ok(<span class="hljs-string">"File caricato con successo"</span>);
+    }
+}
+</code></pre>
+<h4>3. Query con paginazione</h4>
+<pre><code class="language-csharp hljs"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>()</span>
+{
+    <span class="hljs-keyword">var</span> rows = MiniExcel.Query(path);
+
+    Console.WriteLine(<span class="hljs-string">"==== Pagina n.1 ===="</span>);
+    Console.WriteLine(Page(rows,pageSize:<span class="hljs-number">3</span>,page:<span class="hljs-number">1</span>));
+    Console.WriteLine(<span class="hljs-string">"==== Pagina n.50 ===="</span>);
+    Console.WriteLine(Page(rows,pageSize:<span class="hljs-number">3</span>,page:<span class="hljs-number">50</span>));
+    Console.WriteLine(<span class="hljs-string">"==== Pagina n.5000 ===="</span>);
+    Console.WriteLine(Page(rows,pageSize:<span class="hljs-number">3</span>,page:<span class="hljs-number">5000</span>));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-title">IEnumerable</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-title">Page</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">IEnumerable&lt;T&gt; en, <span class="hljs-built_in">int</span> pageSize, <span class="hljs-built_in">int</span> page</span>)</span>
+{
+    <span class="hljs-keyword">return</span> en.Skip(page * pageSize).Take(pageSize);
+}
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/114679083-6ef4c400-9d3e-11eb-9f78-a86daa45fe46.gif" alt="20210419"></p>
+<h4>4. Esportazione WebForm Excel tramite memorystream</h4>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> fileName = <span class="hljs-string">"Demo.xlsx"</span>;
+<span class="hljs-keyword">var</span> sheetName = <span class="hljs-string">"Sheet1"</span>;
+HttpResponse response = HttpContext.Current.Response;
+response.Clear();
+response.ContentType = <span class="hljs-string">"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"</span>;
+response.AddHeader(<span class="hljs-string">"Content-Disposition"</span>, <span class="hljs-string">$"attachment;filename=\"<span class="hljs-subst">{fileName}</span>\""</span>);
+<span class="hljs-keyword">var</span> values = <span class="hljs-keyword">new</span>[] {
+    <span class="hljs-keyword">new</span> { Column1 = <span class="hljs-string">"MiniExcel"</span>, Column2 = <span class="hljs-number">1</span> },
+    <span class="hljs-keyword">new</span> { Column1 = <span class="hljs-string">"Github"</span>, Column2 = <span class="hljs-number">2</span>}
+};
+<span class="hljs-keyword">var</span> memoryStream = <span class="hljs-keyword">new</span> MemoryStream();
+memoryStream.SaveAs(values, sheetName: sheetName);
+memoryStream.Seek(<span class="hljs-number">0</span>, SeekOrigin.Begin);
+memoryStream.CopyTo(Response.OutputStream);
+response.End();
+</code></pre>
+<h4>5. i18n dinamico multilingua e gestione delle autorizzazioni per ruolo</h4>
+<p>Come nell'esempio, crea un metodo per gestire i18n e la gestione dei permessi, e usa <code>yield return per restituire IEnumerable&lt;Dictionary&lt;string, object&gt;&gt;</code> per ottenere effetti dinamici e a basso consumo di memoria</p>
+<pre><code class="language-csharp hljs"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>()</span>
+{
+    <span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = <span class="hljs-keyword">new</span> Order[] {
+        <span class="hljs-keyword">new</span> Order(){OrderNo = <span class="hljs-string">"SO01"</span>,CustomerID=<span class="hljs-string">"C001"</span>,ProductID=<span class="hljs-string">"P001"</span>,Qty=<span class="hljs-number">100</span>,Amt=<span class="hljs-number">500</span>},
+        <span class="hljs-keyword">new</span> Order(){OrderNo = <span class="hljs-string">"SO02"</span>,CustomerID=<span class="hljs-string">"C002"</span>,ProductID=<span class="hljs-string">"P002"</span>,Qty=<span class="hljs-number">300</span>,Amt=<span class="hljs-number">400</span>},
+    };
+
+    Console.WriteLine(<span class="hljs-string">"en-Us e ruolo Sales"</span>);
+    {
+        <span class="hljs-keyword">var</span> path = Path.GetTempPath() + Guid.NewGuid() + <span class="hljs-string">".xlsx"</span>;
+        <span class="hljs-keyword">var</span> lang = <span class="hljs-string">"en-US"</span>;
+        <span class="hljs-keyword">var</span> role = <span class="hljs-string">"Sales"</span>;
+        MiniExcel.SaveAs(path, GetOrders(lang, role, <span class="hljs-keyword">value</span>));
+        MiniExcel.Query(path, <span class="hljs-literal">true</span>).Dump();
+    }
+
+    Console.WriteLine(<span class="hljs-string">"zh-CN e ruolo PMC"</span>);
+    {
+        <span class="hljs-keyword">var</span> path = Path.GetTempPath() + Guid.NewGuid() + <span class="hljs-string">".xlsx"</span>;
+        <span class="hljs-keyword">var</span> lang = <span class="hljs-string">"zh-CN"</span>;
+        <span class="hljs-keyword">var</span> role = <span class="hljs-string">"PMC"</span>;
+        MiniExcel.SaveAs(path, GetOrders(lang, role, <span class="hljs-keyword">value</span>));
+        MiniExcel.Query(path, <span class="hljs-literal">true</span>).Dump();
+    }
+}
+
+<span class="hljs-keyword">private</span> IEnumerable&lt;Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;&gt; GetOrders(<span class="hljs-built_in">string</span> lang, <span class="hljs-built_in">string</span> role, Order[] orders)
+{
+    <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> order <span class="hljs-keyword">in</span> orders)
+    {
+        <span class="hljs-keyword">var</span> newOrder = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt;();
+
+        <span class="hljs-keyword">if</span> (lang == <span class="hljs-string">"zh-CN"</span>)
+        {
+            newOrder.Add(<span class="hljs-string">"客户编号"</span>, order.CustomerID);
+            newOrder.Add(<span class="hljs-string">"订单编号"</span>, order.OrderNo);
+            newOrder.Add(<span class="hljs-string">"产品编号"</span>, order.ProductID);
+            newOrder.Add(<span class="hljs-string">"数量"</span>, order.Qty);
+            <span class="hljs-keyword">if</span> (role == <span class="hljs-string">"Sales"</span>)
+                newOrder.Add(<span class="hljs-string">"价格"</span>, order.Amt);
+            <span class="hljs-keyword">yield</span> <span class="hljs-keyword">return</span> newOrder;
+        }
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (lang == <span class="hljs-string">"en-US"</span>)
+        {
+            newOrder.Add(<span class="hljs-string">"Customer ID"</span>, order.CustomerID);
+            newOrder.Add(<span class="hljs-string">"Order No"</span>, order.OrderNo);
+            newOrder.Add(<span class="hljs-string">"Product ID"</span>, order.ProductID);
+            newOrder.Add(<span class="hljs-string">"Quantity"</span>, order.Qty);
+            <span class="hljs-keyword">if</span> (role == <span class="hljs-string">"Sales"</span>)
+                newOrder.Add(<span class="hljs-string">"Amount"</span>, order.Amt);
+            <span class="hljs-keyword">yield</span> <span class="hljs-keyword">return</span> newOrder;
+        }
+        <span class="hljs-keyword">else</span>
+        {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidDataException(<span class="hljs-string">$"lang <span class="hljs-subst">{lang}</span> wrong"</span>);
+        }
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Order</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> OrderNo { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> CustomerID { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">decimal</span> Qty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> ProductID { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">decimal</span> Amt { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/118939964-d24bc480-b982-11eb-88dd-f06655f6121a.png" alt="image"></p>
+<h3>FAQ</h3>
+<h4>D: Il titolo dell'intestazione di Excel non corrisponde al nome della proprietà della classe, come mappare?</h4>
+<p>R: Si prega di utilizzare l'attributo ExcelColumnName</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/116020475-eac50980-a678-11eb-8804-129e87200e5e.png" alt="image"></p>
+<h4>D: Come interrogare o esportare più fogli?</h4>
+<p>R: Metodo <code>GetSheetNames</code> con parametro Query sheetName.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> sheets = MiniExcel.GetSheetNames(path);
+<span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> sheet <span class="hljs-keyword">in</span> sheets)
+{
+    Console.WriteLine(<span class="hljs-string">$"nome foglio : <span class="hljs-subst">{sheet}</span> "</span>);
+    <span class="hljs-keyword">var</span> rows = MiniExcel.Query(path,useHeaderRow:<span class="hljs-literal">true</span>,sheetName:sheet);
+    Console.WriteLine(rows);
+}
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/12729184/116199841-2a1f5300-a76a-11eb-90a3-6710561cf6db.png" alt="image"></p>
+<h4>D: Come interrogare o esportare informazioni sulla visibilità del foglio?</h4>
+<p>R: Metodo <code>GetSheetInformations</code>.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> sheets = MiniExcel.GetSheetInformations(path);
+<span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> sheetInfo <span class="hljs-keyword">in</span> sheets)
+{
+    Console.WriteLine(<span class="hljs-string">$"indice foglio : <span class="hljs-subst">{sheetInfo.Index}</span> "</span>); <span class="hljs-comment">// prossimo indice foglio - numerato da 0</span>
+    Console.WriteLine(<span class="hljs-string">$"nome foglio : <span class="hljs-subst">{sheetInfo.Name}</span> "</span>);   <span class="hljs-comment">// nome foglio</span>
+    Console.WriteLine(<span class="hljs-string">$"stato foglio : <span class="hljs-subst">{sheetInfo.State}</span> "</span>); <span class="hljs-comment">// stato visibilità foglio - visibile / nascosto</span>
+}
+</code></pre>
+<h4>D. L'utilizzo di Count carica tutti i dati in memoria?</h4>
+<p>No, il test con immagine ha 1 milione di righe * 10 colonne di dati, l'utilizzo massimo della memoria è &lt;60MB e impiega 13,65 secondi</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/117118518-70586000-adc3-11eb-9ce3-2ba76cf8b5e5.png" alt="image"></p>
+<h4>D. Come si usa Query con indici interi?</h4>
+<p>L'indice predefinito di Query è la chiave stringa: A,B,C.... Se desideri passare a un indice numerico, crea il seguente metodo per la conversione</p>
+<pre><code class="language-csharp hljs"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>()</span>
+{
+    <span class="hljs-keyword">var</span> path = <span class="hljs-string">@"D:\git\MiniExcel\samples\xlsx\TestTypeMapping.xlsx"</span>;
+    <span class="hljs-keyword">var</span> rows = MiniExcel.Query(path,<span class="hljs-literal">true</span>);
+    <span class="hljs-keyword">foreach</span> (<span class="hljs-function"><span class="hljs-keyword">var</span> r <span class="hljs-keyword">in</span> <span class="hljs-title">ConvertToIntIndexRows</span>(<span class="hljs-params">rows</span>))</span>
+    {
+        Console.Write(<span class="hljs-string">$"colonna 0 : <span class="hljs-subst">{r[<span class="hljs-number">0</span>]}</span> ,colonna 1 : <span class="hljs-subst">{r[<span class="hljs-number">1</span>]}</span>"</span>);
+        Console.WriteLine();
+    }
+}
+
+<span class="hljs-keyword">private</span> IEnumerable&lt;Dictionary&lt;<span class="hljs-built_in">int</span>, <span class="hljs-built_in">object</span>&gt;&gt; ConvertToIntIndexRows(IEnumerable&lt;<span class="hljs-built_in">object</span>&gt; rows)
+{
+    ICollection&lt;<span class="hljs-built_in">string</span>&gt; keys = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">var</span> isFirst = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">foreach</span> (IDictionary&lt;<span class="hljs-built_in">string</span>,<span class="hljs-built_in">object</span>&gt; r <span class="hljs-keyword">in</span> rows)
+    {
+        <span class="hljs-keyword">if</span>(isFirst)
+        {
+            keys = r.Keys;
+            isFirst = <span class="hljs-literal">false</span>;
+        }
+
+        <span class="hljs-keyword">var</span> dic = <span class="hljs-keyword">new</span> Dictionary&lt;<span class="hljs-built_in">int</span>, <span class="hljs-built_in">object</span>&gt;();
+        <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> keys)
+            dic[index++] = r[key];
+        <span class="hljs-keyword">yield</span> <span class="hljs-keyword">return</span> dic;
+    }
+}
+</code></pre>
+<h4>D. Quando il valore è vuoto viene generato un file Excel vuoto senza titolo durante l'esportazione</h4>
+<p>Poiché MiniExcel utilizza una logica simile a JSON.NET per ottenere dinamicamente il tipo dai valori e semplificare le operazioni dell'API, il tipo non può essere noto senza dati. Puoi consultare <a href="https://github.com/mini-software/MiniExcel/issues/133">issue #133</a> per ulteriori informazioni.</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/122639771-546c0c00-d12e-11eb-800c-498db27889ca.png" alt="image"></p>
+<blockquote>
+<p>Tipi forti e DataTable genereranno le intestazioni, ma Dictionary genera comunque un Excel vuoto</p>
+</blockquote>
+<h4>D. Come interrompere il ciclo foreach quando si incontra una riga vuota?</h4>
+<p>MiniExcel può essere utilizzato con <code>LINQ TakeWhile</code> per interrompere l'iterazione foreach.</p>
+<p><img src="https://user-images.githubusercontent.com/12729184/130209137-162621c2-f337-4479-9996-beeac65bc4d4.png" alt="Image"></p>
+<h4>D. Come rimuovere le righe vuote?</h4>
+<p><img src="https://user-images.githubusercontent.com/12729184/137873865-7107d8f5-eb59-42db-903a-44e80589f1b2.png" alt="image"></p>
+<p>IEnumerable :</p>
+<pre><code class="language-csharp hljs"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> IEnumerable&lt;<span class="hljs-built_in">dynamic</span>&gt; <span class="hljs-title">QueryWithoutEmptyRow</span>(<span class="hljs-params">Stream stream, <span class="hljs-built_in">bool</span> useHeaderRow, <span class="hljs-built_in">string</span> sheetName, ExcelType excelType, <span class="hljs-built_in">string</span> startCell, IConfiguration configuration</span>)</span>
+{
+    <span class="hljs-keyword">var</span> rows = stream.Query(useHeaderRow,sheetName,excelType,startCell,configuration);
+    <span class="hljs-keyword">foreach</span> (IDictionary&lt;<span class="hljs-built_in">string</span>,<span class="hljs-built_in">object</span>&gt; row <span class="hljs-keyword">in</span> rows)
+    {
+        <span class="hljs-keyword">if</span>(row.Keys.Any(key=&gt;row[key]!=<span class="hljs-literal">null</span>))
+            <span class="hljs-keyword">yield</span> <span class="hljs-keyword">return</span> row;
+    }
+}
+</code></pre>
+<p>DataTable :</p>
+<pre><code class="language-csharp hljs"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> DataTable <span class="hljs-title">QueryAsDataTableWithoutEmptyRow</span>(<span class="hljs-params">Stream stream, <span class="hljs-built_in">bool</span> useHeaderRow, <span class="hljs-built_in">string</span> sheetName, ExcelType excelType, <span class="hljs-built_in">string</span> startCell, IConfiguration configuration</span>)</span>
+{
+    <span class="hljs-keyword">if</span> (sheetName == <span class="hljs-literal">null</span> &amp;&amp; excelType != ExcelType.CSV) <span class="hljs-comment">/*Issue #279*/</span>
+        sheetName = stream.GetSheetNames().First();
+
+    <span class="hljs-keyword">var</span> dt = <span class="hljs-keyword">new</span> DataTable(sheetName);
+    <span class="hljs-keyword">var</span> first = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">var</span> rows = stream.Query(useHeaderRow,sheetName,excelType,startCell,configuration);
+    <span class="hljs-keyword">foreach</span> (IDictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">object</span>&gt; row <span class="hljs-keyword">in</span> rows)
+    {
+        <span class="hljs-keyword">if</span> (first)
+        {
+
+            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> row.Keys)
+            {
+                <span class="hljs-keyword">var</span> column = <span class="hljs-keyword">new</span> DataColumn(key, <span class="hljs-keyword">typeof</span>(<span class="hljs-built_in">object</span>)) { Caption = key };
+                dt.Columns.Add(column);
+            }
+
+            dt.BeginLoadData();
+            first = <span class="hljs-literal">false</span>;
+        }
+
+        <span class="hljs-keyword">var</span> newRow = dt.NewRow();
+        <span class="hljs-keyword">var</span> isNull=<span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> row.Keys)
+        {
+            <span class="hljs-keyword">var</span> _v = row[key];
+            <span class="hljs-keyword">if</span>(_v!=<span class="hljs-literal">null</span>)
+                isNull = <span class="hljs-literal">false</span>;
+            newRow[key] = _v;
+        }
+
+        <span class="hljs-keyword">if</span>(!isNull)
+            dt.Rows.Add(newRow);
+    }
+
+    dt.EndLoadData();
+    <span class="hljs-keyword">return</span> dt;
+}
+</code></pre>
+<h4>D. Come usare SaveAs(path,value) per sostituire un file esistente senza lanciare "The file ...xlsx already exists error"</h4>
+<p>Utilizza la classe Stream per personalizzare la logica di creazione del file, ad esempio:</p>
+<pre><code class="language-C# hljs language-C">    using (var stream = File.Create(<span class="hljs-string">"Demo.xlsx"</span>))
+        MiniExcel.SaveAs(stream,value);
+</code></pre>
+<p>oppure, dalla versione V1.25.0, SaveAs supporta il parametro overwriteFile per abilitare/disabilitare la sovrascrittura del file esistente</p>
+<pre><code class="language-csharp hljs">    MiniExcel.SaveAs(path, <span class="hljs-keyword">value</span>, overwriteFile: <span class="hljs-literal">true</span>);
+</code></pre>
+<h3>Limitazioni e avvertenze</h3>
+<ul>
+<li>Attualmente non supporta xls e file criptati</li>
+<li>xlsm supporta solo Query</li>
+</ul>
+<h3>Riferimenti</h3>
+<p><a href="https://github.com/ExcelDataReader/ExcelDataReader">ExcelDataReader</a>  / <a href="https://github.com/ClosedXML/ClosedXML">ClosedXML</a> / <a href="https://github.com/DapperLib/Dapper">Dapper</a> / <a href="https://github.com/andersnm/ExcelNumberFormat">ExcelNumberFormat</a></p>
+<h3>Ringraziamenti</h3>
+<h4><a href="https://www.jetbrains.com/">Jetbrains</a></h4>
+<p><img src="https://user-images.githubusercontent.com/12729184/123997015-8456c180-da02-11eb-829a-aec476fe8e94.png" alt="jetbrains-variant-2"></p>
+<p>Grazie per aver fornito gratuitamente l'IDE All product per questo progetto (<a href="https://user-images.githubusercontent.com/12729184/123988233-6ab17c00-d9fa-11eb-8739-2a08c6a4a263.png">License</a>)</p>
+<h3>Donazioni per condivisione contributi</h3>
+<p>Link <a href="https://github.com/orgs/mini-software/discussions/754">https://github.com/orgs/mini-software/discussions/754</a></p>
+<h3>Contributori</h3>
+<p><img src="https://contrib.rocks/image?repo=mini-software/MiniExcel" alt=""></p>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-08</p>
+<hr>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js"></script>
+
+
+</body></html>

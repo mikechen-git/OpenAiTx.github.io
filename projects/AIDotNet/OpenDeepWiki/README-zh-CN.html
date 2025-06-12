@@ -1,0 +1,462 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenDeepWiki - Open AI Tx</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Open AI Tx - Markdown Viewer">
+    <meta name="description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html">
+    <meta property="og:title" content="Open AI Tx - Markdown Viewer">
+    <meta property="og:description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css">
+    <script src="js/highlight.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/AIDotNet/OpenDeepWiki" id="githubRepoLink" target="_blank">AIDotNet/OpenDeepWiki</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><h1>OpenDeepWiki</h1>
+<p><a href="README.zh-CN.md">中文</a> | <a href="README.md">English</a></p>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/img/favicon.png" alt="OpenDeepWiki Logo" width="200">
+  <h3>AI驱动的代码知识库</h3>
+</div>
+
+<h1>赞助</h1>
+<p><a href="https://share.302.ai/jXcaTv"><img src="https://github.com/user-attachments/assets/b1bcb56e-38cb-47bf-adfe-7a21d83774b4" alt="image"></a></p>
+<p><a href="https://share.302.ai/jXcaTv">302.AI</a> 是一个按需付费的一站式企业级AI应用平台。它提供开放平台和开源生态，让AI为每个需求找到解决方案。点击<a href="https://share.302.ai/jXcaTv">这里</a>获取1美元免费额度！</p>
+<h2>功能</h2>
+<ul>
+<li><strong>快速转换：</strong> 所有 Github、Gitlab、Gitee、Gitea 等代码仓库均可在几分钟内转换为知识库。</li>
+<li><strong>多语言支持：</strong> 支持所有编程语言的代码分析和文档生成。</li>
+<li><strong>代码结构：</strong> 自动生成Mermaid图表，帮助理解代码结构。</li>
+<li><strong>自定义模型：</strong> 支持自定义模型和自定义API，方便扩展。</li>
+<li><strong>AI智能分析：</strong> 基于AI进行代码分析与代码关系理解。</li>
+<li><strong>易于SEO：</strong> 使用Next.js生成SEO友好的文档和知识库，更易于搜索引擎收录。</li>
+<li><strong>对话式交互：</strong> 支持与AI对话式交互，获取代码详细信息和使用方法，深入理解代码。</li>
+</ul>
+<p>功能清单：</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 支持多种代码仓库（Github、Gitlab、Gitee、Gitea等）</li>
+<li><input checked="" disabled="" type="checkbox"> 支持多种编程语言（Python、Java、C#、JavaScript等）</li>
+<li><input checked="" disabled="" type="checkbox"> 支持仓库管理，提供新增、删除、修改、查询仓库的功能</li>
+<li><input checked="" disabled="" type="checkbox"> 支持多AI提供商（OpenAI、AzureOpenAI、Anthropic等）</li>
+<li><input checked="" disabled="" type="checkbox"> 支持多种数据库（SQLite、PostgreSQL、SqlServer等）</li>
+<li><input checked="" disabled="" type="checkbox"> 支持多语言（中文、英文、法语等）</li>
+<li><input checked="" disabled="" type="checkbox"> 支持上传ZIP文件、上传本地文件</li>
+<li><input checked="" disabled="" type="checkbox"> 提供数据微调平台，生成微调数据集</li>
+<li><input checked="" disabled="" type="checkbox"> 支持仓库目录级管理，可自定义目录生成、动态文档创建</li>
+<li><input checked="" disabled="" type="checkbox"> 支持仓库目录管理，可对仓库目录进行修改</li>
+<li><input checked="" disabled="" type="checkbox"> 支持用户级管理，提供新增、删除、修改、查询用户的功能</li>
+<li><input disabled="" type="checkbox"> 支持用户权限管理，提供新增、删除、修改、查询用户权限的功能</li>
+<li><input checked="" disabled="" type="checkbox"> 支持仓库级别生成不同微调框架的数据集</li>
+</ul>
+<h1>项目介绍</h1>
+<p>OpenDeepWiki 是一个受 <a href="https://deepwiki.com/">DeepWiki</a> 启发的开源项目，使用 .NET 9 和 Semantic Kernel 开发。其目标是通过代码分析、文档生成和知识图谱等功能，帮助开发者更好地理解和利用代码库。</p>
+<ul>
+<li>分析代码结构</li>
+<li>理解仓库核心概念</li>
+<li>生成代码文档</li>
+<li>为代码自动创建 README.md<br>MCP 支持</li>
+</ul>
+<p>OpenDeepWiki 支持 MCP（Model Context Protocol）</p>
+<ul>
+<li>支持为单个仓库提供 MCPServer，并对单仓库进行分析。</li>
+</ul>
+<p>用法：以下是 cursor 的用法示例：</p>
+<pre><code class="language-json hljs"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"mcpServers"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"OpenDeepWiki"</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"url"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"http://Your OpenDeepWiki service IP:port/sse?owner=AIDotNet&amp;name=OpenDeepWiki"</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<ul>
+<li>owner：为仓库的组织名或所有者名称。</li>
+<li>name：为仓库名称。</li>
+</ul>
+<p>添加仓库后，测试提问（注意在此之前需先处理该仓库）：What is OpenDeepWiki? 效果如图所示：<img src="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/img/mcp.png" alt=""></p>
+<p>通过这种方式，可以将 OpenDeepWiki 作为 MCPServer，为其他AI模型调用，便于对开源项目进行分析与理解。</p>
+<h2>🚀 快速开始</h2>
+<ol>
+<li>克隆仓库</li>
+</ol>
+<pre><code class="language-bash hljs">git <span class="hljs-built_in">clone</span> https://github.com/AIDotNet/OpenDeepWiki.git
+<span class="hljs-built_in">cd</span> OpenDeepWiki
+</code></pre>
+<ol start="2">
+<li>打开 <code>docker-compose.yml</code> 文件，修改以下环境变量：</li>
+</ol>
+<p>Ollama:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">koalawiki:</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">KOALAWIKI_REPOSITORIES=/repositories</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">TASK_MAX_SIZE_PER_USER=5</span> <span class="hljs-comment"># 单用户AI并行生成文档的最大任务数</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_MODEL=qwen2.5:32b</span> <span class="hljs-comment"># 模型需支持函数</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ANALYSIS_MODEL=qwen2.5:32b</span> <span class="hljs-comment"># 用于生成仓库目录结构的分析模型</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_API_KEY=sk-xxxxx</span> <span class="hljs-comment"># 你的API密钥</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">LANGUAGE=</span> <span class="hljs-comment"># 设置默认生成语言为“中文”</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENDPOINT=https://Your</span> <span class="hljs-string">Ollama's</span> <span class="hljs-attr">IP:</span> <span class="hljs-string">Port/v1</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_TYPE=sqlite</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MODEL_PROVIDER=OpenAI</span> <span class="hljs-comment"># 模型提供方，默认为OpenAI，支持AzureOpenAI和Anthropic</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_CONNECTION_STRING=Data</span> <span class="hljs-string">Source=/data/KoalaWiki.db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">EnableSmartFilter=true</span> <span class="hljs-comment"># 是否启用智能过滤，可能影响AI对仓库文件目录的获取</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">UPDATE_INTERVAL</span> <span class="hljs-comment"># 仓库增量更新时间，单位：天</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MAX_FILE_LIMIT=100</span> <span class="hljs-comment"># 上传文件最大限制，单位MB</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DEEP_RESEARCH_MODEL=</span> <span class="hljs-comment"># 针对模型进行深度研究，空则使用CHAT_MODEL</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_INCREMENTAL_UPDATE=true</span> <span class="hljs-comment"># 是否启用增量更新</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_CODED_DEPENDENCY_ANALYSIS=false</span> <span class="hljs-comment"># 是否启用代码依赖分析，可能影响代码质量</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false</span> <span class="hljs-comment"># 是否启用MCP Prompt生成</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_DESCRIPTION_TASK=false</span> <span class="hljs-comment"># 是否启用仓库描述生成</span>
+</code></pre>
+<p>OpenAI:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">koalawiki:</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">KOALAWIKI_REPOSITORIES=/repositories</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">TASK_MAX_SIZE_PER_USER=5</span> <span class="hljs-comment"># 单用户AI并行生成文档的最大任务数</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_MODEL=DeepSeek-V3</span> <span class="hljs-comment"># 模型需支持函数</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ANALYSIS_MODEL=</span> <span class="hljs-comment"># 用于生成仓库目录结构的分析模型</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_API_KEY=</span> <span class="hljs-comment"># 你的API密钥</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">LANGUAGE=</span> <span class="hljs-comment"># 设置默认生成语言为“中文”</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENDPOINT=https://api.token-ai.cn/v1</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_TYPE=sqlite</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MODEL_PROVIDER=OpenAI</span> <span class="hljs-comment"># 模型提供方，默认为OpenAI，支持AzureOpenAI和Anthropic</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_CONNECTION_STRING=Data</span> <span class="hljs-string">Source=/data/KoalaWiki.db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">EnableSmartFilter=true</span> <span class="hljs-comment"># 是否启用智能过滤，可能影响AI对仓库文件目录的获取</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">UPDATE_INTERVAL</span> <span class="hljs-comment"># 仓库增量更新时间，单位：天</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MAX_FILE_LIMIT=100</span> <span class="hljs-comment"># 上传文件最大限制，单位MB</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DEEP_RESEARCH_MODEL=</span> <span class="hljs-comment"># 针对模型进行深度研究，空则使用CHAT_MODEL</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_INCREMENTAL_UPDATE=true</span> <span class="hljs-comment"># 是否启用增量更新</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_CODED_DEPENDENCY_ANALYSIS=false</span> <span class="hljs-comment"># 是否启用代码依赖分析，可能影响代码质量</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false</span> <span class="hljs-comment"># 是否启用MCP Prompt生成</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_DESCRIPTION_TASK=false</span> <span class="hljs-comment"># 是否启用仓库描述生成</span>
+</code></pre>
+<p>AzureOpenAI:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">koalawiki:</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">KOALAWIKI_REPOSITORIES=/repositories</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">TASK_MAX_SIZE_PER_USER=5</span> <span class="hljs-comment"># 单用户AI并行生成文档的最大任务数</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_MODEL=DeepSeek-V3</span> <span class="hljs-comment"># 模型需支持函数</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ANALYSIS_MODEL=</span> <span class="hljs-comment"># 用于生成仓库目录结构的分析模型</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_API_KEY=</span> <span class="hljs-comment"># 你的API密钥</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">LANGUAGE=</span> <span class="hljs-comment"># 设置默认生成语言为“中文”</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENDPOINT=https://your-azure-address.openai.azure.com/</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_TYPE=sqlite</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MODEL_PROVIDER=AzureOpenAI</span> <span class="hljs-comment"># 模型提供方，默认为OpenAI，支持AzureOpenAI和Anthropic</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_CONNECTION_STRING=Data</span> <span class="hljs-string">Source=/data/KoalaWiki.db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">EnableSmartFilter=true</span> <span class="hljs-comment"># 是否启用智能过滤，可能影响AI对仓库文件目录的获取</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">UPDATE_INTERVAL</span> <span class="hljs-comment"># 仓库增量更新时间，单位：天</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MAX_FILE_LIMIT=100</span> <span class="hljs-comment"># 上传文件最大限制，单位MB</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DEEP_RESEARCH_MODEL=</span> <span class="hljs-comment"># 针对模型进行深度研究，空则使用CHAT_MODEL</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_INCREMENTAL_UPDATE=true</span> <span class="hljs-comment"># 是否启用增量更新</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_CODED_DEPENDENCY_ANALYSIS=false</span> <span class="hljs-comment"># 是否启用代码依赖分析，可能影响代码质量</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false</span> <span class="hljs-comment"># 是否启用MCP Prompt生成</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_DESCRIPTION_TASK=false</span> <span class="hljs-comment"># 是否启用仓库描述生成</span>
+</code></pre>
+<p>Anthropic:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">koalawiki:</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">KOALAWIKI_REPOSITORIES=/repositories</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">TASK_MAX_SIZE_PER_USER=5</span> <span class="hljs-comment"># 单用户AI并行生成文档的最大任务数</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_MODEL=DeepSeek-V3</span> <span class="hljs-comment"># 模型需支持函数</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ANALYSIS_MODEL=</span> <span class="hljs-comment"># 用于生成仓库目录结构的分析模型</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_API_KEY=</span> <span class="hljs-comment"># 你的API密钥</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">LANGUAGE=</span> <span class="hljs-comment"># 设置默认生成语言为“中文”</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENDPOINT=https://api.anthropic.com/</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_TYPE=sqlite</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MODEL_PROVIDER=Anthropic</span> <span class="hljs-comment"># 模型提供方，默认为OpenAI，支持AzureOpenAI和Anthropic</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_CONNECTION_STRING=Data</span> <span class="hljs-string">Source=/data/KoalaWiki.db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">EnableSmartFilter=true</span> <span class="hljs-comment"># 是否启用智能过滤，可能影响AI对仓库文件目录的获取</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">UPDATE_INTERVAL</span> <span class="hljs-comment"># 仓库增量更新时间，单位：天</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MAX_FILE_LIMIT=100</span> <span class="hljs-comment"># 上传文件最大限制，单位MB</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DEEP_RESEARCH_MODEL=</span> <span class="hljs-comment"># 针对模型进行深度研究，空则使用CHAT_MODEL</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_INCREMENTAL_UPDATE=true</span> <span class="hljs-comment"># 是否启用增量更新</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_CODED_DEPENDENCY_ANALYSIS=false</span> <span class="hljs-comment"># 是否启用代码依赖分析，可能影响代码质量</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false</span> <span class="hljs-comment"># 是否启用MCP Prompt生成</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_DESCRIPTION_TASK=false</span> <span class="hljs-comment"># 是否启用仓库描述生成</span>
+</code></pre>
+<blockquote>
+<p>💡 <strong>如何获得API密钥：</strong></p>
+<ul>
+<li>获取Google API密钥 <a href="https://makersuite.google.com/app/apikey">Google AI Studio</a></li>
+<li>获取OpenAI API密钥 <a href="https://platform.openai.com/api-keys">OpenAI Platform</a></li>
+<li>获取CoresHub <a href="https://console.coreshub.cn/xb3/maas/global-keys">CoresHub</a> <a href="https://account.coreshub.cn/signup?invite=ZmpMQlZxYVU=">点此注册赠送5000万免费Token</a></li>
+<li>获取TokenAI <a href="https://api.token-ai.cn/">TokenAI</a></li>
+</ul>
+</blockquote>
+<ol start="3">
+<li>启动服务</li>
+</ol>
+<p>你可以使用提供的 Makefile 命令轻松管理应用：</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># 构建所有 Docker 镜像</span>
+make build
+
+<span class="hljs-comment"># 后台启动所有服务</span>
+make up
+
+<span class="hljs-comment"># 或以开发模式（可见日志）启动</span>
+</code></pre>
+<pre><code class="hljs language-go"><span class="hljs-built_in">make</span> dev
+</code></pre>
+<p>然后访问 <a href="http://localhost:8090">http://localhost:8090</a> 以访问知识库。</p>
+<p>更多命令请参考：</p>
+<pre><code class="language-bash hljs">make <span class="hljs-built_in">help</span>
+</code></pre>
+<h3>Windows 用户（无 make 工具）</h3>
+<p>如果你使用的是 Windows 且没有安装 <code>make</code>，可以直接使用以下 Docker Compose 命令：</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># 构建所有 Docker 镜像</span>
+docker-compose build
+
+<span class="hljs-comment"># 后台启动所有服务</span>
+docker-compose up -d
+
+<span class="hljs-comment"># 以开发模式启动（可见日志）</span>
+docker-compose up
+
+<span class="hljs-comment"># 停止所有服务</span>
+docker-compose down
+
+<span class="hljs-comment"># 查看日志</span>
+docker-compose logs -f
+</code></pre>
+<p>如需构建特定架构或服务，可使用：</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># 仅构建后端</span>
+docker-compose build koalawiki
+
+<span class="hljs-comment"># 仅构建前端</span>
+docker-compose build koalawiki-web
+
+<span class="hljs-comment"># 按架构参数构建</span>
+docker-compose build --build-arg ARCH=arm64
+docker-compose build --build-arg ARCH=amd64
+</code></pre>
+<h3>使用 Sealos 对公网部署</h3>
+<p><a href="https://bja.sealos.run/?openapp=system-template%3FtemplateName%3DOpenDeepWiki"><img src="https://raw.githubusercontent.com/labring-actions/templates/main/Deploy-on-Sealos.svg" alt=""></a><br>详细步骤请参见：<a href="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/scripts/sealos/README.zh-CN.md">使用模板一键部署 OpenDeepWiki 为对公网可访问 Sealos 应用</a></p>
+<h2>🔍 工作原理</h2>
+<p>OpenDeepWiki 使用 AI 实现以下功能：</p>
+<ul>
+<li>本地克隆代码仓库</li>
+<li>基于仓库的 README.md 进行分析</li>
+<li>分析代码结构，根据需要读取代码文件，生成目录 json 数据</li>
+<li>按目录处理任务，每个任务为一篇文档</li>
+<li>读取代码文件、分析代码文件、生成代码文档，并绘制代表代码结构依赖的 Mermaid 图</li>
+<li>生成最终知识库文档</li>
+<li>通过对话式交互分析仓库，并响应用户查询</li>
+</ul>
+<pre><code class="language-mermaid">graph TD
+    A[克隆代码仓库] --&gt; B[分析 README.md]
+    B --&gt; C[分析代码结构]
+    C --&gt; D[生成目录 json 数据]
+    D --&gt; E[处理多个任务]
+    E --&gt; F[读取代码文件]
+    F --&gt; G[分析代码文件]
+    G --&gt; H[生成代码文档]
+    H --&gt; I[生成 Mermaid 图]
+    I --&gt; J[生成知识库文档]
+    J --&gt; K[对话式交互分析]
+</code></pre>
+<h2>高级配置</h2>
+<h3>环境变量</h3>
+<ul>
+<li>KOALAWIKI_REPOSITORIES  仓库存储路径</li>
+<li>TASK_MAX_SIZE_PER_USER  每个用户 AI 文档生成的最大并行任务数</li>
+<li>CHAT_MODEL  必须支持函数的模型</li>
+<li>ENDPOINT  API 接口地址</li>
+<li>ANALYSIS_MODEL  用于生成仓库目录结构的分析模型</li>
+<li>CHAT_API_KEY  你的 API Key</li>
+<li>LANGUAGE  生成文档的语言</li>
+<li>DB_TYPE  数据库类型，默认为 sqlite</li>
+<li>MODEL_PROVIDER  模型提供商，默认为 OpenAI，支持 Azure、OpenAI 和 Anthropic</li>
+<li>DB_CONNECTION_STRING  数据库连接字符串</li>
+<li>EnableSmartFilter 是否开启智能过滤，可能影响 AI 获取仓库文件目录的方式</li>
+<li>UPDATE_INTERVAL 仓库增量更新间隔，单位：天</li>
+<li>MAX_FILE_LIMIT 上传文件的最大限制，单位 MB</li>
+<li>DEEP_RESEARCH_MODEL 对模型进行深入研究，留空则使用 CHAT_MODEL</li>
+<li>ENABLE_INCREMENTAL_UPDATE 是否开启增量更新</li>
+<li>ENABLE_CODED_DEPENDENCY_ANALYSIS 是否启用代码依赖分析，可能影响代码质量</li>
+<li>ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK  # 是否开启 MCP Prompt 生成</li>
+<li>ENABLE_WAREHOUSE_DESCRIPTION_TASK # 是否启用仓库描述生成</li>
+</ul>
+<h3>针对不同架构构建</h3>
+<p>Makefile 提供了针对不同 CPU 架构的构建命令：</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># 构建 ARM 架构</span>
+make build-arm
+
+<span class="hljs-comment"># 构建 AMD 架构</span>
+make build-amd
+
+<span class="hljs-comment"># 仅构建 ARM 架构后端</span>
+make build-backend-arm
+
+<span class="hljs-comment"># 仅构建 AMD 架构前端</span>
+make build-frontend-amd
+</code></pre>
+<h2>Discord</h2>
+<p><a href="https://discord.gg/8sxUNacv">加入我们</a></p>
+<h2>微信</h2>
+<p><img src="https://github.com/user-attachments/assets/2bb0055f-9e45-4db2-b9c9-f1e251996e01" alt="b62354e40046f409b88528dd5631ed45"></p>
+<h2>📄 许可证</h2>
+<p>本项目基于 MIT 许可证发布 - 详情请参阅 <a href="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/LICENSE">LICENSE</a> 文件。</p>
+<h2>Star 历史</h2>
+<p><a href="https://www.star-history.com/#AIDotNet/OpenDeepWiki&amp;Date"><img src="https://api.star-history.com/svg?repos=AIDotNet/OpenDeepWiki&amp;type=Date" alt="Star History Chart"></a></p>
+<pre><code class="hljs language-yaml">
+
+<span class="hljs-meta">---
+
+</span>
+<span class="hljs-string">Tranlated</span> <span class="hljs-string">By</span> [<span class="hljs-string">Open</span> <span class="hljs-string">Ai</span> <span class="hljs-string">Tx</span>]<span class="hljs-string">(https://github.com/OpenAiTx/OpenAiTx)</span> <span class="hljs-string">|</span> <span class="hljs-attr">Last indexed:</span> <span class="hljs-number">2025-06-10</span>
+
+
+<span class="hljs-meta">---
+</span></code></pre>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js"></script>
+
+
+</body></html>

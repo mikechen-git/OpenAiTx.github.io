@@ -1,0 +1,443 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery — 新一代 JavaScript - Open AI Tx</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Open AI Tx - Markdown Viewer">
+    <meta name="description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html">
+    <meta property="og:title" content="Open AI Tx - Markdown Viewer">
+    <meta property="og:description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css">
+    <script src="js/highlight.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/jquery/jquery" id="githubRepoLink" target="_blank">jquery/jquery</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><h1><a href="https://jquery.com/">jQuery</a> — 新一代 JavaScript</h1>
+<p>会议目前在 <a href="https://matrix.to/#/#jquery_meeting:gitter.im">matrix.org 平台</a> 上举行。</p>
+<p>会议纪要可在 <a href="https://meetings.jquery.org/category/core/">meetings.jquery.org</a> 查阅。</p>
+<p>jQuery 的最新版本可在 <a href="https://jquery.com/download/">https://jquery.com/download/</a> 获取。</p>
+<h2>版本支持</h2>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>分支</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4.x</td>
+<td>main</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>3.x</td>
+<td>3.x-stable</td>
+<td>活跃</td>
+</tr>
+<tr>
+<td>2.x</td>
+<td>2.x-stable</td>
+<td>不活跃</td>
+</tr>
+<tr>
+<td>1.x</td>
+<td>1.x-stable</td>
+<td>不活跃</td>
+</tr>
+</tbody></table>
+<p>一旦 4.0.0 正式版发布，3.x 分支将在有限时间内继续收到更新。2.x 和 1.x 分支已不再受支持。</p>
+<p>不活跃版本的商业支持由 <a href="https://herodevs.com/nes">HeroDevs</a> 提供。</p>
+<p>了解更多关于我们的<a href="https://jquery.com/support/">版本支持</a>信息。</p>
+<h2>贡献指南</h2>
+<p>本着开源软件开发的精神，jQuery 始终鼓励社区成员贡献代码。为帮助你顺利开始并在编码前，请务必认真阅读以下重要的贡献指南：</p>
+<ol>
+<li><a href="https://contribute.jquery.org/">参与方式</a></li>
+<li><a href="https://contribute.jquery.org/style-guide/js/">核心代码风格指南</a></li>
+<li><a href="https://contribute.jquery.org/code/">为 jQuery 项目编写代码</a></li>
+</ol>
+<h3>问题/PR 的引用</h3>
+<p>GitHub 问题/PR 通常通过 <code>gh-NUMBER</code> 引用，其中 <code>NUMBER</code> 是问题/PR 的数字 ID。你可以在 <code>https://github.com/jquery/jquery/issues/NUMBER</code> 下找到相应的问题或 PR。</p>
+<p>jQuery 过去曾使用基于 Trac 的不同 Bug 跟踪器，可在 <a href="https://bugs.jquery.com/">bugs.jquery.com</a> 访问。该站点已设为只读模式，便于参考以往讨论。当 jQuery 源码中引用这些问题时，使用 <code>trac-NUMBER</code> 格式，其中 <code>NUMBER</code> 是问题的数字 ID。你可以在 <code>https://bugs.jquery.com/ticket/NUMBER</code> 下找到相应问题。</p>
+<h2>jQuery 可用的环境</h2>
+<ul>
+<li><a href="https://jquery.com/browser-support/">浏览器支持</a></li>
+<li>jQuery 还支持 Node、浏览器扩展和其他非浏览器环境。</li>
+</ul>
+<h2>构建你自己的 jQuery 所需环境</h2>
+<p>要构建 jQuery，你需要安装最新的 Node.js/npm 和 git 1.7 或更高版本。更早的版本可能可用，但不受支持。</p>
+<p>在 Windows 下，你需要下载并安装 <a href="https://git-scm.com/downloads">git</a> 和 <a href="https://nodejs.org/en/download/">Node.js</a>。</p>
+<p>macOS 用户应安装 <a href="https://brew.sh/">Homebrew</a>。安装好 Homebrew 后，运行 <code>brew install git</code> 安装 git，运行 <code>brew install node</code> 安装 Node.js。</p>
+<p>Linux/BSD 用户应使用各自的包管理器安装 git 和 Node.js，或者自行编译源码。如果你喜欢，也可以这么做。很简单。</p>
+<h2>如何构建你自己的 jQuery</h2>
+<p>首先，<a href="https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository">克隆 jQuery git 仓库</a>。</p>
+<p>然后，进入 jquery 目录，安装依赖并运行构建脚本：</p>
+<pre><code class="language-bash hljs"><span class="hljs-built_in">cd</span> jquery
+npm install
+npm run build
+</code></pre>
+<p>构建好的 jQuery 会被放在 <code>dist/</code> 目录下，还包括一个压缩版和相关的 map 文件。</p>
+<h2>构建所有 jQuery 发布文件</h2>
+<p>要构建所有 jQuery 变体，运行以下命令：</p>
+<pre><code class="language-bash hljs">npm run build:all
+</code></pre>
+<p>这将创建 jQuery 发布版中包含的所有变体，包括 <code>jquery.js</code>、<code>jquery.slim.js</code>、<code>jquery.module.js</code> 和 <code>jquery.slim.module.js</code> 及其相关的压缩文件和 sourcemap。</p>
+<p><code>jquery.module.js</code> 和 <code>jquery.slim.module.js</code> 是 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">ECMAScript 模块</a>，导出 <code>jQuery</code> 和 <code>$</code> 作为命名导出，放在 <code>dist-module/</code> 目录下，而不是 <code>dist/</code> 目录。</p>
+<h2>构建自定义 jQuery</h2>
+<p>构建脚本可以用来创建只包含你需要模块的自定义 jQuery 版本。</p>
+<p>除了 <code>core</code> 外，任何模块都可以被排除。当排除 <code>selector</code> 时，并不会被移除，而是用一个围绕原生 <code>querySelectorAll</code> 的小包装器替代（详见下文）。</p>
+<h3>构建脚本帮助</h3>
+<p>要查看构建脚本的完整可用选项列表，运行以下命令：</p>
+<pre><code class="language-bash hljs">npm run build -- --<span class="hljs-built_in">help</span>
+</code></pre>
+<h3>模块</h3>
+<p>要排除某个模块，将其相对于 <code>src</code> 文件夹的路径（不带 <code>.js</code> 后缀）传递给 <code>--exclude</code> 选项。使用 <code>--include</code> 选项时，默认包含项将被移除，只会构建包含这些模块的版本。</p>
+<p>一些可以被排除或包含的示例模块：</p>
+<ul>
+<li><p><strong>ajax</strong>：所有 AJAX 功能：<code>$.ajax()</code>、<code>$.get()</code>、<code>$.post()</code>、<code>$.ajaxSetup()</code>、<code>.load()</code>、transports 及诸如 <code>.ajaxStart()</code> 的 ajax 事件简写方法。</p>
+</li>
+<li><p><strong>ajax/xhr</strong>：仅 XMLHTTPRequest AJAX 传输。</p>
+</li>
+<li><p><strong>ajax/script</strong>：仅 <code>&lt;script&gt;</code> AJAX 传输；用于获取脚本。</p>
+</li>
+<li><p><strong>ajax/jsonp</strong>：仅 JSONP AJAX 传输；依赖 ajax/script 传输。</p>
+</li>
+<li><p><strong>css</strong>：<code>.css()</code> 方法。也会移除<strong>所有</strong>依赖于 css 的模块（包括 <strong>effects</strong>、<strong>dimensions</strong> 和 <strong>offset</strong>）。</p>
+</li>
+<li><p><strong>css/showHide</strong>：非动画的 <code>.show()</code>、<code>.hide()</code> 和 <code>.toggle()</code>；如果你使用类或显式 <code>.css()</code> 调用设置 <code>display</code> 属性，则可以排除。也会移除 <strong>effects</strong> 模块。</p>
+</li>
+<li><p><strong>deprecated</strong>：已标记为弃用但尚未移除的方法。</p>
+</li>
+<li><p><strong>dimensions</strong>：<code>.width()</code> 和 <code>.height()</code> 方法，包括 <code>inner-</code> 和 <code>outer-</code> 变体。</p>
+</li>
+<li><p><strong>effects</strong>：<code>.animate()</code> 方法及其简写如 <code>.slideUp()</code> 或 <code>.hide("slow")</code>。</p>
+</li>
+<li><p><strong>event</strong>：<code>.on()</code> 和 <code>.off()</code> 方法及所有事件功能。</p>
+</li>
+<li><p><strong>event/trigger</strong>：<code>.trigger()</code> 和 <code>.triggerHandler()</code> 方法。</p>
+</li>
+<li><p><strong>offset</strong>：<code>.offset()</code>、<code>.position()</code>、<code>.offsetParent()</code>、<code>.scrollLeft()</code> 和 <code>.scrollTop()</code> 方法。</p>
+</li>
+<li><p><strong>wrap</strong>：<code>.wrap()</code>、<code>.wrapAll()</code>、<code>.wrapInner()</code> 和 <code>.unwrap()</code> 方法。</p>
+</li>
+<li><p><strong>core/ready</strong>：如果你的脚本放在 body 末尾，可以排除 ready 模块。通过 <code>jQuery()</code> 绑定的 ready 回调会立即调用，但 <code>jQuery(document).ready()</code> 将不再是函数，<code>.on("ready", ...)</code> 或类似写法也不会被触发。</p>
+</li>
+<li><p><strong>deferred</strong>：排除 jQuery.Deferred。也会排除所有依赖 Deferred 的模块，包括 <strong>ajax</strong>、<strong>effects</strong> 和 <strong>queue</strong>，但用 <strong>core/ready-no-deferred</strong> 替换 <strong>core/ready</strong>。</p>
+</li>
+<li><p><strong>exports/global</strong>：不将全局 jQuery 变量（$ 和 jQuery）附加到 window。</p>
+</li>
+<li><p><strong>exports/amd</strong>：排除 AMD 定义。</p>
+</li>
+<li><p><strong>selector</strong>：完整的 jQuery 选择器引擎。当排除此模块时，将用基于浏览器 <code>querySelectorAll</code> 方法的简易选择器引擎替代，不支持 jQuery 选择器扩展或增强语义。详见 <a href="https://github.com/jquery/jquery/blob/main/src/selector-native.js">selector-native.js</a> 文件。</p>
+</li>
+</ul>
+<p><em>注意</em>：排除完整的 <code>selector</code> 模块也会排除所有 jQuery 选择器扩展（如 <code>effects/animatedSelector</code> 和 <code>css/hiddenVisibleSelectors</code>）。</p>
+<h5>AMD 名称</h5>
+<p>你可以为 jQuery 的 AMD 定义设置模块名称。默认设置为 "jquery"，这与插件和第三方库兼容，但在某些情况下你可能希望更改。可以将其传递给 <code>--amd</code> 参数：</p>
+<pre><code class="language-bash hljs">npm run build -- --amd=<span class="hljs-string">"custom-name"</span>
+</code></pre>
+<p>或者，若要匿名定义，名称留空即可。</p>
+<pre><code class="language-bash hljs">npm run build -- --amd
+</code></pre>
+<h5>文件名和目录</h5>
+<p>构建后的 jQuery 文件默认名为 <code>jquery.js</code>，位于 <code>dist/</code> 目录下。可以通过 <code>--filename</code> 更改文件名，通过 <code>--dir</code> 更改目录。<code>--dir</code> 相对于项目根目录。</p>
+<pre><code class="language-bash hljs">npm run build -- --slim --filename=<span class="hljs-string">"jquery.slim.js"</span> --<span class="hljs-built_in">dir</span>=<span class="hljs-string">"/tmp"</span>
+</code></pre>
+<p>此命令会创建一个精简版 jQuery，并放在 <code>tmp/jquery.slim.js</code> 下。</p>
+<h5>ECMAScript 模块 (ESM) 模式</h5>
+<p>默认情况下，jQuery 生成常规的 JavaScript 脚本文件。你也可以使用 <code>--esm</code> 参数生成一个以 <code>jQuery</code> 作为默认导出的 ECMAScript 模块：</p>
+<pre><code class="language-bash hljs">npm run build -- --filename=jquery.module.js --esm
+</code></pre>
+<h5>工厂模式</h5>
+<p>默认情况下，jQuery 依赖全局 <code>window</code>。对于没有 <code>window</code> 的环境，可以生成工厂构建，暴露一个接受 <code>window</code> 作为参数的函数，你可以在外部传递（用法详见已发布包的<a href="build/fixtures/README.md"><code>README</code></a>）。可通过 <code>--factory</code> 参数生成此类工厂：</p>
+<pre><code class="language-bash hljs">npm run build -- --filename=jquery.factory.js --factory
+</code></pre>
+<p>此选项可以与其他选项如 <code>--esm</code> 或 <code>--slim</code> 组合使用：</p>
+<pre><code class="language-bash hljs">npm run build -- --filename=jquery.factory.slim.module.js --factory --esm --slim --<span class="hljs-built_in">dir</span>=<span class="hljs-string">"/dist-module"</span>
+</code></pre>
+<h4>自定义构建示例</h4>
+<p>使用 <code>npm run build</code> 创建自定义构建，列出要排除的模块。排除顶级模块也会排除其相应目录下的所有模块。</p>
+<p>排除所有 <strong>ajax</strong> 功能：</p>
+<pre><code class="language-bash hljs">npm run build -- --exclude=ajax
+</code></pre>
+<p>排除 <strong>css</strong> 会移除依赖 CSS 的模块：<strong>effects</strong>、<strong>offset</strong>、<strong>dimensions</strong>。</p>
+<pre><code class="language-bash hljs">npm run build -- --exclude=css
+</code></pre>
+<p>排除多个模块（<code>-e</code> 是 <code>--exclude</code> 的别名）：</p>
+<pre><code class="language-bash hljs">npm run build -- -e ajax/jsonp -e css -e deprecated -e dimensions -e effects -e offset -e wrap
+</code></pre>
+<p>有一个特殊的别名用于生成与官方 jQuery Slim 构建相同配置的版本：</p>
+<pre><code class="language-bash hljs">npm run build -- --filename=jquery.slim.js --slim
+</code></pre>
+<p>或者，将 slim 构建为 esm 模块：</p>
+<pre><code class="language-bash hljs">npm run build -- --filename=jquery.slim.module.js --slim --esm
+</code></pre>
+<pre><code class="hljs language-markdown">
+<span class="hljs-emphasis">*非官方自定义构建未经过定期测试。请自行承担使用风险。*</span>
+
+<span class="hljs-section">## 运行单元测试</span>
+
+确保你已经安装了所需的依赖项：
+
+<span class="hljs-code">```bash
+npm install
+</span></code></pre>
+<p>启动 <code>npm start</code>，在开发过程中自动构建 jQuery：</p>
+<pre><code class="language-bash hljs">npm start
+</code></pre>
+<p>使用支持 PHP 的本地服务器运行单元测试。请确保从根目录（而不是 "test" 目录）运行该站点。不需要数据库。Windows 和 Mac 上有预配置的 PHP 本地服务器可用。以下是一些选项：</p>
+<ul>
+<li>Windows: <a href="https://www.wampserver.com/en/">WAMP 下载</a></li>
+<li>Mac: <a href="https://www.mamp.info/en/downloads/">MAMP 下载</a></li>
+<li>Linux: <a href="https://www.linux.com/training-tutorials/easy-lamp-server-installation/">LAMP 搭建教程</a></li>
+<li><a href="https://code.google.com/p/mongoose/">Mongoose（多平台）</a></li>
+</ul>
+<h2>基本 Git 操作</h2>
+<p>由于源代码由 Git 版本控制系统管理，了解一些常用功能会很有帮助。</p>
+<h3>清理</h3>
+<p>如果你想将工作目录还原到上游的状态，可以使用以下命令（注意：你所有的更改都会被清除）：</p>
+<pre><code class="language-bash hljs">git reset --hard upstream/main
+git clean -fdx
+</code></pre>
+<h3>变基</h3>
+<p>对于功能/主题分支，始终应在 <code>git pull</code> 时使用 <code>--rebase</code> 标志，或者如果你经常处理许多临时的 “待提交到 GitHub 的 Pull Request” 分支，可以运行以下命令自动完成此操作：</p>
+<pre><code class="language-bash hljs">git config branch.autosetuprebase <span class="hljs-built_in">local</span>
+</code></pre>
+<p>（参见 <code>man git-config</code> 获取更多信息）</p>
+<h3>处理合并冲突</h3>
+<p>如果在合并时遇到合并冲突，与其手动编辑冲突文件，不如使用 <code>git mergetool</code> 工具。尽管默认工具 <code>xxdiff</code> 看起来很老旧，但其实非常有用。</p>
+<p>以下是一些可用命令：</p>
+<ul>
+<li><code>Ctrl + Alt + M</code> - 尽可能自动合并</li>
+<li><code>b</code> - 跳转到下一个合并冲突</li>
+<li><code>s</code> - 更改冲突行的顺序</li>
+<li><code>u</code> - 撤销一次合并</li>
+<li><code>鼠标左键</code> - 选中一个区块作为最终版本</li>
+<li><code>鼠标中键</code> - 选中一行为最终版本</li>
+<li><code>Ctrl + S</code> - 保存</li>
+<li><code>Ctrl + Q</code> - 退出</li>
+</ul>
+<h2><a href="https://api.qunitjs.com">QUnit</a> 参考</h2>
+<h3>测试方法</h3>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">expect</span>( numAssertions );
+<span class="hljs-title function_">stop</span>();
+<span class="hljs-title function_">start</span>();
+</code></pre>
+<p><em>注意</em>：QUnit 未来可能为 stop/start 增加参数，但在本测试套件中会忽略，因此可以安全地将 start 和 stop 作为回调传递，无需担心参数问题。</p>
+<h3>断言方法</h3>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">ok</span>( value, [message] );
+<span class="hljs-title function_">equal</span>( actual, expected, [message] );
+<span class="hljs-title function_">notEqual</span>( actual, expected, [message] );
+<span class="hljs-title function_">deepEqual</span>( actual, expected, [message] );
+<span class="hljs-title function_">notDeepEqual</span>( actual, expected, [message] );
+<span class="hljs-title function_">strictEqual</span>( actual, expected, [message] );
+<span class="hljs-title function_">notStrictEqual</span>( actual, expected, [message] );
+<span class="hljs-title function_">throws</span>( block, [expected], [message] );
+</code></pre>
+<h2>测试套件便捷方法参考</h2>
+<p>详见 <a href="https://raw.githubusercontent.com/jquery/jquery/main/test/data/testinit.js">test/data/testinit.js</a>。</p>
+<h3>返回具有指定 ID 的元素数组</h3>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">q</span>( ... );
+</code></pre>
+<p>示例：</p>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">q</span>( <span class="hljs-string">"main"</span>, <span class="hljs-string">"foo"</span>, <span class="hljs-string">"bar"</span> );
+
+=&gt; [ div#main, span#foo, input#bar ]
+</code></pre>
+<h3>断言选择器匹配指定 ID</h3>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">t</span>( testName, selector, [ <span class="hljs-string">"array"</span>, <span class="hljs-string">"of"</span>, <span class="hljs-string">"ids"</span> ] );
+</code></pre>
+<p>示例：</p>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">t</span>(<span class="hljs-string">"Check for something"</span>, <span class="hljs-string">"//[a]"</span>, [<span class="hljs-string">"foo"</span>, <span class="hljs-string">"bar"</span>]);
+</code></pre>
+<h3>触发原生 DOM 事件（不经过 jQuery）</h3>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">fireNative</span>( node, eventType );
+</code></pre>
+<p>示例：</p>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">fireNative</span>( <span class="hljs-title function_">jQuery</span>( <span class="hljs-string">"#elem"</span> )[ <span class="hljs-number">0</span> ], <span class="hljs-string">"click"</span> );
+</code></pre>
+<h3>向 URL 添加随机数以防缓存</h3>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">url</span>( <span class="hljs-string">"some/url"</span> );
+</code></pre>
+<p>示例：</p>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">url</span>( <span class="hljs-string">"index.html"</span> );
+
+=&gt; <span class="hljs-string">"data/index.html?10538358428943"</span>
+
+
+<span class="hljs-title function_">url</span>( <span class="hljs-string">"mock.php?foo=bar"</span> );
+
+=&gt; <span class="hljs-string">"data/mock.php?foo=bar&amp;10538358345554"</span>
+</code></pre>
+<h3>在 iframe 中运行测试</h3>
+<p>有些测试可能需要使用标准测试夹具以外的文档，可以在独立的 iframe 中运行。这些测试的实际代码和断言仍然保留在 jQuery 的主测试文件中；只有最小化的测试夹具标记和初始化代码应放在 iframe 文件中。</p>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">testIframe</span>( testName, fileName,
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">testCallback</span>(<span class="hljs-params">
+      assert, jQuery, <span class="hljs-variable language_">window</span>, <span class="hljs-variable language_">document</span>,
+	  [ additional args ] </span>) {
+	...
+  } );
+</code></pre>
+<p>此方法会加载一个页面，使用 <code>"./data/" + fileName</code> 构造 url。iframe 页面通过引入 "/test/data/iframeTest.js" 脚本并在适当时机调用 <code>startIframeTest( [ additional args ] )</code> 来决定何时回调。通常是在 document ready 或 <code>window.onload</code> 之后。</p>
+<p><code>testCallback</code> 会接收由 <code>testIframe</code> 为本次测试创建的 QUnit <code>assert</code> 对象，随后依次为 iframe 的全局 <code>jQuery</code>、<code>window</code> 和 <code>document</code>。如果 iframe 代码向 <code>startIframeTest</code> 传递了参数，这些参数会跟在 <code>document</code> 后面。</p>
+<h2>有问题？</h2>
+<p>如有任何问题，欢迎在 <a href="https://forum.jquery.com/developing-jquery-core">Developing jQuery Core 论坛</a> 或 <a href="https://web.libera.chat/">libera</a> 的 #jquery 频道提问。</p>
+<pre><code class="hljs language-yaml">
+
+<span class="hljs-meta">---
+
+</span>
+<span class="hljs-string">Tranlated</span> <span class="hljs-string">By</span> [<span class="hljs-string">Open</span> <span class="hljs-string">Ai</span> <span class="hljs-string">Tx</span>]<span class="hljs-string">(https://github.com/OpenAiTx/OpenAiTx)</span> <span class="hljs-string">|</span> <span class="hljs-attr">Last indexed:</span> <span class="hljs-number">2025-06-09</span>
+
+
+<span class="hljs-meta">---
+</span></code></pre>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js"></script>
+
+
+</body></html>

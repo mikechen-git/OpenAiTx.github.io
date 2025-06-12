@@ -1,0 +1,454 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenDeepWiki - Open AI Tx</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Open AI Tx - Markdown Viewer">
+    <meta name="description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html">
+    <meta property="og:title" content="Open AI Tx - Markdown Viewer">
+    <meta property="og:description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css">
+    <script src="js/highlight.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/AIDotNet/OpenDeepWiki" id="githubRepoLink" target="_blank">AIDotNet/OpenDeepWiki</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><h1>OpenDeepWiki</h1>
+<p><a href="README.zh-CN.md">中文</a> | <a href="README.md">English</a></p>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/img/favicon.png" alt="OpenDeepWiki Logo" width="200">
+  <h3>Base de Conocimiento de Código Impulsada por IA</h3>
+</div>
+
+<h1>Patrocinador</h1>
+<p><a href="https://share.302.ai/jXcaTv"><img src="https://github.com/user-attachments/assets/b1bcb56e-38cb-47bf-adfe-7a21d83774b4" alt="image"></a></p>
+<p><a href="https://share.302.ai/jXcaTv">302.AI</a> es una plataforma de aplicaciones de IA a nivel empresarial, todo en uno y de pago por uso. Ofrece una plataforma abierta y un ecosistema de código abierto, permitiendo que la IA encuentre soluciones para cada necesidad. ¡Haz clic <a href="https://share.302.ai/jXcaTv">aquí</a> para obtener tu crédito gratuito de $1!</p>
+<h2>Función</h2>
+<ul>
+<li><strong>Conversión Rápida:</strong> Todos los repositorios de código de Github, Gitlab, Gitee, Gitea y otros pueden convertirse en bases de conocimiento en solo unos minutos.</li>
+<li><strong>Soporte Multilenguaje:</strong> Se admite el análisis de código y la generación de documentación para todos los lenguajes de programación.</li>
+<li><strong>Estructura de Código:</strong> Se generan automáticamente diagramas Mermaid para entender la estructura del código.</li>
+<li><strong>Modelos Personalizados:</strong> Se admiten modelos y API personalizados, permitiendo la expansión según sea necesario.</li>
+<li><strong>Análisis Inteligente IA:</strong> Análisis de código y comprensión de relaciones de código basado en IA.</li>
+<li><strong>SEO Fácil:</strong> Genera documentos y bases de conocimiento SEO-friendly utilizando Next.js, facilitando la indexación por motores de búsqueda.</li>
+<li><strong>Interacción Dialógica:</strong> Soporta la interacción dialógica con IA para obtener información detallada y métodos de uso del código, y para comprender profundamente el código.</li>
+</ul>
+<p>Lista de características:</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Soporta múltiples repositorios de código (Github, Gitlab, Gitee, Gitea, etc.)</li>
+<li><input checked="" disabled="" type="checkbox"> Soporta múltiples lenguajes de programación (Python, Java, C#, JavaScript, etc.)</li>
+<li><input checked="" disabled="" type="checkbox"> Soporta gestión de repositorios, proporcionando funciones para agregar, eliminar, modificar y consultar repositorios</li>
+<li><input checked="" disabled="" type="checkbox"> Soporta múltiples proveedores de IA (OpenAI, AzureOpenAI, Anthropic, etc.)</li>
+<li><input checked="" disabled="" type="checkbox"> Soporta múltiples bases de datos (SQLite, PostgreSQL, SqlServer, etc.)</li>
+<li><input checked="" disabled="" type="checkbox"> Soporta múltiples idiomas (chino, inglés, francés, etc.)</li>
+<li><input checked="" disabled="" type="checkbox"> Soporta la carga de archivos ZIP y archivos locales</li>
+<li><input checked="" disabled="" type="checkbox"> Proporciona una plataforma de ajuste fino de datos para generar conjuntos de datos de ajuste fino</li>
+<li><input checked="" disabled="" type="checkbox"> Soporta la gestión a nivel de directorio de los repositorios, permitiendo la generación personalizada de directorios y la creación dinámica de documentación</li>
+<li><input checked="" disabled="" type="checkbox"> Soporta la gestión del directorio de repositorios, permitiendo la modificación de los directorios del repositorio</li>
+<li><input checked="" disabled="" type="checkbox"> Soporta la gestión a nivel de usuario, proporcionando funciones de gestión de usuarios para agregar, eliminar, modificar y consultar usuarios</li>
+<li><input disabled="" type="checkbox"> Soporta la gestión de permisos de usuario, proporcionando funciones de gestión de permisos para agregar, eliminar, modificar y consultar permisos de usuario</li>
+<li><input checked="" disabled="" type="checkbox"> Soporta la generación de diferentes conjuntos de datos de ajuste fino a nivel de repositorio</li>
+</ul>
+<h1>Introducción al Proyecto</h1>
+<p>OpenDeepWiki es un proyecto de código abierto inspirado en <a href="https://deepwiki.com/">DeepWiki</a>, desarrollado usando .NET 9 y Semantic Kernel. Su objetivo es ayudar a los desarrolladores a comprender y utilizar mejor las bases de código, proporcionando funciones como análisis de código, generación de documentación y creación de gráficos de conocimiento.</p>
+<ul>
+<li>Analizar la estructura del código</li>
+<li>Comprender los conceptos clave de los repositorios</li>
+<li>Generar documentación de código</li>
+<li>Crear automáticamente README.md para el código<br>Soporte MCP</li>
+</ul>
+<p>OpenDeepWiki soporta MCP (Model Context Protocol)</p>
+<ul>
+<li>Soporta proporcionar un MCPServer para un solo repositorio y realizar análisis sobre un único repositorio.</li>
+</ul>
+<p>Uso: El siguiente es el uso de cursor:</p>
+<pre><code class="language-json hljs"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"mcpServers"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"OpenDeepWiki"</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"url"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"http://Tu IP:puerto del servicio OpenDeepWiki/sse?owner=AIDotNet&amp;name=OpenDeepWiki"</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<ul>
+<li>owner: Es el nombre de la organización o propietario del repositorio.</li>
+<li>name: Es el nombre del repositorio.</li>
+</ul>
+<p>Después de agregar el repositorio, prueba haciendo una pregunta (ten en cuenta que antes de esto el repositorio debe ser procesado primero): ¿Qué es OpenDeepWiki? El efecto se muestra en la imagen: <img src="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/img/mcp.png" alt=""></p>
+<p>De esta manera, puedes usar OpenDeepWiki como un MCPServer, haciéndolo disponible para que otros modelos de IA lo utilicen, facilitando el análisis y la comprensión de un proyecto de código abierto.</p>
+<h2>🚀 Inicio Rápido</h2>
+<ol>
+<li>Clona el repositorio</li>
+</ol>
+<pre><code class="language-bash hljs">git <span class="hljs-built_in">clone</span> https://github.com/AIDotNet/OpenDeepWiki.git
+<span class="hljs-built_in">cd</span> OpenDeepWiki
+</code></pre>
+<ol start="2">
+<li>Abre el archivo <code>docker-compose.yml</code> y modifica las siguientes variables de entorno:</li>
+</ol>
+<p>Ollama:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">koalawiki:</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">KOALAWIKI_REPOSITORIES=/repositories</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">TASK_MAX_SIZE_PER_USER=5</span> <span class="hljs-comment"># Número máximo de tareas paralelas de generación de documentos por usuario por IA</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_MODEL=qwen2.5:32b</span> <span class="hljs-comment"># El modelo debe soportar funciones</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ANALYSIS_MODEL=qwen2.5:32b</span> <span class="hljs-comment"># Modelo de análisis utilizado para generar la estructura del directorio del repositorio</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_API_KEY=sk-xxxxx</span> <span class="hljs-comment"># Tu clave API</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">LANGUAGE=</span> <span class="hljs-comment"># Establece el idioma predeterminado para la generación como "chino"</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENDPOINT=https://La</span> <span class="hljs-attr">IP de tu Ollama:</span> <span class="hljs-string">Puerto/v1</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_TYPE=sqlite</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MODEL_PROVIDER=OpenAI</span> <span class="hljs-comment"># Proveedor de modelo, por defecto es OpenAI, soporta AzureOpenAI y Anthropic</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_CONNECTION_STRING=Data</span> <span class="hljs-string">Source=/data/KoalaWiki.db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">EnableSmartFilter=true</span> <span class="hljs-comment"># Si el filtrado inteligente está habilitado o no puede afectar cómo la IA obtiene el directorio de archivos del repositorio</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">UPDATE_INTERVAL</span> <span class="hljs-comment"># Intervalo de actualización incremental del repositorio, unidad: días</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MAX_FILE_LIMIT=100</span> <span class="hljs-comment"># Límite máximo para cargar archivos, en MB</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DEEP_RESEARCH_MODEL=</span> <span class="hljs-comment"># Investigar en profundidad el modelo y usar CHAT_MODEL si está vacío</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_INCREMENTAL_UPDATE=true</span> <span class="hljs-comment"># Si se habilitan actualizaciones incrementales</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_CODED_DEPENDENCY_ANALYSIS=false</span> <span class="hljs-comment"># Si se habilita el análisis de dependencias de código, esto podría afectar la calidad del código.</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false</span> <span class="hljs-comment"># Si se habilita o no la generación de MCP Prompt.</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_DESCRIPTION_TASK=false</span> <span class="hljs-comment"># Si se habilita la generación de la descripción del repositorio</span>
+</code></pre>
+<p>OpenAI:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">koalawiki:</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">KOALAWIKI_REPOSITORIES=/repositories</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">TASK_MAX_SIZE_PER_USER=5</span> <span class="hljs-comment"># Número máximo de tareas paralelas de generación de documentos por usuario por IA</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_MODEL=DeepSeek-V3</span> <span class="hljs-comment"># El modelo debe soportar funciones</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ANALYSIS_MODEL=</span> <span class="hljs-comment"># Modelo de análisis utilizado para generar la estructura del directorio del repositorio</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_API_KEY=</span> <span class="hljs-comment"># Tu clave API</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">LANGUAGE=</span> <span class="hljs-comment"># Establece el idioma predeterminado para la generación como "chino"</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENDPOINT=https://api.token-ai.cn/v1</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_TYPE=sqlite</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MODEL_PROVIDER=OpenAI</span> <span class="hljs-comment"># Proveedor de modelo, por defecto es OpenAI, soporta AzureOpenAI y Anthropic</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_CONNECTION_STRING=Data</span> <span class="hljs-string">Source=/data/KoalaWiki.db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">EnableSmartFilter=true</span> <span class="hljs-comment"># Si el filtrado inteligente está habilitado o no puede afectar cómo la IA obtiene el directorio de archivos del repositorio</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">UPDATE_INTERVAL</span> <span class="hljs-comment"># Intervalo de actualización incremental del repositorio, unidad: días</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MAX_FILE_LIMIT=100</span> <span class="hljs-comment"># Límite máximo para cargar archivos, en MB</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DEEP_RESEARCH_MODEL=</span> <span class="hljs-comment"># Investigar en profundidad el modelo y usar CHAT_MODEL si está vacío</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_INCREMENTAL_UPDATE=true</span> <span class="hljs-comment"># Si se habilitan actualizaciones incrementales</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_CODED_DEPENDENCY_ANALYSIS=false</span> <span class="hljs-comment"># Si se habilita el análisis de dependencias de código, esto podría afectar la calidad del código.</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false</span> <span class="hljs-comment"># Si se habilita o no la generación de MCP Prompt.</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_DESCRIPTION_TASK=false</span> <span class="hljs-comment"># Si se habilita la generación de la descripción del repositorio</span>
+</code></pre>
+<p>AzureOpenAI:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">koalawiki:</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">KOALAWIKI_REPOSITORIES=/repositories</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">TASK_MAX_SIZE_PER_USER=5</span> <span class="hljs-comment"># Número máximo de tareas paralelas de generación de documentos por usuario por IA</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_MODEL=DeepSeek-V3</span> <span class="hljs-comment"># El modelo debe soportar funciones</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ANALYSIS_MODEL=</span> <span class="hljs-comment"># Modelo de análisis utilizado para generar la estructura del directorio del repositorio</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_API_KEY=</span> <span class="hljs-comment"># Tu clave API</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">LANGUAGE=</span> <span class="hljs-comment"># Establece el idioma predeterminado para la generación como "chino"</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENDPOINT=https://tu-direccion-azure.openai.azure.com/</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_TYPE=sqlite</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MODEL_PROVIDER=AzureOpenAI</span> <span class="hljs-comment"># Proveedor de modelo, por defecto es OpenAI, soporta AzureOpenAI y Anthropic</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_CONNECTION_STRING=Data</span> <span class="hljs-string">Source=/data/KoalaWiki.db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">EnableSmartFilter=true</span> <span class="hljs-comment"># Si el filtrado inteligente está habilitado o no puede afectar cómo la IA obtiene el directorio de archivos del repositorio</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">UPDATE_INTERVAL</span> <span class="hljs-comment"># Intervalo de actualización incremental del repositorio, unidad: días</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MAX_FILE_LIMIT=100</span> <span class="hljs-comment"># Límite máximo para cargar archivos, en MB</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DEEP_RESEARCH_MODEL=</span> <span class="hljs-comment"># Investigar en profundidad el modelo y usar CHAT_MODEL si está vacío</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_INCREMENTAL_UPDATE=true</span> <span class="hljs-comment"># Si se habilitan actualizaciones incrementales</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_CODED_DEPENDENCY_ANALYSIS=false</span> <span class="hljs-comment"># Si se habilita el análisis de dependencias de código, esto podría afectar la calidad del código.</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false</span> <span class="hljs-comment"># Si se habilita o no la generación de MCP Prompt.</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_DESCRIPTION_TASK=false</span> <span class="hljs-comment"># Si se habilita la generación de la descripción del repositorio</span>
+</code></pre>
+<p>Anthropic:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">koalawiki:</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">KOALAWIKI_REPOSITORIES=/repositories</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">TASK_MAX_SIZE_PER_USER=5</span> <span class="hljs-comment"># Número máximo de tareas paralelas de generación de documentos por usuario por IA</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_MODEL=DeepSeek-V3</span> <span class="hljs-comment"># El modelo debe soportar funciones</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ANALYSIS_MODEL=</span> <span class="hljs-comment"># Modelo de análisis utilizado para generar la estructura del directorio del repositorio</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_API_KEY=</span> <span class="hljs-comment"># Tu clave API</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">LANGUAGE=</span> <span class="hljs-comment"># Establece el idioma predeterminado para la generación como "chino"</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENDPOINT=https://api.anthropic.com/</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_TYPE=sqlite</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MODEL_PROVIDER=Anthropic</span> <span class="hljs-comment"># Proveedor de modelo, por defecto es OpenAI, soporta AzureOpenAI y Anthropic</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_CONNECTION_STRING=Data</span> <span class="hljs-string">Source=/data/KoalaWiki.db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">EnableSmartFilter=true</span> <span class="hljs-comment"># Si el filtrado inteligente está habilitado o no puede afectar cómo la IA obtiene el directorio de archivos del repositorio</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">UPDATE_INTERVAL</span> <span class="hljs-comment"># Intervalo de actualización incremental del repositorio, unidad: días</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MAX_FILE_LIMIT=100</span> <span class="hljs-comment"># Límite máximo para cargar archivos, en MB</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DEEP_RESEARCH_MODEL=</span> <span class="hljs-comment"># Investigar en profundidad el modelo y usar CHAT_MODEL si está vacío</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_INCREMENTAL_UPDATE=true</span> <span class="hljs-comment"># Si se habilitan actualizaciones incrementales</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_CODED_DEPENDENCY_ANALYSIS=false</span> <span class="hljs-comment"># Si se habilita el análisis de dependencias de código, esto podría afectar la calidad del código.</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false</span> <span class="hljs-comment"># Si se habilita o no la generación de MCP Prompt.</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_DESCRIPTION_TASK=false</span> <span class="hljs-comment"># Si se habilita la generación de la descripción del repositorio</span>
+</code></pre>
+<blockquote>
+<p>💡 <strong>Cómo obtener una Clave API:</strong></p>
+<ul>
+<li>Obtener clave API de Google <a href="https://makersuite.google.com/app/apikey">Google AI Studio</a></li>
+<li>Obtener clave API de OpenAI <a href="https://platform.openai.com/api-keys">OpenAI Platform</a></li>
+<li>Obtener CoresHub <a href="https://console.coreshub.cn/xb3/maas/global-keys">CoresHub</a> <a href="https://account.coreshub.cn/signup?invite=ZmpMQlZxYVU=">Haz clic aquí para 50 millones de tokens gratis</a></li>
+<li>Obtener TokenAI <a href="https://api.token-ai.cn/">TokenAI</a></li>
+</ul>
+</blockquote>
+<ol start="3">
+<li>Inicia el servicio</li>
+</ol>
+<p>Puedes utilizar los comandos Makefile proporcionados para gestionar fácilmente la aplicación:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Construir todas las imágenes de Docker</span>
+make build
+
+<span class="hljs-comment"># Iniciar todos los servicios en modo background</span>
+make up
+
+<span class="hljs-comment"># O iniciar en modo desarrollo (con logs visibles)</span>
+make dev
+</code></pre>
+<p>Luego visita <a href="http://localhost:8090">http://localhost:8090</a> para acceder a la base de conocimientos.</p>
+<p>Para más comandos:</p>
+<pre><code class="language-bash hljs">make <span class="hljs-built_in">help</span>
+</code></pre>
+<h3>Para usuarios de Windows (sin make)</h3>
+<p>Si usas Windows y no tienes <code>make</code> disponible, puedes utilizar directamente estos comandos de Docker Compose:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Construir todas las imágenes de Docker</span>
+docker-compose build
+
+<span class="hljs-comment"># Iniciar todos los servicios en modo background</span>
+docker-compose up -d
+
+<span class="hljs-comment"># Iniciar en modo desarrollo (con logs visibles)</span>
+docker-compose up
+
+<span class="hljs-comment"># Detener todos los servicios</span>
+docker-compose down
+
+<span class="hljs-comment"># Ver los logs</span>
+docker-compose logs -f
+</code></pre>
+<p>Para construir arquitecturas o servicios específicos, utiliza:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Construir solo el backend</span>
+docker-compose build koalawiki
+
+<span class="hljs-comment"># Construir solo el frontend</span>
+docker-compose build koalawiki-web
+
+<span class="hljs-comment"># Construir con parámetros de arquitectura</span>
+docker-compose build --build-arg ARCH=arm64
+docker-compose build --build-arg ARCH=amd64
+</code></pre>
+<h3>Despliegue en Sealos con acceso público a Internet</h3>
+<p><a href="https://bja.sealos.run/?openapp=system-template%3FtemplateName%3DOpenDeepWiki"><img src="https://raw.githubusercontent.com/labring-actions/templates/main/Deploy-on-Sealos.svg" alt=""></a><br>Para pasos detallados, consulta: <a href="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/scripts/sealos/README.zh-CN.md">Despliegue con un solo clic de OpenDeepWiki como una aplicación de Sealos expuesta a la red pública utilizando plantillas</a></p>
+<h2>🔍 Cómo funciona</h2>
+<p>OpenDeepWiki usa IA para:</p>
+<ul>
+<li>Clonar el repositorio de código localmente</li>
+<li>Analizar en base al README.md del repositorio</li>
+<li>Analizar la estructura del código y leer archivos de código según sea necesario, luego generar datos json de directorio</li>
+<li>Procesar tareas según el directorio, cada tarea es un documento</li>
+<li>Leer archivos de código, analizarlos, generar documentación de código y crear diagramas Mermaid que representen las dependencias de la estructura del código</li>
+<li>Generar el documento final de la base de conocimientos</li>
+<li>Analizar el repositorio mediante interacción conversacional y responder a las consultas de los usuarios</li>
+</ul>
+<pre><code class="language-mermaid">graph TD
+    A[Clonar repositorio de código] --&gt; B[Analizar README.md]
+    B --&gt; C[Analizar estructura del código]
+    C --&gt; D[Generar datos json de directorio]
+    D --&gt; E[Procesar múltiples tareas]
+    E --&gt; F[Leer archivos de código]
+    F --&gt; G[Analizar archivos de código]
+    G --&gt; H[Generar documentación de código]
+    H --&gt; I[Crear diagramas Mermaid]
+    I --&gt; J[Generar documento de la base de conocimientos]
+    J --&gt; K[Interacción conversacional]
+</code></pre>
+<h2>Configuración avanzada</h2>
+<h3>Variables de entorno</h3>
+<ul>
+<li>KOALAWIKI_REPOSITORIES  Ruta para almacenar los repositorios</li>
+<li>TASK_MAX_SIZE_PER_USER  Máximo de tareas paralelas para la generación de documentos IA por usuario</li>
+<li>CHAT_MODEL  El modelo debe soportar funciones</li>
+<li>ENDPOINT  Endpoint de la API</li>
+<li>ANALYSIS_MODEL  Modelo de análisis para generar la estructura de directorio del repositorio</li>
+<li>CHAT_API_KEY  Tu clave API</li>
+<li>LANGUAGE  Cambia el idioma de los documentos generados</li>
+<li>DB_TYPE  Tipo de base de datos, por defecto es sqlite</li>
+<li>MODEL_PROVIDER  Proveedor del modelo, por defecto OpenAI, soporta Azure, OpenAI y Anthropic</li>
+<li>DB_CONNECTION_STRING  Cadena de conexión de la base de datos</li>
+<li>EnableSmartFilter Si el filtrado inteligente está habilitado o no puede afectar cómo la IA obtiene el directorio de archivos del repositorio</li>
+<li>UPDATE_INTERVAL Intervalo de actualización incremental del repositorio, unidad: días</li>
+<li>MAX_FILE_LIMIT El límite máximo para subir archivos, en MB</li>
+<li>DEEP_RESEARCH_MODEL Realiza una investigación en profundidad sobre el modelo y utiliza CHAT_MODEL para el vacío</li>
+<li>ENABLE_INCREMENTAL_UPDATE Si se habilitan o no las actualizaciones incrementales</li>
+<li>ENABLE_CODED_DEPENDENCY_ANALYSIS Si se habilita el análisis de dependencias de código, esto podría tener un impacto en la calidad del código.</li>
+<li>ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK  # Si habilitar o no la generación de MCP Prompt.</li>
+<li>ENABLE_WAREHOUSE_DESCRIPTION_TASK # Si habilitar o no la generación de la Descripción del repositorio</li>
+</ul>
+<h3>Compilar para diferentes arquitecturas</h3>
+<p>El Makefile proporciona comandos para compilar para diferentes arquitecturas de CPU:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Compilar para arquitectura ARM</span>
+make build-arm
+
+<span class="hljs-comment"># Compilar para arquitectura AMD</span>
+make build-amd
+
+<span class="hljs-comment"># Compilar solo backend para ARM</span>
+make build-backend-arm
+
+<span class="hljs-comment"># Compilar solo frontend para AMD</span>
+make build-frontend-amd
+</code></pre>
+<h2>Discord</h2>
+<p><a href="https://discord.gg/8sxUNacv">únete a nosotros</a></p>
+<h2>WeChat</h2>
+<p><img src="https://github.com/user-attachments/assets/2bb0055f-9e45-4db2-b9c9-f1e251996e01" alt="b62354e40046f409b88528dd5631ed45"></p>
+<h2>📄 Licencia</h2>
+<p>Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo <a href="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/LICENSE">LICENSE</a> para más detalles.</p>
+<h2>Historial de estrellas</h2>
+<p><a href="https://www.star-history.com/#AIDotNet/OpenDeepWiki&amp;Date"><img src="https://api.star-history.com/svg?repos=AIDotNet/OpenDeepWiki&amp;type=Date" alt="Star History Chart"></a></p>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
+<hr>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js"></script>
+
+
+</body></html>

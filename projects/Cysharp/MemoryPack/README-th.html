@@ -1,0 +1,1442 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemoryPack - Open AI Tx</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Open AI Tx - Markdown Viewer">
+    <meta name="description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html">
+    <meta property="og:title" content="Open AI Tx - Markdown Viewer">
+    <meta property="og:description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css">
+    <script src="js/highlight.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/Cysharp/MemoryPack" id="githubRepoLink" target="_blank">Cysharp/MemoryPack</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><h1>MemoryPack</h1>
+<p><a href="https://www.nuget.org/packages/MemoryPack"><img src="https://img.shields.io/nuget/v/MemoryPack.svg" alt="NuGet"></a><br><a href="https://github.com/Cysharp/MemoryPack/actions"><img src="https://github.com/Cysharp/MemoryPack/workflows/Build-Debug/badge.svg" alt="GitHub Actions"></a><br><a href="https://github.com/Cysharp/MemoryPack/releases"><img src="https://img.shields.io/github/release/Cysharp/MemoryPack.svg" alt="Releases"></a></p>
+<p>ตัวซีเรียไลเซอร์ข้อมูลไบนารีประสิทธิภาพสูงแบบ zero encoding สำหรับ C# และ Unity</p>
+<p><img src="https://user-images.githubusercontent.com/46207/200979655-63ed38ae-dad2-4ca0-bbb7-9e0aa98914af.png" alt="image"></p>
+<blockquote>
+<p>เปรียบเทียบกับ <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.text.json">System.Text.Json</a>, <a href="https://github.com/protobuf-net/protobuf-net">protobuf-net</a>, <a href="https://github.com/neuecc/MessagePack-CSharp">MessagePack for C#</a>, <a href="https://github.com/dotnet/orleans/">Orleans.Serialization</a>. วัดผลด้วย .NET 7 / Ryzen 9 5950X เครื่อง. ซีเรียไลเซอร์เหล่านี้มีเมธอด <code>IBufferWriter&lt;byte&gt;</code>, ซีเรียไลซ์ด้วย <code>ArrayBufferWriter&lt;byte&gt;</code> และนำกลับมาใช้ซ้ำเพื่อหลีกเลี่ยงการวัดการคัดลอกบัฟเฟอร์.</p>
+</blockquote>
+<p>สำหรับอ็อบเจ็กต์มาตรฐาน MemoryPack เร็วกว่า x10 และเร็วกว่า binary serializers อื่น ๆ x2 ~ x5 สำหรับ struct array, MemoryPack ทรงพลังยิ่งขึ้น โดยเร็วกว่าซีเรียไลเซอร์อื่นถึง x50 ~ x200</p>
+<p>MemoryPack คือซีเรียไลเซอร์ตัวที่ 4 ที่ผมสร้างมาก่อนหน้านี้ ได้แก่ <del><a href="https://github.com/neuecc/ZeroFormatter">ZeroFormatter</a></del>, <del><a href="https://github.com/neuecc/Utf8Json">Utf8Json</a></del>, <a href="https://github.com/neuecc/MessagePack-CSharp">MessagePack for C#</a>. เหตุผลที่ MemoryPack รวดเร็ว เพราะใช้ฟอร์แมตไบนารีที่ออกแบบมาเฉพาะและปรับแต่งสำหรับ C# อย่างดี และอิมพลีเมนเทชั่นที่ปรับจูนมาจากประสบการณ์เดิม นอกจากนี้ยังเป็นดีไซน์ใหม่หมดที่ใช้ .NET 7 และ C# 11 รวมถึง Incremental Source Generator (รองรับ .NET Standard 2.1 (.NET 5, 6) และ Unity ด้วย)</p>
+<p>ซีเรียไลเซอร์อื่นจะมีขั้นตอน encoding หลายอย่าง เช่น VarInt encoding, tag, string ฯลฯ แต่ MemoryPack ใช้ดีไซน์ zero-encoding ที่คัดลอกหน่วยความจำของ C# ได้มากที่สุดเท่าที่ทำได้ แนวคิด zero-encoding คล้าย FlatBuffers แต่ไม่ต้องใช้ชนิดพิเศษ โดย MemoryPack สามารถซีเรียไลซ์ POCO ได้เลย</p>
+<p>นอกจากประสิทธิภาพแล้ว MemoryPack ยังมีฟีเจอร์เหล่านี้</p>
+<ul>
+<li>รองรับ I/O APIs สมัยใหม่ (<code>IBufferWriter&lt;byte&gt;</code>, <code>ReadOnlySpan&lt;byte&gt;</code>, <code>ReadOnlySequence&lt;byte&gt;</code>)</li>
+<li>การสร้างโค้ดโดย Source Generator ที่เป็นมิตรกับ Native AOT, ไม่ใช้ Dynamic CodeGen (IL.Emit)</li>
+<li>API ที่ไม่ใช้ Reflection และไม่ต้องใช้เจนเนอริก</li>
+<li>Deserialize ลงในอินสแตนซ์ที่มีอยู่แล้ว</li>
+<li>ซีเรียไลซ์แบบ Polymorphism (Union)</li>
+<li>รองรับ version-tolerant แบบจำกัด (fast/default) และแบบเต็ม</li>
+<li>รองรับ Circular reference serialization</li>
+<li>รองรับ PipeWriter/Reader สำหรับ serialization แบบสตรีม</li>
+<li>การสร้างโค้ด TypeScript และ ASP.NET Core Formatter</li>
+<li>รองรับ Unity (2021.3) IL2CPP ผ่าน .NET Source Generator</li>
+</ul>
+<h2>การติดตั้ง</h2>
+<p>ไลบรารีนี้เผยแพร่ผ่าน NuGet สำหรับประสิทธิภาพสูงสุด แนะนำให้ใช้ <code>.NET 7</code> ข้อกำหนดขั้นต่ำคือ <code>.NET Standard 2.1</code></p>
+<blockquote>
+<p>PM&gt; Install-Package <a href="https://www.nuget.org/packages/MemoryPack">MemoryPack</a></p>
+</blockquote>
+<p>และตัวแก้ไขโค้ดต้องรองรับ Roslyn 4.3.1 เช่น Visual Studio 2022 เวอร์ชัน 17.3, .NET SDK 6.0.401 รายละเอียดดูที่ <a href="https://learn.microsoft.com/en-us/visualstudio/extensibility/roslyn-version-support">Roslyn Version Support</a></p>
+<p>สำหรับ Unity ข้อกำหนดและขั้นตอนติดตั้งจะแตกต่างกันโดยสิ้นเชิง ดูรายละเอียดในหัวข้อ <a href="#unity">Unity</a></p>
+<h2>เริ่มต้นใช้งานอย่างรวดเร็ว</h2>
+<p>กำหนด struct หรือ class ที่ต้องการซีเรียไลซ์และใส่ attribute <code>[MemoryPackable]</code> พร้อมกับใช้ keyword <code>partial</code></p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> MemoryPack;
+
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Age { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p>โค้ดสำหรับ serialization จะถูกสร้างโดยฟีเจอร์ C# source generator ซึ่งจะ implements อินเตอร์เฟซ <code>IMemoryPackable&lt;T&gt;</code> ใน Visual Studio สามารถดูโค้ดที่สร้างขึ้นได้โดยใช้คีย์ลัด <code>Ctrl+K, R</code> ที่ชื่อคลาสและเลือก <code>*.MemoryPackFormatter.g.cs</code></p>
+<p>เรียกใช้ <code>MemoryPackSerializer.Serialize&lt;T&gt;/Deserialize&lt;T&gt;</code> เพื่อซีเรียไลซ์/ดีซีเรียไลซ์อินสแตนซ์ของอ็อบเจ็กต์</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> v = <span class="hljs-keyword">new</span> Person { Age = <span class="hljs-number">40</span>, Name = <span class="hljs-string">"John"</span> };
+
+<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(v);
+<span class="hljs-keyword">var</span> val = MemoryPackSerializer.Deserialize&lt;Person&gt;(bin);
+</code></pre>
+<p>เมธอด <code>Serialize</code> รองรับทั้งการคืนค่าเป็น <code>byte[]</code> รวมถึงสามารถซีเรียไลซ์ไปยัง <code>IBufferWriter&lt;byte&gt;</code> หรือ <code>Stream</code> ได้ เมธอด <code>Deserialize</code> รองรับ <code>ReadOnlySpan&lt;byte&gt;</code>, <code>ReadOnlySequence&lt;byte&gt;</code> และ <code>Stream</code> รวมถึงมีเวอร์ชันที่ไม่ใช้เจนเนอริกด้วย</p>
+<h2>ประเภทที่รองรับในตัว</h2>
+<p>ประเภทเหล่านี้สามารถซีเรียไลซ์ได้โดยตรง:</p>
+<ul>
+<li>.NET primitives (<code>byte</code>, <code>int</code>, <code>bool</code>, <code>char</code>, <code>double</code> ฯลฯ)</li>
+<li>Unmanaged types (เช่น <code>enum</code> ใดๆ, <code>struct</code> ที่ผู้ใช้กำหนดเองซึ่งไม่มี reference types)</li>
+<li><code>string</code>, <code>decimal</code>, <code>Half</code>, <code>Int128</code>, <code>UInt128</code>, <code>Guid</code>, <code>Rune</code>, <code>BigInteger</code></li>
+<li><code>TimeSpan</code>,  <code>DateTime</code>, <code>DateTimeOffset</code>, <code>TimeOnly</code>, <code>DateOnly</code>, <code>TimeZoneInfo</code></li>
+<li><code>Complex</code>, <code>Plane</code>, <code>Quaternion</code>, <code>Matrix3x2</code>, <code>Matrix4x4</code>, <code>Vector2</code>, <code>Vector3</code>, <code>Vector4</code></li>
+<li><code>Uri</code>, <code>Version</code>, <code>StringBuilder</code>, <code>Type</code>, <code>BitArray</code>, <code>CultureInfo</code></li>
+<li><code>T[]</code>, <code>T[,]</code>, <code>T[,,]</code>, <code>T[,,,]</code>, <code>Memory&lt;&gt;</code>, <code>ReadOnlyMemory&lt;&gt;</code>, <code>ArraySegment&lt;&gt;</code>, <code>ReadOnlySequence&lt;&gt;</code></li>
+<li><code>Nullable&lt;&gt;</code>, <code>Lazy&lt;&gt;</code>, <code>KeyValuePair&lt;,&gt;</code>, <code>Tuple&lt;,...&gt;</code>, <code>ValueTuple&lt;,...&gt;</code></li>
+<li><code>List&lt;&gt;</code>, <code>LinkedList&lt;&gt;</code>, <code>Queue&lt;&gt;</code>, <code>Stack&lt;&gt;</code>, <code>HashSet&lt;&gt;</code>, <code>SortedSet&lt;&gt;</code>, <code>PriorityQueue&lt;,&gt;</code></li>
+<li><code>Dictionary&lt;,&gt;</code>, <code>SortedList&lt;,&gt;</code>, <code>SortedDictionary&lt;,&gt;</code>,  <code>ReadOnlyDictionary&lt;,&gt;</code> </li>
+<li><code>Collection&lt;&gt;</code>, <code>ReadOnlyCollection&lt;&gt;</code>, <code>ObservableCollection&lt;&gt;</code>, <code>ReadOnlyObservableCollection&lt;&gt;</code></li>
+<li><code>IEnumerable&lt;&gt;</code>, <code>ICollection&lt;&gt;</code>, <code>IList&lt;&gt;</code>, <code>IReadOnlyCollection&lt;&gt;</code>, <code>IReadOnlyList&lt;&gt;</code>, <code>ISet&lt;&gt;</code></li>
+<li><code>IDictionary&lt;,&gt;</code>, <code>IReadOnlyDictionary&lt;,&gt;</code>, <code>ILookup&lt;,&gt;</code>, <code>IGrouping&lt;,&gt;</code>,</li>
+<li><code>ConcurrentBag&lt;&gt;</code>, <code>ConcurrentQueue&lt;&gt;</code>, <code>ConcurrentStack&lt;&gt;</code>, <code>ConcurrentDictionary&lt;,&gt;</code>, <code>BlockingCollection&lt;&gt;</code></li>
+<li>Immutable collections (<code>ImmutableList&lt;&gt;</code> ฯลฯ) และ interfaces (<code>IImmutableList&lt;&gt;</code> ฯลฯ)</li>
+</ul>
+<h2>การกำหนด <code>[MemoryPackable]</code> ให้กับ <code>class</code> / <code>struct</code> / <code>record</code> / <code>record struct</code></h2>
+<p><code>[MemoryPackable]</code> สามารถใช้กับ <code>class</code>, <code>struct</code>, <code>record</code>, <code>record struct</code> และ <code>interface</code> ใดๆ หากชนิดเป็น <code>struct</code> หรือ <code>record struct</code> ที่ไม่มี reference types (<a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/unmanaged-types">C# Unmanaged types</a>) จะไม่ใช้ annotation อื่นใด (ignore, include, constructor, callbacks) โดยจะซีเรียไลซ์/ดีซีเรียไลซ์ตรงจากเมมโมรี</p>
+<p>ในกรณีอื่น <code>[MemoryPackable]</code> จะซีเรียไลซ์ property หรือ field สาธารณะโดยอัตโนมัติ สามารถใช้ <code>[MemoryPackIgnore]</code> เพื่อลบออกจาก serialization target หรือ <code>[MemoryPackInclude]</code> เพื่อโปรโมตสมาชิก private ให้ซีเรียไลซ์ได้</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-comment">// สมาชิกเหล่านี้จะถูกซีเรียไลซ์โดยอัตโนมัติ</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PublicField;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> PublicReadOnlyField;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PublicProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PrivateSetPublicProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> ReadOnlyPublicProperty { <span class="hljs-keyword">get</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> InitProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">int</span> RequiredInitProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+
+    <span class="hljs-comment">// สมาชิกเหล่านี้จะไม่ถูกซีเรียไลซ์โดยอัตโนมัติ</span>
+    <span class="hljs-built_in">int</span> privateProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-built_in">int</span> privateField;
+    <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> privateReadOnlyField;
+
+    <span class="hljs-comment">// ใช้ [MemoryPackIgnore] เพื่อลบ public member ออกจาก target</span>
+    [<span class="hljs-meta">MemoryPackIgnore</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PublicProperty2 =&gt; PublicProperty + PublicField;
+
+    <span class="hljs-comment">// ใช้ [MemoryPackInclude] เพื่อโปรโมตสมาชิก private ให้ซีเรียไลซ์ได้</span>
+    [<span class="hljs-meta">MemoryPackInclude</span>]
+    <span class="hljs-built_in">int</span> privateField2;
+    [<span class="hljs-meta">MemoryPackInclude</span>]
+    <span class="hljs-built_in">int</span> privateProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p>ตัว generator ของ <code>MemoryPack</code> จะเพิ่มข้อมูลว่าสมาชิกตัวไหนถูกซีเรียไลซ์ลงในส่วน <code>&lt;remarks /&gt;</code> ซึ่งสามารถดูได้โดยเอาเมาส์ชี้ที่ชนิดนั้นใน Intellisense</p>
+<p><img src="https://user-images.githubusercontent.com/46207/192393984-9af01fcb-872e-46fb-b08f-4783e8cef4ae.png" alt="image"></p>
+<p>สมาชิกทั้งหมดต้องสามารถซีเรียไลซ์ด้วย memorypack ได้ หากไม่เป็นไปตามนั้น code generator จะส่ง error</p>
+<p><img src="https://user-images.githubusercontent.com/46207/192413557-8a47d668-5339-46c5-a3da-a77841666f81.png" alt="image"></p>
+<p>MemoryPack มี diagnostic rule ทั้งหมด 35 ข้อ (<code>MEMPACK001</code> ถึง <code>MEMPACK035</code>) เพื่อให้กำหนดได้อย่างมั่นใจ</p>
+<p>หากชนิดเป้าหมายมีการกำหนด MemoryPack serialization ภายนอกและมีการลงทะเบียนแล้ว สามารถใช้ <code>[MemoryPackAllowSerialize]</code> เพื่อปิด diagnostic ได้</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample2</span>
+{
+    [<span class="hljs-meta">MemoryPackAllowSerialize</span>]
+    <span class="hljs-keyword">public</span> NotSerializableType? NotSerializableProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p>ลำดับของสมาชิก <strong>สำคัญมาก</strong> MemoryPack จะไม่ซีเรียไลซ์ชื่อสมาชิกหรือข้อมูลอื่น ๆ แต่จะซีเรียไลซ์ฟิลด์ตามลำดับที่ประกาศ ถ้าชนิดมีการสืบทอด จะซีเรียไลซ์ตามลำดับ parent → child ลำดับสมาชิกต้องไม่เปลี่ยนสำหรับการดีซีเรียไลซ์ ในกรณี schema evolution ดูในหัวข้อ <a href="#version-tolerant">Version tolerant</a></p>
+<p>ลำดับปกติจะเป็นไปตามลำดับประกาศ แต่สามารถเลือก explicit layout ได้ด้วย <code>[MemoryPackable(SerializeLayout.Explicit)]</code> และ <code>[MemoryPackOrder()]</code></p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// ซีเรียไลซ์ Prop0 -&gt; Prop1</span>
+[<span class="hljs-meta">MemoryPackable(SerializeLayout.Explicit)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SampleExplicitOrder</span>
+{
+    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<h3>การเลือก Constructor</h3>
+<p>MemoryPack รองรับทั้ง parameterized และ parameterless constructor กติกาการเลือก constructor มีดังนี้ (ใช้กับทั้ง class และ struct):</p>
+<ul>
+<li>หากมี <code>[MemoryPackConstructor]</code> จะใช้ตัวนั้น</li>
+<li>หากไม่มี constructor (รวมถึง private) จะใช้ parameterless</li>
+<li>หากมี constructor แบบ parameterless/parameterized เพียงหนึ่งตัว (รวมถึง private) จะใช้ตัวนั้น</li>
+<li>หากมี constructor หลายตัว ต้องใส่ attribute <code>[MemoryPackConstructor]</code> ให้กับ constructor ที่ต้องการ (generator จะไม่เลือกให้เอง) มิฉะนั้น generator จะส่ง error</li>
+<li>หากใช้ parameterized constructor ชื่อ parameter ทั้งหมดต้องตรงกับชื่อสมาชิก (case-insensitive)</li>
+</ul>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> Age;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> Name;
+
+    <span class="hljs-comment">// สามารถใช้ parameterized constructor ได้ - ชื่อ parameter ต้องตรงกับชื่อสมาชิก (case-insensitive)</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> age, <span class="hljs-built_in">string</span> name</span>)</span>
+    {
+        <span class="hljs-keyword">this</span>.Age = age;
+        <span class="hljs-keyword">this</span>.Name = name;
+    }
+}
+
+<span class="hljs-comment">// รองรับ record primary constructor ด้วย</span>
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">record</span> <span class="hljs-title">Person2</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> Age, <span class="hljs-built_in">string</span> Name</span>)</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person3</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Age { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person3</span>()</span>
+    {
+    }
+</code></pre>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// หากมี constructor หลายตัว จะต้องใช้ [MemoryPackConstructor]</span>
+[<span class="hljs-meta">MemoryPackConstructor</span>]
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person3</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> age, <span class="hljs-built_in">string</span> name</span>)</span>
+{
+    <span class="hljs-keyword">this</span>.Age = age;
+    <span class="hljs-keyword">this</span>.Name = name;
+}
+</code></pre>
+<h3>การเรียก callback ระหว่างการ serialization</h3>
+<p>เมื่อทำการ serialize/deserialize, MemoryPack สามารถเรียกใช้งาน event ก่อน/หลัง ได้โดยใช้ attribute <code>[MemoryPackOnSerializing]</code>, <code>[MemoryPackOnSerialized]</code>, <code>[MemoryPackOnDeserializing]</code>, <code>[MemoryPackOnDeserialized]</code> สามารถใส่ annotation ได้ทั้ง method แบบ static และ instance (ไม่ใช่ static) และทั้ง method ที่เป็น public และ private</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MethodCallSample</span>
+{
+    <span class="hljs-comment">// ลำดับการเรียก method คือ static -&gt; instance</span>
+    [<span class="hljs-meta">MemoryPackOnSerializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnSerializing1</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerializing1));
+    }
+
+    <span class="hljs-comment">// รองรับ method แบบ private ด้วย</span>
+    [<span class="hljs-meta">MemoryPackOnSerializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnSerializing2</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerializing2));
+    }
+
+    <span class="hljs-comment">// serializing -&gt; /* serialize */ -&gt; serialized</span>
+    [<span class="hljs-meta">MemoryPackOnSerialized</span>]
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnSerialized1</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerialized1));
+    }
+
+    [<span class="hljs-meta">MemoryPackOnSerialized</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnSerialized2</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerialized2));
+    }
+
+    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserializing1</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserializing1));
+    }
+
+    <span class="hljs-comment">// หมายเหตุ: instance method ที่มี MemoryPackOnDeserializing จะไม่ถูกเรียกถ้า instance ไม่ถูกส่งแบบ `ref`</span>
+    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserializing2</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserializing2));
+    }
+
+    [<span class="hljs-meta">MemoryPackOnDeserialized</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserialized1</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserialized1));
+    }
+
+    [<span class="hljs-meta">MemoryPackOnDeserialized</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserialized2</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserialized2));
+    }
+}
+</code></pre>
+<p>Callback รองรับ method ที่ไม่มี parameter และแบบ <code>ref reader/writer, ref T value</code> ด้วย ตัวอย่างเช่น callback แบบ ref สามารถเขียน/อ่าน header แบบ custom ก่อนเริ่มกระบวนการ serialization</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EmitIdData</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">MemoryPackOnSerializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">WriteId</span>&lt;<span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackWriter&lt;TBufferWriter&gt; writer, <span class="hljs-keyword">ref</span> EmitIdData? <span class="hljs-keyword">value</span></span>)
+        <span class="hljs-keyword">where</span> TBufferWriter : IBufferWriter&lt;<span class="hljs-built_in">byte</span>&gt; <span class="hljs-comment">// .NET Standard 2.1, ใช้ where TBufferWriter : class, IBufferWriter&lt;byte&gt;</span></span>
+    {
+        writer.WriteUnmanaged(Guid.NewGuid()); <span class="hljs-comment">// เขียน GUID ที่ header</span>
+    }
+
+    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ReadId</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">ref</span> EmitIdData? <span class="hljs-keyword">value</span></span>)</span>
+    {
+        <span class="hljs-comment">// อ่าน custom header ก่อน deserialize</span>
+        <span class="hljs-keyword">var</span> guid = reader.ReadUnmanaged&lt;Guid&gt;();
+        Console.WriteLine(guid);
+    }
+}
+</code></pre>
+<p>หากกำหนดค่าให้กับ <code>ref value</code> จะสามารถเปลี่ยนแปลงค่าที่ใช้ในการ serialize/deserialize ได้ เช่น การสร้าง instance จาก ServiceProvider</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// ก่อนใช้ formatter นี้ ให้ตั้งค่า ServiceProvider</span>
+<span class="hljs-comment">// var options = MemoryPackSerializerOptions.Default with { ServiceProvider = provider };</span>
+<span class="hljs-comment">// MemoryPackSerializer.Deserialize(value, options);</span>
+
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">InstantiateFromServiceProvider</span>
+{
+    <span class="hljs-keyword">static</span> IServiceProvider serviceProvider = <span class="hljs-literal">default</span>!;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserializing</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">ref</span> InstantiateFromServiceProvider <span class="hljs-keyword">value</span></span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> != <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;
+        <span class="hljs-keyword">value</span> = reader.Options.ServiceProvider!.GetRequiredService&lt;InstantiateFromServiceProvider&gt;();
+    }
+}
+</code></pre>
+<h2>การกำหนด collection แบบ custom</h2>
+<p>โดยปกติแล้ว type ที่มี annotation <code>[MemoryPackObject]</code> จะพยายาม serialize สมาชิกของตนเอง อย่างไรก็ตาม หาก type นั้นเป็น collection (<code>ICollection&lt;&gt;</code>, <code>ISet&lt;&gt;</code>, <code>IDictionary&lt;,&gt;</code>) ให้ใช้ <code>GenerateType.Collection</code> เพื่อให้ serialize ได้อย่างถูกต้อง</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable(GenerateType.Collection)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyList</span>&lt;<span class="hljs-title">T</span>&gt; : <span class="hljs-title">List</span>&lt;<span class="hljs-title">T</span>&gt;
+{
+}
+
+[<span class="hljs-meta">MemoryPackable(GenerateType.Collection)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyStringDictionary</span>&lt;<span class="hljs-title">TValue</span>&gt; : <span class="hljs-title">Dictionary</span>&lt;<span class="hljs-title">string</span>, <span class="hljs-title">TValue</span>&gt;
+{
+
+}
+</code></pre>
+<h2>Static constructor</h2>
+<p>คลาส MemoryPackable ไม่สามารถกำหนด static constructor ได้เพราะ partial class ที่ถูก generate จะใช้งานมันอยู่แล้ว ให้กำหนดเป็น <code>static partial void StaticConstructor()</code> แทนเพื่อให้ได้ผลลัพธ์แบบเดียวกัน</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">CctorSample</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">void</span> <span class="hljs-title">StaticConstructor</span>()</span>
+    {
+    }
+}
+</code></pre>
+<h2>Polymorphism (Union)</h2>
+<p>MemoryPack รองรับการ serialize อ็อบเจ็กต์ที่เป็น interface และ abstract class สำหรับการ serialize แบบ polymorphism โดยใน MemoryPack คุณสมบัตินี้เรียกว่า Union โดยจะอนุญาตให้เฉพาะ interface และ abstract class เท่านั้นที่ใช้ attribute <code>[MemoryPackUnion]</code> ได้ ต้องกำหนด tag ของ union ให้ไม่ซ้ำกัน</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// ใส่ [MemoryPackable] และ type ที่สืบทอดด้วย [MemoryPackUnion]</span>
+<span class="hljs-comment">// Union รองรับ abstract class ด้วย</span>
+[<span class="hljs-meta">MemoryPackable</span>]
+[<span class="hljs-meta">MemoryPackUnion(0, typeof(FooClass))</span>]
+[<span class="hljs-meta">MemoryPackUnion(1, typeof(BarClass))</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IUnionSample</span>
+{
+}
+
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">FooClass</span> : <span class="hljs-title">IUnionSample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> XYZ { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">BarClass</span> : <span class="hljs-title">IUnionSample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? OPQ { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+<span class="hljs-comment">// ---</span>
+
+IUnionSample data = <span class="hljs-keyword">new</span> FooClass() { XYZ = <span class="hljs-number">999</span> };
+
+<span class="hljs-comment">// Serialize เป็น type ของ interface</span>
+<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(data);
+
+<span class="hljs-comment">// Deserialize เป็น type ของ interface</span>
+<span class="hljs-keyword">var</span> reData = MemoryPackSerializer.Deserialize&lt;IUnionSample&gt;(bin);
+
+<span class="hljs-keyword">switch</span> (reData)
+{
+    <span class="hljs-keyword">case</span> FooClass x:
+        Console.WriteLine(x.XYZ);
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> BarClass x:
+        Console.WriteLine(x.OPQ);
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-literal">default</span>:
+        <span class="hljs-keyword">break</span>;
+}
+</code></pre>
+<p><code>tag</code> รองรับค่าตั้งแต่ <code>0</code> ถึง <code>65535</code> และมีประสิทธิภาพสูงเป็นพิเศษสำหรับค่าต่ำกว่า <code>250</code><br>หากอินเทอร์เฟซและไทป์ที่สืบทอดอยู่ใน Assembly ที่ต่างกัน คุณสามารถใช้ <code>MemoryPackUnionFormatterAttribute</code> แทนได้ Formatter จะถูกสร้างขึ้นโดยอัตโนมัติและลงทะเบียนผ่าน <code>ModuleInitializer</code> ใน C# 9.0 ขึ้นไป</p>
+<blockquote>
+<p>หมายเหตุว่า <code>ModuleInitializer</code> ไม่รองรับใน Unity ดังนั้น Formatter จะต้องลงทะเบียนด้วยตนเอง ในการลงทะเบียน union formatter ของคุณ ให้เรียกใช้ <code>{name of your union formatter}Initializer.RegisterFormatter()</code> ด้วยตนเองใน Startup ตัวอย่างเช่น <code>UnionSampleFormatterInitializer.RegisterFormatter()</code></p>
+</blockquote>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// AssemblyA</span>
+[<span class="hljs-meta">MemoryPackable(GenerateType.NoGenerate)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IUnionSample</span>
+{
+}
+
+<span class="hljs-comment">// AssemblyB กำหนด definition นอกเหนือจาก type เป้าหมาย</span>
+[<span class="hljs-meta">MemoryPackUnionFormatter(typeof(IUnionSample))</span>]
+[<span class="hljs-meta">MemoryPackUnion(0, typeof(FooClass))</span>]
+[<span class="hljs-meta">MemoryPackUnion(1, typeof(BarClass))</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UnionSampleFormatter</span>
+{
+}
+</code></pre>
+<p>Union สามารถรวมกันในโค้ดได้ผ่าน <code>DynamicUnionFormatter&lt;T&gt;</code></p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// (ushort, Type)[]</span>
+<span class="hljs-keyword">var</span> formatter = <span class="hljs-keyword">new</span> DynamicUnionFormatter&lt;IFooBarBaz&gt;(
+    (<span class="hljs-number">0</span>, <span class="hljs-keyword">typeof</span>(Foo)),
+    (<span class="hljs-number">1</span>, <span class="hljs-keyword">typeof</span>(Bar)),
+    (<span class="hljs-number">2</span>, <span class="hljs-keyword">typeof</span>(Baz))
+);
+
+MemoryPackFormatterProvider.Register(formatter);
+</code></pre>
+<h2>Serialize API</h2>
+<p><code>Serialize</code> มีทั้งหมดสาม overload</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// Non generic API ก็มีเช่นกัน เวอร์ชันนี้ argument แรกเป็น Type และ value เป็น object?</span>
+<span class="hljs-function"><span class="hljs-built_in">byte</span>[] <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> T? <span class="hljs-keyword">value</span>, MemoryPackSerializerOptions? options = <span class="hljs-literal">default</span></span>)
+<span class="hljs-keyword">void</span> <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">T</span>, <span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> TBufferWriter bufferWriter, <span class="hljs-keyword">in</span> T? <span class="hljs-keyword">value</span>, MemoryPackSerializerOptions? options = <span class="hljs-literal">default</span></span>)
+<span class="hljs-keyword">async</span> ValueTask <span class="hljs-title">SerializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream, T? <span class="hljs-keyword">value</span>, MemoryPackSerializerOptions? options = <span class="hljs-literal">default</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
+</span></code></pre>
+<p>เพื่อประสิทธิภาพที่ดี API ที่แนะนำคือการใช้ <code>BufferWriter</code> ซึ่งจะ serialize ตรงเข้า buffer สามารถใช้กับ <code>PipeWriter</code> จาก <code>System.IO.Pipelines</code>, <code>BodyWriter</code> ใน ASP .NET Core ฯลฯ</p>
+<p>หากต้องการ <code>byte[]</code> (เช่น <code>RedisValue</code> ใน <a href="https://github.com/StackExchange/StackExchange.Redis">StackExchange.Redis</a>) การคืนค่า API แบบ <code>byte[]</code> ก็ใช้งานง่ายและเร็วเกือบเท่ากัน</p>
+<p>โปรดทราบว่า <code>SerializeAsync</code> สำหรับ <code>Stream</code> จะเป็นแบบ asynchronous เฉพาะตอน Flush; โดยจะ serialize ทั้งหมดลง MemoryPack internal pool buffer แล้วจึงเขียนด้วย <code>WriteAsync</code> ดังนั้น overload แบบ <code>BufferWriter</code> ที่แยกและควบคุม buffer กับ flush ได้จะดีกว่า</p>
+<p>หากคุณต้องการทำ streaming write แบบสมบูรณ์ โปรดดูหัวข้อ <a href="#streaming-serialization">Streaming Serialization</a></p>
+<h3>MemoryPackSerializerOptions</h3>
+<p><code>MemoryPackSerializerOptions</code> ใช้ตั้งค่าว่าจะ serialize string เป็น UTF16 หรือ UTF8 โดยสามารถตั้งค่าได้โดยส่ง <code>MemoryPackSerializerOptions.Utf8</code> สำหรับ encoding แบบ UTF8, <code>MemoryPackSerializerOptions.Utf16</code> สำหรับ UTF16 หรือ <code>MemoryPackSerializerOptions.Default</code> ซึ่งตั้งค่าเริ่มต้นเป็น UTF8 หากส่ง null หรือใช้ parameter default จะเป็น UTF8</p>
+<p>เนื่องจาก string ใน C# จะเป็น UTF16 อยู่แล้ว การใช้ UTF16 จะเร็วกว่า แต่ขนาด payload จะใหญ่กว่า; ใน UTF8 string ASCII จะใช้ 1 byte, แต่ใน UTF16 จะใช้ 2 byte เนื่องจากความแตกต่างของขนาด payload นี้จึงตั้งค่า default เป็น UTF8</p>
+<p>หากข้อมูลเป็น non-ASCII (เช่น ญี่ปุ่น ที่อาจเกิน 3 byte และ UTF8 ใหญ่กว่า) หรือหากคุณต้องบีบอัดแยกต่างหาก การใช้ UTF16 อาจให้ผลลัพธ์ที่ดีกว่า</p>
+<p>แม้จะเลือก UTF8 หรือ UTF16 ตอน serialize ได้ แต่ขณะ deserialize ไม่จำเป็นต้องระบุ จะตรวจจับและแปลงกลับโดยอัตโนมัติ</p>
+<p>นอกจากนี้คุณยังสามารถ get/set <code>IServiceProvider? ServiceProvider { get; init; }</code> จาก options ได้ด้วย ใช้กับกรณีต้องการ DI object (เช่น <code>ILogger&lt;T&gt;</code>) จากกระบวนการ serialization (<code>MemoryPackReader/MemoryPackWriter</code> มี .Options property)</p>
+<h2>Deserialize API</h2>
+<p><code>Deserialize</code> มี overload สำหรับ <code>ReadOnlySpan&lt;byte&gt;</code>, <code>ReadOnlySequence&lt;byte&gt;</code>, <code>Stream</code> และรองรับ <code>ref</code></p>
+<pre><code class="language-csharp hljs">T? Deserialize&lt;T&gt;(ReadOnlySpan&lt;<span class="hljs-built_in">byte</span>&gt; buffer)
+<span class="hljs-function"><span class="hljs-built_in">int</span> <span class="hljs-title">Deserialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">ReadOnlySpan&lt;<span class="hljs-built_in">byte</span>&gt; buffer, <span class="hljs-keyword">ref</span> T? <span class="hljs-keyword">value</span></span>)
+T? <span class="hljs-title">Deserialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> ReadOnlySequence&lt;<span class="hljs-built_in">byte</span>&gt; buffer</span>)
+<span class="hljs-built_in">int</span> <span class="hljs-title">Deserialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> ReadOnlySequence&lt;<span class="hljs-built_in">byte</span>&gt; buffer, <span class="hljs-keyword">ref</span> T? <span class="hljs-keyword">value</span></span>)
+<span class="hljs-keyword">async</span> <span class="hljs-title">ValueTask</span>&lt;<span class="hljs-title">T</span>?&gt; <span class="hljs-title">DeserializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream</span>)
+</span></code></pre>
+<p>overload แบบ <code>ref</code> จะ overwrite instance ที่มีอยู่ รายละเอียดดูหัวข้อ <a href="#overwrite">Overwrite</a></p>
+<p><code>DeserializeAsync(Stream)</code> ไม่ได้เป็นการอ่าน stream แบบ streaming เต็มรูปแบบ โดยจะอ่านเข้า internal pool ของ MemoryPack จนจบ stream แล้วจึง deserialize</p>
+<p>หากคุณต้องการทำ streaming read แบบสมบูรณ์ โปรดดูหัวข้อ <a href="#streaming-serialization">Streaming Serialization</a></p>
+<h2>Overwrite</h2>
+<p>เพื่อช่วยลด allocation, MemoryPack รองรับการ deserialize ทับ instance เดิม โดยใช้ overload <code>Deserialize(ref T? value)</code></p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> person = <span class="hljs-keyword">new</span> Person();
+<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(person);
+
+<span class="hljs-comment">// overwrite ข้อมูลลง instance เดิม</span>
+MemoryPackSerializer.Deserialize(bin, <span class="hljs-keyword">ref</span> person);
+</code></pre>
+<p>MemoryPack จะพยายาม overwrite ให้มากที่สุดเท่าที่จะทำได้ แต่หากมีเงื่อนไขดังต่อไปนี้ไม่ตรง จะสร้าง instance ใหม่ (เหมือนการ deserialize ปกติ)</p>
+<ul>
+<li>ref value (รวมสมาชิกใน object graph) เป็น null, จะ set instance ใหม่</li>
+<li>อนุญาตเฉพาะ constructor แบบไม่มี parameter ถ้าใช้ parameterized constructor จะสร้าง instance ใหม่</li>
+<li>หาก value เป็น <code>T[]</code> จะ reuse เฉพาะกรณี length เท่ากัน, ไม่เช่นนั้นสร้าง instance ใหม่</li>
+<li>หาก value เป็น collection ที่มี <code>.Clear()</code> เช่น (<code>List&lt;&gt;</code>, <code>Stack&lt;&gt;</code>, <code>Queue&lt;&gt;</code>, <code>LinkedList&lt;&gt;</code>, <code>HashSet&lt;&gt;</code>, <code>PriorityQueue&lt;,&gt;</code>, <code>ObservableCollection</code>, <code>Collection</code>, <code>ConcurrentQueue&lt;&gt;</code>, <code>ConcurrentStack&lt;&gt;</code>, <code>ConcurrentBag&lt;&gt;</code>, <code>Dictionary&lt;,&gt;</code>, <code>SortedDictionary&lt;,&gt;</code>, <code>SortedList&lt;,&gt;</code>, <code>ConcurrentDictionary&lt;,&gt;</code>) จะเรียก Clear() และ reuse, ไม่เช่นนั้นสร้าง instance ใหม่</li>
+</ul>
+<h2>Version tolerant</h2>
+<p>โดยค่าเริ่มต้น (<code>GenerateType.Object</code>), MemoryPack รองรับ schema evolution แบบจำกัด</p>
+<ul>
+<li>struct แบบ unmanaged ไม่สามารถเปลี่ยนแปลงได้อีก</li>
+<li>สามารถเพิ่มสมาชิกได้ แต่ลบออกไม่ได้</li>
+<li>เปลี่ยนชื่อสมาชิกได้</li>
+<li>เปลี่ยนลำดับสมาชิกไม่ได้</li>
+<li>เปลี่ยนชนิดสมาชิกไม่ได้</li>
+</ul>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+<span class="hljs-comment">// Add ได้</span>
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span>? AddedProp { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+<span class="hljs-comment">// Remove ไม่ได้</span>
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+{
+    <span class="hljs-comment">// public int Prop1 { get; set; }</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+<span class="hljs-comment">// เปลี่ยนลำดับไม่ได้</span>
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p>สำหรับ use-case ที่เก็บข้อมูลเก่า (ไฟล์, redis, ฯลฯ) แล้วอ่านด้วย schema ใหม่ สามารถทำได้เสมอ ในกรณี RPC schema จะมีทั้งฝั่ง client และ server โดย client ต้องอัปเดตให้ใหม่ก่อน server client ที่อัปเดตแล้วจะเชื่อมต่อกับ server เก่าได้ แต่ client เก่าเชื่อมต่อกับ server ใหม่ไม่ได้</p>
+<p>โดยปกติเมื่ออ่านข้อมูลเก่าเข้า schema ใหม่ สมาชิกที่ไม่มีในฝั่งข้อมูลจะถูกกำหนดค่าเป็น <code>default</code> เสมอ<br>หากต้องการหลีกเลี่ยงและใช้ค่าเริ่มต้นของ field/property สามารถใช้ <code>[SuppressDefaultInitialization]</code></p>
+<pre><code class="language-cs hljs language-csharp">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">DefaultValue</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">SuppressDefaultInitialization</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-number">111</span>; <span class="hljs-comment">// &lt; ถ้าข้อมูลเก่าขาด จะ set เป็น `111`</span>
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop3 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-number">222</span>; <span class="hljs-comment">// &lt; ถ้าข้อมูลเก่าขาด จะ set เป็น `default`</span>
+}
+</code></pre>
+<p> <code>[SuppressDefaultInitialization]</code> มีข้อจำกัดดังนี้:</p>
+<ul>
+<li>ใช้กับ readonly, init-only และ required modifier ไม่ได้</li>
+</ul>
+<p>หัวข้อถัดไป <a href="#serialization-info">Serialization info</a> จะแสดงวิธีเช็ค schema change เช่น โดย CI เพื่อป้องกันข้อผิดพลาด</p>
+<p>เมื่อใช้ <code>GenerateType.VersionTolerant</code> จะรองรับ version-tolerant อย่างสมบูรณ์</p>
+<ul>
+<li>struct แบบ unmanaged ไม่สามารถเปลี่ยนแปลงได้อีก</li>
+<li>ต้องเพิ่ม <code>[MemoryPackOrder]</code> ให้ทุกสมาชิก (ยกเว้น annotate <code>SerializeLayout.Sequential</code>)</li>
+<li>สามารถเพิ่มหรือลบสมาชิกได้ แต่ห้าม reuse order (ใช้ order ที่ขาดได้)</li>
+<li>เปลี่ยนชื่อสมาชิกได้</li>
+<li>เปลี่ยนลำดับสมาชิกไม่ได้</li>
+<li>เปลี่ยนชนิดสมาชิกไม่ได้</li>
+</ul>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// Ok ทั้ง serialize/deserialize จาก </span>
+<span class="hljs-comment">// VersionTolerantObject1 -&gt; VersionTolerantObject2 และ </span>
+<span class="hljs-comment">// VersionTolerantObject2 -&gt; VersionTolerantObject1</span>
+
+[<span class="hljs-meta">MemoryPackable(GenerateType.VersionTolerant)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionTolerantObject1</span>
+{
+    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+
+    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> MyProperty1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+
+    [<span class="hljs-meta">MemoryPackOrder(2)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+}
+
+[<span class="hljs-meta">MemoryPackable(GenerateType.VersionTolerant)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionTolerantObject2</span>
+{
+```csharp
+[<span class="hljs-meta">MemoryPackOrder(0)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+
+<span class="hljs-comment">// deleted</span>
+<span class="hljs-comment">//[MemoryPackOrder(1)]</span>
+<span class="hljs-comment">//public long MyProperty1 { get; set; } = default;</span>
+
+[<span class="hljs-meta">MemoryPackOrder(2)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+
+<span class="hljs-comment">// added</span>
+[<span class="hljs-meta">MemoryPackOrder(3)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty3 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+}
+</code></pre>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// ถ้ากำหนด SerializeLayout.Sequential โดยตรง จะสามารถจัดลำดับอัตโนมัติได้</span>
+<span class="hljs-comment">// แต่จะไม่สามารถลบสมาชิกใด ๆ สำหรับการรองรับเวอร์ชันได้</span>
+[<span class="hljs-meta">MemoryPackable(GenerateType.VersionTolerant, SerializeLayout.Sequential)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionTolerantObject3</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> MyProperty1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+}
+</code></pre>
+<p><code>GenerateType.VersionTolerant</code> จะช้ากว่า <code>GenerateType.Object</code> ในการซีเรียลไลซ์ และขนาดของ payload จะใหญ่กว่าเล็กน้อย</p>
+<h2>ข้อมูลการซีเรียลไลซ์</h2>
+<p>คุณสามารถตรวจสอบ IntelliSense ใน type ว่าสมาชิกใดถูกซีเรียลไลซ์ มีตัวเลือกสำหรับเขียนข้อมูลนี้ลงไฟล์ขณะ compile ตั้งค่า <code>MemoryPackGenerator_SerializationInfoOutputDirectory</code> ดังนี้</p>
+<pre><code class="language-xml hljs"><span class="hljs-comment">&lt;!-- ส่งออกข้อมูลการซีเรียลไลซ์ memorypack ไปที่ไดเรกทอรี --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_SerializationInfoOutputDirectory"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">PropertyGroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_SerializationInfoOutputDirectory</span>&gt;</span>$(MSBuildProjectDirectory)\MemoryPackLogs<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_SerializationInfoOutputDirectory</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">PropertyGroup</span>&gt;</span>
+</code></pre>
+<p>ข้อมูลต่อไปนี้จะถูกเขียนลงไฟล์</p>
+<p><img src="https://user-images.githubusercontent.com/46207/192460684-c2fd8bcb-375e-41dd-9960-58205d5b1b7a.png" alt="image"></p>
+<p>ถ้าประเภทเป็น unmanaged จะแสดง <code>unmanaged</code> ก่อนชื่อประเภท</p>
+<pre><code class="language-txt hljs language-plaintext">unmanaged FooStruct
+---
+int x
+int y
+</code></pre>
+<p>โดยการตรวจสอบความแตกต่างในไฟล์นี้ สามารถป้องกันการเปลี่ยนแปลง schema ที่อันตรายได้ ตัวอย่างเช่น คุณอาจต้องการใช้ CI เพื่อตรวจจับกฎต่อไปนี้</p>
+<ul>
+<li>แก้ไข unmanaged type</li>
+<li>การเปลี่ยนลำดับสมาชิก</li>
+<li>การลบสมาชิก</li>
+</ul>
+<h2>Circular Reference</h2>
+<p>MemoryPack รองรับ circular reference ด้วยเช่นกัน สิ่งนี้ทำให้สามารถซีเรียลไลซ์อ็อบเจกต์แบบต้นไม้ได้ตามจริง</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// เพื่อเปิดใช้งาน circular-reference ให้ใช้ GenerateType.CircularReference</span>
+[<span class="hljs-meta">MemoryPackable(GenerateType.CircularReference)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>
+{
+    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
+    <span class="hljs-keyword">public</span> Node? Parent { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
+    <span class="hljs-keyword">public</span> Node[]? Children { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p>ตัวอย่างเช่น <a href="https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references">System.Text.Json preserve-references</a> โค้ดจะเป็นดังนี้</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references?pivots=dotnet-7-0</span>
+Employee tyler = <span class="hljs-keyword">new</span>()
+{
+    Name = <span class="hljs-string">"Tyler Stein"</span>
+};
+
+Employee adrian = <span class="hljs-keyword">new</span>()
+{
+    Name = <span class="hljs-string">"Adrian King"</span>
+};
+
+tyler.DirectReports = <span class="hljs-keyword">new</span> List&lt;Employee&gt; { adrian };
+adrian.Manager = tyler;
+
+<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(tyler);
+Employee? tylerDeserialized = MemoryPackSerializer.Deserialize&lt;Employee&gt;(bin);
+
+Console.WriteLine(tylerDeserialized?.DirectReports?[<span class="hljs-number">0</span>].Manager == tylerDeserialized); <span class="hljs-comment">// true</span>
+
+[<span class="hljs-meta">MemoryPackable(GenerateType.CircularReference)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Employee</span>
+{
+    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
+    <span class="hljs-keyword">public</span> Employee? Manager { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [<span class="hljs-meta">MemoryPackOrder(2)</span>]
+    <span class="hljs-keyword">public</span> List&lt;Employee&gt;? DirectReports { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p><code>GenerateType.CircularReference</code> มีลักษณะเช่นเดียวกับ version-tolerant แต่มีข้อจำกัดเพิ่มเติม คือต้องมีคอนสตรัคเตอร์แบบไม่มีพารามิเตอร์เท่านั้น และจะมีการติดตาม object reference เฉพาะกับอ็อบเจกต์ที่กำกับด้วย <code>GenerateType.CircularReference</code> เท่านั้น หากต้องการติดตามอ็อบเจกต์อื่น ให้ห่อมันไว้</p>
+<h2>CustomFormatter</h2>
+<p>หาก implements <code>MemoryPackCustomFormatterAttribute&lt;T&gt;</code> หรือ <code>MemoryPackCustomFormatterAttribute&lt;TFormatter, T&gt;</code> (มีประสิทธิภาพมากกว่าแต่ซับซ้อนกว่า) คุณสามารถกำหนด custom formatter ให้กับสมาชิกของ MemoryPackObject ได้</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = false)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MemoryPackCustomFormatterAttribute</span>&lt;<span class="hljs-title">T</span>&gt; : <span class="hljs-title">Attribute</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> IMemoryPackFormatter&lt;T&gt; <span class="hljs-title">GetFormatter</span>()</span>;
+}
+</code></pre>
+<p>MemoryPack มี attribute สำหรับ formatting ดังต่อไปนี้: <code>Utf8StringFormatterAttribute</code>, <code>Utf16StringFormatterAttribute</code>, <code>InternStringFormatterAttribute</code>, <code>OrdinalIgnoreCaseStringDictionaryFormatterAttribute&lt;TValue&gt;</code>, <code>BitPackFormatterAttribute</code>, <code>BrotliFormatter</code>, <code>BrotliStringFormatter</code>, <code>BrotliFormatter&lt;T&gt;</code>, <code>MemoryPoolFormatter&lt;T&gt;</code>, <code>ReadOnlyMemoryPoolFormatter&lt;T&gt;</code></p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-comment">// ซีเรียลไลซ์สมาชิกนี้เป็น UTF16 String มีประสิทธิภาพมากกว่า UTF8 แต่ใน ASCII ขนาดใหญ่กว่า (แต่ non ASCII บางครั้งเล็กกว่า)</span>
+    [<span class="hljs-meta">Utf16StringFormatter</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Text { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    <span class="hljs-comment">// ตอน deserialize Dictionary จะถูก initialize ด้วย StringComparer.OrdinalIgnoreCase</span>
+    [<span class="hljs-meta">OrdinalIgnoreCaseStringDictionaryFormatter&lt;int&gt;</span>]
+    <span class="hljs-keyword">public</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>&gt;? Ids { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    
+    <span class="hljs-comment">// ตอน deserialize string ทั้งหมดจะถูก interned (ดู: String.Intern) ถ้ามีค่าคล้ายกันซ้ำ ๆ จะช่วยประหยัดหน่วยความจำ</span>
+    [<span class="hljs-meta">InternStringFormatter</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Flag { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p>หากต้องการกำหนด equality comparer สำหรับ set/dictionary ฟอร์แมตเตอร์ทั้งหมดที่มีในระบบจะมี constructor overload สำหรับ comparer ให้คุณสามารถสร้าง custom equality-comparer formatter ได้ง่าย</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title">OrdinalIgnoreCaseStringDictionaryFormatter</span>&lt;<span class="hljs-title">TValue</span>&gt; : <span class="hljs-title">MemoryPackCustomFormatterAttribute</span>&lt;<span class="hljs-title">Dictionary</span>&lt;<span class="hljs-title">string</span>, <span class="hljs-title">TValue</span>?&gt;&gt;
+{
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> DictionaryFormatter&lt;<span class="hljs-built_in">string</span>, TValue?&gt; formatter = <span class="hljs-keyword">new</span> DictionaryFormatter&lt;<span class="hljs-built_in">string</span>, TValue?&gt;(StringComparer.OrdinalIgnoreCase);
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> IMemoryPackFormatter&lt;Dictionary&lt;<span class="hljs-built_in">string</span>, TValue?&gt;&gt; GetFormatter()
+    {
+        <span class="hljs-keyword">return</span> formatter;
+    }
+}
+</code></pre>
+<p><code>BitPackFormatter</code> บีบอัดเฉพาะประเภท <code>bool[]</code> เท่านั้น โดยปกติ <code>bool[]</code> จะซีเรียลไลซ์เป็น 1 ไบต์ต่อค่า boolean แต่ <code>BitPackFormatter</code> จะซีเรียลไลซ์ <code>bool[]</code> แบบเดียวกับ <code>BitArray</code> โดยแต่ละค่า bool จะเก็บเป็น 1 บิต การใช้ <code>BitPackFormatter</code> จะทำให้ 8 ค่า bool เก็บใน 1 ไบต์ซึ่งปกติจะเป็น 8 ไบต์ ส่งผลให้ขนาดลดลง 8 เท่า</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">BitPackFormatter</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span>[]? Data { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p><code>BrotliFormatter</code> ใช้สำหรับ <code>byte[]</code> ตัวอย่างเช่น คุณสามารถบีบอัด payload ขนาดใหญ่ด้วย Brotli</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">BrotliFormatter</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span>[]? Payload { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p><code>BrotliStringFormatter</code> สำหรับ <code>string</code> ซีเรียลไลซ์ string ที่ถูกบีบอัด (UTF16) ด้วย Brotli</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">BrotliStringFormatter</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? LargeText { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<pre><code class="hljs language-csharp">`BrotliFormatter&lt;T&gt;` เหมาะสำหรับใช้กับทุกชนิดข้อมูล ข้อมูลที่ถูกซีเรียลไลซ์จะถูกบีบอัดด้วย Brotli หากชนิดข้อมูลเป็น `<span class="hljs-built_in">byte</span>[]` หรือ `<span class="hljs-built_in">string</span>` ควรใช้ `BrotliFormatter` หรือ `BrotliStringFormatter` เพื่อประสิทธิภาพที่ดีกว่า
+
+```csharp
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">BrotliFormatter&lt;ChildType&gt;</span>]
+    <span class="hljs-keyword">public</span> ChildType? Child { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<h2>การถอดรหัสแบบ array pooling</h2>
+<p>เพื่อถอดรหัสอาร์เรย์ขนาดใหญ่ (ชนิดใด ๆ <code>T</code>) MemoryPack มีวิธี pooling ที่มีประสิทธิภาพหลายรูปแบบ วิธีที่มีประสิทธิภาพสูงสุดคือการใช้ฟังก์ชัน <a href="#overwrite">#Overwrite</a> โดยเฉพาะ <code>List&lt;T&gt;</code> จะถูกนำกลับมาใช้ซ้ำเสมอ</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ListBytesSample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">List</span>&lt;<span class="hljs-title">byte</span>&gt; Payload</span> { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+<span class="hljs-comment">// ----</span>
+
+<span class="hljs-comment">// List&lt;byte&gt; ถูกนำกลับมาใช้ซ้ำ ไม่มีการจัดสรรหน่วยความจำใหม่ขณะถอดรหัส</span>
+MemoryPackSerializer.Deserialize&lt;ListBytesSample&gt;(bin, <span class="hljs-keyword">ref</span> reuseObject);
+
+<span class="hljs-comment">// เพื่อให้ทำงานได้อย่างมีประสิทธิภาพ สามารถแปลงเป็น Span&lt;T&gt; ได้โดยใช้ CollectionsMarshal</span>
+<span class="hljs-keyword">var</span> span = CollectionsMarshal.AsSpan(<span class="hljs-keyword">value</span>.Payload);
+</code></pre>
+<p>อีกวิธีที่สะดวกคือถอดรหัสลงใน ArrayPool ระหว่างการถอดรหัส MemoryPack มี <code>MemoryPoolFormatter&lt;T&gt;</code> และ <code>ReadOnlyMemoryPoolFormatter&lt;T&gt;</code> ให้ใช้งาน</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">PoolModelSample</span> : <span class="hljs-title">IDisposable</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; }
+
+    [<span class="hljs-meta">MemoryPoolFormatter&lt;byte&gt;</span>]
+    <span class="hljs-keyword">public</span> Memory&lt;<span class="hljs-built_in">byte</span>&gt; Payload { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PoolModelSample</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> id, Memory&lt;<span class="hljs-built_in">byte</span>&gt; payload</span>)</span>
+    {
+        Id = id;
+        Payload = payload;
+    }
+
+    <span class="hljs-comment">// ต้องเขียนโค้ดสำหรับคืนหน่วยความจำเอง ตัวอย่างโค้ด</span>
+
+    <span class="hljs-built_in">bool</span> usePool;
+
+    [<span class="hljs-meta">MemoryPackOnDeserialized</span>]
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserialized</span>()</span>
+    {
+        usePool = <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Dispose</span>()</span>
+    {
+        <span class="hljs-keyword">if</span> (!usePool) <span class="hljs-keyword">return</span>;
+
+        Return(Payload); Payload = <span class="hljs-literal">default</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Return</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Memory&lt;T&gt; memory</span>)</span> =&gt; Return((ReadOnlyMemory&lt;T&gt;)memory);
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Return</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">ReadOnlyMemory&lt;T&gt; memory</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (MemoryMarshal.TryGetArray(memory, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> segment) &amp;&amp; segment.Array <span class="hljs-keyword">is</span> { Length: &gt; <span class="hljs-number">0</span> })
+        {
+            ArrayPool&lt;T&gt;.Shared.Return(segment.Array, clearArray: RuntimeHelpers.IsReferenceOrContainsReferences&lt;T&gt;());
+        }
+    }
+}
+
+<span class="hljs-comment">// ---</span>
+
+<span class="hljs-keyword">using</span>(<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = MemoryPackSerializer.Deserialize&lt;PoolModelSample&gt;(bin))
+{
+    <span class="hljs-comment">// ทำงานใด ๆ ...</span>
+}   <span class="hljs-comment">// คืนหน่วยความจำให้ ArrayPool</span>
+</code></pre>
+<h2>ประสิทธิภาพ</h2>
+<p>ดูบทความของผู้เขียน <a href="https://medium.com/@neuecc/how-to-make-the-fastest-net-serializer-with-net-7-c-11-case-of-memorypack-ad28c0366516">How to make the fastest .NET Serializer with .NET 7 / C# 11, case of MemoryPack</a></p>
+<h2>ขนาด Payload และการบีบอัด</h2>
+<p>ขนาด payload จะขึ้นอยู่กับข้อมูลเป้าหมาย; ไม่เหมือน JSON ที่มี key และเป็นฟอร์แมตแบบ text แต่ MemoryPack เป็นไบนารี ดังนั้นขนาด payload มักจะเล็กกว่า JSON</p>
+<p>สำหรับฟอร์แมตที่ใช้ varint encoding เช่น MessagePack และ Protobuf ในกรณีที่ใช้งาน int จำนวนมาก MemoryPack อาจมีขนาดใหญ่กว่า (ใน MemoryPack, int จะถูกเข้ารหัสขนาดคงที่ 4 ไบต์เสมอ ในขณะที่ MessagePack จะใช้ 1~5 ไบต์)</p>
+<p>float และ double ใน MemoryPack จะใช้ 4 ไบต์ และ 8 ไบต์ ตามลำดับ แต่ใน MessagePack จะใช้ 5 ไบต์ และ 9 ไบต์ ดังนั้น MemoryPack จะเล็กกว่า เช่นในอาร์เรย์ Vector3 (float, float, float)</p>
+<p>String จะเป็น UTF8 โดยดีฟอลต์ คล้ายกับ serializer อื่น ๆ แต่ถ้าเลือกตัวเลือก UTF16 จะมีลักษณะแตกต่างกัน</p>
+<p>ในทุกกรณี ถ้าขนาด payload ใหญ่ ควรพิจารณาบีบอัดข้อมูล แนะนำให้ใช้ LZ4, ZStandard และ Brotli</p>
+<h3>การบีบอัด (Compression)</h3>
+<p>MemoryPack มี helper ที่มีประสิทธิภาพสำหรับการบีบอัด <a href="https://github.com/google/brotli">Brotli</a> ผ่าน <a href="https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.brotliencoder">BrotliEncoder</a> และ <a href="https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.brotlidecoder">BrotliDecoder</a> โดย <code>BrotliCompressor</code> และ <code>BrotliDecompressor</code> ของ MemoryPack ได้รับการปรับแต่งสำหรับการทำงานร่วมกับ MemoryPack โดยเฉพาะ</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> MemoryPack.Compression;
+
+<span class="hljs-comment">// การบีบอัด (ต้องใช้ using)</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> compressor = <span class="hljs-keyword">new</span> BrotliCompressor();
+MemoryPackSerializer.Serialize(compressor, <span class="hljs-keyword">value</span>);
+
+<span class="hljs-comment">// ได้ byte[] ที่ถูกบีบอัด</span>
+<span class="hljs-keyword">var</span> compressedBytes = compressor.ToArray();
+
+<span class="hljs-comment">// หรือเขียนไปยัง IBufferWriter&lt;byte&gt; อื่น ๆ (เช่น PipeWriter)</span>
+compressor.CopyTo(response.BodyWriter);
+</code></pre>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> MemoryPack.Compression;
+
+<span class="hljs-comment">// การคลายบีบอัด (ต้องใช้ using)</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> decompressor = <span class="hljs-keyword">new</span> BrotliDecompressor();
+
+<span class="hljs-comment">// ได้ ReadOnlySequence&lt;byte&gt; ที่คลายบีบอัดแล้ว จาก ReadOnlySpan&lt;byte&gt; หรือ ReadOnlySequence&lt;byte&gt;</span>
+<span class="hljs-keyword">var</span> decompressedBuffer = decompressor.Decompress(buffer);
+
+<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = MemoryPackSerializer.Deserialize&lt;T&gt;(decompressedBuffer);
+</code></pre>
+<p>ทั้ง <code>BrotliCompressor</code> และ <code>BrotliDecompressor</code> เป็น struct ไม่มีการจัดสรรหน่วยความจำบน heap ข้อมูลที่ถูกบีบอัด/คลายบีบอัดจะถูกเก็บใน memory pool ภายในระหว่าง Serialize/Deserialize ดังนั้นจำเป็นต้องคืนหน่วยความจำ อย่าลืมใช้ <code>using</code></p>
+<p>ระดับการบีบอัด (Compression level) มีความสำคัญมาก โดยดีฟอลต์จะตั้งไว้ที่ quality-1 (CompressionLevel.Fastest) ซึ่งแตกต่างจากดีฟอลต์ของ .NET (CompressionLevel.Optimal, quality-4)</p>
+<p>Fastest (quality-1) จะมีความเร็วใกล้เคียงกับ <a href="https://github.com/lz4/lz4">LZ4</a> แต่ quality-4 จะช้ากว่ามาก การเลือกนี้สำคัญมากสำหรับการใช้งาน serializer โปรดระวังเมื่อใช้ <code>BrotliStream</code> มาตรฐาน (quality-4 เป็นดีฟอลต์) ทั้งนี้ ความเร็วและขนาดของการบีบอัด/คลายบีบอัดจะต่างกันมากตามข้อมูลที่ใช้ ควรเตรียมข้อมูลให้เหมาะสมกับแอปพลิเคชันของคุณและทดสอบเอง</p>
+<p>โปรดทราบว่ามีค่าเสียเวลาแบบหลายเท่าระหว่างการซีเรียลไลซ์แบบไม่บีบอัดของ MemoryPack กับการเพิ่มการบีบอัดของ Brotli</p>
+<p>Brotli ยังรองรับใน custom formatter ด้วย <code>BrotliFormatter</code> สามารถบีบอัดเฉพาะสมาชิกที่ต้องการได้</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">BrotliFormatter</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span>[]? Payload { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<h2>ซีเรียลไลซ์ชนิดข้อมูลภายนอก</h2>
+<p>หากต้องการซีเรียลไลซ์ชนิดข้อมูลภายนอก สามารถสร้าง custom formatter และลงทะเบียนกับ provider ดูรายละเอียดที่ <a href="#formatterprovider-api">Formatter/Provider API</a> อย่างไรก็ตาม การสร้าง custom formatter ทำได้ยาก จึงแนะนำให้สร้าง type wrapper ตัวอย่างเช่น หากต้องการซีเรียลไลซ์ชนิดข้อมูลภายนอกชื่อว่า <code>AnimationCurve</code></p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// Keyframe: (float time, float inTangent, float outTangent, int tangentMode, int weightedMode, float inWeight, float outWeight)</span>
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">struct</span> SerializableAnimationCurve
+{
+    [<span class="hljs-meta">MemoryPackIgnore</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> AnimationCurve AnimationCurve;
+
+    [<span class="hljs-meta">MemoryPackInclude</span>]
+    WrapMode preWrapMode =&gt; AnimationCurve.preWrapMode;
+    [<span class="hljs-meta">MemoryPackInclude</span>]
+    WrapMode postWrapMode =&gt; AnimationCurve.postWrapMode;
+    [<span class="hljs-meta">MemoryPackInclude</span>]
+    Keyframe[] keys =&gt; AnimationCurve.keys;
+
+    [<span class="hljs-meta">MemoryPackConstructor</span>]
+    SerializableAnimationCurve(WrapMode preWrapMode, WrapMode postWrapMode, Keyframe[] keys)
+    {
+        <span class="hljs-keyword">var</span> curve = <span class="hljs-keyword">new</span> AnimationCurve(keys);
+        curve.preWrapMode = preWrapMode;
+        curve.postWrapMode = postWrapMode;
+        <span class="hljs-keyword">this</span>.AnimationCurve = curve;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SerializableAnimationCurve</span>(<span class="hljs-params">AnimationCurve animationCurve</span>)</span>
+    {
+        <span class="hljs-keyword">this</span>.AnimationCurve = animationCurve;
+    }
+}
+</code></pre>
+<p>ชนิดข้อมูลที่ต้องการ wrap ต้องเป็น public แต่ไม่ถูกซีเรียลไลซ์ (<code>MemoryPackIgnore</code>) ส่วน property ที่ต้องการซีเรียลไลซ์แม้เป็น private สามารถใช้ (<code>MemoryPackInclude</code>) ได้ ควรเตรียม constructor สองแบบ โดย constructor ที่ serializer ใช้งานควรเป็นแบบ private</p>
+<p>แต่การ wrap ทุกครั้งอาจไม่สะดวก และ struct wrapper ไม่สามารถแทนค่า null ได้ ดังนั้นควรสร้าง custom formatter</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">AnimationCurveFormatter</span> : <span class="hljs-title">MemoryPackFormatter</span>&lt;<span class="hljs-title">AnimationCurve</span>&gt;
+{
+    <span class="hljs-comment">// Unity ไม่รองรับ scoped และ TBufferWriter จึงเปลี่ยน signature เป็น `Serialize(ref MemoryPackWriter writer, ref AnimationCurve value)`</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackWriter&lt;TBufferWriter&gt; writer, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> AnimationCurve? <span class="hljs-keyword">value</span></span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> == <span class="hljs-literal">null</span>)
+```csharp
+{
+    writer.WriteNullObjectHeader();
+    <span class="hljs-keyword">return</span>;
+}
+
+writer.WritePackable(<span class="hljs-keyword">new</span> SerializableAnimationCurve(<span class="hljs-keyword">value</span>));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Deserialize</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> AnimationCurve? <span class="hljs-keyword">value</span></span>)</span>
+{
+    <span class="hljs-keyword">if</span> (reader.PeekIsNull())
+    {
+        reader.Advance(<span class="hljs-number">1</span>); <span class="hljs-comment">// skip null block</span>
+        <span class="hljs-keyword">value</span> = <span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">return</span>;
+    }
+    
+    <span class="hljs-keyword">var</span> wrapped = reader.ReadPackable&lt;SerializableAnimationCurve&gt;();
+    <span class="hljs-keyword">value</span> = wrapped.AnimationCurve;
+}
+}
+</code></pre>
+<p>สุดท้าย ให้ทำการลงทะเบียน formatter ในขั้นตอนเริ่มต้นของโปรแกรม</p>
+<pre><code class="language-csharp hljs">MemoryPackFormatterProvider.Register&lt;AnimationCurve&gt;(<span class="hljs-keyword">new</span> AnimationCurveFormatter());
+</code></pre>
+<blockquote>
+<p>หมายเหตุ: AnimationCurve ของ Unity สามารถซีเรียลไลซ์ได้โดยค่าเริ่มต้น ดังนั้นจึงไม่จำเป็นต้องใช้ custom formatter สำหรับ AnimationCurve</p>
+</blockquote>
+<h2>Packages</h2>
+<p>MemoryPack มีแพ็กเกจดังต่อไปนี้</p>
+<ul>
+<li>MemoryPack</li>
+<li>MemoryPack.Core</li>
+<li>MemoryPack.Generator</li>
+<li>MemoryPack.Streaming</li>
+<li>MemoryPack.AspNetCoreMvcFormatter</li>
+<li>MemoryPack.UnityShims</li>
+</ul>
+<p><code>MemoryPack</code> คือไลบรารีหลัก ซึ่งให้การสนับสนุนเต็มรูปแบบสำหรับการซีเรียลไลซ์และดีซีเรียลไลซ์วัตถุแบบไบนารีที่มีประสิทธิภาพสูง โดยขึ้นกับ <code>MemoryPack.Core</code> สำหรับไลบรารีพื้นฐานหลัก และ <code>MemoryPack.Generator</code> สำหรับการสร้างโค้ด <code>MemoryPack.Streaming</code> เพิ่มส่วนขยายสำหรับ <a href="#streaming-serialization">Streaming Serialization</a>  <code>MemoryPack.AspNetCoreMvcFormatter</code> เพิ่ม input/output formatter สำหรับ ASP.NET Core <code>MemoryPack.UnityShims</code> เพิ่ม Unity shim types และ formatter สำหรับแชร์ type ระหว่าง .NET และ Unity</p>
+<h2>TypeScript และ ASP.NET Core Formatter</h2>
+<p>MemoryPack รองรับการสร้างโค้ด TypeScript โดยจะสร้าง class และโค้ดซีเรียลไลซ์จาก C# กล่าวอีกนัยหนึ่ง คุณสามารถแชร์ type กับฝั่ง Browser ได้โดยไม่ต้องใช้ OpenAPI, proto ฯลฯ</p>
+<p>การสร้างโค้ดจะถูกรวมอยู่กับ Source Generator โดยตัวเลือกต่อไปนี้ (<code>MemoryPackGenerator_TypeScriptOutputDirectory</code>) เป็นการกำหนดไดเรกทอรีเอาต์พุตสำหรับโค้ด TypeScript โค้ด runtime จะถูกสร้างพร้อมกัน ดังนั้นไม่ต้องการ dependency เพิ่มเติม</p>
+<pre><code class="language-xml hljs"><span class="hljs-comment">&lt;!-- output memorypack TypeScript code ไปยังไดเรกทอรี --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_TypeScriptOutputDirectory"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">PropertyGroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_TypeScriptOutputDirectory</span>&gt;</span>$(MSBuildProjectDirectory)\wwwroot\js\memorypack<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_TypeScriptOutputDirectory</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">PropertyGroup</span>&gt;</span>
+</code></pre>
+<p>Type ที่เป็น MemoryPackable ของ C# ต้องประกาศ annotation ด้วย <code>[GenerateTypeScript]</code></p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+[<span class="hljs-meta">GenerateTypeScript</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>
+{
+    <span class="hljs-keyword">public</span> required Guid Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">int</span> Age { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">string</span> FirstName { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">string</span> LastName { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required DateTime DateOfBirth { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required Gender Gender { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">string</span>[] Emails { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> Gender
+{
+    Male, Female, Other
+}
+</code></pre>
+<p>โค้ด runtime และ type ของ TypeScript จะถูกสร้างไว้ในไดเรกทอรีเป้าหมาย</p>
+<p><img src="https://user-images.githubusercontent.com/46207/194916544-1b6bb5ed-966b-43c3-a378-3eac297c2b40.png" alt="image"></p>
+<p>โค้ดที่ถูกสร้างจะเป็นดังนี้ โดยมีฟิลด์แบบง่ายและเมธอดแบบ static สำหรับ serialize/serializeArray และ deserialize/deserializeArray</p>
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">MemoryPackWriter</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"./MemoryPackWriter.js"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">MemoryPackReader</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"./MemoryPackReader.js"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Gender</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"./Gender.js"</span>; 
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> {
+    <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">firstName</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
+    <span class="hljs-attr">lastName</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
+    <span class="hljs-attr">dateOfBirth</span>: <span class="hljs-title class_">Date</span>;
+    <span class="hljs-attr">gender</span>: <span class="hljs-title class_">Gender</span>;
+    <span class="hljs-attr">emails</span>: (<span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span>;
+
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serialize</span>(<span class="hljs-attr">value</span>: <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>): <span class="hljs-title class_">Uint8Array</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serializeCore</span>(<span class="hljs-attr">writer</span>: <span class="hljs-title class_">MemoryPackWriter</span>, <span class="hljs-attr">value</span>: <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>): <span class="hljs-built_in">void</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serializeArray</span>(<span class="hljs-attr">value</span>: (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span>): <span class="hljs-title class_">Uint8Array</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serializeArrayCore</span>(<span class="hljs-attr">writer</span>: <span class="hljs-title class_">MemoryPackWriter</span>, <span class="hljs-attr">value</span>: (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span>): <span class="hljs-built_in">void</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserialize</span>(<span class="hljs-attr">buffer</span>: <span class="hljs-title class_">ArrayBuffer</span>): <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserializeCore</span>(<span class="hljs-attr">reader</span>: <span class="hljs-title class_">MemoryPackReader</span>): <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserializeArray</span>(<span class="hljs-attr">buffer</span>: <span class="hljs-title class_">ArrayBuffer</span>): (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserializeArrayCore</span>(<span class="hljs-attr">reader</span>: <span class="hljs-title class_">MemoryPackReader</span>): (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+}
+</code></pre>
+<p>คุณสามารถใช้งาน type นี้ได้ตามตัวอย่างต่อไปนี้</p>
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">let</span> person = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>();
+person.<span class="hljs-property">id</span> = crypto.<span class="hljs-title function_">randomUUID</span>();
+person.<span class="hljs-property">age</span> = <span class="hljs-number">30</span>;
+person.<span class="hljs-property">firstName</span> = <span class="hljs-string">"foo"</span>;
+person.<span class="hljs-property">lastName</span> = <span class="hljs-string">"bar"</span>;
+person.<span class="hljs-property">dateOfBirth</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(<span class="hljs-number">1999</span>, <span class="hljs-number">12</span>, <span class="hljs-number">31</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+person.<span class="hljs-property">gender</span> = <span class="hljs-title class_">Gender</span>.<span class="hljs-property">Other</span>;
+person.<span class="hljs-property">emails</span> = [<span class="hljs-string">"foo@bar.com"</span>, <span class="hljs-string">"zoo@bar.net"</span>];
+
+<span class="hljs-comment">// serialize เป็น Uint8Array</span>
+<span class="hljs-keyword">let</span> bin = <span class="hljs-title class_">Person</span>.<span class="hljs-title function_">serialize</span>(person);
+
+<span class="hljs-keyword">let</span> blob = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Blob</span>([bin.<span class="hljs-property">buffer</span>], { <span class="hljs-attr">type</span>: <span class="hljs-string">"application/x-memorypack"</span> })
+
+<span class="hljs-keyword">let</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">"http://localhost:5260/api"</span>,
+    { <span class="hljs-attr">method</span>: <span class="hljs-string">"POST"</span>, <span class="hljs-attr">body</span>: blob, <span class="hljs-attr">headers</span>: { <span class="hljs-string">"Content-Type"</span>: <span class="hljs-string">"application/x-memorypack"</span> } });
+
+<span class="hljs-keyword">let</span> buffer = <span class="hljs-keyword">await</span> response.<span class="hljs-title function_">arrayBuffer</span>();
+
+<span class="hljs-comment">// deserialize จาก ArrayBuffer </span>
+<span class="hljs-keyword">let</span> person2 = <span class="hljs-title class_">Person</span>.<span class="hljs-title function_">deserialize</span>(buffer);
+</code></pre>
+<p>แพ็กเกจ <code>MemoryPack.AspNetCoreMvcFormatter</code> จะเพิ่ม input และ output formatter ของ <code>MemoryPack</code> สำหรับ ASP.NET Core MVC คุณสามารถเพิ่ม <code>MemoryPackInputFormatter</code>, <code>MemoryPackOutputFormatter</code> ให้กับ ASP.NET Core MVC ด้วยโค้ดต่อไปนี้</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddRazorPages();
+
+builder.Services.AddControllers(options =&gt;
+{
+    options.InputFormatters.Insert(<span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> MemoryPackInputFormatter());
+    <span class="hljs-comment">// หาก checkContentType: true จะสามารถ output ได้หลาย format (JSON/MemoryPack ฯลฯ) ค่าเริ่มต้นคือ false</span>
+    options.OutputFormatters.Insert(<span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> MemoryPackOutputFormatter(checkContentType: <span class="hljs-literal">false</span>));
+});
+</code></pre>
+<p>ถ้าคุณเรียกใช้งานจาก HttpClient สามารถตั้งค่า <code>application/x-memorypack</code> ไปที่ content-header ได้</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> content = <span class="hljs-keyword">new</span> ByteArrayContent(bin)
+content.Headers.ContentType = <span class="hljs-keyword">new</span> MediaTypeHeaderValue(<span class="hljs-string">"application/x-memorypack"</span>);
+</code></pre>
+<h3>การแมป Type ของ TypeScript</h3>
+<p>มีข้อจำกัดบางประการเกี่ยวกับ type ที่สามารถสร้างได้ ในหมู่ primitive นั้น <code>char</code> และ <code>decimal</code> ไม่รองรับ และ OpenGenerics type ไม่สามารถใช้งานได้</p>
+<table>
+<thead>
+<tr>
+<th>C#</th>
+<th>TypeScript</th>
+<th>คำอธิบาย</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>bool</code></td>
+<td><code>boolean</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>byte</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>sbyte</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>uint</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>short</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ushort</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>long</code></td>
+<td><code>bigint</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ulong</code></td>
+<td><code>bigint</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>float</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>string</code></td>
+<td><code>string | null</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Guid</code></td>
+<td><code>string</code></td>
+<td>ใน TypeScript จะแทนเป็น string แต่ serialize/deserialize เป็นไบนารี 16 ไบต์</td>
+</tr>
+<tr>
+<td><code>DateTime</code></td>
+<td><code>Date</code></td>
+<td>DateTimeKind จะถูกละเว้น</td>
+</tr>
+<tr>
+<td><code>enum</code></td>
+<td><code>const enum</code></td>
+<td><code>long</code> และ <code>ulong</code> เป็น underlying type ไม่รองรับ</td>
+</tr>
+<tr>
+<td><code>T?</code></td>
+<td><code>T | null</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>T[]</code></td>
+<td><code>T[] | null</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>byte[]</code></td>
+<td><code>Uint8Array | null</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>: ICollection&lt;T&gt;</code></td>
+<td><code>T[] | null</code></td>
+<td>รองรับทุก type ที่ implement <code>ICollection&lt;T&gt;</code> เช่น <code>List&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td><code>: ISet&lt;T&gt;</code></td>
+<td><code>Set&lt;T&gt; | null</code></td>
+<td>รองรับทุก type ที่ implement <code>ISet&lt;T&gt;</code> เช่น <code>HashSet&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td><code>: IDictionary&lt;K,V&gt;</code></td>
+<td><code>Map&lt;K, V&gt; | null</code></td>
+<td>รองรับทุก type ที่ implement <code>IDictionary&lt;K,V&gt;</code> เช่น <code>Dictionary&lt;K,V&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>[MemoryPackable]</code></td>
+<td><code>class</code></td>
+<td>รองรับเฉพาะ class เท่านั้น</td>
+</tr>
+<tr>
+<td><code>[MemoryPackUnion]</code></td>
+<td><code>abstract class</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><code>[GenerateTypeScript]</code> สามารถใช้ได้เฉพาะกับ class และปัจจุบันยังไม่รองรับ struct</p>
+<h3>กำหนดนามสกุลไฟล์ import และรูปแบบชื่อสมาชิก</h3>
+<p>โดยค่าเริ่มต้น MemoryPack จะสร้างนามสกุลไฟล์เป็น <code>.js</code> เช่น <code>import { MemoryPackWriter } from "./MemoryPackWriter.js";</code> หากคุณต้องการเปลี่ยนนามสกุลอื่นหรือเว้นว่างไว้ ให้ใช้ <code>MemoryPackGenerator_TypeScriptImportExtension</code> เพื่อกำหนดค่า<br>นอกจากนี้ ชื่อสมาชิกจะถูกแปลงเป็น camelCase โดยอัตโนมัติ หากคุณต้องการใช้ชื่อเดิม ให้ตั้งค่า <code>MemoryPackGenerator_TypeScriptConvertPropertyName</code> เป็น <code>false</code></p>
+<pre><code class="language-xml hljs"><span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_TypeScriptOutputDirectory"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_TypeScriptImportExtension"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_TypeScriptConvertPropertyName"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_TypeScriptEnableNullableTypes"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">PropertyGroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_TypeScriptOutputDirectory</span>&gt;</span>$(MSBuildProjectDirectory)\wwwroot\js\memorypack<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_TypeScriptOutputDirectory</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- allows empty --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_TypeScriptImportExtension</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_TypeScriptImportExtension</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- default is true --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_TypeScriptConvertPropertyName</span>&gt;</span>false<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_TypeScriptConvertPropertyName</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- default is false --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_TypeScriptEnableNullableTypes</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_TypeScriptEnableNullableTypes</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">PropertyGroup</span>&gt;</span>
+</code></pre>
+<p><code>MemoryPackGenerator_TypeScriptEnableNullableTypes</code> ช่วยให้ annotation nullable ของ C# สะท้อนในโค้ด TypeScript ได้ ค่าเริ่มต้นคือ false ซึ่งจะทำให้ทุกอย่าง nullable</p>
+<h2>การทำ Streaming Serialization</h2>
+<p><code>MemoryPack.Streaming</code> มี <code>MemoryPackStreamingSerializer</code> ซึ่งเพิ่มการรองรับเพิ่มเติมสำหรับการ serialize และ deserialize คอลเลกชันด้วย stream</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MemoryPackStreamingSerializer</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> ValueTask <span class="hljs-title">SerializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">PipeWriter pipeWriter, <span class="hljs-built_in">int</span> count, IEnumerable&lt;T&gt; source, <span class="hljs-built_in">int</span> flushRate = <span class="hljs-number">4096</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> ValueTask <span class="hljs-title">SerializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream, <span class="hljs-built_in">int</span> count, IEnumerable&lt;T&gt; source, <span class="hljs-built_in">int</span> flushRate = <span class="hljs-number">4096</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> <span class="hljs-title">IAsyncEnumerable</span>&lt;<span class="hljs-title">T</span>?&gt; <span class="hljs-title">DeserializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">PipeReader pipeReader, <span class="hljs-built_in">int</span> bufferAtLeast = <span class="hljs-number">4096</span>, <span class="hljs-built_in">int</span> readMinimumSize = <span class="hljs-number">8192</span>, [EnumeratorCancellation] CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-title">IAsyncEnumerable</span>&lt;<span class="hljs-title">T</span>?&gt; <span class="hljs-title">DeserializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream, <span class="hljs-built_in">int</span> bufferAtLeast = <span class="hljs-number">4096</span>, <span class="hljs-built_in">int</span> readMinimumSize = <span class="hljs-number">8192</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
+}
+</span></code></pre>
+<h2>Formatter/Provider API</h2>
+<p>หากคุณต้องการ implement formatter ด้วยตนเอง ให้สืบทอด <code>MemoryPackFormatter&lt;T&gt;</code> และ override เมธอด <code>Serialize</code> และ <code>Deserialize</code></p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SkeltonFormatter</span> : <span class="hljs-title">MemoryPackFormatter</span>&lt;<span class="hljs-title">Skelton</span>&gt;
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackWriter&lt;TBufferWriter&gt; writer, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> Skelton? <span class="hljs-keyword">value</span></span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> == <span class="hljs-literal">null</span>)
+        {
+            writer.WriteNullObjectHeader();
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-comment">// ใช้เมธอด writer</span>
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Deserialize</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> Skelton? <span class="hljs-keyword">value</span></span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (!reader.TryReadObjectHeader(<span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> count))
+        {
+            <span class="hljs-keyword">value</span> = <span class="hljs-literal">null</span>;
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-comment">// ใช้เมธอด reader</span>
+    }
+}
+</code></pre>
+<p>Formatter ที่สร้างขึ้นจะต้องลงทะเบียนกับ <code>MemoryPackFormatterProvider</code></p>
+<pre><code class="language-csharp hljs">MemoryPackFormatterProvider.Register(<span class="hljs-keyword">new</span> SkeltonFormatter());
+</code></pre>
+<p>หมายเหตุ: <code>unmanaged struct</code> (คือ struct ที่ไม่มี reference type ภายใน) ไม่สามารถใช้ custom formatter ได้ จะ serialize memory layout ตาม native เสมอ</p>
+<h2>MemoryPackWriter/ReaderOptionalState</h2>
+<p>การสร้าง <code>MemoryPackWriter</code>/<code>MemoryPackReader</code> ต้องใช้ OptionalState ซึ่งเป็น wrapper ของ <code>MemoryPackSerializerOptions</code> สามารถสร้างได้จาก <code>MemoryPackWriterOptionalStatePool</code></p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// เมื่อ dispose แล้ว OptionalState จะคืนกลับไปยัง pool</span>
+<span class="hljs-keyword">using</span>(<span class="hljs-keyword">var</span> state = MemoryPackWriterOptionalStatePool.Rent(MemoryPackSerializerOptions.Default))
+{
+    <span class="hljs-keyword">var</span> writer = <span class="hljs-keyword">new</span> MemoryPackWriter&lt;T&gt;(<span class="hljs-keyword">ref</span> t, state);
+}
+
+<span class="hljs-comment">// สำหรับ Reader</span>
+<span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> state = MemoryPackReaderOptionalStatePool.Rent(MemoryPackSerializerOptions.Default))
+{
+    <span class="hljs-keyword">var</span> reader = <span class="hljs-keyword">new</span> MemoryPackReader(buffer, state);
+}
+</code></pre>
+<h2>การขึ้นกับ target framework</h2>
+<p>MemoryPack มีทั้ง <code>netstandard2.1</code> และ <code>net7.0</code> แต่ทั้งสองไม่สามารถใช้แทนกันได้ ตัวอย่างเช่น หากใช้ MemoryPackable types ในโปรเจกต์ <code>netstandard2.1</code> และนำไปใช้กับโปรเจกต์ <code>net7.0</code> จะเกิด runtime exception เช่นนี้</p>
+<blockquote>
+<p>Unhandled exception. System.TypeLoadException: Virtual static method '<em>' is not implemented on type '</em>' from assembly '*'.</p>
+</blockquote>
+<p>เนื่องจาก net7.0 ใช้ static abstract member (<code>Virtual static method</code>) ซึ่งไม่รองรับใน netstandard2.1 ดังนั้นพฤติกรรมนี้เป็นไปตามสเปค</p>
+<p>โปรเจกต์ .NET 7 ไม่ควรใช้ dll ของ netstandard 2.1 กล่าวอีกนัยหนึ่ง หาก Application เป็น .NET 7 โปรเจกต์ ทุก dependency ที่ใช้ MemoryPack จะต้องรองรับ .NET 7 ด้วย ดังนั้นหากนักพัฒนาไลบรารีมี dependency กับ MemoryPack คุณต้องตั้งค่า dual target framework</p>
+<pre><code class="language-xml hljs"><span class="hljs-tag">&lt;<span class="hljs-name">TargetFrameworks</span>&gt;</span>netstandard2.1;net7.0<span class="hljs-tag">&lt;/<span class="hljs-name">TargetFrameworks</span>&gt;</span>
+</code></pre>
+<h2>RPC</h2>
+<p><a href="https://github.com/Cysharp/MagicOnion">Cysharp/MagicOnion</a> คือ grpc-dotnet แบบ code-first ที่ใช้ MessagePack แทน protobuf ตอนนี้ MagicOnion รองรับ MemoryPack เป็น serialization layer ผ่านแพ็กเกจ <code>MagicOnion.Serialization.MemoryPack</code> (preview) ดูรายละเอียด: <a href="https://github.com/Cysharp/MagicOnion#memorypack-support">MagicOnion#MemoryPack support</a></p>
+<h2>Unity</h2>
+<p>Unity เวอร์ชันต่ำสุดที่รองรับคือ <code>2022.3.12f1</code></p>
+<p>แพ็กเกจหลัก <code>MemoryPack</code> มีให้ใน NuGet และสามารถใช้กับ Unity ได้ หากต้องการรองรับ type เฉพาะของ Unity ให้ใช้ MemoryPack.Unity extension เพิ่มเติม</p>
+<ol>
+<li>ติดตั้ง <code>MemoryPack</code> จาก NuGet โดยใช้ <a href="https://github.com/GlitchEnzo/NuGetForUnity">NuGetForUnity</a></li>
+</ol>
+<ul>
+<li><p>เปิดเมนู Window -&gt; Manage NuGet Packages, ค้นหา "MemoryPack" แล้วกด Install<br><img src="https://github.com/Cysharp/MemoryPack/assets/727159/599ff1ed-6cca-4724-be67-3edddb5e62ee" alt="screenshot"></p>
+</li>
+<li><p>หากพบข้อผิดพลาด version conflicts ให้ปิดการตรวจสอบ version validation ที่ Player Settings (Edit -&gt; Project Settings -&gt; Player -&gt; เลื่อนลงแล้วขยาย "Other Settings" จากนั้นยกเลิกเลือก "Assembly Version Validation" ในส่วน "Configuration")</p>
+</li>
+</ul>
+<ol start="2">
+<li>ติดตั้งแพ็กเกจ <code>MemoryPack.Unity</code> โดยอ้างอิง git URL</li>
+</ol>
+<ul>
+<li><code>https://github.com/Cysharp/MemoryPack.git?path=src/MemoryPack.Unity/Assets/MemoryPack.Unity</code><br><img src="https://github.com/Cysharp/ZLogger/assets/46207/7325d266-05b4-47c9-b06a-a67a40368dd2" alt="screenshot"><br><img src="https://github.com/Cysharp/MemoryPack/assets/727159/9a4af1df-ce07-49d7-9420-922dfb139b55" alt="screenshot"></li>
+</ul>
+<p>MemoryPack ใช้ tag เวอร์ชันรูปแบบ <em>.</em>.* คุณสามารถระบุเวอร์ชันได้ เช่น #1.0.0 ตัวอย่าง: <code>https://github.com/Cysharp/MemoryPack.git?path=src/MemoryPack.Unity/Assets/MemoryPack.Unity#1.0.0</code></p>
+<p>เหมือนเวอร์ชัน .NET โค้ดจะถูกสร้างโดย code generator (<code>MemoryPack.Generator.dll</code>) การ implement แบบไม่ใช้ Reflection ก็ช่วยให้ performance ดีที่สุดใน IL2CPP</p>
+<p>ดูข้อมูลเพิ่มเติมเกี่ยวกับ Unity และ Source Generator ได้ที่ <a href="https://docs.unity3d.com/Manual/roslyn-analyzers.html">เอกสาร Unity</a></p>
+<p>Source Generator ได้ถูกใช้โดย Unity อย่างเป็นทางการใน <a href="https://docs.unity3d.com/Packages/com.unity.entities@1.0/manual/index.html">com.unity.properties</a> และ <a href="https://docs.unity3d.com/Packages/com.unity.properties@2.0/changelog/CHANGELOG.html">com.unity.entities</a> กล่าวคือ มาตรฐานการสร้างโค้ดใน Unity ยุคใหม่</p>
+<p>คุณสามารถ serialize ทุก unmanaged type ได้ (เช่น <code>Vector3</code>, <code>Rect</code>, ฯลฯ) และ class บางตัว (<code>AnimationCurve</code>, <code>Gradient</code>, <code>RectOffset</code>) หากต้องการ serialize type เฉพาะของ Unity อื่นๆ ดูที่หัวข้อ <a href="#serialize-external-types">Serialize external types</a></p>
+<p>ด้าน performance ใน Unity, MemoryPack เร็วกว่า JsonUtility ประมาณ x3~x10 เท่า</p>
+<p><img src="https://user-images.githubusercontent.com/46207/209254561-79ec18fe-c421-4d8c-9c86-b55276dd1a45.png" alt="image"></p>
+<p>หากโค้ดที่แชร์มี type ของ Unity (<code>Vector2</code> ฯลฯ) MemoryPack มีแพ็กเกจ <code>MemoryPack.UnityShims</code> ให้ใน NuGet</p>
+<p>แพ็กเกจ <code>MemoryPack.UnityShims</code> ให้ shims สำหรับ struct มาตรฐานของ Unity (<code>Vector2</code>, <code>Vector3</code>, <code>Vector4</code>, <code>Quaternion</code>, <code>Color</code>, <code>Bounds</code>, <code>Rect</code>, <code>Keyframe</code>, <code>WrapMode</code>, <code>Matrix4x4</code>, <code>GradientColorKey</code>, <code>GradientAlphaKey</code>, <code>GradientMode</code>, <code>Color32</code>, <code>LayerMask</code>, <code>Vector2Int</code>, <code>Vector3Int</code>, <code>RangeInt</code>, <code>RectInt</code>, <code>BoundsInt</code>) และ class บางตัว (<code>AnimationCurve</code>, <code>Gradient</code>, <code>RectOffset</code>)</p>
+<blockquote>
+<p>[!WARNING]<br>ขณะนี้ยังมีข้อจำกัดต่อไปนี้สำหรับการใช้งานใน Unity</p>
+</blockquote>
+<ol>
+<li>เวอร์ชัน Unity ยังไม่รองรับ CustomFormatter</li>
+<li>หากใช้ .NET7 ขึ้นไป รูปแบบ binary ของ MemoryPack อาจไม่เข้ากันกับ Unity อย่างสมบูรณ์<ul>
+<li>ปัญหานี้จะเกิดกับ value type ที่ระบุ <code>[StructLayout(LayoutKind.Auto)]</code> ไว้ชัดเจน (default ของ struct คือ <code>LayoutKind.Sequential</code>) สำหรับ type เหล่านี้ binary ที่ serialize ใน .NET จะไม่สามารถ deserialize ได้ใน Unity และในทางกลับกัน</li>
+<li>ประเภทที่ได้รับผลกระทบมักจะเป็น<ul>
+<li><code>DateTimeOffset</code></li>
+<li><code>ValueTuple</code></li>
+</ul>
+</li>
+<li>ปัจจุบันวิธีแก้ไขง่ายที่สุดคือไม่ใช้ type เหล่านี้</li>
+</ul>
+</li>
+</ol>
+<h2>Native AOT</h2>
+<p>น่าเสียดายที่ .NET 7 Native AOT จะ crash (<code>Generic virtual method pointer lookup failure</code>) เมื่อใช้ MemoryPack เนื่องจากบั๊กใน runtime ซึ่งจะถูกแก้ไขใน .NET 8 หากใช้ <code>Microsoft.DotNet.ILCompiler</code> เวอร์ชัน preview จะสามารถแก้ไขใน .NET 7 ได้ โปรดดู <a href="https://github.com/Cysharp/MemoryPack/issues/75#issuecomment-1386884611">คอมเมนต์ใน issue</a> สำหรับวิธีการตั้งค่า</p>
+<h2>สเปค Binary wire format</h2>
+<p>ชนิดของ <code>T</code> ที่กำหนดใน <code>Serialize&lt;T&gt;</code> และ <code>Deserialize&lt;T&gt;</code> เรียกว่า C# schema ฟอร์แมต MemoryPack ไม่ใช่ฟอร์แมตแบบ self-described ดังนั้น deserialize จะต้องใช้ C# schema ที่ตรงกัน ชนิดเหล่านี้จะอยู่ใน binary เป็น internal representation แต่ไม่สามารถระบุชนิดได้หากไม่มี C# schema</p>
+<p>Endian ต้องเป็น <code>Little Endian</code> อย่างไรก็ตาม implementation ของ C# ที่ใช้เป็น reference ไม่สน endianness ดังนั้นจึงไม่สามารถใช้กับเครื่อง big-endian ได้ แต่คอมพิวเตอร์ยุคใหม่โดยปกติจะเป็น little-endian</p>
+<p>มีฟอร์แมตอยู่ 8 ประเภท</p>
+<ul>
+<li>Unmanaged struct</li>
+<li>Object</li>
+<li>Version Tolerant Object</li>
+<li>วัตถุอ้างอิงแบบวนรอบ (Circular Reference Object)</li>
+<li>ทูเพิล (Tuple)</li>
+<li>คอลเลกชัน (Collection)</li>
+<li>สตริง (String)</li>
+<li>ยูเนียน (Union)</li>
+</ul>
+<h3>โครงสร้างที่ไม่จัดการ (Unmanaged struct)</h3>
+<p>โครงสร้างที่ไม่จัดการ คือ struct ของ C# ที่ไม่มีชนิดอ้างอิง (reference types) ภายใน มีข้อจำกัดคล้ายกับ <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/unmanaged-types">C# Unmanaged types</a> การซีเรียลไลซ์จะเก็บข้อมูลตาม layout ของ struct รวมถึงช่องว่าง (padding)</p>
+<h3>วัตถุ (Object)</h3>
+<p><code>(byte memberCount, [values...])</code></p>
+<p>Object มี header เป็น unsigned byte ขนาด 1 ไบต์ แทนจำนวนสมาชิก (<code>memberCount</code>) ซึ่งสามารถมีค่าได้ตั้งแต่ <code>0</code> ถึง <code>249</code> โดย <code>255</code> หมายถึง object นี้เป็น <code>null</code> ค่า values จะเก็บข้อมูล memorypack ตามจำนวนสมาชิก</p>
+<h3>วัตถุที่ทนต่อเวอร์ชัน (Version Tolerant Object)</h3>
+<p><code>(byte memberCount, [varint byte-length-of-values...], [values...])</code></p>
+<p>Version Tolerant Object จะคล้ายกับ Object แต่มีการเก็บความยาวของ value แต่ละตัวใน header โดยใช้ varint ตามสเปคนี้ ไบต์แรกเป็น sbyte คือ value หรือ typeCode และไบต์ต่อไปคือ value 0 ถึง 127 = unsigned byte value, -1 ถึง -120 = signed byte value, -121 = byte, -122 = sbyte, -123 = ushort, -124 = short, -125 = uint, -126 = int, -127 = ulong, -128 = long</p>
+<h3>วัตถุอ้างอิงแบบวนรอบ (Circular Reference Object)</h3>
+<p><code>(byte memberCount, [varint byte-length-of-values...], varint referenceId, [values...])</code><br><code>(250, varint referenceId)</code></p>
+<p>Circular Reference Object จะคล้ายกับ Version Tolerant Object แต่ถ้า memberCount เป็น 250 ค่า varint (unsigned-int32) ถัดไปจะเป็น referenceId หากไม่ใช่ หลัง byte-length-of-values จะเขียน varint referenceId ต่อ</p>
+<h3>ทูเพิล (Tuple)</h3>
+<p><code>(values...)</code></p>
+<p>Tuple คือคอลเลกชันค่าขนาดคงที่ (fixed-size) ที่ไม่อนุญาต null ใน .NET <code>KeyValuePair&lt;TKey, TValue&gt;</code> และ <code>ValueTuple&lt;T,...&gt;</code> จะถูกซีเรียลไลซ์แบบ Tuple</p>
+<h3>คอลเลกชัน (Collection)</h3>
+<p><code>(int length, [values...])</code></p>
+<p>Collection มี header เป็น integer 4 ไบต์แบบ signed สำหรับบอกจำนวนข้อมูล <code>-1</code> หมายถึง <code>null</code> values จะเก็บข้อมูล memorypack ตามจำนวน length</p>
+<h3>สตริง (String)</h3>
+<p><code>(int utf16-length, utf16-value)</code><br><code>(int ~utf8-byte-count, int utf16-length, utf8-bytes)</code></p>
+<p>String มีสองรูปแบบ คือ UTF16 และ UTF8 ถ้า integer 4 ไบต์แรกเป็น <code>-1</code> หมายถึง null, <code>0</code> หมายถึงว่าง (empty) UTF16 จะเหมือนกับ collection (ซีเรียลไลซ์เป็น <code>ReadOnlySpan&lt;char&gt;</code>, ขนาดไบต์ของ utf16-value คือ utf16-length * 2) ถ้า integer แรก &lt;= <code>-2</code> ค่า string จะถูกเข้ารหัสแบบ UTF8 โดย utf8-byte-count จะถูกเข้ารหัสในรูปแบบ complement, ใช้ <code>~utf8-byte-count</code> เพื่อหาจำนวนไบต์ ถัดไปเป็น utf16-length ซึ่งอาจเป็น <code>-1</code> เพื่อแสดงว่าความยาวไม่ทราบแน่ชัด utf8-bytes จะเก็บไบต์ตามจำนวน utf8-byte-count</p>
+<h3>ยูเนียน (Union)</h3>
+<p><code>(byte tag, value)</code><br><code>(250, ushort tag, value)</code></p>
+<p>ไบต์แรกเป็น unsigned byte ใช้เป็น tag สำหรับแยก discriminated value type หรือ flag ค่า <code>0</code> ถึง <code>249</code> คือ tag, <code>250</code> หมายถึง unsigned short ถัดไปคือ tag, <code>255</code> หมายถึง union เป็น <code>null</code></p>
+<h2>License</h2>
+<p>ไลบรารีนี้ได้รับอนุญาตภายใต้ MIT License.</p>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-09</p>
+<hr>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js"></script>
+
+
+</body></html>

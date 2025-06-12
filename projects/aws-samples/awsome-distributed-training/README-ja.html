@@ -1,0 +1,314 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML トレーニング参照アーキテクチャ＆テスト  - Open AI Tx</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Open AI Tx - Markdown Viewer">
+    <meta name="description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html">
+    <meta property="og:title" content="Open AI Tx - Markdown Viewer">
+    <meta property="og:description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css">
+    <script src="js/highlight.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/aws-samples/awsome-distributed-training" id="githubRepoLink" target="_blank">aws-samples/awsome-distributed-training</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><h1>ML トレーニング参照アーキテクチャ＆テスト <!-- omit from toc --></h1>
+<blockquote>
+<p><strong>警告</strong><br>現在、このリポジトリは特にテストケースセクションに焦点を当てた大規模なリファクタリングを進めています。以前のディレクトリ構造や非推奨のテストケースを使用したい場合は、<a href="https://github.com/aws-samples/awsome-distributed-training/releases/tag/v1.1.0">v1.1.0</a> を参照してください。</p>
+</blockquote>
+<p>このリポジトリには、<a href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html">Amazon SageMaker Hyperpod</a>、<a href="https://docs.aws.amazon.com/parallelcluster/latest/ug/what-is-aws-parallelcluster.html">AWS ParallelCluster</a>、<a href="https://docs.aws.amazon.com/batch/latest/userguide/what-is-batch.html">AWS Batch</a>、および <a href="https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html">Amazon EKS</a> を用いた分散モデル学習のための参照アーキテクチャとテストケースが含まれています。テストケースは、さまざまなタイプとサイズのモデル、異なるフレームワークおよび並列化最適化（Pytorch DDP/FSDP、MegatronLM、NemoMegatronなど）をカバーしています。</p>
+<p>このディレクトリの主な構成は以下の通りです：</p>
+<pre><code class="language-bash hljs">reference-architectures/
+|-- 1.architectures/               <span class="hljs-comment"># 参照アーキテクチャのCloudFormationテンプレート</span>
+|-- 2.ami_and_containers/          <span class="hljs-comment"># AMIおよびコンテナイメージ作成用スクリプト</span>
+|-- 3.test_cases/                  <span class="hljs-comment"># 参照テストケースおよびベンチマークスクリプト</span>
+|-- 4.validation_observability/    <span class="hljs-comment"># パフォーマンス測定やトラブルシューティングツール</span>
+`-- ...
+</code></pre>
+<p><strong>注意</strong>：アーキテクチャは、参照テンプレート <code>1.architectures/0.s3/</code> および <code>1.architectures/1.vpc_network/</code> を使用して作成された S3 バケットおよび VPC と連携するよう設計されています。<em>参照アーキテクチャをデプロイする前に、これら2つのテンプレートを必ずデプロイすることを強く推奨します。</em></p>
+<h2>0. ワークショップ</h2>
+<p>以下のワークショップに従って、AWS上でモデルをトレーニングできます。各ワークショップには複数のテストケースの例や、LLMトレーニング用クラスタの運用に関する情報が含まれています。</p>
+<table>
+<thead>
+<tr>
+<th>名前</th>
+<th>コメント</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://catalog.workshops.aws/sagemaker-hyperpod/en-US">Amazon SageMaker HyperPod</a></td>
+<td>SageMaker HyperPodのワークショップ。デプロイとモニタリング手順を示す</td>
+</tr>
+<tr>
+<td><a href="https://catalog.workshops.aws/ml-on-aws-parallelcluster">AWS ParallelCluster</a></td>
+<td>HyperPodと類似のワークショップだがParallelCluster用</td>
+</tr>
+<tr>
+<td><a href="https://catalog.workshops.aws/sagemaker-hyperpod-eks">Amazon SageMaker HyperPod EKS</a></td>
+<td>SageMaker HyperPod EKSのワークショップ。デプロイとモニタリング手順を示す</td>
+</tr>
+</tbody></table>
+<h2>1. アーキテクチャ</h2>
+<p>アーキテクチャは <code>1.architectures</code> にあり、ユーティリティおよびサービス関連のアーキテクチャで構成されています。</p>
+<table>
+<thead>
+<tr>
+<th>名前</th>
+<th>カテゴリ</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/0.s3"><code>0.s3</code></a></td>
+<td>ストレージ</td>
+<td>S3バケットを作成</td>
+</tr>
+<tr>
+<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/1.vpc_network"><code>1.vpc_network</code></a></td>
+<td>ネットワーク</td>
+<td>サブネット付きのVPCを作成し必要なリソースを構築</td>
+</tr>
+<tr>
+<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/2.aws-parallelcluster"><code>2.aws-parallelcluster</code></a></td>
+<td>コンピュート</td>
+<td>GPUおよびカスタムシリコン学習用クラスタテンプレート</td>
+</tr>
+<tr>
+<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/3.aws-batch"><code>3.aws-batch</code></a></td>
+<td>コンピュート</td>
+<td>分散学習用AWS Batchテンプレート</td>
+</tr>
+<tr>
+<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/4.amazon-eks"><code>4.amazon-eks</code></a></td>
+<td>コンピュート</td>
+<td>Amazon EKSでのトレーニング用マニフェストファイル</td>
+</tr>
+<tr>
+<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/5.sagemaker-hyperpod"><code>5.sagemaker-hyperpod</code></a></td>
+<td>コンピュート</td>
+<td>分散学習用SageMaker HyperPodテンプレート</td>
+</tr>
+</tbody></table>
+<p>今後さらに追加予定です。新しいもの（例：Rayなど）を自由に追加してください。また、EFAおよび推奨環境変数の<a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-cheatsheet.md">ドキュメント</a>も見つけられます。</p>
+<h2>2. カスタムAmazonマシンイメージ</h2>
+<p>カスタムマシンイメージは、<a href="www.packer.io">Packer</a> を使用してAWS ParallelCluster、Amazon EKS、通常のEC2向けに構築可能です。これらのイメージはAnsibleロールとプレイブックに基づいています。</p>
+<h2>3. テストケース</h2>
+<p>テストケースはフレームワーク別に整理されており、さまざまな分散学習シナリオをカバーしています。各テストケースには、分散学習ジョブを実行するために必要なスクリプトと設定が含まれています。</p>
+<h3>PyTorch テストケース</h3>
+<ul>
+<li><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/3.test_cases/pytorch/FSDP"><code>FSDP/</code></a> - Fully Sharded Data Parallelトレーニング例</li>
+<li><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/3.test_cases/pytorch/megatron-lm"><code>megatron-lm/</code></a> - Megatron-LM分散学習例</li>
+<li><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/3.test_cases/pytorch/nemo-launcher"><code>nemo-launcher/</code></a> - NeMo Launcher分散学習例（NeMoバージョン1.0専用）</li>
+<li><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/3.test_cases/pytorch/nemo-run"><code>nemo-run/</code></a> - NeMoフレームワーク分散学習例（NeMoバージョン2.0以降対応）</li>
+<li><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/3.test_cases/pytorch/neuronx-distributed"><code>neuronx-distributed/</code></a> - AWS Trainium分散学習例</li>
+<li><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/3.test_cases/pytorch/mosaicml-composer"><code>mosaicml-composer/</code></a> - MosaicML Composer例</li>
+<li><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/3.test_cases/pytorch/picotron"><code>picotron/</code></a> - PicoTron分散学習例</li>
+<li><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/3.test_cases/pytorch/torchtitan"><code>torchtitan/</code></a> - TorchTitan例</li>
+<li><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/3.test_cases/pytorch/cpu-ddp"><code>cpu-ddp/</code></a> - CPUベースのDistributed Data Parallel例</li>
+<li><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/3.test_cases/pytorch/bionemo"><code>bionemo/</code></a> - BioNeMo分散学習例</li>
+</ul>
+<h3>JAX テストケース</h3>
+<ul>
+<li><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/3.test_cases/jax"><code>jax/</code></a> - PaxMLを使用したJAXベースの分散学習例</li>
+</ul>
+<p>各テストケースには以下が含まれます：</p>
+<ul>
+<li>トレーニングスクリプトおよび設定</li>
+<li>コンテナ定義（該当する場合）</li>
+<li>各種クラスタタイプ用の起動スクリプト</li>
+<li>パフォーマンスモニタリングおよび検証ツール</li>
+</ul>
+<h2>4. 検証スクリプト</h2>
+<p>ユーティリティスクリプトやマイクロベンチマーク例は <code>4.validation_observability/</code> に配置されています。EFA Prometheusエクスポーターはこの<a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter">ディレクトリ</a> にあります。</p>
+<table>
+<thead>
+<tr>
+<th>名前</th>
+<th>コメント</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/1.pytorch-env-validation"><code>1.pytorch-env-validation</code></a></td>
+<td>PyTorch環境の検証</td>
+</tr>
+<tr>
+<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter"><code>3.efa-node-exporter</code></a></td>
+<td>Amazon EFA監視モジュール付きノードエクスポーター</td>
+</tr>
+<tr>
+<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/4.prometheus-grafana"><code>4.prometheus-grafana</code></a></td>
+<td>SageMaker Hyperpodクラスタの監視用デプロイメント資産</td>
+</tr>
+<tr>
+<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/5.nsight"><code>5.nsight</code></a></td>
+<td>Nvidia Nsight Systemsを用いたワークロードプロファイリング方法</td>
+</tr>
+<tr>
+<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-versions.py"><code>efa-versions.py</code></a></td>
+<td>Nvidiaライブラリ、ドライバーおよびEFAドライバーのバージョン取得</td>
+</tr>
+</tbody></table>
+<h2>5. CI</h2>
+<p>統合テストは<a href="https://docs.pytest.org">pytest</a>で記述されています。以下を実行してください：</p>
+<pre><code class="language-bash hljs">pytest .
+</code></pre>
+<p>または標準出力をキャプチャせず、すべてのDockerイメージやその他のアーティファクトを保持してテストを実行することもできます。</p>
+<pre><code class="language-bash hljs">pytest -s --keep-artifacts=t
+</code></pre>
+<h2>6. 貢献者</h2>
+<p>構築、レビュー、テストに貢献いただいたすべての方に感謝します。</p>
+<p><a href="https://github.com/aws-samples/awsome-distributed-training/graphs/contributors"><img src="https://contrib.rocks/image?repo=aws-samples/awsome-distributed-training" alt="Contributors"></a></p>
+<h2>7. スター履歴</h2>
+<p><a href="https://star-history.com/#aws-samples/awsome-distributed-training&amp;Date"><img src="https://api.star-history.com/svg?repos=aws-samples/awsome-distributed-training&amp;type=Date" alt="Star History Chart"></a></p>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
+<hr>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js"></script>
+
+
+</body></html>

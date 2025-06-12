@@ -1,0 +1,479 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open AI Tx - Markdown Viewer</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Open AI Tx - Markdown Viewer">
+    <meta name="description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html">
+    <meta property="og:title" content="Open AI Tx - Markdown Viewer">
+    <meta property="og:description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css">
+    <script src="js/highlight.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/jwt-dotnet/jwt" id="githubRepoLink" target="_blank">jwt-dotnet/jwt</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DO NOT EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+<ul>
+<li><a href="#jwtnet-a-jwt-json-web-token-implementation-for-net">Jwt.Net，.NET 的 JWT（JSON Web Token）实现</a></li>
+<li><a href="#sponsor">赞助商</a></li>
+<li><a href="#avaliable-nuget-packages">可用的 NuGet 包</a></li>
+<li><a href="#supported-net-versions">支持的 .NET 版本：</a></li>
+<li><a href="#jwtnet">Jwt.NET</a><ul>
+<li><a href="#creating-encoding-token">创建（编码）令牌</a><ul>
+<li><a href="#or-using-the-fluent-builder-api">或使用 Fluent Builder API</a></li>
+</ul>
+</li>
+<li><a href="#parsing-decoding-and-verifying-token">解析（解码）并验证令牌</a><ul>
+<li><a href="#or-using-the-fluent-builder-api-1">或使用 Fluent Builder API</a></li>
+<li><a href="#or-using-the-fluent-builder-api-2">或使用 Fluent Builder API</a></li>
+</ul>
+</li>
+<li><a href="#validate-token-expiration">验证令牌过期时间</a></li>
+<li><a href="#parsing-decoding-token-header">解析（解码）令牌头部</a><ul>
+<li><a href="#or-using-the-fluent-builder-api-3">或使用 Fluent Builder API</a></li>
+</ul>
+</li>
+<li><a href="#turning-off-parts-of-token-validation">关闭部分令牌验证</a><ul>
+<li><a href="#or-using-the-fluent-builder-api-4">或使用 Fluent Builder API</a></li>
+</ul>
+</li>
+<li><a href="#custom-json-serializer">自定义 JSON 序列化器</a></li>
+<li><a href="#custom-json-serialization-settings-with-the-default-jsonnetserializer">使用默认 JsonNetSerializer 的自定义 JSON 序列化设置</a></li>
+</ul>
+</li>
+<li><a href="#jwtnet-aspnet-core">Jwt.Net ASP.NET Core</a><ul>
+<li><a href="#register-authentication-handler-to-validate-jwt">注册身份验证处理程序以验证 JWT</a></li>
+<li><a href="#custom-factories-to-produce-identity-or-authenticationticket">自定义工厂生成 Identity 或 AuthenticationTicket</a></li>
+</ul>
+</li>
+<li><a href="#license">许可证</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<p><a href="https://abatishchev.visualstudio.com/OpenSource/_build/latest?definitionId=9"><img src="https://abatishchev.visualstudio.com/OpenSource/_apis/build/status/Jwt.Net-CI" alt="Build status"></a><br><a href="https://abatishchev.visualstudio.com/OpenSource/_release?_a=releases&amp;view=mine&amp;definitionId=2"><img src="https://abatishchev.vsrm.visualstudio.com/_apis/public/Release/badge/b7fc2610-91d5-4968-814c-97a9d76b03c4/2/2" alt="Release status"></a></p>
+<h2>Jwt.Net，.NET 的 JWT（JSON Web Token）实现</h2>
+<p>该库支持生成和解码 <a href="https://tools.ietf.org/html/rfc7519">JSON Web Tokens</a>。</p>
+<h2>赞助商</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://a0.to/try-auth0"><img alt="Auth0 logo" src="https://cdn.auth0.com/blog/github-sponsorships/brand-evolution-logo-Auth0-horizontal-Indigo.png" height="91"></a></td>
+<td>如果你想快速为你的 JWT 项目实现安全认证，<a href="https://a0.to/try-auth0">创建一个 Auth0 账户</a>；永久免费！</td>
+</tr>
+</tbody></table>
+<h2>可用的 NuGet 包</h2>
+<ol>
+<li>Jwt.Net</li>
+</ol>
+<p><a href="https://www.nuget.org/packages/JWT"><img src="https://img.shields.io/nuget/v/JWT.svg" alt="NuGet"></a><br><a href="https://www.nuget.org/packages/JWT"><img src="https://img.shields.io/nuget/vpre/JWT.svg" alt="NuGet Pre"></a></p>
+<ol start="2">
+<li>用于 Microsoft 依赖注入容器的 Jwt.Net</li>
+</ol>
+<p><a href="https://www.nuget.org/packages/JWT.Extensions.DependencyInjection"><img src="https://img.shields.io/nuget/v/JWT.Extensions.DependencyInjection.svg" alt="NuGet"></a><br><a href="https://www.nuget.org/packages/JWT.Extensions.DependencyInjection"><img src="https://img.shields.io/nuget/vpre/JWT.Extensions.DependencyInjection.svg" alt="NuGet Pre"></a></p>
+<ol start="3">
+<li>用于 ASP.NET Core 的 Jwt.Net</li>
+</ol>
+<p><a href="https://www.nuget.org/packages/JWT.Extensions.AspNetCore"><img src="https://img.shields.io/nuget/v/JWT.Extensions.AspNetCore.svg" alt="NuGet"></a><br><a href="https://www.nuget.org/packages/JWT.Extensions.AspNetCore"><img src="https://img.shields.io/nuget/vpre/JWT.Extensions.AspNetCore.svg" alt="NuGet Pre"></a></p>
+<h2>支持的 .NET 版本：</h2>
+<ul>
+<li>.NET Framework 3.5</li>
+<li>.NET Framework 4.0 - 4.8</li>
+<li>.NET Standard 1.3, 2.0</li>
+<li>.NET 6.0</li>
+</ul>
+<h2>Jwt.NET</h2>
+<h3>创建（编码）令牌</h3>
+<pre><code class="language-c# hljs language-c">var payload = new Dictionary&lt;<span class="hljs-built_in">string</span>, object&gt;
+{
+    { <span class="hljs-string">"claim1"</span>, <span class="hljs-number">0</span> },
+    { <span class="hljs-string">"claim2"</span>, <span class="hljs-string">"claim2-value"</span> }
+};
+
+IJwtAlgorithm algorithm = new RS256Algorithm(certificate);
+IJsonSerializer serializer = new JsonNetSerializer();
+IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+IJwtEncoder encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
+<span class="hljs-type">const</span> <span class="hljs-built_in">string</span> key = null; <span class="hljs-comment">// 如果算法为非对称则不需要密钥</span>
+
+var token = encoder.Encode(payload, key);
+Console.WriteLine(token);
+</code></pre>
+<h4>或使用 Fluent Builder API</h4>
+<pre><code class="language-c# hljs language-c">var token = JwtBuilder.Create()
+                      .WithAlgorithm(new RS256Algorithm(certificate))
+                      .AddClaim(<span class="hljs-string">"exp"</span>, DateTimeOffset.UtcNow.AddHours(<span class="hljs-number">1</span>).ToUnixTimeSeconds())
+                      .AddClaim(<span class="hljs-string">"claim1"</span>, <span class="hljs-number">0</span>)
+                      .AddClaim(<span class="hljs-string">"claim2"</span>, <span class="hljs-string">"claim2-value"</span>)
+                      .Encode();
+Console.WriteLine(token);
+</code></pre>
+<h3>解析（解码）并验证令牌</h3>
+<pre><code class="language-c# hljs language-c">try
+{
+    IJsonSerializer serializer = new JsonNetSerializer();
+    IDateTimeProvider provider = new UtcDateTimeProvider();
+    IJwtValidator validator = new JwtValidator(serializer, provider);
+    IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+    IJwtAlgorithm algorithm = new RS256Algorithm(certificate);
+    IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder, algorithm);
+    
+    var json = decoder.Decode(token);
+    Console.WriteLine(json);
+}
+catch (TokenNotYetValidException)
+{
+    Console.WriteLine(<span class="hljs-string">"Token is not valid yet"</span>);
+}
+catch (TokenExpiredException)
+{
+    Console.WriteLine(<span class="hljs-string">"Token has expired"</span>);
+}
+catch (SignatureVerificationException)
+{
+    Console.WriteLine(<span class="hljs-string">"Token has invalid signature"</span>);
+}
+</code></pre>
+<h4>或使用 Fluent Builder API</h4>
+<pre><code class="language-c# hljs language-c">var json = JwtBuilder.Create()
+                     .WithAlgorithm(new RS256Algorithm(certificate))
+                     .MustVerifySignature()
+                     .Decode(token);                    
+Console.WriteLine(json);
+</code></pre>
+<p>输出结果将为：</p>
+<blockquote>
+<p>{ "claim1": 0, "claim2": "claim2-value" }</p>
+</blockquote>
+<p>你也可以直接将 JSON 载荷反序列化为 .NET 类型：</p>
+<pre><code class="language-c# hljs language-c">var payload = decoder.DecodeToObject&lt;IDictionary&lt;<span class="hljs-built_in">string</span>, object&gt;&gt;(token, secret);
+</code></pre>
+<h4>或使用 Fluent Builder API</h4>
+<pre><code class="language-c# hljs language-c">var payload = JwtBuilder.Create()
+                        .WithAlgorithm(new RS256Algorithm(certificate))
+ &nbsp; &nbsp; &nbsp; &nbsp;                .WithSecret(secret)
+                        .MustVerifySignature()
+                        .Decode&lt;IDictionary&lt;<span class="hljs-built_in">string</span>, object&gt;&gt;(token);     
+</code></pre>
+<h3>验证令牌过期时间</h3>
+<p>如 <a href="https://tools.ietf.org/html/rfc7519#section-4.1.4">RFC 7519 第 4.1.4 节</a> 所述：</p>
+<blockquote>
+<p><code>exp</code> 声明用于标识 JWT 不得被接受处理的过期时间。</p>
+</blockquote>
+<p>如果它出现在载荷中且已超过当前时间，令牌验证将失败。该值必须指定为自 <a href="https://en.wikipedia.org/wiki/Unix_time">Unix 纪元</a>（1970 年 1 月 1 日 00:00:00 UTC）以来的秒数。</p>
+<pre><code class="language-c# hljs language-c">IDateTimeProvider provider = new UtcDateTimeProvider();
+var now = provider.GetNow().AddMinutes(<span class="hljs-number">-5</span>); <span class="hljs-comment">// 令牌已过期 5 分钟</span>
+
+<span class="hljs-type">double</span> secondsSinceEpoch = UnixEpoch.GetSecondsSince(now);
+
+var payload = new Dictionary&lt;<span class="hljs-built_in">string</span>, object&gt;
+{
+    { <span class="hljs-string">"exp"</span>, secondsSinceEpoch }
+};
+var token = encoder.Encode(payload);
+
+decoder.Decode(token); <span class="hljs-comment">// 抛出 TokenExpiredException</span>
+</code></pre>
+<p>然后，如 <a href="https://tools.ietf.org/html/rfc7519#section-4.1.5">RFC 7519 第 4.1.5 节</a> 所述：</p>
+<blockquote>
+<p>“nbf”（不早于）声明用于标识 JWT 不得被接受处理的时间</p>
+</blockquote>
+<p>如果它出现在载荷中且早于当前时间，令牌验证将失败。</p>
+<h3>解析（解码）令牌头部</h3>
+<pre><code class="language-c# hljs language-c">IJsonSerializer serializer = new JsonNetSerializer();
+IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+IJwtDecoder decoder = new JwtDecoder(serializer, urlEncoder);
+
+JwtHeader header = decoder.DecodeHeader&lt;JwtHeader&gt;(token);
+
+var typ = header.Type; <span class="hljs-comment">// JWT</span>
+var alg = header.Algorithm; <span class="hljs-comment">// RS256</span>
+var kid = header.KeyId; <span class="hljs-comment">// CFAEAE2D650A6CA9862575DE54371EA980643849</span>
+</code></pre>
+<h4>或使用 Fluent Builder API</h4>
+<pre><code class="language-c# hljs language-c">JwtHeader header = JwtBuilder.Create()
+                             .DecodeHeader&lt;JwtHeader&gt;(token);
+
+var typ = header.Type; <span class="hljs-comment">// JWT</span>
+var alg = header.Algorithm; <span class="hljs-comment">// RS256</span>
+var kid = header.KeyId; <span class="hljs-comment">// CFAEAE2D650A6CA9862575DE54371EA980643849</span>
+</code></pre>
+<h3>关闭部分令牌验证</h3>
+<p>如果你想要验证令牌，但忽略某些验证部分（比如令牌是否已过期或尚未生效），可以将 <code>ValidateParameters</code> 对象传递给 <code>JwtValidator</code> 类的构造函数。</p>
+<pre><code class="language-c# hljs language-c">var validationParameters = new ValidationParameters
+{
+    ValidateSignature = <span class="hljs-literal">true</span>,
+    ValidateExpirationTime = <span class="hljs-literal">false</span>,
+    ValidateIssuedTime = <span class="hljs-literal">false</span>,
+    TimeMargin = <span class="hljs-number">100</span>
+};
+IJwtValidator validator = new JwtValidator(serializer, provider, validationParameters);
+IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder, algorithm);
+var json = decoder.Decode(expiredToken); <span class="hljs-comment">// 不会因令牌过期而抛出异常</span>
+</code></pre>
+<h4>或者使用流式构建器 API</h4>
+<pre><code class="language-c# hljs language-c">var json = JwtBuilder.Create()
+                     .WithAlgorithm(new RS256Algorirhm(certificate))
+                     .WithSecret(secret)
+                     .WithValidationParameters(
+                         new ValidationParameters
+                         {
+                             ValidateSignature = <span class="hljs-literal">true</span>,
+                             ValidateExpirationTime = <span class="hljs-literal">false</span>,
+                             ValidateIssuedTime = <span class="hljs-literal">false</span>,
+                             TimeMargin = <span class="hljs-number">100</span>
+                         })
+                     .Decode(expiredToken);
+</code></pre>
+<h3>自定义 JSON 序列化器</h3>
+<p>默认情况下，JSON 序列化由基于 <a href="https://www.json.net">Json.Net</a> 实现的 JsonNetSerializer 完成。要使用其他序列化器，请实现 <code>IJsonSerializer</code> 接口：</p>
+<pre><code class="language-c# hljs language-c">public sealed <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomJsonSerializer</span> :</span> IJsonSerializer
+{
+    public <span class="hljs-built_in">string</span> <span class="hljs-title function_">Serialize</span><span class="hljs-params">(object obj)</span>
+    {
+        <span class="hljs-comment">// 使用你喜欢的 JSON 序列化器实现</span>
+    }
+
+    public T Deserialize&lt;T&gt;(<span class="hljs-built_in">string</span> json)
+    {
+        <span class="hljs-comment">// 使用你喜欢的 JSON 序列化器实现</span>
+    }
+}
+</code></pre>
+<p>然后将该序列化器传递给 JwtEncoder 构造函数：</p>
+<pre><code class="language-c# hljs language-c">IJwtAlgorithm algorithm = new RS256Algorirhm(certificate);
+IJsonSerializer serializer = new CustomJsonSerializer();
+IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+IJwtEncoder encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
+</code></pre>
+<h3>使用默认 JsonNetSerializer 的自定义 JSON 序列化设置</h3>
+<p>如上所述，默认的 JSON 序列化是通过 <code>JsonNetSerializer</code> 完成的。你可以如下定义自己的自定义序列化设置：</p>
+<pre><code class="language-c# hljs language-c">JsonSerializer customJsonSerializer = new JsonSerializer
+{
+    <span class="hljs-comment">// 所有键以小写字母开头，而不是模型/属性的原始大小写，例如 fullName</span>
+    ContractResolver = new CamelCasePropertyNamesContractResolver(), 
+    
+    <span class="hljs-comment">// 更易于阅读，也可以使用 Formatting.None 来减小载荷大小</span>
+    Formatting = Formatting.Indented,
+    
+    <span class="hljs-comment">// 最合适的日期时间格式</span>
+    DateFormatHandling = DateFormatHandling.IsoDateFormat,
+    
+    <span class="hljs-comment">// 当值为 null 时不添加键/值</span>
+    NullValueHandling = NullValueHandling.Ignore,
+    
+ &nbsp; &nbsp;<span class="hljs-comment">// 使用枚举的字符串值，而不是隐式的整型值，例如枚举 Color { Red } 的 "red"</span>
+    Converters.Add(new StringEnumConverter())
+};
+IJsonSerializer serializer = new JsonNetSerializer(customJsonSerializer);
+</code></pre>
+<h2>Jwt.Net ASP.NET Core</h2>
+<h3>注册认证处理程序以验证 JWT</h3>
+<pre><code class="language-c# hljs language-c">public <span class="hljs-type">void</span> <span class="hljs-title function_">ConfigureServices</span><span class="hljs-params">(IServiceCollection services)</span>
+{
+    services.AddAuthentication(options =&gt;
+                 {
+                     options.DefaultAuthenticateScheme = JwtAuthenticationDefaults.AuthenticationScheme;
+                     options.DefaultChallengeScheme = JwtAuthenticationDefaults.AuthenticationScheme;
+                 })
+            .AddJwt(options =&gt;
+                 {
+                     <span class="hljs-comment">// 密钥，仅对对称算法（如 HMACSHA256Algorithm）必需</span>
+                     <span class="hljs-comment">// options.Keys = new[] { "mySecret" };</span>
+                     
+                     <span class="hljs-comment">// 可选；若 JWT 签名无效时禁用抛出异常</span>
+                     <span class="hljs-comment">// options.VerifySignature = false;</span>
+                 });
+  <span class="hljs-comment">// 非泛型版本 AddJwt() 需要手动注册 IAlgorithmFactory 实例</span>
+  services.AddSingleton&lt;IAlgorithmFactory&gt;(new RSAlgorithmFactory(certificate));
+  <span class="hljs-comment">// 或者</span>
+  services.AddSingleton&lt;IAlgorithmFactory&gt;(new DelegateAlgorithmFactory(algorithm));
+
+  <span class="hljs-comment">// 或使用泛型版本 AddJwt&lt;TFactory&gt;()，以使用自定义的 IAlgorithmFactory 实现</span>
+  .AddJwt&lt;MyCustomAlgorithmFactory&gt;(options =&gt; ...);
+}
+
+public <span class="hljs-type">void</span> <span class="hljs-title function_">Configure</span><span class="hljs-params">(IApplicationBuilder app)</span>
+{
+    app.UseAuthentication();
+}
+</code></pre>
+<h3>自定义工厂生成 Identity 或 AuthenticationTicket</h3>
+<pre><code class="language-c# hljs language-c">services.AddSingleton&lt;IIdentityFactory, CustomIdentityFctory&gt;();
+services.AddSingleton&lt;ITicketFactory, CustomTicketFactory&gt;();
+</code></pre>
+<h2>许可证</h2>
+<p>以下项目及其生成的软件包采用公有领域（Public Domain）许可，详见 <a href="LICENSE.md#Public-Domain">LICENSE#Public-Domain</a> 文件。</p>
+<ul>
+<li>JWT</li>
+</ul>
+<p>以下项目及其生成的软件包采用 MIT 许可证，详见 <a href="LICENSE.md#MIT">LICENSE#MIT</a> 文件。</p>
+<ul>
+<li>JWT.Extensions.AspNetCore</li>
+<li>JWT.Extensions.DependencyInjection</li>
+</ul>
+<pre><code class="hljs language-yaml">
+
+<span class="hljs-meta">---
+
+</span>
+<span class="hljs-string">Tranlated</span> <span class="hljs-string">By</span> [<span class="hljs-string">Open</span> <span class="hljs-string">Ai</span> <span class="hljs-string">Tx</span>]<span class="hljs-string">(https://github.com/OpenAiTx/OpenAiTx)</span> <span class="hljs-string">|</span> <span class="hljs-attr">Last indexed:</span> <span class="hljs-number">2025-06-09</span>
+
+
+<span class="hljs-meta">---
+</span></code></pre>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js"></script>
+
+
+</body></html>

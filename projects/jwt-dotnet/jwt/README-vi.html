@@ -1,0 +1,479 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open AI Tx - Markdown Viewer</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Open AI Tx - Markdown Viewer">
+    <meta name="description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html">
+    <meta property="og:title" content="Open AI Tx - Markdown Viewer">
+    <meta property="og:description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css">
+    <script src="js/highlight.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/jwt-dotnet/jwt" id="githubRepoLink" target="_blank">jwt-dotnet/jwt</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jwt-dotnet&amp;project=jwt&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DO NOT EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+<ul>
+<li><a href="#jwtnet-m%E1%BB%99t-th%C6%B0-vi%E1%BB%87n-tri%E1%BB%83n-khai-jwt-json-web-token-cho-net">Jwt.Net, một thư viện triển khai JWT (JSON Web Token) cho .NET</a></li>
+<li><a href="#nh%C3%A0-t%C3%A0i-tr%E1%BB%A3">Nhà tài trợ</a></li>
+<li><a href="#c%C3%A1c-g%C3%B3i-nuget-s%E1%BA%B5n-c%C3%B3">Các gói NuGet sẵn có</a></li>
+<li><a href="#c%C3%A1c-phi%C3%AAn-b%E1%BA%A3n-net-%C4%91%C6%B0%E1%BB%A3c-h%E1%BB%97-tr%E1%BB%A3">Các phiên bản .NET được hỗ trợ:</a></li>
+<li><a href="#jwtnet">Jwt.NET</a><ul>
+<li><a href="#t%E1%BA%A1o-m%C3%A3-h%C3%B3a-token">Tạo (mã hóa) token</a><ul>
+<li><a href="#ho%E1%BA%B7c-s%E1%BB%AD-d%E1%BB%A5ng-fluent-builder-api">Hoặc sử dụng fluent builder API</a></li>
+</ul>
+</li>
+<li><a href="#ph%C3%A2n-t%C3%ADch-gi%E1%BA%A3i-m%C3%A3-v%C3%A0-x%C3%A1c-minh-token">Phân tích (giải mã) và xác minh token</a><ul>
+<li><a href="#ho%E1%BA%B7c-s%E1%BB%AD-d%E1%BB%A5ng-fluent-builder-api-1">Hoặc sử dụng fluent builder API</a></li>
+<li><a href="#ho%E1%BA%B7c-s%E1%BB%AD-d%E1%BB%A5ng-fluent-builder-api-2">Hoặc sử dụng fluent builder API</a></li>
+</ul>
+</li>
+<li><a href="#ki%E1%BB%83m-tra-h%E1%BA%A1n-token">Kiểm tra hạn token</a></li>
+<li><a href="#ph%C3%A2n-t%C3%ADch-gi%E1%BA%A3i-m%C3%A3-header-c%E1%BB%A7a-token">Phân tích (giải mã) header của token</a><ul>
+<li><a href="#ho%E1%BA%B7c-s%E1%BB%AD-d%E1%BB%A5ng-fluent-builder-api-3">Hoặc sử dụng fluent builder API</a></li>
+</ul>
+</li>
+<li><a href="#t%E1%BA%AFt-m%E1%BB%99t-s%E1%BB%91-ph%E1%BA%A7n-ki%E1%BB%83m-tra-token">Tắt một số phần kiểm tra token</a><ul>
+<li><a href="#ho%E1%BA%B7c-s%E1%BB%AD-d%E1%BB%A5ng-fluent-builder-api-4">Hoặc sử dụng fluent builder API</a></li>
+</ul>
+</li>
+<li><a href="#t%C3%B9y-ch%E1%BB%89nh-tr%C3%ACnh-tu%E1%BA%A7n-t%E1%BB%B1-h%C3%B3a-json">Tùy chỉnh trình tuần tự hóa JSON</a></li>
+<li><a href="#t%C3%B9y-ch%E1%BB%89nh-thi%E1%BA%BFt-l%E1%BA%ADp-tu%E1%BA%A7n-t%E1%BB%B1-h%C3%B3a-json-v%E1%BB%9Bi-jsonnetserializer-m%E1%BA%B7c-%C4%91%E1%BB%8Bnh">Tùy chỉnh thiết lập tuần tự hóa JSON với JsonNetSerializer mặc định</a></li>
+</ul>
+</li>
+<li><a href="#jwtnet-aspnet-core">Jwt.Net ASP.NET Core</a><ul>
+<li><a href="#%C4%91%C4%83ng-k%C3%BD-tr%C3%ACnh-x%E1%BB%AD-l%C3%BD-x%C3%A1c-th%E1%BB%B1c-%C4%91%E1%BB%83-ki%E1%BB%83m-tra-jwt">Đăng ký trình xử lý xác thực để kiểm tra JWT</a></li>
+<li><a href="#c%C3%A1c-factory-t%C3%B9y-ch%E1%BB%89nh-%C4%91%E1%BB%83-t%E1%BA%A1o-identity-ho%E1%BA%B7c-authenticationticket">Các factory tùy chỉnh để tạo Identity hoặc AuthenticationTicket</a></li>
+</ul>
+</li>
+<li><a href="#gi%E1%BA%A5y-ph%C3%A9p">Giấy phép</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<p><a href="https://abatishchev.visualstudio.com/OpenSource/_build/latest?definitionId=9"><img src="https://abatishchev.visualstudio.com/OpenSource/_apis/build/status/Jwt.Net-CI" alt="Build status"></a><br><a href="https://abatishchev.visualstudio.com/OpenSource/_release?_a=releases&amp;view=mine&amp;definitionId=2"><img src="https://abatishchev.vsrm.visualstudio.com/_apis/public/Release/badge/b7fc2610-91d5-4968-814c-97a9d76b03c4/2/2" alt="Release status"></a></p>
+<h2>Jwt.Net, một thư viện triển khai JWT (JSON Web Token) cho .NET</h2>
+<p>Thư viện này hỗ trợ tạo và giải mã <a href="https://tools.ietf.org/html/rfc7519">JSON Web Tokens</a>.</p>
+<h2>Nhà tài trợ</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://a0.to/try-auth0"><img alt="Auth0 logo" src="https://cdn.auth0.com/blog/github-sponsorships/brand-evolution-logo-Auth0-horizontal-Indigo.png" height="91"></a></td>
+<td>Nếu bạn muốn nhanh chóng triển khai xác thực bảo mật cho dự án JWT của mình, <a href="https://a0.to/try-auth0">tạo tài khoản Auth0</a>; Miễn phí!</td>
+</tr>
+</tbody></table>
+<h2>Các gói NuGet sẵn có</h2>
+<ol>
+<li>Jwt.Net</li>
+</ol>
+<p><a href="https://www.nuget.org/packages/JWT"><img src="https://img.shields.io/nuget/v/JWT.svg" alt="NuGet"></a><br><a href="https://www.nuget.org/packages/JWT"><img src="https://img.shields.io/nuget/vpre/JWT.svg" alt="NuGet Pre"></a></p>
+<ol start="2">
+<li>Jwt.Net cho Microsoft Dependency Injection container</li>
+</ol>
+<p><a href="https://www.nuget.org/packages/JWT.Extensions.DependencyInjection"><img src="https://img.shields.io/nuget/v/JWT.Extensions.DependencyInjection.svg" alt="NuGet"></a><br><a href="https://www.nuget.org/packages/JWT.Extensions.DependencyInjection"><img src="https://img.shields.io/nuget/vpre/JWT.Extensions.DependencyInjection.svg" alt="NuGet Pre"></a></p>
+<ol start="3">
+<li>Jwt.Net cho ASP.NET Core</li>
+</ol>
+<p><a href="https://www.nuget.org/packages/JWT.Extensions.AspNetCore"><img src="https://img.shields.io/nuget/v/JWT.Extensions.AspNetCore.svg" alt="NuGet"></a><br><a href="https://www.nuget.org/packages/JWT.Extensions.AspNetCore"><img src="https://img.shields.io/nuget/vpre/JWT.Extensions.AspNetCore.svg" alt="NuGet Pre"></a></p>
+<h2>Các phiên bản .NET được hỗ trợ:</h2>
+<ul>
+<li>.NET Framework 3.5</li>
+<li>.NET Framework 4.0 - 4.8</li>
+<li>.NET Standard 1.3, 2.0</li>
+<li>.NET 6.0</li>
+</ul>
+<h2>Jwt.NET</h2>
+<h3>Tạo (mã hóa) token</h3>
+<pre><code class="language-c# hljs language-c">var payload = new Dictionary&lt;<span class="hljs-built_in">string</span>, object&gt;
+{
+    { <span class="hljs-string">"claim1"</span>, <span class="hljs-number">0</span> },
+    { <span class="hljs-string">"claim2"</span>, <span class="hljs-string">"claim2-value"</span> }
+};
+
+IJwtAlgorithm algorithm = new RS256Algorithm(certificate);
+IJsonSerializer serializer = new JsonNetSerializer();
+IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+IJwtEncoder encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
+<span class="hljs-type">const</span> <span class="hljs-built_in">string</span> key = null; <span class="hljs-comment">// không cần nếu thuật toán bất đối xứng</span>
+
+var token = encoder.Encode(payload, key);
+Console.WriteLine(token);
+</code></pre>
+<h4>Hoặc sử dụng fluent builder API</h4>
+<pre><code class="language-c# hljs language-c">var token = JwtBuilder.Create()
+                      .WithAlgorithm(new RS256Algorithm(certificate))
+                      .AddClaim(<span class="hljs-string">"exp"</span>, DateTimeOffset.UtcNow.AddHours(<span class="hljs-number">1</span>).ToUnixTimeSeconds())
+                      .AddClaim(<span class="hljs-string">"claim1"</span>, <span class="hljs-number">0</span>)
+                      .AddClaim(<span class="hljs-string">"claim2"</span>, <span class="hljs-string">"claim2-value"</span>)
+                      .Encode();
+Console.WriteLine(token);
+</code></pre>
+<h3>Phân tích (giải mã) và xác minh token</h3>
+<pre><code class="language-c# hljs language-c">try
+{
+    IJsonSerializer serializer = new JsonNetSerializer();
+    IDateTimeProvider provider = new UtcDateTimeProvider();
+    IJwtValidator validator = new JwtValidator(serializer, provider);
+    IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+    IJwtAlgorithm algorithm = new RS256Algorithm(certificate);
+    IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder, algorithm);
+    
+    var json = decoder.Decode(token);
+    Console.WriteLine(json);
+}
+catch (TokenNotYetValidException)
+{
+    Console.WriteLine(<span class="hljs-string">"Token chưa hợp lệ"</span>);
+}
+catch (TokenExpiredException)
+{
+    Console.WriteLine(<span class="hljs-string">"Token đã hết hạn"</span>);
+}
+catch (SignatureVerificationException)
+{
+    Console.WriteLine(<span class="hljs-string">"Token có chữ ký không hợp lệ"</span>);
+}
+</code></pre>
+<h4>Hoặc sử dụng fluent builder API</h4>
+<pre><code class="language-c# hljs language-c">var json = JwtBuilder.Create()
+                     .WithAlgorithm(new RS256Algorithm(certificate))
+                     .MustVerifySignature()
+                     .Decode(token);                    
+Console.WriteLine(json);
+</code></pre>
+<p>Kết quả sẽ là:</p>
+<blockquote>
+<p>{ "claim1": 0, "claim2": "claim2-value" }</p>
+</blockquote>
+<p>Bạn cũng có thể giải mã trực tiếp JSON payload thành kiểu dữ liệu .NET:</p>
+<pre><code class="language-c# hljs language-c">var payload = decoder.DecodeToObject&lt;IDictionary&lt;<span class="hljs-built_in">string</span>, object&gt;&gt;(token, secret);
+</code></pre>
+<h4>Hoặc sử dụng fluent builder API</h4>
+<pre><code class="language-c# hljs language-c">var payload = JwtBuilder.Create()
+                        .WithAlgorithm(new RS256Algorithm(certificate))
+ &nbsp; &nbsp; &nbsp; &nbsp;                .WithSecret(secret)
+                        .MustVerifySignature()
+                        .Decode&lt;IDictionary&lt;<span class="hljs-built_in">string</span>, object&gt;&gt;(token);     
+</code></pre>
+<h3>Kiểm tra hạn token</h3>
+<p>Như đã mô tả trong <a href="https://tools.ietf.org/html/rfc7519#section-4.1.4">RFC 7519 section 4.1.4</a>:</p>
+<blockquote>
+<p><code>exp</code> claim xác định thời điểm hết hạn mà sau đó JWT KHÔNG ĐƯỢC chấp nhận để xử lý.</p>
+</blockquote>
+<p>Nếu trường này có trong payload và đã vượt quá thời gian hiện tại, token sẽ không vượt qua xác minh. Giá trị cần được chỉ định là số giây kể từ <a href="https://en.wikipedia.org/wiki/Unix_time">Unix epoch</a>, 1/1/1970 00:00:00 UTC.</p>
+<pre><code class="language-c# hljs language-c">IDateTimeProvider provider = new UtcDateTimeProvider();
+var now = provider.GetNow().AddMinutes(<span class="hljs-number">-5</span>); <span class="hljs-comment">// token đã hết hạn 5 phút trước</span>
+
+<span class="hljs-type">double</span> secondsSinceEpoch = UnixEpoch.GetSecondsSince(now);
+
+var payload = new Dictionary&lt;<span class="hljs-built_in">string</span>, object&gt;
+{
+    { <span class="hljs-string">"exp"</span>, secondsSinceEpoch }
+};
+var token = encoder.Encode(payload);
+
+decoder.Decode(token); <span class="hljs-comment">// sẽ ném ra TokenExpiredException</span>
+</code></pre>
+<p>Sau đó, như đã mô tả trong <a href="https://tools.ietf.org/html/rfc7519#section-4.1.5">RFC 7519 section 4.1.5</a>:</p>
+<blockquote>
+<p><code>nbf</code> (not before) xác định thời điểm trước đó JWT KHÔNG ĐƯỢC chấp nhận để xử lý</p>
+</blockquote>
+<p>Nếu trường này có trong payload và trước thời gian hiện tại, token sẽ không vượt qua xác minh.</p>
+<h3>Phân tích (giải mã) header của token</h3>
+<pre><code class="language-c# hljs language-c">IJsonSerializer serializer = new JsonNetSerializer();
+IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+IJwtDecoder decoder = new JwtDecoder(serializer, urlEncoder);
+
+JwtHeader header = decoder.DecodeHeader&lt;JwtHeader&gt;(token);
+
+var typ = header.Type; <span class="hljs-comment">// JWT</span>
+var alg = header.Algorithm; <span class="hljs-comment">// RS256</span>
+var kid = header.KeyId; <span class="hljs-comment">// CFAEAE2D650A6CA9862575DE54371EA980643849</span>
+</code></pre>
+<h4>Hoặc sử dụng fluent builder API</h4>
+<pre><code class="language-c# hljs language-c">JwtHeader header = JwtBuilder.Create()
+                             .DecodeHeader&lt;JwtHeader&gt;(token);
+
+var typ = header.Type; <span class="hljs-comment">// JWT</span>
+var alg = header.Algorithm; <span class="hljs-comment">// RS256</span>
+var kid = header.KeyId; <span class="hljs-comment">// CFAEAE2D650A6CA9862575DE54371EA980643849</span>
+</code></pre>
+<h3>Tắt một phần xác thực token</h3>
+<p>Nếu bạn muốn xác thực một token nhưng bỏ qua một số phần của việc xác thực (chẳng hạn như kiểm tra token đã hết hạn hoặc chưa hợp lệ), bạn có thể truyền một đối tượng <code>ValidateParameters</code> vào constructor của lớp <code>JwtValidator</code>.</p>
+<pre><code class="language-c# hljs language-c">var validationParameters = new ValidationParameters
+{
+    ValidateSignature = <span class="hljs-literal">true</span>,
+    ValidateExpirationTime = <span class="hljs-literal">false</span>,
+    ValidateIssuedTime = <span class="hljs-literal">false</span>,
+    TimeMargin = <span class="hljs-number">100</span>
+};
+IJwtValidator validator = new JwtValidator(serializer, provider, validationParameters);
+IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder, algorithm);
+var json = decoder.Decode(expiredToken); <span class="hljs-comment">// sẽ không ném ngoại lệ vì token đã hết hạn</span>
+</code></pre>
+<h4>Hoặc sử dụng fluent builder API</h4>
+<pre><code class="language-c# hljs language-c">var json = JwtBuilder.Create()
+                     .WithAlgorithm(new RS256Algorirhm(certificate))
+                     .WithSecret(secret)
+                     .WithValidationParameters(
+                         new ValidationParameters
+                         {
+                             ValidateSignature = <span class="hljs-literal">true</span>,
+                             ValidateExpirationTime = <span class="hljs-literal">false</span>,
+                             ValidateIssuedTime = <span class="hljs-literal">false</span>,
+                             TimeMargin = <span class="hljs-number">100</span>
+                         })
+                     .Decode(expiredToken);
+</code></pre>
+<h3>Tùy chỉnh trình tuần tự JSON</h3>
+<p>Mặc định, quá trình tuần tự hóa JSON được thực hiện bởi JsonNetSerializer được xây dựng dựa trên <a href="https://www.json.net">Json.Net</a>. Để sử dụng trình tuần tự khác, hãy triển khai giao diện <code>IJsonSerializer</code>:</p>
+<pre><code class="language-c# hljs language-c">public sealed <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomJsonSerializer</span> :</span> IJsonSerializer
+{
+    public <span class="hljs-built_in">string</span> <span class="hljs-title function_">Serialize</span><span class="hljs-params">(object obj)</span>
+    {
+        <span class="hljs-comment">// Triển khai bằng trình tuần tự JSON ưa thích</span>
+    }
+
+    public T Deserialize&lt;T&gt;(<span class="hljs-built_in">string</span> json)
+    {
+        <span class="hljs-comment">// Triển khai bằng trình tuần tự JSON ưa thích</span>
+    }
+}
+</code></pre>
+<p>Và sau đó truyền trình tuần tự này vào constructor của JwtEncoder:</p>
+<pre><code class="language-c# hljs language-c">IJwtAlgorithm algorithm = new RS256Algorirhm(certificate);
+IJsonSerializer serializer = new CustomJsonSerializer();
+IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+IJwtEncoder encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
+</code></pre>
+<h3>Tùy chỉnh thiết lập tuần tự JSON với JsonNetSerializer mặc định</h3>
+<p>Như đã đề cập ở trên, tuần tự hóa JSON mặc định được thực hiện bởi <code>JsonNetSerializer</code>. Bạn có thể định nghĩa các thiết lập tuần tự hóa tùy chỉnh như sau:</p>
+<pre><code class="language-c# hljs language-c">JsonSerializer customJsonSerializer = new JsonSerializer
+{
+    <span class="hljs-comment">// Tất cả các khóa bắt đầu bằng ký tự thường thay vì giữ nguyên kiểu chữ của model/thuộc tính, ví dụ: fullName</span>
+    ContractResolver = new CamelCasePropertyNamesContractResolver(), 
+    
+    <span class="hljs-comment">// Định dạng dễ đọc, nhưng bạn cũng có thể dùng Formatting.None để giảm kích thước payload</span>
+    Formatting = Formatting.Indented,
+    
+    <span class="hljs-comment">// Định dạng ngày giờ phù hợp nhất.</span>
+    DateFormatHandling = DateFormatHandling.IsoDateFormat,
+    
+    <span class="hljs-comment">// Không thêm khóa/giá trị khi giá trị là null.</span>
+    NullValueHandling = NullValueHandling.Ignore,
+    
+ &nbsp; &nbsp;<span class="hljs-comment">// Sử dụng giá trị chuỗi của enum, không phải giá trị int ngầm định, ví dụ: "red" cho enum Color { Red }</span>
+    Converters.Add(new StringEnumConverter())
+};
+IJsonSerializer serializer = new JsonNetSerializer(customJsonSerializer);
+</code></pre>
+<h2>Jwt.Net ASP.NET Core</h2>
+<h3>Đăng ký trình xử lý xác thực để kiểm tra JWT</h3>
+<pre><code class="language-c# hljs language-c">public <span class="hljs-type">void</span> <span class="hljs-title function_">ConfigureServices</span><span class="hljs-params">(IServiceCollection services)</span>
+{
+    services.AddAuthentication(options =&gt;
+                 {
+                     options.DefaultAuthenticateScheme = JwtAuthenticationDefaults.AuthenticationScheme;
+                     options.DefaultChallengeScheme = JwtAuthenticationDefaults.AuthenticationScheme;
+                 })
+            .AddJwt(options =&gt;
+                 {
+                     <span class="hljs-comment">// bí mật, chỉ yêu cầu cho các thuật toán đối xứng, như HMACSHA256Algorithm</span>
+                     <span class="hljs-comment">// options.Keys = new[] { "mySecret" };</span>
+                     
+                     <span class="hljs-comment">// tùy chọn; tắt việc ném ngoại lệ nếu chữ ký JWT không hợp lệ</span>
+                     <span class="hljs-comment">// options.VerifySignature = false;</span>
+                 });
+  <span class="hljs-comment">// phiên bản không generic AddJwt() yêu cầu đăng ký thủ công một instance của IAlgorithmFactory</span>
+  services.AddSingleton&lt;IAlgorithmFactory&gt;(new RSAlgorithmFactory(certificate));
+  <span class="hljs-comment">// hoặc</span>
+  services.AddSingleton&lt;IAlgorithmFactory&gt;(new DelegateAlgorithmFactory(algorithm));
+
+  <span class="hljs-comment">// hoặc sử dụng phiên bản generic AddJwt&lt;TFactory() để sử dụng triển khai tùy chỉnh của IAlgorithmFactory</span>
+  .AddJwt&lt;MyCustomAlgorithmFactory&gt;(options =&gt; ...);
+}
+
+public <span class="hljs-type">void</span> <span class="hljs-title function_">Configure</span><span class="hljs-params">(IApplicationBuilder app)</span>
+{
+    app.UseAuthentication();
+}
+</code></pre>
+<h3>Factory tùy chỉnh để tạo Identity hoặc AuthenticationTicket</h3>
+<pre><code class="language-c# hljs language-c">services.AddSingleton&lt;IIdentityFactory, CustomIdentityFctory&gt;();
+services.AddSingleton&lt;ITicketFactory, CustomTicketFactory&gt;();
+</code></pre>
+<h2>Giấy phép</h2>
+<p>Các dự án sau và các gói phần mềm kết quả của chúng được cấp phép theo Public Domain, xem tệp <a href="LICENSE.md#Public-Domain">LICENSE#Public-Domain</a>.</p>
+<ul>
+<li>JWT</li>
+</ul>
+<p>Các dự án sau và các gói phần mềm kết quả của chúng được cấp phép theo giấy phép MIT, xem tệp <a href="LICENSE.md#MIT">LICENSE#MIT</a>.</p>
+<ul>
+<li>JWT.Extensions.AspNetCore</li>
+<li>JWT.Extensions.DependencyInjection</li>
+</ul>
+<pre><code class="hljs language-yaml">
+
+<span class="hljs-meta">---
+
+</span>
+<span class="hljs-string">Tranlated</span> <span class="hljs-string">By</span> [<span class="hljs-string">Open</span> <span class="hljs-string">Ai</span> <span class="hljs-string">Tx</span>]<span class="hljs-string">(https://github.com/OpenAiTx/OpenAiTx)</span> <span class="hljs-string">|</span> <span class="hljs-attr">Last indexed:</span> <span class="hljs-number">2025-06-09</span>
+
+
+<span class="hljs-meta">---
+</span></code></pre>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js"></script>
+
+
+</body></html>

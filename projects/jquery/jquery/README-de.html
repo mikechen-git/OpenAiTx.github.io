@@ -1,0 +1,443 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery — Neue Welle JavaScript - Open AI Tx</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Open AI Tx - Markdown Viewer">
+    <meta name="description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html">
+    <meta property="og:title" content="Open AI Tx - Markdown Viewer">
+    <meta property="og:description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css">
+    <script src="js/highlight.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/jquery/jquery" id="githubRepoLink" target="_blank">jquery/jquery</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=jquery&amp;project=jquery&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><h1><a href="https://jquery.com/">jQuery</a> — Neue Welle JavaScript</h1>
+<p>Die Meetings finden derzeit auf der <a href="https://matrix.to/#/#jquery_meeting:gitter.im">matrix.org Plattform</a> statt.</p>
+<p>Protokolle der Meetings sind unter <a href="https://meetings.jquery.org/category/core/">meetings.jquery.org</a> zu finden.</p>
+<p>Die neueste Version von jQuery ist unter <a href="https://jquery.com/download/">https://jquery.com/download/</a> verfügbar.</p>
+<h2>Versionsunterstützung</h2>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Branch</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4.x</td>
+<td>main</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>3.x</td>
+<td>3.x-stable</td>
+<td>Aktiv</td>
+</tr>
+<tr>
+<td>2.x</td>
+<td>2.x-stable</td>
+<td>Inaktiv</td>
+</tr>
+<tr>
+<td>1.x</td>
+<td>1.x-stable</td>
+<td>Inaktiv</td>
+</tr>
+</tbody></table>
+<p>Sobald 4.0.0 final veröffentlicht ist, wird der 3.x-Branch noch für eine begrenzte Zeit Updates erhalten. Die 2.x- und 1.x-Branches werden nicht mehr unterstützt.</p>
+<p>Kommerzieller Support für inaktive Versionen ist von <a href="https://herodevs.com/nes">HeroDevs</a> verfügbar.</p>
+<p>Mehr über unsere <a href="https://jquery.com/support/">Versionsunterstützung</a>.</p>
+<h2>Beiträge und Leitfäden</h2>
+<p>Im Sinne der Open-Source-Softwareentwicklung ermutigt jQuery immer zur Mitwirkung durch die Community. Damit du gut starten kannst und bevor du mit dem Coden beginnst, solltest du diese wichtigen Beitragsrichtlinien sorgfältig lesen:</p>
+<ol>
+<li><a href="https://contribute.jquery.org/">Mitmachen</a></li>
+<li><a href="https://contribute.jquery.org/style-guide/js/">Core Style Guide</a></li>
+<li><a href="https://contribute.jquery.org/code/">Code für jQuery-Projekte schreiben</a></li>
+</ol>
+<h3>Verweise auf Issues/PRs</h3>
+<p>GitHub-Issues/PRs werden in der Regel mit <code>gh-NUMBER</code> referenziert, wobei <code>NUMBER</code> die numerische ID des Issues/PRs ist. Du findest ein solches Issue/PR unter <code>https://github.com/jquery/jquery/issues/NUMBER</code>.</p>
+<p>jQuery hat früher einen anderen Bugtracker auf Trac-Basis verwendet, erreichbar unter <a href="https://bugs.jquery.com/">bugs.jquery.com</a>. Er wird im Read-Only-Modus gehalten, damit auf vergangene Diskussionen verwiesen werden kann. Wenn im jQuery-Quellcode auf eines dieser Issues verwiesen wird, wird das Muster <code>trac-NUMBER</code> verwendet, wobei <code>NUMBER</code> die numerische ID des Issues ist. Du findest ein solches Issue unter <code>https://bugs.jquery.com/ticket/NUMBER</code>.</p>
+<h2>Umgebungen, in denen jQuery verwendet werden kann</h2>
+<ul>
+<li><a href="https://jquery.com/browser-support/">Browser-Unterstützung</a></li>
+<li>jQuery unterstützt auch Node, Browser-Erweiterungen und andere Nicht-Browser-Umgebungen.</li>
+</ul>
+<h2>Was du benötigst, um dein eigenes jQuery zu bauen</h2>
+<p>Um jQuery zu bauen, benötigst du die neueste Version von Node.js/npm und git 1.7 oder neuer. Ältere Versionen könnten funktionieren, werden aber nicht unterstützt.</p>
+<p>Für Windows musst du <a href="https://git-scm.com/downloads">git</a> und <a href="https://nodejs.org/en/download/">Node.js</a> herunterladen und installieren.</p>
+<p>macOS-Nutzer sollten <a href="https://brew.sh/">Homebrew</a> installieren. Nach der Installation von Homebrew führe <code>brew install git</code> aus, um git zu installieren, und <code>brew install node</code>, um Node.js zu installieren.</p>
+<p>Linux/BSD-Nutzer sollten ihre jeweiligen Paketmanager verwenden, um git und Node.js zu installieren, oder selbst kompilieren,<br>wenn sie das bevorzugen. Ganz einfach.</p>
+<h2>Wie man sein eigenes jQuery baut</h2>
+<p>Zuerst <a href="https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository">klone das jQuery Git-Repository</a>.</p>
+<p>Dann gehe ins jquery-Verzeichnis, installiere die Abhängigkeiten und führe das Build-Skript aus:</p>
+<pre><code class="language-bash hljs"><span class="hljs-built_in">cd</span> jquery
+npm install
+npm run build
+</code></pre>
+<p>Die gebaute Version von jQuery wird im <code>dist/</code>-Verzeichnis abgelegt, zusammen mit einer minimierten Kopie und der zugehörigen Map-Datei.</p>
+<h2>Alle jQuery-Release-Dateien bauen</h2>
+<p>Um alle Varianten von jQuery zu bauen, führe folgenden Befehl aus:</p>
+<pre><code class="language-bash hljs">npm run build:all
+</code></pre>
+<p>Dies erstellt alle Varianten, die jQuery in einem Release enthält, einschließlich <code>jquery.js</code>, <code>jquery.slim.js</code>, <code>jquery.module.js</code> und <code>jquery.slim.module.js</code> sowie deren zugehörigen minimierten Dateien und Sourcemaps.</p>
+<p><code>jquery.module.js</code> und <code>jquery.slim.module.js</code> sind <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">ECMAScript-Module</a>, die <code>jQuery</code> und <code>$</code> als benannte Exports bereitstellen und im Verzeichnis <code>dist-module/</code> statt im <code>dist/</code>-Verzeichnis abgelegt werden.</p>
+<h2>Ein eigenes jQuery anpassen</h2>
+<p>Das Build-Skript kann verwendet werden, um eine individuelle Version von jQuery zu erstellen, die nur die benötigten Module enthält.</p>
+<p>Jedes Modul kann ausgeschlossen werden, außer <code>core</code>. Wenn <code>selector</code> ausgeschlossen wird, wird es nicht entfernt, sondern durch einen kleinen Wrapper um das native <code>querySelectorAll</code> ersetzt (siehe unten für mehr Informationen).</p>
+<h3>Build-Skript-Hilfe</h3>
+<p>Um die vollständige Liste der verfügbaren Optionen für das Build-Skript zu sehen, führe Folgendes aus:</p>
+<pre><code class="language-bash hljs">npm run build -- --<span class="hljs-built_in">help</span>
+</code></pre>
+<h3>Module</h3>
+<p>Um ein Modul auszuschließen, übergib seinen Pfad relativ zum <code>src</code>-Ordner (ohne <code>.js</code>-Erweiterung) an die Option <code>--exclude</code>. Wenn du die Option <code>--include</code> verwendest, werden die Standardmodule nicht eingebunden und es wird ein Build nur mit den angegebenen Modulen erstellt.</p>
+<p>Einige Beispielmodule, die ausgeschlossen oder eingeschlossen werden können, sind:</p>
+<ul>
+<li><p><strong>ajax</strong>: Alle AJAX-Funktionalitäten: <code>$.ajax()</code>, <code>$.get()</code>, <code>$.post()</code>, <code>$.ajaxSetup()</code>, <code>.load()</code>, Transports und AJAX-Event-Shorthands wie <code>.ajaxStart()</code>.</p>
+</li>
+<li><p><strong>ajax/xhr</strong>: Nur der XMLHTTPRequest-AJAX-Transport.</p>
+</li>
+<li><p><strong>ajax/script</strong>: Nur der <code>&lt;script&gt;</code>-AJAX-Transport; wird verwendet, um Skripte zu laden.</p>
+</li>
+<li><p><strong>ajax/jsonp</strong>: Nur der JSONP-AJAX-Transport; hängt vom ajax/script-Transport ab.</p>
+</li>
+<li><p><strong>css</strong>: Die <code>.css()</code>-Methode. Entfernt außerdem <strong>alle</strong> Module, die von css abhängen (einschließlich <strong>effects</strong>, <strong>dimensions</strong> und <strong>offset</strong>).</p>
+</li>
+<li><p><strong>css/showHide</strong>: Nicht animierte <code>.show()</code>, <code>.hide()</code> und <code>.toggle()</code>; kann ausgeschlossen werden, wenn du Klassen oder explizite <code>.css()</code>-Aufrufe verwendest, um die <code>display</code>-Eigenschaft zu setzen. Entfernt auch das <strong>effects</strong>-Modul.</p>
+</li>
+<li><p><strong>deprecated</strong>: Methoden, die als veraltet dokumentiert, aber noch nicht entfernt wurden.</p>
+</li>
+<li><p><strong>dimensions</strong>: Die Methoden <code>.width()</code> und <code>.height()</code>, einschließlich der <code>inner-</code> und <code>outer-</code> Varianten.</p>
+</li>
+<li><p><strong>effects</strong>: Die Methode <code>.animate()</code> und ihre Kurzformen wie <code>.slideUp()</code> oder <code>.hide("slow")</code>.</p>
+</li>
+<li><p><strong>event</strong>: Die Methoden <code>.on()</code> und <code>.off()</code> und sämtliche Event-Funktionalität.</p>
+</li>
+<li><p><strong>event/trigger</strong>: Die Methoden <code>.trigger()</code> und <code>.triggerHandler()</code>.</p>
+</li>
+<li><p><strong>offset</strong>: Die Methoden <code>.offset()</code>, <code>.position()</code>, <code>.offsetParent()</code>, <code>.scrollLeft()</code> und <code>.scrollTop()</code>.</p>
+</li>
+<li><p><strong>wrap</strong>: Die Methoden <code>.wrap()</code>, <code>.wrapAll()</code>, <code>.wrapInner()</code> und <code>.unwrap()</code>.</p>
+</li>
+<li><p><strong>core/ready</strong>: Schließe das ready-Modul aus, wenn du deine Skripte am Ende des Body platzierst. Alle mit <code>jQuery()</code> gebundenen ready-Callbacks werden sofort aufgerufen. Allerdings ist <code>jQuery(document).ready()</code> dann keine Funktion und <code>.on("ready", ...)</code> oder ähnliches wird nicht ausgelöst.</p>
+</li>
+<li><p><strong>deferred</strong>: Schließe jQuery.Deferred aus. Dadurch werden auch alle Module ausgeschlossen, die von Deferred abhängen, einschließlich <strong>ajax</strong>, <strong>effects</strong> und <strong>queue</strong>, aber <strong>core/ready</strong> wird durch <strong>core/ready-no-deferred</strong> ersetzt.</p>
+</li>
+<li><p><strong>exports/global</strong>: Entfernt das Hinzufügen der globalen jQuery-Variablen ($ und jQuery) zum window.</p>
+</li>
+<li><p><strong>exports/amd</strong>: Entfernt die AMD-Definition.</p>
+</li>
+<li><p><strong>selector</strong>: Die vollständige jQuery-Selektor-Engine. Wenn dieses Modul ausgeschlossen wird, wird es durch eine rudimentäre Selektor-Engine auf Basis der Browser-Methode <code>querySelectorAll</code> ersetzt, die keine jQuery-Selektor-Erweiterungen oder erweiterte Semantik unterstützt. Siehe die Datei <a href="https://github.com/jquery/jquery/blob/main/src/selector-native.js">selector-native.js</a> für Details.</p>
+</li>
+</ul>
+<p><em>Hinweis</em>: Das Ausschließen des vollständigen <code>selector</code>-Moduls schließt auch alle jQuery-Selektor-Erweiterungen aus (wie <code>effects/animatedSelector</code> und <code>css/hiddenVisibleSelectors</code>).</p>
+<h5>AMD-Name</h5>
+<p>Du kannst den Modulnamen für die AMD-Definition von jQuery festlegen. Standardmäßig ist er auf "jquery" gesetzt, was gut mit Plugins und Drittanbieter-Bibliotheken funktioniert, aber es kann Fälle geben, in denen du ihn ändern möchtest. Übergebe ihn an den <code>--amd</code>-Parameter:</p>
+<pre><code class="language-bash hljs">npm run build -- --amd=<span class="hljs-string">"custom-name"</span>
+</code></pre>
+<p>Oder lasse den Namen leer, um anonym zu definieren.</p>
+<pre><code class="language-bash hljs">npm run build -- --amd
+</code></pre>
+<h5>Dateiname und Verzeichnis</h5>
+<p>Der Standardname für die gebaute jQuery-Datei ist <code>jquery.js</code>; sie wird im Verzeichnis <code>dist/</code> abgelegt. Es ist möglich, den Dateinamen mit <code>--filename</code> und das Verzeichnis mit <code>--dir</code> zu ändern. <code>--dir</code> ist relativ zum Projektstamm.</p>
+<pre><code class="language-bash hljs">npm run build -- --slim --filename=<span class="hljs-string">"jquery.slim.js"</span> --<span class="hljs-built_in">dir</span>=<span class="hljs-string">"/tmp"</span>
+</code></pre>
+<p>Dies würde eine schlanke Version von jQuery erstellen und unter <code>tmp/jquery.slim.js</code> ablegen.</p>
+<h5>ECMAScript-Modul (ESM)-Modus</h5>
+<p>Standardmäßig erzeugt jQuery eine reguläre JavaScript-Datei für Skripte. Du kannst auch ein ECMAScript-Modul erzeugen, das <code>jQuery</code> als Default-Export exportiert, indem du den Parameter <code>--esm</code> verwendest:</p>
+<pre><code class="language-bash hljs">npm run build -- --filename=jquery.module.js --esm
+</code></pre>
+<h5>Factory-Modus</h5>
+<p>Standardmäßig hängt jQuery von einem globalen <code>window</code> ab. Für Umgebungen, die kein solches haben, kannst du ein Factory-Build erzeugen, das eine Funktion bereitstellt, welche <code>window</code> als Parameter akzeptiert, den du extern angeben kannst (siehe <a href="build/fixtures/README.md"><code>README</code> des veröffentlichten Pakets</a> für Anweisungen zur Verwendung). Du kannst ein solches Factory-Build mit dem Parameter <code>--factory</code> erzeugen:</p>
+<pre><code class="language-bash hljs">npm run build -- --filename=jquery.factory.js --factory
+</code></pre>
+<p>Diese Option kann mit anderen wie <code>--esm</code> oder <code>--slim</code> kombiniert werden:</p>
+<pre><code class="language-bash hljs">npm run build -- --filename=jquery.factory.slim.module.js --factory --esm --slim --<span class="hljs-built_in">dir</span>=<span class="hljs-string">"/dist-module"</span>
+</code></pre>
+<h4>Beispiele für eigene Builds</h4>
+<p>Erstelle einen eigenen Build mit <code>npm run build</code>, indem du die auszuschließenden Module auflistest. Das Ausschließen eines Top-Level-Moduls schließt auch das entsprechende Modulverzeichnis aus.</p>
+<p>Schließe alle <strong>ajax</strong>-Funktionalitäten aus:</p>
+<pre><code class="language-bash hljs">npm run build -- --exclude=ajax
+</code></pre>
+<p>Das Ausschließen von <strong>css</strong> entfernt alle Module, die von CSS abhängen: <strong>effects</strong>, <strong>offset</strong>, <strong>dimensions</strong>.</p>
+<pre><code class="language-bash hljs">npm run build -- --exclude=css
+</code></pre>
+<p>Schließe mehrere Module aus (<code>-e</code> ist ein Alias für <code>--exclude</code>):</p>
+<pre><code class="language-bash hljs">npm run build -- -e ajax/jsonp -e css -e deprecated -e dimensions -e effects -e offset -e wrap
+</code></pre>
+<p>Es gibt einen speziellen Alias, um einen Build mit der gleichen Konfiguration wie der offizielle jQuery Slim Build zu erzeugen:</p>
+<pre><code class="language-bash hljs">npm run build -- --filename=jquery.slim.js --slim
+</code></pre>
+<p>Oder, um den Slim-Build als esm-Modul zu erstellen:</p>
+<pre><code class="language-bash hljs">npm run build -- --filename=jquery.slim.module.js --slim --esm
+</code></pre>
+<pre><code class="hljs language-perl">
+*Inoffizielle, benutzerdefinierte Builds werden nicht regelmäßig getestet. Verwendung auf eigene Gefahr.*
+
+<span class="hljs-comment">## Ausführen der Unit-Tests</span>
+
+Stellen Sie sicher, dass Sie <span class="hljs-keyword">die</span> notwendigen Abhängigkeiten installiert haben:
+
+<span class="hljs-string">``</span><span class="hljs-string">`bash
+npm install
+</span></code></pre>
+<p>Starten Sie <code>npm start</code>, um jQuery während der Arbeit automatisch zu bauen:</p>
+<pre><code class="language-bash hljs">npm start
+</code></pre>
+<p>Führen Sie die Unit-Tests mit einem lokalen Server aus, der PHP unterstützt. Stellen Sie sicher, dass Sie die Seite aus dem Stammverzeichnis und nicht aus dem "test"-Verzeichnis starten. Es ist keine Datenbank erforderlich. Vorgefertigte lokale PHP-Server sind für Windows und Mac verfügbar. Hier einige Optionen:</p>
+<ul>
+<li>Windows: <a href="https://www.wampserver.com/en/">WAMP herunterladen</a></li>
+<li>Mac: <a href="https://www.mamp.info/en/downloads/">MAMP herunterladen</a></li>
+<li>Linux: <a href="https://www.linux.com/training-tutorials/easy-lamp-server-installation/">LAMP einrichten</a></li>
+<li><a href="https://code.google.com/p/mongoose/">Mongoose (meiste Plattformen)</a></li>
+</ul>
+<h2>Wesentliches zu Git</h2>
+<p>Da der Quellcode mit dem Versionskontrollsystem Git verwaltet wird, ist es nützlich, einige verwendete Funktionen zu kennen.</p>
+<h3>Bereinigen</h3>
+<p>Wenn Sie Ihr Arbeitsverzeichnis auf den Status von Upstream zurücksetzen möchten, können Sie die folgenden Befehle verwenden (beachten Sie, dass danach alles, woran Sie gearbeitet haben, weg ist):</p>
+<pre><code class="language-bash hljs">git reset --hard upstream/main
+git clean -fdx
+</code></pre>
+<h3>Rebasen</h3>
+<p>Für Feature-/Themen-Branches sollten Sie immer das <code>--rebase</code>-Flag bei <code>git pull</code> verwenden oder, wenn Sie häufig viele temporäre "für einen GitHub Pull Request"-Branches verwalten, können Sie Folgendes ausführen, um dies zu automatisieren:</p>
+<pre><code class="language-bash hljs">git config branch.autosetuprebase <span class="hljs-built_in">local</span>
+</code></pre>
+<p>(siehe <code>man git-config</code> für weitere Informationen)</p>
+<h3>Umgang mit Merge-Konflikten</h3>
+<p>Wenn Sie beim Mergen auf Merge-Konflikte stoßen, können Sie anstatt die Konfliktdateien manuell zu bearbeiten, die Funktion <code>git mergetool</code> verwenden. Auch wenn das Standard-Tool <code>xxdiff</code> altmodisch aussieht, ist es ziemlich nützlich.</p>
+<p>Folgende Befehle können dort verwendet werden:</p>
+<ul>
+<li><code>Strg + Alt + M</code> - Automatisches Mergen so weit wie möglich</li>
+<li><code>b</code> - Zum nächsten Merge-Konflikt springen</li>
+<li><code>s</code> - Die Reihenfolge der Konfliktzeilen ändern</li>
+<li><code>u</code> - Einen Merge rückgängig machen</li>
+<li><code>linke Maustaste</code> - Einen Block als Gewinner markieren</li>
+<li><code>mittlere Maustaste</code> - Eine Zeile als Gewinner markieren</li>
+<li><code>Strg + S</code> - Speichern</li>
+<li><code>Strg + Q</code> - Beenden</li>
+</ul>
+<h2><a href="https://api.qunitjs.com">QUnit</a> Referenz</h2>
+<h3>Testmethoden</h3>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">expect</span>( numAssertions );
+<span class="hljs-title function_">stop</span>();
+<span class="hljs-title function_">start</span>();
+</code></pre>
+<p><em>Hinweis</em>: QUnits spätere Hinzufügung eines Arguments zu stop/start wird in dieser Testsuite ignoriert, so dass start und stop als Callbacks ohne Berücksichtigung ihrer Parameter übergeben werden können.</p>
+<h3>Test-Assertions</h3>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">ok</span>( value, [message] );
+<span class="hljs-title function_">equal</span>( actual, expected, [message] );
+<span class="hljs-title function_">notEqual</span>( actual, expected, [message] );
+<span class="hljs-title function_">deepEqual</span>( actual, expected, [message] );
+<span class="hljs-title function_">notDeepEqual</span>( actual, expected, [message] );
+<span class="hljs-title function_">strictEqual</span>( actual, expected, [message] );
+<span class="hljs-title function_">notStrictEqual</span>( actual, expected, [message] );
+<span class="hljs-title function_">throws</span>( block, [expected], [message] );
+</code></pre>
+<h2>Referenz der Convenience-Methoden für die Testsuite</h2>
+<p>Siehe <a href="https://raw.githubusercontent.com/jquery/jquery/main/test/data/testinit.js">test/data/testinit.js</a>.</p>
+<h3>Gibt ein Array von Elementen mit den angegebenen IDs zurück</h3>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">q</span>( ... );
+</code></pre>
+<p>Beispiel:</p>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">q</span>( <span class="hljs-string">"main"</span>, <span class="hljs-string">"foo"</span>, <span class="hljs-string">"bar"</span> );
+
+=&gt; [ div#main, span#foo, input#bar ]
+</code></pre>
+<h3>Prüft, ob eine Selektion den angegebenen IDs entspricht</h3>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">t</span>( testName, selector, [ <span class="hljs-string">"array"</span>, <span class="hljs-string">"of"</span>, <span class="hljs-string">"ids"</span> ] );
+</code></pre>
+<p>Beispiel:</p>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">t</span>(<span class="hljs-string">"Check for something"</span>, <span class="hljs-string">"//[a]"</span>, [<span class="hljs-string">"foo"</span>, <span class="hljs-string">"bar"</span>]);
+</code></pre>
+<h3>Löst ein natives DOM-Event aus, ohne jQuery zu verwenden</h3>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">fireNative</span>( node, eventType );
+</code></pre>
+<p>Beispiel:</p>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">fireNative</span>( <span class="hljs-title function_">jQuery</span>( <span class="hljs-string">"#elem"</span> )[ <span class="hljs-number">0</span> ], <span class="hljs-string">"click"</span> );
+</code></pre>
+<h3>Fügt der URL eine Zufallszahl hinzu, um Caching zu verhindern</h3>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">url</span>( <span class="hljs-string">"some/url"</span> );
+</code></pre>
+<p>Beispiel:</p>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">url</span>( <span class="hljs-string">"index.html"</span> );
+
+=&gt; <span class="hljs-string">"data/index.html?10538358428943"</span>
+
+
+<span class="hljs-title function_">url</span>( <span class="hljs-string">"mock.php?foo=bar"</span> );
+
+=&gt; <span class="hljs-string">"data/mock.php?foo=bar&amp;10538358345554"</span>
+</code></pre>
+<h3>Tests in einem iframe ausführen</h3>
+<p>Einige Tests erfordern möglicherweise ein anderes Dokument als das Standard-Test-Setup und können in einem separaten iframe ausgeführt werden. Der eigentliche Testcode und die Assertions verbleiben in den Haupt-Testdateien von jQuery; nur das minimale Test-Setup-Markup und Setup-Code sollten in die iframe-Datei gelegt werden.</p>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-title function_">testIframe</span>( testName, fileName,
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">testCallback</span>(<span class="hljs-params">
+      assert, jQuery, <span class="hljs-variable language_">window</span>, <span class="hljs-variable language_">document</span>,
+	  [ additional args ] </span>) {
+	...
+  } );
+</code></pre>
+<p>Dies lädt eine Seite, indem eine URL mit fileName <code>"./data/" + fileName</code> gebaut wird. Die iframe-Seite bestimmt, wann der Callback im Test ausgelöst wird, indem sie das Skript "/test/data/iframeTest.js" einbindet und <code>startIframeTest( [ additional args ] )</code> bei Bedarf aufruft. Oft ist dies nach document ready oder wenn <code>window.onload</code> ausgelöst wurde.</p>
+<p>Der <code>testCallback</code> erhält das von <code>testIframe</code> für diesen Test erstellte QUnit-<code>assert</code>-Objekt, gefolgt vom globalen <code>jQuery</code>, <code>window</code> und <code>document</code> aus dem iframe. Wenn der iframe-Code irgendwelche Argumente an <code>startIframeTest</code> übergibt, folgen diese nach dem Argument <code>document</code>.</p>
+<h2>Fragen?</h2>
+<p>Wenn Sie Fragen haben, können Sie diese gerne im<br><a href="https://forum.jquery.com/developing-jquery-core">Developing jQuery Core Forum</a> oder in #jquery auf <a href="https://web.libera.chat/">libera</a> stellen.</p>
+<pre><code class="hljs language-yaml">
+
+<span class="hljs-meta">---
+
+</span>
+<span class="hljs-string">Tranlated</span> <span class="hljs-string">By</span> [<span class="hljs-string">Open</span> <span class="hljs-string">Ai</span> <span class="hljs-string">Tx</span>]<span class="hljs-string">(https://github.com/OpenAiTx/OpenAiTx)</span> <span class="hljs-string">|</span> <span class="hljs-attr">Last indexed:</span> <span class="hljs-number">2025-06-09</span>
+
+
+<span class="hljs-meta">---
+</span></code></pre>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js"></script>
+
+
+</body></html>

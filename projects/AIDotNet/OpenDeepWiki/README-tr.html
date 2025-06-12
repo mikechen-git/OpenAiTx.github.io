@@ -1,0 +1,462 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenDeepWiki - Open AI Tx</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Open AI Tx - Markdown Viewer">
+    <meta name="description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html">
+    <meta property="og:title" content="Open AI Tx - Markdown Viewer">
+    <meta property="og:description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css">
+    <script src="js/highlight.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/AIDotNet/OpenDeepWiki" id="githubRepoLink" target="_blank">AIDotNet/OpenDeepWiki</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=AIDotNet&amp;project=OpenDeepWiki&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><h1>OpenDeepWiki</h1>
+<p><a href="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/README.zh-CN.md">中文</a> | <a href="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/README.md">English</a></p>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/img/favicon.png" alt="OpenDeepWiki Logo" width="200">
+  <h3>Yapay Zeka Destekli Kod Bilgi Tabanı</h3>
+</div>
+
+<h1>Sponsor</h1>
+<p><a href="https://share.302.ai/jXcaTv"><img src="https://github.com/user-attachments/assets/b1bcb56e-38cb-47bf-adfe-7a21d83774b4" alt="image"></a></p>
+<p><a href="https://share.302.ai/jXcaTv">302.AI</a>, kullanıma göre ödeme yapılan, hepsi bir arada kurumsal seviye AI uygulama platformudur. Açık platform ve açık kaynak ekosistemi sunar, AI’nin her ihtiyaca çözüm bulmasını sağlar. $1 ücretsiz kredi almak için <a href="https://share.302.ai/jXcaTv">buraya</a> tıklayın!</p>
+<h2>Özellikler</h2>
+<ul>
+<li><strong>Hızlı Dönüştürme:</strong> Github, Gitlab, Gitee, Gitea ve diğer tüm kod depoları sadece birkaç dakikada bilgi tabanına dönüştürülebilir.</li>
+<li><strong>Çoklu Dil Desteği:</strong> Tüm programlama dilleri için kod analizi ve dokümantasyon üretimi desteklenir.</li>
+<li><strong>Kod Yapısı:</strong> Kod yapısını anlamak için otomatik Mermaid diyagramları oluşturulur.</li>
+<li><strong>Özel Modeller:</strong> Özel modeller ve özel API’ler desteklenir, ihtiyaçlara göre genişletilebilir.</li>
+<li><strong>AI Akıllı Analiz:</strong> Kodun yapay zeka ile analiz edilmesi ve kod ilişkilerinin anlaşılması.</li>
+<li><strong>Kolay SEO:</strong> Next.js kullanarak SEO dostu dokümanlar ve bilgi tabanları üretir, arama motorlarının daha kolay indekslemesini sağlar.</li>
+<li><strong>Diyaloglu Etkileşim:</strong> AI ile diyaloglu etkileşimi destekler; kodun detaylı bilgilerini, kullanım yöntemlerini ve derinlemesine anlaşılmasını sağlar.</li>
+</ul>
+<p>Özellik listesi:</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Birden fazla kod deposunu destekler (Github, Gitlab, Gitee, Gitea, vb.)</li>
+<li><input checked="" disabled="" type="checkbox"> Birden fazla programlama dilini destekler (Python, Java, C#, JavaScript, vb.)</li>
+<li><input checked="" disabled="" type="checkbox"> Depo yönetimini destekler; depo ekleme, silme, düzenleme ve sorgulama fonksiyonları sağlar</li>
+<li><input checked="" disabled="" type="checkbox"> Birden fazla AI sağlayıcısını destekler (OpenAI, AzureOpenAI, Anthropic, vb.)</li>
+<li><input checked="" disabled="" type="checkbox"> Birden fazla veritabanı destekler (SQLite, PostgreSQL, SqlServer, vb.)</li>
+<li><input checked="" disabled="" type="checkbox"> Birden fazla dili destekler (Çince, İngilizce, Fransızca, vb.)</li>
+<li><input checked="" disabled="" type="checkbox"> ZIP dosyalarını ve yerel dosyaları yüklemeyi destekler</li>
+<li><input checked="" disabled="" type="checkbox"> İnce ayar veri kümesi oluşturmak için veri ince ayar platformu sunar</li>
+<li><input checked="" disabled="" type="checkbox"> Depoların dizin seviyesinde yönetilmesini destekler; özel dizin oluşturma ve dinamik dokümantasyon oluşturma imkânı sunar</li>
+<li><input checked="" disabled="" type="checkbox"> Depo dizin yönetimini destekler, depo dizinlerinin düzenlenmesini sağlar</li>
+<li><input checked="" disabled="" type="checkbox"> Kullanıcı seviyesinde yönetimi destekler; kullanıcı ekleme, silme, düzenleme ve sorgulama fonksiyonları sunar</li>
+<li><input disabled="" type="checkbox"> Kullanıcı izin yönetimini destekler; kullanıcı izin ekleme, silme, düzenleme ve sorgulama fonksiyonları sunar</li>
+<li><input checked="" disabled="" type="checkbox"> Depo seviyesinde farklı ince ayar çerçeve veri kümeleri oluşturmayı destekler</li>
+</ul>
+<h1>Proje Tanıtımı</h1>
+<p>OpenDeepWiki, <a href="https://deepwiki.com/">DeepWiki</a>'den ilham alınarak .NET 9 ve Semantic Kernel kullanılarak geliştirilen açık kaynaklı bir projedir. Kod analizi, dokümantasyon üretimi ve bilgi grafiği oluşturma gibi özelliklerle geliştiricilerin kod tabanlarını daha iyi anlamalarına ve kullanmalarına yardımcı olmayı amaçlar.</p>
+<ul>
+<li>Kod yapısını analiz etme</li>
+<li>Depoların temel kavramlarını anlama</li>
+<li>Kod dokümantasyonu oluşturma</li>
+<li>Kod için otomatik README.md oluşturma<br>MCP Desteği</li>
+</ul>
+<p>OpenDeepWiki, MCP (Model Context Protocol) destekler</p>
+<ul>
+<li>Tek bir depo için MCPServer sağlamayı ve tek bir depoda analiz yapmayı destekler.</li>
+</ul>
+<p>Kullanım: Cursor için kullanım aşağıdaki gibidir:</p>
+<pre><code class="language-json hljs"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"mcpServers"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"OpenDeepWiki"</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"url"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"http://Your OpenDeepWiki service IP:port/sse?owner=AIDotNet&amp;name=OpenDeepWiki"</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<ul>
+<li>owner: Depo sahibi ya da organizasyonun adıdır.</li>
+<li>name: Depo adıdır.</li>
+</ul>
+<p>Depoyu ekledikten sonra, bir soru sorarak test edebilirsiniz (lütfen bundan önce deponun işlenmiş olması gerektiğine dikkat edin): OpenDeepWiki nedir? Etki aşağıdaki gibidir: ! <a href="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/img/mcp.png"></a></p>
+<p>Bu şekilde, OpenDeepWiki’yi bir MCPServer olarak kullanabilir, diğer AI modellerinin çağırmasına olanak tanıyabilir ve açık kaynaklı bir projenin analizini ve anlaşılmasını kolaylaştırabilirsiniz.</p>
+<h2>🚀 Hızlı Başlangıç</h2>
+<ol>
+<li>Repoyu klonlayın</li>
+</ol>
+<pre><code class="language-bash hljs">git <span class="hljs-built_in">clone</span> https://github.com/AIDotNet/OpenDeepWiki.git
+<span class="hljs-built_in">cd</span> OpenDeepWiki
+</code></pre>
+<ol start="2">
+<li><code>docker-compose.yml</code> dosyasını açın ve aşağıdaki ortam değişkenlerini düzenleyin:</li>
+</ol>
+<p>Ollama:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">koalawiki:</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">KOALAWIKI_REPOSITORIES=/repositories</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">TASK_MAX_SIZE_PER_USER=5</span> <span class="hljs-comment"># AI tarafından kullanıcı başına eşzamanlı oluşturulabilecek maksimum belge sayısı</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_MODEL=qwen2.5:32b</span> <span class="hljs-comment"># Model işlevleri desteklemelidir</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ANALYSIS_MODEL=qwen2.5:32b</span> <span class="hljs-comment"># Depo dizin yapısı oluşturmak için kullanılan analiz modeli</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_API_KEY=sk-xxxxx</span> <span class="hljs-comment"># API anahtarınız</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">LANGUAGE=</span> <span class="hljs-comment"># Varsayılan oluşturma dili "Çince" olarak ayarlanır</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENDPOINT=https://Your</span> <span class="hljs-string">Ollama's</span> <span class="hljs-attr">IP:</span> <span class="hljs-string">Port/v1</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_TYPE=sqlite</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MODEL_PROVIDER=OpenAI</span> <span class="hljs-comment"># Model sağlayıcı, varsayılan OpenAI; AzureOpenAI ve Anthropic destekler</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_CONNECTION_STRING=Data</span> <span class="hljs-string">Source=/data/KoalaWiki.db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">EnableSmartFilter=true</span> <span class="hljs-comment"># Akıllı filtrelemenin etkin olup olmadığı, AI’nin depo dosya dizinini almasını etkileyebilir</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">UPDATE_INTERVAL</span> <span class="hljs-comment"># Depo artış güncelleme aralığı, birim: gün</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MAX_FILE_LIMIT=100</span> <span class="hljs-comment"># Dosya yükleme için maksimum sınır, MB cinsinden</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DEEP_RESEARCH_MODEL=</span> <span class="hljs-comment"># Modelde derinlemesine araştırma yapılır, boşsa CHAT_MODEL kullanılır</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_INCREMENTAL_UPDATE=true</span> <span class="hljs-comment"># Artımlı güncellemelerin etkin olup olmadığı</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_CODED_DEPENDENCY_ANALYSIS=false</span> <span class="hljs-comment"># Kod bağımlılık analizinin etkin olup olmadığı, kod kalitesini etkileyebilir</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false</span> <span class="hljs-comment"># MCP Prompt üretiminin etkin olup olmadığı</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_DESCRIPTION_TASK=false</span> <span class="hljs-comment"># Depo açıklaması üretiminin etkin olup olmadığı</span>
+</code></pre>
+<p>OpenAI:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">koalawiki:</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">KOALAWIKI_REPOSITORIES=/repositories</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">TASK_MAX_SIZE_PER_USER=5</span> <span class="hljs-comment"># AI tarafından kullanıcı başına eşzamanlı oluşturulabilecek maksimum belge sayısı</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_MODEL=DeepSeek-V3</span> <span class="hljs-comment"># Model işlevleri desteklemelidir</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ANALYSIS_MODEL=</span> <span class="hljs-comment"># Depo dizin yapısı oluşturmak için kullanılan analiz modeli</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_API_KEY=</span> <span class="hljs-comment"># API anahtarınız</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">LANGUAGE=</span> <span class="hljs-comment"># Varsayılan oluşturma dili "Çince" olarak ayarlanır</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENDPOINT=https://api.token-ai.cn/v1</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_TYPE=sqlite</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MODEL_PROVIDER=OpenAI</span> <span class="hljs-comment"># Model sağlayıcı, varsayılan OpenAI; AzureOpenAI ve Anthropic destekler</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_CONNECTION_STRING=Data</span> <span class="hljs-string">Source=/data/KoalaWiki.db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">EnableSmartFilter=true</span> <span class="hljs-comment"># Akıllı filtrelemenin etkin olup olmadığı, AI’nin depo dosya dizinini almasını etkileyebilir</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">UPDATE_INTERVAL</span> <span class="hljs-comment"># Depo artış güncelleme aralığı, birim: gün</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MAX_FILE_LIMIT=100</span> <span class="hljs-comment"># Dosya yükleme için maksimum sınır, MB cinsinden</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DEEP_RESEARCH_MODEL=</span> <span class="hljs-comment"># Modelde derinlemesine araştırma yapılır, boşsa CHAT_MODEL kullanılır</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_INCREMENTAL_UPDATE=true</span> <span class="hljs-comment"># Artımlı güncellemelerin etkin olup olmadığı</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_CODED_DEPENDENCY_ANALYSIS=false</span> <span class="hljs-comment"># Kod bağımlılık analizinin etkin olup olmadığı, kod kalitesini etkileyebilir</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false</span> <span class="hljs-comment"># MCP Prompt üretiminin etkin olup olmadığı</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_DESCRIPTION_TASK=false</span> <span class="hljs-comment"># Depo açıklaması üretiminin etkin olup olmadığı</span>
+</code></pre>
+<p>AzureOpenAI:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">koalawiki:</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">KOALAWIKI_REPOSITORIES=/repositories</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">TASK_MAX_SIZE_PER_USER=5</span> <span class="hljs-comment"># AI tarafından kullanıcı başına eşzamanlı oluşturulabilecek maksimum belge sayısı</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_MODEL=DeepSeek-V3</span> <span class="hljs-comment"># Model işlevleri desteklemelidir</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ANALYSIS_MODEL=</span> <span class="hljs-comment"># Depo dizin yapısı oluşturmak için kullanılan analiz modeli</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_API_KEY=</span> <span class="hljs-comment"># API anahtarınız</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">LANGUAGE=</span> <span class="hljs-comment"># Varsayılan oluşturma dili "Çince" olarak ayarlanır</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENDPOINT=https://your-azure-address.openai.azure.com/</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_TYPE=sqlite</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MODEL_PROVIDER=AzureOpenAI</span> <span class="hljs-comment"># Model sağlayıcı, varsayılan OpenAI; AzureOpenAI ve Anthropic destekler</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_CONNECTION_STRING=Data</span> <span class="hljs-string">Source=/data/KoalaWiki.db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">EnableSmartFilter=true</span> <span class="hljs-comment"># Akıllı filtrelemenin etkin olup olmadığı, AI’nin depo dosya dizinini almasını etkileyebilir</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">UPDATE_INTERVAL</span> <span class="hljs-comment"># Depo artış güncelleme aralığı, birim: gün</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MAX_FILE_LIMIT=100</span> <span class="hljs-comment"># Dosya yükleme için maksimum sınır, MB cinsinden</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DEEP_RESEARCH_MODEL=</span> <span class="hljs-comment"># Modelde derinlemesine araştırma yapılır, boşsa CHAT_MODEL kullanılır</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_INCREMENTAL_UPDATE=true</span> <span class="hljs-comment"># Artımlı güncellemelerin etkin olup olmadığı</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_CODED_DEPENDENCY_ANALYSIS=false</span> <span class="hljs-comment"># Kod bağımlılık analizinin etkin olup olmadığı, kod kalitesini etkileyebilir</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false</span> <span class="hljs-comment"># MCP Prompt üretiminin etkin olup olmadığı</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_DESCRIPTION_TASK=false</span> <span class="hljs-comment"># Depo açıklaması üretiminin etkin olup olmadığı</span>
+</code></pre>
+<p>Anthropic:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">koalawiki:</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">KOALAWIKI_REPOSITORIES=/repositories</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">TASK_MAX_SIZE_PER_USER=5</span> <span class="hljs-comment"># AI tarafından kullanıcı başına eşzamanlı oluşturulabilecek maksimum belge sayısı</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_MODEL=DeepSeek-V3</span> <span class="hljs-comment"># Model işlevleri desteklemelidir</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ANALYSIS_MODEL=</span> <span class="hljs-comment"># Depo dizin yapısı oluşturmak için kullanılan analiz modeli</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHAT_API_KEY=</span> <span class="hljs-comment"># API anahtarınız</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">LANGUAGE=</span> <span class="hljs-comment"># Varsayılan oluşturma dili "Çince" olarak ayarlanır</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENDPOINT=https://api.anthropic.com/</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_TYPE=sqlite</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MODEL_PROVIDER=Anthropic</span> <span class="hljs-comment"># Model sağlayıcı, varsayılan OpenAI; AzureOpenAI ve Anthropic destekler</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_CONNECTION_STRING=Data</span> <span class="hljs-string">Source=/data/KoalaWiki.db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">EnableSmartFilter=true</span> <span class="hljs-comment"># Akıllı filtrelemenin etkin olup olmadığı, AI’nin depo dosya dizinini almasını etkileyebilir</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">UPDATE_INTERVAL</span> <span class="hljs-comment"># Depo artış güncelleme aralığı, birim: gün</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MAX_FILE_LIMIT=100</span> <span class="hljs-comment"># Dosya yükleme için maksimum sınır, MB cinsinden</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DEEP_RESEARCH_MODEL=</span> <span class="hljs-comment"># Modelde derinlemesine araştırma yapılır, boşsa CHAT_MODEL kullanılır</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_INCREMENTAL_UPDATE=true</span> <span class="hljs-comment"># Artımlı güncellemelerin etkin olup olmadığı</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_CODED_DEPENDENCY_ANALYSIS=false</span> <span class="hljs-comment"># Kod bağımlılık analizinin etkin olup olmadığı, kod kalitesini etkileyebilir</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK=false</span> <span class="hljs-comment"># MCP Prompt üretiminin etkin olup olmadığı</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ENABLE_WAREHOUSE_DESCRIPTION_TASK=false</span> <span class="hljs-comment"># Depo açıklaması üretiminin etkin olup olmadığı</span>
+</code></pre>
+<blockquote>
+<p>💡 <strong>API Anahtarı Nasıl Alınır:</strong></p>
+<ul>
+<li>Google API anahtarı alın <a href="https://makersuite.google.com/app/apikey">Google AI Studio</a></li>
+<li>OpenAI API anahtarı alın <a href="https://platform.openai.com/api-keys">OpenAI Platform</a></li>
+<li>CoresHub anahtarı alın <a href="https://console.coreshub.cn/xb3/maas/global-keys">CoresHub</a> <a href="https://account.coreshub.cn/signup?invite=ZmpMQlZxYVU=">50 milyon ücretsiz token için tıklayın</a></li>
+<li>TokenAI alın <a href="https://api.token-ai.cn/">TokenAI</a></li>
+</ul>
+</blockquote>
+<ol start="3">
+<li>Servisi başlatın</li>
+</ol>
+<p>Uygulamayı kolayca yönetmek için sağlanan Makefile komutlarını kullanabilirsiniz:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Tüm Docker imajlarını oluştur</span>
+make build
+
+<span class="hljs-comment"># Tüm servisleri arka planda başlat</span>
+make up
+
+<span class="hljs-comment"># Veya geliştirme modunda başlatın (loglar görünür şekilde)</span>
+</code></pre>
+<pre><code class="hljs language-go"><span class="hljs-built_in">make</span> dev
+</code></pre>
+<p>Sonrasında bilgi tabanına erişmek için <a href="http://localhost:8090">http://localhost:8090</a> adresini ziyaret edin.</p>
+<p>Diğer komutlar için:</p>
+<pre><code class="language-bash hljs">make <span class="hljs-built_in">help</span>
+</code></pre>
+<h3>Windows Kullanıcıları için (make olmadan)</h3>
+<p>Eğer Windows kullanıyorsanız ve <code>make</code> mevcut değilse, aşağıdaki Docker Compose komutlarını doğrudan kullanabilirsiniz:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Tüm Docker imajlarını oluştur</span>
+docker-compose build
+
+<span class="hljs-comment"># Tüm servisleri arka planda başlat</span>
+docker-compose up -d
+
+<span class="hljs-comment"># Geliştirme modunda başlat (loglar görünür)</span>
+docker-compose up
+
+<span class="hljs-comment"># Tüm servisleri durdur</span>
+docker-compose down
+
+<span class="hljs-comment"># Logları görüntüle</span>
+docker-compose logs -f
+</code></pre>
+<p>Belirli mimariler veya servisler için:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Sadece backend'i oluştur</span>
+docker-compose build koalawiki
+
+<span class="hljs-comment"># Sadece frontend'i oluştur</span>
+docker-compose build koalawiki-web
+
+<span class="hljs-comment"># Mimari parametreleri ile oluştur</span>
+docker-compose build --build-arg ARCH=arm64
+docker-compose build --build-arg ARCH=amd64
+</code></pre>
+<h3>Genel Ağ Erişimi ile Sealos'a Dağıtım</h3>
+<p><a href="https://bja.sealos.run/?openapp=system-template%3FtemplateName%3DOpenDeepWiki"><img src="https://raw.githubusercontent.com/labring-actions/templates/main/Deploy-on-Sealos.svg" alt=""></a><br>Detaylı adımlar için bakınız: <a href="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/scripts/sealos/README.zh-CN.md">OpenDeepWiki'nin Şablonlar ile Genel Ağa Açık Olarak Sealos Uygulaması Olarak Tek Tıkla Dağıtılması</a></p>
+<h2>🔍 Nasıl Çalışır</h2>
+<p>OpenDeepWiki, yapay zekâyı kullanarak:</p>
+<ul>
+<li>Kod deposunu yerel olarak klonlar</li>
+<li>Depo README.md dosyasına göre analiz eder</li>
+<li>Gerekirse kod yapısını analiz eder ve kod dosyalarını okur, ardından dizin json verisi üretir</li>
+<li>Dizinlere göre görevleri işler, her görev bir dokümandır</li>
+<li>Kod dosyalarını okur, analiz eder, kod dokümantasyonu oluşturur ve kod yapı bağımlılıklarını temsil eden Mermaid diyagramları üretir</li>
+<li>Nihai bilgi tabanı dokümanını üretir</li>
+<li>Depoyu konuşmalı etkileşimle analiz eder ve kullanıcı sorularını yanıtlar</li>
+</ul>
+<pre><code class="language-mermaid">graph TD
+    A[Kod deposunu klonla] --&gt; B[README.md analiz et]
+    B --&gt; C[Kod yapısını analiz et]
+    C --&gt; D[Dizin json verisi oluştur]
+    D --&gt; E[Birden fazla görevi işle]
+    E --&gt; F[Kod dosyalarını oku]
+    F --&gt; G[Kod dosyalarını analiz et]
+    G --&gt; H[Kod dokümantasyonu oluştur]
+    H --&gt; I[Mermaid diyagramları oluştur]
+    I --&gt; J[Bilgi tabanı dokümanı oluştur]
+    J --&gt; K[Konuşmalı etkileşim]
+</code></pre>
+<h2>Gelişmiş Yapılandırma</h2>
+<h3>Ortam Değişkenleri</h3>
+<ul>
+<li>KOALAWIKI_REPOSITORIES  Depoların saklanacağı yol</li>
+<li>TASK_MAX_SIZE_PER_USER  Kullanıcı başına AI doküman üretimi için maksimum paralel görev sayısı</li>
+<li>CHAT_MODEL  Model fonksiyonları desteklemelidir</li>
+<li>ENDPOINT  API Uç Noktası</li>
+<li>ANALYSIS_MODEL  Depo dizin yapısını oluşturmak için analiz modeli</li>
+<li>CHAT_API_KEY  API anahtarınız</li>
+<li>LANGUAGE  Oluşturulan dokümanların dilini değiştirin</li>
+<li>DB_TYPE  Veritabanı türü, varsayılan sqlite</li>
+<li>MODEL_PROVIDER  Model sağlayıcı, varsayılan olarak OpenAI, Azure, OpenAI ve Anthropic desteklenir</li>
+<li>DB_CONNECTION_STRING  Veritabanı bağlantı dizesi</li>
+<li>EnableSmartFilter Akıllı filtrelemenin etkin olup olmadığı, AI'nın depo dosya dizinine nasıl erişeceğini etkileyebilir</li>
+<li>UPDATE_INTERVAL Depo artımlı güncelleme aralığı, birim: gün</li>
+<li>MAX_FILE_LIMIT Dosya yükleme için maksimum sınır, MB cinsinden</li>
+<li>DEEP_RESEARCH_MODEL Model üzerinde derinlemesine araştırma yapar ve boşsa CHAT_MODEL kullanır</li>
+<li>ENABLE_INCREMENTAL_UPDATE Artımlı güncellemeyi etkinleştirip etkinleştirmeyeceğiniz</li>
+<li>ENABLE_CODED_DEPENDENCY_ANALYSIS Kod bağımlılık analizini etkinleştirip etkinleştirmeyeceğiniz, kodun kalitesini etkileyebilir.</li>
+<li>ENABLE_WAREHOUSE_FUNCTION_PROMPT_TASK  # MCP Prompt üretimini etkinleştirip etkinleştirmeyeceğiniz</li>
+<li>ENABLE_WAREHOUSE_DESCRIPTION_TASK # Depo Açıklaması üretimini etkinleştirip etkinleştirmeyeceğiniz</li>
+</ul>
+<h3>Farklı Mimariler için Derleme</h3>
+<p>Makefile, farklı CPU mimarileri için derleme komutları sağlar:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># ARM mimarisi için derle</span>
+make build-arm
+
+<span class="hljs-comment"># AMD mimarisi için derle</span>
+make build-amd
+
+<span class="hljs-comment"># Sadece backend'i ARM için derle</span>
+make build-backend-arm
+
+<span class="hljs-comment"># Sadece frontend'i AMD için derle</span>
+make build-frontend-amd
+</code></pre>
+<h2>Discord</h2>
+<p><a href="https://discord.gg/8sxUNacv">bize katılın</a></p>
+<h2>WeChat</h2>
+<p><img src="https://github.com/user-attachments/assets/2bb0055f-9e45-4db2-b9c9-f1e251996e01" alt="b62354e40046f409b88528dd5631ed45"></p>
+<h2>📄 Lisans</h2>
+<p>Bu proje MIT Lisansı ile lisanslanmıştır - detaylar için <a href="https://raw.githubusercontent.com/AIDotNet/OpenDeepWiki/main/LICENSE">LICENSE</a> dosyasına bakınız.</p>
+<h2>Yıldız Geçmişi</h2>
+<p><a href="https://www.star-history.com/#AIDotNet/OpenDeepWiki&amp;Date"><img src="https://api.star-history.com/svg?repos=AIDotNet/OpenDeepWiki&amp;type=Date" alt="Star History Chart"></a></p>
+<pre><code class="hljs language-yaml">
+
+<span class="hljs-meta">---
+
+</span>
+<span class="hljs-string">Tranlated</span> <span class="hljs-string">By</span> [<span class="hljs-string">Open</span> <span class="hljs-string">Ai</span> <span class="hljs-string">Tx</span>]<span class="hljs-string">(https://github.com/OpenAiTx/OpenAiTx)</span> <span class="hljs-string">|</span> <span class="hljs-attr">Last indexed:</span> <span class="hljs-number">2025-06-11</span>
+
+
+<span class="hljs-meta">---
+</span></code></pre>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js"></script>
+
+
+</body></html>

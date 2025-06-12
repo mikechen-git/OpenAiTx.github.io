@@ -1,0 +1,1387 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemoryPack - Open AI Tx</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Open AI Tx - Markdown Viewer">
+    <meta name="description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html">
+    <meta property="og:title" content="Open AI Tx - Markdown Viewer">
+    <meta property="og:description" content="GitHub style markdown viewer for Open AI Tx projects">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css">
+    <script src="js/highlight.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/Cysharp/MemoryPack" id="githubRepoLink" target="_blank">Cysharp/MemoryPack</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><h1>MemoryPack</h1>
+<p><a href="https://www.nuget.org/packages/MemoryPack"><img src="https://img.shields.io/nuget/v/MemoryPack.svg" alt="NuGet"></a><br><a href="https://github.com/Cysharp/MemoryPack/actions"><img src="https://github.com/Cysharp/MemoryPack/workflows/Build-Debug/badge.svg" alt="GitHub Actions"></a><br><a href="https://github.com/Cysharp/MemoryPack/releases"><img src="https://img.shields.io/github/release/Cysharp/MemoryPack.svg" alt="Releases"></a></p>
+<p>Trình tuần tự hóa nhị phân hiệu năng cực cao không mã hóa cho C# và Unity.</p>
+<p><img src="https://user-images.githubusercontent.com/46207/200979655-63ed38ae-dad2-4ca0-bbb7-9e0aa98914af.png" alt="image"></p>
+<blockquote>
+<p>So sánh với <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.text.json">System.Text.Json</a>, <a href="https://github.com/protobuf-net/protobuf-net">protobuf-net</a>, <a href="https://github.com/neuecc/MessagePack-CSharp">MessagePack for C#</a>, <a href="https://github.com/dotnet/orleans/">Orleans.Serialization</a>. Được đo bằng máy .NET 7 / Ryzen 9 5950X. Các serializer này đều có phương thức <code>IBufferWriter&lt;byte&gt;</code>, được tuần tự hóa bằng <code>ArrayBufferWriter&lt;byte&gt;</code> và tái sử dụng để tránh đo việc sao chép bộ đệm. </p>
+</blockquote>
+<p>Đối với các đối tượng thông thường, MemoryPack nhanh hơn x10 và nhanh hơn x2 ~ x5 so với các serializer nhị phân khác. Đối với mảng struct, MemoryPack còn mạnh mẽ hơn nữa, với tốc độ nhanh hơn x50 ~ x200 so với các serializer khác.</p>
+<p>MemoryPack là trình tuần tự hóa thứ 4 tôi phát triển, trước đây tôi đã tạo ra các serializer nổi tiếng, <del><a href="https://github.com/neuecc/ZeroFormatter">ZeroFormatter</a></del>, <del><a href="https://github.com/neuecc/Utf8Json">Utf8Json</a></del>, <a href="https://github.com/neuecc/MessagePack-CSharp">MessagePack for C#</a>. Lý do MemoryPack nhanh là nhờ định dạng nhị phân tối ưu hóa riêng cho C#, và một triển khai được tinh chỉnh dựa trên kinh nghiệm trước đây của tôi. Đây cũng là một thiết kế hoàn toàn mới tận dụng .NET 7, C# 11 và Incremental Source Generator (hỗ trợ .NET Standard 2.1 (.NET 5, 6) và có hỗ trợ Unity).</p>
+<p>Các serializer khác thực hiện nhiều thao tác mã hóa như mã hóa VarInt, tag, chuỗi, v.v. Định dạng MemoryPack sử dụng thiết kế không mã hóa, sao chép càng nhiều bộ nhớ C# càng tốt. Không mã hóa tương tự như FlatBuffers, nhưng không cần kiểu đặc biệt, mục tiêu tuần tự hóa của MemoryPack là POCO.</p>
+<p>Ngoài hiệu năng, MemoryPack còn có các tính năng sau.</p>
+<ul>
+<li>Hỗ trợ các API I/O hiện đại (<code>IBufferWriter&lt;byte&gt;</code>, <code>ReadOnlySpan&lt;byte&gt;</code>, <code>ReadOnlySequence&lt;byte&gt;</code>)</li>
+<li>Sinh mã dựa trên Source Generator thân thiện với Native AOT, không sử dụng Dynamic CodeGen (IL.Emit)</li>
+<li>API không phản xạ, không generic</li>
+<li>Khả năng giải tuần tự vào instance đã có sẵn</li>
+<li>Tuần tự hóa đa hình (Union)</li>
+<li>Hỗ trợ chịu lỗi phiên bản giới hạn (fast/default) và đầy đủ</li>
+<li>Tuần tự hóa tham chiếu vòng lặp</li>
+<li>Tuần tự hóa luồng dựa trên PipeWriter/Reader</li>
+<li>Sinh mã TypeScript và ASP.NET Core Formatter</li>
+<li>Hỗ trợ Unity (2021.3) IL2CPP qua .NET Source Generator</li>
+</ul>
+<h2>Cài đặt</h2>
+<p>Thư viện này được phân phối qua NuGet. Để đạt hiệu năng tốt nhất, khuyến nghị sử dụng <code>.NET 7</code>. Yêu cầu tối thiểu là <code>.NET Standard 2.1</code>.</p>
+<blockquote>
+<p>PM&gt; Install-Package <a href="https://www.nuget.org/packages/MemoryPack">MemoryPack</a></p>
+</blockquote>
+<p>Ngoài ra trình soạn thảo mã cần hỗ trợ Roslyn 4.3.1, ví dụ Visual Studio 2022 phiên bản 17.3, .NET SDK 6.0.401. Xem chi tiết tại tài liệu <a href="https://learn.microsoft.com/en-us/visualstudio/extensibility/roslyn-version-support">Roslyn Version Support</a>.</p>
+<p>Đối với Unity, yêu cầu và quá trình cài đặt hoàn toàn khác. Xem chi tiết ở mục <a href="#unity">Unity</a>.</p>
+<h2>Bắt đầu nhanh</h2>
+<p>Định nghĩa một struct hoặc class để tuần tự hóa và gắn thuộc tính <code>[MemoryPackable]</code> cùng từ khóa <code>partial</code>.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> MemoryPack;
+
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Age { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p>Mã tuần tự hóa được sinh ra bởi tính năng source generator của C# triển khai giao diện <code>IMemoryPackable&lt;T&gt;</code>. Trong Visual Studio, bạn có thể xem mã sinh ra bằng tổ hợp phím <code>Ctrl+K, R</code> trên tên lớp và chọn <code>*.MemoryPackFormatter.g.cs</code>.</p>
+<p>Gọi <code>MemoryPackSerializer.Serialize&lt;T&gt;/Deserialize&lt;T&gt;</code> để tuần tự hóa/giải tuần tự một instance đối tượng.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> v = <span class="hljs-keyword">new</span> Person { Age = <span class="hljs-number">40</span>, Name = <span class="hljs-string">"John"</span> };
+
+<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(v);
+<span class="hljs-keyword">var</span> val = MemoryPackSerializer.Deserialize&lt;Person&gt;(bin);
+</code></pre>
+<p>Phương thức <code>Serialize</code> hỗ trợ kiểu trả về <code>byte[]</code> cũng như có thể tuần tự hóa vào <code>IBufferWriter&lt;byte&gt;</code> hoặc <code>Stream</code>. Phương thức <code>Deserialize</code> hỗ trợ <code>ReadOnlySpan&lt;byte&gt;</code>, <code>ReadOnlySequence&lt;byte&gt;</code> và <code>Stream</code>. Ngoài ra còn có các phiên bản không generic.</p>
+<h2>Các kiểu được hỗ trợ sẵn</h2>
+<p>Các kiểu này có thể được tuần tự hóa mặc định:</p>
+<ul>
+<li>Kiểu nguyên thủy .NET (<code>byte</code>, <code>int</code>, <code>bool</code>, <code>char</code>, <code>double</code>, v.v.)</li>
+<li>Kiểu unmanaged (Bất kỳ <code>enum</code>, bất kỳ <code>struct</code> do người dùng định nghĩa không chứa kiểu tham chiếu)</li>
+<li><code>string</code>, <code>decimal</code>, <code>Half</code>, <code>Int128</code>, <code>UInt128</code>, <code>Guid</code>, <code>Rune</code>, <code>BigInteger</code></li>
+<li><code>TimeSpan</code>,  <code>DateTime</code>, <code>DateTimeOffset</code>, <code>TimeOnly</code>, <code>DateOnly</code>, <code>TimeZoneInfo</code></li>
+<li><code>Complex</code>, <code>Plane</code>, <code>Quaternion</code> <code>Matrix3x2</code>, <code>Matrix4x4</code>, <code>Vector2</code>, <code>Vector3</code>, <code>Vector4</code></li>
+<li><code>Uri</code>, <code>Version</code>, <code>StringBuilder</code>, <code>Type</code>, <code>BitArray</code>, <code>CultureInfo</code></li>
+<li><code>T[]</code>, <code>T[,]</code>, <code>T[,,]</code>, <code>T[,,,]</code>, <code>Memory&lt;&gt;</code>, <code>ReadOnlyMemory&lt;&gt;</code>, <code>ArraySegment&lt;&gt;</code>, <code>ReadOnlySequence&lt;&gt;</code></li>
+<li><code>Nullable&lt;&gt;</code>, <code>Lazy&lt;&gt;</code>, <code>KeyValuePair&lt;,&gt;</code>, <code>Tuple&lt;,...&gt;</code>, <code>ValueTuple&lt;,...&gt;</code></li>
+<li><code>List&lt;&gt;</code>, <code>LinkedList&lt;&gt;</code>, <code>Queue&lt;&gt;</code>, <code>Stack&lt;&gt;</code>, <code>HashSet&lt;&gt;</code>, <code>SortedSet&lt;&gt;</code>, <code>PriorityQueue&lt;,&gt;</code></li>
+<li><code>Dictionary&lt;,&gt;</code>, <code>SortedList&lt;,&gt;</code>, <code>SortedDictionary&lt;,&gt;</code>,  <code>ReadOnlyDictionary&lt;,&gt;</code> </li>
+<li><code>Collection&lt;&gt;</code>, <code>ReadOnlyCollection&lt;&gt;</code>, <code>ObservableCollection&lt;&gt;</code>, <code>ReadOnlyObservableCollection&lt;&gt;</code></li>
+<li><code>IEnumerable&lt;&gt;</code>, <code>ICollection&lt;&gt;</code>, <code>IList&lt;&gt;</code>, <code>IReadOnlyCollection&lt;&gt;</code>, <code>IReadOnlyList&lt;&gt;</code>, <code>ISet&lt;&gt;</code></li>
+<li><code>IDictionary&lt;,&gt;</code>, <code>IReadOnlyDictionary&lt;,&gt;</code>, <code>ILookup&lt;,&gt;</code>, <code>IGrouping&lt;,&gt;</code>,</li>
+<li><code>ConcurrentBag&lt;&gt;</code>, <code>ConcurrentQueue&lt;&gt;</code>, <code>ConcurrentStack&lt;&gt;</code>, <code>ConcurrentDictionary&lt;,&gt;</code>, <code>BlockingCollection&lt;&gt;</code></li>
+<li>Bộ sưu tập bất biến (<code>ImmutableList&lt;&gt;</code>, v.v.) và interface (<code>IImmutableList&lt;&gt;</code>, v.v.)</li>
+</ul>
+<h2>Định nghĩa <code>[MemoryPackable]</code> cho <code>class</code> / <code>struct</code> / <code>record</code> / <code>record struct</code></h2>
+<p><code>[MemoryPackable]</code> có thể gắn vào bất kỳ <code>class</code>, <code>struct</code>, <code>record</code>, <code>record struct</code> và <code>interface</code>. Nếu kiểu là <code>struct</code> hoặc <code>record struct</code> không chứa kiểu tham chiếu (<a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/unmanaged-types">C# Unmanaged types</a>) thì mọi annotation bổ sung (bỏ qua, bao gồm, constructor, callback) sẽ không được dùng, sẽ tuần tự hóa/giải tuần tự trực tiếp từ bộ nhớ.</p>
+<p>Ngược lại, mặc định <code>[MemoryPackable]</code> sẽ tuần tự hóa các property hoặc field instance public. Bạn có thể sử dụng <code>[MemoryPackIgnore]</code> để loại khỏi mục tiêu tuần tự hóa, <code>[MemoryPackInclude]</code> để đẩy một thành viên private thành mục tiêu tuần tự hóa.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-comment">// các kiểu này được tuần tự hóa mặc định</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PublicField;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> PublicReadOnlyField;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PublicProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PrivateSetPublicProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> ReadOnlyPublicProperty { <span class="hljs-keyword">get</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> InitProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">int</span> RequiredInitProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+
+    <span class="hljs-comment">// các kiểu này không được tuần tự hóa mặc định</span>
+    <span class="hljs-built_in">int</span> privateProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-built_in">int</span> privateField;
+    <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> privateReadOnlyField;
+
+    <span class="hljs-comment">// dùng [MemoryPackIgnore] để loại public member khỏi tuần tự hóa</span>
+    [<span class="hljs-meta">MemoryPackIgnore</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PublicProperty2 =&gt; PublicProperty + PublicField;
+
+    <span class="hljs-comment">// dùng [MemoryPackInclude] để đưa một thành viên private vào tuần tự hóa</span>
+    [<span class="hljs-meta">MemoryPackInclude</span>]
+    <span class="hljs-built_in">int</span> privateField2;
+    [<span class="hljs-meta">MemoryPackInclude</span>]
+    <span class="hljs-built_in">int</span> privateProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p>Bộ sinh mã của <code>MemoryPack</code> sẽ thêm thông tin về các thành viên được tuần tự hóa vào phần <code>&lt;remarks /&gt;</code>. Có thể xem bằng cách di chuột lên kiểu với Intellisense.</p>
+<p><img src="https://user-images.githubusercontent.com/46207/192393984-9af01fcb-872e-46fb-b08f-4783e8cef4ae.png" alt="image"></p>
+<p>Tất cả các thành viên phải có khả năng tuần tự hóa bởi memorypack, nếu không bộ sinh mã sẽ báo lỗi.</p>
+<p><img src="https://user-images.githubusercontent.com/46207/192413557-8a47d668-5339-46c5-a3da-a77841666f81.png" alt="image"></p>
+<p>MemoryPack có 35 quy tắc chẩn đoán (<code>MEMPACK001</code> đến <code>MEMPACK035</code>) để định nghĩa một cách thoải mái.</p>
+<p>Nếu kiểu mục tiêu đã có tuần tự hóa MemoryPack định nghĩa bên ngoài và đã đăng ký, sử dụng <code>[MemoryPackAllowSerialize]</code> để tắt cảnh báo chẩn đoán.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample2</span>
+{
+    [<span class="hljs-meta">MemoryPackAllowSerialize</span>]
+    <span class="hljs-keyword">public</span> NotSerializableType? NotSerializableProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p>Thứ tự thành viên là <strong>quan trọng</strong>, MemoryPack không tuần tự hóa tên thành viên hay thông tin khác, thay vào đó tuần tự hóa các trường theo thứ tự khai báo. Nếu kiểu kế thừa, tuần tự hóa thực hiện theo thứ tự cha → con. Thứ tự các thành viên không thể thay đổi khi giải tuần tự. Để tiến hóa schema, xem mục <a href="#version-tolerant">Version tolerant</a>.</p>
+<p>Thứ tự mặc định là tuần tự, nhưng bạn có thể chọn layout rõ ràng với <code>[MemoryPackable(SerializeLayout.Explicit)]</code> và <code>[MemoryPackOrder()]</code>.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// tuần tự hóa Prop0 -&gt; Prop1</span>
+[<span class="hljs-meta">MemoryPackable(SerializeLayout.Explicit)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SampleExplicitOrder</span>
+{
+    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<h3>Lựa chọn constructor</h3>
+<p>MemoryPack hỗ trợ cả constructor có tham số và không tham số. Việc lựa chọn constructor tuân theo các quy tắc sau. (Áp dụng cho cả class và struct).</p>
+<ul>
+<li>Nếu có <code>[MemoryPackConstructor]</code>, sẽ sử dụng nó.</li>
+<li>Nếu không có constructor rõ ràng (bao gồm cả private), sử dụng constructor không tham số.</li>
+<li>Nếu chỉ có một constructor không tham số/ có tham số (bao gồm cả private), sẽ sử dụng nó.</li>
+<li>Nếu có nhiều constructor, thuộc tính <code>[MemoryPackConstructor]</code> phải được áp dụng cho constructor mong muốn (bộ sinh mã sẽ không tự động chọn), nếu không sẽ phát sinh lỗi.</li>
+<li>Nếu sử dụng constructor có tham số, tất cả tên tham số phải khớp với tên thành viên tương ứng (không phân biệt hoa thường).</li>
+</ul>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> Age;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> Name;
+
+    <span class="hljs-comment">// Có thể sử dụng constructor có tham số - tên tham số phải khớp với tên thành viên (không phân biệt hoa thường)</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> age, <span class="hljs-built_in">string</span> name</span>)</span>
+    {
+        <span class="hljs-keyword">this</span>.Age = age;
+        <span class="hljs-keyword">this</span>.Name = name;
+    }
+}
+
+<span class="hljs-comment">// cũng hỗ trợ record primary constructor</span>
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">record</span> <span class="hljs-title">Person2</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> Age, <span class="hljs-built_in">string</span> Name</span>)</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person3</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Age { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person3</span>()</span>
+    {
+    }
+</code></pre>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// Nếu có nhiều constructor, thì nên sử dụng [MemoryPackConstructor]</span>
+[<span class="hljs-meta">MemoryPackConstructor</span>]
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person3</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> age, <span class="hljs-built_in">string</span> name</span>)</span>
+{
+    <span class="hljs-keyword">this</span>.Age = age;
+    <span class="hljs-keyword">this</span>.Name = name;
+}
+</code></pre>
+<h3>Callback khi tuần tự hóa</h3>
+<p>Khi tuần tự hóa/giải tuần tự, MemoryPack có thể gọi một sự kiện trước/sau bằng cách sử dụng các thuộc tính <code>[MemoryPackOnSerializing]</code>, <code>[MemoryPackOnSerialized]</code>, <code>[MemoryPackOnDeserializing]</code>, <code>[MemoryPackOnDeserialized]</code>. Có thể đánh dấu cả phương thức static và instance (không static), cũng như phương thức public và private.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MethodCallSample</span>
+{
+    <span class="hljs-comment">// thứ tự gọi phương thức là static -&gt; instance</span>
+    [<span class="hljs-meta">MemoryPackOnSerializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnSerializing1</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerializing1));
+    }
+
+    <span class="hljs-comment">// cũng cho phép phương thức private</span>
+    [<span class="hljs-meta">MemoryPackOnSerializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnSerializing2</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerializing2));
+    }
+
+    <span class="hljs-comment">// serializing -&gt; /* serialize */ -&gt; serialized</span>
+    [<span class="hljs-meta">MemoryPackOnSerialized</span>]
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnSerialized1</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerialized1));
+    }
+
+    [<span class="hljs-meta">MemoryPackOnSerialized</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnSerialized2</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerialized2));
+    }
+
+    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserializing1</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserializing1));
+    }
+
+    <span class="hljs-comment">// Lưu ý: phương thức instance với MemoryPackOnDeserializing sẽ không được gọi nếu instance không được truyền bằng `ref`</span>
+    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserializing2</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserializing2));
+    }
+
+    [<span class="hljs-meta">MemoryPackOnDeserialized</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserialized1</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserialized1));
+    }
+
+    [<span class="hljs-meta">MemoryPackOnDeserialized</span>]
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserialized2</span>()</span>
+    {
+        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserialized2));
+    }
+}
+</code></pre>
+<p>Callback cho phép phương thức không tham số và phương thức <code>ref reader/writer, ref T value</code>. Ví dụ, callback ref có thể ghi/đọc header tùy chỉnh trước quá trình tuần tự hóa.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EmitIdData</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">MemoryPackOnSerializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">WriteId</span>&lt;<span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackWriter&lt;TBufferWriter&gt; writer, <span class="hljs-keyword">ref</span> EmitIdData? <span class="hljs-keyword">value</span></span>)
+        <span class="hljs-keyword">where</span> TBufferWriter : IBufferWriter&lt;<span class="hljs-built_in">byte</span>&gt; <span class="hljs-comment">// .NET Standard 2.1, sử dụng where TBufferWriter : class, IBufferWriter&lt;byte&gt;</span></span>
+    {
+        writer.WriteUnmanaged(Guid.NewGuid()); <span class="hljs-comment">// ghi GUID vào header.</span>
+    }
+
+    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ReadId</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">ref</span> EmitIdData? <span class="hljs-keyword">value</span></span>)</span>
+    {
+        <span class="hljs-comment">// đọc header tùy chỉnh trước khi giải tuần tự</span>
+        <span class="hljs-keyword">var</span> guid = reader.ReadUnmanaged&lt;Guid&gt;();
+        Console.WriteLine(guid);
+    }
+}
+</code></pre>
+<p>Nếu gán giá trị cho <code>ref value</code>, bạn có thể thay đổi giá trị được sử dụng cho quá trình tuần tự hóa/giải tuần tự. Ví dụ, khởi tạo từ ServiceProvider.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// trước khi sử dụng formatter này, đặt ServiceProvider</span>
+<span class="hljs-comment">// var options = MemoryPackSerializerOptions.Default with { ServiceProvider = provider };</span>
+<span class="hljs-comment">// MemoryPackSerializer.Deserialize(value, options);</span>
+
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">InstantiateFromServiceProvider</span>
+{
+    <span class="hljs-keyword">static</span> IServiceProvider serviceProvider = <span class="hljs-literal">default</span>!;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserializing</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">ref</span> InstantiateFromServiceProvider <span class="hljs-keyword">value</span></span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> != <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;
+        <span class="hljs-keyword">value</span> = reader.Options.ServiceProvider!.GetRequiredService&lt;InstantiateFromServiceProvider&gt;();
+    }
+}
+</code></pre>
+<h2>Định nghĩa collection tùy chỉnh</h2>
+<p>Theo mặc định, kiểu được đánh dấu <code>[MemoryPackObject]</code> sẽ cố gắng tuần tự hóa các thành viên của nó. Tuy nhiên, nếu một kiểu là collection (<code>ICollection&lt;&gt;</code>, <code>ISet&lt;&gt;</code>, <code>IDictionary&lt;,&gt;</code>), hãy sử dụng <code>GenerateType.Collection</code> để tuần tự hóa chính xác.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable(GenerateType.Collection)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyList</span>&lt;<span class="hljs-title">T</span>&gt; : <span class="hljs-title">List</span>&lt;<span class="hljs-title">T</span>&gt;
+{
+}
+
+[<span class="hljs-meta">MemoryPackable(GenerateType.Collection)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyStringDictionary</span>&lt;<span class="hljs-title">TValue</span>&gt; : <span class="hljs-title">Dictionary</span>&lt;<span class="hljs-title">string</span>, <span class="hljs-title">TValue</span>&gt;
+{
+
+}
+</code></pre>
+<h2>Static constructor</h2>
+<p>Lớp MemoryPackable không thể định nghĩa static constructor vì partial class được sinh ra sẽ sử dụng nó. Thay vào đó, bạn có thể định nghĩa một <code>static partial void StaticConstructor()</code> để thực hiện cùng chức năng.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">CctorSample</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">void</span> <span class="hljs-title">StaticConstructor</span>()</span>
+    {
+    }
+}
+</code></pre>
+<h2>Đa hình (Union)</h2>
+<p>MemoryPack hỗ trợ tuần tự hóa các object của interface và abstract class để phục vụ tuần tự hóa đa hình. Trong MemoryPack, tính năng này được gọi là Union. Chỉ interface và abstract class mới được phép đánh dấu thuộc tính <code>[MemoryPackUnion]</code>. Tag của union phải là duy nhất.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// Đánh dấu [MemoryPackable] và các kiểu kế thừa với [MemoryPackUnion]</span>
+<span class="hljs-comment">// Union cũng hỗ trợ abstract class</span>
+[<span class="hljs-meta">MemoryPackable</span>]
+[<span class="hljs-meta">MemoryPackUnion(0, typeof(FooClass))</span>]
+[<span class="hljs-meta">MemoryPackUnion(1, typeof(BarClass))</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IUnionSample</span>
+{
+}
+
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">FooClass</span> : <span class="hljs-title">IUnionSample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> XYZ { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">BarClass</span> : <span class="hljs-title">IUnionSample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? OPQ { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+<span class="hljs-comment">// ---</span>
+
+IUnionSample data = <span class="hljs-keyword">new</span> FooClass() { XYZ = <span class="hljs-number">999</span> };
+
+<span class="hljs-comment">// Tuần tự hóa dưới dạng kiểu interface.</span>
+<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(data);
+
+<span class="hljs-comment">// Giải tuần tự dưới dạng kiểu interface.</span>
+<span class="hljs-keyword">var</span> reData = MemoryPackSerializer.Deserialize&lt;IUnionSample&gt;(bin);
+
+<span class="hljs-keyword">switch</span> (reData)
+{
+    <span class="hljs-keyword">case</span> FooClass x:
+        Console.WriteLine(x.XYZ);
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> BarClass x:
+        Console.WriteLine(x.OPQ);
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-literal">default</span>:
+        <span class="hljs-keyword">break</span>;
+}
+</code></pre>
+<p><code>tag</code> cho phép giá trị từ <code>0</code> ~ <code>65535</code>, đặc biệt hiệu quả với giá trị nhỏ hơn <code>250</code>.</p>
+<pre><code class="hljs language-css">Nếu một interface và các kiểu dẫn xuất nằm ở các assembly khác nhau, <span class="hljs-selector-tag">b</span>ạn có <span class="hljs-selector-tag">th</span>ể sử dụng `MemoryPackUnionFormatterAttribute` thay <span class="hljs-selector-tag">th</span>ế. Các formatter được sinh ra sẽ tự động được đăng ký <span class="hljs-selector-tag">th</span>ông qua `ModuleInitializer` trong C# <span class="hljs-number">9.0</span> <span class="hljs-selector-tag">tr</span>ở lên.
+
+&gt; Lưu ý rằng `ModuleInitializer` không được hỗ <span class="hljs-selector-tag">tr</span>ợ trong Unity, do đó formatter phả<span class="hljs-selector-tag">i</span> được đăng ký <span class="hljs-selector-tag">th</span>ủ công. Để đăng ký union formatter củ<span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">b</span>ạn, hãy gọ<span class="hljs-selector-tag">i</span> `{tên union formatter củ<span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">b</span>ạn}Initializer<span class="hljs-selector-class">.RegisterFormatter</span>()` một cách <span class="hljs-selector-tag">th</span>ủ công trong Startup. Ví dụ `UnionSampleFormatterInitializer<span class="hljs-selector-class">.RegisterFormatter</span>()`.
+
+```csharp
+// AssemblyA
+<span class="hljs-selector-attr">[MemoryPackable(GenerateType.NoGenerate)]</span>
+public partial interface IUnionSample
+{
+}
+
+// AssemblyB định nghĩ<span class="hljs-selector-tag">a</span> formatter <span class="hljs-selector-tag">b</span>ên ngoà<span class="hljs-selector-tag">i</span> kiểu mục tiêu
+<span class="hljs-selector-attr">[MemoryPackUnionFormatter(typeof(IUnionSample))]</span>
+<span class="hljs-selector-attr">[MemoryPackUnion(0, typeof(FooClass))]</span>
+<span class="hljs-selector-attr">[MemoryPackUnion(1, typeof(BarClass))]</span>
+public partial class UnionSampleFormatter
+{
+}
+</code></pre>
+<p>Union có thể được lắp ráp trong code thông qua <code>DynamicUnionFormatter&lt;T&gt;</code>.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// (ushort, Type)[]</span>
+<span class="hljs-keyword">var</span> formatter = <span class="hljs-keyword">new</span> DynamicUnionFormatter&lt;IFooBarBaz&gt;(
+    (<span class="hljs-number">0</span>, <span class="hljs-keyword">typeof</span>(Foo)),
+    (<span class="hljs-number">1</span>, <span class="hljs-keyword">typeof</span>(Bar)),
+    (<span class="hljs-number">2</span>, <span class="hljs-keyword">typeof</span>(Baz))
+);
+
+MemoryPackFormatterProvider.Register(formatter);
+</code></pre>
+<h2>Serialize API</h2>
+<p><code>Serialize</code> có ba overload.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// API không generic cũng có sẵn, phiên bản này tham số đầu tiên là Type và value là object?</span>
+<span class="hljs-function"><span class="hljs-built_in">byte</span>[] <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> T? <span class="hljs-keyword">value</span>, MemoryPackSerializerOptions? options = <span class="hljs-literal">default</span></span>)
+<span class="hljs-keyword">void</span> <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">T</span>, <span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> TBufferWriter bufferWriter, <span class="hljs-keyword">in</span> T? <span class="hljs-keyword">value</span>, MemoryPackSerializerOptions? options = <span class="hljs-literal">default</span></span>)
+<span class="hljs-keyword">async</span> ValueTask <span class="hljs-title">SerializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream, T? <span class="hljs-keyword">value</span>, MemoryPackSerializerOptions? options = <span class="hljs-literal">default</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
+</span></code></pre>
+<p>Để đạt hiệu suất tốt nhất, nên sử dụng API với <code>BufferWriter</code>. API này sẽ serialize trực tiếp vào buffer. Có thể áp dụng với <code>PipeWriter</code> trong <code>System.IO.Pipelines</code>, <code>BodyWriter</code> trong ASP .NET Core, v.v.</p>
+<p>Nếu cần một <code>byte[]</code> (ví dụ <code>RedisValue</code> trong <a href="https://github.com/StackExchange/StackExchange.Redis">StackExchange.Redis</a>), API trả về <code>byte[]</code> rất đơn giản và gần như nhanh tương đương.</p>
+<p>Lưu ý rằng <code>SerializeAsync</code> cho <code>Stream</code> chỉ thực sự bất đồng bộ khi Flush; nó serialize tất cả vào buffer nội bộ của MemoryPack rồi mới ghi bằng <code>WriteAsync</code>. Do đó, overload <code>BufferWriter</code> cho phép tách biệt và kiểm soát buffer và flush sẽ tốt hơn.</p>
+<p>Nếu bạn muốn thực hiện ghi streaming hoàn chỉnh, xem phần <a href="#streaming-serialization">Streaming Serialization</a>.</p>
+<h3>MemoryPackSerializerOptions</h3>
+<p><code>MemoryPackSerializerOptions</code> cấu hình việc chuỗi ký tự được serialize ở dạng UTF16 hay UTF8. Có thể cấu hình bằng cách truyền <code>MemoryPackSerializerOptions.Utf8</code> cho mã hóa UTF8, <code>MemoryPackSerializerOptions.Utf16</code> cho mã hóa UTF16 hoặc <code>MemoryPackSerializerOptions.Default</code> (mặc định là UTF8). Truyền null hoặc dùng tham số mặc định sẽ dùng mã hóa UTF8.</p>
+<p>Vì biểu diễn chuỗi nội bộ của C# là UTF16 nên UTF16 cho hiệu suất tốt hơn. Tuy nhiên, payload thường lớn hơn; với UTF8, chuỗi ASCII chỉ chiếm một byte, còn UTF16 là hai byte. Do sự khác biệt kích thước payload này khá lớn nên mặc định là UTF8.</p>
+<p>Nếu dữ liệu là non-ASCII (ví dụ tiếng Nhật có thể hơn 3 byte và UTF8 sẽ lớn hơn), hoặc nếu bạn cần nén riêng, UTF16 có thể cho kết quả tốt hơn.</p>
+<p>Dù có thể chọn UTF8 hoặc UTF16 khi serialize, khi deserialize không cần chỉ định; sẽ tự động phát hiện và giải mã bình thường.</p>
+<p>Ngoài ra, bạn có thể get/set <code>IServiceProvider? ServiceProvider { get; init; }</code> từ options. Điều này hữu ích để lấy DI object (như <code>ILogger&lt;T&gt;</code>) từ quá trình serialization (<code>MemoryPackReader/MemoryPackWriter</code> có thuộc tính .Options).</p>
+<h2>Deserialize API</h2>
+<p><code>Deserialize</code> có overload cho <code>ReadOnlySpan&lt;byte&gt;</code> và <code>ReadOnlySequence&lt;byte&gt;</code>, <code>Stream</code> và hỗ trợ <code>ref</code>.</p>
+<pre><code class="language-csharp hljs">T? Deserialize&lt;T&gt;(ReadOnlySpan&lt;<span class="hljs-built_in">byte</span>&gt; buffer)
+<span class="hljs-function"><span class="hljs-built_in">int</span> <span class="hljs-title">Deserialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">ReadOnlySpan&lt;<span class="hljs-built_in">byte</span>&gt; buffer, <span class="hljs-keyword">ref</span> T? <span class="hljs-keyword">value</span></span>)
+T? <span class="hljs-title">Deserialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> ReadOnlySequence&lt;<span class="hljs-built_in">byte</span>&gt; buffer</span>)
+<span class="hljs-built_in">int</span> <span class="hljs-title">Deserialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> ReadOnlySequence&lt;<span class="hljs-built_in">byte</span>&gt; buffer, <span class="hljs-keyword">ref</span> T? <span class="hljs-keyword">value</span></span>)
+<span class="hljs-keyword">async</span> <span class="hljs-title">ValueTask</span>&lt;<span class="hljs-title">T</span>?&gt; <span class="hljs-title">DeserializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream</span>)
+</span></code></pre>
+<p>Overload <code>ref</code> sẽ ghi đè lên instance hiện có, chi tiết xem phần <a href="#overwrite">Overwrite</a>.</p>
+<p><code>DeserializeAsync(Stream)</code> không phải là một thao tác đọc streaming hoàn chỉnh, đầu tiên nó đọc vào pool nội bộ của MemoryPack đến hết stream, sau đó mới giải mã.</p>
+<p>Nếu bạn muốn thực hiện đọc streaming hoàn chỉnh, xem phần <a href="#streaming-serialization">Streaming Serialization</a>.</p>
+<h2>Overwrite</h2>
+<p>Để giảm việc cấp phát bộ nhớ, MemoryPack hỗ trợ deserialize vào một instance đã có sẵn, ghi đè lên nó. Có thể sử dụng với overload <code>Deserialize(ref T? value)</code>.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> person = <span class="hljs-keyword">new</span> Person();
+<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(person);
+
+<span class="hljs-comment">// ghi đè dữ liệu lên instance đã có</span>
+MemoryPackSerializer.Deserialize(bin, <span class="hljs-keyword">ref</span> person);
+</code></pre>
+<p>MemoryPack sẽ cố gắng ghi đè tối đa có thể, nhưng nếu các điều kiện sau không thỏa mãn thì sẽ tạo instance mới (như deserialization thông thường).</p>
+<ul>
+<li>ref value (bao gồm các thành viên trong object graph) là null, thì tạo instance mới</li>
+<li>chỉ cho phép constructor không tham số, nếu dùng constructor có tham số sẽ tạo instance mới</li>
+<li>nếu value là <code>T[]</code>, chỉ reuse nếu độ dài giống nhau, ngược lại sẽ tạo instance mới</li>
+<li>nếu value là collection có phương thức <code>.Clear()</code> (<code>List&lt;&gt;</code>, <code>Stack&lt;&gt;</code>, <code>Queue&lt;&gt;</code>, <code>LinkedList&lt;&gt;</code>, <code>HashSet&lt;&gt;</code>, <code>PriorityQueue&lt;,&gt;</code>, <code>ObservableCollection</code>, <code>Collection</code>, <code>ConcurrentQueue&lt;&gt;</code>, <code>ConcurrentStack&lt;&gt;</code>, <code>ConcurrentBag&lt;&gt;</code>, <code>Dictionary&lt;,&gt;</code>, <code>SortedDictionary&lt;,&gt;</code>, <code>SortedList&lt;,&gt;</code>, <code>ConcurrentDictionary&lt;,&gt;</code>) sẽ gọi Clear() và reuse, ngược lại tạo instance mới</li>
+</ul>
+<h2>Version tolerant</h2>
+<p>Ở mặc định (<code>GenerateType.Object</code>), MemoryPack hỗ trợ tiến hóa schema ở mức giới hạn.</p>
+<ul>
+<li>unmanaged struct không thể thay đổi nữa</li>
+<li>có thể thêm thành viên, nhưng không được xóa</li>
+<li>có thể đổi tên thành viên</li>
+<li>không thể thay đổi thứ tự thành viên</li>
+<li>không thể thay đổi kiểu thành viên</li>
+</ul>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+<span class="hljs-comment">// Thêm thành viên thì OK.</span>
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span>? AddedProp { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+<span class="hljs-comment">// Xóa thành viên thì KHÔNG được.</span>
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+{
+    <span class="hljs-comment">// public int Prop1 { get; set; }</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+<span class="hljs-comment">// Đổi thứ tự thì KHÔNG được.</span>
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p>Trong trường hợp sử dụng, việc lưu dữ liệu cũ (vào file, redis, v.v...) và đọc bằng schema mới luôn OK. Với RPC, schema tồn tại cả phía client và server, client phải được cập nhật trước server. Client đã cập nhật sẽ không gặp vấn đề khi kết nối với server cũ, nhưng client cũ không thể kết nối server mới.</p>
+<p>Theo mặc định, khi dữ liệu cũ đọc bằng schema mới, các thành viên không có trong dữ liệu sẽ được khởi tạo với literal <code>default</code>.<br>Nếu bạn muốn tránh điều này và sử dụng giá trị khởi tạo của field/property, có thể dùng <code>[SuppressDefaultInitialization]</code>.</p>
+<pre><code class="language-cs hljs language-csharp">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">DefaultValue</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">SuppressDefaultInitialization</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-number">111</span>; <span class="hljs-comment">// &lt; nếu dữ liệu cũ thiếu, sẽ set `111`.</span>
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop3 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-number">222</span>; <span class="hljs-comment">// &lt; nếu dữ liệu cũ thiếu, sẽ set `default`.</span>
+}
+</code></pre>
+<p> <code>[SuppressDefaultInitialization]</code> có các hạn chế sau:</p>
+<ul>
+<li>Không được dùng với readonly, init-only, và required modifier.</li>
+</ul>
+<p>Phần tiếp theo <a href="#serialization-info">Serialization info</a> sẽ hướng dẫn cách kiểm tra sự thay đổi schema, ví dụ bằng CI, để tránh sự cố.</p>
+<p>Khi sử dụng <code>GenerateType.VersionTolerant</code>, sẽ hỗ trợ version-tolerant hoàn chỉnh.</p>
+<ul>
+<li>unmanaged struct không thể thay đổi nữa</li>
+<li>tất cả thành viên phải thêm <code>[MemoryPackOrder]</code> rõ ràng (trừ khi dùng <code>SerializeLayout.Sequential</code>)</li>
+<li>có thể thêm, xóa thành viên nhưng không được reuse order (có thể bỏ qua order bị thiếu)</li>
+<li>có thể đổi tên thành viên</li>
+<li>không thể thay đổi thứ tự thành viên</li>
+<li>không thể thay đổi kiểu thành viên</li>
+</ul>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// Có thể serialize/deserialize cả hai chiều</span>
+<span class="hljs-comment">// VersionTolerantObject1 -&gt; VersionTolerantObject2 và </span>
+<span class="hljs-comment">// VersionTolerantObject2 -&gt; VersionTolerantObject1</span>
+
+[<span class="hljs-meta">MemoryPackable(GenerateType.VersionTolerant)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionTolerantObject1</span>
+{
+    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+
+    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> MyProperty1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+
+    [<span class="hljs-meta">MemoryPackOrder(2)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+}
+
+[<span class="hljs-meta">MemoryPackable(GenerateType.VersionTolerant)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionTolerantObject2</span>
+{
+```csharp
+[<span class="hljs-meta">MemoryPackOrder(0)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+
+<span class="hljs-comment">// đã xóa</span>
+<span class="hljs-comment">//[MemoryPackOrder(1)]</span>
+<span class="hljs-comment">//public long MyProperty1 { get; set; } = default;</span>
+
+[<span class="hljs-meta">MemoryPackOrder(2)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+
+<span class="hljs-comment">// đã thêm</span>
+[<span class="hljs-meta">MemoryPackOrder(3)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty3 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+}
+</code></pre>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// Nếu đặt SerializeLayout.Sequential một cách tường minh, sẽ cho phép tự động sắp xếp thứ tự.</span>
+<span class="hljs-comment">// Tuy nhiên, không thể xóa bất kỳ thành viên nào đối với version-tolerant.</span>
+[<span class="hljs-meta">MemoryPackable(GenerateType.VersionTolerant, SerializeLayout.Sequential)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionTolerantObject3</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> MyProperty1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+}
+</code></pre>
+<p><code>GenerateType.VersionTolerant</code> chậm hơn <code>GenerateType.Object</code> khi tuần tự hóa. Ngoài ra, kích thước payload sẽ hơi lớn hơn một chút.</p>
+<h2>Thông tin tuần tự hóa</h2>
+<p>Bạn có thể kiểm tra trong IntelliSense các thành viên nào của kiểu dữ liệu được tuần tự hóa. Có một tùy chọn để ghi thông tin đó ra file khi biên dịch. Thiết lập <code>MemoryPackGenerator_SerializationInfoOutputDirectory</code> như sau.</p>
+<pre><code class="language-xml hljs"><span class="hljs-comment">&lt;!-- xuất thông tin tuần tự hóa memorypack ra thư mục --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_SerializationInfoOutputDirectory"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">PropertyGroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_SerializationInfoOutputDirectory</span>&gt;</span>$(MSBuildProjectDirectory)\MemoryPackLogs<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_SerializationInfoOutputDirectory</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">PropertyGroup</span>&gt;</span>
+</code></pre>
+<p>Thông tin sau sẽ được ghi vào file.</p>
+<p><img src="https://user-images.githubusercontent.com/46207/192460684-c2fd8bcb-375e-41dd-9960-58205d5b1b7a.png" alt="image"></p>
+<p>Nếu kiểu là unmanaged, sẽ hiển thị <code>unmanaged</code> trước tên kiểu.</p>
+<pre><code class="language-txt hljs language-plaintext">unmanaged FooStruct
+---
+int x
+int y
+</code></pre>
+<p>Bằng cách kiểm tra sự khác biệt trong file này, có thể ngăn chặn các thay đổi schema nguy hiểm. Ví dụ, bạn có thể sử dụng CI để phát hiện các quy tắc sau</p>
+<ul>
+<li>chỉnh sửa kiểu unmanaged</li>
+<li>thay đổi thứ tự thành viên</li>
+<li>xóa thành viên</li>
+</ul>
+<h2>Tham chiếu vòng lặp (Circular Reference)</h2>
+<p>MemoryPack cũng hỗ trợ tham chiếu vòng lặp. Điều này cho phép các đối tượng dạng cây được tuần tự hóa giữ nguyên cấu trúc.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// để bật circular-reference, sử dụng GenerateType.CircularReference</span>
+[<span class="hljs-meta">MemoryPackable(GenerateType.CircularReference)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>
+{
+    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
+    <span class="hljs-keyword">public</span> Node? Parent { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
+    <span class="hljs-keyword">public</span> Node[]? Children { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p> Ví dụ, đoạn code <a href="https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references">System.Text.Json preserve-references</a> sẽ trở thành như sau.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references?pivots=dotnet-7-0</span>
+Employee tyler = <span class="hljs-keyword">new</span>()
+{
+    Name = <span class="hljs-string">"Tyler Stein"</span>
+};
+
+Employee adrian = <span class="hljs-keyword">new</span>()
+{
+    Name = <span class="hljs-string">"Adrian King"</span>
+};
+
+tyler.DirectReports = <span class="hljs-keyword">new</span> List&lt;Employee&gt; { adrian };
+adrian.Manager = tyler;
+
+<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(tyler);
+Employee? tylerDeserialized = MemoryPackSerializer.Deserialize&lt;Employee&gt;(bin);
+
+Console.WriteLine(tylerDeserialized?.DirectReports?[<span class="hljs-number">0</span>].Manager == tylerDeserialized); <span class="hljs-comment">// true</span>
+
+[<span class="hljs-meta">MemoryPackable(GenerateType.CircularReference)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Employee</span>
+{
+    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
+    <span class="hljs-keyword">public</span> Employee? Manager { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [<span class="hljs-meta">MemoryPackOrder(2)</span>]
+    <span class="hljs-keyword">public</span> List&lt;Employee&gt;? DirectReports { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p><code>GenerateType.CircularReference</code> có đặc điểm tương tự version-tolerant. Tuy nhiên, như một ràng buộc bổ sung, chỉ được phép sử dụng constructor không tham số. Ngoài ra, việc theo dõi tham chiếu đối tượng chỉ được thực hiện cho các đối tượng được đánh dấu với <code>GenerateType.CircularReference</code>. Nếu bạn muốn theo dõi đối tượng khác, hãy bọc nó lại.</p>
+<h2>CustomFormatter</h2>
+<p>Nếu triển khai <code>MemoryPackCustomFormatterAttribute&lt;T&gt;</code> hoặc <code>MemoryPackCustomFormatterAttribute&lt;TFormatter, T&gt;</code> (hiệu năng cao hơn, nhưng phức tạp hơn), bạn có thể cấu hình để sử dụng custom formatter cho thành viên của MemoryPackObject.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = false)</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MemoryPackCustomFormatterAttribute</span>&lt;<span class="hljs-title">T</span>&gt; : <span class="hljs-title">Attribute</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> IMemoryPackFormatter&lt;T&gt; <span class="hljs-title">GetFormatter</span>()</span>;
+}
+</code></pre>
+<p>MemoryPack cung cấp các thuộc tính định dạng sau: <code>Utf8StringFormatterAttribute</code>, <code>Utf16StringFormatterAttribute</code>, <code>InternStringFormatterAttribute</code>, <code>OrdinalIgnoreCaseStringDictionaryFormatterAttribute&lt;TValue&gt;</code>, <code>BitPackFormatterAttribute</code>, <code>BrotliFormatter</code>, <code>BrotliStringFormatter</code>, <code>BrotliFormatter&lt;T&gt;</code>, <code>MemoryPoolFormatter&lt;T&gt;</code>, <code>ReadOnlyMemoryPoolFormatter&lt;T&gt;</code>.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-comment">// tuần tự hóa thành viên này dưới dạng UTF16 String, hiệu năng cao hơn UTF8 nhưng với ASCII thì kích thước lớn hơn (nhưng với non-ASCII, đôi khi lại nhỏ hơn).</span>
+    [<span class="hljs-meta">Utf16StringFormatter</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Text { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    <span class="hljs-comment">// Khi giải tuần tự, Dictionary được khởi tạo với StringComparer.OrdinalIgnoreCase.</span>
+    [<span class="hljs-meta">OrdinalIgnoreCaseStringDictionaryFormatter&lt;int&gt;</span>]
+    <span class="hljs-keyword">public</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>&gt;? Ids { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    
+    <span class="hljs-comment">// Khi giải tuần tự, tất cả chuỗi đều được intern (xem: String.Intern). Nếu giá trị tương tự lặp lại nhiều, sẽ tiết kiệm bộ nhớ.</span>
+    [<span class="hljs-meta">InternStringFormatter</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Flag { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p>Để cấu hình equality comparer cho set/dictionary, tất cả các formatter tích hợp sẵn đều có overload constructor với comparer. Bạn có thể dễ dàng tạo custom equality-comparer formatter.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title">OrdinalIgnoreCaseStringDictionaryFormatter</span>&lt;<span class="hljs-title">TValue</span>&gt; : <span class="hljs-title">MemoryPackCustomFormatterAttribute</span>&lt;<span class="hljs-title">Dictionary</span>&lt;<span class="hljs-title">string</span>, <span class="hljs-title">TValue</span>?&gt;&gt;
+{
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> DictionaryFormatter&lt;<span class="hljs-built_in">string</span>, TValue?&gt; formatter = <span class="hljs-keyword">new</span> DictionaryFormatter&lt;<span class="hljs-built_in">string</span>, TValue?&gt;(StringComparer.OrdinalIgnoreCase);
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> IMemoryPackFormatter&lt;Dictionary&lt;<span class="hljs-built_in">string</span>, TValue?&gt;&gt; GetFormatter()
+    {
+        <span class="hljs-keyword">return</span> formatter;
+    }
+}
+</code></pre>
+<p><code>BitPackFormatter</code> chỉ nén các kiểu <code>bool[]</code>. Thông thường <code>bool[]</code> được tuần tự hóa với 1 byte cho mỗi giá trị boolean, nhưng <code>BitPackFormatter</code> sẽ tuần tự hóa <code>bool[]</code> như <code>BitArray</code> lưu mỗi bool chỉ 1 bit. Khi dùng <code>BitPackFormatter</code>, 8 giá trị bool chỉ tốn 1 byte thay vì 8 byte, giảm kích thước đi 8 lần.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">BitPackFormatter</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span>[]? Data { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p><code>BrotliFormatter</code> dùng cho <code>byte[]</code>, ví dụ bạn có thể nén payload lớn bằng Brotli.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">BrotliFormatter</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span>[]? Payload { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p><code>BrotliStringFormatter</code> dùng cho <code>string</code>, tuần tự hóa chuỗi đã nén (UTF16) bằng Brotli.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">BrotliStringFormatter</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? LargeText { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<p><code>BrotliFormatter&lt;T&gt;</code> dành cho bất kỳ kiểu dữ liệu nào, dữ liệu được nén bằng Brotli khi tuần tự hóa. Nếu kiểu dữ liệu là <code>byte[]</code> hoặc <code>string</code>, bạn nên sử dụng <code>BrotliFormatter</code> hoặc <code>BrotliStringFormatter</code> để đạt hiệu năng tốt nhất.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">BrotliFormatter&lt;ChildType&gt;</span>]
+    <span class="hljs-keyword">public</span> ChildType? Child { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<h2>Giải tuần tự với array pooling</h2>
+<p>Để giải tuần tự một mảng lớn (bất kỳ kiểu <code>T</code> nào), MemoryPack cung cấp nhiều phương pháp pooling hiệu quả. Cách hiệu quả nhất là sử dụng chức năng <a href="#overwrite">#Overwrite</a>. Đặc biệt, <code>List&lt;T&gt;</code> luôn được tái sử dụng.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ListBytesSample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">List</span>&lt;<span class="hljs-title">byte</span>&gt; Payload</span> { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+<span class="hljs-comment">// ----</span>
+
+<span class="hljs-comment">// List&lt;byte&gt; được tái sử dụng, không cấp phát bộ nhớ mới khi giải tuần tự.</span>
+MemoryPackSerializer.Deserialize&lt;ListBytesSample&gt;(bin, <span class="hljs-keyword">ref</span> reuseObject);
+
+<span class="hljs-comment">// để vận hành hiệu quả, bạn có thể lấy Span&lt;T&gt; bằng CollectionsMarshal</span>
+<span class="hljs-keyword">var</span> span = CollectionsMarshal.AsSpan(<span class="hljs-keyword">value</span>.Payload);
+</code></pre>
+<p>Một cách tiện lợi là giải tuần tự vào một ArrayPool tại thời điểm giải tuần tự. MemoryPack cung cấp <code>MemoryPoolFormatter&lt;T&gt;</code> và <code>ReadOnlyMemoryPoolFormatter&lt;T&gt;</code>.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">PoolModelSample</span> : <span class="hljs-title">IDisposable</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; }
+
+    [<span class="hljs-meta">MemoryPoolFormatter&lt;byte&gt;</span>]
+    <span class="hljs-keyword">public</span> Memory&lt;<span class="hljs-built_in">byte</span>&gt; Payload { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PoolModelSample</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> id, Memory&lt;<span class="hljs-built_in">byte</span>&gt; payload</span>)</span>
+    {
+        Id = id;
+        Payload = payload;
+    }
+
+    <span class="hljs-comment">// Bạn phải tự viết mã trả về, đây là ví dụ.</span>
+
+    <span class="hljs-built_in">bool</span> usePool;
+
+    [<span class="hljs-meta">MemoryPackOnDeserialized</span>]
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserialized</span>()</span>
+    {
+        usePool = <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Dispose</span>()</span>
+    {
+        <span class="hljs-keyword">if</span> (!usePool) <span class="hljs-keyword">return</span>;
+
+        Return(Payload); Payload = <span class="hljs-literal">default</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Return</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Memory&lt;T&gt; memory</span>)</span> =&gt; Return((ReadOnlyMemory&lt;T&gt;)memory);
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Return</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">ReadOnlyMemory&lt;T&gt; memory</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (MemoryMarshal.TryGetArray(memory, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> segment) &amp;&amp; segment.Array <span class="hljs-keyword">is</span> { Length: &gt; <span class="hljs-number">0</span> })
+        {
+            ArrayPool&lt;T&gt;.Shared.Return(segment.Array, clearArray: RuntimeHelpers.IsReferenceOrContainsReferences&lt;T&gt;());
+        }
+    }
+}
+
+<span class="hljs-comment">// ---</span>
+
+<span class="hljs-keyword">using</span>(<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = MemoryPackSerializer.Deserialize&lt;PoolModelSample&gt;(bin))
+{
+    <span class="hljs-comment">// thực hiện các thao tác...</span>
+}   <span class="hljs-comment">// trả lại ArrayPool</span>
+</code></pre>
+<h2>Hiệu năng</h2>
+<p>Xem bài viết trên blog của tôi <a href="https://medium.com/@neuecc/how-to-make-the-fastest-net-serializer-with-net-7-c-11-case-of-memorypack-ad28c0366516">How to make the fastest .NET Serializer with .NET 7 / C# 11, case of MemoryPack</a></p>
+<h2>Kích thước payload và nén</h2>
+<p>Kích thước payload phụ thuộc vào giá trị mục tiêu; không giống JSON, không có khóa và là định dạng nhị phân, do đó kích thước payload thường nhỏ hơn JSON.</p>
+<p>Với các định dạng mã hóa varint như MessagePack và Protobuf, MemoryPack thường lớn hơn nếu sử dụng nhiều kiểu int (trong MemoryPack, int luôn chiếm 4 byte do mã hóa kích thước cố định, trong khi MessagePack là 1~5 byte).</p>
+<p>float và double lần lượt là 4 byte và 8 byte trong MemoryPack, nhưng là 5 byte và 9 byte trong MessagePack. Do đó, MemoryPack nhỏ hơn, ví dụ với mảng Vector3 (float, float, float).</p>
+<p>Chuỗi mặc định là UTF8, giống như các serializer khác, nhưng nếu chọn tùy chọn UTF16 thì sẽ có tính chất khác biệt.</p>
+<p>Trong mọi trường hợp, nếu kích thước payload lớn, nên cân nhắc nén. Khuyến nghị sử dụng LZ4, ZStandard hoặc Brotli.</p>
+<h3>Nén</h3>
+<p>MemoryPack cung cấp tiện ích hiệu quả cho nén <a href="https://github.com/google/brotli">Brotli</a> thông qua <a href="https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.brotliencoder">BrotliEncoder</a> và <a href="https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.brotlidecoder">BrotliDecoder</a>. <code>BrotliCompressor</code> và <code>BrotliDecompressor</code> của MemoryPack cung cấp nén/giải nén tối ưu cho hành vi nội bộ của MemoryPack.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> MemoryPack.Compression;
+
+<span class="hljs-comment">// Nén (cần using)</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> compressor = <span class="hljs-keyword">new</span> BrotliCompressor();
+MemoryPackSerializer.Serialize(compressor, <span class="hljs-keyword">value</span>);
+
+<span class="hljs-comment">// Lấy mảng byte[] đã nén</span>
+<span class="hljs-keyword">var</span> compressedBytes = compressor.ToArray();
+
+<span class="hljs-comment">// Hoặc ghi vào IBufferWriter&lt;byte&gt; khác (ví dụ PipeWriter)</span>
+compressor.CopyTo(response.BodyWriter);
+</code></pre>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> MemoryPack.Compression;
+
+<span class="hljs-comment">// Giải nén (cần using)</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> decompressor = <span class="hljs-keyword">new</span> BrotliDecompressor();
+
+<span class="hljs-comment">// Lấy ReadOnlySequence&lt;byte&gt; đã giải nén từ ReadOnlySpan&lt;byte&gt; hoặc ReadOnlySequence&lt;byte&gt;</span>
+<span class="hljs-keyword">var</span> decompressedBuffer = decompressor.Decompress(buffer);
+
+<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = MemoryPackSerializer.Deserialize&lt;T&gt;(decompressedBuffer);
+</code></pre>
+<p>Cả <code>BrotliCompressor</code> và <code>BrotliDecompressor</code> đều là struct, không cấp phát bộ nhớ trên heap. Cả hai lưu trữ dữ liệu đã nén hoặc giải nén trong một memory pool nội bộ cho Serialize/Deserialize. Do đó, cần giải phóng memory pooling, đừng quên sử dụng <code>using</code>.</p>
+<p>Mức độ nén rất quan trọng. Mặc định là quality-1 (CompressionLevel.Fastest), khác với mặc định của .NET (CompressionLevel.Optimal, quality-4).</p>
+<p>Fastest (quality-1) sẽ gần với tốc độ của <a href="https://github.com/lz4/lz4">LZ4</a>, nhưng quality-4 thì chậm hơn nhiều. Điều này rất quan trọng trong kịch bản sử dụng serializer. Hãy cẩn thận khi sử dụng <code>BrotliStream</code> chuẩn (mặc định là quality-4). Trong mọi trường hợp, tốc độ nén/giải nén và kích thước sẽ rất khác nhau tùy vào dữ liệu. Vui lòng chuẩn bị dữ liệu phù hợp với ứng dụng của bạn và tự kiểm tra.</p>
+<p>Lưu ý có sự chênh lệch tốc độ nhiều lần giữa MemoryPack không nén và MemoryPack có nén Brotli.</p>
+<p>Brotli cũng được hỗ trợ trong custom formatter. <code>BrotliFormatter</code> có thể nén một thành viên cụ thể.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+{
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">BrotliFormatter</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span>[]? Payload { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+</code></pre>
+<h2>Tuần tự hóa các kiểu external</h2>
+<p>Nếu bạn muốn tuần tự hóa các kiểu external, bạn có thể tạo custom formatter và đăng ký vào provider, xem <a href="#formatterprovider-api">Formatter/Provider API</a> để biết chi tiết. Tuy nhiên, việc tạo custom formatter là khó. Do đó, chúng tôi khuyến nghị tạo một kiểu wrapper. Ví dụ, nếu bạn muốn tuần tự hóa một kiểu external tên là <code>AnimationCurve</code>.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// Keyframe: (float time, float inTangent, float outTangent, int tangentMode, int weightedMode, float inWeight, float outWeight)</span>
+[<span class="hljs-meta">MemoryPackable</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">struct</span> SerializableAnimationCurve
+{
+    [<span class="hljs-meta">MemoryPackIgnore</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> AnimationCurve AnimationCurve;
+
+    [<span class="hljs-meta">MemoryPackInclude</span>]
+    WrapMode preWrapMode =&gt; AnimationCurve.preWrapMode;
+    [<span class="hljs-meta">MemoryPackInclude</span>]
+    WrapMode postWrapMode =&gt; AnimationCurve.postWrapMode;
+    [<span class="hljs-meta">MemoryPackInclude</span>]
+    Keyframe[] keys =&gt; AnimationCurve.keys;
+
+    [<span class="hljs-meta">MemoryPackConstructor</span>]
+    SerializableAnimationCurve(WrapMode preWrapMode, WrapMode postWrapMode, Keyframe[] keys)
+    {
+        <span class="hljs-keyword">var</span> curve = <span class="hljs-keyword">new</span> AnimationCurve(keys);
+        curve.preWrapMode = preWrapMode;
+        curve.postWrapMode = postWrapMode;
+        <span class="hljs-keyword">this</span>.AnimationCurve = curve;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SerializableAnimationCurve</span>(<span class="hljs-params">AnimationCurve animationCurve</span>)</span>
+    {
+        <span class="hljs-keyword">this</span>.AnimationCurve = animationCurve;
+    }
+}
+</code></pre>
+<p>Kiểu cần wrap là public, nhưng được loại trừ khỏi tuần tự hóa (<code>MemoryPackIgnore</code>). Các thuộc tính cần tuần tự hóa là private, nhưng được đưa vào (<code>MemoryPackInclude</code>). Nên chuẩn bị hai mẫu constructor. Constructor dùng cho serializer nên là private.</p>
+<p>Tuy nhiên, như vậy thì mỗi lần đều phải wrap, khá bất tiện. Ngoài ra, struct wrapper không thể biểu diễn null. Do đó, hãy tạo một custom formatter.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">AnimationCurveFormatter</span> : <span class="hljs-title">MemoryPackFormatter</span>&lt;<span class="hljs-title">AnimationCurve</span>&gt;
+{
+    <span class="hljs-comment">// Unity không hỗ trợ scoped và TBufferWriter nên cần đổi chữ ký thành `Serialize(ref MemoryPackWriter writer, ref AnimationCurve value)`</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackWriter&lt;TBufferWriter&gt; writer, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> AnimationCurve? <span class="hljs-keyword">value</span></span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> == <span class="hljs-literal">null</span>)
+```csharp
+{
+    writer.WriteNullObjectHeader();
+    <span class="hljs-keyword">return</span>;
+}
+
+writer.WritePackable(<span class="hljs-keyword">new</span> SerializableAnimationCurve(<span class="hljs-keyword">value</span>));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Deserialize</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> AnimationCurve? <span class="hljs-keyword">value</span></span>)</span>
+{
+    <span class="hljs-keyword">if</span> (reader.PeekIsNull())
+    {
+        reader.Advance(<span class="hljs-number">1</span>); <span class="hljs-comment">// skip null block</span>
+        <span class="hljs-keyword">value</span> = <span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">return</span>;
+    }
+    
+    <span class="hljs-keyword">var</span> wrapped = reader.ReadPackable&lt;SerializableAnimationCurve&gt;();
+    <span class="hljs-keyword">value</span> = wrapped.AnimationCurve;
+}
+</code></pre>
+<p>Cuối cùng, đăng ký formatter trong phần khởi động.</p>
+<pre><code class="language-csharp hljs">MemoryPackFormatterProvider.Register&lt;AnimationCurve&gt;(<span class="hljs-keyword">new</span> AnimationCurveFormatter());
+</code></pre>
+<blockquote>
+<p>Lưu ý: AnimationCurve của Unity mặc định đã có thể tuần tự hóa nên không cần formatter tùy chỉnh này cho AnimationCurve</p>
+</blockquote>
+<h2>Các gói (Packages)</h2>
+<p>MemoryPack có các gói sau.</p>
+<ul>
+<li>MemoryPack</li>
+<li>MemoryPack.Core</li>
+<li>MemoryPack.Generator</li>
+<li>MemoryPack.Streaming</li>
+<li>MemoryPack.AspNetCoreMvcFormatter</li>
+<li>MemoryPack.UnityShims</li>
+</ul>
+<p><code>MemoryPack</code> là thư viện chính, cung cấp đầy đủ hỗ trợ cho việc tuần tự hóa và giải tuần tự hóa nhị phân hiệu năng cao. Thư viện này phụ thuộc vào <code>MemoryPack.Core</code> cho các thư viện cơ bản và <code>MemoryPack.Generator</code> cho việc sinh mã. <code>MemoryPack.Streaming</code> bổ sung các phần mở rộng cho <a href="#streaming-serialization">Streaming Serialization</a>.  <code>MemoryPack.AspNetCoreMvcFormatter</code> thêm các input/output formatter cho ASP.NET Core. <code>MemoryPack.UnityShims</code> bổ sung các loại shim và formatter cho Unity để chia sẻ kiểu giữa .NET và Unity.</p>
+<h2>TypeScript và ASP.NET Core Formatter</h2>
+<p>MemoryPack hỗ trợ sinh mã TypeScript. Nó sinh class và mã tuần tự hóa từ C#, nói cách khác, bạn có thể chia sẻ kiểu dữ liệu với trình duyệt mà không cần dùng OpenAPI, proto, v.v.</p>
+<p>Việc sinh mã tích hợp với Source Generator, các tùy chọn sau (<code>MemoryPackGenerator_TypeScriptOutputDirectory</code>) sẽ thiết lập thư mục xuất mã TypeScript. Mã runtime sẽ được xuất đồng thời, vì vậy không cần thêm bất kỳ phụ thuộc nào khác.</p>
+<pre><code class="language-xml hljs"><span class="hljs-comment">&lt;!-- xuất mã memorypack TypeScript vào thư mục --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_TypeScriptOutputDirectory"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">PropertyGroup</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_TypeScriptOutputDirectory</span>&gt;</span>$(MSBuildProjectDirectory)\wwwroot\js\memorypack<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_TypeScriptOutputDirectory</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">PropertyGroup</span>&gt;</span>
+</code></pre>
+<p>Một kiểu MemoryPackable C# phải được gắn chú thích <code>[GenerateTypeScript]</code>.</p>
+<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
+[<span class="hljs-meta">GenerateTypeScript</span>]
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>
+{
+    <span class="hljs-keyword">public</span> required Guid Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">int</span> Age { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">string</span> FirstName { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">string</span> LastName { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required DateTime DateOfBirth { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required Gender Gender { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">string</span>[] Emails { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> Gender
+{
+    Male, Female, Other
+}
+</code></pre>
+<p>Mã runtime và kiểu TypeScript sẽ được sinh ra trong thư mục đích.</p>
+<p><img src="https://user-images.githubusercontent.com/46207/194916544-1b6bb5ed-966b-43c3-a378-3eac297c2b40.png" alt="image"></p>
+<p>Mã được sinh ra như sau, với các trường đơn giản và các phương thức tĩnh cho serialize/serializeArray và deserialize/deserializeArray.</p>
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">MemoryPackWriter</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"./MemoryPackWriter.js"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">MemoryPackReader</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"./MemoryPackReader.js"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Gender</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"./Gender.js"</span>; 
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> {
+    <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">firstName</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
+    <span class="hljs-attr">lastName</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
+    <span class="hljs-attr">dateOfBirth</span>: <span class="hljs-title class_">Date</span>;
+    <span class="hljs-attr">gender</span>: <span class="hljs-title class_">Gender</span>;
+    <span class="hljs-attr">emails</span>: (<span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span>;
+
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serialize</span>(<span class="hljs-attr">value</span>: <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>): <span class="hljs-title class_">Uint8Array</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serializeCore</span>(<span class="hljs-attr">writer</span>: <span class="hljs-title class_">MemoryPackWriter</span>, <span class="hljs-attr">value</span>: <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>): <span class="hljs-built_in">void</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serializeArray</span>(<span class="hljs-attr">value</span>: (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span>): <span class="hljs-title class_">Uint8Array</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serializeArrayCore</span>(<span class="hljs-attr">writer</span>: <span class="hljs-title class_">MemoryPackWriter</span>, <span class="hljs-attr">value</span>: (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span>): <span class="hljs-built_in">void</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserialize</span>(<span class="hljs-attr">buffer</span>: <span class="hljs-title class_">ArrayBuffer</span>): <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserializeCore</span>(<span class="hljs-attr">reader</span>: <span class="hljs-title class_">MemoryPackReader</span>): <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserializeArray</span>(<span class="hljs-attr">buffer</span>: <span class="hljs-title class_">ArrayBuffer</span>): (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+
+    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserializeArrayCore</span>(<span class="hljs-attr">reader</span>: <span class="hljs-title class_">MemoryPackReader</span>): (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span> {
+        <span class="hljs-comment">// snip...</span>
+    }
+}
+</code></pre>
+<p>Bạn có thể sử dụng kiểu này như sau.</p>
+<pre><code class="language-typescript hljs"><span class="hljs-keyword">let</span> person = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>();
+person.<span class="hljs-property">id</span> = crypto.<span class="hljs-title function_">randomUUID</span>();
+person.<span class="hljs-property">age</span> = <span class="hljs-number">30</span>;
+person.<span class="hljs-property">firstName</span> = <span class="hljs-string">"foo"</span>;
+person.<span class="hljs-property">lastName</span> = <span class="hljs-string">"bar"</span>;
+person.<span class="hljs-property">dateOfBirth</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(<span class="hljs-number">1999</span>, <span class="hljs-number">12</span>, <span class="hljs-number">31</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+person.<span class="hljs-property">gender</span> = <span class="hljs-title class_">Gender</span>.<span class="hljs-property">Other</span>;
+person.<span class="hljs-property">emails</span> = [<span class="hljs-string">"foo@bar.com"</span>, <span class="hljs-string">"zoo@bar.net"</span>];
+
+<span class="hljs-comment">// tuần tự hóa thành Uint8Array</span>
+<span class="hljs-keyword">let</span> bin = <span class="hljs-title class_">Person</span>.<span class="hljs-title function_">serialize</span>(person);
+
+<span class="hljs-keyword">let</span> blob = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Blob</span>([bin.<span class="hljs-property">buffer</span>], { <span class="hljs-attr">type</span>: <span class="hljs-string">"application/x-memorypack"</span> })
+
+<span class="hljs-keyword">let</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">"http://localhost:5260/api"</span>,
+    { <span class="hljs-attr">method</span>: <span class="hljs-string">"POST"</span>, <span class="hljs-attr">body</span>: blob, <span class="hljs-attr">headers</span>: { <span class="hljs-string">"Content-Type"</span>: <span class="hljs-string">"application/x-memorypack"</span> } });
+
+<span class="hljs-keyword">let</span> buffer = <span class="hljs-keyword">await</span> response.<span class="hljs-title function_">arrayBuffer</span>();
+
+<span class="hljs-comment">// giải tuần tự từ ArrayBuffer </span>
+<span class="hljs-keyword">let</span> person2 = <span class="hljs-title class_">Person</span>.<span class="hljs-title function_">deserialize</span>(buffer);
+</code></pre>
+<p>Gói <code>MemoryPack.AspNetCoreMvcFormatter</code> bổ sung input và output formatter <code>MemoryPack</code> cho ASP.NET Core MVC. Bạn có thể thêm <code>MemoryPackInputFormatter</code>, <code>MemoryPackOutputFormatter</code> vào ASP.NET Core MVC với đoạn mã sau.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddRazorPages();
+
+builder.Services.AddControllers(options =&gt;
+{
+    options.InputFormatters.Insert(<span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> MemoryPackInputFormatter());
+    <span class="hljs-comment">// Nếu checkContentType: true thì có thể output nhiều định dạng (JSON/MemoryPack, v.v...). Mặc định là false.</span>
+    options.OutputFormatters.Insert(<span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> MemoryPackOutputFormatter(checkContentType: <span class="hljs-literal">false</span>));
+});
+</code></pre>
+<p>Nếu bạn gọi từ HttpClient, bạn có thể thiết lập <code>application/x-memorypack</code> cho content-header.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> content = <span class="hljs-keyword">new</span> ByteArrayContent(bin)
+content.Headers.ContentType = <span class="hljs-keyword">new</span> MediaTypeHeaderValue(<span class="hljs-string">"application/x-memorypack"</span>);
+</code></pre>
+<h3>Ánh xạ kiểu TypeScript</h3>
+<p>Có một vài hạn chế về các kiểu có thể sinh ra. Trong các kiểu nguyên thủy, <code>char</code> và <code>decimal</code> không được hỗ trợ. Ngoài ra, không thể sử dụng kiểu OpenGenerics.</p>
+<table>
+<thead>
+<tr>
+<th>C#</th>
+<th>TypeScript</th>
+<th>Mô tả</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>bool</code></td>
+<td><code>boolean</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>byte</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>sbyte</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>uint</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>short</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ushort</code></td>
+<td><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>long</code></td>
+<td><code>bigint</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<pre><code class="hljs language-r"><span class="hljs-operator">|</span> `ulong` <span class="hljs-operator">|</span>  `bigint` <span class="hljs-operator">|</span>
+<span class="hljs-operator">|</span> `float` <span class="hljs-operator">|</span>  `number` <span class="hljs-operator">|</span>
+<span class="hljs-operator">|</span> `double` <span class="hljs-operator">|</span>  `number` <span class="hljs-operator">|</span>
+<span class="hljs-operator">|</span> `string` <span class="hljs-operator">|</span>  `string \| null`  <span class="hljs-operator">|</span> 
+<span class="hljs-operator">|</span> `Guid` <span class="hljs-operator">|</span>  `string`  <span class="hljs-operator">|</span> Trong TypeScript<span class="hljs-punctuation">,</span> thể hiện dưới dạng chuỗi nhưng tuần tự hóa<span class="hljs-operator">/</span>giải tuần tự dưới dạng nhị phân <span class="hljs-number">16</span> byte
+<span class="hljs-operator">|</span> `DateTime` <span class="hljs-operator">|</span> `Date` <span class="hljs-operator">|</span> DateTimeKind sẽ bị bỏ qua
+<span class="hljs-operator">|</span> `enum` <span class="hljs-operator">|</span> `const enum` <span class="hljs-operator">|</span> Kiểu nền `long` và `ulong` không đượ<span class="hljs-built_in">c</span> hỗ trợ
+<span class="hljs-operator">|</span> `T?` <span class="hljs-operator">|</span> `T \| null` <span class="hljs-operator">|</span>
+<span class="hljs-operator">|</span> `T[]` <span class="hljs-operator">|</span> `T[] \| null` <span class="hljs-operator">|</span>
+<span class="hljs-operator">|</span> `byte[]` <span class="hljs-operator">|</span> `Uint8Array \| null` <span class="hljs-operator">|</span>
+<span class="hljs-operator">|</span> `: ICollection&lt;T&gt;` <span class="hljs-operator">|</span> `T[] \| null` <span class="hljs-operator">|</span> Hỗ trợ tất <span class="hljs-built_in">c</span>ả <span class="hljs-built_in">c</span>á<span class="hljs-built_in">c</span> kiểu triển khai `ICollection&lt;T&gt;` như `List&lt;T&gt;`
+<span class="hljs-operator">|</span> `: ISet&lt;T&gt;` <span class="hljs-operator">|</span> `Set&lt;T&gt; \| null` <span class="hljs-operator">|</span> Hỗ trợ tất <span class="hljs-built_in">c</span>ả <span class="hljs-built_in">c</span>á<span class="hljs-built_in">c</span> kiểu triển khai `ISet&lt;T&gt;` như `HashSet&lt;T&gt;`
+<span class="hljs-operator">|</span> `: IDictionary&lt;K,V&gt;` <span class="hljs-operator">|</span> `Map&lt;K, V&gt; \| null` <span class="hljs-operator">|</span> Hỗ trợ tất <span class="hljs-built_in">c</span>ả <span class="hljs-built_in">c</span>á<span class="hljs-built_in">c</span> kiểu triển khai `IDictionary&lt;K,V&gt;` như `Dictionary&lt;K,V&gt;`.
+<span class="hljs-operator">|</span> `[MemoryPackable]` <span class="hljs-operator">|</span> `class` <span class="hljs-operator">|</span> Chỉ hỗ trợ <span class="hljs-built_in">class</span>
+<span class="hljs-operator">|</span> `[MemoryPackUnion]` <span class="hljs-operator">|</span> `abstract class` <span class="hljs-operator">|</span>
+
+`[GenerateTypeScript]` chỉ <span class="hljs-built_in">c</span>ó thể áp dụng cho <span class="hljs-built_in">class</span> và hiện tại chưa hỗ trợ cho struct.
+
+<span class="hljs-comment">### Cấu hình phần mở rộng file import và kiểu đặt tên thành viên</span>
+
+Mặ<span class="hljs-built_in">c</span> định<span class="hljs-punctuation">,</span> MemoryPack tạo phần mở rộng file là `.js` như `import { MemoryPackWriter } from "./MemoryPackWriter.js";`. Nếu bạn muốn thay đổi phần mở rộng khá<span class="hljs-built_in">c</span> hoặ<span class="hljs-built_in">c</span> để trống<span class="hljs-punctuation">,</span> hãy sử dụng `MemoryPackGenerator_TypeScriptImportExtension` để <span class="hljs-built_in">c</span>ấu hình.
+Ngoài ra<span class="hljs-punctuation">,</span> tên thành viên sẽ tự động đượ<span class="hljs-built_in">c</span> chuyển sang camelCase. Nếu bạn muốn giữ nguyên tên gố<span class="hljs-built_in">c</span><span class="hljs-punctuation">,</span> đặt `MemoryPackGenerator_TypeScriptConvertPropertyName` thành `false`.
+
+```xml
+&lt;ItemGroup&gt;
+    &lt;CompilerVisibleProperty Include="MemoryPackGenerator_TypeScriptOutputDirectory" /&gt;
+    &lt;CompilerVisibleProperty Include="MemoryPackGenerator_TypeScriptImportExtension" /&gt;
+    &lt;CompilerVisibleProperty Include="MemoryPackGenerator_TypeScriptConvertPropertyName" /&gt;
+    &lt;CompilerVisibleProperty Include="MemoryPackGenerator_TypeScriptEnableNullableTypes" /&gt;
+&lt;/ItemGroup&gt;
+&lt;PropertyGroup&gt;
+    &lt;MemoryPackGenerator_TypeScriptOutputDirectory&gt;$(MSBuildProjectDirectory)\wwwroot\js\memorypack&lt;/MemoryPackGenerator_TypeScriptOutputDirectory&gt;
+    &lt;!-- cho phép để trống --&gt;
+    &lt;MemoryPackGenerator_TypeScriptImportExtension&gt;&lt;/MemoryPackGenerator_TypeScriptImportExtension&gt;
+    &lt;!-- mặc định là true --&gt;
+    &lt;MemoryPackGenerator_TypeScriptConvertPropertyName&gt;false&lt;/MemoryPackGenerator_TypeScriptConvertPropertyName&gt;
+    &lt;!-- mặc định là false --&gt;
+    &lt;MemoryPackGenerator_TypeScriptEnableNullableTypes&gt;true&lt;/MemoryPackGenerator_TypeScriptEnableNullableTypes&gt;
+&lt;/PropertyGroup&gt;
+</code></pre>
+<p><code>MemoryPackGenerator_TypeScriptEnableNullableTypes</code> cho phép chú thích nullable của C# được phản ánh vào mã TypeScript. Mặc định là false, làm cho mọi thứ đều có thể null.</p>
+<h2>Streaming Serialization</h2>
+<p><code>MemoryPack.Streaming</code> cung cấp <code>MemoryPackStreamingSerializer</code>, bổ sung hỗ trợ cho việc tuần tự hóa và giải tuần tự hóa các collection với stream.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MemoryPackStreamingSerializer</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> ValueTask <span class="hljs-title">SerializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">PipeWriter pipeWriter, <span class="hljs-built_in">int</span> count, IEnumerable&lt;T&gt; source, <span class="hljs-built_in">int</span> flushRate = <span class="hljs-number">4096</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> ValueTask <span class="hljs-title">SerializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream, <span class="hljs-built_in">int</span> count, IEnumerable&lt;T&gt; source, <span class="hljs-built_in">int</span> flushRate = <span class="hljs-number">4096</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> <span class="hljs-title">IAsyncEnumerable</span>&lt;<span class="hljs-title">T</span>?&gt; <span class="hljs-title">DeserializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">PipeReader pipeReader, <span class="hljs-built_in">int</span> bufferAtLeast = <span class="hljs-number">4096</span>, <span class="hljs-built_in">int</span> readMinimumSize = <span class="hljs-number">8192</span>, [EnumeratorCancellation] CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-title">IAsyncEnumerable</span>&lt;<span class="hljs-title">T</span>?&gt; <span class="hljs-title">DeserializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream, <span class="hljs-built_in">int</span> bufferAtLeast = <span class="hljs-number">4096</span>, <span class="hljs-built_in">int</span> readMinimumSize = <span class="hljs-number">8192</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
+}
+</span></code></pre>
+<h2>Formatter/Provider API</h2>
+<p>Nếu bạn muốn tự triển khai formatter, kế thừa <code>MemoryPackFormatter&lt;T&gt;</code> và override các phương thức <code>Serialize</code> và <code>Deserialize</code>.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SkeltonFormatter</span> : <span class="hljs-title">MemoryPackFormatter</span>&lt;<span class="hljs-title">Skelton</span>&gt;
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackWriter&lt;TBufferWriter&gt; writer, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> Skelton? <span class="hljs-keyword">value</span></span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> == <span class="hljs-literal">null</span>)
+        {
+            writer.WriteNullObjectHeader();
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-comment">// sử dụng phương thức của writer.</span>
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Deserialize</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> Skelton? <span class="hljs-keyword">value</span></span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (!reader.TryReadObjectHeader(<span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> count))
+        {
+            <span class="hljs-keyword">value</span> = <span class="hljs-literal">null</span>;
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-comment">// sử dụng phương thức của reader.</span>
+    }
+}
+</code></pre>
+<p>Formatter vừa tạo sẽ được đăng ký với <code>MemoryPackFormatterProvider</code>.</p>
+<pre><code class="language-csharp hljs">MemoryPackFormatterProvider.Register(<span class="hljs-keyword">new</span> SkeltonFormatter());
+</code></pre>
+<p>Lưu ý: <code>unmanged struct</code> (không chứa kiểu tham chiếu) không thể sử dụng custom formatter, nó luôn tuần tự hóa theo cấu trúc bộ nhớ gốc.</p>
+<h2>MemoryPackWriter/ReaderOptionalState</h2>
+<p>Khởi tạo <code>MemoryPackWriter</code>/<code>MemoryPackReader</code> cần OptionalState. Đây là wrapper của <code>MemoryPackSerializerOptions</code>, có thể tạo từ <code>MemoryPackWriterOptionalStatePool</code>.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-comment">// khi dispose, OptionalState sẽ trả về pool.</span>
+<span class="hljs-keyword">using</span>(<span class="hljs-keyword">var</span> state = MemoryPackWriterOptionalStatePool.Rent(MemoryPackSerializerOptions.Default))
+{
+    <span class="hljs-keyword">var</span> writer = <span class="hljs-keyword">new</span> MemoryPackWriter&lt;T&gt;(<span class="hljs-keyword">ref</span> t, state);
+}
+
+<span class="hljs-comment">// cho Reader</span>
+<span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> state = MemoryPackReaderOptionalStatePool.Rent(MemoryPackSerializerOptions.Default))
+{
+    <span class="hljs-keyword">var</span> reader = <span class="hljs-keyword">new</span> MemoryPackReader(buffer, state);
+}
+</code></pre>
+<h2>Phụ thuộc framework mục tiêu</h2>
+<p>MemoryPack cung cấp <code>netstandard2.1</code> và <code>net7.0</code> nhưng cả hai không tương thích với nhau. Ví dụ, các kiểu MemoryPackable dưới project <code>netstandard2.1</code> và sử dụng từ project <code>net7.0</code> sẽ ném ra ngoại lệ runtime như sau</p>
+<blockquote>
+<p>Unhandled exception. System.TypeLoadException: Virtual static method '<em>' is not implemented on type '</em>' from assembly '*'.</p>
+</blockquote>
+<p>Vì net7.0 sử dụng static abstract members (<code>Virtual static method</code>), điều này không được hỗ trợ bởi netstandard2.1, đây là hành vi theo đặc tả.</p>
+<p>Project .NET 7 không nên sử dụng dll netstandard 2.1. Nói cách khác, nếu ứng dụng là dự án .NET 7, tất cả các phụ thuộc sử dụng MemoryPack phải hỗ trợ .NET 7. Vì vậy, nếu nhà phát triển thư viện phụ thuộc vào MemoryPack, bạn cần cấu hình dual target framework.</p>
+<pre><code class="language-xml hljs"><span class="hljs-tag">&lt;<span class="hljs-name">TargetFrameworks</span>&gt;</span>netstandard2.1;net7.0<span class="hljs-tag">&lt;/<span class="hljs-name">TargetFrameworks</span>&gt;</span>
+</code></pre>
+<h2>RPC</h2>
+<p><a href="https://github.com/Cysharp/MagicOnion">Cysharp/MagicOnion</a> là framework grpc-dotnet code-first sử dụng MessagePack thay vì protobuf. MagicOnion hiện đã hỗ trợ MemoryPack như một lớp tuần tự hóa qua package <code>MagicOnion.Serialization.MemoryPack</code> (bản preview). Xem chi tiết: <a href="https://github.com/Cysharp/MagicOnion#memorypack-support">MagicOnion#MemoryPack support</a></p>
+<h2>Unity</h2>
+<p>Phiên bản Unity tối thiểu được hỗ trợ là <code>2022.3.12f1</code>.</p>
+<p>Gói core <code>MemoryPack</code> được cung cấp qua nuget. Nó cũng có sẵn cho Unity. Nếu bạn muốn có hỗ trợ kiểu dựng sẵn của Unity, chúng tôi còn cung cấp thêm extension MemoryPack.Unity.</p>
+<ol>
+<li>Cài đặt <code>MemoryPack</code> từ NuGet bằng <a href="https://github.com/GlitchEnzo/NuGetForUnity">NuGetForUnity</a></li>
+</ol>
+<ul>
+<li><p>Mở cửa sổ từ NuGet -&gt; Manage NuGet Packages, tìm kiếm "MemoryPack" và nhấn Install.<br><img src="https://github.com/Cysharp/MemoryPack/assets/727159/599ff1ed-6cca-4724-be67-3edddb5e62ee" alt="screenshot"></p>
+</li>
+<li><p>Nếu bạn gặp lỗi conflict version, vui lòng tắt xác thực version trong Player Settings (Edit -&gt; Project Settings -&gt; Player -&gt; Kéo xuống và mở rộng "Other Settings" sau đó bỏ chọn "Assembly Version Validation" trong phần "Configuration").</p>
+</li>
+</ul>
+<ol start="2">
+<li>Cài đặt package <code>MemoryPack.Unity</code> bằng cách tham chiếu git URL</li>
+</ol>
+<ul>
+<li><code>https://github.com/Cysharp/MemoryPack.git?path=src/MemoryPack.Unity/Assets/MemoryPack.Unity</code><br><img src="https://github.com/Cysharp/ZLogger/assets/46207/7325d266-05b4-47c9-b06a-a67a40368dd2" alt="screenshot"><br><img src="https://github.com/Cysharp/MemoryPack/assets/727159/9a4af1df-ce07-49d7-9420-922dfb139b55" alt="screenshot"></li>
+</ul>
+<p>MemoryPack sử dụng tag phát hành <em>.</em>.*, bạn có thể chỉ định phiên bản như #1.0.0. Ví dụ: <code>https://github.com/Cysharp/MemoryPack.git?path=src/MemoryPack.Unity/Assets/MemoryPack.Unity#1.0.0</code></p>
+<p>Tương tự phiên bản .NET, mã được sinh bởi code generator (<code>MemoryPack.Generator.dll</code>). Triển khai không dùng reflection cũng mang lại hiệu năng tốt nhất cho IL2CPP.</p>
+<p>Để biết thêm thông tin về Unity và Source Generator, vui lòng tham khảo <a href="https://docs.unity3d.com/Manual/roslyn-analyzers.html">Unity documentation</a>.</p>
+<p>Source Generator cũng được Unity sử dụng chính thức qua <a href="https://docs.unity3d.com/Packages/com.unity.entities@1.0/manual/index.html">com.unity.properties</a> và <a href="https://docs.unity3d.com/Packages/com.unity.properties@2.0/changelog/CHANGELOG.html">com.unity.entities</a>. Nói cách khác, đây là tiêu chuẩn cho sinh mã trong Unity thế hệ kế tiếp.</p>
+<p>Bạn có thể tuần tự hóa tất cả các kiểu unmanaged (như <code>Vector3</code>, <code>Rect</code>, v.v...) và một số class (<code>AnimationCurve</code>, <code>Gradient</code>, <code>RectOffset</code>). Nếu bạn muốn tuần tự hóa các kiểu đặc thù khác của Unity, xem phần <a href="#serialize-external-types">Serialize external types</a>.</p>
+<p>Về hiệu năng Unity, MemoryPack nhanh hơn JsonUtility khoảng x3~x10 lần.</p>
+<p><img src="https://user-images.githubusercontent.com/46207/209254561-79ec18fe-c421-4d8c-9c86-b55276dd1a45.png" alt="image"></p>
+<p>Nếu mã dùng chung có kiểu của Unity (<code>Vector2</code>, v.v...), MemoryPack cung cấp gói <code>MemoryPack.UnityShims</code> trên NuGet.</p>
+<p>Gói <code>MemoryPack.UnityShims</code> cung cấp các shim cho các struct chuẩn của Unity (<code>Vector2</code>, <code>Vector3</code>, <code>Vector4</code>, <code>Quaternion</code>, <code>Color</code>, <code>Bounds</code>, <code>Rect</code>, <code>Keyframe</code>, <code>WrapMode</code>, <code>Matrix4x4</code>, <code>GradientColorKey</code>, <code>GradientAlphaKey</code>, <code>GradientMode</code>, <code>Color32</code>, <code>LayerMask</code>, <code>Vector2Int</code>, <code>Vector3Int</code>, <code>RangeInt</code>, <code>RectInt</code>, <code>BoundsInt</code>) và một số class (<code>AnimationCurve</code>, <code>Gradient</code>, <code>RectOffset</code>).</p>
+<blockquote>
+<p>[!WARNING]<br>Hiện tại có các giới hạn sau khi sử dụng trong Unity</p>
+</blockquote>
+<ol>
+<li>Phiên bản Unity không hỗ trợ CustomFormatter.</li>
+<li>Nếu bạn đang sử dụng .NET7 trở lên, định dạng nhị phân của MemoryPack không hoàn toàn tương thích với Unity.<ul>
+<li>Vấn đề này xảy ra với các kiểu value mà <code>[StructLayout(LayoutKind.Auto)]</code> được chỉ định rõ ràng. (Mặc định cho struct là <code>LayoutKind.Sequencial</code>.) Với các kiểu này, nhị phân được tuần tự hóa trong .NET sẽ không giải tuần tự được ở Unity. Tương tự, nhị phân tuần tự hóa ở Unity sẽ không tuần tự hóa được ở phía .NET.</li>
+<li>Các kiểu bị ảnh hưởng thường bao gồm những kiểu sau.<ul>
+<li><code>DateTimeOffset</code></li>
+<li><code>ValueTuple</code></li>
+</ul>
+</li>
+<li>Hiện tại, giải pháp đơn giản là không sử dụng các kiểu này.</li>
+</ul>
+</li>
+</ol>
+<h2>Native AOT</h2>
+<p>Đáng tiếc, .NET 7 Native AOT sẽ gây crash (<code>Generic virtual method pointer lookup failure</code>) khi sử dụng MemoryPack do bug runtime.<br>Sẽ được sửa trong .NET 8. Sử dụng bản preview của <code>Microsoft.DotNet.ILCompiler</code> sẽ khắc phục trên .NET 7. Vui lòng xem <a href="https://github.com/Cysharp/MemoryPack/issues/75#issuecomment-1386884611">bình luận của issue</a> để biết cách thiết lập.</p>
+<h2>Đặc tả định dạng nhị phân wire</h2>
+<p>Kiểu <code>T</code> được định nghĩa trong <code>Serialize&lt;T&gt;</code> và <code>Deserialize&lt;T&gt;</code> được gọi là schema C#. Định dạng MemoryPack không phải là định dạng tự mô tả. Giải tuần tự hóa cần schema C# tương ứng. Các kiểu này tồn tại như biểu diễn nội bộ của nhị phân, nhưng không thể xác định kiểu nếu không có schema C#.</p>
+<p>Endian phải là <code>Little Endian</code>. Tuy nhiên, bản C# tham chiếu không quan tâm đến endianness nên không thể dùng trên máy big-endian. Tuy nhiên, các máy tính hiện đại thường là little-endian.</p>
+<p>Có tám loại định dạng.</p>
+<ul>
+<li>Unmanaged struct</li>
+<li>Object</li>
+<li>Version Tolerant Object</li>
+<li>Đối tượng Tham chiếu Vòng lặp (Circular Reference Object)</li>
+<li>Tuple</li>
+<li>Collection</li>
+<li>Chuỗi (String)</li>
+<li>Union</li>
+</ul>
+<h3>struct không quản lý (Unmanaged struct)</h3>
+<p>Unmanaged struct là struct trong C# không chứa các kiểu tham chiếu, có ràng buộc tương tự như <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/unmanaged-types">kiểu không quản lý trong C#</a>. Việc tuần tự hóa sẽ giữ nguyên bố cục struct, bao gồm cả phần đệm (padding).</p>
+<h3>Đối tượng (Object)</h3>
+<p><code>(byte memberCount, [values...])</code></p>
+<p>Đối tượng có 1 byte không dấu ở phần đầu để biểu diễn số lượng thành viên. Số lượng thành viên cho phép từ <code>0</code> đến <code>249</code>, <code>255</code> biểu diễn đối tượng là <code>null</code>. Các giá trị lưu trữ giá trị memorypack cho số lượng thành viên tương ứng.</p>
+<h3>Đối tượng chịu được phiên bản (Version Tolerant Object)</h3>
+<p><code>(byte memberCount, [varint byte-length-of-values...], [values...])</code></p>
+<p>Đối tượng chịu được phiên bản tương tự như Đối tượng nhưng có thêm chiều dài tính theo byte của các giá trị ở phần header. varint tuân theo quy tắc sau: sbyte đầu tiên là giá trị hoặc typeCode, và X byte tiếp theo là giá trị. 0 đến 127 = giá trị unsigned byte, -1 đến -120 = giá trị signed byte, -121 = byte, -122 = sbyte, -123 = ushort, -124 = short, -125 = uint, -126 = int, -127 = ulong, -128 = long.</p>
+<h3>Đối tượng Tham chiếu Vòng lặp (Circular Reference Object)</h3>
+<p><code>(byte memberCount, [varint byte-length-of-values...], varint referenceId, [values...])</code><br><code>(250, varint referenceId)</code></p>
+<p>Đối tượng Tham chiếu Vòng lặp tương tự như Đối tượng chịu được phiên bản, nhưng nếu memberCount là 250, varint(unsigned-int32) tiếp theo là referenceId. Nếu không, sau phần byte-length-of-values, varint referenceId sẽ được ghi.</p>
+<h3>Tuple</h3>
+<p><code>(values...)</code></p>
+<p>Tuple là một tập hợp giá trị cố định, không thể là null. Trong .NET, <code>KeyValuePair&lt;TKey, TValue&gt;</code> và <code>ValueTuple&lt;T,...&gt;</code> được tuần tự hóa dưới dạng Tuple.</p>
+<h3>Collection</h3>
+<p><code>(int length, [values...])</code></p>
+<p>Collection có một số nguyên 4 byte có dấu ở phần header đại diện cho số lượng dữ liệu, <code>-1</code> biểu diễn <code>null</code>. Các giá trị lưu trữ giá trị memorypack cho số lượng phần tử tương ứng với length.</p>
+<h3>Chuỗi (String)</h3>
+<p><code>(int utf16-length, utf16-value)</code><br><code>(int ~utf8-byte-count, int utf16-length, utf8-bytes)</code></p>
+<p>Chuỗi có hai dạng, UTF16 và UTF8. Nếu số nguyên 4 byte đầu tiên là <code>-1</code>, biểu diễn null. <code>0</code>, biểu diễn chuỗi rỗng. UTF16 giống như collection (tuần tự hóa như <code>ReadOnlySpan&lt;char&gt;</code>, số byte của utf16-value là utf16-length * 2). Nếu số nguyên đầu tiên &lt;= <code>-2</code>, giá trị được mã hóa bằng UTF8. utf8-byte-count được mã hóa ở dạng bù, sử dụng <code>~utf8-byte-count</code> để lấy số byte. Số nguyên tiếp theo là utf16-length, cho phép giá trị <code>-1</code> để biểu diễn độ dài không xác định. utf8-bytes lưu trữ các byte với số lượng là utf8-byte-count.</p>
+<h3>Union</h3>
+<p><code>(byte tag, value)</code><br><code>(250, ushort tag, value)</code></p>
+<p>Byte không dấu đầu tiên là tag dùng cho kiểu giá trị phân biệt hoặc cờ, <code>0</code> đến <code>249</code> biểu diễn tag, <code>250</code> biểu diễn unsigned short tiếp theo là tag, <code>255</code> biểu diễn union là <code>null</code>.</p>
+<h2>Giấy phép</h2>
+<p>Thư viện này được cấp phép theo Giấy phép MIT.</p>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-09</p>
+<hr>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js"></script>
+
+
+</body></html>
