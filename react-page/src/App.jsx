@@ -38,7 +38,7 @@ function App() {
 
   return (
     <LanguageProvider>
-      <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200`}>
+      <div className={`min-h-screen bg-background transition-colors duration-200`}>
         <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
         
         <main className="container mx-auto px-4 py-8">
@@ -51,17 +51,17 @@ function App() {
           </Routes>
         </main>
 
-        <footer className="mt-16 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-          <div className="container mx-auto px-4 py-8 text-center text-gray-600 dark:text-gray-400">
+        <footer className="mt-16 border-t border-border bg-background">
+          <div className="container mx-auto px-4 py-8 text-center text-muted-foreground">
             <p className="text-sm">
               Powered by{' '}
               <a 
                 href="https://github.com/OpenAiTx/OpenAiTx" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium"
+                className="text-foreground hover:text-primary transition-colors font-medium"
               >
-                Open AI Tx
+                OpenAITx
               </a>
             </p>
           </div>

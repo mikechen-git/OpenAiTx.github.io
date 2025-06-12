@@ -114,12 +114,17 @@ export const LanguageProvider = ({ children }) => {
     return translations[currentLanguage]?.[key] || translations['en']?.[key] || key
   }
 
+  const availableLanguages = [
+    { code: 'en', name: 'English' },
+    { code: 'zh-TW', name: '繁體中文' }
+  ]
+
   return (
     <LanguageContext.Provider value={{
       currentLanguage,
       changeLanguage,
       t,
-      availableLanguages: Object.keys(translations)
+      availableLanguages
     }}>
       {children}
     </LanguageContext.Provider>

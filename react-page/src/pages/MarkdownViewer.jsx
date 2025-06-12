@@ -133,50 +133,32 @@ const MarkdownViewer = () => {
   ]
 
   // Header component to avoid duplication
-  const PageHeader = ({ user, project, languages }) => (
-    <header className="text-center mb-8 p-5 bg-gray-50 border-b border-gray-200">
-      <button 
+  const PageHeader = ({ user, project, languages, currentLang }) => (
+    <header className="text-center mb-8 p-5 bg-muted/30 border-b border-border">
+      {/* <button 
         onClick={() => window.history.back()}
-        className="absolute left-5 top-1/2 transform -translate-y-1/2 text-blue-600 text-sm px-2.5 py-1.5 border border-gray-200 rounded-md bg-white hover:bg-gray-50 hover:border-blue-600 transition-colors duration-200 flex items-center"
+        className="absolute left-5 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground text-sm px-2.5 py-1.5 border border-border rounded-md bg-background hover:bg-accent transition-colors duration-200 flex items-center"
       >
         ← Back
-      </button>
+      </button> */}
       
-      <div className="mt-2.5 text-base">
+      <div className="mt-2.5 text-base text-foreground">
         GitHub Repository: 
         <a 
           href={user && project ? `https://github.com/${user}/${project}` : '#'}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 no-underline ml-1.5 hover:underline"
+          className="text-primary no-underline ml-1.5 hover:underline"
         >
           {user && project ? `${user}/${project}` : 'N/A'}
         </a>
       </div>
-      
-      {user && project && (
-        <div className="mt-4 flex flex-wrap justify-center items-center gap-1">
-          {languages.map(lang => (
-            <a 
-              key={lang.code}
-              href={`https://openaitx.github.io/view?user=${user}&project=${project}&lang=${lang.code}`}
-              className="no-underline hover:opacity-80 transition-opacity duration-200"
-            >
-              <img 
-                src={`https://img.shields.io/badge/${lang.name}-white`}
-                alt="version"
-                className="h-5 rounded"
-              />
-            </a>
-          ))}
-        </div>
-      )}
     </header>
   )
 
   // Container component to avoid duplication
   const PageContainer = ({ children }) => (
-    <div className="font-sans leading-6 text-gray-800 m-0 p-0 bg-white flex flex-col min-h-screen">
+    <div className="font-sans leading-6 text-foreground m-0 p-0 bg-background flex flex-col min-h-screen">
       {children}
     </div>
   )
@@ -325,26 +307,26 @@ const MarkdownViewer = () => {
 
   const renderError = () => {
     return (
-      <div className="text-center py-10 px-5 my-5 mx-auto max-w-2xl bg-gray-50 rounded-lg border border-gray-200">
-        <h2 className="mb-4 text-gray-800 text-2xl font-semibold m-0">
+      <div className="text-center py-10 px-5 my-5 mx-auto max-w-2xl bg-muted/30 rounded-lg border border-border">
+        <h2 className="mb-4 text-foreground text-2xl font-semibold m-0">
           {error.title}
         </h2>
-        <p className="my-2.5 text-gray-600 leading-6">
+        <p className="my-2.5 text-muted-foreground leading-6">
           {error.description}
         </p>
         {error.example && (
-          <p className="my-2.5 text-gray-600 leading-6">
+          <p className="my-2.5 text-muted-foreground leading-6">
             {error.example}
           </p>
         )}
         {error.type === 'errorLoading' && (
           <>
-            <ul className="text-left max-w-sm my-4 mx-auto text-gray-600 list-disc list-inside">
+            <ul className="text-left max-w-sm my-4 mx-auto text-muted-foreground list-disc list-inside">
               <li className="my-1.5">{t.errorLoadingList1}</li>
               <li className="my-1.5">{t.errorLoadingList2}</li>
               <li className="my-1.5">{t.errorLoadingList3}</li>
             </ul>
-            <p className="my-2.5 text-gray-600 leading-6">
+            <p className="my-2.5 text-muted-foreground leading-6">
               {t.errorDetails} {error.details}
             </p>
           </>
@@ -352,7 +334,7 @@ const MarkdownViewer = () => {
         {showSubmitButton && (
           <button
             onClick={handleSubmit}
-            className="py-3 px-6 bg-green-600 text-white border-none rounded-lg cursor-pointer text-base font-semibold mt-6 mx-auto block transition-all duration-200 shadow-sm hover:bg-green-700 hover:-translate-y-px hover:shadow-md min-w-30"
+            className="py-3 px-6 bg-primary text-primary-foreground border-none rounded-lg cursor-pointer text-base font-semibold mt-6 mx-auto block transition-all duration-200 hover:bg-primary/90 hover:-translate-y-px min-w-30"
           >
             {t.submit}
           </button>
@@ -365,7 +347,7 @@ const MarkdownViewer = () => {
     return (
       <PageContainer>
         <ContentWrapper>
-          <div className="text-center py-5 text-gray-600">
+          <div className="text-center py-5 text-muted-foreground">
             Loading...
           </div>
         </ContentWrapper>
@@ -376,7 +358,7 @@ const MarkdownViewer = () => {
   if (error) {
     return (
       <PageContainer>
-        <PageHeader user={user} project={project} languages={languages} />
+        <PageHeader user={user} project={project} languages={languages} currentLang={lang} />
         <ContentWrapper>
           {renderError()}
         </ContentWrapper>
@@ -386,20 +368,20 @@ const MarkdownViewer = () => {
 
   return (
     <PageContainer>
-      <PageHeader user={user} project={project} languages={languages} />
+      <PageHeader user={user} project={project} languages={languages} currentLang={lang} />
       <ContentWrapper>
         <div 
           className="markdown-body"
           dangerouslySetInnerHTML={{ __html: content }}
         />
       </ContentWrapper>
-      <footer className="text-center mt-10 py-5 px-5 text-gray-600 text-sm border-t border-gray-200">
+      <footer className="text-center mt-10 py-5 px-5 text-muted-foreground text-sm border-t border-border">
         Powered by{' '}
         <a 
           href="https://github.com/OpenAiTx/OpenAiTx" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="text-gray-800 no-underline hover:underline"
+          className="text-foreground no-underline hover:underline transition-colors"
         >
           Open AI Tx
         </a>
