@@ -4,6 +4,32 @@ import { motion } from 'framer-motion'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useSearchParams } from 'react-router-dom'
 
+// LanguageLinks 組件 - 適應深色主題
+const LanguageLinks = () => {
+  const languages = [
+    "English", "简体中文", "繁體中文", "日本語", "한국어", "हिन्दी", "ไทย", "Français",
+    "Deutsch", "Español", "Italiano", "Русский", "Português", "Nederlands", "Polski",
+    "فارسی", "العربية", "Türkçe", "Tiếng Việt", "Bahasa Indonesia"
+  ];
+
+  return (
+    <div className="text-sm mb-4 leading-relaxed">
+      {languages.map((lang, index) => (
+        <span key={lang}>
+          <a 
+            href="#" 
+            className="hover:underline transition-all no-underline"
+            style={{ color: "#0366d6" }}
+          >
+            {lang}
+          </a>
+          {index < languages.length - 1 && <span> | </span>}
+        </span>
+      ))}
+    </div>
+  );
+};
+
 const BadgeGenerator = () => {
   const { t } = useLanguage()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -282,11 +308,7 @@ const BadgeGenerator = () => {
             transition={{ type: "spring", stiffness: 300 }}
           >
             <h2 className="text-xl font-semibold text-card-foreground mb-4">{t('badge.style2')}</h2>
-            <img 
-              src="https://github.com/user-attachments/assets/68aaf016-a29d-4ca0-899e-d039f4a9f7fd" 
-              alt="" 
-              className="mb-4"
-            />
+            <LanguageLinks />
             <div className="bg-muted/30 p-4 mb-3 rounded whitespace-pre-wrap break-all text-sm text-muted-foreground">
               {generateStyle2Markdown()}
             </div>
