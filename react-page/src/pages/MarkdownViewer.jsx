@@ -5,6 +5,7 @@ import { marked } from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
 import '../styles/markdown.css'
+import { useLanguage } from '../contexts/LanguageContext'
 
 const MarkdownViewer = () => {
   const [searchParams] = useSearchParams()
@@ -12,6 +13,7 @@ const MarkdownViewer = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showSubmitButton, setShowSubmitButton] = useState(false)
+  const { t: contextT } = useLanguage()
 
   const user = searchParams.get('user')
   const project = searchParams.get('project')
@@ -154,7 +156,7 @@ const MarkdownViewer = () => {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        GitHub Repository: 
+        {contextT('viewer.githubRepo')} 
         <motion.a 
           href={user && project ? `https://github.com/${user}/${project}` : '#'}
           target="_blank"
@@ -400,7 +402,7 @@ const MarkdownViewer = () => {
               ease: "easeInOut"
             }}
           >
-            Loading...
+            {contextT('viewer.loading')}
           </motion.div>
         </ContentWrapper>
       </PageContainer>
@@ -430,24 +432,24 @@ const MarkdownViewer = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
         />
       </ContentWrapper>
-      <motion.footer 
-        className="text-center mt-10 py-5 px-5 text-muted-foreground text-sm border-t border-border"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.8 }}
-      >
-        Powered by{' '}
-        <motion.a 
-          href="https://github.com/OpenAiTx/OpenAiTx" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="text-foreground no-underline hover:underline transition-colors"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Open AI Tx
-        </motion.a>
-      </motion.footer>
+             <motion.footer 
+         className="text-center mt-10 py-5 px-5 text-muted-foreground text-sm border-t border-border"
+         initial={{ opacity: 0, y: 20 }}
+         animate={{ opacity: 1, y: 0 }}
+         transition={{ duration: 0.5, delay: 0.8 }}
+       >
+         {contextT('viewer.poweredBy')}{' '}
+         <motion.a 
+           href="https://github.com/OpenAiTx/OpenAiTx" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           className="text-foreground no-underline hover:underline transition-colors"
+           whileHover={{ scale: 1.05 }}
+           whileTap={{ scale: 0.95 }}
+         >
+           {contextT('viewer.openAiTx')}
+         </motion.a>
+       </motion.footer>
     </PageContainer>
   )
 }

@@ -96,7 +96,7 @@ const BadgeGenerator = () => {
 
   const updateBadges = () => {
     if (!userOrOrg || !project) {
-      alert('Please enter both User/Organization and Project name')
+      alert(t('badge.alertMissingParams'))
       return
     }
     
@@ -127,7 +127,7 @@ const BadgeGenerator = () => {
       await navigator.clipboard.writeText(text)
       setCopiedItem(itemId)
       setTimeout(() => setCopiedItem(null), 2000)
-      alert('Copy to clipboard!')
+      alert(t('badge.alertCopied'))
     } catch (err) {
       console.error('Failed to copy: ', err)
     }
@@ -151,9 +151,9 @@ const BadgeGenerator = () => {
         throw new Error(data.error || `HTTP error! status: ${response.status}`)
       }
 
-      alert('Submission completed')
+      alert(t('badge.alertSubmissionCompleted'))
     } catch (error) {
-      alert(`Submission failed: ${error.message}`)
+      alert(`${t('badge.alertSubmissionFailed')}${error.message}`)
     }
   }
 
@@ -197,7 +197,7 @@ const BadgeGenerator = () => {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          OpenAITx - Language Auto AI Translate Badge Generator
+          {t('badge.title')}
         </motion.h1>
         <motion.a 
           href="https://github.com/OpenAiTx/OpenAiTx" 
@@ -224,8 +224,8 @@ const BadgeGenerator = () => {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 100 }}
         >
-          <h3 className="text-lg font-semibold text-foreground mb-2">Repository Not Found</h3>
-          <p className="text-muted-foreground">This GitHub repository does not exist. Please check the repository name and try again.</p>
+          <h3 className="text-lg font-semibold text-foreground mb-2">{t('badge.repoNotFound')}</h3>
+          <p className="text-muted-foreground">{t('badge.repoNotFoundDesc')}</p>
         </motion.div>
       )}
 
@@ -238,15 +238,15 @@ const BadgeGenerator = () => {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 100 }}
         >
-          <h3 className="text-lg font-semibold text-foreground mb-2">Project Documentation Not Found</h3>
-          <p className="text-muted-foreground mb-4">The documentation for this project has not been indexed yet. Click the button below to submit for indexing.</p>
+          <h3 className="text-lg font-semibold text-foreground mb-2">{t('badge.docNotFound')}</h3>
+          <p className="text-muted-foreground mb-4">{t('badge.docNotFoundDesc')}</p>
           <motion.button
             onClick={submitProject}
             className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Submit
+            {t('badge.submit')}
           </motion.button>
         </motion.div>
       )}
@@ -260,7 +260,7 @@ const BadgeGenerator = () => {
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h2 className="text-xl font-semibold text-card-foreground mb-4">Style Option 1 (HTML Badges)</h2>
+            <h2 className="text-xl font-semibold text-card-foreground mb-4">{t('badge.style1')}</h2>
             <div className="bg-muted/30 p-4 mb-3 rounded text-center">
               <div dangerouslySetInnerHTML={{ __html: generateStyle1Html() }} />
             </div>
@@ -270,7 +270,7 @@ const BadgeGenerator = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Copy HTML
+              {t('badge.copyHtml')}
             </motion.button>
           </motion.div>
 
@@ -281,7 +281,7 @@ const BadgeGenerator = () => {
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h2 className="text-xl font-semibold text-card-foreground mb-4">Style Option 2 (Markdown Links)</h2>
+            <h2 className="text-xl font-semibold text-card-foreground mb-4">{t('badge.style2')}</h2>
             <img 
               src="https://github.com/user-attachments/assets/68aaf016-a29d-4ca0-899e-d039f4a9f7fd" 
               alt="" 
@@ -296,7 +296,7 @@ const BadgeGenerator = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Copy Markdown
+              {t('badge.copyMarkdown')}
             </motion.button>
           </motion.div>
         </>
@@ -308,15 +308,15 @@ const BadgeGenerator = () => {
         variants={itemVariants}
         whileHover={{ scale: 1.01 }}
       >
-        <h2 className="text-lg font-semibold text-foreground mb-4">Support/Contribution</h2>
+        <h2 className="text-lg font-semibold text-foreground mb-4">{t('badge.support')}</h2>
         <p className="text-muted-foreground mb-3 leading-relaxed">
-          If you would like to have a contribution in the project, all you need to do is:
+          {t('badge.supportDesc')}
         </p>
         <p className="text-muted-foreground mb-4 leading-relaxed">
-          Fork project {'=>'} Clone project {'=>'} Choose a script in your language {'=>'} Fill in your AI token {'=>'} Run it {'=>'} Commit {'&'} push {'&'} create a PR
+          {t('badge.supportSteps')}
         </p>
         <div className="bg-muted/50 border border-border rounded p-3 text-muted-foreground">
-          <strong className="text-foreground">Note:</strong> Please do not upload or leak your tokens!
+          <strong className="text-foreground">{t('badge.supportNote')}</strong>
         </div>
       </motion.div>
 
@@ -326,30 +326,30 @@ const BadgeGenerator = () => {
         variants={itemVariants}
         whileHover={{ scale: 1.01 }}
       >
-        <h3 className="text-lg font-semibold text-foreground mb-4">Test Badge Generation</h3>
+        <h3 className="text-lg font-semibold text-foreground mb-4">{t('badge.testGeneration')}</h3>
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <label className="block text-sm font-medium text-muted-foreground mb-2">
-              GitHub User/Organization
+              {t('badge.githubUser')}
             </label>
             <motion.input
               type="text"
               value={userOrOrg}
               onChange={(e) => setUserOrOrg(e.target.value)}
-              placeholder="Enter GitHub user/organization name"
+              placeholder={t('badge.githubUserPlaceholder')}
               className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground focus:ring-2 focus:ring-ring focus:border-transparent"
               whileFocus={{ scale: 1.02 }}
             />
           </div>
           <div className="flex-1">
             <label className="block text-sm font-medium text-muted-foreground mb-2">
-              Project Name
+              {t('badge.projectName')}
             </label>
             <motion.input
               type="text"
               value={project}
               onChange={(e) => setProject(e.target.value)}
-              placeholder="Enter project name"
+              placeholder={t('badge.projectNamePlaceholder')}
               className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground focus:ring-2 focus:ring-ring focus:border-transparent"
               whileFocus={{ scale: 1.02 }}
             />
@@ -361,7 +361,7 @@ const BadgeGenerator = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          Generate Badges
+          {t('badge.generate')}
         </motion.button>
       </motion.div>
     </motion.div>
