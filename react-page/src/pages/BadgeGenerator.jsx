@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
+import { Fragment } from "react";
 
 /* global URL, URLSearchParams */
 
@@ -54,6 +55,7 @@ const BadgeGenerator = () => {
     const [repoNotFound, setRepoNotFound] = useState(false);
     const [repoUrl, setRepoUrl] = useState("");
     const [urlError, setUrlError] = useState("");
+    const [isCheckingProject, setIsCheckingProject] = useState(false);
 
     const style1Languages = [
         { code: "en", name: "EN" },
@@ -122,6 +124,7 @@ const BadgeGenerator = () => {
     }, [searchParams]);
 
     const checkProjectStatus = async (user, proj) => {
+        setIsCheckingProject(true);
         try {
             // Check if GitHub repository exists
             const githubApiUrl = `https://api.github.com/repos/${user}/${proj}`;
@@ -142,6 +145,8 @@ const BadgeGenerator = () => {
             }
         } catch (error) {
             console.error("Error checking project status:", error);
+        } finally {
+            setIsCheckingProject(false);
         }
     };
 
@@ -245,6 +250,24 @@ const BadgeGenerator = () => {
         await checkProjectStatus(result.userOrOrg, result.project);
     };
 
+    // 處理重置倉庫
+    const handleResetRepo = () => {
+        // 重置所有狀態
+        setRepoUrl("");
+        setUserOrOrg("");
+        setProject("");
+        setRepoNotFound(false);
+        setShowSubmitButton(false);
+        setUrlError("");
+        setIsCheckingProject(false);
+        
+        // 清除URL參數
+        const currentPath = window.location.pathname.endsWith("/") 
+            ? window.location.pathname 
+            : `${window.location.pathname}/`;
+        window.history.pushState({}, "", currentPath);
+    };
+
     // 動畫配置
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -306,7 +329,7 @@ const BadgeGenerator = () => {
             {/* GitHub URL Input */}
             <motion.div className="text-center p-6 mb-6 bg-muted/30 rounded-lg border border-border" variants={itemVariants} initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 100 }}>
                 {!userOrOrg || !project ? (
-                    <>
+                    <Fragment>
                         <h3 className="text-lg font-semibold text-foreground mb-2">{t("badge.enterGitHubUrl")}</h3>
                         <p className="text-muted-foreground mb-4">{t("badge.enterGitHubUrlDesc")}</p>
                         <div className="flex gap-2 max-w-xl mx-auto">
@@ -326,14 +349,10 @@ const BadgeGenerator = () => {
                                 {urlError}
                             </motion.p>
                         )}
-                    </>
+                    </Fragment>
                 ) : (
                     <motion.button
-                        onClick={() => {
-                            setRepoUrl("");
-                            setUserOrOrg("");
-                            setProject("");
-                        }}
+                        onClick={handleResetRepo}
                         className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -353,6 +372,16 @@ const BadgeGenerator = () => {
                 </motion.div>
             )}
 
+            {/* Loading State */}
+            {isCheckingProject && userOrOrg && project && (
+                <motion.div className="text-center p-6 mb-6 bg-muted/30 rounded-lg border border-border" variants={itemVariants} initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 100 }}>
+                    <div className="flex items-center justify-center space-x-2">
+                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                        <span className="text-lg text-foreground">{t("badge.checking")}</span>
+                    </div>
+                </motion.div>
+            )}
+
             {/* Submit Project Button */}
             {showSubmitButton && (
                 <motion.div className="text-center p-6 mb-6 bg-muted/30 rounded-lg border border-border" variants={itemVariants} initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 100 }}>
@@ -365,8 +394,8 @@ const BadgeGenerator = () => {
             )}
 
             {/* Style Option 1 (HTML Badges) */}
-            {!repoNotFound && userOrOrg && project && (
-                <>
+            {!repoNotFound && userOrOrg && project && !isCheckingProject && !showSubmitButton && (
+                <Fragment>
                     <motion.div className="border border-border p-5 mb-5 rounded-md bg-muted/70" variants={itemVariants} whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }}>
                         <h2 className="text-xl font-semibold text-card-foreground mb-4">{t("badge.style1")}</h2>
                         <div className="bg-muted/30 p-4 mb-3 rounded text-center">
@@ -394,7 +423,7 @@ const BadgeGenerator = () => {
                             {copiedItem === "style2" ? t("badge.copied") : t("badge.copyMarkdown")}
                         </motion.button>
                     </motion.div>
-                </>
+                </Fragment>
             )}
 
             {/* Support/Contribution Section */}
