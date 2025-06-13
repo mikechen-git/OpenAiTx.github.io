@@ -3,6 +3,8 @@ import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 
+/* global URL, URLSearchParams */
+
 // LanguageLinks 組件 - 適應深色主題
 const LanguageLinks = () => {
   const languages = [
@@ -37,6 +39,8 @@ const BadgeGenerator = () => {
   const [copiedItem, setCopiedItem] = useState(null)
   const [showSubmitButton, setShowSubmitButton] = useState(false)
   const [repoNotFound, setRepoNotFound] = useState(false)
+  const [repoUrl, setRepoUrl] = useState('')
+  const [urlError, setUrlError] = useState('')
 
   const style1Languages = [
     { code: 'en', name: 'EN' },
@@ -82,6 +86,15 @@ const BadgeGenerator = () => {
   ]
 
   useEffect(() => {
+    // 修正URL路徑，確保以斜線結尾
+    const currentPath = window.location.pathname
+    const basePath = '/OpenAiTx.github.io'
+    
+    if (currentPath === basePath) {
+      const newPath = `${basePath}/`
+      window.history.replaceState({}, '', newPath + window.location.search)
+    }
+
     // Get URL parameters on load
     const userParam = searchParams.get('userOrOrg')
     const projectParam = searchParams.get('project')
@@ -182,6 +195,63 @@ const BadgeGenerator = () => {
     }
   }
 
+  // 解析GitHub URL
+  const parseGitHubUrl = (url) => {
+    try {
+      const urlObj = new URL(url)
+      if (urlObj.hostname !== 'github.com') {
+        return { error: t('badge.invalidGitHubUrl') }
+      }
+
+      const pathParts = urlObj.pathname.split('/').filter(Boolean)
+      if (pathParts.length < 2) {
+        return { error: t('badge.invalidRepoUrl') }
+      }
+
+      return {
+        userOrOrg: pathParts[0],
+        project: pathParts[1]
+      }
+    } catch {
+      return { error: t('badge.invalidUrl') }
+    }
+  }
+
+  // 處理URL提交
+  const handleUrlSubmit = async () => {
+    setUrlError('')
+    const result = parseGitHubUrl(repoUrl)
+    
+    if (result.error) {
+      setUrlError(result.error)
+      return
+    }
+
+    // 更新URL參數，確保路徑正確
+    const newParams = new URLSearchParams()
+    newParams.set('userOrOrg', result.userOrOrg)
+    newParams.set('project', result.project)
+    
+    // 使用當前路徑，確保包含斜線
+    const currentPath = window.location.pathname.endsWith('/') 
+      ? window.location.pathname 
+      : `${window.location.pathname}/`
+    
+    // 更新URL，保持當前路徑並添加參數
+    window.history.pushState(
+      {}, 
+      '', 
+      `${currentPath}?${newParams.toString()}`
+    )
+
+    // 更新狀態
+    setUserOrOrg(result.userOrOrg)
+    setProject(result.project)
+
+    // 檢查項目狀態
+    await checkProjectStatus(result.userOrOrg, result.project)
+  }
+
   // 動畫配置
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -253,6 +323,60 @@ const BadgeGenerator = () => {
           <p className="text-muted-foreground">{t('badge.repoNotFoundDesc')}</p>
         </motion.div>
       )}
+
+      {/* GitHub URL Input */}
+      <motion.div 
+        className="text-center p-6 mb-6 bg-muted/30 rounded-lg border border-border"
+        variants={itemVariants}
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 100 }}
+      >
+        <h3 className="text-lg font-semibold text-foreground mb-2">{t('badge.enterGitHubUrl')}</h3>
+        <p className="text-muted-foreground mb-4">{t('badge.enterGitHubUrlDesc')}</p>
+        <div className="flex gap-2 max-w-xl mx-auto">
+          <input
+            type="text"
+            value={repoUrl}
+            onChange={(e) => setRepoUrl(e.target.value)}
+            placeholder={t('badge.githubUrlPlaceholder')}
+            className="flex-1 px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+          />
+          <motion.button
+            onClick={handleUrlSubmit}
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {t('badge.submit')}
+          </motion.button>
+        </div>
+        {urlError && (
+          <motion.p 
+            className="mt-2 text-sm text-destructive"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            {urlError}
+          </motion.p>
+        )}
+        {/* 解析結果顯示 */}
+        {!urlError && repoUrl && (
+          <motion.div 
+            className="mt-4 flex justify-center gap-8 text-sm"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <div className="text-muted-foreground">
+              {t('badge.githubUser')}: <span className="text-foreground font-medium">{userOrOrg}</span>
+            </div>
+            <div className="text-muted-foreground">
+              {t('badge.projectName')}: <span className="text-foreground font-medium">{project}</span>
+            </div>
+          </motion.div>
+        )}
+      </motion.div>
 
       {/* Submit Project Button */}
       {showSubmitButton && (
