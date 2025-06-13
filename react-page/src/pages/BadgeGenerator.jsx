@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 import { Fragment } from "react";
 
 /* global URL, URLSearchParams */
@@ -169,9 +170,10 @@ const BadgeGenerator = () => {
             await navigator.clipboard.writeText(text);
             setCopiedItem(itemId);
             setTimeout(() => setCopiedItem(null), 2000);
-            alert(t("badge.alertCopied"));
+            toast.success(t("badge.alertCopied"));
         } catch (err) {
             console.error("Failed to copy: ", err);
+            toast.error("Failed to copy to clipboard");
         }
     };
 
@@ -296,7 +298,7 @@ const BadgeGenerator = () => {
     return (
         <motion.div className="max-w-4xl mx-auto" variants={containerVariants} initial="hidden" animate="visible">
             {/* Header */}
-            <motion.div className="text-center mb-8" variants={itemVariants}>
+            <motion.div className="text-center mb-10 mt-6" variants={itemVariants}>
                 <motion.h1 className="text-2xl font-bold text-foreground mb-4" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 }}>
                     {t("badge.title")}
                 </motion.h1>
@@ -350,7 +352,7 @@ const BadgeGenerator = () => {
                 )}
             </motion.div>
             {!urlError && userOrOrg && project && (
-                <motion.div className="my-4 flex gap-8 text-sm" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+                <motion.div className="my-10 flex gap-8 text-sm" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
                     <div className="text-muted-foreground text-xl">
                         {t("badge.githubUser")}: <span className="text-foreground font-medium">{userOrOrg}</span>
                     </div>

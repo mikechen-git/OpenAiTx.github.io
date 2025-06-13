@@ -42,7 +42,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
                         </Link>
                     </motion.div>
 
-                    {/* Navigation Links */}
+                    {/* Navigation Links 
                     <motion.div className="hidden md:flex items-center space-x-1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 }}>
                         {navItems.map((item, index) => (
                             <motion.div key={item.path} initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.3, delay: 0.4 + index * 0.1 }}>
@@ -54,6 +54,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
                             </motion.div>
                         ))}
                     </motion.div>
+                    */}
 
                     {/* Right side controls */}
                     <motion.div className="flex items-center space-x-4" initial={{ x: 50, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }}>

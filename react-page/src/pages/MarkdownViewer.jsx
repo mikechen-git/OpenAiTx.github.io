@@ -7,6 +7,7 @@ import 'highlight.js/styles/github.css'
 import '../styles/markdown.css'
 import { useTranslation } from 'react-i18next'
 import TableOfContents from '../components/TableOfContents'
+import { toast } from 'sonner'
 
 const MarkdownViewer = () => {
   const [searchParams] = useSearchParams()
@@ -79,9 +80,9 @@ const MarkdownViewer = () => {
         throw new Error(data.error || `HTTP error! status: ${response.status}`)
       }
 
-      alert(contextT('viewer.submissionCompleted'))
+      toast.success(contextT('viewer.submissionCompleted'))
     } catch (error) {
-      alert(`${contextT('viewer.submissionFailed')}${error.message}`)
+      toast.error(`${contextT('viewer.submissionFailed')}${error.message}`)
     }
   }
 

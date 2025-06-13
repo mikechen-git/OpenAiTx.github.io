@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from './components/Navbar'
 import BadgeGenerator from './pages/BadgeGenerator'
 import MarkdownViewer from './pages/MarkdownViewer'
+import { Toaster } from './components/ui/sonner'
 
 // 重定向組件處理 view.html 到 view 的重定向
 const ViewHtmlRedirect = () => {
@@ -153,6 +154,7 @@ function App() {
           </p>
         </div>
       </motion.footer>
+      <Toaster />
     </motion.div>
   )
 }
