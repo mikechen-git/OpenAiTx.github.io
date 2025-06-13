@@ -24,36 +24,26 @@ const MarkdownViewer = () => {
   // Header component to avoid duplication
   const PageHeader = ({ user, project }) => (
     <motion.header 
-      className="text-center mb-8 p-5 bg-muted/30 border-b border-border"
+      className="text-center p-5"
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {/* <button 
-        onClick={() => window.history.back()}
-        className="absolute left-5 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground text-sm px-2.5 py-1.5 border border-border rounded-md bg-background hover:bg-accent transition-colors duration-200 flex items-center"
-      >
-        ← Back
-      </button> */}
-      
-      <motion.div 
-        className="mt-2.5 text-base text-foreground"
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
-        {contextT('viewer.githubRepo')} 
-        <motion.a 
-          href={user && project ? `https://github.com/${user}/${project}` : '#'}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-primary no-underline ml-1.5 hover:underline"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+      {user && project && (
+        <motion.div 
+          className="my-4 flex gap-8 justify-center" 
+          initial={{ opacity: 0, y: 10 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ delay: 0.2 }}
         >
-          {user && project ? `${user}/${project}` : 'N/A'}
-        </motion.a>
-      </motion.div>
+          <div className="text-muted-foreground text-2xl">
+            {contextT('badge.githubUser')}: <span className="text-foreground font-medium">{user}</span>
+          </div>
+          <div className="text-muted-foreground text-2xl">
+            {contextT('badge.projectName')}: <span className="text-foreground font-medium">{project}</span>
+          </div>
+        </motion.div>
+      )}
     </motion.header>
   )
 
@@ -66,7 +56,7 @@ const MarkdownViewer = () => {
 
   // Content wrapper component
   const ContentWrapper = ({ children }) => (
-    <div className="mx-auto w-full px-5">
+    <div className="mx-auto w-full">
       {children}
     </div>
   )
