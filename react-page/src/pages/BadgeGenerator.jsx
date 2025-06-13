@@ -281,7 +281,7 @@ const BadgeGenerator = () => {
       {!repoNotFound && (userOrOrg && project) && (
         <>
           <motion.div 
-            className="border border-border p-5 mb-5 rounded-md bg-card"
+            className="border border-border p-5 mb-5 rounded-md bg-muted/70"
             variants={itemVariants}
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
@@ -302,7 +302,7 @@ const BadgeGenerator = () => {
 
           {/* Style Option 2 (Markdown Links) */}
           <motion.div 
-            className="border border-border p-5 mb-5 rounded-md bg-card"
+            className="border border-border p-5 mb-5 rounded-md bg-muted/70"
             variants={itemVariants}
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
@@ -326,7 +326,7 @@ const BadgeGenerator = () => {
 
       {/* Support/Contribution Section */}
       <motion.div 
-        className="bg-muted/30 rounded-lg p-5 mb-5 border border-border"
+        className="bg-muted/70 rounded-lg p-5 mb-5 border border-border"
         variants={itemVariants}
         whileHover={{ scale: 1.01 }}
       >
@@ -337,14 +337,14 @@ const BadgeGenerator = () => {
         <p className="text-muted-foreground mb-4 leading-relaxed">
           {t('badge.supportSteps')}
         </p>
-        <div className="bg-muted/50 border border-border rounded p-3 text-muted-foreground">
+        <div className="bg-red-50 dark:bg-red-900 border border-border rounded p-3 text-muted-foreground">
           <strong className="text-foreground">{t('badge.supportNote')}</strong>
         </div>
       </motion.div>
 
       {/* Input form for testing */}
       <motion.div 
-        className="mt-8 p-4 bg-muted/50 rounded-lg border border-border"
+        className="mt-8 p-4 bg-muted/70 rounded-lg border border-border"
         variants={itemVariants}
         whileHover={{ scale: 1.01 }}
       >
