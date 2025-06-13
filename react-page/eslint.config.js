@@ -27,12 +27,15 @@ export default [
         alert: 'readonly',
         navigator: 'readonly',
         setTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
         localStorage: 'readonly',
         atob: 'readonly',
         __dirname: 'readonly',
         require: 'readonly',
         requestAnimationFrame: 'readonly',
-        IntersectionObserver: 'readonly'
+        IntersectionObserver: 'readonly',
+        MutationObserver: 'readonly'
       }
     },
     plugins: {

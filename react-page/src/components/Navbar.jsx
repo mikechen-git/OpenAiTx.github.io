@@ -101,7 +101,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
                             className="text-xl font-bold text-foreground hover:text-primary transition-colors"
                             onClick={closeMenu}
                         >
-                            OpenAI Tx
+                            OpenAITx
                         </Link>
                     </motion.div>
 

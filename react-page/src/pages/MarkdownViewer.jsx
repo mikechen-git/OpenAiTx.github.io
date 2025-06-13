@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { marked } from 'marked'
 import hljs from 'highlight.js'
-import 'highlight.js/styles/github.css'
+// import 'highlight.js/styles/github.css' // 移除預設樣式，使用自定義樣式
 import '../styles/markdown.css'
 import { useTranslation } from 'react-i18next'
 import TableOfContents from '../components/TableOfContents'
@@ -223,40 +223,56 @@ const MarkdownViewer = () => {
     fetchContent()
   }, [user, project, urlLang, contextT])
 
+  // 重新高亮代碼的函數
+  const rehighlightCode = () => {
+    const codeBlocks = document.querySelectorAll('.markdown-body pre code')
+    
+    codeBlocks.forEach((block) => {
+      // 清除之前的高亮狀態
+      if (block.dataset.highlighted) {
+        delete block.dataset.highlighted
+        // 清除之前的高亮類名
+        block.className = block.className.replace(/hljs[^\s]*/g, '').trim()
+      }
+      
+      // 重新高亮
+      hljs.highlightElement(block)
+    })
+  }
+
   // Apply syntax highlighting after content is rendered
   useEffect(() => {
     if (content) {
-      // Use Intersection Observer for lazy syntax highlighting
-      const codeBlocks = document.querySelectorAll('pre code')
-      if (codeBlocks.length > 0) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting && !entry.target.dataset.highlighted) {
-                // Mark as highlighted to avoid re-processing
-                entry.target.dataset.highlighted = 'true'
-                // Use setTimeout with minimal delay to avoid blocking
-                setTimeout(() => {
-                  hljs.highlightElement(entry.target)
-                }, 0)
-                observer.unobserve(entry.target)
-              }
-            })
-          },
-          {
-            rootMargin: '100px 0px', // Start highlighting when code block is 100px away from viewport
-            threshold: 0.1
-          }
-        )
+      // 等待DOM更新後再高亮
+      setTimeout(() => {
+        rehighlightCode()
+      }, 100)
+    }
+  }, [content])
 
-        codeBlocks.forEach((block) => {
-          observer.observe(block)
-        })
-
-        // Cleanup observer when component unmounts or content changes
-        return () => {
-          observer.disconnect()
+  // 監聽主題變化並重新高亮代碼
+  useEffect(() => {
+    if (content) {
+      // 使用更簡單的方法：定期檢查主題變化
+      let lastTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+      
+      const checkThemeChange = () => {
+        const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+        if (currentTheme !== lastTheme) {
+          lastTheme = currentTheme
+          // 主題變化了，重新高亮代碼
+          setTimeout(() => {
+            rehighlightCode()
+          }, 100)
         }
+      }
+
+      // 每100ms檢查一次主題變化
+      const themeCheckInterval = setInterval(checkThemeChange, 100)
+
+      // 清理interval
+      return () => {
+        clearInterval(themeCheckInterval)
       }
     }
   }, [content])
