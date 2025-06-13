@@ -126,6 +126,36 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get translations for current language
     const t = translations[lang] || translations['en'];
 
+    // Function to update SEO meta tags
+    function updateSEO(repoData) {
+        const title = `${user}/${project} - ${repoData.name || project}`;
+        const description = repoData.description || `${user}/${project} - GitHub repository documentation and information`;
+        const keywords = `${user}, ${project}, GitHub, repository, documentation, ${repoData.language || ''}`;
+        
+        // Update title
+        document.title = title;
+        
+        // Update meta tags
+        const metaTitle = document.querySelector('meta[name="title"]');
+        if (metaTitle) metaTitle.setAttribute('content', title);
+        
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', description);
+        
+        const metaKeywords = document.querySelector('meta[name="keywords"]');
+        if (metaKeywords) metaKeywords.setAttribute('content', keywords);
+        
+        // Update Open Graph tags
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) ogTitle.setAttribute('content', title);
+        
+        const ogDesc = document.querySelector('meta[property="og:description"]');
+        if (ogDesc) ogDesc.setAttribute('content', description);
+        
+        const ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) ogUrl.setAttribute('content', `https://openaitx.github.io/view.html?user=${user}&project=${project}&lang=${lang}`);
+    }
+
     // Update GitHub repository link
     const githubRepoLink = document.getElementById('githubRepoLink');
     if (githubRepoLink && user && project) {
@@ -192,6 +222,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            // Repository exists, update SEO with repository data
+            updateSEO(data);
+
             // Repository exists, now check if README exists
             const apiUrl = `https://raw.githubusercontent.com/OpenAiTx/OpenAiTx/refs/heads/main/projects/${user}/${project}/README-${lang}.md`;
             
@@ -257,12 +290,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 hljs.highlightBlock(block);
             });
 
-            // Update page title with the first h1 from the markdown
+            // Update page title with the first h1 from the markdown if available
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = content;
             const firstH1 = tempDiv.querySelector('h1');
             if (firstH1) {
-                document.title = `${firstH1.textContent} - Open AI Tx`;
+                const markdownTitle = firstH1.textContent;
+                document.title = `${markdownTitle} - ${user}/${project}`;
+                
+                // Update meta title as well
+                const metaTitle = document.querySelector('meta[name="title"]');
+                if (metaTitle) metaTitle.setAttribute('content', document.title);
+                
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                if (ogTitle) ogTitle.setAttribute('content', document.title);
             }
         })
         .catch(error => {
