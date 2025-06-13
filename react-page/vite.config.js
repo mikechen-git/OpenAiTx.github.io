@@ -4,7 +4,7 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/mikechen-git.github.io/',
+  base: '/OpenAiTx.github.io/',
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
