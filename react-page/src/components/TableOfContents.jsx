@@ -8,66 +8,96 @@ const TableOfContents = ({ content, isOpen, setIsOpen }) => {
   const [headings, setHeadings] = useState([])
   const [activeId, setActiveId] = useState('')
 
-  // 提取標題
+  // 提取標題並添加anchor points
   useEffect(() => {
     if (!content) return
 
-    const tempDiv = document.createElement('div')
-    tempDiv.innerHTML = content
-    
-    const headingElements = tempDiv.querySelectorAll('h1, h2, h3, h4, h5, h6')
-    const extractedHeadings = Array.from(headingElements).map((heading, index) => {
-      const level = parseInt(heading.tagName.charAt(1))
-      const text = heading.textContent.trim()
-      const id = `heading-${index}-${text.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]/g, '-')}`
-      
-      // 為標題添加ID屬性
-      heading.id = id
-      
-      return {
-        id,
-        text,
-        level,
-        element: heading
+    const processHeadings = () => {
+      const markdownBody = document.querySelector('.markdown-body')
+      if (!markdownBody) {
+        setTimeout(processHeadings, 100)
+        return
       }
-    })
-    
-    // 更新實際DOM中的標題ID
-    setTimeout(() => {
-      extractedHeadings.forEach(({ id, level, text }) => {
-        const actualHeading = document.querySelector(`.markdown-body h${level}`)
-        if (actualHeading && actualHeading.textContent.trim() === text) {
-          actualHeading.id = id
+
+      const headingElements = markdownBody.querySelectorAll('h1, h2, h3, h4, h5, h6')
+      if (headingElements.length === 0) {
+        setTimeout(processHeadings, 100)
+        return
+      }
+
+      // 先清除所有現有的ID
+      headingElements.forEach(heading => {
+        heading.removeAttribute('id')
+      })
+
+      const extractedHeadings = Array.from(headingElements).map((heading, index) => {
+        const level = parseInt(heading.tagName.charAt(1))
+        const text = heading.textContent.trim()
+        // 創建更簡潔的ID
+        const id = `heading-${index}-${text.toLowerCase()
+          .replace(/[^\w\u4e00-\u9fff\s-]/g, '') // 移除特殊字符，保留中文、英文、數字、空格、連字符
+          .replace(/\s+/g, '-') // 將空格替換為連字符
+          .replace(/-+/g, '-') // 合併多個連字符
+          .replace(/^-|-$/g, '')}`  // 移除開頭和結尾的連字符
+        
+        // 直接為實際DOM元素添加ID
+        heading.setAttribute('id', id)
+        
+        return {
+          id,
+          text,
+          level
         }
       })
-    }, 100)
-    
-    setHeadings(extractedHeadings)
+      
+      setHeadings(extractedHeadings)
+    }
+
+    // 等待DOM更新後再處理
+    setTimeout(processHeadings, 300)
   }, [content])
 
   // 監聽滾動以高亮當前標題
   useEffect(() => {
-    if (typeof window === 'undefined' || !window.IntersectionObserver) return
+    if (typeof window === 'undefined' || !window.IntersectionObserver || headings.length === 0) return
 
     const observer = new window.IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id)
-          }
-        })
+        // 找到最靠近頂部的可見標題
+        const visibleEntries = entries.filter(entry => entry.isIntersecting)
+        if (visibleEntries.length > 0) {
+          // 按照在頁面中的位置排序，選擇最靠近頂部的
+          const sortedEntries = visibleEntries.sort((a, b) => 
+            a.boundingClientRect.top - b.boundingClientRect.top
+          )
+          setActiveId(sortedEntries[0].target.id)
+        }
       },
       {
-        rootMargin: '-20% 0% -35% 0%'
+        // 考慮navbar高度的rootMargin設置
+        rootMargin: '-80px 0% -50% 0%',
+        threshold: [0, 0.1, 0.5, 1]
       }
     )
 
-    headings.forEach(({ id }) => {
-      const element = document.getElementById(id)
-      if (element) {
-        observer.observe(element)
+    // 延遲觀察，確保DOM元素已經設置好ID
+    const setupObserver = () => {
+      let observedCount = 0
+      headings.forEach(({ id }) => {
+        const element = document.getElementById(id)
+        if (element) {
+          observer.observe(element)
+          observedCount++
+        }
+      })
+      
+      // 如果沒有觀察到任何元素，稍後重試
+      if (observedCount === 0 && headings.length > 0) {
+        setTimeout(setupObserver, 200)
       }
-    })
+    }
+
+    setTimeout(setupObserver, 100)
 
     return () => {
       observer.disconnect()
@@ -76,13 +106,48 @@ const TableOfContents = ({ content, isOpen, setIsOpen }) => {
 
   // 點擊標題跳轉
   const scrollToHeading = (id) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+    const performScroll = (element) => {
+      const navbarHeight = 80
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+      const offsetPosition = elementPosition - navbarHeight
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
       })
     }
+    
+    // 立即嘗試通過ID查找
+    let element = document.getElementById(id)
+    if (element) {
+      performScroll(element)
+      return
+    }
+    
+    // 如果沒找到，嘗試重新設置ID並查找
+    const targetHeading = headings.find(h => h.id === id)
+    if (targetHeading) {
+      // 重新查找並設置ID
+      const allHeadings = document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6')
+      const headingByText = Array.from(allHeadings).find(h => h.textContent.trim() === targetHeading.text)
+      
+      if (headingByText) {
+        headingByText.setAttribute('id', id)
+        performScroll(headingByText)
+        return
+      }
+    }
+    
+    // 最後的重試機制
+    const attemptScroll = (retries = 3) => {
+      element = document.getElementById(id)
+      if (element) {
+        performScroll(element)
+      } else if (retries > 0) {
+        setTimeout(() => attemptScroll(retries - 1), 100)
+      }
+    }
+    
+    attemptScroll()
   }
 
   // 獲取標題的縮進層級

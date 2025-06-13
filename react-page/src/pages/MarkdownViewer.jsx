@@ -325,30 +325,10 @@ const MarkdownViewer = () => {
               <motion.div 
                 className="markdown-body"
                 dangerouslySetInnerHTML={{ __html: content }}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
+                initial={false}
+                animate={{ opacity: 1}}
               />
             </ContentWrapper>
-            
-            <motion.footer 
-              className="text-center mt-10 py-5 px-5 text-muted-foreground text-sm border-t border-border"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-            >
-              {contextT('viewer.poweredBy')}{' '}
-              <motion.a 
-                href="https://github.com/OpenAiTx/OpenAiTx" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-foreground no-underline hover:underline transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {contextT('viewer.openAiTx')}
-              </motion.a>
-            </motion.footer>
           </PageContainer>
         </motion.div>
       </>
