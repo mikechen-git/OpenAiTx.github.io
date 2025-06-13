@@ -6,6 +6,7 @@ import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
 import '../styles/markdown.css'
 import { useTranslation } from 'react-i18next'
+import TableOfContents from '../components/TableOfContents'
 
 const MarkdownViewer = () => {
   const [searchParams] = useSearchParams()
@@ -13,6 +14,7 @@ const MarkdownViewer = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showSubmitButton, setShowSubmitButton] = useState(false)
+  const [tocOpen, setTocOpen] = useState(false)
   const { t: contextT } = useTranslation()
 
   const user = searchParams.get('user')
@@ -305,36 +307,51 @@ const MarkdownViewer = () => {
   }
 
       return (
-      <PageContainer>
-        <PageHeader user={user} project={project} />
-      <ContentWrapper>
+      <>
+        {/* Table of Contents */}
+        <TableOfContents content={content} isOpen={tocOpen} setIsOpen={setTocOpen} />
+        
+        {/* 主要內容區域 - 整個頁面 */}
         <motion.div 
-          className="markdown-body"
-          dangerouslySetInnerHTML={{ __html: content }}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        />
-      </ContentWrapper>
-             <motion.footer 
-         className="text-center mt-10 py-5 px-5 text-muted-foreground text-sm border-t border-border"
-         initial={{ opacity: 0, y: 20 }}
-         animate={{ opacity: 1, y: 0 }}
-         transition={{ duration: 0.5, delay: 0.8 }}
-       >
-         {contextT('viewer.poweredBy')}{' '}
-         <motion.a 
-           href="https://github.com/OpenAiTx/OpenAiTx" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           className="text-foreground no-underline hover:underline transition-colors"
-           whileHover={{ scale: 1.05 }}
-           whileTap={{ scale: 0.95 }}
-         >
-           {contextT('viewer.openAiTx')}
-         </motion.a>
-       </motion.footer>
-    </PageContainer>
+          initial={false}
+          animate={{ 
+            marginLeft: tocOpen ? (window.innerWidth >= 768 ? 320 : 0) : 0 
+          }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          <PageContainer>
+            <PageHeader user={user} project={project} />
+            <ContentWrapper>
+              <motion.div 
+                className="markdown-body"
+                dangerouslySetInnerHTML={{ __html: content }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              />
+            </ContentWrapper>
+            
+            <motion.footer 
+              className="text-center mt-10 py-5 px-5 text-muted-foreground text-sm border-t border-border"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            >
+              {contextT('viewer.poweredBy')}{' '}
+              <motion.a 
+                href="https://github.com/OpenAiTx/OpenAiTx" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-foreground no-underline hover:underline transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {contextT('viewer.openAiTx')}
+              </motion.a>
+            </motion.footer>
+          </PageContainer>
+        </motion.div>
+      </>
   )
 }
 
