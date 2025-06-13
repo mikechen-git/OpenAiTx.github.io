@@ -30,7 +30,9 @@ export default [
         localStorage: 'readonly',
         atob: 'readonly',
         __dirname: 'readonly',
-        require: 'readonly'
+        require: 'readonly',
+        requestAnimationFrame: 'readonly',
+        IntersectionObserver: 'readonly'
       }
     },
     plugins: {

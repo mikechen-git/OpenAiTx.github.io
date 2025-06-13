@@ -7,7 +7,13 @@ import './i18n'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename="/OpenAiTx.github.io">
+    <BrowserRouter 
+      basename="/OpenAiTx.github.io"
+      future={{
+        v7_relativeSplatPath: true,
+        v7_startTransition: true
+      }}
+    >
       <App />
     </BrowserRouter>
   </React.StrictMode>,

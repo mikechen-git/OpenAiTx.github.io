@@ -53,8 +53,10 @@ const TableOfContents = ({ content, isOpen, setIsOpen }) => {
       setHeadings(extractedHeadings)
     }
 
-    // 等待DOM更新後再處理
-    setTimeout(processHeadings, 300)
+    // 使用requestAnimationFrame來優化性能
+    requestAnimationFrame(() => {
+      setTimeout(processHeadings, 100)
+    })
   }, [content])
 
   // 監聽滾動以高亮當前標題
@@ -97,7 +99,9 @@ const TableOfContents = ({ content, isOpen, setIsOpen }) => {
       }
     }
 
-    setTimeout(setupObserver, 100)
+    requestAnimationFrame(() => {
+      setTimeout(setupObserver, 50)
+    })
 
     return () => {
       observer.disconnect()

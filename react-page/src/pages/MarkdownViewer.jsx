@@ -197,12 +197,38 @@ const MarkdownViewer = () => {
   // Apply syntax highlighting after content is rendered
   useEffect(() => {
     if (content) {
-      // Small delay to ensure DOM is updated
-      setTimeout(() => {
-        document.querySelectorAll('pre code').forEach((block) => {
-          hljs.highlightElement(block)
+      // Use Intersection Observer for lazy syntax highlighting
+      const codeBlocks = document.querySelectorAll('pre code')
+      if (codeBlocks.length > 0) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && !entry.target.dataset.highlighted) {
+                // Mark as highlighted to avoid re-processing
+                entry.target.dataset.highlighted = 'true'
+                // Use setTimeout with minimal delay to avoid blocking
+                setTimeout(() => {
+                  hljs.highlightElement(entry.target)
+                }, 0)
+                observer.unobserve(entry.target)
+              }
+            })
+          },
+          {
+            rootMargin: '100px 0px', // Start highlighting when code block is 100px away from viewport
+            threshold: 0.1
+          }
+        )
+
+        codeBlocks.forEach((block) => {
+          observer.observe(block)
         })
-      }, 100)
+
+        // Cleanup observer when component unmounts or content changes
+        return () => {
+          observer.disconnect()
+        }
+      }
     }
   }, [content])
 
