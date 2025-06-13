@@ -20,9 +20,23 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     ];
 
     const availableLanguages = [
-        { code: "en", name: "English" },
-        { code: "zh-CN", name: "简体中文" },
-        { code: "zh-TW", name: "繁體中文" },
+        { code: "en", name: "EN" },
+        { code: "zh-CN", name: "简中" },
+        { code: "zh-TW", name: "繁中" },
+        { code: "ja", name: "日本語" },
+        { code: "ko", name: "한국어" },
+        { code: "th", name: "ไทย" },
+        { code: "fr", name: "Français" },
+        { code: "de", name: "Deutsch" },
+        { code: "es", name: "Español" },
+        { code: "it", name: "Italiano" },
+        { code: "ru", name: "Русский" },
+        { code: "pt", name: "Português" },
+        { code: "nl", name: "Nederlands" },
+        { code: "pl", name: "Polski" },
+        { code: "ar", name: "العربية" },
+        { code: "tr", name: "Türkçe" },
+        { code: "vi", name: "Tiếng Việt" },
     ];
 
     const changeLanguage = (lang) => {
