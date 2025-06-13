@@ -10,17 +10,55 @@ import TableOfContents from '../components/TableOfContents'
 import { toast } from 'sonner'
 
 const MarkdownViewer = () => {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showSubmitButton, setShowSubmitButton] = useState(false)
   const [tocOpen, setTocOpen] = useState(false)
-  const { t: contextT } = useTranslation()
+  const { t: contextT, i18n } = useTranslation()
 
   const user = searchParams.get('user')
   const project = searchParams.get('project')
-  const lang = searchParams.get('lang') || 'en'
+  const urlLang = searchParams.get('lang') || 'en'
+
+  // 同步 URL 參數中的 lang 與系統當前語言
+  useEffect(() => {
+    // 當 URL 中的 lang 參數與當前系統語言不同時，更新系統語言
+    if (urlLang !== i18n.language) {
+      i18n.changeLanguage(urlLang)
+    }
+  }, [urlLang, i18n])
+
+  // 監聽系統語言變化，同步到 URL
+  useEffect(() => {
+    const handleLanguageChange = (lng) => {
+      // 檢查當前語言是否與 URL 參數不同
+      if (lng !== searchParams.get('lang')) {
+        // 手動構建新的查詢字符串
+        const params = {}
+        searchParams.forEach((value, key) => {
+          params[key] = value
+        })
+        params.lang = lng
+        
+        // 構建新的查詢字符串
+        const queryString = Object.entries(params)
+          .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+          .join('&')
+        
+        setSearchParams(queryString, { replace: true })
+      }
+    }
+
+    // 監聽 i18next 語言變化事件
+    i18n.on('languageChanged', handleLanguageChange)
+
+    // 清理事件監聽器
+    return () => {
+      i18n.off('languageChanged', handleLanguageChange)
+    }
+  }, [searchParams, setSearchParams, i18n])
 
   // Header component to avoid duplication
   const PageHeader = ({ user, project }) => (
@@ -135,7 +173,7 @@ const MarkdownViewer = () => {
         }
 
         // Repository exists, now check if README exists
-        const apiUrl = `https://raw.githubusercontent.com/OpenAiTx/OpenAiTx/refs/heads/main/projects/${user}/${project}/README-${lang}.md`
+        const apiUrl = `https://raw.githubusercontent.com/OpenAiTx/OpenAiTx/refs/heads/main/projects/${user}/${project}/README-${urlLang}.md`
         
         const response = await fetch(apiUrl)
         
@@ -183,7 +221,7 @@ const MarkdownViewer = () => {
     }
 
     fetchContent()
-  }, [user, project, lang, contextT])
+  }, [user, project, urlLang, contextT])
 
   // Apply syntax highlighting after content is rendered
   useEffect(() => {
