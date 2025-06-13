@@ -11,19 +11,19 @@ const NavLanguageSelector = ({ currentLanguage, availableLanguages, changeLangua
   const currentLang = availableLanguages.find(lang => lang.code === currentLanguage) || availableLanguages[0]
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button 
           variant="ghost" 
           size="sm" 
-          className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+          className="flex items-center gap-1 text-muted-foreground hover:text-foreground"
         >
           <Globe className="h-4 w-4" />
           {currentLang?.name || 'Language'}
           <ChevronDown className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-36">
+      <DropdownMenuContent align="end" className="w-36" sideOffset={8}>
         {availableLanguages.map((language) => (
           <DropdownMenuItem 
             key={language.code} 

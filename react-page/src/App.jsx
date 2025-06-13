@@ -26,16 +26,51 @@ const IndexHtmlRedirect = () => {
 }
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(() => {
+    // 從localStorage獲取保存的主題設置
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme) {
+      return savedTheme === 'dark'
+    }
+    // 如果沒有保存的設置，使用系統偏好設置
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+  })
   const location = useLocation()
 
+  // 初始化主題
   useEffect(() => {
-    if (darkMode) {
+    // 立即應用主題，避免閃爍
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark')
     } else {
       document.documentElement.classList.remove('dark')
     }
+  }, [])
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
+    }
   }, [darkMode])
+
+  // 監聽系統主題變化
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleChange = (e) => {
+      // 只有在沒有手動設置主題時才跟隨系統主題
+      if (!localStorage.getItem('theme')) {
+        setDarkMode(e.matches)
+      }
+    }
+    
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [])
 
   // 頁面轉場動畫配置
   const pageVariants = {
@@ -77,7 +112,7 @@ function App() {
         <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
       </motion.div>
       
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 pt-20">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
