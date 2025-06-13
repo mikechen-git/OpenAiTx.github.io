@@ -5,7 +5,7 @@
 ✅ **已完成的 React 重構**
 - ✅ 現代化 React 18 + Vite + Tailwind CSS 架構
 - ✅ 三個主要功能頁面（標章產生器、翻譯工具、Markdown檢視器）
-- ✅ 多語言支援（繁體中文、English）
+- ✅ 多語言支援（繁體中文、简体中文、English）
 - ✅ 深色模式切換
 - ✅ 響應式設計
 - ✅ GitHub Actions 自動部署設定
@@ -64,8 +64,9 @@ cd react-page
 src/
 ├── components/
 │   └── Navbar.jsx          # 導航欄
-├── contexts/
-│   └── LanguageContext.jsx  # 多語言管理
+├── i18n/
+│   ├── index.js             # i18next 配置
+│   └── locales/             # 語言資源文件
 ├── pages/
 │   ├── BadgeGenerator.jsx   # 標章產生器（首頁）
 │   ├── Translator.jsx       # GitHub README 翻譯工具
@@ -96,12 +97,16 @@ src/
 ## 🔧 開發提示
 
 ### 添加新語言
-在 `src/contexts/LanguageContext.jsx` 中：
+1. 在 `src/i18n/locales/` 創建新語言文件（如 `ja.json`）
+2. 在 `src/i18n/index.js` 中導入並添加到 resources
+3. 在 `src/components/Navbar.jsx` 中添加到 availableLanguages
+
 ```javascript
-const translations = {
-  'zh-TW': { 'key': '繁體中文翻譯' },
-  'en': { 'key': 'English translation' },
-  'ja': { 'key': '日本語翻訳' }, // 新增
+// src/i18n/locales/ja.json
+{
+  "nav": {
+    "home": "ホーム"
+  }
 }
 ```
 

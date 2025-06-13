@@ -5,7 +5,7 @@ import { marked } from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
 import '../styles/markdown.css'
-import { useLanguage } from '../contexts/LanguageContext'
+import { useTranslation } from 'react-i18next'
 
 const MarkdownViewer = () => {
   const [searchParams] = useSearchParams()
@@ -13,130 +13,14 @@ const MarkdownViewer = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showSubmitButton, setShowSubmitButton] = useState(false)
-  const { t: contextT } = useLanguage()
+  const { t: contextT } = useTranslation()
 
   const user = searchParams.get('user')
   const project = searchParams.get('project')
   const lang = searchParams.get('lang') || 'en'
 
-  // Translations object - exactly like original
-  const translations = {
-    'en': {
-      'missingParams': 'Missing Parameters',
-      'missingParamsDesc': 'Please provide both \'user\' and \'project\' parameters in the URL.',
-      'missingParamsExample': 'Example: view.html?user=mini-software&project=MiniExcel&lang=zh-CN',
-      'errorLoading': 'Error Loading Content',
-      'errorLoadingDesc': 'Failed to load the markdown content. Please check:',
-      'errorLoadingList1': 'The URL parameters are correct',
-      'errorLoadingList2': 'The file exists at the specified path',
-      'errorLoadingList3': 'You have an active internet connection',
-      'errorDetails': 'Error details:',
-      'repoNotFound': 'Repository Not Found',
-      'repoNotFoundDesc': 'This GitHub repository does not exist. Please check the repository name and try again.',
-      'docNotFound': 'Project Documentation Not Found',
-      'docNotFoundDesc': 'The documentation for this project has not been indexed yet. Click the button below to submit for indexing.',
-      'submit': 'Submit',
-      'submissionCompleted': 'Submission completed',
-      'submissionFailed': 'Submission failed: '
-    },
-    'zh-CN': {
-      'missingParams': '缺少参数',
-      'missingParamsDesc': '请在URL中提供\'user\'和\'project\'参数。',
-      'missingParamsExample': '示例: view.html?user=mini-software&project=MiniExcel&lang=zh-CN',
-      'errorLoading': '加载内容时出错',
-      'errorLoadingDesc': '加载markdown内容失败。请检查：',
-      'errorLoadingList1': 'URL参数正确',
-      'errorLoadingList2': '指定路径的文件存在',
-      'errorLoadingList3': '您有活跃的互联网连接',
-      'errorDetails': '错误详情：',
-      'repoNotFound': '仓库未找到',
-      'repoNotFoundDesc': '此 GitHub 仓库不存在。请检查仓库名称后重试。',
-      'docNotFound': '项目文档未找到',
-      'docNotFoundDesc': '此项目的文档尚未被索引。点击下方按钮提交索引。',
-      'submit': '提交',
-      'submissionCompleted': '提交完成',
-      'submissionFailed': '提交失败：'
-    },
-    'zh-TW': {
-      'missingParams': '缺少參數',
-      'missingParamsDesc': '請在URL中提供\'user\'和\'project\'參數。',
-      'missingParamsExample': '示例: view.html?user=mini-software&project=MiniExcel&lang=zh-CN',
-      'errorLoading': '載入內容時出錯',
-      'errorLoadingDesc': '載入markdown內容失敗。請檢查：',
-      'errorLoadingList1': 'URL參數正確',
-      'errorLoadingList2': '指定路徑的檔案存在',
-      'errorLoadingList3': '您有活躍的網際網路連線',
-      'errorDetails': '錯誤詳情：',
-      'repoNotFound': '倉庫未找到',
-      'repoNotFoundDesc': '此 GitHub 倉庫不存在。請檢查倉庫名稱後重試。',
-      'docNotFound': '項目文檔未找到',
-      'docNotFoundDesc': '此項目的文檔尚未被索引。點擊下方按鈕提交索引。',
-      'submit': '提交',
-      'submissionCompleted': '提交完成',
-      'submissionFailed': '提交失敗：'
-    },
-    'ja': {
-      'missingParams': 'パラメータが不足しています',
-      'missingParamsDesc': 'URLに\'user\'と\'project\'パラメータを提供してください。',
-      'missingParamsExample': '例: view.html?user=mini-software&project=MiniExcel&lang=zh-CN',
-      'errorLoading': 'コンテンツの読み込みエラー',
-      'errorLoadingDesc': 'markdownコンテンツの読み込みに失敗しました。以下を確認してください：',
-      'errorLoadingList1': 'URLパラメータが正しい',
-      'errorLoadingList2': '指定されたパスにファイルが存在する',
-      'errorLoadingList3': 'アクティブなインターネット接続がある',
-      'errorDetails': 'エラー詳細：',
-      'repoNotFound': 'リポジトリが見つかりません',
-      'repoNotFoundDesc': 'この GitHub リポジトリは存在しません。リポジトリ名を確認して再試行してください。',
-      'docNotFound': 'プロジェクトドキュメントが見つかりません',
-      'docNotFoundDesc': 'このプロジェクトのドキュメントはまだインデックスされていません。下のボタンをクリックしてインデックスを提出してください。',
-      'submit': '提出',
-      'submissionCompleted': '提出完了',
-      'submissionFailed': '提出失敗：'
-    },
-    'ko': {
-      'missingParams': '매개변수 누락',
-      'missingParamsDesc': 'URL에 \'user\'와 \'project\' 매개변수를 제공하세요.',
-      'missingParamsExample': '예: view.html?user=mini-software&project=MiniExcel&lang=zh-CN',
-      'errorLoading': '콘텐츠 로딩 오류',
-      'errorLoadingDesc': 'markdown 콘텐츠 로딩에 실패했습니다. 다음을 확인하세요:',
-      'errorLoadingList1': 'URL 매개변수가 올바름',
-      'errorLoadingList2': '지정된 경로에 파일이 존재함',
-      'errorLoadingList3': '활성 인터넷 연결이 있음',
-      'errorDetails': '오류 세부사항:',
-      'repoNotFound': '저장소를 찾을 수 없습니다',
-      'repoNotFoundDesc': '이 GitHub 저장소가 존재하지 않습니다. 저장소 이름을 확인하고 다시 시도하세요.',
-      'docNotFound': '프로젝트 문서를 찾을 수 없습니다',
-      'docNotFoundDesc': '이 프로젝트의 문서가 아직 인덱싱되지 않았습니다. 아래 버튼을 클릭하여 인덱싱을 제출하세요.',
-      'submit': '제출',
-      'submissionCompleted': '제출 완료',
-      'submissionFailed': '제출 실패: '
-    }
-  }
-
-  const t = translations[lang] || translations['en']
-
-  const languages = [
-    { code: 'en', name: 'EN' },
-    { code: 'zh-CN', name: '简中' },
-    { code: 'zh-TW', name: '繁中' },
-    { code: 'ja', name: '日本語' },
-    { code: 'ko', name: '한국어' },
-    { code: 'th', name: 'ไทย' },
-    { code: 'fr', name: 'Français' },
-    { code: 'de', name: 'Deutsch' },
-    { code: 'es', name: 'Español' },
-    { code: 'it', name: 'Italiano' },
-    { code: 'ru', name: 'Русский' },
-    { code: 'pt', name: 'Português' },
-    { code: 'nl', name: 'Nederlands' },
-    { code: 'pl', name: 'Polski' },
-    { code: 'ar', name: 'العربية' },
-    { code: 'tr', name: 'Türkçe' },
-    { code: 'vi', name: 'Tiếng Việt' }
-  ]
-
   // Header component to avoid duplication
-  const PageHeader = ({ user, project, languages, currentLang }) => (
+  const PageHeader = ({ user, project }) => (
     <motion.header 
       className="text-center mb-8 p-5 bg-muted/30 border-b border-border"
       initial={{ y: -50, opacity: 0 }}
@@ -203,9 +87,9 @@ const MarkdownViewer = () => {
         throw new Error(data.error || `HTTP error! status: ${response.status}`)
       }
 
-      alert(t.submissionCompleted)
+      alert(contextT('viewer.submissionCompleted'))
     } catch (error) {
-      alert(`${t.submissionFailed}${error.message}`)
+      alert(`${contextT('viewer.submissionFailed')}${error.message}`)
     }
   }
 
@@ -230,9 +114,9 @@ const MarkdownViewer = () => {
     if (!user || !project) {
       setError({
         type: 'missingParams',
-        title: t.missingParams,
-        description: t.missingParamsDesc,
-        example: t.missingParamsExample
+        title: contextT('viewer.missingParams'),
+        description: contextT('viewer.missingParamsDesc'),
+        example: contextT('viewer.missingParamsExample')
       })
       setLoading(false)
       return
@@ -250,8 +134,8 @@ const MarkdownViewer = () => {
           // Repository doesn't exist
           setError({
             type: 'repoNotFound',
-            title: t.repoNotFound,
-            description: t.repoNotFoundDesc
+            title: contextT('viewer.repoNotFound'),
+            description: contextT('viewer.repoNotFoundDesc')
           })
           setLoading(false)
           return
@@ -266,8 +150,8 @@ const MarkdownViewer = () => {
           // README doesn't exist, show submit button
           setError({
             type: 'docNotFound',
-            title: t.docNotFound,
-            description: t.docNotFoundDesc
+            title: contextT('viewer.docNotFound'),
+            description: contextT('viewer.docNotFoundDesc')
           })
           setShowSubmitButton(true)
           setLoading(false)
@@ -297,8 +181,8 @@ const MarkdownViewer = () => {
         console.error('Error:', error)
         setError({
           type: 'errorLoading',
-          title: t.errorLoading,
-          description: t.errorLoadingDesc,
+          title: contextT('viewer.errorLoading'),
+          description: contextT('viewer.errorLoadingDesc'),
           details: error.message
         })
         setLoading(false)
@@ -306,7 +190,7 @@ const MarkdownViewer = () => {
     }
 
     fetchContent()
-  }, [user, project, lang, t])
+  }, [user, project, lang, contextT])
 
   // Apply syntax highlighting after content is rendered
   useEffect(() => {
@@ -361,12 +245,12 @@ const MarkdownViewer = () => {
             transition={{ delay: 0.5 }}
           >
             <ul className="text-left max-w-sm my-4 mx-auto text-muted-foreground list-disc list-inside">
-              <li className="my-1.5">{t.errorLoadingList1}</li>
-              <li className="my-1.5">{t.errorLoadingList2}</li>
-              <li className="my-1.5">{t.errorLoadingList3}</li>
+              <li className="my-1.5">{contextT('viewer.errorLoadingList1')}</li>
+              <li className="my-1.5">{contextT('viewer.errorLoadingList2')}</li>
+              <li className="my-1.5">{contextT('viewer.errorLoadingList3')}</li>
             </ul>
             <p className="my-2.5 text-muted-foreground leading-6">
-              {t.errorDetails} {error.details}
+              {contextT('viewer.errorDetails')} {error.details}
             </p>
           </motion.div>
         )}
@@ -380,7 +264,7 @@ const MarkdownViewer = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            {t.submit}
+            {contextT('viewer.submit')}
           </motion.button>
         )}
       </motion.div>
@@ -412,7 +296,7 @@ const MarkdownViewer = () => {
   if (error) {
     return (
       <PageContainer>
-        <PageHeader user={user} project={project} languages={languages} currentLang={lang} />
+        <PageHeader user={user} project={project} />
         <ContentWrapper>
           {renderError()}
         </ContentWrapper>
@@ -420,9 +304,9 @@ const MarkdownViewer = () => {
     )
   }
 
-  return (
-    <PageContainer>
-      <PageHeader user={user} project={project} languages={languages} currentLang={lang} />
+      return (
+      <PageContainer>
+        <PageHeader user={user} project={project} />
       <ContentWrapper>
         <motion.div 
           className="markdown-body"

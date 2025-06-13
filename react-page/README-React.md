@@ -107,8 +107,9 @@ npm run preview
 
 ### 4. 多語言支援
 - 繁體中文
+- 简体中文
 - English
-- 可擴展的翻譯系統
+- 基於 i18next 的國際化系統
 
 ### 5. 深色模式
 - 自動切換深色/淺色主題
@@ -160,30 +161,44 @@ jobs:
 1. 在 `src/pages/` 目錄創建新組件
 2. 在 `src/App.jsx` 中添加路由
 3. 在 `src/components/Navbar.jsx` 中添加導航鏈接
-4. 在 `src/contexts/LanguageContext.jsx` 中添加翻譯
+4. 在語言文件中添加翻譯
 
 ### 添加新翻譯
 
-在 `src/contexts/LanguageContext.jsx` 的 `translations` 物件中添加：
+在 `src/i18n/locales/` 目錄的語言文件中添加：
 
 ```javascript
-'zh-TW': {
-  'new.key': '新的翻譯內容'
-},
-'en': {
-  'new.key': 'New translation content'
+// src/i18n/locales/zh-TW.json
+{
+  "new": {
+    "key": "新的翻譯內容"
+  }
+}
+
+// src/i18n/locales/en.json
+{
+  "new": {
+    "key": "New translation content"
+  }
 }
 ```
 
 ### 使用翻譯
 
 ```javascript
-import { useLanguage } from '../contexts/LanguageContext'
+import { useTranslation } from 'react-i18next'
 
 const MyComponent = () => {
-  const { t } = useLanguage()
+  const { t, i18n } = useTranslation()
   
-  return <h1>{t('new.key')}</h1>
+  return (
+    <div>
+      <h1>{t('new.key')}</h1>
+      <button onClick={() => i18n.changeLanguage('zh-TW')}>
+        切換語言
+      </button>
+    </div>
+  )
 }
 ```
 

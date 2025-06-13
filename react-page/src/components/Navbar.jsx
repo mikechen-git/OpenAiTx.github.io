@@ -1,12 +1,12 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Moon, Sun } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { useLanguage } from '../contexts/LanguageContext'
+import { useTranslation } from 'react-i18next'
 import NavLanguageSelector from './NavLanguageSelector'
 
 const Navbar = ({ darkMode, setDarkMode }) => {
   const location = useLocation()
-  const { t, currentLanguage, changeLanguage, availableLanguages } = useLanguage()
+  const { t, i18n } = useTranslation()
 
   const isActive = (path) => {
     if (path === '/' && location.pathname === '/') return true
@@ -18,6 +18,16 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     { path: '/', label: t('nav.home') },
     { path: '/view', label: t('nav.view') },
   ]
+
+  const availableLanguages = [
+    { code: 'en', name: 'English' },
+    { code: 'zh-CN', name: '简体中文' },
+    { code: 'zh-TW', name: '繁體中文' }
+  ]
+
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang)
+  }
 
   return (
     <motion.nav 
@@ -82,7 +92,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
           >
             {/* Language Selector */}
             <NavLanguageSelector 
-              currentLanguage={currentLanguage}
+              currentLanguage={i18n.language}
               availableLanguages={availableLanguages}
               changeLanguage={changeLanguage}
             />

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Copy, Check } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { useLanguage } from '../contexts/LanguageContext'
+import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 
 // LanguageLinks 組件 - 適應深色主題
@@ -31,7 +30,7 @@ const LanguageLinks = () => {
 };
 
 const BadgeGenerator = () => {
-  const { t } = useLanguage()
+  const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const [userOrOrg, setUserOrOrg] = useState('')
   const [project, setProject] = useState('')
@@ -296,7 +295,7 @@ const BadgeGenerator = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {t('badge.copyHtml')}
+              {copiedItem === 'style1' ? t('badge.copied') : t('badge.copyHtml')}
             </motion.button>
           </motion.div>
 
@@ -318,7 +317,7 @@ const BadgeGenerator = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {t('badge.copyMarkdown')}
+              {copiedItem === 'style2' ? t('badge.copied') : t('badge.copyMarkdown')}
             </motion.button>
           </motion.div>
         </>

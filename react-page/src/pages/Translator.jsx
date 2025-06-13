@@ -246,7 +246,7 @@ const Translator = () => {
       setTimeout(() => {
         button.textContent = originalText
       }, 2000)
-    } catch (error) {
+    } catch {
       alert('Failed to copy to clipboard')
     }
   }
