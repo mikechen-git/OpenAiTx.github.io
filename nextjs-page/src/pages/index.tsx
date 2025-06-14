@@ -1,17 +1,19 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { Layout } from "@/components/layout";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { 
+  BarChart3, 
+  Users, 
+  FileText, 
+  TrendingUp,
+  Activity,
+  DollarSign,
+  Download,
+  Eye
+} from "lucide-react";
 
 export default function Home() {
   const router = useRouter();
@@ -24,121 +26,173 @@ export default function Home() {
     }
   }, [router.isReady, router.query]);
 
+  const stats = [
+    {
+      title: "總收入",
+      value: "¥45,231.89",
+      change: "+20.1%",
+      icon: DollarSign,
+      trend: "up"
+    },
+    {
+      title: "用戶數量",
+      value: "+2350",
+      change: "+180.1%",
+      icon: Users,
+      trend: "up"
+    },
+    {
+      title: "銷售額",
+      value: "+12,234",
+      change: "+19%",
+      icon: BarChart3,
+      trend: "up"
+    },
+    {
+      title: "活躍用戶",
+      value: "+573",
+      change: "+201",
+      icon: Activity,
+      trend: "up"
+    }
+  ];
+
+  const recentActivity = [
+    { action: "新用戶註冊", user: "張小明", time: "2 分鐘前" },
+    { action: "完成訂單", user: "李小華", time: "5 分鐘前" },
+    { action: "上傳文檔", user: "王大偉", time: "10 分鐘前" },
+    { action: "更新資料", user: "陳小美", time: "15 分鐘前" },
+  ];
+
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        
-        {/* URL 參數顯示區域 */}
-        <div className="w-full max-w-2xl">
-          <h2 className="text-xl font-semibold mb-4">URL 參數</h2>
-          {Object.keys(urlParams).length > 0 ? (
-            <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
-              <pre className="text-sm font-mono">
-                {JSON.stringify(urlParams, null, 2)}
-              </pre>
-            </div>
-          ) : (
-            <p className="text-gray-600 dark:text-gray-400">
-              沒有檢測到 URL 參數。嘗試在 URL 後面添加參數，例如：?name=OpenAI&type=demo
-            </p>
-          )}
+    <Layout>
+      <div className="space-y-6">
+        {/* Welcome Section */}
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">歡迎使用 NextJS Page</h2>
+          <p className="text-muted-foreground">
+            這是一個使用 shadcn/ui 和 Lucide React 圖標的示例頁面
+          </p>
         </div>
 
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            這是一個支援 SSG 導出的 Next.js 專案
-          </li>
-          <li className="mb-2 tracking-[-.01em]">
-            使用 Page Router 和 Tailwind CSS
-          </li>
-          <li className="tracking-[-.01em]">
-            可以從 URL 參數獲取值並顯示
-          </li>
-        </ol>
-        
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://github.com/OpenAiTx/OpenAiTx.github.io"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/github.svg"
-              alt="GitHub logo"
-              width={20}
-              height={20}
-            />
-            GitHub
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Next.js 文檔
-          </a>
+        {/* Stats Grid */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {stats.map((stat) => {
+            const Icon = stat.icon;
+            return (
+              <Card key={stat.title}>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    {stat.title}
+                  </CardTitle>
+                  <Icon className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{stat.value}</div>
+                  <p className="text-xs text-muted-foreground">
+                    <span className="text-green-600">{stat.change}</span> 較上月
+                  </p>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          學習
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          範例
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          前往 nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        {/* Main Content Grid */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+          {/* Chart Card */}
+          <Card className="col-span-4">
+            <CardHeader>
+              <CardTitle>概覽</CardTitle>
+              <CardDescription>
+                過去 6 個月的收入統計
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pl-2">
+              <div className="flex h-[200px] items-center justify-center text-muted-foreground">
+                <div className="text-center">
+                  <BarChart3 className="mx-auto h-12 w-12 mb-2" />
+                  <p>圖表區域</p>
+                  <p className="text-sm">（這裡可以整合圖表庫）</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Recent Activity */}
+          <Card className="col-span-3">
+            <CardHeader>
+              <CardTitle>最近活動</CardTitle>
+              <CardDescription>
+                您的帳戶最近的活動記錄
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {recentActivity.map((activity, index) => (
+                  <div key={index} className="flex items-center">
+                    <div className="ml-4 space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {activity.action}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {activity.user} • {activity.time}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* URL Parameters Section */}
+        {Object.keys(urlParams).length > 0 && (
+          <>
+            <Separator />
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Eye className="h-5 w-5" />
+                  URL 參數
+                </CardTitle>
+                <CardDescription>
+                  從 URL 中檢測到的參數值
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="rounded-lg bg-muted p-4">
+                  <pre className="text-sm font-mono">
+                    {JSON.stringify(urlParams, null, 2)}
+                  </pre>
+                </div>
+                <div className="mt-4 text-sm text-muted-foreground">
+                  <p>嘗試在 URL 後面添加參數，例如：</p>
+                  <code className="mt-1 block rounded bg-muted px-2 py-1">
+                    ?name=OpenAI&type=demo&lang=zh-TW
+                  </code>
+                </div>
+              </CardContent>
+            </Card>
+          </>
+        )}
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap gap-4">
+          <Button>
+            <Download className="mr-2 h-4 w-4" />
+            下載報告
+          </Button>
+          <Button variant="outline">
+            <FileText className="mr-2 h-4 w-4" />
+            查看文檔
+          </Button>
+          <Button variant="secondary">
+            <TrendingUp className="mr-2 h-4 w-4" />
+            查看分析
+          </Button>
+        </div>
+      </div>
+    </Layout>
   );
 }
