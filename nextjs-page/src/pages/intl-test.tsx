@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Layout } from "@/components/layout";
+import { useTranslations } from 'next-intl';
+import { LayoutIntl } from "@/components/LayoutIntl";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { useTranslation } from "@/hooks/useTranslation";
-import { TranslationDebug } from "@/components/TranslationDebug";
+import { useIntlContext } from "@/contexts/IntlProvider";
+import { IntlDebug } from "@/components/IntlDebug";
 import { 
   BarChart3, 
   Users, 
@@ -70,9 +70,10 @@ const buttonVariants = {
   }
 };
 
-export default function Home() {
+export default function IntlTest() {
   const router = useRouter();
-  const { t, locale } = useTranslation();
+  const t = useTranslations();
+  const { locale } = useIntlContext();
   const [urlParams, setUrlParams] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -82,46 +83,70 @@ export default function Home() {
     }
   }, [router.isReady, router.query]);
 
-  const stats = [
+  // 使用 useMemo 確保翻譯內容在語言變化時重新計算
+  const translatedContent = useMemo(() => ({
+    title: t('badge.title'),
+    description: t('badge.description'),
+    totalRevenue: t('badge.totalRevenue'),
+    userCount: t('badge.userCount'),
+    sales: t('badge.sales'),
+    activeUsers: t('badge.activeUsers'),
+    comparedToLastMonth: t('badge.comparedToLastMonth'),
+    overview: t('badge.overview'),
+    revenueStats: t('badge.revenueStats'),
+    chartArea: t('badge.chartArea'),
+    chartIntegration: t('badge.chartIntegration'),
+    recentActivity: t('badge.recentActivity'),
+    accountActivity: t('badge.accountActivity'),
+    newUserRegistration: t('badge.newUserRegistration'),
+    orderCompleted: t('badge.orderCompleted'),
+    documentUploaded: t('badge.documentUploaded'),
+    dataUpdated: t('badge.dataUpdated'),
+    downloadReport: t('badge.downloadReport'),
+    viewDocs: t('badge.viewDocs'),
+    viewAnalytics: t('badge.viewAnalytics')
+  }), [t, locale]);
+
+  const stats = useMemo(() => [
     {
-      title: t('badge.totalRevenue', '總收入'),
+      title: translatedContent.totalRevenue,
       value: "¥45,231.89",
       change: "+20.1%",
       icon: DollarSign,
       trend: "up"
     },
     {
-      title: t('badge.userCount', '用戶數量'),
+      title: translatedContent.userCount,
       value: "+2350",
       change: "+180.1%",
       icon: Users,
       trend: "up"
     },
     {
-      title: t('badge.sales', '銷售額'),
+      title: translatedContent.sales,
       value: "+12,234",
       change: "+19%",
       icon: BarChart3,
       trend: "up"
     },
     {
-      title: t('badge.activeUsers', '活躍用戶'),
+      title: translatedContent.activeUsers,
       value: "+573",
       change: "+201",
       icon: Activity,
       trend: "up"
     }
-  ];
+  ], [translatedContent]);
 
-  const recentActivity = [
-    { action: t('badge.newUserRegistration', '新用戶註冊'), user: "張小明", time: t('badge.minutesAgo', '2 分鐘前').replace('{{count}}', '2') },
-    { action: t('badge.orderCompleted', '完成訂單'), user: "李小華", time: t('badge.minutesAgo', '5 分鐘前').replace('{{count}}', '5') },
-    { action: t('badge.documentUploaded', '上傳文檔'), user: "王大偉", time: t('badge.minutesAgo', '10 分鐘前').replace('{{count}}', '10') },
-    { action: t('badge.dataUpdated', '更新資料'), user: "陳小美", time: t('badge.minutesAgo', '15 分鐘前').replace('{{count}}', '15') },
-  ];
+  const recentActivity = useMemo(() => [
+    { action: translatedContent.newUserRegistration, user: "張小明", time: "2 分鐘前" },
+    { action: translatedContent.orderCompleted, user: "李小華", time: "5 分鐘前" },
+    { action: translatedContent.documentUploaded, user: "王大偉", time: "10 分鐘前" },
+    { action: translatedContent.dataUpdated, user: "陳小美", time: "15 分鐘前" },
+  ], [translatedContent]);
 
   return (
-    <Layout>
+    <LayoutIntl>
       <motion.div 
         key={locale}
         className="space-y-6"
@@ -131,10 +156,13 @@ export default function Home() {
       >
         {/* Welcome Section */}
         <motion.div variants={itemVariants}>
-          <h2 className="text-3xl font-bold tracking-tight">{t('badge.title', '歡迎使用 NextJS Page')}</h2>
+          <h2 className="text-3xl font-bold tracking-tight">{translatedContent.title}</h2>
           <p className="text-muted-foreground">
-            {t('badge.description', '這是一個使用 shadcn/ui 和 Lucide React 圖標的示例頁面，現在加入了 Framer Motion 動畫效果和多語言支援！')}
+            {translatedContent.description}
           </p>
+          <div className="mt-2 text-sm text-muted-foreground">
+            <strong>當前語言:</strong> {locale} | <strong>使用:</strong> next-intl
+          </div>
         </motion.div>
 
         {/* Stats Grid */}
@@ -175,7 +203,7 @@ export default function Home() {
                       {stat.value}
                     </motion.div>
                     <p className="text-xs text-muted-foreground">
-                      <span className="text-green-600">{stat.change}</span> {t('badge.comparedToLastMonth', '較上月')}
+                      <span className="text-green-600">{stat.change}</span> {translatedContent.comparedToLastMonth}
                     </p>
                   </CardContent>
                 </Card>
@@ -197,9 +225,9 @@ export default function Home() {
           >
             <Card>
               <CardHeader>
-                <CardTitle>{t('badge.overview', '概覽')}</CardTitle>
+                <CardTitle>{translatedContent.overview}</CardTitle>
                 <CardDescription>
-                  {t('badge.revenueStats', '過去 6 個月的收入統計')}
+                  {translatedContent.revenueStats}
                 </CardDescription>
               </CardHeader>
               <CardContent className="pl-2">
@@ -218,8 +246,8 @@ export default function Home() {
                     >
                       <BarChart3 className="mx-auto h-12 w-12 mb-2" />
                     </motion.div>
-                    <p>{t('badge.chartArea', '圖表區域')}</p>
-                    <p className="text-sm">{t('badge.chartIntegration', '（這裡可以整合圖表庫）')}</p>
+                    <p>{translatedContent.chartArea}</p>
+                    <p className="text-sm">{translatedContent.chartIntegration}</p>
                   </div>
                 </div>
               </CardContent>
@@ -234,9 +262,9 @@ export default function Home() {
           >
             <Card>
               <CardHeader>
-                <CardTitle>{t('badge.recentActivity', '最近活動')}</CardTitle>
+                <CardTitle>{translatedContent.recentActivity}</CardTitle>
                 <CardDescription>
-                  {t('badge.accountActivity', '您的帳戶最近的活動記錄')}
+                  {translatedContent.accountActivity}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -266,51 +294,6 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        {/* URL Parameters Section */}
-        {Object.keys(urlParams).length > 0 && (
-          <>
-            <motion.div variants={itemVariants}>
-              <Separator />
-            </motion.div>
-            <motion.div variants={cardVariants} whileHover="hover">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      <Eye className="h-5 w-5" />
-                    </motion.div>
-                    {t('badge.urlParameters', 'URL 參數')}
-                  </CardTitle>
-                  <CardDescription>
-                    {t('badge.urlParametersDesc', '從 URL 中檢測到的參數值')}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <motion.div 
-                    className="rounded-lg bg-muted p-4"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.5 }}
-                  >
-                    <pre className="text-sm font-mono">
-                      {JSON.stringify(urlParams, null, 2)}
-                    </pre>
-                  </motion.div>
-                  <div className="mt-4 text-sm text-muted-foreground">
-                    <p>{t('badge.urlExample', '嘗試在 URL 後面添加參數，例如：')}</p>
-                    <code className="mt-1 block rounded bg-muted px-2 py-1">
-                      ?name=OpenAI&type=demo&lang=zh-TW
-                    </code>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </>
-        )}
-
         {/* Action Buttons */}
         <motion.div 
           className="flex flex-wrap gap-4"
@@ -319,24 +302,26 @@ export default function Home() {
           <motion.div variants={buttonVariants} whileHover="hover" whileTap="tap">
             <Button>
               <Download className="mr-2 h-4 w-4" />
-              {t('badge.downloadReport', '下載報告')}
+              {translatedContent.downloadReport}
             </Button>
           </motion.div>
           <motion.div variants={buttonVariants} whileHover="hover" whileTap="tap">
             <Button variant="outline">
               <FileText className="mr-2 h-4 w-4" />
-              {t('badge.viewDocs', '查看文檔')}
+              {translatedContent.viewDocs}
             </Button>
           </motion.div>
           <motion.div variants={buttonVariants} whileHover="hover" whileTap="tap">
             <Button variant="secondary">
               <TrendingUp className="mr-2 h-4 w-4" />
-              {t('badge.viewAnalytics', '查看分析')}
+              {translatedContent.viewAnalytics}
             </Button>
           </motion.div>
         </motion.div>
       </motion.div>
-      <TranslationDebug />
-    </Layout>
+      
+      {/* 調試面板 */}
+      <IntlDebug />
+    </LayoutIntl>
   );
-}
+} 
