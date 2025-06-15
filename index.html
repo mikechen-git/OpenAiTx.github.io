@@ -845,6 +845,9 @@ https://openaitx.github.io/ -->
             ).join(' | ');
         }
 
+        // Add a flag to track if copy has been used
+        let hasCopied = false;
+
         function copyToClipboard(elementId) {
             const element = document.getElementById(elementId);
             element.style.display = 'block';
@@ -854,6 +857,32 @@ https://openaitx.github.io/ -->
             const lang = document.getElementById('languageSelect').value;
             const t = translations[lang] || translations['en'];
             alert(t.copy);
+
+            // Send submit-project request on first copy
+            if (!hasCopied) {
+                hasCopied = true;
+                const userOrOrg = document.getElementById('userOrOrg').value;
+                const project = document.getElementById('project').value;
+                
+                if (userOrOrg && project) {
+                    fetch('https://openaitx.com/api/submit-project', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            project: `https://github.com/${userOrOrg}/${project}`
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Submit-project request sent successfully:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error sending submit-project request:', error);
+                    });
+                }
+            }
         }
     </script>
 </body>
