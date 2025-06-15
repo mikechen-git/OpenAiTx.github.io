@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KVzip: Query-Agnostische KV Cache Compressie met Contextreconstructie - snu-mllab/KVzip</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="KVzip: Query-Agnostische KV Cache Compressie met Contextreconstructie - snu-mllab/KVzip">
+    <meta name="description" content="Query-agnostic KV cache eviction: 3–4× reduction in memory and 2× decrease in latency (Qwen3/2.5, Gemma3, LLaMA3)">
+    <meta name="keywords" content="snu-mllab, KVzip, GitHub, repository, documentation, Python">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=nl">
+    <meta property="og:title" content="KVzip: Query-Agnostische KV Cache Compressie met Contextreconstructie - snu-mllab/KVzip">
+    <meta property="og:description" content="Query-agnostic KV cache eviction: 3–4× reduction in memory and 2× decrease in latency (Qwen3/2.5, Gemma3, LLaMA3)">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js?v=20250613"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css?v=20250613">
+    <script src="js/highlight.min.js?v=20250613"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css?v=20250613">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/snu-mllab/KVzip" id="githubRepoLink" target="_blank">snu-mllab/KVzip</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><h1>KVzip: Query-Agnostische KV Cache Compressie met Contextreconstructie</h1>
+<p>[<a href="https://arxiv.org/abs/2505.23416">Paper</a>] [<a href="https://janghyun1230.github.io/kvzip/">Blog</a>] </p>
+<img src="https://raw.githubusercontent.com/snu-mllab/KVzip/main/images/method.png" width="800">
+
+<h2>Wat is er nieuw?</h2>
+<ul>
+<li>KVzip comprimeert de KV-cache om <strong>diverse toekomstige queries</strong> te ondersteunen.</li>
+<li>[Context-afhankelijk] Bereik een <strong>3–4× reductie in KV-cache grootte</strong> en een <strong>2× vermindering in decoderingstijd</strong>, met minimale prestatievermindering.</li>
+<li>[Context-onafhankelijk] Verbeter <a href="https://github.com/mit-han-lab/duo-attention">DuoAttention</a>-stijl head-level KV compressie, met slechts <strong>enkele forward passes binnen een minuut</strong> voor optimalisatie van head-level belangscores (100x sneller).</li>
+<li>Run demo.py:</li>
+</ul>
+<img src="https://raw.githubusercontent.com/snu-mllab/KVzip/main/images/demo.png" width="800">
+
+
+<h3>Benchmarking in query-agnostische setting</h3>
+<ul>
+<li>Taken: <a href="https://huggingface.co/datasets/rajpurkar/squad">SQuAD</a>, <a href="https://github.com/gkamradt/LLMTest_NeedleInAHaystack">NIAH</a>, <a href="https://github.com/microsoft/MInference/tree/main/scbench">SCBench</a>, <a href="https://huggingface.co/datasets/openai/gsm8k/viewer/main/train?row=7294">GSM8K</a>. </li>
+<li>Model: <a href="https://huggingface.co/Qwen/Qwen2.5-7B-Instruct">Qwen2.5-7B-Instruct-1M</a></li>
+</ul>
+<img src="https://raw.githubusercontent.com/snu-mllab/KVzip/main/images/benchmark.png" width="800">
+
+
+<h2>Installatie</h2>
+<p>We gebruikten CUDA 12.1 en Python 3.10</p>
+<pre><code class="language-bash hljs"><span class="hljs-built_in">cd</span> KVzip
+pip install -r requirements.txt
+pip install flash-attn==2.7.4.post1 --no-build-isolation
+make i
+</code></pre>
+<ul>
+<li>Om <a href="https://github.com/mit-han-lab/omniserve">QServe</a> kwantisatie te gebruiken, volg a.u.b. <a href="https://github.com/snu-mllab/KVzip/tree/main/model/quant_model"><code>./model/quant_model</code></a>.</li>
+</ul>
+<h3>Dataset</h3>
+<ul>
+<li>Download a.u.b. de voorbewerkte SCBench dataset van <a href="https://drive.google.com/file/d/1cqoR6pxxFcjFqvPZkuAmF-fBSAlAbjbN/view?usp=share_link">Google Drive</a>.</li>
+<li>Als je de bestanden hebt gedownload en uitgepakt, verplaats dan eenvoudig de scbench map.</li>
+</ul>
+<pre><code class="language-bash hljs"><span class="hljs-built_in">mv</span> scbench.zip kvzip/data/
+<span class="hljs-built_in">cd</span> kvzip/data
+unzip scbench.zip  
+</code></pre>
+<h2>Snel Starten</h2>
+<pre><code class="language-python hljs"><span class="hljs-keyword">from</span> model <span class="hljs-keyword">import</span> ModelKVzip
+
+model = ModelKVzip(<span class="hljs-string">"Qwen/Qwen2.5-7B-Instruct-1M"</span>)
+context = <span class="hljs-string">"This is my basic profile. My name is Kim living in Seoul. My major is computer science."</span>
+queries = [<span class="hljs-string">"What is my name?"</span>, <span class="hljs-string">"Do I live in Seoul?"</span>]
+
+kv = model.prefill(context, load_score=<span class="hljs-literal">False</span>)  <span class="hljs-comment"># prefill KV cache + belangscore</span>
+kv.prune(ratio=<span class="hljs-number">0.3</span>)  <span class="hljs-comment"># compressieverhouding, verwijder 70% KV</span>
+
+<span class="hljs-keyword">for</span> q <span class="hljs-keyword">in</span> queries:
+    query_ids = model.apply_template(q)
+    output = model.generate(query_ids, kv=kv, update_cache=<span class="hljs-literal">False</span>)  <span class="hljs-comment"># efficiënte inferentie</span>
+    <span class="hljs-built_in">print</span>(q, output)
+</code></pre>
+<ul>
+<li>Ondersteunde modellen staan in <a href="https://github.com/snu-mllab/KVzip/blob/main/model/load.py"><code>model/load.py</code></a>, inclusief <strong>LLaMA3, Qwen2.5/3, Gemma3</strong>.</li>
+<li>Zet <code>load_score=True</code> om compressie overhead te elimineren. Dit maakt context-onafhankelijke KV-verwijdering mogelijk, met een compressieverhouding van <code>ratio=0.6</code> als compromis.</li>
+<li>Na generatie worden KV-paren die overeenkomen met de queries en gegenereerde tokens selectief verwijderd uit de cache voor verdere verwerking. Zet <code>update_cache=True</code> aan voor multi-turn inferentie, waarbij volledige interactiegeschiedenis wordt behouden tijdens de inferentie.</li>
+</ul>
+<h2>Profileren van Geheugen en Rekentijd</h2>
+<h3>Context-afhankelijke verwijdering</h3>
+<pre><code class="language-bash hljs">python -B test.py -m [model_naam] -d [data_naam] --kv_type evict --ratio 0.3
+</code></pre>
+<ul>
+<li>De bovenstaande code vergelijkt ook output gegenereerd met volledige versus gepruneerde KV-caches.</li>
+<li>Voor snelle tests, gebruik <code>-d squad</code>. Voor lang-context testen, gebruik <code>-d scbench_kv</code>.<ul>
+<li>Beschikbare datanamen: <a href="https://github.com/snu-mllab/KVzip/blob/main/data/load.py"><code>data/load.py</code></a>.</li>
+<li>Beschikbare modelnamen: <a href="https://github.com/snu-mllab/KVzip/blob/main/model/load.py"><code>model/load.py</code></a>, bv. llama3.1-8b, qwen2.5-7b (of Qwen/Qwen2.5-7B-Instruct-1M).</li>
+</ul>
+</li>
+<li>We passen CUDA-kernel aan van <a href="https://github.com/FFY0/AdaKV/tree/main">AdaKV</a>, die niet-uniforme hoofd-budgettoewijzing ondersteunt.<ul>
+<li>Momenteel mist onze code een geoptimaliseerde kernel voor Gemma3 die een statische KV-cache gebruikt, dus de code levert geen echte efficiëntiewinst. Modelprestaties kunnen echter nog steeds worden geëvalueerd met gereduceerde aandacht via KV-subsampling (<code>--kv_type retain</code>).</li>
+</ul>
+</li>
+</ul>
+<h3>Context-onafhankelijke verwijdering (geen runtime compressie overhead)</h3>
+<ul>
+<li>Gebruik de <code>--level head</code> vlag met <code>--ratio 0.6</code> (aanbevolen).<ul>
+<li>We verwijderen alle context-KV-paren die horen bij een specifieke head, terwijl systeem-prompt en query-KV-paren behouden blijven.</li>
+<li>Vooraf berekende head scores zijn beschikbaar voor LLaMA3.1-8B en Qwen2.5-7/14B in <code>./utils/head_score</code>.</li>
+</ul>
+</li>
+<li>Om head scores te berekenen voor andere modellen:<pre><code class="language-bash hljs">python -B test.py -m [model_naam] -d scbench_qa_eng --save_head_score
+</code></pre>
+<ul>
+<li>Resultaten worden opgeslagen in <code>./utils/head_score</code>.</li>
+<li>Voor coderingstaken raden we aan ook de opdracht uit te voeren met <code>-d scbench_repoqa</code>. Dit stelt het model in staat de maximale head scores van zowel natuurlijke als programmeertalen te gebruiken, wat de prestaties verbetert.</li>
+</ul>
+</li>
+<li>Deze scores kunnen naadloos geïntegreerd worden met de geoptimaliseerde inferentiemotor van <a href="https://github.com/mit-han-lab/duo-attention">DuoAttention</a> door hun head score data te vervangen door de onze.</li>
+</ul>
+<h2>Evaluatie</h2>
+<ul>
+<li>Om modelantwoorden te genereren met KV-compressieverhoudingen van 0.1 tot 1.0:<pre><code class="language-bash hljs">python -B eval.py -m [model_naam] -d [data_naam] --kv_type retain --num 100
+</code></pre>
+<ul>
+<li>Resultaten worden opgeslagen in <code>./results/[data_naam]</code>.</li>
+<li>Ondersteunde datasets staan in <code>data/load.py</code>.</li>
+</ul>
+</li>
+<li>Om evaluatiemaatstaven te berekenen van gegenereerde resultaten:<pre><code class="language-bash hljs">python -B -m results.parse -m [model_naam] -d [data_naam]
+</code></pre>
+</li>
+</ul>
+<h2>Toepassen op Nieuwe Modellen</h2>
+<p>Om KVzip te integreren voor een nieuw model, moet je de volgende bestanden bijwerken:</p>
+<ul>
+<li><code>attention/attn.py</code><br>Pas de attention forward pass logica aan waar nodig. Soms zijn ook aanpassingen aan kvcache.py en score.py vereist.</li>
+<li><code>model/monkeypatch.py</code><br>Implementeer model-specifieke monkey patching voor integratie.</li>
+<li><code>model/template.py</code><br>Definieer de systeem-prompt en chat-formattering templates van het model.</li>
+</ul>
+<h2>Citatie</h2>
+<pre><code class="language-bibtex">@article{kim2025kvzip,
+        title={KVzip: Query-Agnostic KV Cache Compression with Context Reconstruction},
+        author={Kim, Jang-Hyun and Kim, Jinuk and Kwon, Sangwoo and Lee, Jae W and Yun, Sangdoo and Song, Hyun Oh},
+        journal={arXiv preprint arXiv:2505.23416},
+        year={2025}
+}
+</code></pre>
+<h2>Licentie</h2>
+<p>MIT License</p>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
+<hr>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js?v=20250613"></script>
+
+
+</body></html>

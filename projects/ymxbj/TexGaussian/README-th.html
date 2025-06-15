@@ -1,0 +1,287 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TexGaussian: การสร้างวัสดุ PBR คุณภาพสูงด้วย Octree-based 3D Gaussian Splatting - ymxbj/TexGaussian</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="TexGaussian: การสร้างวัสดุ PBR คุณภาพสูงด้วย Octree-based 3D Gaussian Splatting - ymxbj/TexGaussian">
+    <meta name="description" content="ymxbj/TexGaussian - GitHub repository documentation and information">
+    <meta name="keywords" content="ymxbj, TexGaussian, GitHub, repository, documentation, ">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=th">
+    <meta property="og:title" content="TexGaussian: การสร้างวัสดุ PBR คุณภาพสูงด้วย Octree-based 3D Gaussian Splatting - ymxbj/TexGaussian">
+    <meta property="og:description" content="ymxbj/TexGaussian - GitHub repository documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js?v=20250613"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css?v=20250613">
+    <script src="js/highlight.min.js?v=20250613"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css?v=20250613">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/ymxbj/TexGaussian" id="githubRepoLink" target="_blank">ymxbj/TexGaussian</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><h1 align="center">TexGaussian: การสร้างวัสดุ PBR คุณภาพสูงด้วย Octree-based 3D Gaussian Splatting</h1>
+<p align="center"><a href="https://arxiv.org/abs/2411.19654"><img src="https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv&amp;logoColor=white" alt="arXiv"></a>
+<a href="https://3d-aigc.github.io/TexGaussian/"><img src="https://img.shields.io/badge/Project_Page-Website-green?logo=googlechrome&amp;logoColor=white" alt="Project Page"></a>
+</p><p align="center"><img src="https://raw.githubusercontent.com/ymxbj/TexGaussian/main/assets/teaser.png" width="100%"></p>
+
+<p>วัสดุ Physically Based Rendering (PBR) มีบทบาทสำคัญในกราฟิกยุคใหม่ ช่วยให้เรนเดอร์ภาพสมจริงได้ในหลากหลายสภาพแวดล้อม การพัฒนาอัลกอริทึมที่มีประสิทธิภาพและสามารถสร้างวัสดุ PBR คุณภาพสูงโดยอัตโนมัติแทนที่การใช้เพียงเท็กซ์เจอร์ RGB สำหรับเมช 3 มิติ จะช่วยลดขั้นตอนการสร้างคอนเทนต์ 3D ลงอย่างมาก วิธีส่วนใหญ่ในปัจจุบันใช้โมเดล diffusion 2D ที่ผ่านการเทรนล่วงหน้าสำหรับการสร้างภาพหลายมุมมอง ซึ่งมักทำให้เกิดความไม่สอดคล้องกันอย่างรุนแรงระหว่างเท็กซ์เจอร์ที่สร้างขึ้นและเมช 3 มิติที่ป้อนเข้า บทความนี้นำเสนอ TexGaussian วิธีใหม่ที่ใช้ Octant-aligned 3D Gaussian Splatting สำหรับการสร้างวัสดุ PBR อย่างรวดเร็ว โดยเฉพาะ เราจะวาง 3D Gaussian แต่ละอันไว้ที่โหนดใบไม้ที่ละเอียดที่สุดของ octree ที่สร้างจากเมช 3 มิติที่ป้อนเข้า เพื่อเรนเดอร์ภาพหลายมุมมองไม่เพียงแต่สำหรับ albedo map แต่ยังรวมถึง roughness และ metallic ด้วย นอกจากนี้ โมเดลของเรายังถูกฝึกในลักษณะ regression แทน diffusion denoising ซึ่งสามารถสร้างวัสดุ PBR สำหรับเมช 3 มิติได้ในขั้นตอน feed-forward เดียว การทดลองมากมายบน benchmark สาธารณะพบว่าวิธีของเราสังเคราะห์วัสดุ PBR ที่ดูดีขึ้นและทำงานได้เร็วกว่าเดิมทั้งในกรณี unconditional และ text-conditional โดยมีความสอดคล้องกับ geometry ที่กำหนดมากกว่า</p>
+<h2>📦 การติดตั้ง</h2>
+<pre><code class="language-bash hljs">conda create -n texgaussian python==3.10
+pip3 install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118
+
+<span class="hljs-comment"># gaussian splatting ที่ถูกปรับแต่ง (+ depth, alpha rendering)</span>
+git <span class="hljs-built_in">clone</span> --recursive https://github.com/ashawkey/diff-gaussian-rasterization
+
+pip3 install ./diff-gaussian-rasterization
+
+pip3 install git+https://github.com/NVlabs/nvdiffrast
+
+<span class="hljs-comment"># dependencies อื่นๆ</span>
+pip3 install -r requirements.txt
+</code></pre>
+<h2>🤖 โมเดลที่เทรนไว้ล่วงหน้า</h2>
+<p>เรามีโมเดลที่ผ่านการเทรนล่วงหน้าต่อไปนี้ให้ใช้งาน:</p>
+<table>
+<thead>
+<tr>
+<th>โมเดล</th>
+<th>คำอธิบาย</th>
+<th>พารามิเตอร์</th>
+<th>ดาวน์โหลด</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TexGaussian-bench</td>
+<td>โมเดลเท็กซ์เจอร์ RGB แบบ unconditional ที่ฝึกกับ ShapeNet bench</td>
+<td>70M</td>
+<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/bench.safetensors?download=true">Download</a></td>
+</tr>
+<tr>
+<td>TexGaussian-car</td>
+<td>โมเดลเท็กซ์เจอร์ RGB แบบ unconditional ที่ฝึกกับ ShapeNet car</td>
+<td>70M</td>
+<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/car.safetensors?download=true">Download</a></td>
+</tr>
+<tr>
+<td>TexGaussian-chair</td>
+<td>โมเดลเท็กซ์เจอร์ RGB แบบ unconditional ที่ฝึกกับ ShapeNet chair</td>
+<td>70M</td>
+<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/chair.safetensors?download=true">Download</a></td>
+</tr>
+<tr>
+<td>TexGaussian-table</td>
+<td>โมเดลเท็กซ์เจอร์ RGB แบบ unconditional ที่ฝึกกับ ShapeNet table</td>
+<td>70M</td>
+<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/table.safetensors?download=true">Download</a></td>
+</tr>
+<tr>
+<td>TexGaussian-PBR</td>
+<td>โมเดลวัสดุ PBR แบบ text conditional ที่ฝึกกับ Objaverse</td>
+<td>295M</td>
+<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/PBR_model.safetensors?download=true">Download</a></td>
+</tr>
+</tbody></table>
+<h2>💡 การอินเฟอเรนซ์</h2>
+<h3>วัสดุ PBR</h3>
+<p>สำหรับการสร้างวัสดุ PBR แบบ text conditional ให้รัน</p>
+<pre><code class="language-bash hljs">bash inference_for_PBR_material.sh
+</code></pre>
+<p>หลังจากการ bake เท็กซ์เจอร์และวัสดุ คุณจะได้แผนที่สองชุด คือ albedo map และ PBR material map โดยเฉพาะ PBR material map จะมีสาม channel ซึ่ง channel สีเขียวแทนค่า roughness และ channel สีฟ้าแทนค่า metallic หากต้องการเรนเดอร์ PBR ด้วยเท็กซ์เจอร์และแผนที่วัสดุที่สร้างขึ้น แนะนำให้ใช้ <a href="https://github.com/ymxbj/BlenderToolboxPBR">สคริปต์เรนเดอร์นี้</a> ที่เขียนด้วย bpy</p>
+<p>ยิ่งไปกว่านั้น แนะนำให้ทุกคนนำรูปแบบ prompt ของ Cap3D dataset มาใช้หรือสร้าง prompt ของตนเองเพื่อผลลัพธ์ที่ดียิ่งขึ้น ชุดข้อมูล Cap3D สามารถดาวน์โหลดได้ <a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/Cap3D_automated_Objaverse_full.csv?download=true">ที่นี่</a></p>
+<h3>เท็กซ์เจอร์ RGB</h3>
+<p>สำหรับการสร้างเท็กซ์เจอร์ RGB แบบ unconditional (ใช้ได้กับ 4 หมวด: bench, car, chair, table) ให้รัน</p>
+<pre><code class="language-bash hljs">bash inference_for_RGB_texture.sh
+</code></pre>
+<p>หลังจาก bake เท็กซ์เจอร์ คุณจะได้ albedo map หนึ่งชุด</p>
+<h2>🏋️‍♂️ การฝึกโมเดล</h2>
+<p>สำหรับ Objaverse:</p>
+<pre><code class="language-bash hljs">bash train_for_objaverse.sh
+</code></pre>
+<p>สำหรับ ShapeNet:</p>
+<pre><code class="language-bash hljs">bash train_for_shapenet.sh
+</code></pre>
+<h2>🚧 TODO</h2>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> ปล่อยโค้ดการฝึกและอินเฟอเรนซ์</li>
+<li><input checked="" disabled="" type="checkbox"> ปล่อยโมเดล albedo-only แบบ unconditional ที่เทรนล่วงหน้ากับชุดข้อมูล ShapeNet</li>
+<li><input checked="" disabled="" type="checkbox"> ปล่อยโมเดล PBR แบบ text-conditional ที่เทรนล่วงหน้ากับชุดข้อมูล Objaverse</li>
+<li><input disabled="" type="checkbox"> ปล่อยชุดข้อมูลและเครื่องมือจัดการชุดข้อมูล</li>
+</ul>
+<h2>📚Acknowledgement</h2>
+<p>งานนี้พัฒนาต่อยอดจากผลงานวิจัยและโปรเจกต์โอเพ่นซอร์สที่ยอดเยี่ยมมากมาย ขอขอบคุณผู้เขียนทุกท่านที่แบ่งปัน!</p>
+<ul>
+<li><a href="https://github.com/graphdeco-inria/gaussian-splatting">gaussian-splatting</a> และ <a href="https://github.com/graphdeco-inria/diff-gaussian-rasterization">diff-gaussian-rasterization</a></li>
+<li><a href="https://github.com/NVlabs/nvdiffrast">nvdiffrast</a></li>
+<li><a href="https://github.com/3DTopia/LGM">LGM</a></li>
+<li><a href="https://github.com/octree-nn/ocnn-pytorch">ocnn-pytorch</a></li>
+</ul>
+<!-- Citation -->
+<h2>📜 Citation</h2>
+<p>หากงานนี้เป็นประโยชน์กับคุณ กรุณาอ้างอิงผลงานของเรา:</p>
+<ol>
+<li>arXiv version</li>
+</ol>
+<pre><code class="language-bibtex">@article{xiong2024texgaussian,
+  title={TexGaussian: Generating High-quality PBR Material via Octree-based 3D Gaussian Splatting},
+  author={Xiong, Bojun and Liu, Jialun and Hu, Jiakui and Wu, Chenming and Wu, Jinbo and Liu, Xing and Zhao, Chen and Ding, Errui and Lian, Zhouhui},
+  journal={arXiv preprint arXiv:2411.19654},
+  year={2024}
+}
+</code></pre>
+<ol start="2">
+<li>CVPR version</li>
+</ol>
+<pre><code class="language-bibtex">@InProceedings{Xiong_2025_CVPR,
+    author    = {Xiong, Bojun and Liu, Jialun and Hu, Jiakui and Wu, Chenming and Wu, Jinbo and Liu, Xing and Zhao, Chen and Ding, Errui and Lian, Zhouhui},
+    title     = {TexGaussian: Generating High-quality PBR Material via Octree-based 3D Gaussian Splatting},
+    booktitle = {Proceedings of the Computer Vision and Pattern Recognition Conference (CVPR)},
+    month     = {June},
+    year      = {2025},
+    pages     = {551-561}
+}
+</code></pre>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-08</p>
+<hr>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js?v=20250613"></script>
+
+
+</body></html>

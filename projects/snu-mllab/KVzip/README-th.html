@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KVzip: การบีบอัดแคช KV แบบไม่ขึ้นกับคำถามด้วยการสร้างบริบทใหม่ - snu-mllab/KVzip</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="KVzip: การบีบอัดแคช KV แบบไม่ขึ้นกับคำถามด้วยการสร้างบริบทใหม่ - snu-mllab/KVzip">
+    <meta name="description" content="snu-mllab/KVzip - GitHub repository documentation and information">
+    <meta name="keywords" content="snu-mllab, KVzip, GitHub, repository, documentation, ">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=th">
+    <meta property="og:title" content="KVzip: การบีบอัดแคช KV แบบไม่ขึ้นกับคำถามด้วยการสร้างบริบทใหม่ - snu-mllab/KVzip">
+    <meta property="og:description" content="snu-mllab/KVzip - GitHub repository documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="apple-touch-icon" href="icon.jpg">
+
+    <!-- Marked.js for Markdown rendering -->
+    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js?v=20250613"></script>
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="css/github.min.css?v=20250613">
+    <script src="js/highlight.min.js?v=20250613"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="view.css?v=20250613">
+    <style>
+        /* Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Image size restrictions */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Existing styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f6f8fa;
+            border-bottom: 1px solid #e1e4e8;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0366d6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .back-button:hover {
+            background-color: #f6f8fa;
+            border-color: #0366d6;
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .header .links {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .header .links a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .header .links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Language badges styles */
+        .language-badges {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .language-badges a {
+            display: inline-block;
+            margin: 2px;
+            text-decoration: none;
+        }
+        .language-badges img {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .language-badges a:hover img {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-button">Back</a>
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/snu-mllab/KVzip" id="githubRepoLink" target="_blank">snu-mllab/KVzip</a>
+        </div>
+        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+    </div>
+
+    <div class="main-container">
+        <div class="markdown-body" id="content"><h1>KVzip: การบีบอัดแคช KV แบบไม่ขึ้นกับคำถามด้วยการสร้างบริบทใหม่</h1>
+<p>[<a href="https://arxiv.org/abs/2505.23416">Paper</a>] [<a href="https://janghyun1230.github.io/kvzip/">Blog</a>] </p>
+<img src="https://raw.githubusercontent.com/snu-mllab/KVzip/main/images/method.png" width="800">
+
+<h2>มีอะไรใหม่?</h2>
+<ul>
+<li>KVzip บีบอัดแคช KV เพื่อรองรับ <strong>คำถามในอนาคตที่หลากหลาย</strong></li>
+<li>[ขึ้นกับบริบท] บรรลุการ <strong>ลดขนาดแคช KV 3–4 เท่า</strong> และ <strong>ลดเวลาในการถอดรหัสลง 2 เท่า</strong> โดยมีการลดประสิทธิภาพเพียงเล็กน้อย</li>
+<li>[ไม่ขึ้นกับบริบท] พัฒนาการบีบอัด KV ในระดับหัว <a href="https://github.com/mit-han-lab/duo-attention">DuoAttention</a> โดยใช้เพียง <strong>การผ่านหน้าเดียวไม่กี่ครั้งภายในหนึ่งนาที</strong> สำหรับการปรับแต่งคะแนนความสำคัญในระดับหัว (เร็วขึ้น 100 เท่า)</li>
+<li>รัน demo.py:</li>
+</ul>
+<img src="https://raw.githubusercontent.com/snu-mllab/KVzip/main/images/demo.png" width="800">
+
+
+<h3>การทดสอบประสิทธิภาพในสภาพแวดล้อมไม่ขึ้นกับคำถาม</h3>
+<ul>
+<li>งานทดสอบ: <a href="https://huggingface.co/datasets/rajpurkar/squad">SQuAD</a>, <a href="https://github.com/gkamradt/LLMTest_NeedleInAHaystack">NIAH</a>, <a href="https://github.com/microsoft/MInference/tree/main/scbench">SCBench</a>, <a href="https://huggingface.co/datasets/openai/gsm8k/viewer/main/train?row=7294">GSM8K</a>  </li>
+<li>โมเดล: <a href="https://huggingface.co/Qwen/Qwen2.5-7B-Instruct">Qwen2.5-7B-Instruct-1M</a></li>
+</ul>
+<img src="https://raw.githubusercontent.com/snu-mllab/KVzip/main/images/benchmark.png" width="800">
+
+
+<h2>การติดตั้ง</h2>
+<p>เราใช้ CUDA 12.1 และ Python 3.10</p>
+<pre><code class="language-bash hljs"><span class="hljs-built_in">cd</span> KVzip
+pip install -r requirements.txt
+pip install flash-attn==2.7.4.post1 --no-build-isolation
+make i
+</code></pre>
+<ul>
+<li>หากต้องการใช้การควอนไทซ์จาก <a href="https://github.com/mit-han-lab/omniserve">QServe</a> กรุณาปฏิบัติตาม <a href="https://github.com/snu-mllab/KVzip/tree/main/model/quant_model"><code>./model/quant_model</code></a></li>
+</ul>
+<h3>ชุดข้อมูล</h3>
+<ul>
+<li>กรุณาดาวน์โหลดชุดข้อมูล SCBench ที่ผ่านการประมวลผลแล้วจาก <a href="https://drive.google.com/file/d/1cqoR6pxxFcjFqvPZkuAmF-fBSAlAbjbN/view?usp=share_link">Google Drive</a></li>
+<li>หากคุณดาวน์โหลดไฟล์ที่แตกไฟล์แล้ว ให้ย้ายโฟลเดอร์ scbench ไปยังที่ต้องการ</li>
+</ul>
+<pre><code class="language-bash hljs"><span class="hljs-built_in">mv</span> scbench.zip kvzip/data/
+<span class="hljs-built_in">cd</span> kvzip/data
+unzip scbench.zip  
+</code></pre>
+<h2>เริ่มต้นอย่างรวดเร็ว</h2>
+<pre><code class="language-python hljs"><span class="hljs-keyword">from</span> model <span class="hljs-keyword">import</span> ModelKVzip
+
+model = ModelKVzip(<span class="hljs-string">"Qwen/Qwen2.5-7B-Instruct-1M"</span>)
+context = <span class="hljs-string">"This is my basic profile. My name is Kim living in Seoul. My major is computer science."</span>
+queries = [<span class="hljs-string">"What is my name?"</span>, <span class="hljs-string">"Do I live in Seoul?"</span>]
+
+kv = model.prefill(context, load_score=<span class="hljs-literal">False</span>)  <span class="hljs-comment"># เตรียมแคช KV + การให้คะแนนความสำคัญ</span>
+kv.prune(ratio=<span class="hljs-number">0.3</span>)  <span class="hljs-comment"># อัตราการบีบอัด, กำจัด KV 70%</span>
+
+<span class="hljs-keyword">for</span> q <span class="hljs-keyword">in</span> queries:
+    query_ids = model.apply_template(q)
+    output = model.generate(query_ids, kv=kv, update_cache=<span class="hljs-literal">False</span>)  <span class="hljs-comment"># การสืบค้นที่มีประสิทธิภาพ</span>
+    <span class="hljs-built_in">print</span>(q, output)
+</code></pre>
+<ul>
+<li>โมเดลที่รองรับถูกระบุไว้ใน <a href="https://github.com/snu-mllab/KVzip/blob/main/model/load.py"><code>model/load.py</code></a> รวมถึง <strong>LLaMA3, Qwen2.5/3, Gemma3</strong></li>
+<li>ตั้งค่า <code>load_score=True</code> เพื่อขจัดภาระในการบีบอัด ซึ่งจะเปิดใช้การลบ KV แบบไม่ขึ้นกับบริบท โดยแลกกับอัตราบีบอัดที่ <code>ratio=0.6</code></li>
+<li>หลังการสร้างผลลัพธ์ คู่ KV ที่สอดคล้องกับคำถามและโทเค็นที่สร้างจะถูกคัดเลือกเพื่อลบออกจากแคชสำหรับการประมวลผลต่อไป ตั้งค่า <code>update_cache=True</code> เพื่อเปิดใช้งานการสืบค้นแบบหลายรอบ โดยเก็บประวัติการโต้ตอบทั้งหมดไว้ตลอดการสืบค้น</li>
+</ul>
+<h2>การวัดประสิทธิภาพหน่วยความจำและเวลาในการคำนวณ</h2>
+<h3>การลบ KV ขึ้นกับบริบท</h3>
+<pre><code class="language-bash hljs">python -B test.py -m [model_name] -d [data_name] --kv_type evict --ratio 0.3
+</code></pre>
+<ul>
+<li>โค้ดข้างต้นยังเปรียบเทียบผลลัพธ์ที่สร้างด้วยแคช KV เต็มและแคช KV ที่ถูกตัดแต่ง</li>
+<li>สำหรับการทดสอบอย่างรวดเร็ว ใช้ <code>-d squad</code> สำหรับการทดสอบบริบทยาว ใช้ <code>-d scbench_kv</code><ul>
+<li>ชื่อชุดข้อมูลที่ใช้ได้: <a href="https://github.com/snu-mllab/KVzip/blob/main/data/load.py"><code>data/load.py</code></a></li>
+<li>ชื่อโมเดลที่ใช้ได้: <a href="https://github.com/snu-mllab/KVzip/blob/main/model/load.py"><code>model/load.py</code></a> เช่น llama3.1-8b, qwen2.5-7b (หรือ Qwen/Qwen2.5-7B-Instruct-1M)</li>
+</ul>
+</li>
+<li>เราปรับแต่งเคอร์เนล CUDA จาก <a href="https://github.com/FFY0/AdaKV/tree/main">AdaKV</a> โดยรองรับการจัดสรรงบประมาณหัวแบบไม่สม่ำเสมอ<ul>
+<li>ปัจจุบัน โค้ดของเราไม่มีเคอร์เนลที่ปรับแต่งสำหรับ Gemma3 ซึ่งใช้แคช KV แบบสถิต จึงยังไม่มีประสิทธิภาพที่เพิ่มขึ้นจริง แต่สามารถประเมินประสิทธิภาพของโมเดลได้โดยใช้การลดความสนใจด้วยการเลือกตัวอย่าง KV (<code>--kv_type retain</code>)</li>
+</ul>
+</li>
+</ul>
+<h3>การลบ KV ไม่ขึ้นกับบริบท (ไม่มีภาระการบีบอัดขณะรัน)</h3>
+<ul>
+<li>ใช้แฟล็ก <code>--level head</code> พร้อม <code>--ratio 0.6</code> (แนะนำ)<ul>
+<li>เราจะลบคู่ KV ทั้งหมดที่เกี่ยวข้องกับหัวเฉพาะในขณะที่ยังคงเก็บระบบพรอมต์และคู่ KV ของคำถามไว้</li>
+<li>คะแนนหัวที่คำนวณล่วงหน้ามีให้สำหรับ LLaMA3.1-8B และ Qwen2.5-7/14B ใน <code>./utils/head_score</code></li>
+</ul>
+</li>
+<li>หากต้องการคำนวณคะแนนหัวสำหรับโมเดลอื่น:<pre><code class="language-bash hljs">python -B test.py -m [model_name] -d scbench_qa_eng --save_head_score
+</code></pre>
+<ul>
+<li>ผลลัพธ์จะถูกบันทึกใน <code>./utils/head_score</code></li>
+<li>หากทำงานกับงานเขียนโค้ด แนะนำให้รันคำสั่งเพิ่มเติมกับ <code>-d scbench_repoqa</code> เพื่อให้โมเดลใช้คะแนนหัวสูงสุดจากทั้งภาษาธรรมชาติและภาษาโค้ด ซึ่งจะช่วยปรับปรุงประสิทธิภาพ</li>
+</ul>
+</li>
+<li>คะแนนเหล่านี้สามารถนำไปใช้ร่วมกับเครื่องมือสืบค้นที่ปรับแต่งของ <a href="https://github.com/mit-han-lab/duo-attention">DuoAttention</a> โดยการแทนที่ข้อมูลคะแนนหัวด้วยของเราได้อย่างราบรื่น</li>
+</ul>
+<h2>การประเมินผล</h2>
+<ul>
+<li>เพื่อสร้างคำตอบของโมเดลด้วยอัตราการบีบอัด KV ตั้งแต่ 0.1 ถึง 1.0:<pre><code class="language-bash hljs">python -B eval.py -m [model_name] -d [data_name] --kv_type retain --num 100
+</code></pre>
+<ul>
+<li>ผลลัพธ์จะถูกบันทึกใน <code>./results/[data_name]</code></li>
+<li>ชุดข้อมูลที่รองรับระบุไว้ใน <code>data/load.py</code></li>
+</ul>
+</li>
+<li>เพื่อคำนวณเมตริกการประเมินจากผลลัพธ์ที่สร้าง:<pre><code class="language-bash hljs">python -B -m results.parse -m [model_name] -d [data_name]
+</code></pre>
+</li>
+</ul>
+<h2>การนำไปใช้กับโมเดลใหม่</h2>
+<p>เพื่อรวม KVzip สำหรับโมเดลใหม่ คุณจะต้องอัปเดตไฟล์ต่อไปนี้:</p>
+<ul>
+<li><code>attention/attn.py</code><br>แก้ไขตรรกะการส่งผ่านความสนใจตามความจำเป็น ในบางกรณีอาจต้องอัปเดต kvcache.py และ score.py ด้วย</li>
+<li><code>model/monkeypatch.py</code><br>ทำการแพตช์แบบมังกี้เฉพาะโมเดลสำหรับการรวมระบบ</li>
+<li><code>model/template.py</code><br>กำหนดพรอมต์ระบบและแม่แบบการจัดรูปแบบแชทของโมเดล</li>
+</ul>
+<h2>การอ้างอิง</h2>
+<pre><code class="language-bibtex">@article{kim2025kvzip,
+        title={KVzip: Query-Agnostic KV Cache Compression with Context Reconstruction},
+        author={Kim, Jang-Hyun and Kim, Jinuk and Kwon, Sangwoo and Lee, Jae W and Yun, Sangdoo and Song, Hyun Oh},
+        journal={arXiv preprint arXiv:2505.23416},
+        year={2025}
+}
+</code></pre>
+<h2>ใบอนุญาต</h2>
+<p>MIT License</p>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
+<hr>
+</div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+    <script src="view.js?v=20250613"></script>
+
+
+</body></html>
