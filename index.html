@@ -734,6 +734,20 @@ https://openaitx.github.io/ -->
 
         // Initialize language on page load
         document.addEventListener('DOMContentLoaded', function () {
+            // Clean up old submission records (older than 24 hours)
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('submitted_')) {
+                    const timestamp = parseInt(localStorage.getItem(key));
+                    if (timestamp && (now - timestamp) > oneDay) {
+                        localStorage.removeItem(key);
+                    }
+                }
+            }
+            
             const savedLang = localStorage.getItem('preferredLanguage');
             const browserLang = getBrowserLanguage();
             const initialLang = savedLang || browserLang;
@@ -815,6 +829,22 @@ https://openaitx.github.io/ -->
                         submitButton.style.cssText = 'padding: 8px 16px; background: #2ea44f; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; margin-top: 20px;';
                         submitButton.onclick = async () => {
                             try {
+                                // Check if we've already submitted this project
+                                const submissionKey = `submitted_${userOrOrg}_${project}`;
+                                const alreadySubmitted = localStorage.getItem(submissionKey);
+                                
+                                if (alreadySubmitted) {
+                                    alert('Project already submitted. Please wait for processing.');
+                                    return;
+                                }
+                                
+                                // Disable button to prevent multiple clicks
+                                submitButton.disabled = true;
+                                submitButton.textContent = 'Submitting...';
+                                
+                                // Mark as submitted
+                                localStorage.setItem(submissionKey, Date.now().toString());
+                                
                                 const response = await fetch('https://openaitx.com/api/submit-project', {
                                     method: 'POST',
                                     headers: {
@@ -832,8 +862,15 @@ https://openaitx.github.io/ -->
                                 }
 
                                 alert(t.submissionCompleted);
+                                // Change button text to show completion
+                                submitButton.textContent = 'Submitted';
+                                submitButton.style.background = '#6c757d';
                             } catch (error) {
                                 alert(`${t.submissionFailed}${error.message}`);
+                                // Re-enable button and remove submission flag on error
+                                submitButton.disabled = false;
+                                submitButton.textContent = t.submit;
+                                localStorage.removeItem(`submitted_${userOrOrg}_${project}`);
                             }
                         };
                         const statusDiv = document.createElement('div');
@@ -931,22 +968,35 @@ https://openaitx.github.io/ -->
                 const project = document.getElementById('project').value;
                 
                 if (userOrOrg && project) {
-                    fetch('https://openaitx.com/api/submit-project', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            project: `https://github.com/${userOrOrg}/${project}`
+                    // Check if we've already submitted this project in this session
+                    const submissionKey = `submitted_${userOrOrg}_${project}`;
+                    const alreadySubmitted = localStorage.getItem(submissionKey);
+                    
+                    if (!alreadySubmitted) {
+                        // Mark as submitted
+                        localStorage.setItem(submissionKey, Date.now().toString());
+                        
+                        fetch('https://openaitx.com/api/submit-project', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                project: `https://github.com/${userOrOrg}/${project}`
+                            })
                         })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Submit-project request sent successfully:', data);
-                    })
-                    .catch(error => {
-                        console.error('Error sending submit-project request:', error);
-                    });
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Submit-project request sent successfully:', data);
+                        })
+                        .catch(error => {
+                            console.error('Error sending submit-project request:', error);
+                            // Remove the flag if submission failed so it can be retried
+                            localStorage.removeItem(submissionKey);
+                        });
+                    } else {
+                        console.log('Project already submitted in this session');
+                    }
                 }
             }
         }

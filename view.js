@@ -1,4 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Clean up old submission records (older than 24 hours)
+    const now = Date.now();
+    const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('submitted_')) {
+            const timestamp = parseInt(localStorage.getItem(key));
+            if (timestamp && (now - timestamp) > oneDay) {
+                localStorage.removeItem(key);
+            }
+        }
+    }
+    
     // Add translations object
     const translations = {
         'en': {
@@ -513,6 +527,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 submitButton.className = 'submit-button';
                 submitButton.onclick = async () => {
                     try {
+                        // Check if we've already submitted this project
+                        const submissionKey = `submitted_${user}_${project}`;
+                        const alreadySubmitted = localStorage.getItem(submissionKey);
+                        
+                        if (alreadySubmitted) {
+                            alert('Project already submitted. Please wait for processing.');
+                            return;
+                        }
+                        
+                        // Disable button to prevent multiple clicks
+                        submitButton.disabled = true;
+                        submitButton.textContent = 'Submitting...';
+                        
+                        // Mark as submitted
+                        localStorage.setItem(submissionKey, Date.now().toString());
+                        
                         const response = await fetch('https://openaitx.com/api/submit-project', {
                             method: 'POST',
                             headers: {
@@ -530,8 +560,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
 
                         alert(t.submissionCompleted);
+                        // Change button text to show completion
+                        submitButton.textContent = 'Submitted';
+                        submitButton.style.background = '#6c757d';
                     } catch (error) {
                         alert(`${t.submissionFailed}${error.message}`);
+                        // Re-enable button and remove submission flag on error
+                        submitButton.disabled = false;
+                        submitButton.textContent = t.submit;
+                        localStorage.removeItem(`submitted_${user}_${project}`);
                     }
                 };
 
