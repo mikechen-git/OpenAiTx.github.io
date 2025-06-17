@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sync-method-generator - zompinc/sync-method-generator</title>
+    <meta name="title" content="sync-method-generator - zompinc/sync-method-generator">
+    <meta name="description" content="zompinc/sync-method-generator - GitHub repository fa documentation and informationتولیدکننده متد همگام (Sync Method Generator) این تولیدکننده سورس .NET یک متد همگام از یک متد ناهمگام تولید می‌کند. موارد استفاده کتابخانه‌ای که هر دو نسخه همگام...">
+    <meta name="keywords" content="zompinc, sync-method-generator, GitHub, repository, fa documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/zompinc/sync-method-generator/README-fa.html">
+    <meta property="og:title" content="sync-method-generator - zompinc/sync-method-generator">
+    <meta property="og:description" content="zompinc/sync-method-generator - GitHub repository fa documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/zompinc/sync-method-generator" id="githubRepoLink" target="_blank">zompinc/sync-method-generator</a>
+<h1 style="display: none;">تولیدکننده متد همگام (Sync Method Generator) این تولیدکننده سورس .NET یک متد همگام از یک متد ناهمگام تولید می‌کند. موارد استفاده کتابخانه‌ای که هر دو نسخه همگام...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>تولیدکننده متد همگام (Sync Method Generator)</h1>
+<p><a href="https://github.com/zompinc/sync-method-generator/actions/workflows/build.yml"><img src="https://github.com/zompinc/sync-method-generator/actions/workflows/build.yml/badge.svg" alt="Build" /></a>
+<img src="https://img.shields.io/badge/dotnet%20version-.NET%20Standard%202.0-blue" alt="پشتیبانی از .NET Standard 2.0" />
+<a href="https://www.nuget.org/packages/Zomp.SyncMethodGenerator"><img src="https://img.shields.io/nuget/v/Zomp.SyncMethodGenerator" alt="Nuget" /></a>
+<a href="https://codecov.io/gh/zompinc/sync-method-generator"><img src="https://codecov.io/gh/zompinc/sync-method-generator/branch/master/graph/badge.svg" alt="codecov" /></a></p>
+<p>این <a href="https://learn.microsoft.com/fa-ir/dotnet/csharp/roslyn-sdk/source-generators-overview">تولیدکننده سورس .NET</a> یک متد همگام از یک متد ناهمگام تولید می‌کند.</p>
+<h2>موارد استفاده</h2>
+<ul>
+<li>کتابخانه‌ای که هر دو نسخه همگام و ناهمگام یک متد را ارائه می‌دهد</li>
+<li>یک برنامه باید دو نوع داده را به یک شکل پردازش کند:
+<ul>
+<li>داده‌های حجیم از I/O که نمی‌توان قبل از پردازش در حافظه ذخیره کرد: متد ناهمگام اصلی</li>
+<li>نمونه کوچک داده در حافظه، معمولاً نمونه‌ای از داده‌های بزرگ‌تر: متد همگام تولید شده</li>
+</ul>
+</li>
+</ul>
+<h2>نحوه عملکرد</h2>
+<h3>CreateSyncVersionAttribute</h3>
+<p>متد ناهمگام خود را در کلاس، ساختار یا رکورد <code>partial</code> با <code>CreateSyncVersionAttribute</code> تزئین کنید.</p>
+<pre><code class="language-cs">[Zomp.SyncMethodGenerator.CreateSyncVersion]
+static async Task WriteAsync(ReadOnlyMemory&lt;byte&gt; buffer, Stream stream, 
+CancellationToken ct)
+    =&gt; await stream.WriteAsync(buffer, ct).ConfigureAwait(true);
+</code></pre>
+<p>و نسخه همگام متد به صورت زیر تولید خواهد شد:</p>
+<pre><code class="language-cs">static void Write(ReadOnlySpan&lt;byte&gt; buffer, Stream stream)
+    =&gt; stream.Write(buffer);
+</code></pre>
+<p>فهرست تغییرات اعمال شده به متد همگام جدید:</p>
+<ul>
+<li><p>حذف مبدل async</p>
+</li>
+<li><p>حذف await از متدها و همچنین عبارت <code>foreach</code></p>
+</li>
+<li><p>تغییر نوع‌ها</p>
+<p>| از                                                                                                                                                                                                | به                                                                                                                                   |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.threading.tasks.task">Task</a>*                                                                                                                   | void                                                                                                                                 |
+| <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.threading.tasks.task-1">Task&lt;T&gt;</a>                                                                                                              | T                                                                                                                                    |
+| <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.func-1">Func</a>&lt;Task&gt;                                                                                                                           | <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.action">Action</a>                                                                 |
+| Func&lt;Task&lt;T&gt;&gt;                                                                                                                                                                                     | Func&lt;T&gt;                                                                                                                             |
+| <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.collections.generic.iasyncenumerable-1">IAsyncEnumerable&lt;T&gt;</a>                                                                                  | <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable&lt;T&gt;</a>                             |
+| <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.collections.generic.iasyncenumerator-1">IAsyncEnumerator&lt;T&gt;</a>                                                                                  | <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.collections.generic.ienumerator-1">IEnumerator&lt;T&gt;</a>                             |
+| <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1.enumerator">ConfiguredCancelableAsyncEnumerable&lt;T&gt;.Enumerator</a>                 | <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.collections.generic.ienumerator-1">IEnumerator&lt;T&gt;</a>                             |
+| <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1.getasyncenumerator">ConfiguredCancelableAsyncEnumerable&lt;T&gt;.GetAsyncEnumerator</a> | <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.collections.generic.ienumerable-1.getenumerator">IEnumerable&lt;T&gt;.GetEnumerator</a> |
+| <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.memory-1">Memory&lt;T&gt;</a>                                                                                                                          | <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.span-1">Span&lt;T&gt;</a>                                                               |
+| <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.readonlymemory-1">ReadOnlyMemory&lt;T&gt;</a>                                                                                                          | <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.readonlyspan-1">ReadOnlySpan&lt;T&gt;</a>                                               |</p>
+</li>
+<li><p>* <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.threading.tasks.valuetask">ValueTask</a>ها دقیقاً مانند <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.threading.tasks.task">Task</a>ها مدیریت می‌شوند</p>
+</li>
+<li><p>حذف پارامترها</p>
+<ul>
+<li><a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></li>
+<li><a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.iprogress-1">IProgress&lt;T&gt;</a></li>
+</ul>
+</li>
+<li><p>تغییرات فراخوانی</p>
+<ul>
+<li>حذف <code>ConfigureAwait</code> از <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.threading.tasks.task.configureawait">Taskها</a> و <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.configureawait">Enumerationهای ناهمگام</a></li>
+<li>حذف <code>WaitAsync</code> از <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.threading.tasks.task.waitasync">Taskها</a></li>
+<li>حذف <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.withcancellation">WithCancellation</a></li>
+<li>بازنویسی فراخوانی‌های ناهمگام با پسوند <code>Async</code> برای فراخوانی نسخه همگام (مثال: <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.collections.generic.iasyncenumerator-1.movenextasync">MoveNextAsync()</a> به <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.collections.ienumerator.movenext">MoveNext()</a> تبدیل می‌شود)</li>
+<li>حذف فراخوانی‌های ناهمگام بدون پسوند <code>Async</code></li>
+<li>حذف پارامتر <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></li>
+<li>حذف فراخوانی <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.iprogress-1.report">IProgress&lt;T&gt;.Report(T)</a></li>
+<li>حذف ویژگی <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.memory-1.span">Memory&lt;T&gt;.Span</a></li>
+<li>تبدیل <code>await</code> <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.threading.tasks.task.fromresult">Task&lt;TResult&gt;.FromResult</a>(<code>value</code>) به <code>value</code></li>
+<li>تبدیل <code>await</code> <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.threading.tasks.task.delay">Task.Delay</a>(<code>value</code>) به <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.threading.thread.sleep">Thread.Sleep</a>(<code>value</code>)</li>
+<li>تبدیل هر فراخوانی که <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1">ConfiguredCancelableAsyncEnumerable&lt;T&gt;</a> برمی‌گرداند به <a href="https://learn.microsoft.com/fa-ir/dotnet/api/system.collections.ienumerable.getenumerator">IEnumerable.GetEnumerator</a>()</li>
+</ul>
+</li>
+<li><p>حذف <code>CreateSyncVersionAttribute</code></p>
+</li>
+<li><p>به‌روزرسانی مستندات XML</p>
+</li>
+</ul>
+<h4>ویژگی‌ها</h4>
+<h5>OmitNullableDirective</h5>
+<p>این تولیدکننده سورس نسخه زبان را هنگام کامپایل تشخیص می‌دهد. به طور پیش‌فرض، اگر و فقط اگر نسخه زبان ۸ یا بالاتر باشد، دستور <code>#nullable enable</code> را ایجاد می‌کند. از آنجا که <a href="https://github.com/dotnet/roslyn/issues/49555">غیرممکن</a> است که به طور قابل اعتماد تشخیص داد زمینه nullable فعال است یا نه، ویژگی <code>OmitNullableDirective</code> برای حذف آن دستور فراهم شده است.</p>
+<pre><code class="language-cs">[Zomp.SyncMethodGenerator.CreateSyncVersion(OmitNullableDirective = true)]
+public async Task MethodAsync()
+{
+    string f = null;
+}
+</code></pre>
+<h3>نماد SYNC_ONLY</h3>
+<p>در صورتی که منطقی دارید که فقط باید در نسخه همگام متد اجرا شود، آن را در دستور #if با SYNC_ONLY قرار دهید.</p>
+<p><code>SYNC_ONLY</code> نباید در هیچ جایی تعریف شده باشد. تولیدکننده سورس نمادها را در دستورات #if بررسی می‌کند.</p>
+<p>کد داخل بلوک SYNC_ONLY عیناً کپی می‌شود. مگر اینکه فضای نام سراسری در پروژه استفاده شده باشد، این کد باید شامل فضای نام‌های کامل باشد.</p>
+<p>سینتکس زیر:</p>
+<pre><code class="language-cs">[Zomp.SyncMethodGenerator.CreateSyncVersion]
+public async Task WithSyncOnlyDirectiveAsync(CancellationToken ct)
+{
+#if SYNC_ONLY
+    System.Console.Write(&quot;Sync&quot;);
+#endif
+    await Task.CompletedTask;
+}
+</code></pre>
+<p>خروجی زیر را خواهد داد:</p>
+<pre><code class="language-cs">public void WithSyncOnlyDirective()
+{
+    System.Console.Write(&quot;Sync&quot;);
+}
+</code></pre>
+<p>اگر فقط می‌خواهید در نسخه ناهمگام اصلی اجرا شود، پرچم را به این صورت قرار دهید: <code>#if !SYNC_ONLY</code>.</p>
+<p>توجه: <code>SYNC_ONLY</code> نباید با نمادهای دیگر در عبارت شرطی ترکیب شود و نمی‌تواند دستور <code>#elif</code> داشته باشد.</p>
+<h2>نصب</h2>
+<p>برای افزودن کتابخانه از دستور زیر استفاده کنید:</p>
+<pre><code class="language-sh">dotnet add package Zomp.SyncMethodGenerator
+</code></pre>
+<h2>توسعه</h2>
+<h3>پروژه‌های مرتبط</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=lsoft.SyncToAsyncExtension">SyncToAsyncExtension</a> - امکان جابجایی بین نسخه‌های همگام و ناهمگام یک متد را فراهم می‌کند. در توسعه این کتابخانه بسیار مفید است.</li>
+</ul>
+<h3>act</h3>
+<p>این پروژه کاملاً با <a href="https://github.com/nektos/act">act</a> سازگار است.</p>
+<p>علاوه بر بسته‌های مورد نیاز برای اجرای خود act، اسکریپت GitHub Actions هر نرم‌افزاری که ممکن است کم باشد را نصب می‌کند، مانند node، yarn و dotnet. در پلتفرم ویندوز، نصب نرم‌افزار روی خود میزبان انجام می‌شود به دلیل <a href="https://github.com/nektos/act/issues/1608">کمبود</a> پشتیبانی از کانتینر.</p>
+<p>برای ساخت پروژه با استفاده از act، دستورالعمل‌های زیر را دنبال کنید:</p>
+<h4>ویندوز</h4>
+<p>در صورت نبود <a href="https://chocolatey.org/install">chocolatey</a> آن را نصب کنید.</p>
+<p>بسته‌های زیر را در صورت نبود نصب کنید:</p>
+<pre><code class="language-pwsh">choco install git -y
+choco install act-cli -y
+refreshenv
+</code></pre>
+<p>در دایرکتوری پروژه اجرا کنید:</p>
+<pre><code class="language-pwsh">act -P windows-latest=-self-hosted --artifact-server-path /tmp/artifacts
+</code></pre>
+<h4>لینوکس</h4>
+<p>act را با دنبال کردن این <a href="https://lindevs.com/install-act-on-ubuntu">دستورالعمل‌ها</a> نصب کنید.</p>
+<p>در دایرکتوری پروژه اجرا کنید:</p>
+<pre><code class="language-pwsh">act --artifact-server-path /tmp/artifacts
+</code></pre>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-17</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

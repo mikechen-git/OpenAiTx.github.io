@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sync-method-generator - zompinc/sync-method-generator</title>
+    <meta name="title" content="sync-method-generator - zompinc/sync-method-generator">
+    <meta name="description" content="zompinc/sync-method-generator - GitHub repository zh-TW documentation and informationSync Method Generator 這個 .NET 原始碼產生器 可以根據 async 方法產生同步方法。 使用情境 函式庫需同時公開同步與非同步版本的方法 應用程式需要以相同方式處理兩種資料： 來自 I/O 的大數據，無法事先載入記憶體：原始 async 方法 記憶體中的小型資料樣本，通常是大數據的樣本：產生...">
+    <meta name="keywords" content="zompinc, sync-method-generator, GitHub, repository, zh-TW documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/zompinc/sync-method-generator/README-zh-TW.html">
+    <meta property="og:title" content="sync-method-generator - zompinc/sync-method-generator">
+    <meta property="og:description" content="zompinc/sync-method-generator - GitHub repository zh-TW documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/zompinc/sync-method-generator" id="githubRepoLink" target="_blank">zompinc/sync-method-generator</a>
+<h1 style="display: none;">Sync Method Generator 這個 .NET 原始碼產生器 可以根據 async 方法產生同步方法。 使用情境 函式庫需同時公開同步與非同步版本的方法 應用程式需要以相同方式處理兩種資料： 來自 I/O 的大數據，無法事先載入記憶體：原始 async 方法 記憶體中的小型資料樣本，通常是大數據的樣本：產生...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Sync Method Generator</h1>
+<p><a href="https://github.com/zompinc/sync-method-generator/actions/workflows/build.yml"><img src="https://github.com/zompinc/sync-method-generator/actions/workflows/build.yml/badge.svg" alt="Build" /></a>
+<img src="https://img.shields.io/badge/dotnet%20version-.NET%20Standard%202.0-blue" alt="Support .NET Standard 2.0" />
+<a href="https://www.nuget.org/packages/Zomp.SyncMethodGenerator"><img src="https://img.shields.io/nuget/v/Zomp.SyncMethodGenerator" alt="Nuget" /></a>
+<a href="https://codecov.io/gh/zompinc/sync-method-generator"><img src="https://codecov.io/gh/zompinc/sync-method-generator/branch/master/graph/badge.svg" alt="codecov" /></a></p>
+<p>這個 <a href="https://learn.microsoft.com/zh-tw/dotnet/csharp/roslyn-sdk/source-generators-overview">.NET 原始碼產生器</a> 可以根據 async 方法產生同步方法。</p>
+<h2>使用情境</h2>
+<ul>
+<li>函式庫需同時公開同步與非同步版本的方法</li>
+<li>應用程式需要以相同方式處理兩種資料：
+<ul>
+<li>來自 I/O 的大數據，無法事先載入記憶體：原始 async 方法</li>
+<li>記憶體中的小型資料樣本，通常是大數據的樣本：產生的同步方法</li>
+</ul>
+</li>
+</ul>
+<h2>工作原理</h2>
+<h3>CreateSyncVersionAttribute</h3>
+<p>在你的 <code>partial</code> 類別、結構或紀錄的 async 方法上標註 <code>CreateSyncVersionAttribute</code></p>
+<pre><code class="language-cs">[Zomp.SyncMethodGenerator.CreateSyncVersion]
+static async Task WriteAsync(ReadOnlyMemory&lt;byte&gt; buffer, Stream stream, 
+CancellationToken ct)
+    =&gt; await stream.WriteAsync(buffer, ct).ConfigureAwait(true);
+</code></pre>
+<p>它將自動產生對應的同步版本方法：</p>
+<pre><code class="language-cs">static void Write(ReadOnlySpan&lt;byte&gt; buffer, Stream stream)
+    =&gt; stream.Write(buffer);
+</code></pre>
+<p>對新產生的同步方法應用的變更列表：</p>
+<ul>
+<li><p>移除 async 修飾詞</p>
+</li>
+<li><p>從方法與 <code>foreach</code> 陳述式中移除 await</p>
+</li>
+<li><p>型別轉換</p>
+<p>| 原始                                                                                                                                                                                                | 轉換後                                                                                                                                   |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.tasks.task">Task</a>*                                                                                                                   | void                                                                                                                                 |
+| <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.tasks.task-1">Task&lt;T&gt;</a>                                                                                                              | T                                                                                                                                    |
+| <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.func-1">Func</a>&lt;Task&gt;                                                                                                                           | <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.action">Action</a>                                                                 |
+| Func&lt;Task&lt;T&gt;&gt;                                                                                                                                                                                     | Func&lt;T&gt;                                                                                                                             |
+| <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.collections.generic.iasyncenumerable-1">IAsyncEnumerable&lt;T&gt;</a>                                                                                  | <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable&lt;T&gt;</a>                             |
+| <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.collections.generic.iasyncenumerator-1">IAsyncEnumerator&lt;T&gt;</a>                                                                                  | <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.collections.generic.ienumerator-1">IEnumerator&lt;T&gt;</a>                             |
+| <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1.enumerator">ConfiguredCancelableAsyncEnumerable&lt;T&gt;.Enumerator</a>                 | <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.collections.generic.ienumerator-1">IEnumerator&lt;T&gt;</a>                             |
+| <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1.getasyncenumerator">ConfiguredCancelableAsyncEnumerable&lt;T&gt;.GetAsyncEnumerator</a> | <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.collections.generic.ienumerable-1.getenumerator">IEnumerable&lt;T&gt;.GetEnumerator</a> |
+| <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.memory-1">Memory&lt;T&gt;</a>                                                                                                                          | <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.span-1">Span&lt;T&gt;</a>                                                               |
+| <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.readonlymemory-1">ReadOnlyMemory&lt;T&gt;</a>                                                                                                          | <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.readonlyspan-1">ReadOnlySpan&lt;T&gt;</a>                                               |</p>
+</li>
+<li><p>* <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.tasks.valuetask">ValueTask</a> 會與 <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.tasks.task">Task</a> 一樣處理</p>
+</li>
+<li><p>移除參數</p>
+<ul>
+<li><a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></li>
+<li><a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.iprogress-1">IProgress&lt;T&gt;</a></li>
+</ul>
+</li>
+<li><p>呼叫方式變更</p>
+<ul>
+<li>從 <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.tasks.task.configureawait">Tasks</a> 及 <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.configureawait">非同步列舉</a> 移除 <code>ConfigureAwait</code></li>
+<li>從 <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.tasks.task.waitasync">Tasks</a> 移除 <code>WaitAsync</code></li>
+<li>移除 <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.withcancellation">WithCancellation</a></li>
+<li>將帶有 <code>Async</code> 字尾的非同步呼叫改寫成對應同步呼叫（例如 <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.collections.generic.iasyncenumerator-1.movenextasync">MoveNextAsync()</a> 改為 <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.collections.ienumerator.movenext">MoveNext()</a>）</li>
+<li>移除沒有 <code>Async</code> 字尾的非同步呼叫</li>
+<li>移除 <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.cancellationtoken">CancellationToken</a> 參數</li>
+<li>移除 <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.iprogress-1.report">IProgress&lt;T&gt;.Report(T)</a> 呼叫</li>
+<li>移除 <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.memory-1.span">Memory&lt;T&gt;.Span</a> 屬性</li>
+<li>將 <code>await</code> <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.tasks.task.fromresult">Task&lt;TResult&gt;.FromResult</a>(<code>value</code>) 改為 <code>value</code></li>
+<li>將 <code>await</code> <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.tasks.task.delay">Task.Delay</a>(<code>value</code>) 改為 <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.thread.sleep">Thread.Sleep</a>(<code>value</code>)</li>
+<li>任何回傳 <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1">ConfiguredCancelableAsyncEnumerable&lt;T&gt;</a> 的呼叫改為 <a href="https://learn.microsoft.com/zh-tw/dotnet/api/system.collections.ienumerable.getenumerator">IEnumerable.GetEnumerator</a>()</li>
+</ul>
+</li>
+<li><p>移除 <code>CreateSyncVersionAttribute</code></p>
+</li>
+<li><p>更新 XML 文件註解</p>
+</li>
+</ul>
+<h4>屬性</h4>
+<h5>OmitNullableDirective</h5>
+<p>此原始碼產生器會在編譯時偵測語言版本。預設情況下，當語言版本為 8 或以上，才會產生 <code>#nullable enable</code> 指令。由於<a href="https://github.com/dotnet/roslyn/issues/49555">無法</a>可靠判斷是否啟用 nullable context，因此提供 <code>OmitNullableDirective</code> 屬性可略過產生該指令。</p>
+<pre><code class="language-cs">[Zomp.SyncMethodGenerator.CreateSyncVersion(OmitNullableDirective = true)]
+public async Task MethodAsync()
+{
+    string f = null;
+}
+</code></pre>
+<h3>SYNC_ONLY 符號</h3>
+<p>若有邏輯只需在同步版本執行，請使用 <code>SYNC_ONLY</code> #if 指令包裹。</p>
+<p><code>SYNC_ONLY</code> 不可於任何地方定義。原始碼產生器會掃描 #if 指令找尋此符號。</p>
+<p><code>SYNC_ONLY</code> 區塊內的程式碼會直接複製過去。除非專案中有使用 global namespace，否則這段程式碼應包含完整命名空間。</p>
+<p>以下語法：</p>
+<pre><code class="language-cs">[Zomp.SyncMethodGenerator.CreateSyncVersion]
+public async Task WithSyncOnlyDirectiveAsync(CancellationToken ct)
+{
+#if SYNC_ONLY
+    System.Console.Write(&quot;Sync&quot;);
+#endif
+    await Task.CompletedTask;
+}
+</code></pre>
+<p>會產生：</p>
+<pre><code class="language-cs">public void WithSyncOnlyDirective()
+{
+    System.Console.Write(&quot;Sync&quot;);
+}
+</code></pre>
+<p>若只想在原始 async 版本執行，請這樣反向使用：<code>#if !SYNC_ONLY</code>。</p>
+<p>注意：<code>SYNC_ONLY</code> 不能與其他符號組合判斷，也不能有 <code>#elif</code> 指令。</p>
+<h2>安裝</h2>
+<p>新增此函式庫請執行：</p>
+<pre><code class="language-sh">dotnet add package Zomp.SyncMethodGenerator
+</code></pre>
+<h2>開發</h2>
+<h3>相關專案</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=lsoft.SyncToAsyncExtension">SyncToAsyncExtension</a> - 可在同步與非同步方法間切換。對本函式庫開發非常實用。</li>
+</ul>
+<h3>Act</h3>
+<p>本專案完全相容於 <a href="https://github.com/nektos/act">act</a>。</p>
+<p>除了 act 本身所需的套件外，GitHub Actions 腳本會安裝任何可能遺漏的依賴，例如 node、yarn 和 dotnet。在 Windows 平台上，因<a href="https://github.com/nektos/act/issues/1608">缺乏</a>容器支援，軟體會直接安裝於主機上。</p>
+<p>若要用 act 編譯本專案請依下列步驟：</p>
+<h4>Windows</h4>
+<p>若未安裝 <a href="https://chocolatey.org/install">chocolatey</a>，請先安裝。</p>
+<p>若未安裝下列套件，請安裝：</p>
+<pre><code class="language-pwsh">choco install git -y
+choco install act-cli -y
+refreshenv
+</code></pre>
+<p>進入專案目錄後執行：</p>
+<pre><code class="language-pwsh">act -P windows-latest=-self-hosted --artifact-server-path /tmp/artifacts
+</code></pre>
+<h4>Linux</h4>
+<p>依照這些<a href="https://lindevs.com/install-act-on-ubuntu">說明</a>安裝 act。</p>
+<p>進入專案目錄後執行：</p>
+<pre><code class="language-pwsh">act --artifact-server-path /tmp/artifacts
+</code></pre>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-17</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

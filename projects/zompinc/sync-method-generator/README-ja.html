@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sync-method-generator - zompinc/sync-method-generator</title>
+    <meta name="title" content="sync-method-generator - zompinc/sync-method-generator">
+    <meta name="description" content="zompinc/sync-method-generator - GitHub repository ja documentation and informationSync Method Generator この .NET ソースジェネレーター は、非同期メソッドから同期メソッドを生成します。 ユースケース ライブラリがメソッドの同期版と非同期版の両方を公開したい場合 アプリケーションが同じ方法で2種類のデータを処理する必要がある場合： I/Oからの大容量データで、処理前にメモリ...">
+    <meta name="keywords" content="zompinc, sync-method-generator, GitHub, repository, ja documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/zompinc/sync-method-generator/README-ja.html">
+    <meta property="og:title" content="sync-method-generator - zompinc/sync-method-generator">
+    <meta property="og:description" content="zompinc/sync-method-generator - GitHub repository ja documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/zompinc/sync-method-generator" id="githubRepoLink" target="_blank">zompinc/sync-method-generator</a>
+<h1 style="display: none;">Sync Method Generator この .NET ソースジェネレーター は、非同期メソッドから同期メソッドを生成します。 ユースケース ライブラリがメソッドの同期版と非同期版の両方を公開したい場合 アプリケーションが同じ方法で2種類のデータを処理する必要がある場合： I/Oからの大容量データで、処理前にメモリ...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Sync Method Generator</h1>
+<p><a href="https://github.com/zompinc/sync-method-generator/actions/workflows/build.yml"><img src="https://github.com/zompinc/sync-method-generator/actions/workflows/build.yml/badge.svg" alt="Build" /></a>
+<img src="https://img.shields.io/badge/dotnet%20version-.NET%20Standard%202.0-blue" alt="Support .NET Standard 2.0" />
+<a href="https://www.nuget.org/packages/Zomp.SyncMethodGenerator"><img src="https://img.shields.io/nuget/v/Zomp.SyncMethodGenerator" alt="Nuget" /></a>
+<a href="https://codecov.io/gh/zompinc/sync-method-generator"><img src="https://codecov.io/gh/zompinc/sync-method-generator/branch/master/graph/badge.svg" alt="codecov" /></a></p>
+<p>この <a href="https://learn.microsoft.com/ja-jp/dotnet/csharp/roslyn-sdk/source-generators-overview">.NET ソースジェネレーター</a> は、非同期メソッドから同期メソッドを生成します。</p>
+<h2>ユースケース</h2>
+<ul>
+<li>ライブラリがメソッドの同期版と非同期版の両方を公開したい場合</li>
+<li>アプリケーションが同じ方法で2種類のデータを処理する必要がある場合：
+<ul>
+<li>I/Oからの大容量データで、処理前にメモリに保持できない場合：元の非同期メソッド</li>
+<li>メモリ上の小規模データ、通常は大容量データのサンプル：生成された同期メソッド</li>
+</ul>
+</li>
+</ul>
+<h2>仕組み</h2>
+<h3>CreateSyncVersionAttribute</h3>
+<p><code>partial</code> クラス、構造体、またはレコード内の非同期メソッドに <code>CreateSyncVersionAttribute</code> を付与します。</p>
+<pre><code class="language-cs">[Zomp.SyncMethodGenerator.CreateSyncVersion]
+static async Task WriteAsync(ReadOnlyMemory&lt;byte&gt; buffer, Stream stream, 
+CancellationToken ct)
+    =&gt; await stream.WriteAsync(buffer, ct).ConfigureAwait(true);
+</code></pre>
+<p>これにより、同期版のメソッドが生成されます：</p>
+<pre><code class="language-cs">static void Write(ReadOnlySpan&lt;byte&gt; buffer, Stream stream)
+    =&gt; stream.Write(buffer);
+</code></pre>
+<p>新しく生成された同期メソッドに適用される変更一覧：</p>
+<ul>
+<li><p>async 修飾子を削除</p>
+</li>
+<li><p>メソッドや <code>foreach</code> 文から await を削除</p>
+</li>
+<li><p>型の変換</p>
+<p>| 変換元                                                                                                                                                                                                | 変換先                                                                                                                                   |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.tasks.task">Task</a>*                                                                                                                   | void                                                                                                                                 |
+| <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.tasks.task-1">Task&lt;T&gt;</a>                                                                                                              | T                                                                                                                                    |
+| <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.func-1">Func</a>&lt;Task&gt;                                                                                                                           | <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.action">Action</a>                                                                 |
+| Func&lt;Task&lt;T&gt;&gt;                                                                                                                                                                                     | Func&lt;T&gt;                                                                                                                             |
+| <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.collections.generic.iasyncenumerable-1">IAsyncEnumerable&lt;T&gt;</a>                                                                                  | <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable&lt;T&gt;</a>                             |
+| <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.collections.generic.iasyncenumerator-1">IAsyncEnumerator&lt;T&gt;</a>                                                                                  | <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.collections.generic.ienumerator-1">IEnumerator&lt;T&gt;</a>                             |
+| <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1.enumerator">ConfiguredCancelableAsyncEnumerable&lt;T&gt;.Enumerator</a>                 | <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.collections.generic.ienumerator-1">IEnumerator&lt;T&gt;</a>                             |
+| <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1.getasyncenumerator">ConfiguredCancelableAsyncEnumerable&lt;T&gt;.GetAsyncEnumerator</a> | <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.collections.generic.ienumerable-1.getenumerator">IEnumerable&lt;T&gt;.GetEnumerator</a> |
+| <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.memory-1">Memory&lt;T&gt;</a>                                                                                                                          | <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.span-1">Span&lt;T&gt;</a>                                                               |
+| <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.readonlymemory-1">ReadOnlyMemory&lt;T&gt;</a>                                                                                                          | <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.readonlyspan-1">ReadOnlySpan&lt;T&gt;</a>                                               |</p>
+</li>
+<li><p>* <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.tasks.valuetask">ValueTask</a> も <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.tasks.task">Task</a> と同じように扱われます</p>
+</li>
+<li><p>以下のパラメーターを削除</p>
+<ul>
+<li><a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></li>
+<li><a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.iprogress-1">IProgress&lt;T&gt;</a></li>
+</ul>
+</li>
+<li><p>呼び出しの変更</p>
+<ul>
+<li><a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.tasks.task.configureawait">Tasks</a> や <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.configureawait">非同期列挙</a> の <code>ConfigureAwait</code> を削除</li>
+<li><a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.tasks.task.waitasync">Tasks</a> の <code>WaitAsync</code> を削除</li>
+<li><a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.withcancellation">WithCancellation</a> を削除</li>
+<li><code>Async</code> サフィックスの付いた非同期呼び出しを同期版呼び出しに書き換え（例：<a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.collections.generic.iasyncenumerator-1.movenextasync">MoveNextAsync()</a> → <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.collections.ienumerator.movenext">MoveNext()</a>）</li>
+<li><code>Async</code> サフィックスのない非同期呼び出しを削除</li>
+<li><a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.cancellationtoken">CancellationToken</a> パラメータを削除</li>
+<li><a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.iprogress-1.report">IProgress&lt;T&gt;.Report(T)</a> 呼び出しを削除</li>
+<li><a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.memory-1.span">Memory&lt;T&gt;.Span</a> プロパティを削除</li>
+<li><code>await</code> <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.tasks.task.fromresult">Task&lt;TResult&gt;.FromResult</a>(<code>value</code>) を <code>value</code> に変換</li>
+<li><code>await</code> <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.tasks.task.delay">Task.Delay</a>(<code>value</code>) を <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.thread.sleep">Thread.Sleep</a>(<code>value</code>) に変換</li>
+<li><a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1">ConfiguredCancelableAsyncEnumerable&lt;T&gt;</a> を返す呼び出しは <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.collections.ienumerable.getenumerator">IEnumerable.GetEnumerator</a>() に変換</li>
+</ul>
+</li>
+<li><p><code>CreateSyncVersionAttribute</code> を削除</p>
+</li>
+<li><p>XML ドキュメントを更新</p>
+</li>
+</ul>
+<h4>プロパティ</h4>
+<h5>OmitNullableDirective</h5>
+<p>このソースジェネレーターはコンパイル時に言語バージョンを検出します。デフォルトでは、言語バージョンが 8 以上の場合に限り <code>#nullable enable</code> ディレクティブを生成します。nullable コンテキストが有効かどうかを確実に判断することは<a href="https://github.com/dotnet/roslyn/issues/49555">不可能</a>なため、<code>OmitNullableDirective</code> プロパティを指定することでこのディレクティブの生成を省略できます。</p>
+<pre><code class="language-cs">[Zomp.SyncMethodGenerator.CreateSyncVersion(OmitNullableDirective = true)]
+public async Task MethodAsync()
+{
+    string f = null;
+}
+</code></pre>
+<h3>SYNC_ONLY シンボル</h3>
+<p>メソッドの同期版でのみ実行したい処理がある場合は、<code>SYNC_ONLY</code> の #if ディレクティブで囲みます。</p>
+<p><code>SYNC_ONLY</code> はどこにも定義してはいけません。ソースジェネレーターはこのシンボルが使われている #if ディレクティブを検出します。</p>
+<p><code>SYNC_ONLY</code> ブロック内のコードはそのままコピーされます。プロジェクトでグローバル名前空間を使用していない限り、このコードには完全修飾名前空間を含めるべきです。</p>
+<p>以下のような記述：</p>
+<pre><code class="language-cs">[Zomp.SyncMethodGenerator.CreateSyncVersion]
+public async Task WithSyncOnlyDirectiveAsync(CancellationToken ct)
+{
+#if SYNC_ONLY
+    System.Console.Write(&quot;Sync&quot;);
+#endif
+    await Task.CompletedTask;
+}
+</code></pre>
+<p>は、以下のように出力されます：</p>
+<pre><code class="language-cs">public void WithSyncOnlyDirective()
+{
+    System.Console.Write(&quot;Sync&quot;);
+}
+</code></pre>
+<p>元の非同期版のみで実行したい場合は、このようにフラグを反転させます：<code>#if !SYNC_ONLY</code>。</p>
+<p>注意：<code>SYNC_ONLY</code> は条件式で他のシンボルと組み合わせたり、<code>#elif</code> ディレクティブを持つことはできません。</p>
+<h2>インストール</h2>
+<p>ライブラリの追加方法：</p>
+<pre><code class="language-sh">dotnet add package Zomp.SyncMethodGenerator
+</code></pre>
+<h2>開発</h2>
+<h3>関連プロジェクト</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=lsoft.SyncToAsyncExtension">SyncToAsyncExtension</a> - メソッドの同期版と非同期版を切り替える拡張機能。本ライブラリの開発時に非常に便利です。</li>
+</ul>
+<h3>Act</h3>
+<p>このプロジェクトは <a href="https://github.com/nektos/act">act</a> と完全互換です。</p>
+<p><code>act</code> の実行に必要なパッケージ以外にも、GitHub Actions スクリプトは node、yarn、dotnet など不足しているものを自動インストールします。Windows プラットフォームでは、<a href="https://github.com/nektos/act/issues/1608">コンテナ非対応</a>のためホスト上でソフトウェアのインストールが行われます。</p>
+<p>act でプロジェクトをビルドするには以下の手順に従ってください：</p>
+<h4>Windows</h4>
+<p><a href="https://chocolatey.org/install">chocolatey</a> をインストールします（未インストールの場合）。</p>
+<p>以下のパッケージが未インストールの場合はインストールします：</p>
+<pre><code class="language-pwsh">choco install git -y
+choco install act-cli -y
+refreshenv
+</code></pre>
+<p>プロジェクトディレクトリで実行：</p>
+<pre><code class="language-pwsh">act -P windows-latest=-self-hosted --artifact-server-path /tmp/artifacts
+</code></pre>
+<h4>Linux</h4>
+<p><a href="https://lindevs.com/install-act-on-ubuntu">こちらの手順</a>に従って act をインストールします。</p>
+<p>プロジェクトディレクトリで実行：</p>
+<pre><code class="language-pwsh">act --artifact-server-path /tmp/artifacts
+</code></pre>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-17</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

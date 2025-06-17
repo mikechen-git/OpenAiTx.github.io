@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sync-method-generator - zompinc/sync-method-generator</title>
+    <meta name="title" content="sync-method-generator - zompinc/sync-method-generator">
+    <meta name="description" content="zompinc/sync-method-generator - GitHub repository it documentation and informationSync Method Generator Questo generatore di codice sorgente .NET produce un metodo sincrono a partire da uno asincrono. Casi d'uso Una libreria che espone sia la...">
+    <meta name="keywords" content="zompinc, sync-method-generator, GitHub, repository, it documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/zompinc/sync-method-generator/README-it.html">
+    <meta property="og:title" content="sync-method-generator - zompinc/sync-method-generator">
+    <meta property="og:description" content="zompinc/sync-method-generator - GitHub repository it documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/zompinc/sync-method-generator" id="githubRepoLink" target="_blank">zompinc/sync-method-generator</a>
+<h1 style="display: none;">Sync Method Generator Questo generatore di codice sorgente .NET produce un metodo sincrono a partire da uno asincrono. Casi d'uso Una libreria che espone sia la...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Sync Method Generator</h1>
+<p><a href="https://github.com/zompinc/sync-method-generator/actions/workflows/build.yml"><img src="https://github.com/zompinc/sync-method-generator/actions/workflows/build.yml/badge.svg" alt="Build" /></a>
+<img src="https://img.shields.io/badge/dotnet%20version-.NET%20Standard%202.0-blue" alt="Support .NET Standard 2.0" />
+<a href="https://www.nuget.org/packages/Zomp.SyncMethodGenerator"><img src="https://img.shields.io/nuget/v/Zomp.SyncMethodGenerator" alt="Nuget" /></a>
+<a href="https://codecov.io/gh/zompinc/sync-method-generator"><img src="https://codecov.io/gh/zompinc/sync-method-generator/branch/master/graph/badge.svg" alt="codecov" /></a></p>
+<p>Questo <a href="https://learn.microsoft.com/it-it/dotnet/csharp/roslyn-sdk/source-generators-overview">generatore di codice sorgente .NET</a> produce un metodo sincrono a partire da uno asincrono.</p>
+<h2>Casi d'uso</h2>
+<ul>
+<li>Una libreria che espone sia la versione sincrona che asincrona di un metodo</li>
+<li>Un'applicazione deve processare due tipi di dati nello stesso modo:
+<ul>
+<li>Dati di grandi dimensioni da I/O che non possono essere memorizzati in memoria prima dell'elaborazione: Metodo asincrono originale</li>
+<li>Piccolo campione di dati in memoria, solitamente un campione dei dati più grandi: Metodo sincrono generato</li>
+</ul>
+</li>
+</ul>
+<h2>Come funziona</h2>
+<h3>CreateSyncVersionAttribute</h3>
+<p>Decora il tuo metodo asincrono con <code>CreateSyncVersionAttribute</code> nella tua classe, struct o record <code>partial</code></p>
+<pre><code class="language-cs">[Zomp.SyncMethodGenerator.CreateSyncVersion]
+static async Task WriteAsync(ReadOnlyMemory&lt;byte&gt; buffer, Stream stream, 
+CancellationToken ct)
+    =&gt; await stream.WriteAsync(buffer, ct).ConfigureAwait(true);
+</code></pre>
+<p>E genererà una versione sincrona del metodo:</p>
+<pre><code class="language-cs">static void Write(ReadOnlySpan&lt;byte&gt; buffer, Stream stream)
+    =&gt; stream.Write(buffer);
+</code></pre>
+<p>Elenco delle modifiche applicate al nuovo metodo sincronizzato:</p>
+<ul>
+<li><p>Rimozione del modificatore async</p>
+</li>
+<li><p>Rimozione di await dai metodi così come dall'istruzione <code>foreach</code></p>
+</li>
+<li><p>Cambio dei tipi</p>
+<p>| Da                                                                                                                                                                                                | A                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| <a href="https://learn.microsoft.com/it-it/dotnet/api/system.threading.tasks.task">Task</a>*                                                                                                                 | void                                                                                                                                |
+| <a href="https://learn.microsoft.com/it-it/dotnet/api/system.threading.tasks.task-1">Task&lt;T&gt;</a>                                                                                                            | T                                                                                                                                   |
+| <a href="https://learn.microsoft.com/it-it/dotnet/api/system.func-1">Func</a>&lt;Task&gt;                                                                                                                         | <a href="https://learn.microsoft.com/it-it/dotnet/api/system.action">Action</a>                                                                |
+| Func&lt;Task&lt;T&gt;&gt;                                                                                                                                                                                   | Func&lt;T&gt;                                                                                                                            |
+| <a href="https://learn.microsoft.com/it-it/dotnet/api/system.collections.generic.iasyncenumerable-1">IAsyncEnumerable&lt;T&gt;</a>                                                                                | <a href="https://learn.microsoft.com/it-it/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable&lt;T&gt;</a>                            |
+| <a href="https://learn.microsoft.com/it-it/dotnet/api/system.collections.generic.iasyncenumerator-1">IAsyncEnumerator&lt;T&gt;</a>                                                                                | <a href="https://learn.microsoft.com/it-it/dotnet/api/system.collections.generic.ienumerator-1">IEnumerator&lt;T&gt;</a>                            |
+| <a href="https://learn.microsoft.com/it-it/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1.enumerator">ConfiguredCancelableAsyncEnumerable&lt;T&gt;.Enumerator</a>               | <a href="https://learn.microsoft.com/it-it/dotnet/api/system.collections.generic.ienumerator-1">IEnumerator&lt;T&gt;</a>                            |
+| <a href="https://learn.microsoft.com/it-it/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1.getasyncenumerator">ConfiguredCancelableAsyncEnumerable&lt;T&gt;.GetAsyncEnumerator</a> | <a href="https://learn.microsoft.com/it-it/dotnet/api/system.collections.generic.ienumerable-1.getenumerator">IEnumerable&lt;T&gt;.GetEnumerator</a> |
+| <a href="https://learn.microsoft.com/it-it/dotnet/api/system.memory-1">Memory&lt;T&gt;</a>                                                                                                                        | <a href="https://learn.microsoft.com/it-it/dotnet/api/system.span-1">Span&lt;T&gt;</a>                                                              |
+| <a href="https://learn.microsoft.com/it-it/dotnet/api/system.readonlymemory-1">ReadOnlyMemory&lt;T&gt;</a>                                                                                                        | <a href="https://learn.microsoft.com/it-it/dotnet/api/system.readonlyspan-1">ReadOnlySpan&lt;T&gt;</a>                                              |</p>
+</li>
+<li><p>* <a href="https://learn.microsoft.com/it-it/dotnet/api/system.threading.tasks.valuetask">ValueTask</a> viene gestito esattamente come <a href="https://learn.microsoft.com/it-it/dotnet/api/system.threading.tasks.task">Task</a></p>
+</li>
+<li><p>Rimozione dei parametri</p>
+<ul>
+<li><a href="https://learn.microsoft.com/it-it/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></li>
+<li><a href="https://learn.microsoft.com/it-it/dotnet/api/system.iprogress-1">IProgress&lt;T&gt;</a></li>
+</ul>
+</li>
+<li><p>Modifiche nelle invocazioni</p>
+<ul>
+<li>Rimozione di <code>ConfigureAwait</code> da <a href="https://learn.microsoft.com/it-it/dotnet/api/system.threading.tasks.task.configureawait">Tasks</a> e <a href="https://learn.microsoft.com/it-it/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.configureawait">Enumerazioni asincrone</a></li>
+<li>Rimozione di <code>WaitAsync</code> da <a href="https://learn.microsoft.com/it-it/dotnet/api/system.threading.tasks.task.waitasync">Tasks</a></li>
+<li>Rimozione di <a href="https://learn.microsoft.com/it-it/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.withcancellation">WithCancellation</a></li>
+<li>Riscrittura delle invocazioni asincrone con suffisso <code>Async</code> per chiamare la versione sincrona (es. <a href="https://learn.microsoft.com/it-it/dotnet/api/system.collections.generic.iasyncenumerator-1.movenextasync">MoveNextAsync()</a> diventa <a href="https://learn.microsoft.com/it-it/dotnet/api/system.collections.ienumerator.movenext">MoveNext()</a>)</li>
+<li>Rimozione delle invocazioni asincrone senza suffisso <code>Async</code></li>
+<li>Rimozione del parametro <a href="https://learn.microsoft.com/it-it/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></li>
+<li>Rimozione della chiamata <a href="https://learn.microsoft.com/it-it/dotnet/api/system.iprogress-1.report">IProgress&lt;T&gt;.Report(T)</a></li>
+<li>Rimozione della proprietà <a href="https://learn.microsoft.com/it-it/dotnet/api/system.memory-1.span">Memory&lt;T&gt;.Span</a></li>
+<li>Conversione di <code>await</code> <a href="https://learn.microsoft.com/it-it/dotnet/api/system.threading.tasks.task.fromresult">Task&lt;TResult&gt;.FromResult</a>(<code>value</code>) in <code>value</code></li>
+<li>Conversione di <code>await</code> <a href="https://learn.microsoft.com/it-it/dotnet/api/system.threading.tasks.task.delay">Task.Delay</a>(<code>value</code>) in <a href="https://learn.microsoft.com/it-it/dotnet/api/system.threading.thread.sleep">Thread.Sleep</a>(<code>value</code>)</li>
+<li>Conversione di qualsiasi invocazione che restituisce <a href="https://learn.microsoft.com/it-it/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1">ConfiguredCancelableAsyncEnumerable&lt;T&gt;</a> in <a href="https://learn.microsoft.com/it-it/dotnet/api/system.collections.ienumerable.getenumerator">IEnumerable.GetEnumerator</a>()</li>
+</ul>
+</li>
+<li><p>Rimozione di <code>CreateSyncVersionAttribute</code></p>
+</li>
+<li><p>Aggiornamento della documentazione XML</p>
+</li>
+</ul>
+<h4>Proprietà</h4>
+<h5>OmitNullableDirective</h5>
+<p>Questo generatore di codice sorgente rileva la versione del linguaggio durante la compilazione. Per impostazione predefinita, genererà la direttiva <code>#nullable enable</code> se e solo se la versione del linguaggio è 8 o superiore. Poiché è <a href="https://github.com/dotnet/roslyn/issues/49555">impossibile</a> determinare in modo affidabile se il contesto nullable è attivato o meno, è disponibile la proprietà <code>OmitNullableDirective</code> per omettere la generazione di tale direttiva.</p>
+<pre><code class="language-cs">[Zomp.SyncMethodGenerator.CreateSyncVersion(OmitNullableDirective = true)]
+public async Task MethodAsync()
+{
+    string f = null;
+}
+</code></pre>
+<h3>Simbolo SYNC_ONLY</h3>
+<p>Nel caso in cui ci sia una logica che deve essere eseguita solo nella versione sincronizzata del metodo, racchiudila nella direttiva <code>SYNC_ONLY</code> #if.</p>
+<p><code>SYNC_ONLY</code> non deve essere definito da nessuna parte. Il generatore di codice sorgente cercherà questa simbolo nelle direttive #if.</p>
+<p>Il codice all'interno del blocco <code>SYNC_ONLY</code> verrà copiato così com'è. A meno che non vengano usati namespace globali nel progetto, questo codice dovrebbe contenere namespace completamente qualificati.</p>
+<p>La seguente sintassi:</p>
+<pre><code class="language-cs">[Zomp.SyncMethodGenerator.CreateSyncVersion]
+public async Task WithSyncOnlyDirectiveAsync(CancellationToken ct)
+{
+#if SYNC_ONLY
+    System.Console.Write(&quot;Sync&quot;);
+#endif
+    await Task.CompletedTask;
+}
+</code></pre>
+<p>produrrà:</p>
+<pre><code class="language-cs">public void WithSyncOnlyDirective()
+{
+    System.Console.Write(&quot;Sync&quot;);
+}
+</code></pre>
+<p>Se vuoi eseguire solo nella versione asincrona originale, inverti il flag così: <code>#if !SYNC_ONLY</code>.</p>
+<p>Nota: <code>SYNC_ONLY</code> non può essere combinato con altri simboli in un'espressione condizionale e non può avere la direttiva <code>#elif</code>.</p>
+<h2>Installazione</h2>
+<p>Per aggiungere la libreria usa:</p>
+<pre><code class="language-sh">dotnet add package Zomp.SyncMethodGenerator
+</code></pre>
+<h2>Sviluppo</h2>
+<h3>Progetti correlati</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=lsoft.SyncToAsyncExtension">SyncToAsyncExtension</a> - Permette di passare tra versioni sincrone e asincrone di un metodo. Molto utile nello sviluppo di questa libreria.</li>
+</ul>
+<h3>Act</h3>
+<p>Questo progetto è pienamente compatibile con <a href="https://github.com/nektos/act">act</a>.</p>
+<p>Oltre ai pacchetti necessari per eseguire <code>act</code> stesso, lo script GitHub Actions installa tutto ciò che potrebbe mancare, come node, yarn e dotnet. Su piattaforma Windows, l'installazione del software viene eseguita sull'host stesso a causa della <a href="https://github.com/nektos/act/issues/1608">mancanza</a> di supporto ai container.</p>
+<p>Per compilare il progetto usando act, segui queste istruzioni:</p>
+<h4>Windows</h4>
+<p>Installa <a href="https://chocolatey.org/install">chocolatey</a> se manca.</p>
+<p>Installa i seguenti pacchetti se mancanti:</p>
+<pre><code class="language-pwsh">choco install git -y
+choco install act-cli -y
+refreshenv
+</code></pre>
+<p>Nella directory del progetto esegui:</p>
+<pre><code class="language-pwsh">act -P windows-latest=-self-hosted --artifact-server-path /tmp/artifacts
+</code></pre>
+<h4>Linux</h4>
+<p>Installa act seguendo queste <a href="https://lindevs.com/install-act-on-ubuntu">istruzioni</a>.</p>
+<p>Nella directory del progetto esegui:</p>
+<pre><code class="language-pwsh">act --artifact-server-path /tmp/artifacts
+</code></pre>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-17</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>
