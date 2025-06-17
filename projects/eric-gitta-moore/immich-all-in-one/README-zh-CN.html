@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>immich-all-in-one - eric-gitta-moore/immich-all-in-one</title>
     <meta name="title" content="immich-all-in-one - eric-gitta-moore/immich-all-in-one">
-    <meta name="description" content="eric-gitta-moore/immich-all-in-one - GitHub repository zh-CN documentation and informationImmich + cn-clip + RapidOCR + InsightFace ~~后续计划迁移到 ente-io/ente，因为我需要 s3 来存储照片~~ ente 还是功能太少了 改成使用 juicedata/juicefs 挂载 s3 项目简介 本项目是 Immich 照片管理系统的 AI 能力增强解决方案。主要通过以下组件扩展了 Immich 的原生功能： inference-gateway：Go 语言编写的网关服务，负责智能分流 Immich 的机器学习请求 mt-photos-ai：基于 Python 和 FastAPI 的 AI 服务，集成了 RapidOCR 和 cn-clip 模型 对 Immich 的功能扩展，包括 OCR 文本识别搜索和单媒体 AI 数据重新处理，OCR 全文向量和 CLIP 向量打分混合排序 PostgreSQL 添加 zhparser 中文分词 主要功能 1. OCR 文字识别与搜索 使用 RapidOCR 对图片中的文字进行识别 支持中英文混合文本识别 实现基于图片文字内容的搜索功能 2. CLIP 图像向量处理 基于 cn-clip 模型实现更准确的中文图像 - 文本匹配 支持语义化搜索，提高搜索准确度 3. 单媒体 AI 数据重新处理 支持对单张图片/视频重新生成 OCR 数据 支持对单张图片/视频重新生成 CLIP 向量数据 针对识别结果不准确的情况提供手动刷新能力 系统架构 ┌─────────────┐ ┌──────────────────┐ ┌───────────────┐ │ │ │ │ │ │ │ Immich │─────▶│ inference-gateway│─────▶│ Immich ML │ │ Server │ │ (Go网关) │ │ Server │ │ │ │ │ │ │ └─────────────┘ └──────────────────┘ └───────────────┘ │ │ OCR/CLIP请求 ▼ ┌──────────────────┐ │ │ │ mt-photos-ai │ │ (Python服务) │ │ │ └──────────────────┘ 组件详解 inference-gateway Go 语言编写的网关服务，主要职责： 接收 Immich 的机器学习请求 根据请求类型将 OCR 和 CLIP 请求转发到 mt-photos-ai 服务 将其他机器学习请求（如人脸识别）转发到 Immich...">
+    <meta name="description" content="eric-gitta-moore/immich-all-in-one - GitHub repository zh-CN documentation and informationImmich + cn-clip + RapidOCR + InsightFace ~~后续计划迁移到 ente-io/ente，因为我需要 s3 来存储照片~~ ente 还是功能太少了 改成使用 juicedata/juicefs 挂载 s3 项目简介 本项目是 Immich 照片管理系统的 AI 能力增强解决方案...">
     <meta name="keywords" content="eric-gitta-moore, immich-all-in-one, GitHub, repository, zh-CN documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
@@ -39,8 +39,7 @@
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/eric-gitta-moore/immich-all-in-one" id="githubRepoLink" target="_blank">eric-gitta-moore/immich-all-in-one</a>
-<br>
-<h1 style="display: none;">Immich + cn-clip + RapidOCR + InsightFace ~~后续计划迁移到 ente-io/ente，因为我需要 s3 来存储照片~~ ente 还是功能太少了 改成使用 juicedata/juicefs 挂载 s3 项目简介 本项目是 Immich 照片管理系统的 AI 能力增强解决方案。主要通过以下组件扩展了 Immich 的原生功能： inference-gateway：Go 语言编写的网关服务，负责智能分流 Immich 的机器学习请求 mt-photos-ai：基于 Python 和 FastAPI 的 AI 服务，集成了 RapidOCR 和 cn-clip 模型 对 Immich 的功能扩展，包括 OCR 文本识别搜索和单媒体 AI 数据重新处理，OCR 全文向量和 CLIP 向量打分混合排序 PostgreSQL 添加 zhparser 中文分词 主要功能 1. OCR 文字识别与搜索 使用 RapidOCR 对图片中的文字进行识别 支持中英文混合文本识别 实现基于图片文字内容的搜索功能 2. CLIP 图像向量处理 基于 cn-clip 模型实现更准确的中文图像 - 文本匹配 支持语义化搜索，提高搜索准确度 3. 单媒体 AI 数据重新处理 支持对单张图片/视频重新生成 OCR 数据 支持对单张图片/视频重新生成 CLIP 向量数据 针对识别结果不准确的情况提供手动刷新能力 系统架构 ┌─────────────┐ ┌──────────────────┐ ┌───────────────┐ │ │ │ │ │ │ │ Immich │─────▶│ inference-gateway│─────▶│ Immich ML │ │ Server │ │ (Go网关) │ │ Server │ │ │ │ │ │ │ └─────────────┘ └──────────────────┘ └───────────────┘ │ │ OCR/CLIP请求 ▼ ┌──────────────────┐ │ │ │ mt-photos-ai │ │ (Python服务) │ │ │ └──────────────────┘ 组件详解 inference-gateway Go 语言编写的网关服务，主要职责： 接收 Immich 的机器学习请求 根据请求类型将 OCR 和 CLIP 请求转发到 mt-photos-ai 服务 将其他机器学习请求（如人脸识别）转发到 Immich...</h1>
+<h1 style="display: none;">Immich + cn-clip + RapidOCR + InsightFace ~~后续计划迁移到 ente-io/ente，因为我需要 s3 来存储照片~~ ente 还是功能太少了 改成使用 juicedata/juicefs 挂载 s3 项目简介 本项目是 Immich 照片管理系统的 AI 能力增强解决方案...</h1>
         </div>
         <div class="language-badges" id="languageBadges">
             <!-- You can generate language badges here if needed -->

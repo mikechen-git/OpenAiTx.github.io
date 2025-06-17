@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KVzip - snu-mllab/KVzip</title>
     <meta name="title" content="KVzip - snu-mllab/KVzip">
-    <meta name="description" content="snu-mllab/KVzip - GitHub repository zh-TW documentation and informationKVzip：具有上下文重建的查詢無關 KV 快取壓縮 [論文] [部落格] 新功能介紹？ KVzip 壓縮 KV 快取以支援 多樣化的未來查詢。 【上下文相關】達成 3–4 倍的 KV 快取大小縮減 及 2 倍的解碼延遲降低，且性能衰減極小。 【上下文無關】強化 DuoAttention 風格的頭級 KV 壓縮，僅需 數次前向傳播、一分鐘內完成 頭級重要性分數優化（快 100 倍）。 執行 demo.py： 查詢無關設定的基準測試 任務：SQuAD、NIAH、SCBench、GSM8K。 模型：Qwen2.5-7B-Instruct-1M 安裝 我們使用 CUDA 12.1 和 Python 3.10 cd KVzip pip install -r requirements.txt pip install flash-attn==2.7.4.post1 --no-build-isolation make i 若要使用 QServe 量化，請參考 ./model/quant_model。 資料集 請從 Google Drive 下載預處理後的 SCBench 資料集。 若已下載並解壓縮，請將 scbench 資料夾移至指定位置。 mv scbench.zip kvzip/data/ cd kvzip/data unzip scbench.zip 快速開始 from model import ModelKVzip model = ModelKVzip(&quot;Qwen/Qwen2.5-7B-Instruct-1M&quot;) context = &quot;This is my basic profile. My name is Kim living in Seoul. My major is computer science.&quot; queries = [&quot;What is my name?&quot;, &quot;Do I live in Seoul?&quot;] kv = model.prefill(context, load_score=False) # 預填 KV 快取 + 重要性評分 kv.prune(ratio=0.3) # 壓縮比例，淘汰 70% KV for q in queries: query_ids = model.apply_template(q) output = model.generate(query_ids, kv=kv, update_cache=False) # 高效推理 print(q, output) 支援的模型列在 model/load.py，包含 LLaMA3、Qwen2.5/3、Gemma3。 設定 load_score=True 可消除壓縮時的額外開銷，啟用上下文無關的 KV 淘汰，壓縮比例建議為...">
+    <meta name="description" content="snu-mllab/KVzip - GitHub repository zh-TW documentation and informationKVzip：具有上下文重建的查詢無關 KV 快取壓縮 [論文] [部落格] 新功能介紹？ KVzip 壓縮 KV 快取以支援 多樣化的未來查詢。 【上下文相關】達成 3–4 倍的 KV 快取大小縮減 及 2 倍的解碼延遲降低，且性能衰減極小。 【上下文無關】強化 DuoAttention 風格的頭級 KV 壓縮，僅需 ...">
     <meta name="keywords" content="snu-mllab, KVzip, GitHub, repository, zh-TW documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
@@ -39,8 +39,7 @@
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/snu-mllab/KVzip" id="githubRepoLink" target="_blank">snu-mllab/KVzip</a>
-<br>
-<h1 style="display: none;">KVzip：具有上下文重建的查詢無關 KV 快取壓縮 [論文] [部落格] 新功能介紹？ KVzip 壓縮 KV 快取以支援 多樣化的未來查詢。 【上下文相關】達成 3–4 倍的 KV 快取大小縮減 及 2 倍的解碼延遲降低，且性能衰減極小。 【上下文無關】強化 DuoAttention 風格的頭級 KV 壓縮，僅需 數次前向傳播、一分鐘內完成 頭級重要性分數優化（快 100 倍）。 執行 demo.py： 查詢無關設定的基準測試 任務：SQuAD、NIAH、SCBench、GSM8K。 模型：Qwen2.5-7B-Instruct-1M 安裝 我們使用 CUDA 12.1 和 Python 3.10 cd KVzip pip install -r requirements.txt pip install flash-attn==2.7.4.post1 --no-build-isolation make i 若要使用 QServe 量化，請參考 ./model/quant_model。 資料集 請從 Google Drive 下載預處理後的 SCBench 資料集。 若已下載並解壓縮，請將 scbench 資料夾移至指定位置。 mv scbench.zip kvzip/data/ cd kvzip/data unzip scbench.zip 快速開始 from model import ModelKVzip model = ModelKVzip(&quot;Qwen/Qwen2.5-7B-Instruct-1M&quot;) context = &quot;This is my basic profile. My name is Kim living in Seoul. My major is computer science.&quot; queries = [&quot;What is my name?&quot;, &quot;Do I live in Seoul?&quot;] kv = model.prefill(context, load_score=False) # 預填 KV 快取 + 重要性評分 kv.prune(ratio=0.3) # 壓縮比例，淘汰 70% KV for q in queries: query_ids = model.apply_template(q) output = model.generate(query_ids, kv=kv, update_cache=False) # 高效推理 print(q, output) 支援的模型列在 model/load.py，包含 LLaMA3、Qwen2.5/3、Gemma3。 設定 load_score=True 可消除壓縮時的額外開銷，啟用上下文無關的 KV 淘汰，壓縮比例建議為...</h1>
+<h1 style="display: none;">KVzip：具有上下文重建的查詢無關 KV 快取壓縮 [論文] [部落格] 新功能介紹？ KVzip 壓縮 KV 快取以支援 多樣化的未來查詢。 【上下文相關】達成 3–4 倍的 KV 快取大小縮減 及 2 倍的解碼延遲降低，且性能衰減極小。 【上下文無關】強化 DuoAttention 風格的頭級 KV 壓縮，僅需 ...</h1>
         </div>
         <div class="language-badges" id="languageBadges">
             <!-- You can generate language badges here if needed -->
