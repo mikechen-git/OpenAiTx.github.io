@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>Megatron-LM &amp; Megatron-Core - NVIDIA/Megatron-LM</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="Megatron-LM &amp; Megatron-Core - NVIDIA/Megatron-LM">
+    <meta name="description" content="NVIDIA/Megatron-LM - GitHub repository vi documentation and information">
+    <meta name="keywords" content="NVIDIA, Megatron-LM, GitHub, repository, vi documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/NVIDIA/Megatron-LM/README-vi.html">
+    <meta property="og:title" content="Megatron-LM &amp; Megatron-Core - NVIDIA/Megatron-LM">
+    <meta property="og:description" content="NVIDIA/Megatron-LM - GitHub repository vi documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,627 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>Lỗi tải nội dung</h2>
-                    <p>Không thể tải nội dung markdown. Vui lòng kiểm tra:</p>
-                    <ul>
-                        <li>Các tham số URL chính xác</li>
-                        <li>Tệp tồn tại tại đường dẫn được chỉ định</li>
-                        <li>Bạn có kết nối internet hoạt động</li>
-                    </ul>
-                    <p>Chi tiết lỗi: Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><div align="center">
+
+<h1>Megatron-LM &amp; Megatron-Core</h1>
+<h4>Các kỹ thuật tối ưu hóa GPU để huấn luyện mô hình transformer quy mô lớn</h4>
+
+<p><a href="https://docs.nvidia.com/megatron-core/developer-guide/latest/index.html"><img src="https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat" alt="Documentation"></a><br><a href="./setup.py"><img src="https://img.shields.io/badge/release-0.5.0-green" alt="version"></a><br><a href="./LICENSE"><img src="https://img.shields.io/badge/license-OpenBSD-blue" alt="license"></a></p>
+<div align="left">
+
+<h1>Tin tức mới nhất</h1>
+<ul>
+<li><strong>[2024/7]</strong> Megatron-Core v0.7 cải thiện khả năng mở rộng và độ bền khi huấn luyện, đồng thời bổ sung hỗ trợ huấn luyện đa phương thức (<a href="https://developer.nvidia.com/blog/train-generative-ai-models-more-efficiently-with-new-nvidia-megatron-core-functionalities/">blog</a>). </li>
+<li><strong>[2024/6]</strong> Megatron-Core bổ sung hỗ trợ cho các mô hình dựa trên Mamba. Xem bài báo <a href="https://arxiv.org/pdf/2406.07887">An Empirical Study of Mamba-based Language Models</a> và <a href="https://github.com/NVIDIA/Megatron-LM/tree/ssm/examples/mamba">mã ví dụ</a>.</li>
+<li><strong>[2024/1 Announcement]</strong> NVIDIA đã phát hành các khả năng cốt lõi của <strong>Megatron-LM</strong> vào <a href="https://github.com/NVIDIA/Megatron-LM/tree/main/megatron/core"><strong>Megatron-Core</strong></a> trong kho lưu trữ này. Megatron-Core mở rộng các kỹ thuật tối ưu hóa GPU của Megatron-LM với nhiều đổi mới tiên tiến về tối ưu hóa ở cấp hệ thống, nổi bật với API dạng module, có thể kết hợp. Khám phá <a href="#megatron-core">giới thiệu về Megatron-Core</a> để biết thêm chi tiết.</li>
+</ul>
+<h1>Mục lục</h1>
+<ul>
+<li><a href="#megatron-lm--megatron-core">Megatron-LM &amp; Megatron-Core</a></li>
+<li><a href="#tin-tuc-moi-nhat">Tin tức mới nhất</a></li>
+<li><a href="#muc-luc">Mục lục</a></li>
+<li><a href="#tong-quan-ve-megatron">Tổng quan về Megatron</a><ul>
+<li><a href="#megatron-lm">Megatron-LM</a></li>
+<li><a href="#megatron-core">Megatron-Core</a></li>
+</ul>
+</li>
+<li><a href="#toc-do-huan-luyen-va-kha-nang-mo-rong">Tốc độ huấn luyện và khả năng mở rộng</a></li>
+<li><a href="#cai-dat">Cài đặt</a><ul>
+<li><a href="#docker-khuyen-nghi">Docker (Khuyến nghị)</a></li>
+<li><a href="#cac-lua-chon-cai-dat">Các lựa chọn cài đặt</a><ul>
+<li><a href="#cai-dat-tu-pypi">Cài đặt từ PyPI</a></li>
+<li><a href="#cai-dat-tu-ma-nguon">Cài đặt từ mã nguồn</a></li>
+</ul>
+</li>
+<li><a href="#dieu-kien-tien-quyet">Điều kiện tiên quyết</a></li>
+<li><a href="#tai-checkpoint">Tải checkpoint</a></li>
+</ul>
+</li>
+<li><a href="#cach-su-dung">Cách sử dụng</a></li>
+<li><a href="#huan-luyen">Huấn luyện</a><ul>
+<li><a href="#tien-xu-ly-du-lieu">Tiền xử lý dữ liệu</a></li>
+<li><a href="#tien-huan-luyen-bert">Tiền huấn luyện BERT</a></li>
+<li><a href="#tien-huan-luyen-gpt">Tiền huấn luyện GPT</a></li>
+<li><a href="#tien-huan-luyen-t5">Tiền huấn luyện T5</a></li>
+<li><a href="#tien-huan-luyen-phan-tan">Tiền huấn luyện phân tán</a></li>
+<li><a href="#checkpoint-hoa-kich-hoat-va-tai-tinh-toan">Checkpoint hóa kích hoạt và tái tính toán</a></li>
+<li><a href="#toi-uu-hoa-phan-tan">Tối ưu hóa phân tán</a></li>
+<li><a href="#flashattention">FlashAttention</a></li>
+<li><a href="#vi-du-gpt-3">Ví dụ GPT-3</a></li>
+<li><a href="#retro-va-instructretro">Retro và InstructRetro</a></li>
+<li><a href="#mo-hinh-ngon-ngu-dua-tren-mamba">Mô hình ngôn ngữ dựa trên Mamba</a></li>
+<li><a href="#mixture-of-experts">Mixture of Experts</a></li>
+</ul>
+</li>
+<li><a href="#danh-gia-va-cac-tac-vu">Đánh giá và các tác vụ</a><ul>
+<li><a href="#sinh-van-ban-gpt">Sinh văn bản GPT</a><ul>
+<li><a href="#giam-doc-gpt-qua-tu-sinh">Giảm độc GPT qua tự sinh</a></li>
+</ul>
+</li>
+<li><a href="#danh-gia-gpt">Đánh giá GPT</a><ul>
+<li><a href="#danh-gia-perplexity-wikitext">Đánh giá perplexity WikiText</a></li>
+<li><a href="#do-chinh-xac-lambada-cloze">Độ chính xác LAMBADA Cloze</a></li>
+</ul>
+</li>
+<li><a href="#danh-gia-tac-vu-bert">Đánh giá tác vụ BERT</a><ul>
+<li><a href="#danh-gia-race">Đánh giá RACE</a></li>
+<li><a href="#danh-gia-mnli">Đánh giá MNLI</a></li>
+</ul>
+</li>
+<li><a href="#suy-luan-va-tinh-chinh-llama-2">Suy luận và tinh chỉnh Llama-2</a></li>
+</ul>
+</li>
+<li><a href="#toi-uu-hoa-va-trien-khai-mo-hinh">Tối ưu hóa và triển khai mô hình</a><ul>
+<li><a href="#luong-tu-hoa-va-trien-khai-tensorrt-llm">Lượng tử hóa và triển khai TensorRT-LLM</a></li>
+</ul>
+</li>
+<li><a href="#bo-du-lieu">Bộ dữ liệu</a><ul>
+<li><a href="#thu-thap-du-lieu-huan-luyen-wikipedia">Thu thập dữ liệu huấn luyện Wikipedia</a></li>
+<li><a href="#thu-thap-du-lieu-webtext-cho-gpt">Thu thập dữ liệu Webtext cho GPT</a></li>
+</ul>
+</li>
+<li><a href="#tai-lap-ket-qua">Tái lập kết quả</a></li>
+<li><a href="#chuyen-doi-checkpoint">Chuyển đổi checkpoint</a><ul>
+<li><a href="#chuyen-doi-lop-mo-hinh">Chuyển đổi lớp mô hình</a></li>
+<li><a href="#chuyen-doi-dinh-dang-checkpoint">Chuyển đổi định dạng checkpoint</a></li>
+</ul>
+</li>
+<li><a href="#cac-du-an-su-dung-megatron">Các dự án sử dụng Megatron</a></li>
+</ul>
+<h1>Tổng quan về Megatron</h1>
+<p>Kho lưu trữ này bao gồm hai thành phần chính: <strong>Megatron-LM</strong> và <strong>Megatron-Core</strong>. Megatron-LM đóng vai trò là framework nghiên cứu sử dụng Megatron-Core để huấn luyện các mô hình ngôn ngữ lớn (LLM). Ngược lại, Megatron-Core là một thư viện các kỹ thuật huấn luyện tối ưu hóa GPU, đi kèm với hỗ trợ sản phẩm chính thức, bao gồm các API phiên bản hóa và phát hành định kỳ. Bạn có thể sử dụng Megatron-Core cùng với Megatron-LM hoặc <a href="https://docs.nvidia.com/deeplearning/nemo/user-guide/docs/en/main/nlp/nemo_megatron/mcore_customization.html">Nvidia NeMo Framework</a> cho giải pháp trọn gói, cloud-native. Ngoài ra, bạn có thể tích hợp các khối xây dựng của Megatron-Core vào framework huấn luyện yêu thích của mình.</p>
+<h2>Megatron-LM</h2>
+<p>Được giới thiệu lần đầu vào năm 2019, Megatron (<a href="https://arxiv.org/pdf/1909.08053.pdf">1</a>, <a href="https://arxiv.org/pdf/2104.04473.pdf">2</a>, và <a href="https://arxiv.org/pdf/2205.05198">3</a>) đã khơi dậy làn sóng đổi mới trong cộng đồng AI, cho phép các nhà nghiên cứu và phát triển tận dụng nền tảng của thư viện này để thúc đẩy tiến bộ LLM. Hiện nay, nhiều framework phát triển LLM phổ biến nhất đã được lấy cảm hứng và xây dựng trực tiếp dựa trên thư viện mã nguồn mở Megatron-LM, thúc đẩy làn sóng mô hình nền tảng và các startup AI. Một số framework LLM nổi bật được xây dựng dựa trên Megatron-LM bao gồm <a href="https://github.com/hpcaitech/ColossalAI">Colossal-AI</a>, <a href="https://github.com/huggingface/accelerate">HuggingFace Accelerate</a>, và <a href="https://www.nvidia.com/en-us/ai-data-science/generative-ai/nemo-framework/">NVIDIA NeMo Framework</a>. Danh sách các dự án sử dụng trực tiếp Megatron có thể xem <a href="#cac-du-an-su-dung-megatron">tại đây</a>.</p>
+<h2>Megatron-Core</h2>
+<p>Megatron-Core là thư viện mã nguồn mở dựa trên PyTorch, chứa các kỹ thuật tối ưu hóa GPU và các tối ưu hóa hệ thống tiên tiến. Nó trừu tượng hóa các kỹ thuật này thành các API dạng module, có thể kết hợp, cho phép các nhà phát triển và nghiên cứu mô hình linh hoạt huấn luyện các transformer tùy chỉnh ở quy mô lớn trên hạ tầng tính toán tăng tốc NVIDIA. Thư viện này tương thích với tất cả GPU NVIDIA Tensor Core, bao gồm hỗ trợ tăng tốc FP8 cho <a href="https://www.nvidia.com/en-us/data-center/technologies/hopper-architecture/">kiến trúc NVIDIA Hopper</a>. </p>
+<p>Megatron-Core cung cấp các khối xây dựng cốt lõi như cơ chế attention, khối và lớp transformer, các lớp chuẩn hóa và kỹ thuật embedding. Các tính năng bổ sung như tái tính toán kích hoạt, checkpoint phân tán cũng được tích hợp sẵn trong thư viện. Các khối xây dựng và chức năng đều được tối ưu hóa GPU, có thể xây dựng với các chiến lược song song hóa tiên tiến để đạt tốc độ huấn luyện và độ ổn định tối ưu trên hạ tầng tăng tốc NVIDIA. Một thành phần quan trọng khác của Megatron-Core là các kỹ thuật song song hóa mô hình tiên tiến (song song tensor, chuỗi, pipeline, ngữ cảnh và song song chuyên gia MoE).</p>
+<p>Megatron-Core có thể sử dụng cùng với <a href="https://www.nvidia.com/en-us/ai-data-science/products/nemo/">NVIDIA NeMo</a>, nền tảng AI cấp doanh nghiệp. Ngoài ra, bạn có thể khám phá Megatron-Core với vòng lặp huấn luyện PyTorch gốc <a href="https://github.com/NVIDIA/Megatron-LM/tree/main/examples">tại đây</a>. Xem thêm tại <a href="https://docs.nvidia.com/megatron-core/developer-guide/latest/index.html">tài liệu Megatron-Core</a>.</p>
+<h1>Tốc độ huấn luyện và khả năng mở rộng</h1>
+<p>Bộ mã nguồn của chúng tôi có thể huấn luyện hiệu quả các mô hình ngôn ngữ lớn (tức là các mô hình với hàng trăm tỷ tham số) với cả song song hóa mô hình và dữ liệu. Để minh họa khả năng mở rộng với nhiều GPU và kích thước mô hình, chúng tôi xét các mô hình GPT từ 2 tỷ tham số đến 462 tỷ tham số. Tất cả các mô hình sử dụng kích thước từ vựng 131.072 và độ dài chuỗi 4096. Chúng tôi thay đổi kích thước ẩn, số lượng đầu attention và số tầng để có được kích thước mô hình cụ thể. Khi kích thước mô hình tăng, chúng tôi cũng tăng nhẹ batch size. Các thí nghiệm sử dụng tối đa 6144 GPU <a href="https://www.nvidia.com/en-us/data-center/h100/">H100</a>. Chúng tôi thực hiện chồng chéo mịn giữa giao tiếp song song dữ liệu (<code>--overlap-grad-reduce --overlap-param-gather</code>), song song tensor (<code>--tp-comm-overlap</code>) và song song pipeline (bật mặc định) với tính toán để cải thiện khả năng mở rộng. Thông lượng báo cáo là đo cho toàn bộ quá trình huấn luyện và bao gồm tất cả các thao tác như tải dữ liệu, bước tối ưu hóa, giao tiếp và cả ghi log. Lưu ý rằng các mô hình này chưa được huấn luyện đến hội tụ.</p>
+<p><img src="images/model_table.png" alt="Bảng mô hình"></p>
+<p>Kết quả weak scaling của chúng tôi cho thấy khả năng mở rộng siêu tuyến tính (MFU tăng từ 41% với mô hình nhỏ nhất lên 47-48% với các mô hình lớn nhất); điều này là do GEMM lớn hơn có cường độ số học cao hơn và do đó thực thi hiệu quả hơn.</p>
+<p><img src="images/weak_scaling.png" alt="Weak scaling"></p>
+<p>Chúng tôi cũng strong scale mô hình GPT-3 chuẩn (phiên bản của chúng tôi có hơn 175 tỷ tham số một chút do kích thước từ vựng lớn hơn) từ 96 GPU H100 lên 4608 GPU, giữ nguyên batch size là 1152 chuỗi trong suốt quá trình. Giao tiếp trở nên rõ rệt hơn ở quy mô lớn, dẫn tới giảm MFU từ 47% xuống 42%.</p>
+<p><img src="images/strong_scaling.png" alt="Strong scaling"></p>
+<h1>Cài đặt</h1>
+<h2>Docker (Khuyến nghị)</h2>
+<p>Chúng tôi khuyến nghị mạnh mẽ sử dụng bản phát hành trước của <a href="https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch">PyTorch NGC Container</a> thay vì bản mới nhất. Các bản phát hành của chúng tôi luôn dựa trên container NGC của tháng trước, do đó đảm bảo tương thích và ổn định. Container này đã cài đặt sẵn tất cả phụ thuộc với phiên bản phù hợp và cấu hình tối ưu cho GPU NVIDIA. </p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Kéo container NGC bản trước (thay 25.04 bằng phiên bản tháng trước)</span>
+docker pull nvcr.io/nvidia/pytorch:25.04-py3
+</code></pre>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Chạy container với các thư mục được mount</span>
+docker run --gpus all -it --<span class="hljs-built_in">rm</span> \
+  -v /path/to/megatron:/workspace/megatron \
+  -v /path/to/dataset:/workspace/dataset \
+  -v /path/to/checkpoints:/workspace/checkpoints \
+  nvcr.io/nvidia/pytorch:25.04-py3
+</code></pre>
+<h2>Các lựa chọn cài đặt</h2>
+<h3>Điều kiện tiên quyết</h3>
+<ul>
+<li>PyTorch (phiên bản ổn định mới nhất)</li>
+<li>CUDA, cuDNN, NCCL (phiên bản ổn định mới nhất)</li>
+<li>Hỗ trợ FP8 trên GPU NVIDIA Hopper, Ada, và Blackwell</li>
+<li>Để có hiệu suất tốt nhất, sử dụng GPU NVIDIA từ thế hệ Turing trở lên</li>
+</ul>
+<h3>Cài đặt từ PyPI</h3>
+<p>Để cài đặt phiên bản ổn định mới nhất với pip:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Cài đặt bản phát hành mới nhất</span>
+pip install megatron-core
+</code></pre>
+<h3>Cài đặt từ mã nguồn</h3>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Clone kho lưu trữ</span>
+git <span class="hljs-built_in">clone</span> https://github.com/NVIDIA/Megatron-LM.git
+<span class="hljs-built_in">cd</span> Megatron-LM
+
+<span class="hljs-comment"># Tùy chọn checkout một bản phát hành cụ thể</span>
+git checkout v0.11.0
+
+<span class="hljs-comment"># Cài đặt ở chế độ phát triển</span>
+pip install -e .
+</code></pre>
+<h2>Tải checkpoint</h2>
+<p>Chúng tôi đã cung cấp checkpoint pretrained cho <a href="https://ngc.nvidia.com/catalog/models/nvidia:megatron_bert_345m">BERT-345M</a> và <a href="https://ngc.nvidia.com/catalog/models/nvidia:megatron_lm_345m">GPT-345M</a> để đánh giá hoặc tinh chỉnh cho các tác vụ hạ nguồn. Để truy cập các checkpoint này, trước tiên hãy <a href="https://ngc.nvidia.com/signup">đăng ký</a> và <a href="https://ngc.nvidia.com/setup/installers/cli">cài đặt</a> NVIDIA GPU Cloud (NGC) Registry CLI. Tham khảo tài liệu hướng dẫn tải mô hình tại <a href="https://docs.nvidia.com/dgx/ngc-registry-cli-user-guide/index.html#topic_6_4_1">tài liệu NGC</a>.</p>
+<p>Ngoài ra, bạn có thể tải trực tiếp các checkpoint bằng:</p>
+<pre>BERT-345M-uncased: wget --content-disposition https://api.ngc.nvidia.com/v2/models/nvidia/megatron_bert_345m/versions/v0.1_uncased/zip -O megatron_bert_345m_v0.1_uncased.zip
+BERT-345M-cased: wget --content-disposition https://api.ngc.nvidia.com/v2/models/nvidia/megatron_bert_345m/versions/v0.1_cased/zip -O megatron_bert_345m_v0.1_cased.zip
+GPT-345M: wget --content-disposition https://api.ngc.nvidia.com/v2/models/nvidia/megatron_lm_345m/versions/v0.0/zip -O megatron_lm_345m_v0.0.zip
+</pre>
+
+<p>Các mô hình yêu cầu file từ vựng để chạy. File vocab WordPiece của BERT có thể trích xuất từ các mô hình BERT pretrained của Google: <a href="https://s3.amazonaws.com/models.huggingface.co/bert/bert-large-uncased-vocab.txt">uncased</a>, <a href="https://s3.amazonaws.com/models.huggingface.co/bert/bert-large-cased-vocab.txt">cased</a>. File <a href="https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-vocab.json">vocab GPT</a> và <a href="https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-merges.txt">merge table</a> có thể tải trực tiếp.</p>
+<h1>Cách sử dụng</h1>
+<p>Sau khi cài đặt, có một số quy trình làm việc khả thi. Quy trình đầy đủ nhất là:</p>
+<ol>
+<li>Tiền xử lý dữ liệu</li>
+<li>Tiền huấn luyện</li>
+<li>Tinh chỉnh (Tùy chọn cho các tác vụ zero-shot)</li>
+<li>Đánh giá tác vụ hạ nguồn hoặc sinh văn bản</li>
+</ol>
+<p>Tuy nhiên, bước 1 và 2 có thể được thay thế bằng cách sử dụng một trong các mô hình pretrained đã đề cập ở trên.</p>
+<p>Chúng tôi đã cung cấp một số script để tiền huấn luyện cả BERT và GPT trong thư mục <a href="./examples"><code>examples</code></a>, cũng như các script cho các tác vụ hạ nguồn zero-shot và fine-tuned bao gồm MNLI, RACE, WikiText103 và đánh giá LAMBADA. Ngoài ra còn có script sinh văn bản tương tác cho GPT.</p>
+<h1>Huấn luyện</h1>
+<h2>Tiền xử lý dữ liệu</h2>
+<p>Dữ liệu huấn luyện cần được tiền xử lý. Đầu tiên, đặt dữ liệu huấn luyện của bạn ở định dạng json rời, với một json chứa một mẫu văn bản mỗi dòng. Ví dụ:</p>
+<pre>{"src": "www.nvidia.com", "text": "The quick brown fox", "type": "Eng", "id": "0", "title": "First Part"}
+{"src": "The Internet", "text": "jumps over the lazy dog", "type": "Eng", "id": "42", "title": "Second Part"}
+</pre>
+
+<p>Tên trường <code>text</code> trong json có thể thay đổi bằng cờ <code>--json-key</code> trong <a href="./tools/preprocess_data.py"><code>preprocess_data.py</code></a>. Các trường metadata khác là tùy chọn và không dùng trong huấn luyện.</p>
+<p>Json rời sau đó được xử lý sang định dạng nhị phân để huấn luyện. Để chuyển json sang định dạng mmap, dùng <code>preprocess_data.py</code>. Một script ví dụ chuẩn bị dữ liệu cho huấn luyện BERT:</p>
+<pre>python tools/preprocess_data.py \
+       --input my-corpus.json \
+       --output-prefix my-bert \
+       --vocab-file bert-vocab.txt \
+       --tokenizer-type BertWordPieceLowerCase \
+       --split-sentences
+</pre>
+
+<p>Kết quả sẽ là hai file, trong trường hợp này, tên là <code>my-bert_text_sentence.bin</code> và <code>my-bert_text_sentence.idx</code>. Tham số <code>--data-path</code> được chỉ định trong huấn luyện BERT sau này là đường dẫn đầy đủ và tên file mới, nhưng không có phần mở rộng.</p>
+<p>Với T5, sử dụng tiền xử lý tương tự như BERT, có thể đổi tên thành:</p>
+<pre>       --output-prefix my-t5 \
+</pre>
+<p>Một số chỉnh sửa nhỏ cần thiết cho tiền xử lý dữ liệu GPT, cụ thể là bổ sung bảng merge, thêm token kết thúc tài liệu (end-of-document), loại bỏ việc tách câu, và thay đổi loại tokenizer:</p>
+<pre>python tools/preprocess_data.py \
+       --input my-corpus.json \
+       --output-prefix my-gpt2 \
+       --vocab-file gpt2-vocab.json \
+       --tokenizer-type GPT2BPETokenizer \
+       --merge-file gpt2-merges.txt \
+       --append-eod
+</pre>
+
+<p>Ở đây, các file đầu ra sẽ được đặt tên là <code>my-gpt2_text_document.bin</code> và <code>my-gpt2_text_document.idx</code>. Như trước đây, trong quá trình huấn luyện GPT, sử dụng tên dài hơn mà không có phần mở rộng làm <code>--data-path</code>.</p>
+<p>Các tham số dòng lệnh bổ sung được mô tả trong file nguồn <a href="https://raw.githubusercontent.com/NVIDIA/Megatron-LM/main/tools/preprocess_data.py"><code>preprocess_data.py</code></a>.</p>
+<h2>Huấn luyện trước BERT</h2>
+<p>Script <a href="https://raw.githubusercontent.com/NVIDIA/Megatron-LM/main/examples/bert/train_bert_340m_distributed.sh"><code>examples/bert/train_bert_340m_distributed.sh</code></a> chạy huấn luyện trước BERT 345M tham số trên một GPU đơn. Việc debug là mục đích chính cho huấn luyện trên một GPU, vì code và tham số dòng lệnh đã được tối ưu cho huấn luyện phân tán quy mô lớn. Hầu hết các tham số đều khá dễ hiểu. Mặc định, learning rate sẽ giảm tuyến tính qua các vòng lặp huấn luyện bắt đầu từ <code>--lr</code> đến giá trị tối thiểu do <code>--min-lr</code> thiết lập qua số vòng lặp <code>--lr-decay-iters</code>. Tỷ lệ số vòng lặp huấn luyện dùng để warmup được thiết lập bởi <code>--lr-warmup-fraction</code>. Dù đây là huấn luyện một GPU, batch size được chỉ định bởi <code>--micro-batch-size</code> là batch size cho một lượt forward-backward, và code sẽ tích lũy gradient cho đến khi đạt <code>global-batch-size</code>, chính là batch size trên mỗi vòng lặp. Dữ liệu được chia theo tỷ lệ 949:50:1 cho train/validation/test (mặc định là 969:30:1). Việc chia này diễn ra động, nhưng nhất quán qua các lần chạy với cùng random seed (mặc định là 1234, hoặc chỉ định thủ công bằng <code>--seed</code>). Chúng tôi dùng <code>train-iters</code> làm số vòng lặp huấn luyện yêu cầu. Ngoài ra, có thể cung cấp <code>--train-samples</code> là tổng số mẫu sẽ huấn luyện. Nếu sử dụng tùy chọn này, thay vì chỉ định <code>--lr-decay-iters</code>, bạn cần chỉ định <code>--lr-decay-samples</code>.</p>
+<p>Các tùy chọn log, lưu checkpoint và khoảng đánh giá được chỉ định rõ. Lưu ý rằng <code>--data-path</code> hiện bao gồm hậu tố <code>_text_sentence</code> thêm vào trong bước tiền xử lý, nhưng không có phần mở rộng file.</p>
+<p>Các tham số dòng lệnh bổ sung được mô tả trong file nguồn <a href="https://raw.githubusercontent.com/NVIDIA/Megatron-LM/main/megatron/training/arguments.py"><code>arguments.py</code></a>.</p>
+<p>Để chạy <code>train_bert_340m_distributed.sh</code>, hãy chỉnh sửa tùy ý, bao gồm thiết lập biến môi trường cho <code>CHECKPOINT_PATH</code>, <code>VOCAB_FILE</code>, và <code>DATA_PATH</code>. Đảm bảo đặt các biến này đúng đường dẫn trong container. Sau đó, khởi động container với Megatron và các đường dẫn cần thiết đã mount (như giải thích trong <a href="#setup">Setup</a>) và chạy script ví dụ.</p>
+<h2>Huấn luyện trước GPT</h2>
+<p>Script <code>examples/gpt3/train_gpt3_175b_distributed.sh</code> chạy huấn luyện trước GPT 345M tham số trên một GPU đơn. Như đã đề cập ở trên, huấn luyện một GPU chủ yếu dành cho mục đích debug, vì code được tối ưu cho huấn luyện phân tán.</p>
+<p>Nó có định dạng phần lớn giống script BERT trước đó với một số khác biệt đáng chú ý: hệ thống tokenization sử dụng là BPE (yêu cầu bảng merge và file vocab dạng <code>json</code>) thay vì WordPiece, kiến trúc mô hình cho phép chuỗi dài hơn (lưu ý rằng embedding vị trí tối đa phải lớn hơn hoặc bằng chiều dài chuỗi tối đa), và <code>--lr-decay-style</code> đã được đặt thành cosine decay. Lưu ý rằng <code>--data-path</code> hiện bao gồm hậu tố <code>_text_document</code> thêm vào trong tiền xử lý, nhưng không có phần mở rộng file.</p>
+<p>Các tham số dòng lệnh bổ sung được mô tả trong file nguồn <a href="https://raw.githubusercontent.com/NVIDIA/Megatron-LM/main/megatron/training/arguments.py"><code>arguments.py</code></a>.</p>
+<p><code>train_gpt3_175b_distributed.sh</code> có thể chạy tương tự như hướng dẫn cho BERT. Thiết lập biến môi trường và các chỉnh sửa khác, khởi động container với các mount phù hợp, và chạy script.<br>Xem chi tiết hơn tại <a href="https://raw.githubusercontent.com/NVIDIA/Megatron-LM/main/examples/gpt3/README.md"><code>examples/gpt3/README.md</code></a></p>
+<h2>Huấn luyện trước T5</h2>
+<p>Rất giống với BERT và GPT, script <code>examples/t5/train_t5_220m_distributed.sh</code> chạy huấn luyện trước T5 "base" (~220M tham số) trên một GPU đơn. Khác biệt chính với BERT và GPT là bổ sung các tham số sau để đáp ứng kiến trúc T5:</p>
+<ul>
+<li><p><code>--kv-channels</code> thiết lập kích thước trong của ma trận "key" và "value" cho tất cả các cơ chế attention trong mô hình. Với BERT và GPT, mặc định là kích thước ẩn chia cho số đầu attention, nhưng có thể cấu hình cho T5.</p>
+</li>
+<li><p><code>--ffn-hidden-size</code> thiết lập kích thước ẩn trong mạng feed-forward bên trong lớp transformer. Với BERT và GPT, mặc định là 4 lần kích thước ẩn transformer, nhưng có thể cấu hình cho T5.</p>
+</li>
+<li><p><code>--encoder-seq-length</code> và <code>--decoder-seq-length</code> thiết lập chiều dài chuỗi cho encoder và decoder riêng biệt.</p>
+</li>
+</ul>
+<p>Các tham số khác vẫn giữ nguyên như BERT và GPT. Chạy ví dụ này với các bước giống như đã mô tả cho các script khác.</p>
+<p>Xem chi tiết hơn tại <a href="https://raw.githubusercontent.com/NVIDIA/Megatron-LM/main/examples/t5/README.md"><code>examples/t5/README.md</code></a></p>
+<h2>Huấn luyện phân tán</h2>
+<p>Các script <code>pretrain_{bert,gpt,t5}_distributed.sh</code> sử dụng PyTorch distributed launcher cho huấn luyện phân tán. Do đó, huấn luyện nhiều node có thể đạt được bằng cách thiết lập đúng các biến môi trường. Xem tài liệu chính thức của PyTorch <a href="https://pytorch.org/docs/stable/elastic/run.html#launcher-api">tại đây</a> cho mô tả chi tiết về các <a href="https://pytorch.org/docs/stable/distributed.html#environment-variable-initialization">biến môi trường</a>. Mặc định, huấn luyện nhiều node sử dụng backend phân tán <a href="https://developer.nvidia.com/nccl">nccl</a>. Chỉ cần một số tham số bổ sung và sử dụng module phân tán của PyTorch với elastic launcher <code>torchrun</code> (tương đương với <code>python -m torch.distributed.run</code>) là đủ để sử dụng huấn luyện phân tán. Xem bất kỳ script nào trong <code>pretrain_{bert,gpt,t5}_distributed.sh</code> để biết thêm chi tiết.</p>
+<p>Chúng tôi sử dụng hai loại song song: song song dữ liệu và song song mô hình. Việc triển khai song song dữ liệu nằm trong <code>megatron/core/distributed</code>, và hỗ trợ chồng lắp quá trình giảm gradient với backward pass khi sử dụng tùy chọn dòng lệnh <code>--overlap-grad-reduce</code>.</p>
+<p>Thứ hai, chúng tôi phát triển một phương pháp song song mô hình hai chiều đơn giản và hiệu quả. Để sử dụng chiều thứ nhất, song song tensor model (chia thực thi một module transformer qua nhiều GPU, xem Phần 3 của <a href="https://arxiv.org/pdf/1909.08053.pdf">bài báo của chúng tôi</a>), thêm cờ <code>--tensor-model-parallel-size</code> để xác định số GPU sẽ chia nhỏ mô hình, cùng với các tham số truyền cho distributed launcher như trên. Để sử dụng chiều thứ hai, song song chuỗi, chỉ định <code>--sequence-parallel</code>, cũng yêu cầu bật song song mô hình tensor vì nó chia qua cùng các GPU (xem chi tiết tại Phần 4.2.2 của <a href="https://arxiv.org/pdf/2205.05198.pdf">bài báo</a>).</p>
+<p>Để sử dụng song song pipeline model (chia các module transformer thành các stage với số module transformer bằng nhau trên mỗi stage, sau đó thực thi pipeline bằng cách chia batch thành các microbatch nhỏ hơn, xem Phần 2.2 của <a href="https://arxiv.org/pdf/2104.04473.pdf">bài báo</a>), sử dụng cờ <code>--pipeline-model-parallel-size</code> để xác định số stage chia mô hình (ví dụ, chia mô hình 24 lớp transformer qua 4 stage, mỗi stage có 6 lớp transformer).</p>
+<p>Chúng tôi có các ví dụ sử dụng hai dạng song song mô hình này trong các script ví dụ kết thúc bằng <code>distributed_with_mp.sh</code>.</p>
+<p>Ngoài các thay đổi nhỏ này, huấn luyện phân tán giống hệt như huấn luyện trên một GPU đơn.</p>
+<p>Lịch trình pipeline interleaved (xem chi tiết tại Phần 2.2.2 của <a href="https://arxiv.org/pdf/2104.04473.pdf">bài báo</a>) có thể kích hoạt bằng tham số <code>--num-layers-per-virtual-pipeline-stage</code>, kiểm soát số lớp transformer trong một virtual stage (mặc định không interleaved, mỗi GPU sẽ chạy một virtual stage duy nhất với <code>NUM_LAYERS / PIPELINE_MP_SIZE</code> lớp transformer). Tổng số lớp trong mô hình transformer phải chia hết cho giá trị tham số này. Ngoài ra, số microbatch trong pipeline (tính bằng <code>GLOBAL_BATCH_SIZE / (DATA_PARALLEL_SIZE * MICRO_BATCH_SIZE)</code>) phải chia hết cho <code>PIPELINE_MP_SIZE</code> khi dùng lịch trình này (điều kiện này được kiểm tra trong code). Lịch trình interleaved không hỗ trợ pipeline với 2 stage (<code>PIPELINE_MP_SIZE=2</code>).</p>
+<h2>Checkpoint hóa kích hoạt và tính toán lại (Activation Checkpointing and Recomputation)</h2>
+<p>Để giảm sử dụng bộ nhớ GPU khi huấn luyện mô hình lớn, chúng tôi hỗ trợ nhiều dạng checkpoint hóa kích hoạt và tính toán lại. Thay vì lưu tất cả các activation trong bộ nhớ để dùng khi backprop, như truyền thống trong các mô hình deep learning, chỉ các activation tại một số "checkpoint" nhất định trong mô hình mới được giữ lại (hoặc lưu trữ) trong bộ nhớ, còn các activation khác sẽ được tính toán lại khi cần trong backprop. Lưu ý loại checkpoint này, <em>activation</em> checkpointing, khác hoàn toàn với checkpoint tham số mô hình và trạng thái optimizer được đề cập ở nơi khác.</p>
+<p>Chúng tôi hỗ trợ hai mức độ hạt mịn của tính toán lại: <code>selective</code> và <code>full</code>. Tính toán lại chọn lọc (selective) là mặc định và được khuyến nghị trong hầu hết trường hợp. Chế độ này giữ trong bộ nhớ các activation chiếm ít bộ nhớ và tốn nhiều chi phí tính toán lại, còn các activation chiếm nhiều bộ nhớ nhưng rẻ để tính toán lại thì sẽ được tính lại. Xem <a href="https://arxiv.org/pdf/2205.05198">bài báo của chúng tôi</a> để biết chi tiết. Bạn sẽ thấy chế độ này tối ưu hiệu suất đồng thời giảm thiểu bộ nhớ cần thiết để lưu activation. Để bật recompute activation chọn lọc, chỉ cần dùng <code>--recompute-activations</code>.</p>
+<p>Trong trường hợp bộ nhớ rất hạn chế, tính toán lại toàn phần (<code>full</code>) chỉ lưu đầu vào của một lớp transformer, hoặc một nhóm, hoặc một block các lớp transformer, và tính toán lại phần còn lại. Để bật recompute activation toàn phần, dùng <code>--recompute-granularity full</code>. Khi dùng recompute toàn phần, có hai phương pháp: <code>uniform</code> và <code>block</code>, chọn bằng tham số <code>--recompute-method</code>.</p>
+<ul>
+<li><p>Phương pháp <code>uniform</code> chia đều các lớp transformer thành các nhóm (mỗi nhóm có kích thước <code>--recompute-num-layers</code>) và lưu activation đầu vào của mỗi nhóm trong bộ nhớ. Kích thước nhóm mặc định là 1, khi đó activation đầu vào của từng lớp transformer sẽ được lưu. Khi bộ nhớ GPU không đủ, tăng số lớp mỗi nhóm sẽ giảm sử dụng bộ nhớ, cho phép huấn luyện mô hình lớn hơn. Ví dụ, khi <code>--recompute-num-layers</code> là 4, chỉ lưu activation đầu vào của mỗi nhóm 4 lớp transformer.</p>
+</li>
+<li><p>Phương pháp <code>block</code> tính toán lại activation đầu vào của số lớp transformer nhất định (do <code>--recompute-num-layers</code> chỉ định) cho mỗi pipeline stage và lưu activation đầu vào của các lớp còn lại trong stage. Giảm <code>--recompute-num-layers</code> đồng nghĩa lưu activation đầu vào của nhiều lớp hơn, giảm tính toán lại activation khi backprop, cải thiện hiệu suất huấn luyện nhưng tăng dùng bộ nhớ. Ví dụ, khi chỉ định tính toán lại 5 lớp trên tổng 8 lớp mỗi pipeline stage, chỉ activation đầu vào của 5 lớp đầu được tính toán lại, còn 3 lớp cuối sẽ được lưu. <code>--recompute-num-layers</code> có thể tăng dần cho đến khi lượng bộ nhớ vừa đủ để mô hình chạy, nhờ đó tận dụng tối đa bộ nhớ và tối ưu hiệu suất.</p>
+</li>
+</ul>
+<h2>Distributed Optimizer</h2>
+<p>Sử dụng: <code>--use-distributed-optimizer</code>. Tương thích với mọi loại mô hình và dữ liệu.</p>
+<p>Distributed optimizer là một kỹ thuật tiết kiệm bộ nhớ, trong đó trạng thái optimizer được phân phối đều qua các rank song song dữ liệu (so với cách truyền thống là nhân bản trạng thái optimizer trên mọi rank song song dữ liệu). Như mô tả trong <a href="https://arxiv.org/abs/1910.02054">ZeRO: Memory Optimizations Toward Training Trillion Parameter Models</a>, triển khai của chúng tôi phân phối tất cả trạng thái optimizer không trùng với trạng thái mô hình. Ví dụ, khi dùng tham số mô hình fp16, distributed optimizer duy trì bản sao riêng biệt của tham số &amp; gradient fp32, được phân phối qua các rank DP. Khi dùng tham số mô hình bf16, gradient fp32 chính của distributed optimizer giống với gradient fp32 của mô hình, nên gradient này không được phân phối (dù tham số fp32 chính vẫn được phân phối vì tách biệt với tham số mô hình bf16).</p>
+<p>Lý thuyết tiết kiệm bộ nhớ thay đổi tùy thuộc vào kiểu dữ liệu tham số và gradient của mô hình. Trong triển khai của chúng tôi, số byte lý thuyết trên mỗi tham số là (với 'd' là kích thước song song dữ liệu):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Non-distributed optim</th>
+<th>Distributed optim</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fp16 param, fp16 grads</td>
+<td>20</td>
+<td>4 + 16/d</td>
+</tr>
+<tr>
+<td>bf16 param, fp32 grads</td>
+<td>18</td>
+<td>6 + 12/d</td>
+</tr>
+<tr>
+<td>fp32 param, fp32 grads</td>
+<td>16</td>
+<td>8 + 8/d</td>
+</tr>
+</tbody></table>
+<p>Như với song song dữ liệu thông thường, overlapping giảm gradient (trong trường hợp này là reduce-scatter) với backward pass có thể thực hiện bằng flag <code>--overlap-grad-reduce</code>. Ngoài ra, overlapping all-gather tham số có thể thực hiện đồng thời với forward pass bằng <code>--overlap-param-gather</code>.</p>
+<h2>FlashAttention</h2>
+<p>Sử dụng: <code>--use-flash-attn</code>. Hỗ trợ kích thước attention head tối đa 128.</p>
+<p><a href="https://github.com/HazyResearch/flash-attention">FlashAttention</a> là một thuật toán nhanh và tiết kiệm bộ nhớ để tính attention chính xác. Nó tăng tốc huấn luyện mô hình và giảm yêu cầu bộ nhớ.</p>
+<p>Để cài đặt FlashAttention:</p>
+<pre><code class="language-sh hljs language-bash">pip install flash-attn
+</code></pre>
+<h2>Ví dụ GPT-3</h2>
+<p>Trong <code>examples/gpt3/train_gpt3_175b_distributed.sh</code> chúng tôi cung cấp ví dụ cấu hình Megatron để huấn luyện <a href="https://arxiv.org/abs/2005.14165">GPT-3</a> với 175 tỷ tham số trên 1024 GPU. Script này thiết kế cho <a href="https://slurm.schedmd.com/documentation.html">slurm</a> với plugin <a href="https://github.com/NVIDIA/pyxis">pyxis</a> nhưng dễ dàng chuyển đổi sang các trình quản lý khác. Nó sử dụng song song tensor 8 chiều và song song pipeline 16 chiều. Với các tùy chọn <code>global-batch-size 1536</code> và <code>rampup-batch-size 16 16 5859375</code>, huấn luyện sẽ bắt đầu với global batch size 16 và tăng tuyến tính đến 1536 qua 5.859.375 mẫu với bước tăng là 16. Bộ dữ liệu huấn luyện có thể là một tập đơn hoặc nhiều tập kết hợp với trọng số.</p>
+<p>Với batch size tối đa 1536 trên 1024 GPU A100, mỗi vòng lặp mất khoảng 32 giây, đạt 138 teraFLOPs mỗi GPU, tương đương 44% FLOPs cực đại lý thuyết.</p>
+<h2>Retro và InstructRetro</h2>
+<p>Retro <a href="https://arxiv.org/abs/2112.04426">(Borgeaud et al., 2022)</a> là mô hình ngôn ngữ tự hồi tiếp chỉ decoder được huấn luyện trước với retrieval-augmentation.<br>Retro có khả năng mở rộng thực tế để hỗ trợ huấn luyện lớn từ đầu bằng cách truy xuất từ hàng nghìn tỷ token.<br>Huấn luyện trước có retrieval cung cấp cơ chế lưu trữ thông tin hiệu quả hơn, so với việc lưu trữ thông tin trong tham số mạng, giúp giảm đáng kể số lượng tham số mô hình trong khi đạt perplexity thấp hơn GPT truyền thống.<br>Retro cũng linh hoạt trong việc cập nhật<br>kiến thức lưu trữ trong LM <a href="https://arxiv.org/abs/2304.06762">(Wang et al., 2023a)</a><br>bằng cách cập nhật cơ sở dữ liệu retrieval mà không cần huấn luyện lại LM.</p>
+<p>InstructRetro <a href="https://arxiv.org/abs/2310.07713">(Wang et al., 2023b)</a> còn mở rộng kích thước Retro lên 48B, là LLM lớn nhất được huấn luyện trước với retrieval (tính đến tháng 12/2023).<br>Mô hình nền tảng thu được, Retro 48B, vượt trội đáng kể so với GPT cùng quy mô về perplexity.<br>Với fine-tuning theo chỉ dẫn trên Retro, InstructRetro cho thấy cải thiện đáng kể so với GPT đã fine-tune chỉ dẫn trên các tác vụ downstream ở chế độ zero-shot. Cụ thể, mức cải thiện trung bình của InstructRetro là 7% so với GPT trên 8 tác vụ QA ngắn, và 10% so với GPT trên 4 tác vụ QA dài khó. Chúng tôi cũng nhận thấy có thể loại bỏ encoder khỏi kiến trúc InstructRetro và sử dụng trực tiếp backbone decoder InstructRetro như GPT mà vẫn đạt kết quả tương đương.</p>
+<p>Trong repo này, chúng tôi cung cấp hướng dẫn tái hiện toàn diện để triển khai Retro và InstructRetro, bao gồm</p>
+<ul>
+<li><strong>Xây dựng cơ sở dữ liệu retrieval</strong>, hỗ trợ hàng tỷ hoặc hàng nghìn tỷ token cho retrieval database quy mô lớn.</li>
+<li><strong>Huấn luyện trước với retrieval</strong>, hỗ trợ huấn luyện từ đầu và huấn luyện tiếp từ mô hình GPT đã huấn luyện (Retro-fitting).</li>
+<li><strong>Instruction tuning</strong>, chúng tôi cung cấp bộ dữ liệu instruction tuning mã nguồn mở và công thức huấn luyện cho instruction tuning trên Retro.</li>
+<li><strong>Đánh giá tác vụ downstream</strong>, chúng tôi cung cấp script tạo văn bản và đánh giá cho các tác vụ zero-shot question answering.</li>
+</ul>
+<p>Xem <a href="https://raw.githubusercontent.com/NVIDIA/Megatron-LM/main/tools/retro/README.md">tools/retro/README.md</a> để biết tổng quan chi tiết.</p>
+<h2>Mô hình ngôn ngữ dựa trên Mamba</h2>
+<p>Xem <a href="https://raw.githubusercontent.com/NVIDIA/Megatron-LM/main/examples/mamba">examples/mamba</a> để biết chi tiết.</p>
+<!--
+## REALM Pipeline
+Chúng tôi đang phát triển hệ thống [REALM](https://arxiv.org/pdf/2002.08909.pdf). Các phần sau sẽ phản ánh ba giai đoạn huấn luyện của nó. Hiện tại mới chỉ có code ICT.
+Nói ngắn gọn, các giai đoạn là huấn luyện trước các module truy xuất, sau đó huấn luyện kết hợp mô hình ngôn ngữ và module truy xuất, rồi fine-tune đầu ra trả lời câu hỏi trên mô hình ngôn ngữ với module truy xuất cố định.
+
+### Huấn luyện trước Inverse Cloze Task (ICT)
+1. Chuẩn bị tập dữ liệu dạng JSON thô với mục đích tạo bộ sưu tập các block văn bản có kích thước cố định làm đơn vị dữ liệu cơ bản. Với tập như Wikipedia, điều này nghĩa là mỗi block có nhiều câu, nhưng mỗi tài liệu có nhiều block.
+Chạy `tools/preprocess_data.py` để tạo một hoặc nhiều tập dữ liệu được đánh chỉ mục với tham số `--split-sentences` để câu là đơn vị cơ bản. Với hệ thống REALM gốc, chúng tôi tạo hai tập, một với tiêu đề của mỗi tài liệu, một với phần thân.
+Tham khảo script sau
+<pre>
+python preprocess_data.py \
+    --input /path/to/corpus.json \
+    --json-keys text title \
+    --split-sentences \
+    --tokenizer-type BertWordPieceLowerCase \
+    --vocab-file /path/to/vocab.txt \
+    --output-prefix corpus_indexed \
+    --workers 5  # phù hợp với 10 nhân CPU. Tăng phù hợp nếu có nhiều hơn.
+</pre>
+
+2. Sử dụng hàm ánh xạ mẫu tùy chỉnh thay cho `megatron/legacy/data/realm_dataset_utils.get_block_samples_mapping` nếu cần. Để làm điều này, bạn cần cài đặt hàm mới bằng C++ bên trong `megatron/core/datasets/helpers.cpp`. Cấu trúc dữ liệu ánh xạ mẫu được dùng để chọn dữ liệu tạo thành từng mẫu huấn luyện trước khi vào vòng lặp huấn luyện.
+Ánh xạ mẫu chịu trách nhiệm lưu trữ tất cả metadata cần thiết để tạo mẫu từ một hoặc nhiều tập dữ liệu đã đánh chỉ mục. Trong REALM, ánh xạ mẫu gồm chỉ mục bắt đầu và kết thúc câu, chỉ mục tài liệu (để lấy đúng tiêu đề cho phần thân) và một ID duy nhất cho mỗi block.
+3. Huấn luyện một mô hình ngôn ngữ BERT bằng `pretrain_bert.py`, với chiều dài chuỗi bằng kích thước block tính theo token id. Mô hình này nên được huấn luyện trên tập dữ liệu đã đánh chỉ mục dùng để cung cấp block cho tác vụ retrieval.
+Trong REALM, đây là mô hình bert base uncased huấn luyện với hyperparameter chuẩn.
+4. Sử dụng `pretrain_ict.py` để huấn luyện `ICTBertModel` dùng hai encoder dựa trên BERT để mã hóa truy vấn và block nhằm thực hiện retrieval.
+Script dưới đây huấn luyện mô hình ICT từ REALM. Nó tham chiếu mô hình BERT đã huấn luyện (bước 3) trong tham số `--bert-load`. Batch size dùng trong bài báo là 4096, do đó cần chạy với data parallel world size 32.
+<pre>
+python pretrain_ict.py \
+    --num-layers 12 \
+    --num-attention-heads 12 \
+    --hidden-size 768 \
+    --batch-size 128 \
+    --seq-length 256 \
+    --max-position-embeddings 256 \
+    --ict-head-size 128 \
+    --train-iters 100000 \
+    --bert-load /path/to/pretrained_bert \
+    --load checkpoints \
+    --save checkpoints \
+    --data-path /path/to/indexed_dataset \
+    --titles-data-path /path/to/titles_indexed_dataset \
+    --vocab-file /path/to/vocab.txt \
+    --lr 0.0001 \
+    --num-workers 2 \
+    --lr-decay-style linear \
+    --weight-decay 1e-2 \
+    --clip-grad 1.0 \
+    --lr-warmup-fraction .01 \
+    --save-interval 3000 \
+    --query-in-block-prob 0.1 \
+    --fp16
+
+</pre>
+
+### Xây dựng chỉ mục embedding của block
+Sau khi đã huấn luyện mô hình ICT, bạn có thể embedding toàn bộ tập block bằng cách tạo cấu trúc `BlockData`. Sau khi đã lưu lại, bạn có thể load nó và gói với `FaissMIPSIndex` để thực hiện tìm kiếm tương đồng nhanh, là thành phần chủ chốt trong pipeline retrieval học được. Chỉ mục ban đầu có thể xây dựng bằng script dưới đây, dùng cho phiên interactive. Nó có thể tận dụng nhiều GPU trên nhiều node để index tập dữ liệu lớn nhanh hơn nhiều.
+<pre>
+python tools/create_doc_index.py \
+    --num-layers 12 \
+    --hidden-size 768 \
+    --ict-head-size 128 \
+    --num-attention-heads 12 \
+    --batch-size 128 \
+    --seq-length 256 \
+    --max-position-embeddings 256 \
+    --ict-load /path/to/pretrained_ict \
+    --data-path /path/to/indexed_dataset \
+    --titles-data-path /path/to/titles_indexed_dataset \
+    --block-data-path embedded_blocks.pkl \
+    --indexer-log-interval 1000 \
+    --indexer-batch-size 128 \
+    --vocab-file /path/to/vocab.txt \
+    --num-workers 2 \
+    --fp16
+</pre>
+
+-->
+
+<h2>Mixture of Experts</h2>
+<p>MoE (Mixture of Experts) là một kiến trúc LLM mạnh mẽ được triển khai trong framework Megatron-Core, được thiết kế để nâng cao hiệu suất và khả năng mở rộng của các mô hình ngôn ngữ lớn. MoE tận dụng <strong>Song song Chuyên gia (Expert Parallelism)</strong>, cho phép nhiều chuyên gia được phân phối trên các worker khác nhau, trong đó mỗi worker xử lý các batch mẫu huấn luyện riêng biệt. Phương pháp này giúp tăng đáng kể thông lượng tính toán, cho phép các mô hình đạt được các chỉ số hiệu năng cao, ví dụ như 47% MFU khi huấn luyện BF16 cho 8x7B trên H100.</p>
+<p>Các tính năng chính của MoE:</p>
+<ul>
+<li><strong>Kỹ thuật Song song</strong>: MoE kết hợp nhiều chiến lược song song như Song song Chuyên gia, Song song Dữ liệu, Song song Tensor, Song song Chuỗi, Song song Pipeline và Song song Ngữ cảnh. Sự kết hợp này cho phép xử lý hiệu quả các biến thể mô hình lớn hơn.</li>
+<li><strong>Router và Cân bằng tải</strong>: Hệ thống sử dụng các cơ chế định tuyến tiên tiến như Top-K router và áp dụng các thuật toán cân bằng tải để tối ưu việc phân phối token giữa các chuyên gia.</li>
+<li><strong>Tối ưu hóa Hiệu năng</strong>: Các kỹ thuật như GroupedGEMM và huấn luyện FP8 giúp tăng hiệu quả của các mô hình MoE, đặc biệt khi có nhiều chuyên gia tham gia.</li>
+<li><strong>Cơ chế Phân phối Token</strong>: MoE hỗ trợ cả chiến lược không bỏ token (dropless) và bỏ token (token drop) nhằm quản lý hiệu quả việc phân phối token giữa các chuyên gia.</li>
+</ul>
+<p>Để có cái nhìn tổng quan về cấu hình huấn luyện và tối ưu hóa MoE, vui lòng tham khảo README chi tiết tại <a href="https://raw.githubusercontent.com/NVIDIA/Megatron-LM/main/megatron/core/transformer/moe/README.md">megatron/core/transformer/moe/README.md</a>.</p>
+<h1>Đánh giá và Nhiệm vụ</h1>
+<p>Chúng tôi cung cấp một số tham số dòng lệnh, được trình bày chi tiết trong các script bên dưới, để xử lý các nhiệm vụ downstream zero-shot và fine-tuned khác nhau. Tuy nhiên, bạn cũng có thể fine-tune mô hình của mình từ một checkpoint đã pretrain trên các tập dữ liệu khác theo ý muốn. Để làm điều này, chỉ cần thêm cờ <code>--finetune</code> và điều chỉnh các file đầu vào cũng như tham số huấn luyện trong script huấn luyện gốc. Số vòng lặp (iteration) sẽ được đặt lại về 0 và optimizer cùng trạng thái nội bộ sẽ được khởi tạo lại. Nếu việc fine-tune bị gián đoạn vì bất kỳ lý do gì, hãy chắc chắn loại bỏ cờ <code>--finetune</code> trước khi tiếp tục, nếu không quá trình huấn luyện sẽ bắt đầu lại từ đầu.</p>
+<p>Vì quá trình đánh giá tốn ít bộ nhớ hơn nhiều so với huấn luyện, nên có thể sẽ hiệu quả hơn nếu gộp (merge) mô hình đã huấn luyện song song để sử dụng trên ít GPU hơn cho các nhiệm vụ downstream. Script dưới đây thực hiện việc này. Ví dụ này đọc một mô hình GPT với song song tensor 4 chiều và song song pipeline 4 chiều, sau đó ghi ra một mô hình với song song tensor 2 chiều và song song pipeline 2 chiều.</p>
+<pre>python tools/checkpoint/convert.py \
+        --model-type GPT \
+        --load-dir checkpoints/gpt3_tp4_pp4 \
+        --save-dir checkpoints/gpt3_tp2_pp2 \
+        --target-tensor-parallel-size 2 \
+        --target-pipeline-parallel-size 2
+
+</pre>
+
+<p>Một số nhiệm vụ downstream được mô tả cho cả mô hình GPT và BERT bên dưới. Chúng có thể chạy ở chế độ phân tán và song song mô hình với các thay đổi tương tự như trong các script huấn luyện.</p>
+<h2>Sinh văn bản với GPT</h2>
+<p>Chúng tôi đã bao gồm một REST server đơn giản để sử dụng cho sinh văn bản tại <code>tools/run_text_generation_server.py</code>. Bạn chạy nó tương tự như khi khởi động một job pretrain, chỉ cần chỉ định checkpoint đã pretrain phù hợp. Ngoài ra còn có một số tham số tuỳ chọn: <code>temperature</code>, <code>top-k</code> và <code>top-p</code>. Xem <code>--help</code> hoặc file nguồn để biết thêm thông tin. Xem <a href="https://raw.githubusercontent.com/NVIDIA/Megatron-LM/main/examples/inference/run_text_generation_server_345M.sh">examples/inference/run_text_generation_server_345M.sh</a> để biết ví dụ về cách chạy server.</p>
+<p>Khi server đã chạy, bạn có thể sử dụng <code>tools/text_generation_cli.py</code> để truy vấn, nó chỉ nhận một tham số là host mà server đang chạy.</p>
+<pre>tools/text_generation_cli.py localhost:5000
+</pre>
+
+<p>Bạn cũng có thể sử dụng CURL hoặc bất kỳ công cụ nào khác để truy vấn trực tiếp server:</p>
+<pre>curl 'http://localhost:5000/api' -X 'PUT' -H 'Content-Type: application/json; charset=UTF-8'  -d '{"prompts":["Hello world"], "tokens_to_generate":1}'
+</pre>
+
+<p>Xem <a href="https://raw.githubusercontent.com/NVIDIA/Megatron-LM/main/megatron/inference/text_generation_server.py">megatron/inference/text_generation_server.py</a> để biết thêm tùy chọn API.</p>
+<h3>Detoxify GPT bằng Tự sinh</h3>
+<p>Chúng tôi cung cấp ví dụ tại <code>examples/academic_paper_scripts/detxoify_lm/</code> để làm sạch mô hình ngôn ngữ (detoxify) bằng cách tận dụng sức mạnh sinh văn bản của mô hình ngôn ngữ.</p>
+<p>Xem <a href="https://raw.githubusercontent.com/NVIDIA/Megatron-LM/main/examples/academic_paper_scripts/detxoify_lm/README.md">examples/academic_paper_scripts/detxoify_lm/README.md</a> để xem hướng dẫn từng bước cách huấn luyện thích ứng theo miền và làm sạch LM bằng tập dữ liệu tự sinh.</p>
+<h2>Đánh giá GPT</h2>
+<p>Chúng tôi cung cấp các script ví dụ để đánh giá GPT trên đánh giá độ rối (perplexity) với WikiText và độ chính xác Cloze với LAMBADA.</p>
+<h3>Đánh giá Perplexity với WikiText</h3>
+<p>Để so sánh công bằng với các nghiên cứu trước, chúng tôi đánh giá perplexity trên <a href="https://s3.amazonaws.com/research.metamind.io/wikitext/wikitext-103-v1.zip">bộ dữ liệu kiểm tra WikiText-103</a> ở cấp độ từ, và tính toán perplexity phù hợp khi sử dụng tokenizer subword của chúng tôi.</p>
+<p>Chúng tôi sử dụng lệnh sau để đánh giá WikiText-103 trên mô hình 345M tham số.</p>
+<pre>TASK="WIKITEXT103"
+
+VALID_DATA=&lt;wikitext path&gt;.txt
+VOCAB_FILE=gpt2-vocab.json
+MERGE_FILE=gpt2-merges.txt
+CHECKPOINT_PATH=checkpoints/gpt2_345m
+
+COMMON_TASK_ARGS="--num-layers 24 \
+                  --hidden-size 1024 \
+                  --num-attention-heads 16 \
+                  --seq-length 1024 \
+                  --max-position-embeddings 1024 \
+                  --fp16 \
+                  --vocab-file $VOCAB_FILE"
+
+python tasks/main.py \
+       --task $TASK \
+       $COMMON_TASK_ARGS \
+       --valid-data $VALID_DATA \
+       --tokenizer-type GPT2BPETokenizer \
+       --merge-file $MERGE_FILE \
+       --load $CHECKPOINT_PATH \
+       --micro-batch-size 8 \
+       --log-interval 10 \
+       --no-load-optim \
+       --no-load-rng
+</pre>
+
+<h3>Độ chính xác Cloze với LAMBADA</h3>
+<p>Để tính độ chính xác Cloze với LAMBADA (độ chính xác khi dự đoán token cuối cùng dựa trên các token trước đó), chúng tôi sử dụng phiên bản đã detokenize và xử lý của <a href="https://github.com/cybertronai/bflm/blob/master/lambada_test.jsonl">bộ dữ liệu LAMBADA</a>.</p>
+<p>Chúng tôi sử dụng lệnh sau để đánh giá LAMBADA trên mô hình 345M tham số. Lưu ý rằng cờ <code>--strict-lambada</code> nên được sử dụng để yêu cầu khớp toàn bộ từ. Đảm bảo rằng <code>lambada</code> là một phần của đường dẫn file.</p>
+<pre>TASK="LAMBADA"
+
+VALID_DATA=&lt;lambada path&gt;.json
+VOCAB_FILE=gpt2-vocab.json
+MERGE_FILE=gpt2-merges.txt
+CHECKPOINT_PATH=checkpoints/gpt2_345m
+COMMON_TASK_ARGS=&lt;giống như trong <a href="#wikitext-perplexity-evaluation">Đánh giá Perplexity với WikiText</a> ở trên&gt;
+
+python tasks/main.py \
+       --task $TASK \
+       $COMMON_TASK_ARGS \
+       --valid-data $VALID_DATA \
+       --tokenizer-type GPT2BPETokenizer \
+       --strict-lambada \
+       --merge-file $MERGE_FILE \
+       --load $CHECKPOINT_PATH \
+       --micro-batch-size 8 \
+       --log-interval 10 \
+       --no-load-optim \
+       --no-load-rng
+</pre>
+
+<p>Các tham số dòng lệnh bổ sung được mô tả trong file nguồn <a href="https://raw.githubusercontent.com/NVIDIA/Megatron-LM/main/tasks/main.py"><code>main.py</code></a></p>
+<h2>Đánh giá Nhiệm vụ với BERT</h2>
+<h3>Đánh giá RACE</h3>
+<p>Script dưới đây fine-tune mô hình BERT để đánh giá trên <a href="http://www.cs.cmu.edu/~glai1/data/race/">bộ dữ liệu RACE</a>. Thư mục <code>TRAIN_DATA</code> và <code>VALID_DATA</code> chứa bộ dữ liệu RACE dưới dạng các file <code>.txt</code> riêng biệt. Lưu ý rằng với RACE, batch size là số truy vấn RACE cần đánh giá. Vì mỗi truy vấn RACE có bốn mẫu, batch size thực tế đưa vào mô hình sẽ gấp bốn lần batch size chỉ định ở dòng lệnh.</p>
+<pre>TRAIN_DATA="data/RACE/train/middle"
+VALID_DATA="data/RACE/dev/middle \
+            data/RACE/dev/high"
+VOCAB_FILE=bert-vocab.txt
+PRETRAINED_CHECKPOINT=checkpoints/bert_345m
+CHECKPOINT_PATH=checkpoints/bert_345m_race
+COMMON_TASK_ARGS="--num-layers 24 \
+                  --hidden-size 1024 \
+                  --num-attention-heads 16 \
+                  --seq-length 512 \
+                  --max-position-embeddings 512 \
+                  --fp16 \
+                  --vocab-file $VOCAB_FILE"
+
+COMMON_TASK_ARGS_EXT="--train-data $TRAIN_DATA \
+                      --valid-data $VALID_DATA \
+                      --pretrained-checkpoint $PRETRAINED_CHECKPOINT \
+                      --save-interval 10000 \
+                      --save $CHECKPOINT_PATH \
+                      --log-interval 100 \
+                      --eval-interval 1000 \
+                      --eval-iters 10 \
+                      --weight-decay 1.0e-1"
+
+python tasks/main.py \
+       --task RACE \
+       $COMMON_TASK_ARGS \
+       $COMMON_TASK_ARGS_EXT \
+       --tokenizer-type BertWordPieceLowerCase \
+       --epochs 3 \
+       --micro-batch-size 4 \
+       --lr 1.0e-5 \
+       --lr-warmup-fraction 0.06
+</pre>
+
+<h3>Đánh giá MNLI</h3>
+<p>Script dưới đây fine-tune mô hình BERT để đánh giá với <a href="https://www.nyu.edu/projects/bowman/multinli/">tập dữ liệu MultiNLI sentence pair</a>. Vì các nhiệm vụ so khớp khá giống nhau, script này cũng có thể được chỉnh sửa nhanh để làm việc với <a href="https://www.kaggle.com/quora/question-pairs-dataset">Quora Question Pairs</a> (QQP).</p>
+<pre>
+TRAIN_DATA="data/glue_data/MNLI/train.tsv"
+VALID_DATA="data/glue_data/MNLI/dev_matched.tsv \
+            data/glue_data/MNLI/dev_mismatched.tsv"
+PRETRAINED_CHECKPOINT=checkpoints/bert_345m
+VOCAB_FILE=bert-vocab.txt
+CHECKPOINT_PATH=checkpoints/bert_345m_mnli
+COMMON_TASK_ARGS=&lt;giống như trong <a href="#race-evaluation">Đánh giá RACE</a> ở trên&gt;
+COMMON_TASK_ARGS_EXT=&lt;giống như trong <a href="#race-evaluation">Đánh giá RACE</a> ở trên&gt;
+
+python tasks/main.py \
+       --task MNLI \
+       $COMMON_TASK_ARGS \
+       $COMMON_TASK_ARGS_EXT \
+```
+   --tokenizer-type BertWordPieceLowerCase \
+   --epochs 5 \
+   --micro-batch-size 8 \
+   --lr 5.0e-5 \
+   --lr-warmup-fraction 0.065
+</pre>
+
+<h2>Suy luận và Tinh chỉnh Llama-2</h2>
+<p>Dòng <a href="https://ai.meta.com/llama/">mô hình Llama-2</a> là tập hợp các mô hình mã nguồn mở đã được huấn luyện trước &amp; tinh chỉnh (cho chat) đạt được kết quả mạnh trên nhiều bộ đánh giá khác nhau. Tại thời điểm phát hành, các mô hình Llama-2 đạt kết quả trong nhóm tốt nhất đối với các mô hình mã nguồn mở, và có khả năng cạnh tranh với mô hình đóng GPT-3.5 (xem <a href="https://arxiv.org/pdf/2307.09288.pdf">https://arxiv.org/pdf/2307.09288.pdf</a>).</p>
+<p>Các checkpoint Llama-2 có thể được nạp vào Megatron để suy luận và tinh chỉnh. Xem tài liệu <a href="docs/llama_mistral.md">tại đây</a>.</p>
+<h1>Tối ưu hóa Mô hình và Triển khai</h1>
+<p>Dòng <code>GPTModel</code> của Megatron-Core (MCore) hỗ trợ các thuật toán lượng tử hóa tiên tiến và suy luận hiệu năng cao thông qua TensorRT-LLM.</p>
+<h2>Lượng tử hóa và Triển khai TensorRT-LLM</h2>
+<p>Xem <a href="examples/inference/quantization/README.md">Tối ưu hóa và Triển khai Mô hình Megatron</a> cho các ví dụ về <code>llama2</code> và <code>nemotron3</code>.</p>
+<h1>Bộ Dữ liệu</h1>
+<p>Chúng tôi không lưu trữ bất kỳ bộ dữ liệu nào cho huấn luyện GPT hoặc BERT, tuy nhiên, chúng tôi mô tả chi tiết quá trình thu thập để các kết quả của chúng tôi có thể được tái tạo.</p>
+<h2>Thu thập Dữ liệu Huấn luyện Wikipedia</h2>
+<p>Chúng tôi khuyến nghị làm theo quy trình trích xuất dữ liệu Wikipedia do Google research chỉ định: "quy trình tiền xử lý được khuyến nghị là tải về <a href="https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2">bản dump mới nhất</a>, trích xuất văn bản với <a href="https://github.com/attardi/wikiextractor">WikiExtractor.py</a>, và sau đó thực hiện các thao tác dọn dẹp cần thiết để chuyển thành văn bản thuần túy."</p>
+<p>Chúng tôi khuyến nghị sử dụng tham số <code>--json</code> khi dùng WikiExtractor, sẽ xuất dữ liệu Wikipedia thành định dạng json rời rạc (mỗi dòng là một đối tượng json), giúp quản lý dễ dàng hơn trên hệ thống tệp và cũng sẵn sàng cho codebase của chúng tôi. Chúng tôi khuyến nghị tiền xử lý thêm tập dữ liệu json này với chuẩn hóa dấu câu bằng nltk. Đối với huấn luyện BERT, dùng cờ <code>--split-sentences</code> cho <code>preprocess_data.py</code> như mô tả <a href="#data-preprocessing">ở trên</a> để chèn ngắt câu vào chỉ mục tạo ra. Nếu bạn muốn sử dụng dữ liệu Wikipedia cho huấn luyện GPT thì vẫn nên làm sạch bằng nltk/spacy/ftfy, nhưng không dùng cờ <code>--split-sentences</code>.</p>
+<h2>Thu thập Dữ liệu GPT Webtext</h2>
+<p>Chúng tôi sử dụng thư viện <a href="https://github.com/eukaryote31/openwebtext">OpenWebText</a> công khai từ <a href="https://github.com/jcpeterson/openwebtext">jcpeterson</a> và <a href="https://github.com/eukaryote31/openwebtext">eukaryote31's</a> để tải các url. Sau đó chúng tôi lọc, làm sạch và loại trùng lặp toàn bộ nội dung đã tải theo quy trình mô tả trong thư mục <a href="./tools/openwebtext">openwebtext</a> của chúng tôi. Đối với các URL reddit tương ứng với nội dung đến tháng 10 năm 2018, chúng tôi thu được khoảng 37GB nội dung.</p>
+<h1>Tái tạo Kết quả (Reproducibility)</h1>
+<p>Huấn luyện Megatron có thể tái tạo bitwise; để kích hoạt chế độ này sử dụng <code>--deterministic-mode</code>. Điều này có nghĩa là cùng cấu hình huấn luyện chạy hai lần trên cùng môi trường HW và SW sẽ tạo ra checkpoint mô hình, giá trị loss và accuracy hoàn toàn giống nhau (thời gian lặp có thể thay đổi).</p>
+<p>Hiện có ba tối ưu hóa Megatron đã biết phá vỡ tính tái tạo nhưng vẫn cho kết quả huấn luyện gần như giống hệt:</p>
+<ol>
+<li>Thuật toán NCCL cụ thể sử dụng khi all-reduce (được chỉ định bởi biến môi trường <code>NCCL_ALGO</code>) là quan trọng. Chúng tôi đã thử nghiệm các thuật toán sau: <code>^NVLS</code>, <code>Tree</code>, <code>Ring</code>, <code>CollnetDirect</code>, <code>CollnetChain</code>. Code chấp nhận dùng <code>^NVLS</code>, cho phép NCCL chọn thuật toán không phải NVLS; lựa chọn này dường như ổn định.</li>
+<li>Flash attention là không xác định; không dùng <code>--use-flash-attn</code>.</li>
+<li>Nếu dùng Transformer Engine, bạn cũng phải đặt biến môi trường <code>NVTE_ALLOW_NONDETERMINISTIC_ALGO=0</code>.</li>
+</ol>
+<p>Ngoài ra, tính xác định chỉ được xác minh trong các container PyTorch NGC đến bản 23.12 trở đi. Nếu bạn quan sát thấy Megatron huấn luyện không xác định trong các trường hợp khác, vui lòng mở một issue.</p>
+<h1>Chuyển đổi checkpoint</h1>
+<p>Chúng tôi hỗ trợ hai dạng chuyển đổi mô hình:</p>
+<ol>
+<li>Chuyển đổi lớp mô hình (ví dụ, <code>GPTModel</code> trong <code>model.legacy</code> so với <code>model.core</code>)</li>
+<li>Chuyển đổi định dạng checkpoint (ví dụ, checkpoint phân tán so với không phân tán)</li>
+</ol>
+<h2>Chuyển đổi lớp mô hình</h2>
+<p>Megatron hỗ trợ chuyển đổi giữa các lớp mô hình khác nhau, bao gồm lớp mô hình nội bộ (hiện chúng tôi có các mô hình <code>legacy</code> cũ hơn, và mô hình <code>core</code> mới hơn) và lớp mô hình bên ngoài (như các mô hình của Meta, Huggingface, Mistral, và Mixtral). Ngoài ra, trong quá trình chuyển đổi này, bạn có thể cập nhật trạng thái song song của mô hình (tức là thay đổi song song tensor và pipeline).</p>
+<p>Chúng tôi cung cấp công cụ <code>tools/checkpoint/convert.py</code> để chuyển đổi giữa các lớp mô hình. Một số đối số quan trọng gồm:</p>
+<ul>
+<li><code>--model-type</code>: <code>GPT</code> hoặc <code>BERT</code></li>
+<li><code>--loader</code>: định dạng của checkpoint hiện có. Hỗ trợ các định dạng:<ul>
+<li><code>legacy</code>: các lớp mô hình cũ (trong <code>megatron.legacy.model</code>)</li>
+<li><code>core</code>: các lớp mô hình mới hơn (trong <code>megatron.core.models</code>)</li>
+<li><code>llama_mistral</code>: để nạp các mô hình Llama và Mistral (hỗ trợ định dạng Meta và Huggingface)</li>
+<li><code>mixtral_hf</code>: để nạp các mô hình Mixtral (chỉ Huggingface)</li>
+</ul>
+</li>
+<li><code>--load-dir</code>: thư mục để nạp checkpoint hiện có</li>
+<li><code>--saver</code>: <code>legacy</code> hoặc <code>core</code> (xem mô tả ở <code>--loader</code>)</li>
+<li><code>--save-dir</code>: thư mục để lưu checkpoint mới</li>
+<li><code>--target-tensor-parallel-size</code>: kích thước song song tensor mới</li>
+<li><code>--target-pipeline-parallel-size</code>: kích thước song song pipeline mới</li>
+</ul>
+<p>Để biết chi tiết về các đối số, vui lòng xem script chính (<code>convert.py</code>), các script loader (<code>loader_core.py</code>, <code>loader_legacy.py</code>, <code>loader_llama_mistral.py</code>, <code>loader_mixtral_hf.py</code>), hoặc các script saver (<code>saver_core.py</code>, <code>saver_legacy.py</code>).</p>
+<p>Ví dụ lệnh chuyển đổi mô hình GPT từ định dạng cũ (<code>legacy</code>) sang định dạng mới (<code>core</code>) như sau:</p>
+<pre><code class="hljs language-lua">python tools/checkpoint/convert.py \
+&gt;   <span class="hljs-comment">--model-type GPT \</span>
+&gt;   <span class="hljs-comment">--loader legacy \</span>
+&gt;   <span class="hljs-comment">--load-dir ${LEGACY_FORMAT_DIR} \</span>
+&gt;   <span class="hljs-comment">--saver core \</span>
+&gt;   <span class="hljs-comment">--save-dir ${CORE_FORMAT_DIR} \</span>
+&gt;   <span class="hljs-comment">--target-tensor-parallel-size ${TP} \</span>
+&gt;   <span class="hljs-comment">--target-pipeline-parallel-size ${PP} \</span>
+</code></pre>
+<p>Để tham khảo các ví dụ chuyển đổi mô hình Llama/Mistral vào Megatron, vui lòng xem <a href="docs/llama_mistral.md">tại đây</a>.</p>
+<h2>Chuyển đổi định dạng checkpoint</h2>
+<p>Megatron cung cấp nhiều định dạng checkpoint, bao gồm:</p>
+<ul>
+<li><code>torch</code>: Định dạng checkpoint cơ bản với thao tác đọc &amp; ghi tuần tự, gắn liền với trạng thái song song tensor/pipeline cụ thể (trạng thái TP/PP). (Một checkpoint cụ thể gắn với TP/PP cụ thể, nhưng vẫn có thể chuyển đổi thủ công qua trình chuyển đổi lớp mô hình như trên).</li>
+<li><code>torch_dist</code>: Định dạng checkpoint phân tán, hỗ trợ đọc &amp; ghi song song nhanh, và không phụ thuộc trạng thái song song (tức là có thể nạp cùng checkpoint vào các thiết lập TP/PP khác nhau).</li>
+</ul>
+<p>Nhìn chung, <code>torch_dist</code> là định dạng checkpoint hiện đại và được khuyến nghị do tốc độ. Tuy nhiên, tùy trường hợp sử dụng, có thể cần chuyển đổi giữa hai định dạng này. Để thực hiện, hãy khởi chạy script <em>huấn luyện</em> của bạn (ví dụ, qua <code>pretrain_gpt.py</code>) như bình thường, nhưng thêm hai đối số:</p>
+<ul>
+<li><code>--ckpt-convert-format ${FORMAT}</code>: <code>${FORMAT}</code> có thể là <code>torch</code> hoặc <code>torch_dist</code>, như mô tả ở trên.</li>
+<li><code>--ckpt-convert-save ${PATH_TO_SAVE_NEW_FORMAT}</code>: đường dẫn này nên khác với các đường dẫn <code>--load</code>/<code>--save</code> hiện tại, để tránh ghi đè checkpoint hiện có. Sau khi chuyển đổi, dùng đường dẫn mới này cho các tham số <code>--load</code>/<code>--save</code>.</li>
+</ul>
+<p>Ý tưởng chính của trình chuyển đổi định dạng checkpoint là khởi chạy mô hình như bình thường để huấn luyện, nhưng trước khi chạy bất kỳ vòng lặp huấn luyện nào, sẽ lưu sang định dạng checkpoint mới và sau đó thoát. Lưu ý rằng các tham số khởi chạy khác nên giữ nguyên, để hệ thống hiểu đúng định dạng checkpoint trước đó.</p>
+<h1>Các Dự án Sử dụng Megatron</h1>
+<p>Dưới đây là một số dự án mà chúng tôi đã sử dụng trực tiếp Megatron:</p>
+<ul>
+<li><a href="https://arxiv.org/pdf/1909.08053.pdf">BERT and GPT Studies Using Megatron</a></li>
+<li><a href="https://www.aclweb.org/anthology/2020.emnlp-main.379.pdf">BioMegatron: Larger Biomedical Domain Language Model</a></li>
+<li><a href="https://arxiv.org/abs/2101.00408">End-to-End Training of Neural Retrievers for Open-Domain Question Answering</a></li>
+<li><a href="https://www.aclweb.org/anthology/2020.acl-main.8.pdf">Large Scale Multi-Actor Generative Dialog Modeling</a></li>
+<li><a href="https://arxiv.org/abs/2010.10150">Local Knowledge Powered Conversational Agents</a></li>
+<li><a href="https://www.aclweb.org/anthology/2020.emnlp-main.226.pdf">MEGATRON-CNTRL: Controllable Story Generation with External Knowledge Using Large-Scale Language Models</a></li>
+<li><a href="http://www.qizhexie.com/data/RACE_leaderboard.html">RACE Reading Comprehension Dataset Leaderboard</a></li>
+<li><a href="https://www.aclweb.org/anthology/2020.emnlp-main.468.pdf">Training Question Answering Models From Synthetic Data</a></li>
+<li><a href="https://arxiv.org/abs/2112.07868">Few-shot Instruction Prompts for Pretrained Language Models to Detect Social Biases</a></li>
+<li><a href="https://arxiv.org/abs/2202.04173">Exploring the Limits of Domain-Adaptive Training for Detoxifying Large-Scale Language Models</a></li>
+<li><a href="https://arxiv.org/abs/2201.11990">Using DeepSpeed and Megatron to Train Megatron-Turing NLG 530B, A Large-Scale Generative Language Model</a></li>
+<li><a href="https://arxiv.org/abs/2203.08745">Multi-Stage Prompting for Knowledgeable Dialogue Generation</a></li>
+<li><a href="https://aclanthology.org/2022.emnlp-main.319.pdf">Evaluating Parameter Efficient Learning for Generation</a></li>
+<li><a href="https://arxiv.org/abs/2202.04173">Exploring the Limits of Domain-Adaptive Training for Detoxifying Large-Scale Language Models</a></li>
+<li><a href="https://arxiv.org/abs/2304.06762">Shall We Pretrain Autoregressive Language Models with Retrieval? A Comprehensive Study</a></li>
+<li><a href="https://arxiv.org/abs/2310.07713">InstructRetro: Instruction Tuning post Retrieval-Augmented Pretraining</a></li>
+<li><a href="https://arxiv.org/abs/2406.07887">An Empirical Study of Mamba-based Language Models</a></li>
+</ul>
+<pre><code class="hljs language-yaml">
+
+<span class="hljs-meta">---
+
+</span>
+<span class="hljs-string">Tranlated</span> <span class="hljs-string">By</span> [<span class="hljs-string">Open</span> <span class="hljs-string">Ai</span> <span class="hljs-string">Tx</span>]<span class="hljs-string">(https://github.com/OpenAiTx/OpenAiTx)</span> <span class="hljs-string">|</span> <span class="hljs-attr">Last indexed:</span> <span class="hljs-number">2025-06-11</span>
+
+
+<span class="hljs-meta">---
+</span></code></pre>
+</div></div></div>
     </div>
 
     <footer class="footer">

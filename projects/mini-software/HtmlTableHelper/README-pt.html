@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>mini-software/HtmlTableHelper - pt Documentation</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="mini-software/HtmlTableHelper - pt Documentation">
+    <meta name="description" content="mini-software/HtmlTableHelper - GitHub repository pt documentation and information">
+    <meta name="keywords" content="mini-software, HtmlTableHelper, GitHub, repository, pt documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/mini-software/HtmlTableHelper/README-pt.html">
+    <meta property="og:title" content="mini-software/HtmlTableHelper - pt Documentation">
+    <meta property="og:description" content="mini-software/HtmlTableHelper - GitHub repository pt documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,284 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>Erro ao carregar conteúdo</h2>
-                    <p>Falha ao carregar o conteúdo markdown. Por favor, verifique:</p>
-                    <ul>
-                        <li>Os parâmetros URL estão corretos</li>
-                        <li>O arquivo existe no caminho especificado</li>
-                        <li>Você tem uma conexão ativa com a internet</li>
-                    </ul>
-                    <p>Detalhes do erro: Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><p><a href="https://www.nuget.org/packages/HtmlTableHelper"><img src="https://img.shields.io/nuget/v/HtmlTableHelper.svg" alt="NuGet"></a><br><img src="https://img.shields.io/nuget/dt/HtmlTableHelper.svg" alt=""></p>
+<h3>Funcionalidades</h3>
+<ul>
+<li>Mini (Tamanho da DLL apenas 20KB) e fácil de usar.</li>
+<li>Suporta .NET Standard 2.0/.NET 4.6/.NET 4.5/.NET 4.0</li>
+<li>Sem qualquer biblioteca de terceiros</li>
+<li>Suporta Tipos Anônimos, Consulta Dinâmica do Dapper, List/Array/Set/Enumrable, DataTable, Dictionary</li>
+</ul>
+<h3>Instalação</h3>
+<p>Você pode instalar o pacote <a href="https://www.nuget.org/packages/HtmlTableHelper">do NuGet</a> usando o Gerenciador de Pacotes do Visual Studio ou a interface do NuGet:</p>
+<pre><code class="language-cmd">PM&gt; install-package HtmlTableHelper
+</code></pre>
+<p>ou pela linha de comando <code>dotnet</code>:</p>
+<pre><code class="language-cmd">dotnet add package HtmlTableHelper
+</code></pre>
+<h3>Demonstração Fiddle:</h3>
+<ul>
+<li><a href="https://dotnetfiddle.net/DzddCl">HtmlTableHelper ConsoleDemo</a></li>
+<li><a href="https://dotnetfiddle.net/u9Ia6M">HtmlTableHelper ASP.NET MVC Demo (JQuery DataTable)</a></li>
+</ul>
+<h3>Começando</h3>
+<h5>Exemplo de List/Array/Set/Enumrable de tipo que não seja Key/Value</h5>
+<pre><code class="language-C# hljs language-C">using HtmlTableHelper;
+..
+var sourceData = new[] { new { Name = <span class="hljs-string">"ITWeiHan"</span>, Age = <span class="hljs-string">"25"</span>,Gender = <span class="hljs-string">"M"</span> } };
+var tablehtml = sourceData.ToHtmlTable();
+<span class="hljs-comment">/*
+Resultado:
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Age&lt;/th&gt;&lt;th&gt;Gender&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;ITWeiHan&lt;/td&gt;&lt;td&gt;25&lt;/td&gt;&lt;td&gt;M&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+*/</span>
+</code></pre>
+<h5>Exemplo Dapper</h5>
+<pre><code class="language-C# hljs language-C">using (var cn = <span class="hljs-string">"Sua Conexão"</span>)
+{
+	var sourceData = cn.Query(@<span class="hljs-string">"select 'ITWeiHan' Name,25 Age,'M' Gender"</span>);
+	var tablehtml = sourceData.ToHtmlTable();
+}
+</code></pre>
+<h5>Exemplo Dictionary</h5>
+<pre><code class="language-C# hljs language-C">var sourceData = new[] {new Dictionary&lt;<span class="hljs-built_in">string</span>, object&gt; (){{<span class="hljs-string">"Name"</span> , <span class="hljs-string">"ITWeiHan"</span> },{<span class="hljs-string">"Age"</span>,<span class="hljs-number">25</span>},{<span class="hljs-string">"Gender"</span>,<span class="hljs-string">"M"</span>}}};
+var tablehtml = sourceData.ToHtmlTable();
+</code></pre>
+<!--
+**Mas** para outro tipo Key/Value use `ToHtmlTableByDictionary`
+```C#
+var sourceData = new[] {
+    new Dictionary<SomeKeyType, SomeValueType> (){...}
+};
+var tablehtml = sourceData.ToHtmlTableByDictionary();
+```
+--->
+
+<p><strong>Atributos Personalizados de Table/TR/TD/TH (Tipo Dinâmico)</strong></p>
+<pre><code class="language-C# hljs language-C">var data = <span class="hljs-comment">/*List/Array/Set/Enumrable..*/</span>;
+var html = data.ToHtmlTable( tableAttributes: new { @class = <span class="hljs-string">"SomeClass"</span>} <span class="hljs-comment">//este é um tipo dinâmico, suporta todos os atributos </span>
+    ,trAttributes: new { ID = <span class="hljs-string">"SomeID"</span> },tdAttributes: new { width = <span class="hljs-string">"120 px"</span> },thAttributes: new { @class = <span class="hljs-string">"dark-theme"</span> }
+);
+<span class="hljs-comment">/*
+Resultado:
+&lt;table class="SomeClass"&gt;
+	&lt;thead&gt;
+		&lt;tr ID="SomeID"&gt;
+			&lt;th class="dark-theme"&gt;..&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+		&lt;tr ID="SomeID"&gt;
+			&lt;td width="120 px"&gt;..&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+*/</span>
+</code></pre>
+<h5>Anotação de Atributos</h5>
+<h6>1. Display :</h6>
+<pre><code class="language-C# hljs language-C">public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ModelClassWithDisplayAttr</span>
+{</span>
+    [TableColumn(DisplayName = <span class="hljs-string">"Column1"</span>)] <span class="hljs-comment">//A propriedade MyProperty1 irá renderizar o innertext do thead-td: "Column1"</span>
+    public <span class="hljs-built_in">string</span> MyProperty1 { get; <span class="hljs-built_in">set</span>; }
+    [TableColumn(DisplayName = <span class="hljs-string">"Column2"</span>)] <span class="hljs-comment">//A propriedade MyProperty2 irá renderizar o innertext do thead-td: "Column2"</span>
+    public <span class="hljs-built_in">string</span> MyProperty2 { get; <span class="hljs-built_in">set</span>; }
+}
+</code></pre>
+<h6>2. Skip :</h6>
+<pre><code class="language-C# hljs language-C">public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ModelClassWithSkipAttr</span>
+{</span>
+    [TableColumn( Skip = <span class="hljs-literal">true</span>)]
+    public <span class="hljs-built_in">string</span> MyProperty1 { get; <span class="hljs-built_in">set</span>; } <span class="hljs-comment">//MyProperty1 não será renderizada no html</span>
+    public <span class="hljs-built_in">string</span> MyProperty2 { get; <span class="hljs-built_in">set</span>; }
+}
+</code></pre>
+<h5>HTMLTableBuilder</h5>
+<h6>HtmlCaption</h6>
+<pre><code class="language-C# hljs language-C">var soucreData = new []{ new {MyProperty1=<span class="hljs-string">"test"</span>,MyProperty2=<span class="hljs-number">123</span>} };
+var html = soucreData.CreateBuilder()
+    .SetCaption(<span class="hljs-string">"This is Caption"</span>, new { id = <span class="hljs-string">"CaptionId"</span> })
+    .ToHtmlTable();
+<span class="hljs-comment">//Resultado: &lt;table&gt;&lt;caption id=\"CaptionId\" &gt;This is Caption&lt;/caption&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;MyProperty1&lt;/th&gt;&lt;th&gt;MyProperty2&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;test&lt;/td&gt;&lt;td&gt;123&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</span>
+</code></pre>
+<h5>HTMLTableSetting</h5>
+<p>Codificação de InnerHtml configurável (Recomendado não desabilitar sem motivo específico, pois pode causar ataque XSS)</p>
+<pre><code class="language-C# hljs language-C">var sourceData = new[] { new { Name = <span class="hljs-string">"&lt;b&gt;ITWeiHan&lt;/b&gt;"</span> } };
+
+<span class="hljs-comment">//Codificação padrão</span>
+var encodinghtml = sourceData.ToHtmlTable();
+<span class="hljs-comment">//Resultado: &lt;table&gt;..&amp;lt;b&amp;gt;ITWeiHan&amp;lt;/b&amp;gt;..&lt;/table&gt;</span>
+
+var htmltablesetting = new HTMLTableSetting()
+{
+    IsHtmlEncodeMode = <span class="hljs-literal">false</span>
+};
+var notEncodinghtml = sourceData.ToHtmlTable(HTMLTableSetting: htmltablesetting);
+<span class="hljs-comment">//Resultado: &lt;table&gt;..&lt;b&gt;ITWeiHan&lt;/b&gt;..&lt;/table&gt;</span>
+</code></pre>
+<h3>Extensão</h3>
+<p><strong>ASP.NET Core MVC:</strong><br>Crie um IHtmlHelperExtension.cs</p>
+<pre><code class="language-C# hljs language-C">using System.Collections.Generic;
+using HtmlTableHelper;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Html;
+
+public <span class="hljs-type">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IHtmlHelperExtension</span>
+{</span>
+    public <span class="hljs-type">static</span> HtmlString ToHtmlTable&lt;T&gt;(this IHtmlHelper htmlHelper, IEnumerable&lt;T&gt; enums
+        , object tableAttributes = null, object trAttributes = null, object tdAttributes = null
+        , HtmlTableSetting HTMLTableSetting = null)
+    {
+        var html = enums.ToHtmlTable(tableAttributes, trAttributes, tdAttributes, HTMLTableSetting);
+        <span class="hljs-keyword">return</span> new HtmlString(html);
+    }
+
+    public <span class="hljs-type">static</span> HtmlString ToHtmlTable&lt;T&gt;(this IHtmlHelper htmlHelper, System.Data.DataTable datatable
+        , object tableAttributes = null, object trAttributes = null, object tdAttributes = null
+        , HtmlTableSetting HTMLTableSetting = null)
+    {
+        var html = datatable.ToHtmlTable(tableAttributes, trAttributes, tdAttributes, HTMLTableSetting);
+        <span class="hljs-keyword">return</span> new HtmlString(html);
+    }
+}
+</code></pre>
+<p>razor.cshtml </p>
+<pre><code class="language-C# hljs language-C">@Html.ToHtmlTable(new[] { new { Name = <span class="hljs-string">"ITWeiHan"</span>, Age = <span class="hljs-string">"25"</span>, Gender = <span class="hljs-string">"M"</span> } })
+<span class="hljs-comment">/*
+Resultado:&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Age&lt;/th&gt;&lt;th&gt;Gender&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;ITWeiHan&lt;/td&gt;&lt;td&gt;25&lt;/td&gt;&lt;td&gt;M&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+*/</span>
+</code></pre>
+<p><strong>ASP.NET MVC 5:</strong><br>Crie um HtmlHelperExtension.cs</p>
+<pre><code class="language-C# hljs language-C">using System.Collections.Generic;
+using HtmlTableHelper;
+using System.Web;
+using System.Web.Mvc;
+
+public <span class="hljs-type">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HtmlHelperExtension</span>
+{</span>
+    public <span class="hljs-type">static</span> HtmlString ToHtmlTable&lt;T&gt;(this HtmlHelper htmlHelper, IEnumerable&lt;T&gt; enums
+        , object tableAttributes = null, object trAttributes = null, object tdAttributes = null
+        , HtmlTableSetting HTMLTableSetting = null)
+    {
+        var html = enums.ToHtmlTable(tableAttributes, trAttributes, tdAttributes, HTMLTableSetting);
+        <span class="hljs-keyword">return</span> new HtmlString(html);
+    }
+
+    public <span class="hljs-type">static</span> HtmlString ToHtmlTable&lt;T&gt;(this HtmlHelper htmlHelper, System.Data.DataTable datatable
+        , object tableAttributes = null, object trAttributes = null, object tdAttributes = null
+```csharp
+, HtmlTableSetting HTMLTableSetting = null)
+{
+    var html = datatable.ToHtmlTable(tableAttributes, trAttributes, tdAttributes, HTMLTableSetting);
+    <span class="hljs-keyword">return</span> new HtmlString(html);
+}
+}
+</code></pre>
+<h3>Demonstração</h3>
+<p><strong>Demonstração ASP.NET MVC 5 JQuery DataTable:</strong>  </p>
+<pre><code class="language-C# hljs language-C">using HtmlTableHelper;
+<span class="hljs-comment">//..</span>
+public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeController</span> :</span> Controller
+{
+    public ActionResult <span class="hljs-title function_">Index</span><span class="hljs-params">()</span>
+    {
+        var datas = new[] { new { Name = <span class="hljs-string">"ITWeiHan"</span>, Age = <span class="hljs-string">"25"</span>,Gender = <span class="hljs-string">"M"</span> } };
+        ViewBag.Table = datas.ToHtmlTable();
+        <span class="hljs-keyword">return</span> View();
+    }
+}
+</code></pre>
+<pre><code class="language-C# hljs language-C">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name=<span class="hljs-string">"viewport"</span> content=<span class="hljs-string">"width=device-width"</span> /&gt;
+    &lt;title&gt;AspNetMvcDemo&lt;/title&gt;
+    &lt;link href=<span class="hljs-string">"//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"</span> rel=<span class="hljs-string">"stylesheet"</span> /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div&gt;
+        @Html.Raw(ViewBag.Table)
+    &lt;/div&gt;
+    &lt;script src=<span class="hljs-string">"https://code.jquery.com/jquery-3.3.1.min.js"</span>&gt;&lt;/script&gt;
+    &lt;script src=<span class="hljs-string">"//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"</span>&gt;&lt;/script&gt;
+    &lt;script&gt;
+        $(document).ready(function () {
+            $(<span class="hljs-string">'Table'</span>).DataTable();
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><strong>Demonstração ASP.NET Core:</strong></p>
+<pre><code class="language-C# hljs language-C">public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Startup</span>
+{</span>
+    public <span class="hljs-type">void</span> <span class="hljs-title function_">Configure</span><span class="hljs-params">(IApplicationBuilder app, IHostingEnvironment env)</span>
+    {
+        app.Run(async (context) =&gt;
+        {
+            var sourceData = new[] { new { Name = <span class="hljs-string">"ITWeiHan"</span>, Age = <span class="hljs-string">"25"</span>,Gender = <span class="hljs-string">"M"</span> } };
+            var tablehtml = sourceData.ToHtmlTable();
+            await context.Response.WriteAsync(tablehtml);
+        });
+    }
+}
+</code></pre>
+<!--
+#### TODO:
+- [ ] Suporte para .NET 4.0
+- [ ] Suporte para EF Model
+- [ ] Suporte para atributo html customizado em propriedades
+
+Especificar colunas
+```C#
+using HtmlTableHelper;
+..
+public class Person{
+	public string Name { get; set; }
+	public int Age { get; set; }
+	public string Gender { get; set; }
+}
+..
+var sourceData = new[] { new Person{ Name = "ITWeiHan", Age = "25",Gender = "M" } };
+var tablehtml = sourceData.ToHtmlTable(new[]{name});
+/*
+Resultado:
+<table><thead><tr><th>Name</th><th>Age</th><th>Gender</th></tr></thead><tbody><tr><td>ITWeiHan</td><td>25</td><td>M</td></tr></tbody></table>
+*/
+```
+-->
+
+<!--
+Leia esta página
+[security - Will HTML Encoding prevent all kinds of XSS attacks? - Stack Overflow]
+(https://stackoverflow.com/questions/53728/will-html-encoding-prevent-all-kinds-of-xss-attacks)
+-->
+
+<!---
+editable + ajax Tabela editável
+    - Problema de rota
+    - Funções de adicionar, remover, editar e consultar
+    - Precisa de SID
+- [ ] Suporte para paginação
+    usando linq skip e take
+    mas pode causar problemas no datatable
+    parece que será necessário converter datatable para enumerable
+--->
+<pre><code class="hljs language-yaml">
+
+<span class="hljs-meta">---
+
+</span>
+<span class="hljs-string">Tranlated</span> <span class="hljs-string">By</span> [<span class="hljs-string">Open</span> <span class="hljs-string">Ai</span> <span class="hljs-string">Tx</span>]<span class="hljs-string">(https://github.com/OpenAiTx/OpenAiTx)</span> <span class="hljs-string">|</span> <span class="hljs-attr">Last indexed:</span> <span class="hljs-number">2025-06-11</span>
+
+
+<span class="hljs-meta">---
+</span></code></pre>
+</div>
     </div>
 
     <footer class="footer">

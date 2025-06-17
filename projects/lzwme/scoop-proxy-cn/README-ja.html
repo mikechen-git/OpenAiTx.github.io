@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>🍡 scoop-proxy-cn - lzwme/scoop-proxy-cn</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="🍡 scoop-proxy-cn - lzwme/scoop-proxy-cn">
+    <meta name="description" content="lzwme/scoop-proxy-cn - GitHub repository ja documentation and information">
+    <meta name="keywords" content="lzwme, scoop-proxy-cn, GitHub, repository, ja documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/lzwme/scoop-proxy-cn/README-ja.html">
+    <meta property="og:title" content="🍡 scoop-proxy-cn - lzwme/scoop-proxy-cn">
+    <meta property="og:description" content="lzwme/scoop-proxy-cn - GitHub repository ja documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,207 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>コンテンツの読み込みエラー</h2>
-                    <p>markdownコンテンツの読み込みに失敗しました。以下を確認してください：</p>
-                    <ul>
-                        <li>URLパラメータが正しい</li>
-                        <li>指定されたパスにファイルが存在する</li>
-                        <li>アクティブなインターネット接続がある</li>
-                    </ul>
-                    <p>エラー詳細： Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><h1>🍡 scoop-proxy-cn</h1>
+<p>中国本土ユーザー向けの<a href="https://scoop.sh">Scoop</a>バケット代理ミラーリポジトリ。複数のオープンソース <code>bucket</code> リポジトリから同期更新しています。内訳は以下の通りです：</p>
+<ul>
+<li><code>sync</code> ブランチ（デフォルト）：複数のリポジトリのアプリを同期しますが、ghproxy代理の変更処理は行いません。<strong>giteeの国内改変版scoopを使用するシーンに適しています。</strong></li>
+<li><code>main</code> ブランチ：<code>github release</code>からダウンロードするアプリのURLを<code>https://ghfast.top</code>を基にした代理ダウンロードURLに変更します。<strong>代理アドレスは頻繁に無効化や変更が発生するため安定性が低いです。</strong></li>
+</ul>
+<h2>使い方</h2>
+<p><code>spc</code>アプリリポジトリを追加します。<a href="https://gitee.com/scoop-installer/scoop">scoop国内ミラー最適化リポジトリ</a>との併用に適しています：</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># バケットを追加、デフォルトでsyncブランチを取得</span>
+scoop bucket add spc https://gitee.com/wlzwme/scoop-proxy-cn.git
+
+<span class="hljs-comment"># アプリをインストール</span>
+scoop install spc/&lt;app_name&gt;
+</code></pre>
+<p>Scoop公式版のみを使いたい場合は、購読ブランチを<code>main</code>に切り替えます：</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># spcディレクトリに移動</span>
+<span class="hljs-built_in">cd</span> <span class="hljs-string">"<span class="hljs-variable">$env</span>:USERPROFILE\scoop\buckets\spc"</span>
+<span class="hljs-comment"># 環境変数 SCOOP が設定されている場合は以下を実行</span>
+<span class="hljs-built_in">cd</span> <span class="hljs-string">"<span class="hljs-variable">$env</span>:SCOOP\buckets\spc"</span>
+
+<span class="hljs-comment"># mainブランチに切り替え</span>
+git fetch --all
+git checkout -b main origin/main
+</code></pre>
+<h2>Scoopインストールと設定参考</h2>
+<h3>方法1：国内カスタムミラーを基にしたインストール（推奨）</h3>
+<p>scoopのソースコードおよびバケットアプリは基本的にGitHub上のgit形式で管理されています。GitHubへのアクセス困難によりインストール、更新、アプリダウンロードの体験が非常に悪化します。</p>
+<p>以下は<a href="https://gitee.com/scoop-installer/scoop">scoop国内ミラー最適化リポジトリ</a>のインストール方法です。</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># スクリプト実行ポリシー変更、デフォルトで自動同意</span>
+Set-ExecutionPolicy RemoteSigned -scope CurrentUser -Force
+
+<span class="hljs-comment"># 方法1：インストールコマンドを実行（デフォルトはユーザーディレクトリにインストール。変更したい場合は下の「カスタムインストールディレクトリ」コマンドを実行）</span>
+iwr -useb scoop.201704.xyz | iex
+
+
+<span class="hljs-comment">## 方法2：カスタムインストールディレクトリ（ディレクトリを適切な場所に変更してください）</span>
+irm scoop.201704.xyz -outfile <span class="hljs-string">'install.ps1'</span>
+.\install.ps1 -ScoopDir <span class="hljs-string">'D:\Scoop'</span> -ScoopGlobalDir <span class="hljs-string">'D:\GlobalScoopApps'</span>
+
+<span class="hljs-comment"># もし公式リポジトリがインストール済みの場合は以下で切り替え可能</span>
+scoop config SCOOP_REPO <span class="hljs-string">"https://gitee.com/scoop-installer/scoop"</span>
+
+<span class="hljs-comment"># spcバケットを追加</span>
+scoop bucket add spc https://gitee.com/wlzwme/scoop-proxy-cn.git
+
+<span class="hljs-comment"># 新しいリポジトリアドレスを取得</span>
+scoop update
+</code></pre>
+<p>この方法でインストールしたscoopはカスタム修正が施されており、プロキシ加速サイトのカスタマイズをサポートし、デフォルトで<code>scoop.201704.xyz</code>を代理ダウンロードに使用します。</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># プロキシを追加</span>
+scoop config URL_PROXY <span class="hljs-string">"https://scoop.201704.xyz"</span>
+
+<span class="hljs-comment"># プロキシを削除</span>
+scoop config <span class="hljs-built_in">rm</span> URL_PROXY
+</code></pre>
+<h3>方法2：公式リポジトリを代理経由でインストール</h3>
+<p>PowerShellを開き、以下のコマンドを実行してください：</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># インストール</span>
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+<span class="hljs-comment"># irm -useb get.scoop.sh | iex</span>
+irm https://ghfast.top/raw.githubusercontent.com/lzwme/scoop-proxy-cn/main/install.ps1 | iex
+
+<span class="hljs-comment"># 設定</span>
+scoop config SCOOP_REPO https://ghfast.top/github.com/ScoopInstaller/Scoop
+
+<span class="hljs-comment"># spcバケットを追加</span>
+scoop bucket add spc https://gitee.com/wlzwme/scoop-proxy-cn.git
+<span class="hljs-comment"># spcディレクトリに移動</span>
+<span class="hljs-built_in">cd</span> <span class="hljs-string">"<span class="hljs-variable">$env</span>:USERPROFILE\scoop\buckets\spc"</span>
+<span class="hljs-comment"># mainブランチに切り替え</span>
+git fetch --all &amp;&amp; git checkout -b main origin/main
+
+<span class="hljs-comment"># ヘルプ表示</span>
+scoop <span class="hljs-built_in">help</span>
+
+<span class="hljs-comment"># 7zip、aria2、scoop-searchなどをインストール</span>
+scoop install spc/7zip spc/aria2 spc/scoop-search
+</code></pre>
+<h3><code>scoop-search</code>について</h3>
+<p><code>scoop-proxy-cn</code>リポジトリは<code>1.4万以上</code>のアプリを同期しています。PowerShellベースの公式<code>scoop search</code>コマンドは効率が悪く実用的ではありません。代わりにGo言語で開発された<code>scoop-search</code>ツールのインストールと使用を推奨します。例：</p>
+<pre><code class="language-bash hljs">scoop install scoop-search
+<span class="hljs-comment"># scoop-searchを使用</span>
+scoop-search act
+</code></pre>
+<h2>よくある質問</h2>
+<h3><code>aria2</code>によるダウンロード失敗問題について</h3>
+<p><code>aria2</code>をインストールすると、scoopは<code>aria2</code>で分割加速ダウンロードを行いますが、一部の代理アドレスは<code>aria2</code>からの分割ダウンロードをサポートしないかブロックしています。その場合は以下のコマンドで<code>aria2</code>を無効化してください：</p>
+<pre><code class="language-bash hljs">scoop config aria2-enabled <span class="hljs-literal">false</span>
+</code></pre>
+<h3><code>Hash Check Failed</code>問題について</h3>
+<p>一部アプリは最新リリースアドレスを設定しつつハッシュ値も指定しているため、新バージョンの変更時に<code>Hash Check Failed</code>が発生します。この場合、<code>-s</code>オプションを追加して無視できます。例：</p>
+<pre><code class="language-bash hljs">scoop install scoop-search -s
+</code></pre>
+<h3>代理サイトが無効化され更新が必要な場合の対処法</h3>
+<p>Scoop公式版を使い、購読ブランチが<code>main</code>の場合、gitリポジトリやアプリダウンロードURLに代理サイトが使われますが、代理サイトが無効化されると更新ができなくなります。以下のコマンドで再設定してください：</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># まずscoopリポジトリを更新</span>
+scoop config scoop_repo https://ghfast.top/github.com/ScoopInstaller/Scoop.git
+
+<span class="hljs-comment"># 方法1：spcバケットリポジトリのURLを更新</span>
+git -C <span class="hljs-string">"<span class="hljs-variable">$env</span>:USERPROFILE\scoop\buckets\spc"</span> remote set-url origin https://gitee.com/wlzwme/scoop-proxy-cn.git
+<span class="hljs-comment"># バケットのデフォルト位置を変更している場合はこちらを実行</span>
+git -C <span class="hljs-string">"<span class="hljs-variable">$env</span>:SCOOP\buckets\spc"</span> remote set-url origin https://gitee.com/wlzwme/scoop-proxy-cn.git
+
+<span class="hljs-comment"># 方法2：spcバケットを削除して再追加</span>
+scoop bucket <span class="hljs-built_in">rm</span> spc
+scoop bucket add spc https://gitee.com/wlzwme/scoop-proxy-cn.git
+</code></pre>
+<h2>同期元バケット</h2>
+<ul>
+<li><a href="https://github.com/ScoopInstaller/PHP">ScoopInstaller/PHP</a></li>
+<li><a href="https://github.com/ScoopInstaller/Main">ScoopInstaller/Main</a></li>
+<li><a href="https://github.com/ScoopInstaller/Extras">ScoopInstaller/Extras</a></li>
+<li><a href="https://github.com/ScoopInstaller/Java">ScoopInstaller/Java</a></li>
+<li><a href="https://github.com/ScoopInstaller/Versions">ScoopInstaller/Versions</a></li>
+<li><a href="https://github.com/ScoopInstaller/Nirsoft">ScoopInstaller/Nirsoft</a></li>
+<li><a href="https://github.com/ScoopInstaller/Nonportable">ScoopInstaller/Nonportable</a></li>
+<li><a href="https://github.com/renxia/scoop-bucket">renxia/scoop-bucket</a></li>
+<li><a href="https://github.com/scoopcn/scoopcn">scoopcn/scoopcn</a></li>
+<li><a href="https://github.com/rasa/scoops">rasa/scoops</a></li>
+<li><a href="https://github.com/amorphobia/siku">amorphobia/siku</a></li>
+<li><a href="https://github.com/ACooper81/scoop-apps">ACooper81/scoop-apps</a></li>
+<li><a href="https://github.com/kkzzhizhou/scoop-zapps">kkzzhizhou/scoop-zapps</a></li>
+<li><a href="https://github.com/Calinou/scoop-games">Calinou/scoop-games</a></li>
+<li><a href="https://github.com/cderv/r-bucket">cderv/r-bucket</a></li>
+<li><a href="https://github.com/chawyehsu/dorado">chawyehsu/dorado</a></li>
+<li><a href="https://github.com/borger/scoop-galaxy-integrations">borger/scoop-galaxy-integrations</a></li>
+<li><a href="https://github.com/ivaquero/scoopet">ivaquero/scoopet</a></li>
+<li><a href="https://github.com/KNOXDEV/wsl">KNOXDEV/wsl</a></li>
+<li><a href="https://github.com/kodybrown/scoop-nirsoft">kodybrown/scoop-nirsoft</a></li>
+<li><a href="https://github.com/kidonng/sushi">kidonng/sushi</a></li>
+<li><a href="https://github.com/littleli/scoop-clojure">littleli/scoop-clojure</a></li>
+<li><a href="https://github.com/niheaven/scoop-sysinternals">niheaven/scoop-sysinternals</a></li>
+<li><a href="https://github.com/matthewjberger/scoop-nerd-fonts">matthewjberger/scoop-nerd-fonts</a></li>
+<li><a href="https://github.com/TheCjw/scoop-retools">TheCjw/scoop-retools</a></li>
+<li><a href="https://github.com/TheRandomLabs/Scoop-Bucket">TheRandomLabs/Scoop-Bucket</a></li>
+<li><a href="https://github.com/TheRandomLabs/scoop-nonportable">TheRandomLabs/scoop-nonportable</a></li>
+<li><a href="https://github.com/TheRandomLabs/Scoop-Spotify">TheRandomLabs/Scoop-Spotify</a></li>
+<li><a href="https://github.com/Paxxs/Cluttered-bucket">Paxxs/Cluttered-bucket</a></li>
+<li><a href="https://github.com/zhoujin7/tomato">zhoujin7/tomato</a></li>
+<li><a href="https://github.com/HCLonely/my-scoop-bucket">HCLonely/my-scoop-bucket</a></li>
+<li><a href="https://github.com/Weidows-projects/scoop-3rd">Weidows-projects/scoop-3rd</a></li>
+<li><a href="https://github.com/hermanjustnu/scoop-emulators">hermanjustnu/scoop-emulators</a></li>
+<li><a href="https://github.com/everyx/scoop-bucket">everyx/scoop-bucket</a></li>
+<li><a href="https://github.com/borger/scoop-emulators">borger/scoop-emulators</a></li>
+<li><a href="https://github.com/ZvonimirSun/scoop-iszy">ZvonimirSun/scoop-iszy</a></li>
+<li><a href="https://github.com/kiennq/scoop-misc">kiennq/scoop-misc</a></li>
+<li><a href="https://github.com/wzv5/ScoopBucket">wzv5/ScoopBucket</a></li>
+<li><a href="https://github.com/TheRandomLabs/Scoop-Python">TheRandomLabs/Scoop-Python</a></li>
+<li><a href="https://github.com/naderi/scoop-bucket">naderi/scoop-bucket</a></li>
+<li><a href="https://github.com/ViCrack/scoop-bucket">ViCrack/scoop-bucket</a></li>
+<li><a href="https://github.com/42wim/scoop-bucket">42wim/scoop-bucket</a></li>
+<li><a href="https://github.com/akirco/aki-apps">akirco/aki-apps</a></li>
+<li><a href="https://github.com/batkiz/backit">batkiz/backit</a></li>
+<li><a href="https://github.com/iquiw/scoop-bucket">iquiw/scoop-bucket</a></li>
+<li><a href="https://github.com/ygguorun/scoop-bucket">ygguorun/scoop-bucket</a></li>
+<li><a href="https://github.com/seumsc/scoop-seu">seumsc/scoop-seu</a></li>
+<li><a href="https://github.com/cc713/ownscoop">cc713/ownscoop</a></li>
+<li><a href="https://github.com/aoisummer/scoop-bucket">aoisummer/scoop-bucket</a></li>
+<li><a href="https://github.com/yuusakuri/scoop-bucket">yuusakuri/scoop-bucket</a></li>
+<li><a href="https://github.com/hu3rror/scoop-muggle">hu3rror/scoop-muggle</a></li>
+<li><a href="https://github.com/starise/Scoop-Confetti">starise/Scoop-Confetti</a></li>
+<li><a href="https://github.com/dodorz/scoop">dodorz/scoop</a></li>
+<li><a href="https://github.com/SayCV/scoop-cvp">SayCV/scoop-cvp</a></li>
+<li><a href="https://github.com/Qv2ray/mochi">Qv2ray/mochi</a></li>
+<li><a href="https://github.com/Homeland-Community/scoop">Homeland-Community/scoop</a></li>
+<li><a href="https://github.com/jingyu9575/scoop-jingyu9575">jingyu9575/scoop-jingyu9575</a></li>
+<li><a href="https://github.com/couleur-tweak-tips/utils">couleur-tweak-tips/utils</a></li>
+<li><a href="https://github.com/wangzq/scoop-bucket">wangzq/scoop-bucket</a></li>
+<li><a href="https://github.com/jonz94/scoop-sarasa-nerd-fonts">jonz94/scoop-sarasa-nerd-fonts</a></li>
+<li><a href="https://github.com/NyaMisty/scoop_bucket_misty">NyaMisty/scoop_bucket_misty</a></li>
+<li><a href="https://github.com/jfut/scoop-jfut">jfut/scoop-jfut</a></li>
+<li><a href="https://github.com/mogeko/scoop-sysinternals">mogeko/scoop-sysinternals</a></li>
+<li><a href="https://github.com/ChungZH/peach">ChungZH/peach</a></li>
+<li><a href="https://github.com/DoveBoy/Apps">DoveBoy/Apps</a></li>
+<li><a href="https://github.com/Velgus/Scoop-Portapps">Velgus/Scoop-Portapps</a></li>
+<li><a href="https://github.com/starise/Scoop-Gaming">starise/Scoop-Gaming</a></li>
+<li><a href="https://github.com/mo-san/scoop-bucket">mo-san/scoop-bucket</a></li>
+<li><a href="https://github.com/brian6932/dank-scoop">brian6932/dank-scoop</a></li>
+<li><a href="https://github.com/AkariiinMKII/Scoop4kariiin">AkariiinMKII/Scoop4kariiin</a></li>
+<li><a href="https://github.com/littleli/Scoop-littleli">littleli/Scoop-littleli</a></li>
+<li><a href="https://github.com/ChinLong/scoop-customize">ChinLong/scoop-customize</a></li>
+<li><a href="https://github.com/Darkatse/Scoop-KanColle">Darkatse/Scoop-KanColle</a></li>
+<li><a href="https://github.com/aliesbelik/poldi">aliesbelik/poldi</a></li>
+<li><a href="https://github.com/MCOfficer/scoop-bucket">MCOfficer/scoop-bucket</a></li>
+<li><a href="https://github.com/KnotUntied/scoop-fonts">KnotUntied/scoop-fonts</a></li>
+<li><a href="https://github.com/beerpiss/scoop-bucket">beerpiss/scoop-bucket</a></li>
+<li><a href="https://github.com/HUMORCE/nuke">HUMORCE/nuke</a></li>
+<li><a href="https://github.com/AkinoKaede/maple">AkinoKaede/maple</a></li>
+<li><a href="https://github.com/hulucc/bucket">hulucc/bucket</a></li>
+<li><a href="https://github.com/Deide/deide-bucket">Deide/deide-bucket</a></li>
+<li><a href="https://github.com/echoiron/echo-scoop">echoiron/echo-scoop</a></li>
+<li><a href="https://github.com/tetradice/scoop-iyokan-jp">tetradice/scoop-iyokan-jp</a></li>
+</ul>
+<h2>声明</h2>
+<blockquote>
+<p>[!WARNING]<br>本リポジトリに含まれるアプリ情報はすべてサードパーティのリポジトリから同期したものであり、個別の可用性や安全性の検証は行っておりません。インストール時はご自身で検証・識別を行ってください。もし権利侵害があった場合は、issuesにてご連絡ください。</p>
+</blockquote>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
+<hr>
+</div>
     </div>
 
     <footer class="footer">

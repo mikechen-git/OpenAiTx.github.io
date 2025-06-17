@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>itext/itext-dotnet - pt Documentation</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="itext/itext-dotnet - pt Documentation">
+    <meta name="description" content="itext/itext-dotnet - GitHub repository pt documentation and information">
+    <meta name="keywords" content="itext, itext-dotnet, GitHub, repository, pt documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/itext/itext-dotnet/README-pt.html">
+    <meta property="og:title" content="itext/itext-dotnet - pt Documentation">
+    <meta property="og:description" content="itext/itext-dotnet - GitHub repository pt documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,309 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>Erro ao carregar conteúdo</h2>
-                    <p>Falha ao carregar o conteúdo markdown. Por favor, verifique:</p>
-                    <ul>
-                        <li>Os parâmetros URL estão corretos</li>
-                        <li>O arquivo existe no caminho especificado</li>
-                        <li>Você tem uma conexão ativa com a internet</li>
-                    </ul>
-                    <p>Detalhes do erro: Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><p align="center">
+    <img src="https://raw.githubusercontent.com/itext/itext-dotnet/develop/assets/iText_Logo_Small.png" alt="Logo iText">
+</p>
+
+<p><img src="https://img.shields.io/nuget/v/itext7" alt="Nuget"><br><a href="https://github.com/itext/itext7/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="AGPL License"></a><br><img src="https://img.shields.io/nuget/dt/itext7" alt="Nuget"><br><img src="https://img.shields.io/github/commit-activity/m/itext/itext7-dotnet" alt="GitHub commit activity (branch)"></p>
+<p>O iText Core/Community <strong>(anteriormente conhecido como iTextSharp)</strong> é uma biblioteca de alto desempenho, comprovada em campo, que permite criar, adaptar,<br>inspecionar e manter documentos PDF, possibilitando adicionar funcionalidades PDF aos seus projetos de software com facilidade. Também está disponível para <a href="https://github.com/itext/itext7">Java</a>.</p>
+<h3>Os principais recursos do iText Core/Community são:</h3>
+<ul>
+<li>Biblioteca principal:<ul>
+<li>Criação de PDF utilizando nosso motor de layout</li>
+<li>Manipulação de PDF, por exemplo, mesclar múltiplos PDFs em um só, adicionar novo conteúdo, ...</li>
+<li>Assinatura digital de PDF</li>
+<li>Criação e manipulação de formulários PDF</li>
+<li>Trabalhar com documentos PDF/A</li>
+<li>Trabalhar com documentos PDF/UA</li>
+<li>Criptografia compatível com FIPS</li>
+<li>Geração de códigos de barras</li>
+<li>Suporte a SVG</li>
+</ul>
+</li>
+<li>[Addons:][all products]<ul>
+<li>Conversão de XML/HTML &amp; CSS para PDF <a href="https://github.com/itext/i7n-pdfhtml">repo</a>, <a href="https://itextpdf.com/products/itext-pdf-html">info</a></li>
+<li>Redação de informações sensíveis em documentos PDF <a href="https://github.com/itext/i7n-pdfsweep">repo</a>, <a href="https://itextpdf.com/products/pdf-redaction-pdfsweep">info</a></li>
+<li>Suporte para conjuntos de caracteres internacionais (ex: Árabe, Chinês, Hebraico, Tailandês, ...) <a href="https://itextpdf.com/products/pdfcalligraph">info</a></li>
+<li>Otimização de documentos PDF para redução de tamanho do arquivo e aumento de desempenho <a href="https://itextpdf.com/products/compress-pdf-pdfoptimizer">info</a></li>
+<li>Flattening de documentos XFA <a href="https://itextpdf.com/products/flatten-pdf-pdfxfa">info</a></li>
+<li>Depuração de PDF <a href="https://github.com/itext/i7j-rups">repo</a>, <a href="https://itextpdf.com/products/rups">info</a></li>
+</ul>
+</li>
+</ul>
+<p>Quer descobrir o que é possível? Acesse nosso <a href="https://itextpdf.com/demos">Demo Lab</a>! Ele contém uma coleção de<br>aplicações de demonstração prontas para uso online!</p>
+<h3>Primeiros passos</h3>
+<p>A forma mais fácil de começar é usar o NuGet, basta executar o seguinte comando de instalação na pasta do seu projeto:</p>
+<pre><code class="language-shell hljs">dotnet add package itext --version &lt;REPLACE_WITH_DESIRED_ITEXT_VERSION&gt;
+dotnet add package itext.bouncy-castle-adapter --version &lt;REPLACE_WITH_DESIRED_ITEXT_VERSION&gt;
+</code></pre>
+<p>Para casos de uso mais avançados, consulte as <a href="https://kb.itextpdf.com/home/it7kb/installation-guidelines">Diretrizes de Instalação</a>.<br>Você também pode <a href="BUILDING.md">compilar o iText Community a partir do código-fonte</a>.</p>
+<h3>Olá PDF!</h3>
+<p>O exemplo a seguir mostra como é fácil criar um documento PDF simples:</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> iText.Kernel.Pdf;
+<span class="hljs-keyword">using</span> iText.Layout;
+<span class="hljs-keyword">using</span> iText.Layout.Element;
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">HelloPdf</span> {
+    <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span> {
+        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] args</span>)</span> {
+            <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> document = <span class="hljs-keyword">new</span> Document(<span class="hljs-keyword">new</span> PdfDocument(<span class="hljs-keyword">new</span> PdfWriter(<span class="hljs-string">"helloworld-pdf.pdf"</span>)));
+            document.Add(<span class="hljs-keyword">new</span> Paragraph(<span class="hljs-string">"Hello World!"</span>));
+        }
+    }
+}
+</code></pre>
+<h3>Exemplos</h3>
+<p>Para exemplos mais avançados, consulte nossa <a href="https://kb.itextpdf.com/home/it7kb/examples">Knowledge Base</a> ou o<br>repositório principal de <a href="https://github.com/itext/i7ns-samples">Exemplos</a>. Você pode encontrar equivalentes em C# para os<br>exemplos de <a href="https://github.com/itext/i7js-signing-examples">Assinatura em Java</a> <a href="https://github.com/itext/itext-publications-samples-dotnet/tree/develop/itext/itext.publications">aqui</a>,<br>embora o código Java seja muito semelhante, já que ambos usam a mesma API.</p>
+<p>Alguns dos arquivos PDF gerados podem ser exibidos incorretamente no visualizador de prévia do GitHub, então certifique-se de baixá-los para ver os resultados corretos.</p>
+<table>
+<thead>
+<tr>
+<th>Descrição</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Layout básico</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Alterar propriedades de texto</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/layout/ParagraphTextWithStyle.cs">C#</a>, <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/layout/cmp_paragraphTextWithStyle.pdf">PDF</a></td>
+</tr>
+<tr>
+<td>Criando uma tabela simples</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/tables/SimpleTable9.cs">C#</a>,  <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/tables/cmp_simple_table9.pdf">PDF</a></td>
+</tr>
+<tr>
+<td>Adicionar uma imagem a um documento PDF</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/images/MultipleImages.cs">C#</a>, <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/images/cmp_multiple_images.pdf">PDF</a></td>
+</tr>
+<tr>
+<td>Criar uma lista</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/objects/NestedLists.cs">C#</a>, <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/objects/cmp_nested_list.pdf">PDF</a></td>
+</tr>
+<tr>
+<td>Adicionar uma marca d'água</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/events/Watermarking.cs">C#</a>,  <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/events/cmp_watermarkings.pdf">PDF</a></td>
+</tr>
+<tr>
+<td>Adicionar links para navegação no documento</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/annotations/AddLinkAnnotation5.cs">C#</a>,  <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/annotations/cmp_add_link_annotation5.pdf">PDF</a></td>
+</tr>
+<tr>
+<td>Criar uma anotação pop-up</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/annotations/MovePopup.cs">C#</a>,  <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/annotations/cmp_move_popup.pdf">PDF</a></td>
+</tr>
+<tr>
+<td>Alterar fonte</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/layout/ParagraphTextWithStyle.cs">C#</a></td>
+</tr>
+<tr>
+<td>Adicionar campos de formulário</td>
+<td><a href="https://kb.itextpdf.com/home/it7kb/examples/forms-in-itext-core-8-0-0">C#</a></td>
+</tr>
+<tr>
+<td><br></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Configurações gerais de documento</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Alterar tamanho da página e margens</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/layout/PageSizeAndMargins.cs">C#</a>,  <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/layout/cmp_pageSizeAndMargins.pdf">PDF</a></td>
+</tr>
+<tr>
+<td>Escrever PDF para array de bytes</td>
+<td><a href="https://stackoverflow.com/a/67411657/10015628">C#</a></td>
+</tr>
+<tr>
+<td>Alterar rotação da página</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/events/PageRotation.cs">C#</a>,  <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/events/cmp_page_rotation.pdf">PDF</a></td>
+</tr>
+<tr>
+<td>Adicionar cabeçalho e rodapé</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/events/TextFooter.cs">C#</a>,  <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/events/cmp_text_footer.pdf">PDF</a></td>
+</tr>
+<tr>
+<td>Mesclar documentos</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/merge/AddCover1.cs">C#</a>,  <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/merge/cmp_add_cover.pdf">PDF</a></td>
+</tr>
+<tr>
+<td>Achatar anotações</td>
+<td><a href="https://kb.itextpdf.com/home/it7kb/examples/high-level-annotation-flattening">C#</a></td>
+</tr>
+<tr>
+<td><br></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>PDF/UA, PDF/A</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Criar documento PDF/UA</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/pdfua/PdfUA.cs">C#</a>,  <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/pdfua/cmp_pdf_ua.pdf">PDF</a></td>
+</tr>
+<tr>
+<td>Criar documento PDF/A-3</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/pdfa/PdfA3.cs">C#</a></td>
+</tr>
+<tr>
+<td>Criar documento PDF/A-4</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/pdfa/PdfA4.cs">C#</a></td>
+</tr>
+<tr>
+<td>Criar documento WTPDF</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/pdfua/Wtpdf.cs">C#</a></td>
+</tr>
+<tr>
+<td>Criar documento ZUGFeRD/Factur-X</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/zugferd/BasicSample.cs">C#</a>, <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/zugferd/cmp_invoice_with_zugferd.pdf">PDF</a></td>
+</tr>
+<tr>
+<td><br></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>FIPS</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Habilitar FIPS</td>
+<td><a href="https://kb.itextpdf.com/home/it7kb/releases/release-itext-core-8-0-0/breaking-changes-for-itext-core-8-0-0/bouncy-castle-changes">C#</a></td>
+</tr>
+<tr>
+<td>Exemplo FIPS SHA3</td>
+<td><a href="https://kb.itextpdf.com/home/it7kb/examples/fips-sha3-examples-for-itext-core-8-0-0">C#</a></td>
+</tr>
+<tr>
+<td><br></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>SVG</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Converter SVG para PDF</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/svg/ConvertSvgToPdf.cs">C#</a></td>
+</tr>
+<tr>
+<td>Converter SVG para PDF usando layout</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/svg/ConvertSvgToLayoutImage.cs">C#</a></td>
+</tr>
+<tr>
+<td>Converter SVG como string para PDF</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/svg/ConvertSvgStringToPdf.cs">C#</a></td>
+</tr>
+<tr>
+<td>Converter SVG para PdfPage</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/svg/ConvertSvgToPdfPage.cs">C#</a></td>
+</tr>
+<tr>
+<td>Converter SVG como XObject</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/svg/ConvertSvgToXObject.cs">C#</a></td>
+</tr>
+<tr>
+<td>Converter SVG para PDF com pdfCalligraph</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/svg/ConvertSvgToPdfWithPdfCalligraph.cs">C#</a></td>
+</tr>
+<tr>
+<td><br></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Converter HTML e CSS para PDF</strong></td>
+<td><a href="https://github.com/itext/i7j-pdfhtml">Link para o repositório</a></td>
+</tr>
+<tr>
+<td>Converter documento HTML simples para PDF</td>
+<td><a href="https://kb.itextpdf.com/home/it7kb/ebooks/itext-7-converting-html-to-pdf-with-pdfhtml">C#</a></td>
+</tr>
+<tr>
+<td><br></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Redação segura de conteúdo</strong></td>
+<td><a href="https://github.com/itext/i7j-pdfsweep">Link para o repositório</a></td>
+</tr>
+<tr>
+<td>Redigindo conteúdo</td>
+<td><a href="https://kb.itextpdf.com/home/it7kb/examples/removing-content-with-pdfsweep">C#</a></td>
+</tr>
+<tr>
+<td>Redigir com base em regex</td>
+<td><a href="https://itextpdf.com/products/pdf-redaction-pdfsweep">C#</a></td>
+</tr>
+<tr>
+<td><br></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Suporte a sistemas de escrita complexos</strong></td>
+<td><a href="https://itextpdf.com/products/pdfcalligraph">Link para docs</a></td>
+</tr>
+<tr>
+<td>Adicionar texto em árabe</td>
+<td><a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/itext/samples/sandbox/typography/arabic/ArabicWordSpacing.cs">C#</a>, <a href="https://github.com/itext/itext-publications-samples-dotnet/blob/master/itext/itext.samples/cmpfiles/sandbox/typography/cmp_ArabicWordSpacing.pdf">PDF</a></td>
+</tr>
+<tr>
+<td><br></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Otimização de PDFs</strong></td>
+<td><a href="https://itextpdf.com/products/compress-pdf-pdfoptimizer">Link para docs</a></td>
+</tr>
+<tr>
+<td>Reduzir tamanho do PDF</td>
+<td><a href="https://itextpdf.com/products/compress-pdf-pdfoptimizer">C#</a></td>
+</tr>
+<tr>
+<td><br></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Flattening de XFA</strong></td>
+<td><a href="https://itextpdf.com/products/flatten-pdf-pdfxfa">Link para docs</a></td>
+</tr>
+<tr>
+<td>Achatar um documento XFA</td>
+<td><a href="https://itextpdf.com/products/flatten-pdf-pdfxfa">C#</a></td>
+</tr>
+<tr>
+<td><br></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>RUPS</strong></td>
+<td><a href="https://github.com/itext/i7j-rups">Link para o repositório</a></td>
+</tr>
+<tr>
+<td>Depurar um PDF</td>
+<td><a href="https://github.com/itext/i7j-rups/releases/latest">C#</a></td>
+</tr>
+</tbody></table>
+<h3>FAQs, tutoriais, etc.</h3>
+<p>Confira a <a href="https://kb.itextpdf.com">Base de Conhecimento iText</a> para o<br><a href="https://kb.itextpdf.com/home/it7kb/ebooks/itext-jump-start-tutorial-for-net">Tutorial Jump-start do iText</a> e outros<br>tutoriais, <a href="https://kb.itextpdf.com/home/it7kb/faq">FAQs</a> e mais. Para informações e exemplos específicos relacionados a<br>assinaturas digitais e iText, não deixe de acessar o<br><a href="https://kb.itextpdf.com/home/it7kb/digital-signatures-hub">Digital Signatures Hub</a>.</p>
+<p>Muitas perguntas comuns já foram respondidas<br>no <a href="https://stackoverflow.com/questions/tagged/itext+itext7">Stack Overflow</a>, portanto, verifique lá também.</p>
+<h3>Contribuindo</h3>
+<p>Muitas pessoas contribuíram para o <strong>iText Core/Community</strong> ao longo dos anos. Se você encontrou um bug, um erro na documentação ou tem um novo recurso interessante para implementar, suas contribuições são bem-vindas.</p>
+<p>Pequenas alterações ou correções podem ser enviadas como um <a href="https://github.com/itext/itext7-dotnet/pulls">Pull Request</a>, enquanto para<br>mudanças maiores pedimos que entre em contato conosco pelo e-mail <a href="mailto:community@apryse.com">community@apryse.com</a> para que possamos coordenar melhor nossos esforços e evitar duplicação de trabalho.</p>
+<p>Por favor, leia nossas <a href="CONTRIBUTING.md">Diretrizes de Contribuição</a> para detalhes sobre submissão de código, regras de codificação e mais.</p>
+<h3>Licenciamento</h3>
+<p>O <strong>iText</strong> possui dupla licença <a href="LICENSE.md">AGPL</a>/<a href="https://itextpdf.com/sales">Software comercial</a>.</p>
+<p>AGPL é uma licença de software livre/código aberto, porém, isso não significa que o software seja <a href="https://en.wikipedia.org/wiki/Gratis_versus_libre">gratuito</a>!</p>
+<p>A AGPL é uma licença copyleft, o que significa que qualquer trabalho derivado também deve ser licenciado sob os mesmos termos. Se<br>você está usando o iText em um software ou serviço que não pode cumprir com os termos da AGPL, temos uma licença comercial<br>disponível que o isenta dessas obrigações.</p>
+<p>Entre em contato com [Vendas] para mais informações.</p>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-12</p>
+<hr>
+</div>
     </div>
 
     <footer class="footer">

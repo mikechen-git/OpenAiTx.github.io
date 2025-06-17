@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>Text Generation Inference - huggingface/text-generation-inference</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="Text Generation Inference - huggingface/text-generation-inference">
+    <meta name="description" content="huggingface/text-generation-inference - GitHub repository id documentation and information">
+    <meta name="keywords" content="huggingface, text-generation-inference, GitHub, repository, id documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/huggingface/text-generation-inference/README-id.html">
+    <meta property="og:title" content="Text Generation Inference - huggingface/text-generation-inference">
+    <meta property="og:description" content="huggingface/text-generation-inference - GitHub repository id documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,250 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>Kesalahan Memuat Konten</h2>
-                    <p>Gagal memuat konten markdown. Harap periksa:</p>
-                    <ul>
-                        <li>Parameter URL benar</li>
-                        <li>File ada di path yang ditentukan</li>
-                        <li>Anda memiliki koneksi internet aktif</li>
-                    </ul>
-                    <p>Detail kesalahan: Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><div align="center">
+
+<a href="https://www.youtube.com/watch?v=jlMAX2Oaht0">
+  <img width="560" alt="Making TGI deployment optimal" src="https://raw.githubusercontent.com/huggingface/text-generation-inference/main/datasets/Narsil/tgi_assets/thumbnail.png">
+</a>
+
+<h1>Text Generation Inference</h1>
+<a href="https://github.com/huggingface/text-generation-inference">
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/huggingface/text-generation-inference?style=social">
+</a>
+<a href="https://huggingface.github.io/text-generation-inference">
+  <img alt="Swagger API documentation" src="https://img.shields.io/badge/API-Swagger-informational">
+</a>
+
+<p>Server Rust, Python, dan gRPC untuk inferensi generasi teks. Digunakan dalam produksi di <a href="https://huggingface.co">Hugging Face</a> untuk menjalankan Hugging Chat, API Inferensi, dan Endpoint Inferensi.</p>
+</div>
+
+<h2>Daftar Isi</h2>
+<ul>
+<li><a href="#get-started">Memulai</a><ul>
+<li><a href="#docker">Docker</a></li>
+<li><a href="#api-documentation">Dokumentasi API</a></li>
+<li><a href="#using-a-private-or-gated-model">Menggunakan model privat atau gated</a></li>
+<li><a href="#a-note-on-shared-memory-shm">Catatan tentang Shared Memory (shm)</a></li>
+<li><a href="#distributed-tracing">Distributed Tracing</a></li>
+<li><a href="#architecture">Arsitektur</a></li>
+<li><a href="#local-install">Instalasi lokal</a></li>
+<li><a href="#local-install-nix">Instalasi lokal (Nix)</a></li>
+</ul>
+</li>
+<li><a href="#optimized-architectures">Arsitektur yang dioptimalkan</a></li>
+<li><a href="#run-locally">Jalankan secara lokal</a><ul>
+<li><a href="#run">Jalankan</a></li>
+<li><a href="#quantization">Kuantisasi</a></li>
+</ul>
+</li>
+<li><a href="#develop">Pengembangan</a></li>
+<li><a href="#testing">Pengujian</a></li>
+</ul>
+<p>Text Generation Inference (TGI) adalah toolkit untuk menerapkan dan melayani Large Language Models (LLMs). TGI memungkinkan generasi teks berkinerja tinggi untuk LLM open-source paling populer, termasuk Llama, Falcon, StarCoder, BLOOM, GPT-NeoX, dan <a href="https://huggingface.co/docs/text-generation-inference/supported_models">lainnya</a>. TGI mengimplementasikan banyak fitur, seperti:</p>
+<ul>
+<li>Peluncur sederhana untuk melayani LLM paling populer</li>
+<li>Siap produksi (distributed tracing dengan Open Telemetry, metrik Prometheus)</li>
+<li>Tensor Parallelism untuk inferensi lebih cepat di beberapa GPU</li>
+<li>Streaming token menggunakan Server-Sent Events (SSE)</li>
+<li>Pengelompokan terus-menerus dari permintaan masuk untuk meningkatkan total throughput</li>
+<li><a href="https://huggingface.co/docs/text-generation-inference/en/messages_api">Messages API</a> kompatibel dengan Open AI Chat Completion API</li>
+<li>Kode transformer yang dioptimalkan untuk inferensi menggunakan <a href="https://github.com/HazyResearch/flash-attention">Flash Attention</a> dan <a href="https://github.com/vllm-project/vllm">Paged Attention</a> pada arsitektur paling populer</li>
+<li>Kuantisasi dengan:<ul>
+<li><a href="https://github.com/TimDettmers/bitsandbytes">bitsandbytes</a></li>
+<li><a href="https://arxiv.org/abs/2210.17323">GPT-Q</a></li>
+<li><a href="https://github.com/NetEase-FuXi/EETQ">EETQ</a></li>
+<li><a href="https://github.com/casper-hansen/AutoAWQ">AWQ</a></li>
+<li><a href="https://github.com/IST-DASLab/marlin">Marlin</a></li>
+<li><a href="https://developer.nvidia.com/blog/nvidia-arm-and-intel-publish-fp8-specification-for-standardization-as-an-interchange-format-for-ai/">fp8</a></li>
+</ul>
+</li>
+<li>Pemuatan bobot <a href="https://github.com/huggingface/safetensors">Safetensors</a></li>
+<li>Watermarking dengan <a href="https://arxiv.org/abs/2301.10226">A Watermark for Large Language Models</a></li>
+<li>Logits warper (scaling suhu, top-p, top-k, penalti pengulangan, detail lebih lanjut lihat <a href="https://huggingface.co/docs/transformers/internal/generation_utils#transformers.LogitsProcessor">transformers.LogitsProcessor</a>)</li>
+<li>Stop sequences</li>
+<li>Probabilitas log</li>
+<li><a href="https://huggingface.co/docs/text-generation-inference/conceptual/speculation">Spekulasi</a> ~2x latensi</li>
+<li><a href="https://huggingface.co/docs/text-generation-inference/conceptual/guidance">Guidance/JSON</a>. Menentukan format output untuk mempercepat inferensi dan memastikan output valid sesuai beberapa spesifikasi.</li>
+<li>Custom Prompt Generation: Mudah membuat teks dengan memberikan prompt kustom untuk mengarahkan output model</li>
+<li>Dukungan Fine-tuning: Memanfaatkan model yang sudah di-fine-tune untuk tugas spesifik guna mencapai akurasi dan performa lebih tinggi</li>
+</ul>
+<h3>Dukungan perangkat keras</h3>
+<ul>
+<li><a href="https://github.com/huggingface/text-generation-inference/pkgs/container/text-generation-inference">Nvidia</a></li>
+<li><a href="https://github.com/huggingface/text-generation-inference/pkgs/container/text-generation-inference">AMD</a> (-rocm)</li>
+<li><a href="https://github.com/huggingface/optimum-neuron/tree/main/text-generation-inference">Inferentia</a></li>
+<li><a href="https://github.com/huggingface/text-generation-inference/pull/1475">Intel GPU</a></li>
+<li><a href="https://github.com/huggingface/tgi-gaudi">Gaudi</a></li>
+<li><a href="https://huggingface.co/docs/optimum-tpu/howto/serving">Google TPU</a></li>
+</ul>
+<h2>Memulai</h2>
+<h3>Docker</h3>
+<p>Untuk panduan awal yang rinci, silakan lihat <a href="https://huggingface.co/docs/text-generation-inference/quicktour">Quick Tour</a>. Cara termudah memulai adalah menggunakan container Docker resmi:</p>
+<pre><code class="language-shell hljs">model=HuggingFaceH4/zephyr-7b-beta
+<span class="hljs-meta prompt_"># </span><span class="language-bash">bagikan volume dengan container Docker agar tidak mengunduh bobot setiap kali menjalankan</span>
+volume=$PWD/data
+
+docker run --gpus all --shm-size 1g -p 8080:80 -v $volume:/data \
+    ghcr.io/huggingface/text-generation-inference:3.3.2 --model-id $model
+</code></pre>
+<p>Kemudian Anda dapat membuat permintaan seperti</p>
+<pre><code class="language-bash hljs">curl 127.0.0.1:8080/generate_stream \
+    -X POST \
+    -d <span class="hljs-string">'{"inputs":"Apa itu Deep Learning?","parameters":{"max_new_tokens":20}}'</span> \
+    -H <span class="hljs-string">'Content-Type: application/json'</span>
+</code></pre>
+<p>Anda juga dapat menggunakan <a href="https://huggingface.co/docs/text-generation-inference/en/messages_api">Messages API TGI</a> untuk mendapatkan respons yang kompatibel dengan Open AI Chat Completion API.</p>
+<pre><code class="language-bash hljs">curl localhost:8080/v1/chat/completions \
+    -X POST \
+    -d <span class="hljs-string">'{
+  "model": "tgi",
+  "messages": [
+    {
+      "role": "system",
+      "content": "Anda adalah asisten yang membantu."
+    },
+    {
+      "role": "user",
+      "content": "Apa itu deep learning?"
+    }
+  ],
+  "stream": true,
+  "max_tokens": 20
+}'</span> \
+    -H <span class="hljs-string">'Content-Type: application/json'</span>
+</code></pre>
+<p><strong>Catatan:</strong> Untuk menggunakan GPU NVIDIA, Anda perlu menginstal <a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html">NVIDIA Container Toolkit</a>. Kami juga menyarankan menggunakan driver NVIDIA dengan versi CUDA 12.2 atau lebih tinggi. Untuk menjalankan container Docker pada mesin tanpa GPU atau dukungan CUDA, cukup hapus flag <code>--gpus all</code> dan tambahkan <code>--disable-custom-kernels</code>, harap dicatat CPU bukan platform yang dimaksud untuk proyek ini, jadi performa mungkin kurang optimal.</p>
+<p><strong>Catatan:</strong> TGI mendukung GPU AMD Instinct MI210 dan MI250. Detail dapat ditemukan di <a href="https://huggingface.co/docs/text-generation-inference/installation_amd#using-tgi-with-amd-gpus">dokumentasi Supported Hardware</a>. Untuk menggunakan GPU AMD, gunakan perintah <code>docker run --device /dev/kfd --device /dev/dri --shm-size 1g -p 8080:80 -v $volume:/data ghcr.io/huggingface/text-generation-inference:3.3.2-rocm --model-id $model</code> menggantikan perintah di atas.</p>
+<p>Untuk melihat semua opsi untuk melayani model Anda (di <a href="https://github.com/huggingface/text-generation-inference/blob/main/launcher/src/main.rs">kode</a> atau di CLI):</p>
+<pre><code class="hljs language-scss">text-generation-launcher <span class="hljs-attr">--help</span>
+</code></pre>
+<h3>Dokumentasi API</h3>
+<p>Anda dapat melihat dokumentasi OpenAPI dari REST API <code>text-generation-inference</code> menggunakan route <code>/docs</code>.<br>Swagger UI juga tersedia di: <a href="https://huggingface.github.io/text-generation-inference">https://huggingface.github.io/text-generation-inference</a>.</p>
+<h3>Menggunakan model privat atau gated</h3>
+<p>Anda dapat menggunakan variabel lingkungan <code>HF_TOKEN</code> untuk mengonfigurasi token yang digunakan oleh<br><code>text-generation-inference</code>. Ini memungkinkan Anda mengakses sumber daya yang dilindungi.</p>
+<p>Sebagai contoh, jika Anda ingin melayani varian model gated Llama V2:</p>
+<ol>
+<li>Kunjungi <a href="https://huggingface.co/settings/tokens">https://huggingface.co/settings/tokens</a></li>
+<li>Salin token CLI READ Anda</li>
+<li>Ekspor <code>HF_TOKEN=&lt;token CLI READ Anda&gt;</code></li>
+</ol>
+<p>atau dengan Docker:</p>
+<pre><code class="language-shell hljs">model=meta-llama/Meta-Llama-3.1-8B-Instruct
+volume=$PWD/data # bagikan volume dengan container Docker untuk menghindari pengunduhan bobot setiap kali menjalankan
+token=&lt;token cli READ Anda&gt;
+
+docker run --gpus all --shm-size 1g -e HF_TOKEN=$token -p 8080:80 -v $volume:/data \
+    ghcr.io/huggingface/text-generation-inference:3.3.2 --model-id $model
+</code></pre>
+<h3>Catatan tentang Shared Memory (shm)</h3>
+<p><a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/index.html"><code>NCCL</code></a> adalah kerangka komunikasi yang digunakan oleh<br><code>PyTorch</code> untuk melakukan pelatihan/inferensi terdistribusi. <code>text-generation-inference</code> menggunakan<br><code>NCCL</code> untuk mengaktifkan Tensor Parallelism guna mempercepat inferensi model bahasa besar secara signifikan.</p>
+<p>Untuk berbagi data antar perangkat dalam grup <code>NCCL</code>, <code>NCCL</code> mungkin menggunakan memori host jika<br>peer-to-peer melalui NVLink atau PCI tidak memungkinkan.</p>
+<p>Untuk mengizinkan container menggunakan 1G Shared Memory dan mendukung berbagi SHM, kami menambahkan <code>--shm-size 1g</code> pada perintah di atas.</p>
+<p>Jika Anda menjalankan <code>text-generation-inference</code> di dalam <code>Kubernetes</code>, Anda juga dapat menambahkan Shared Memory ke container dengan<br>membuat volume dengan:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">shm</span>
+  <span class="hljs-attr">emptyDir:</span>
+   <span class="hljs-attr">medium:</span> <span class="hljs-string">Memory</span>
+   <span class="hljs-attr">sizeLimit:</span> <span class="hljs-string">1Gi</span>
+</code></pre>
+<p>dan memasangnya ke <code>/dev/shm</code>.</p>
+<p>Akhirnya, Anda juga dapat menonaktifkan berbagi SHM dengan menggunakan variabel lingkungan <code>NCCL_SHM_DISABLE=1</code>. Namun, perlu diperhatikan ini akan mempengaruhi performa.</p>
+<h3>Distributed Tracing</h3>
+<p><code>text-generation-inference</code> diinstrumentasi dengan distributed tracing menggunakan OpenTelemetry. Anda dapat menggunakan fitur ini<br>dengan menetapkan alamat ke kolektor OTLP menggunakan argumen <code>--otlp-endpoint</code>. Nama layanan default dapat diubah dengan argumen <code>--otlp-service-name</code></p>
+<h3>Arsitektur</h3>
+<p><img src="https://raw.githubusercontent.com/huggingface/text-generation-inference/main/datasets/huggingface/documentation-images/TGI.png" alt="Arsitektur TGI"></p>
+<p>Posting blog mendetail oleh Adyen tentang cara kerja internal TGI: <a href="https://www.adyen.com/knowledge-hub/llm-inference-at-scale-with-tgi">LLM inference at scale with TGI (Martin Iglesias Goyanes - Adyen, 2024)</a></p>
+<h3>Instalasi lokal</h3>
+<p>Anda juga dapat memilih untuk menginstal <code>text-generation-inference</code> secara lokal.</p>
+<p>Pertama kloning repositori dan masuk ke direktori:</p>
+<pre><code class="language-shell hljs">git clone https://github.com/huggingface/text-generation-inference
+cd text-generation-inference
+</code></pre>
+<p>Kemudian <a href="https://rustup.rs/">pasang Rust</a> dan buat lingkungan virtual Python dengan minimal<br>Python 3.9, misalnya menggunakan <code>conda</code> atau <code>python venv</code>:</p>
+<pre><code class="language-shell hljs">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+<span class="hljs-meta prompt_">
+# </span><span class="language-bash">menggunakan conda</span>
+conda create -n text-generation-inference python=3.11
+conda activate text-generation-inference
+<span class="hljs-meta prompt_">
+# </span><span class="language-bash">menggunakan python venv</span>
+python3 -m venv .venv
+source .venv/bin/activate
+</code></pre>
+<p>Anda mungkin juga perlu memasang Protoc.</p>
+<p>Di Linux:</p>
+<pre><code class="language-shell hljs">PROTOC_ZIP=protoc-21.12-linux-x86_64.zip
+curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v21.12/$PROTOC_ZIP
+sudo unzip -o $PROTOC_ZIP -d /usr/local bin/protoc
+sudo unzip -o $PROTOC_ZIP -d /usr/local 'include/*'
+rm -f $PROTOC_ZIP
+</code></pre>
+<p>Di MacOS, menggunakan Homebrew:</p>
+<pre><code class="language-shell hljs">brew install protobuf
+</code></pre>
+<p>Kemudian jalankan:</p>
+<pre><code class="language-shell hljs">BUILD_EXTENSIONS=True make install # Pasang repositori dan fork HF/transformer dengan kernel CUDA
+text-generation-launcher --model-id mistralai/Mistral-7B-Instruct-v0.2
+</code></pre>
+<p><strong>Catatan:</strong> di beberapa mesin, Anda mungkin juga memerlukan pustaka OpenSSL dan gcc. Di mesin Linux, jalankan:</p>
+<pre><code class="language-shell hljs">sudo apt-get install libssl-dev gcc -y
+</code></pre>
+<h3>Instalasi lokal (Nix)</h3>
+<p>Opsi lain adalah memasang <code>text-generation-inference</code> secara lokal menggunakan <a href="https://nixos.org">Nix</a>. Saat ini,<br>kami hanya mendukung Nix pada Linux x86_64 dengan GPU CUDA. Saat menggunakan Nix, semua dependensi dapat<br>diambil dari cache biner, sehingga tidak perlu membangunnya secara lokal.</p>
+<p>Pertama ikuti instruksi untuk <a href="https://app.cachix.org/cache/huggingface">memasang Cachix dan mengaktifkan cache Hugging Face</a>.<br>Pengaturan cache ini penting, jika tidak Nix akan membangun banyak dependensi<br>secara lokal, yang bisa memakan waktu berjam-jam.</p>
+<p>Setelah itu Anda dapat menjalankan TGI dengan <code>nix run</code>:</p>
+<pre><code class="language-shell hljs">cd text-generation-inference
+nix run --extra-experimental-features nix-command --extra-experimental-features flakes . -- --model-id meta-llama/Llama-3.1-8B-Instruct
+</code></pre>
+<p><strong>Catatan:</strong> saat menggunakan Nix di sistem yang bukan NixOS, Anda harus <a href="https://danieldk.eu/Nix-CUDA-on-non-NixOS-systems#make-runopengl-driverlib-and-symlink-the-driver-library">membuat beberapa symlink</a><br>agar pustaka driver CUDA terlihat oleh paket Nix.</p>
+<p>Untuk pengembangan TGI, Anda dapat menggunakan shell dev <code>impure</code>:</p>
+<pre><code class="language-shell hljs">nix develop .#impure
+<span class="hljs-meta prompt_">
+# </span><span class="language-bash">Hanya diperlukan pertama kali shell dev dijalankan atau setelah memperbarui protobuf.</span>
+(
+cd server
+mkdir text_generation_server/pb || true
+python -m grpc_tools.protoc -I../proto/v3 --python_out=text_generation_server/pb \
+       --grpc_python_out=text_generation_server/pb --mypy_out=text_generation_server/pb ../proto/v3/generate.proto
+find text_generation_server/pb/ -type f -name "*.py" -print0 -exec sed -i -e 's/^\(import.*pb2\)/from . \1/g' {} \;
+touch text_generation_server/pb/__init__.py
+)
+</code></pre>
+<p>Semua dependensi pengembangan (cargo, Python, Torch), dll tersedia dalam<br>shell dev ini.</p>
+<h2>Arsitektur yang Dioptimalkan</h2>
+<p>TGI bekerja langsung untuk melayani model yang dioptimalkan untuk semua model modern. Model-model tersebut dapat ditemukan dalam <a href="https://huggingface.co/docs/text-generation-inference/supported_models">daftar ini</a>.</p>
+<p>Arsitektur lain didukung dengan upaya terbaik menggunakan:</p>
+<p><code>AutoModelForCausalLM.from_pretrained(&lt;model&gt;, device_map="auto")</code></p>
+<p>atau</p>
+<p><code>AutoModelForSeq2SeqLM.from_pretrained(&lt;model&gt;, device_map="auto")</code></p>
+<h2>Jalankan secara lokal</h2>
+<h3>Jalankan</h3>
+<pre><code class="language-shell hljs">text-generation-launcher --model-id mistralai/Mistral-7B-Instruct-v0.2
+</code></pre>
+<h3>Kuantisasi</h3>
+<p>Anda juga dapat menjalankan bobot yang telah di-kuantisasi sebelumnya (AWQ, GPTQ, Marlin) atau mengkuantisasi bobot secara langsung dengan bitsandbytes, EETQ, fp8, untuk mengurangi kebutuhan VRAM:</p>
+<pre><code class="language-shell hljs">text-generation-launcher --model-id mistralai/Mistral-7B-Instruct-v0.2 --quantize
+</code></pre>
+<p>Kuantisasi 4bit tersedia menggunakan <a href="https://arxiv.org/pdf/2305.14314.pdf">tipe data NF4 dan FP4 dari bitsandbytes</a>. Ini dapat diaktifkan dengan memberikan argumen baris perintah <code>--quantize bitsandbytes-nf4</code> atau <code>--quantize bitsandbytes-fp4</code> ke <code>text-generation-launcher</code>.</p>
+<p>Baca lebih lanjut tentang kuantisasi di <a href="https://huggingface.co/docs/text-generation-inference/en/conceptual/quantization">Dokumentasi Kuantisasi</a>.</p>
+<h2>Kembangkan</h2>
+<pre><code class="language-shell hljs">make server-dev
+make router-dev
+</code></pre>
+<h2>Pengujian</h2>
+<pre><code class="language-shell hljs"><span class="hljs-meta prompt_"># </span><span class="language-bash">python</span>
+make python-server-tests
+make python-client-tests
+<span class="hljs-meta prompt_"># </span><span class="language-bash">atau kedua pengujian server dan klien</span>
+make python-tests
+<span class="hljs-meta prompt_"># </span><span class="language-bash">pengujian rust cargo</span>
+make rust-tests
+<span class="hljs-meta prompt_"># </span><span class="language-bash">pengujian integrasi</span>
+make integration-tests
+</code></pre>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
+<hr>
+</div>
     </div>
 
     <footer class="footer">

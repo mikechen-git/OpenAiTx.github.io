@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>TypeScript 7 - microsoft/typescript-go</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="TypeScript 7 - microsoft/typescript-go">
+    <meta name="description" content="microsoft/typescript-go - GitHub repository zh-CN documentation and information">
+    <meta name="keywords" content="microsoft, typescript-go, GitHub, repository, zh-CN documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/microsoft/typescript-go/README-zh-CN.html">
+    <meta property="og:title" content="TypeScript 7 - microsoft/typescript-go">
+    <meta property="og:description" content="microsoft/typescript-go - GitHub repository zh-CN documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,149 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>加载内容时出错</h2>
-                    <p>加载markdown内容失败。请检查：</p>
-                    <ul>
-                        <li>URL参数正确</li>
-                        <li>指定路径的文件存在</li>
-                        <li>您有活跃的互联网连接</li>
-                    </ul>
-                    <p>错误详情： Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><h1>TypeScript 7</h1>
+<p><a href="https://devblogs.microsoft.com/typescript/typescript-native-port/">不确定这是什么？请阅读公告博文！</a></p>
+<h2>预览版</h2>
+<p>预览版本已在 npm 上以 <code>@typescript/native-preview</code> 提供。</p>
+<pre><code class="language-sh hljs language-bash">npm install @typescript/native-preview
+npx tsgo <span class="hljs-comment"># 像使用 tsc 一样使用它。</span>
+</code></pre>
+<p>预览版 VS Code 扩展已<a href="https://marketplace.visualstudio.com/items?itemName=TypeScriptTeam.native-preview">在 VS Code 市场提供</a>。</p>
+<p>要使用此扩展，请在 VS Code 设置中添加如下内容：</p>
+<pre><code class="language-json hljs"><span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"typescript.experimental.useTsgo"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h2>如何构建与运行</h2>
+<p>本仓库使用 <a href="https://go.dev/dl/">Go 1.24 或更高版本</a>、<a href="https://www.rust-lang.org/tools/install">Rust 1.85 或更高版本</a>、<a href="https://nodejs.org/">带 npm 的 Node.js</a>，以及 <a href="https://www.npmjs.com/package/hereby"><code>hereby</code></a>。</p>
+<p>用于测试与代码生成时，本仓库包含了一个指向主 TypeScript 仓库的 git 子模块，指向正在移植的提交。<br>克隆时，建议带有子模块一起克隆：</p>
+<pre><code class="language-sh hljs language-bash">git <span class="hljs-built_in">clone</span> --recurse-submodules https://github.com/microsoft/typescript-go.git
+</code></pre>
+<p>如果你已克隆仓库，可以使用以下命令初始化子模块：</p>
+<pre><code class="language-sh hljs language-bash">git submodule update --init --recursive
+</code></pre>
+<p>子模块就位并执行 <code>npm ci</code> 后，你可以通过 <code>hereby</code> 运行任务，类似于 TypeScript 仓库：</p>
+<pre><code class="language-sh hljs language-bash">hereby build          <span class="hljs-comment"># 验证项目是否可以构建</span>
+hereby <span class="hljs-built_in">test</span>           <span class="hljs-comment"># 运行所有测试</span>
+hereby install-tools  <span class="hljs-comment"># 安装额外工具（如代码检查工具）</span>
+hereby lint           <span class="hljs-comment"># 运行所有代码检查工具</span>
+hereby format         <span class="hljs-comment"># 格式化所有代码</span>
+hereby generate       <span class="hljs-comment"># 生成所有 Go 代码（如诊断信息，提交到仓库）</span>
+</code></pre>
+<p>其他任务正在开发中。</p>
+<p>在仓库开发时并不强制要求使用 <code>hereby</code>；常规的 <code>go</code> 工具链（如 <code>go build</code>、<code>go test ./...</code>）也可以正常工作。<br><code>hereby</code> 任务仅为熟悉 TypeScript 仓库的开发者提供便利。</p>
+<h3>运行 <code>tsgo</code></h3>
+<p>在执行 <code>hereby build</code> 之后，你可以运行 <code>built/local/tsgo</code>，其行为大致与 <code>tsc</code> 相同。</p>
+<h3>运行 LSP 原型</h3>
+<p>如需在不全局安装的情况下调试和运行 VS Code 扩展：</p>
+<ul>
+<li>在仓库工作区内运行 VS Code（<code>code .</code>）</li>
+<li>将 <code>.vscode/launch.template.json</code> 复制为 <code>.vscode/launch.json</code></li>
+<li>按 <kbd>F5</kbd>（或从命令面板选择 <code>Debug: Start Debugging</code>）</li>
+</ul>
+<p>这将启动一个新的 VS Code 实例，使用 Corsa LS 作为后端。如果设置正确，当打开 TypeScript 或 JavaScript 文件时，你应能在状态栏看到 "tsgo"：</p>
+<p><img src=".github/ls-screenshot.png" alt="LSP 原型截图"></p>
+<h2>目前已实现的功能？</h2>
+<p>该项目仍在开发中，尚未与 TypeScript 完全功能等价。可能存在 bug。在提交新问题或假设为故意变更前，请仔细检查以下列表。</p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>程序创建</td>
+<td>已完成</td>
+<td>与 TS5.8 相同的文件与模块解析。并非所有解析模式都已支持。</td>
+</tr>
+<tr>
+<td>解析/扫描</td>
+<td>已完成</td>
+<td>与 TS5.8 完全相同的语法错误</td>
+</tr>
+<tr>
+<td>命令行与 <code>tsconfig.json</code> 解析</td>
+<td>基本完成</td>
+<td>入口点目前略有不同</td>
+</tr>
+<tr>
+<td>类型解析</td>
+<td>已完成</td>
+<td>与 TS5.8 相同的类型</td>
+</tr>
+<tr>
+<td>类型检查</td>
+<td>已完成</td>
+<td>与 TS5.8 相同的错误、定位和消息。错误中的类型回显可能显示不同（开发中）</td>
+</tr>
+<tr>
+<td>JavaScript 特有的推断与 JS Doc</td>
+<td>未准备好</td>
+<td>-</td>
+</tr>
+<tr>
+<td>JSX</td>
+<td>已完成</td>
+<td>-</td>
+</tr>
+<tr>
+<td>声明发射</td>
+<td>开发中</td>
+<td>大多数常用功能已实现，但某些边界情况与功能标志尚未处理</td>
+</tr>
+<tr>
+<td>发射（JS 输出）</td>
+<td>开发中</td>
+<td><code>target: esnext</code> 支持良好，其他目标可能存在缺口</td>
+</tr>
+<tr>
+<td>监听模式</td>
+<td>原型</td>
+<td>监听文件并重建，但不支持增量检查</td>
+</tr>
+<tr>
+<td>构建模式/项目引用</td>
+<td>未准备好</td>
+<td>-</td>
+</tr>
+<tr>
+<td>增量构建</td>
+<td>未准备好</td>
+<td>-</td>
+</tr>
+<tr>
+<td>语言服务（LSP）</td>
+<td>原型</td>
+<td>最小功能（错误、悬停、转到定义）。更多功能即将上线</td>
+</tr>
+<tr>
+<td>API</td>
+<td>未准备好</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<p>定义说明：</p>
+<ul>
+<li><strong>已完成</strong>：即“认为已完成”：目前没有已知的缺陷或主要待办事项。可提交 bug</li>
+<li><strong>开发中</strong>：正在开发中；部分功能可用，部分不可用。可提交 panic，但请勿提交其他问题</li>
+<li><strong>原型</strong>：仅为概念验证；请勿提交 bug</li>
+<li><strong>未准备好</strong>：尚未开始，或距离可用还有很远，请勿尝试使用</li>
+</ul>
+<h2>其他说明</h2>
+<p>长期来看，我们预计该仓库及其内容将合并到 <code>microsoft/TypeScript</code>。<br>因此，typescript-go 的仓库与问题追踪器最终会关闭，请据此参与讨论/提交问题。</p>
+<p>关于与 TypeScript 5.7 的有意变更列表，请参见 CHANGES.md。</p>
+<h2>贡献</h2>
+<p>本项目欢迎贡献与建议。大多数贡献需要你同意一份<br>贡献者许可协议（CLA），声明你有权并确实授予我们<br>使用你贡献内容的权利。详情请访问 <a href="https://cla.opensource.microsoft.com">贡献者许可协议</a>。</p>
+<p>当你提交拉取请求时，CLA 机器人会自动判断你是否需要<br>提供 CLA，并在 PR 上标注（如状态检查、评论）。只需按机器人<br>指示操作即可。你只需在所有使用我们 CLA 的仓库中做一次此操作。</p>
+<p>本项目已采用 <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft 开源行为准则</a>。<br>更多信息请参阅 <a href="https://opensource.microsoft.com/codeofconduct/faq/">行为准则常见问题</a> 或<br>联系 <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> 以获取更多问题或意见。</p>
+<h2>商标声明</h2>
+<p>本项目可能包含其他项目、产品或服务的商标或标志。对 Microsoft<br>商标或标志的授权使用需遵循并符合<br><a href="https://www.microsoft.com/legal/intellectualproperty/trademarks/usage/general">Microsoft 商标与品牌指南</a>。<br>在本项目的修改版本中使用 Microsoft 商标或标志时，不得引起混淆或暗示获得 Microsoft 赞助。<br>对第三方商标或标志的任何使用须遵循该第三方的政策。</p>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-10</p>
+<hr>
+</div>
     </div>
 
     <footer class="footer">

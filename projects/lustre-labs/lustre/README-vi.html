@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>Lustre - lustre-labs/lustre</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="Lustre - lustre-labs/lustre">
+    <meta name="description" content="lustre-labs/lustre - GitHub repository vi documentation and information">
+    <meta name="keywords" content="lustre-labs, lustre, GitHub, repository, vi documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/lustre-labs/lustre/README-vi.html">
+    <meta property="og:title" content="Lustre - lustre-labs/lustre">
+    <meta property="og:description" content="lustre-labs/lustre - GitHub repository vi documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,148 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>Lỗi tải nội dung</h2>
-                    <p>Không thể tải nội dung markdown. Vui lòng kiểm tra:</p>
-                    <ul>
-                        <li>Các tham số URL chính xác</li>
-                        <li>Tệp tồn tại tại đường dẫn được chỉ định</li>
-                        <li>Bạn có kết nối internet hoạt động</li>
-                    </ul>
-                    <p>Chi tiết lỗi: Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><h1 align="center">Lustre</h1>
+
+<div align="center">
+  ✨ <strong>Làm cho giao diện của bạn tỏa sáng</strong> ✨
+</div>
+
+<div align="center">
+  Một framework để xây dựng ứng dụng Web bằng Gleam!
+</div>
+
+<br>
+
+<div align="center">
+  <a href="https://hex.pm/packages/lustre">
+    <img src="https://img.shields.io/hexpm/v/lustre" alt="Có sẵn trên Hex">
+  </a>
+  <a href="https://hexdocs.pm/lustre">
+    <img src="https://img.shields.io/badge/hex-docs-ffaff3" alt="Tài liệu">
+  </a>
+</div>
+
+<div align="center">
+  <h3>
+    <!--
+    <a href="https://lustre.build">
+      Website
+    </a>
+    <span> | </span>
+    -->
+    <a href="https://hexdocs.pm/lustre/guide/01-quickstart.html">
+      Bắt đầu nhanh
+    </a>
+    <span> | </span>
+    <a href="https://hexdocs.pm/lustre">
+      Tham khảo
+    </a>
+    <span> | </span>
+    <a href="https://discord.gg/Fm8Pwmy">
+      Discord
+    </a>
+  </h3>
+</div>
+
+<div align="center">
+  <sub>Được xây dựng với ❤︎ bởi
+  <a href="https://twitter.com/hayleighdotdev">Hayleigh Thompson</a> và
+  <a href="https://github.com/lustre-labs/lustre/graphs/contributors">
+    các cộng tác viên
+  </a>
+</sub></div>
+
+<hr>
+<h2>Mục lục</h2>
+<ul>
+<li><a href="#features">Tính năng</a></li>
+<li><a href="#example">Ví dụ</a></li>
+<li><a href="#philosophy">Triết lý</a></li>
+<li><a href="#installation">Cài đặt</a></li>
+<li><a href="#where-next">Tiếp theo</a></li>
+<li><a href="#support">Hỗ trợ</a></li>
+</ul>
+<h2>Tính năng {#features}</h2>
+<ul>
+<li><p>Một API <strong>khai báo</strong>, hướng hàm để xây dựng HTML. Không template, không macro,<br>chỉ có Gleam.</p>
+</li>
+<li><p>Kiến trúc lấy cảm hứng từ Erlang và Elm để <strong>quản lý trạng thái</strong>.</p>
+</li>
+<li><p><strong>Quản lý hiệu ứng phụ</strong> để đảm bảo mã dự đoán được, dễ kiểm thử.</p>
+</li>
+<li><p>Thành phần phổ dụng. <strong>Viết một lần, chạy mọi nơi</strong>. Elm gặp Phoenix LiveView.</p>
+</li>
+<li><p><strong>CLI đầy đủ tiện ích</strong> giúp tạo khung và xây dựng ứng dụng dễ dàng.</p>
+</li>
+<li><p><strong>Render phía máy chủ</strong> cho việc tạo template HTML tĩnh.</p>
+</li>
+</ul>
+<h2>Ví dụ {#example}</h2>
+<p>Lustre đi kèm với <a href="https://hexdocs.pm/lustre/reference/examples.html">hơn 20 ví dụ</a>!<br>Đây là cách nó trông như sau:</p>
+<pre><code class="language-gleam">import gleam/int
+import lustre
+import lustre/element.{text}
+import lustre/element/html.{div, button, p}
+import lustre/event.{on_click}
+
+pub fn main() {
+  let app = lustre.simple(init, update, view)
+  let assert Ok(_) = lustre.start(app, "#app", Nil)
+
+  Nil
+}
+
+fn init(_flags) {
+  0
+}
+
+type Msg {
+  Incr
+  Decr
+}
+
+fn update(model, msg) {
+  case msg {
+    Incr -&gt; model + 1
+    Decr -&gt; model - 1
+  }
+}
+
+fn view(model) {
+  let count = int.to_string(model)
+
+  div([], [
+    button([on_click(Incr)], [text(" + ")]),
+    p([], [text(count)]),
+    button([on_click(Decr)], [text(" - ")])
+  ])
+}
+</code></pre>
+<h2>Triết lý {#philosophy}</h2>
+<p>Lustre là một framework <em>có quan điểm rõ ràng</em> để xây dựng các ứng dụng Web vừa và nhỏ.<br>Phát triển frontend hiện đại rất khó và phức tạp. Một phần của sự phức tạp đó là cần thiết, nhưng phần lớn là do ngẫu nhiên hoặc do có quá nhiều lựa chọn. Lustre có triết lý thiết kế giống với Gleam: nếu có thể, chỉ nên có một cách để làm việc đó.</p>
+<p>Điều này có nghĩa là Lustre chỉ cung cấp một hệ thống quản lý trạng thái duy nhất, lấy cảm hứng từ Elm và Erlang/OTP. Khi mở bất kỳ ứng dụng Lustre nào, bạn sẽ cảm thấy quen thuộc ngay lập tức.</p>
+<p>Nó cũng có nghĩa là chúng tôi khuyến khích các phương pháp đơn giản để xây dựng view thay vì các giải pháp phức tạp. Lustre <em>có</em> cách tạo các thành phần trạng thái đóng gói (điều mà chúng tôi rất thiếu trong Elm) nhưng không nên coi đó là mặc định. Nên ưu tiên các hàm đơn giản hơn thành phần có trạng thái.</p>
+<p>Khi thành phần <em>là</em> cần thiết, hãy tận dụng thực tế rằng các thành phần Lustre có thể chạy <em>mọi nơi</em>. Lustre cung cấp cho bạn công cụ để viết các thành phần có thể chạy trong một ứng dụng Lustre sẵn có, xuất chúng dưới dạng Web Component độc lập, hoặc chạy phía máy chủ với runtime tối giản để cập nhật DOM. Lustre gọi chúng là <strong>thành phần phổ dụng</strong> và chúng được viết với nhiều mục tiêu của Gleam trong đầu.</p>
+<h2>Cài đặt {#installation}</h2>
+<p>Lustre đã được phát hành trên <a href="https://hex.pm/packages/lustre">Hex</a>! Bạn có thể thêm nó vào<br>dự án Gleam của mình từ dòng lệnh:</p>
+<pre><code class="language-sh hljs language-bash">gleam add lustre
+</code></pre>
+<p>Lustre cũng có một gói đi kèm chứa các công cụ phát triển mà bạn có thể muốn cài đặt:</p>
+<blockquote>
+<p><strong>Lưu ý</strong>: máy chủ phát triển lustre_dev_tools theo dõi hệ thống tập tin của bạn để<br>phát hiện thay đổi code gleam và có thể tự động tải lại trình duyệt. Với người dùng linux, cần cài đặt <a href="">inotify-tools</a></p>
+</blockquote>
+<pre><code class="language-sh hljs language-bash">gleam add --dev lustre_dev_tools
+</code></pre>
+<h2>Tiếp theo {#where-next}</h2>
+<p>Để làm quen với Lustre, hãy xem <a href="https://hexdocs.pm/lustre/guide/01-quickstart.html">hướng dẫn bắt đầu nhanh</a>.<br>Nếu bạn thích xem code, thư mục <a href="https://github.com/lustre-labs/lustre/tree/main/examples">examples</a><br>chứa một số ứng dụng nhỏ minh họa các khía cạnh khác nhau của framework.</p>
+<p>Bạn cũng có thể đọc tài liệu và tham khảo API tại<br><a href="https://hexdocs.pm/lustre">HexDocs</a>.</p>
+<h2>Hỗ trợ {#support}</h2>
+<p>Lustre chủ yếu được xây dựng bởi một mình tôi, <a href="https://github.com/hayleigh-dot-dev">Hayleigh</a>,<br>trong thời gian rảnh giữa hai công việc. Nếu bạn muốn ủng hộ công việc của tôi, bạn có thể <a href="https://github.com/sponsors/hayleigh-dot-dev">tài trợ cho tôi trên GitHub</a>.</p>
+<p>Chúng tôi cũng rất hoan nghênh mọi đóng góp! Nếu bạn phát hiện lỗi, hoặc muốn<br>đề xuất tính năng, hãy mở issue hoặc pull request.</p>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-10</p>
+<hr>
+</div>
     </div>
 
     <footer class="footer">

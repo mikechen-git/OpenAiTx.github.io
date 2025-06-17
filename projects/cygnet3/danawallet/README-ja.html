@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>Dana wallet - cygnet3/danawallet</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="Dana wallet - cygnet3/danawallet">
+    <meta name="description" content="cygnet3/danawallet - GitHub repository ja documentation and information">
+    <meta name="keywords" content="cygnet3, danawallet, GitHub, repository, ja documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/cygnet3/danawallet/README-ja.html">
+    <meta property="og:title" content="Dana wallet - cygnet3/danawallet">
+    <meta property="og:description" content="cygnet3/danawallet - GitHub repository ja documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,68 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>コンテンツの読み込みエラー</h2>
-                    <p>markdownコンテンツの読み込みに失敗しました。以下を確認してください：</p>
-                    <ul>
-                        <li>URLパラメータが正しい</li>
-                        <li>指定されたパスにファイルが存在する</li>
-                        <li>アクティブなインターネット接続がある</li>
-                    </ul>
-                    <p>エラー詳細： Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><h1>Dana wallet</h1>
+<p>Danaはビットコイン寄付を受け付けるためのFlutterアプリです。オンチェーンのプライバシーを保護しながら寄付を受け取るために、新しい静的支払いプロトコルであるサイレントペイメントを使用しています。</p>
+<h2>Dana walletを試す</h2>
+<p><strong>Dana walletは現在まだ実験段階です。テストネット/サインネットの使用を推奨します。メインネットでウォレットを試したい場合は、失ってもよい資金のみを使用してください。資金の損失については責任を負いません。</strong></p>
+<p>アプリがより安定したら、一般的なアプリストアでDana walletをリリースする予定です。</p>
+<p>それまでは、Dana walletを試す方法は2つあります：</p>
+<ul>
+<li><a href="https://github.com/cygnet3/danawallet/releases">リリースページ</a>から最新のDana wallet APKをダウンロードする</li>
+<li><a href="https://fdroid.silentpayments.dev/fdroid/repo">セルフホストのF-Droidリポジトリ</a>を使用してDana walletをダウンロードする</li>
+</ul>
+<h3>F-Droidを使ったダウンロード</h3>
+<p>F-Droidオプションを推奨します。自動更新に対応しており、一度設定すれば済みます。</p>
+<ul>
+<li>AndroidスマホでF-Droidを開く</li>
+<li>「設定」に移動</li>
+<li>「マイアプリ」セクションの「リポジトリ」をクリック</li>
+<li>「+」アイコンをクリックして新しいリポジトリを追加</li>
+<li>このページのQRコードをスキャン：<a href="https://fdroid.silentpayments.dev/fdroid/repo">https://fdroid.silentpayments.dev/fdroid/repo</a></li>
+</ul>
+<p>これでセルフホストリポジトリが追加されました。アプリをダウンロードするには、F-Droidのアプリストアセクションで「Dana Wallet」を検索します（リストを更新するために、F-Droidストア画面で下にスワイプする必要があるかもしれません）。</p>
+<h2>ソースからDana walletをビルドする</h2>
+<p>以下はDana walletをソースからビルドするための手順です。Dana walletの開発に協力したい場合にのみ推奨します。</p>
+<h3>Linux（デスクトップ）向けビルド</h3>
+<p>Linux向けのビルドは特別な作業は不要で、単に以下を実行します。</p>
+<pre><code class="hljs language-undefined">flutter run
+</code></pre>
+<p>これは他のプラットフォーム（macOS、Windows）でも動作する可能性がありますが、テストはしていません。</p>
+<h3>Android向けビルド</h3>
+<p>Androidデバイス向けのビルドには、このアーキテクチャ用のバイナリを生成する準備が必要です。</p>
+<p>まず、<code>cargo-ndk</code>が必要です。さらに必要に応じて、ツールチェーンを追加します：</p>
+<pre><code class="hljs language-csharp">cargo install cargo-ndk
+rustup target <span class="hljs-keyword">add</span> \
+    aarch64-linux-android \
+    armv7-linux-androideabi \
+    x86_64-linux-android \
+    i686-linux-android
+</code></pre>
+<p>これらをインストールしたら、rustディレクトリに移動して<code>just build-android</code>を実行します。</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">cd</span> rust
+just build-android
+</code></pre>
+<p><code>just</code>がインストールされていない場合は、<code>justfile</code>に記載のコマンドをコピーして実行することもできます。これでバイナリが生成されます。</p>
+<p>次に、スマホを接続してデバッグモードを有効にします。接続されているか確認するには、</p>
+<pre><code class="hljs language-undefined">flutter devices
+</code></pre>
+<p>を実行してください。</p>
+<p>最後に、Androidデバイス向けにビルドしてインストールするには：</p>
+<pre><code class="hljs language-undefined">flutter run
+</code></pre>
+<h2>Danaへの寄付</h2>
+<p>Dana walletへは以下のアドレスで寄付できます：</p>
+<blockquote>
+<p>₿<a href="mailto:donate@danawallet.app">donate@danawallet.app</a></p>
+</blockquote>
+<p>または、以下のサイレントペイメントアドレスを使用してください：</p>
+<blockquote>
+<p>sp1qq0cygnetgn3rz2kla5cp05nj5uetlsrzez0l4p8g7wehf7ldr93lcqadw65upymwzvp5ed38l8ur2rznd6934xh95msevwrdwtrpk372hyz4vr6g</p>
+</blockquote>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
+<hr>
+</div>
     </div>
 
     <footer class="footer">

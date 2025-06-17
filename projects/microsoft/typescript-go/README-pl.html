@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>TypeScript 7 - microsoft/typescript-go</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="TypeScript 7 - microsoft/typescript-go">
+    <meta name="description" content="microsoft/typescript-go - GitHub repository pl documentation and information">
+    <meta name="keywords" content="microsoft, typescript-go, GitHub, repository, pl documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/microsoft/typescript-go/README-pl.html">
+    <meta property="og:title" content="TypeScript 7 - microsoft/typescript-go">
+    <meta property="og:description" content="microsoft/typescript-go - GitHub repository pl documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,149 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>Błąd ładowania zawartości</h2>
-                    <p>Nie udało się załadować zawartości markdown. Sprawdź:</p>
-                    <ul>
-                        <li>Parametry URL są poprawne</li>
-                        <li>Plik istnieje w określonej ścieżce</li>
-                        <li>Masz aktywne połączenie internetowe</li>
-                    </ul>
-                    <p>Szczegóły błędu: Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><h1>TypeScript 7</h1>
+<p><a href="https://devblogs.microsoft.com/typescript/typescript-native-port/">Nie wiesz, co to jest? Przeczytaj wpis ogłaszający!</a></p>
+<h2>Wersja zapoznawcza</h2>
+<p>Wersja zapoznawcza jest dostępna na npm jako <code>@typescript/native-preview</code>.</p>
+<pre><code class="language-sh hljs language-bash">npm install @typescript/native-preview
+npx tsgo <span class="hljs-comment"># Używaj tego jak tsc.</span>
+</code></pre>
+<p>Wersja zapoznawcza rozszerzenia VS Code jest <a href="https://marketplace.visualstudio.com/items?itemName=TypeScriptTeam.native-preview">dostępna w marketplace VS Code</a>.</p>
+<p>Aby z tego korzystać, ustaw w ustawieniach VS Code:</p>
+<pre><code class="language-json hljs"><span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"typescript.experimental.useTsgo"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h2>Jak zbudować i uruchomić</h2>
+<p>To repozytorium używa <a href="https://go.dev/dl/">Go 1.24 lub wyższego</a>, <a href="https://www.rust-lang.org/tools/install">Rust 1.85 lub wyższego</a>, <a href="https://nodejs.org/">Node.js z npm</a> oraz <a href="https://www.npmjs.com/package/hereby"><code>hereby</code></a>.</p>
+<p>Do testów i generowania kodu repozytorium zawiera podmoduł git do głównego repozytorium TypeScript wskazujący na commit, który jest portowany.<br>Podczas klonowania najlepiej sklonować z podmodułami:</p>
+<pre><code class="language-sh hljs language-bash">git <span class="hljs-built_in">clone</span> --recurse-submodules https://github.com/microsoft/typescript-go.git
+</code></pre>
+<p>Jeśli już sklonowałeś repozytorium, możesz zainicjować podmoduł poleceniem:</p>
+<pre><code class="language-sh hljs language-bash">git submodule update --init --recursive
+</code></pre>
+<p>Po dodaniu podmodułu i wykonaniu <code>npm ci</code>, możesz uruchamiać zadania za pomocą <code>hereby</code>, podobnie jak w repozytorium TypeScript:</p>
+<pre><code class="language-sh hljs language-bash">hereby build          <span class="hljs-comment"># Sprawdź, czy projekt się buduje</span>
+hereby <span class="hljs-built_in">test</span>           <span class="hljs-comment"># Uruchom wszystkie testy</span>
+hereby install-tools  <span class="hljs-comment"># Zainstaluj dodatkowe narzędzia, np. lintery</span>
+hereby lint           <span class="hljs-comment"># Uruchom wszystkie lintery</span>
+hereby format         <span class="hljs-comment"># Sformatuj cały kod</span>
+hereby generate       <span class="hljs-comment"># Wygeneruj cały kod Go (np. diagnostyka, zatwierdzona do repo)</span>
+</code></pre>
+<p>Dodatkowe zadania są w trakcie opracowywania.</p>
+<p><code>hereby</code> nie jest wymagany do pracy z repozytorium; zwykłe narzędzia <code>go</code> (np. <code>go build</code>, <code>go test ./...</code>) będą działać zgodnie z oczekiwaniami.<br>Zadania <code>hereby</code> są dostępne dla wygody osób zaznajomionych z repozytorium TypeScript.</p>
+<h3>Uruchamianie <code>tsgo</code></h3>
+<p>Po wykonaniu <code>hereby build</code> możesz uruchomić <code>built/local/tsgo</code>, które zachowuje się prawie tak samo jak <code>tsc</code>.</p>
+<h3>Uruchamianie prototypu LSP</h3>
+<p>Aby debugować i uruchomić rozszerzenie VS Code bez instalowania go globalnie:</p>
+<ul>
+<li>Uruchom VS Code w katalogu repozytorium (<code>code .</code>)</li>
+<li>Skopiuj <code>.vscode/launch.template.json</code> do <code>.vscode/launch.json</code></li>
+<li><kbd>F5</kbd> (lub <code>Debug: Start Debugging</code> z palety poleceń)</li>
+</ul>
+<p>Spowoduje to uruchomienie nowej instancji VS Code, która używa Corsa LS jako backendu. Jeśli wszystko jest poprawnie skonfigurowane, powinieneś zobaczyć "tsgo" na pasku stanu po otwarciu pliku TypeScript lub JavaScript:</p>
+<p><img src=".github/ls-screenshot.png" alt="Zrzut ekranu prototypu LSP"></p>
+<h2>Co działa do tej pory?</h2>
+<p>To nadal projekt w toku i nie osiągnął jeszcze pełnej zgodności funkcjonalnej z TypeScript. Mogą występować błędy. Proszę sprawdzić tę listę przed zgłoszeniem nowego problemu lub założeniem, że zaszła zamierzona zmiana.</p>
+<table>
+<thead>
+<tr>
+<th>Funkcja</th>
+<th>Status</th>
+<th>Uwagi</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tworzenie programu</td>
+<td>done</td>
+<td>Takie same pliki i rozwiązywanie modułów jak TS5.8. Nie wszystkie tryby rozwiązywania obsługiwane.</td>
+</tr>
+<tr>
+<td>Parsowanie/skanowanie</td>
+<td>done</td>
+<td>Dokładnie te same błędy składniowe co TS5.8</td>
+</tr>
+<tr>
+<td>Wiersz poleceń i parsowanie <code>tsconfig.json</code></td>
+<td>mostly done</td>
+<td>Punkt wejścia tymczasowo nieco inny</td>
+</tr>
+<tr>
+<td>Rozwiązywanie typów</td>
+<td>done</td>
+<td>Takie same typy jak TS5.8</td>
+</tr>
+<tr>
+<td>Sprawdzanie typów</td>
+<td>done</td>
+<td>Takie same błędy, lokalizacje i komunikaty jak TS5.8. Printback typów w błędach może być inny (w trakcie)</td>
+</tr>
+<tr>
+<td>Wnioskowanie specyficzne dla JavaScript i JS Doc</td>
+<td>not ready</td>
+<td>-</td>
+</tr>
+<tr>
+<td>JSX</td>
+<td>done</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Emitowanie deklaracji</td>
+<td>in progress</td>
+<td>Najczęstsze funkcje obsługiwane, ale niektóre przypadki brzegowe i flagi funkcji jeszcze nie</td>
+</tr>
+<tr>
+<td>Emitowanie (wyjście JS)</td>
+<td>in progress</td>
+<td><code>target: esnext</code> dobrze obsługiwany, inne mogą mieć braki</td>
+</tr>
+<tr>
+<td>Tryb watch</td>
+<td>prototype</td>
+<td>Obserwuje pliki i przebudowuje, ale bez przyrostowego sprawdzania</td>
+</tr>
+<tr>
+<td>Tryb build / referencje projektów</td>
+<td>not ready</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Budowa przyrostowa</td>
+<td>not ready</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Serwis językowy (LSP)</td>
+<td>prototype</td>
+<td>Minimalna funkcjonalność (błędy, podpowiedzi, przejdź do definicji). Więcej funkcji wkrótce</td>
+</tr>
+<tr>
+<td>API</td>
+<td>not ready</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<p>Definicje:</p>
+<ul>
+<li><strong>done</strong> czyli „uważane za ukończone”: Nie jesteśmy obecnie świadomi żadnych braków lub większych prac do wykonania. Można zgłaszać błędy</li>
+<li><strong>in progress</strong>: obecnie rozwijane; niektóre funkcje mogą działać, inne nie. Można zgłaszać panic, ale nic więcej prosimy</li>
+<li><strong>prototype</strong>: tylko proof-of-concept; nie zgłaszać błędów</li>
+<li><strong>not ready</strong>: albo nawet nie zaczęte, albo na tyle daleko od gotowości, że nie warto się tym teraz zajmować</li>
+</ul>
+<h2>Inne uwagi</h2>
+<p>Docelowo spodziewamy się, że to repozytorium i jego zawartość zostaną scalone z <code>microsoft/TypeScript</code>.<br>W rezultacie repozytorium i tracker problemów typescript-go zostaną ostatecznie zamknięte, więc traktuj dyskusje/problemy odpowiednio.</p>
+<p>Listę zamierzonych zmian względem TypeScript 5.7 znajdziesz w CHANGES.md.</p>
+<h2>Współtworzenie</h2>
+<p>Ten projekt zachęca do współtworzenia i sugestii. Większość kontrybucji wymaga zaakceptowania<br>Umowy Licencyjnej Współtwórcy (CLA), deklarującej, że masz prawo do przekazania kontrybucji i rzeczywiście to robisz,<br>przyznając nam prawo do jej wykorzystania. Szczegóły znajdziesz na stronie <a href="https://cla.opensource.microsoft.com">Contributor License Agreements</a>.</p>
+<p>Gdy wysyłasz pull request, bot CLA automatycznie sprawdzi, czy musisz wypełnić CLA i odpowiednio oznaczy PR (np. status check, komentarz). Po prostu postępuj zgodnie z instrukcjami<br>przekazanymi przez bota. Musisz to zrobić tylko raz dla wszystkich repozytoriów korzystających z naszego CLA.</p>
+<p>Projekt przyjął <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>.<br>Więcej informacji znajdziesz w <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> lub<br>kontaktując się pod adresem <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> w przypadku dodatkowych pytań lub uwag.</p>
+<h2>Znaki towarowe</h2>
+<p>Projekt może zawierać znaki towarowe lub logotypy projektów, produktów lub usług. Użycie znaków towarowych lub logotypów Microsoft jest dozwolone i musi być zgodne z<br><a href="https://www.microsoft.com/legal/intellectualproperty/trademarks/usage/general">Microsoft's Trademark &amp; Brand Guidelines</a>.<br>Użycie znaków towarowych lub logotypów Microsoft w zmodyfikowanych wersjach projektu nie może powodować dezorientacji ani sugerować sponsorowania przez Microsoft.<br>Użycie znaków towarowych lub logotypów stron trzecich podlega polityce tych stron.</p>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-10</p>
+<hr>
+</div>
     </div>
 
     <footer class="footer">

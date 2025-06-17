@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>🍡 scoop-proxy-cn - lzwme/scoop-proxy-cn</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="🍡 scoop-proxy-cn - lzwme/scoop-proxy-cn">
+    <meta name="description" content="lzwme/scoop-proxy-cn - GitHub repository tr documentation and information">
+    <meta name="keywords" content="lzwme, scoop-proxy-cn, GitHub, repository, tr documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/lzwme/scoop-proxy-cn/README-tr.html">
+    <meta property="og:title" content="🍡 scoop-proxy-cn - lzwme/scoop-proxy-cn">
+    <meta property="og:description" content="lzwme/scoop-proxy-cn - GitHub repository tr documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,207 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>İçerik yükleme hatası</h2>
-                    <p>Markdown içeriği yüklenemedi. Lütfen kontrol edin:</p>
-                    <ul>
-                        <li>URL parametreleri doğru</li>
-                        <li>Dosya belirtilen yolda mevcut</li>
-                        <li>Aktif internet bağlantınız var</li>
-                    </ul>
-                    <p>Hata detayları: Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><h1>🍡 scoop-proxy-cn</h1>
+<p>Çin ana karası kullanıcıları için uygun olan <a href="https://scoop.sh">Scoop</a> bucket proxy aynası deposu. Birden fazla açık kaynak <code>bucket</code> deposundan senkronize güncellenir. Bunlar arasında:</p>
+<ul>
+<li><code>sync</code> dalı (varsayılan): Birden fazla depodan uygulamaları senkronize eder, ancak ghproxy proxy değişikliği yapmaz. <strong>Gitee üzerinden Çin içi modifiye Scoop kullanan senaryolar için uygundur</strong></li>
+<li><code>main</code> dalı: <code>github release</code> üzerinden indirilen uygulama adreslerini <code>https://ghfast.top</code> tabanlı proxy indirme adresine değiştirir. <strong>Proxy adresleri sık sık geçersiz hale gelip değiştiği için kararsızdır</strong></li>
+</ul>
+<h2>Kullanım</h2>
+<p><code>spc</code> uygulama deposunu ekleyin. <a href="https://gitee.com/scoop-installer/scoop">Scoop Çin içi ayna optimizasyon deposu</a> ile birlikte kullanıma uygundur:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Bucket ekle, varsayılan olarak sync dalını çeker</span>
+scoop bucket add spc https://gitee.com/wlzwme/scoop-proxy-cn.git
+
+<span class="hljs-comment"># Uygulamaları yükle</span>
+scoop install spc/&lt;uygulama_adı&gt;
+</code></pre>
+<p>Sadece resmi Scoop sürümünü kullanmak isterseniz, aşağıdaki işlemi yaparak abonelik dalını <code>main</code> dalına değiştirebilirsiniz:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># spc dizinine girin</span>
+<span class="hljs-built_in">cd</span> <span class="hljs-string">"<span class="hljs-variable">$env</span>:USERPROFILE\scoop\buckets\spc"</span>
+<span class="hljs-comment"># Eğer SCOOP ortam değişkeni ayarlanmışsa, aşağıdaki komutu kullanın</span>
+<span class="hljs-built_in">cd</span> <span class="hljs-string">"<span class="hljs-variable">$env</span>:SCOOP\buckets\spc"</span>
+
+<span class="hljs-comment"># main dalına geçiş yapın</span>
+git fetch --all
+git checkout -b main origin/main
+</code></pre>
+<h2>Scoop Kurulum ve Konfigürasyon Referansı</h2>
+<h3>Yöntem 1: Çin içi özelleştirilmiş ayna üzerinden kurulum (Önerilen)</h3>
+<p>Scoop'un kaynak kodu ve bucket uygulamaları çoğunlukla github üzerinde git formatında barındırılır, github erişim zorlukları nedeniyle kurulum, güncelleme ve uygulama indirme deneyimi oldukça kötüleşir.</p>
+<p>Aşağıda <a href="https://gitee.com/scoop-installer/scoop">Scoop Çin içi ayna optimizasyon deposu</a> kurulumu anlatılmaktadır.</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Script çalışma politikası değişikliği, varsayılan otomatik onay</span>
+Set-ExecutionPolicy RemoteSigned -scope CurrentUser -Force
+
+<span class="hljs-comment"># Yöntem 1: Kurulum komutunu çalıştır (varsayılan kullanıcı dizinine kurar, değiştirmek isterseniz "Özelleştirilmiş Kurulum Dizini" komutunu kullanın)</span>
+iwr -useb scoop.201704.xyz | iex
+
+
+<span class="hljs-comment">## Yöntem 2: Özelleştirilmiş kurulum dizini (dizini uygun konuma göre değiştirin)</span>
+irm scoop.201704.xyz -outfile <span class="hljs-string">'install.ps1'</span>
+.\install.ps1 -ScoopDir <span class="hljs-string">'D:\Scoop'</span> -ScoopGlobalDir <span class="hljs-string">'D:\GlobalScoopApps'</span>
+
+<span class="hljs-comment"># Eğer resmi kaynak kurulmuşsa, aşağıdaki komutla değiştirilebilir</span>
+scoop config SCOOP_REPO <span class="hljs-string">"https://gitee.com/scoop-installer/scoop"</span>
+
+<span class="hljs-comment"># spc bucket ekle</span>
+scoop bucket add spc https://gitee.com/wlzwme/scoop-proxy-cn.git
+
+<span class="hljs-comment"># Yeni depo adresini çek</span>
+scoop update
+</code></pre>
+<p>Bu yöntemle kurulan scoop özelleştirilmiş ve proxy hızlandırma sunucusunu destekler, varsayılan olarak <code>scoop.201704.xyz</code> üzerinden proxy ile uygulama indirir.</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Proxy ekle</span>
+scoop config URL_PROXY <span class="hljs-string">"https://scoop.201704.xyz"</span>
+
+<span class="hljs-comment"># Proxy sil</span>
+scoop config <span class="hljs-built_in">rm</span> URL_PROXY
+</code></pre>
+<h3>Yöntem 2: Resmi depo üzerinden proxy ile kurulum</h3>
+<p><code>PowerShell</code> açıp aşağıdaki komutları çalıştırın:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># kurulum</span>
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+<span class="hljs-comment"># irm -useb get.scoop.sh | iex</span>
+irm https://ghfast.top/raw.githubusercontent.com/lzwme/scoop-proxy-cn/main/install.ps1 | iex
+
+<span class="hljs-comment"># konfigürasyon</span>
+scoop config SCOOP_REPO https://ghfast.top/github.com/ScoopInstaller/Scoop
+
+<span class="hljs-comment"># spc bucket ekle</span>
+scoop bucket add spc https://gitee.com/wlzwme/scoop-proxy-cn.git
+<span class="hljs-comment"># spc dizinine gir</span>
+<span class="hljs-built_in">cd</span> <span class="hljs-string">"<span class="hljs-variable">$env</span>:USERPROFILE\scoop\buckets\spc"</span>
+<span class="hljs-comment"># main dalına geç</span>
+git fetch --all &amp;&amp; git checkout -b main origin/main
+
+<span class="hljs-comment"># yardım göster</span>
+scoop <span class="hljs-built_in">help</span>
+
+<span class="hljs-comment"># 7zip, aria2, scoop-search kur</span>
+scoop install spc/7zip spc/aria2 spc/scoop-search
+</code></pre>
+<h3><code>scoop-search</code> Hakkında</h3>
+<p><code>scoop-proxy-cn</code> deposu <code>1.4w+</code> uygulamayı senkronize eder, resmi PowerShell tabanlı <code>scoop search</code> komutu çok yavaş çalıştığı için kullanışsızdır. Yerine <code>go</code> dili ile geliştirilmiş <code>scoop-search</code> aracı önerilir. Örnek:</p>
+<pre><code class="language-bash hljs">scoop install scoop-search
+<span class="hljs-comment"># scoop-search kullanımı</span>
+scoop-search act
+</code></pre>
+<h2>Sıkça Sorulan Sorular</h2>
+<h3><code>aria2</code> kaynaklı indirme başarısızlığı sorunu</h3>
+<p><code>aria2</code> yüklüyse, scoop indirmeleri parçalı hızlandırma için <code>aria2</code> kullanır. Bazı proxy adresleri <code>aria2</code> parçalı indirme isteklerini desteklemez veya engeller. Bu durumda <code>aria2</code> devre dışı bırakılabilir:</p>
+<pre><code class="language-bash hljs">scoop config aria2-enabled <span class="hljs-literal">false</span>
+</code></pre>
+<h3><code>Hash Check Failed</code> hatası</h3>
+<p>Bazı uygulamaların indirme adresi en son sürüm adresi iken hash değeri sabit belirtilmiştir. Yeni sürüm çıktığında <code>Hash Check Failed</code> hatası alınır. Bu durumda <code>-s</code> parametresi ile hash kontrolü atlanabilir. Örnek:</p>
+<pre><code class="language-bash hljs">scoop install scoop-search -s
+</code></pre>
+<h3>Proxy sunucu geçersiz olduğunda güncelleme yöntemi</h3>
+<p>Resmi Scoop kullanıyor ve <code>main</code> dalı aboneliği ile proxy hızlandırıcı kullanıyorsanız, eski proxy hızlandırıcı geçersiz olursa güncelleme durur. Yeniden eklemek için aşağıdaki komutları çalıştırın:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Önce scoop deposunu güncelle</span>
+scoop config scoop_repo https://ghfast.top/github.com/ScoopInstaller/Scoop.git
+
+<span class="hljs-comment"># Yöntem 1: spc bucket deposunu güncelle</span>
+git -C <span class="hljs-string">"<span class="hljs-variable">$env</span>:USERPROFILE\scoop\buckets\spc"</span> remote set-url origin https://gitee.com/wlzwme/scoop-proxy-cn.git
+<span class="hljs-comment"># Eğer buckets varsayılan konumu değiştirilmişse</span>
+git -C <span class="hljs-string">"<span class="hljs-variable">$env</span>:SCOOP\buckets\spc"</span> remote set-url origin https://gitee.com/wlzwme/scoop-proxy-cn.git
+
+<span class="hljs-comment"># Yöntem 2: spc bucket kaldır ve yeniden ekle</span>
+scoop bucket <span class="hljs-built_in">rm</span> spc
+scoop bucket add spc https://gitee.com/wlzwme/scoop-proxy-cn.git
+</code></pre>
+<h2>Senkronize Edilen Depolar</h2>
+<ul>
+<li><a href="https://github.com/ScoopInstaller/PHP">ScoopInstaller/PHP</a></li>
+<li><a href="https://github.com/ScoopInstaller/Main">ScoopInstaller/Main</a></li>
+<li><a href="https://github.com/ScoopInstaller/Extras">ScoopInstaller/Extras</a></li>
+<li><a href="https://github.com/ScoopInstaller/Java">ScoopInstaller/Java</a></li>
+<li><a href="https://github.com/ScoopInstaller/Versions">ScoopInstaller/Versions</a></li>
+<li><a href="https://github.com/ScoopInstaller/Nirsoft">ScoopInstaller/Nirsoft</a></li>
+<li><a href="https://github.com/ScoopInstaller/Nonportable">ScoopInstaller/Nonportable</a></li>
+<li><a href="https://github.com/renxia/scoop-bucket">renxia/scoop-bucket</a></li>
+<li><a href="https://github.com/scoopcn/scoopcn">scoopcn/scoopcn</a></li>
+<li><a href="https://github.com/rasa/scoops">rasa/scoops</a></li>
+<li><a href="https://github.com/amorphobia/siku">amorphobia/siku</a></li>
+<li><a href="https://github.com/ACooper81/scoop-apps">ACooper81/scoop-apps</a></li>
+<li><a href="https://github.com/kkzzhizhou/scoop-zapps">kkzzhizhou/scoop-zapps</a></li>
+<li><a href="https://github.com/Calinou/scoop-games">Calinou/scoop-games</a></li>
+<li><a href="https://github.com/cderv/r-bucket">cderv/r-bucket</a></li>
+<li><a href="https://github.com/chawyehsu/dorado">chawyehsu/dorado</a></li>
+<li><a href="https://github.com/borger/scoop-galaxy-integrations">borger/scoop-galaxy-integrations</a></li>
+<li><a href="https://github.com/ivaquero/scoopet">ivaquero/scoopet</a></li>
+<li><a href="https://github.com/KNOXDEV/wsl">KNOXDEV/wsl</a></li>
+<li><a href="https://github.com/kodybrown/scoop-nirsoft">kodybrown/scoop-nirsoft</a></li>
+<li><a href="https://github.com/kidonng/sushi">kidonng/sushi</a></li>
+<li><a href="https://github.com/littleli/scoop-clojure">littleli/scoop-clojure</a></li>
+<li><a href="https://github.com/niheaven/scoop-sysinternals">niheaven/scoop-sysinternals</a></li>
+<li><a href="https://github.com/matthewjberger/scoop-nerd-fonts">matthewjberger/scoop-nerd-fonts</a></li>
+<li><a href="https://github.com/TheCjw/scoop-retools">TheCjw/scoop-retools</a></li>
+<li><a href="https://github.com/TheRandomLabs/Scoop-Bucket">TheRandomLabs/Scoop-Bucket</a></li>
+<li><a href="https://github.com/TheRandomLabs/scoop-nonportable">TheRandomLabs/scoop-nonportable</a></li>
+<li><a href="https://github.com/TheRandomLabs/Scoop-Spotify">TheRandomLabs/Scoop-Spotify</a></li>
+<li><a href="https://github.com/Paxxs/Cluttered-bucket">Paxxs/Cluttered-bucket</a></li>
+<li><a href="https://github.com/zhoujin7/tomato">zhoujin7/tomato</a></li>
+<li><a href="https://github.com/HCLonely/my-scoop-bucket">HCLonely/my-scoop-bucket</a></li>
+<li><a href="https://github.com/Weidows-projects/scoop-3rd">Weidows-projects/scoop-3rd</a></li>
+<li><a href="https://github.com/hermanjustnu/scoop-emulators">hermanjustnu/scoop-emulators</a></li>
+<li><a href="https://github.com/everyx/scoop-bucket">everyx/scoop-bucket</a></li>
+<li><a href="https://github.com/borger/scoop-emulators">borger/scoop-emulators</a></li>
+<li><a href="https://github.com/ZvonimirSun/scoop-iszy">ZvonimirSun/scoop-iszy</a></li>
+<li><a href="https://github.com/kiennq/scoop-misc">kiennq/scoop-misc</a></li>
+<li><a href="https://github.com/wzv5/ScoopBucket">wzv5/ScoopBucket</a></li>
+<li><a href="https://github.com/TheRandomLabs/Scoop-Python">TheRandomLabs/Scoop-Python</a></li>
+<li><a href="https://github.com/naderi/scoop-bucket">naderi/scoop-bucket</a></li>
+<li><a href="https://github.com/ViCrack/scoop-bucket">ViCrack/scoop-bucket</a></li>
+<li><a href="https://github.com/42wim/scoop-bucket">42wim/scoop-bucket</a></li>
+<li><a href="https://github.com/akirco/aki-apps">akirco/aki-apps</a></li>
+<li><a href="https://github.com/batkiz/backit">batkiz/backit</a></li>
+<li><a href="https://github.com/iquiw/scoop-bucket">iquiw/scoop-bucket</a></li>
+<li><a href="https://github.com/ygguorun/scoop-bucket">ygguorun/scoop-bucket</a></li>
+<li><a href="https://github.com/seumsc/scoop-seu">seumsc/scoop-seu</a></li>
+<li><a href="https://github.com/cc713/ownscoop">cc713/ownscoop</a></li>
+<li><a href="https://github.com/aoisummer/scoop-bucket">aoisummer/scoop-bucket</a></li>
+<li><a href="https://github.com/yuusakuri/scoop-bucket">yuusakuri/scoop-bucket</a></li>
+<li><a href="https://github.com/hu3rror/scoop-muggle">hu3rror/scoop-muggle</a></li>
+<li><a href="https://github.com/starise/Scoop-Confetti">starise/Scoop-Confetti</a></li>
+<li><a href="https://github.com/dodorz/scoop">dodorz/scoop</a></li>
+<li><a href="https://github.com/SayCV/scoop-cvp">SayCV/scoop-cvp</a></li>
+<li><a href="https://github.com/Qv2ray/mochi">Qv2ray/mochi</a></li>
+<li><a href="https://github.com/Homeland-Community/scoop">Homeland-Community/scoop</a></li>
+<li><a href="https://github.com/jingyu9575/scoop-jingyu9575">jingyu9575/scoop-jingyu9575</a></li>
+<li><a href="https://github.com/couleur-tweak-tips/utils">couleur-tweak-tips/utils</a></li>
+<li><a href="https://github.com/wangzq/scoop-bucket">wangzq/scoop-bucket</a></li>
+<li><a href="https://github.com/jonz94/scoop-sarasa-nerd-fonts">jonz94/scoop-sarasa-nerd-fonts</a></li>
+<li><a href="https://github.com/NyaMisty/scoop_bucket_misty">NyaMisty/scoop_bucket_misty</a></li>
+<li><a href="https://github.com/jfut/scoop-jfut">jfut/scoop-jfut</a></li>
+<li><a href="https://github.com/mogeko/scoop-sysinternals">mogeko/scoop-sysinternals</a></li>
+<li><a href="https://github.com/ChungZH/peach">ChungZH/peach</a></li>
+<li><a href="https://github.com/DoveBoy/Apps">DoveBoy/Apps</a></li>
+<li><a href="https://github.com/Velgus/Scoop-Portapps">Velgus/Scoop-Portapps</a></li>
+<li><a href="https://github.com/starise/Scoop-Gaming">starise/Scoop-Gaming</a></li>
+<li><a href="https://github.com/mo-san/scoop-bucket">mo-san/scoop-bucket</a></li>
+<li><a href="https://github.com/brian6932/dank-scoop">brian6932/dank-scoop</a></li>
+<li><a href="https://github.com/AkariiinMKII/Scoop4kariiin">AkariiinMKII/Scoop4kariiin</a></li>
+<li><a href="https://github.com/littleli/Scoop-littleli">littleli/Scoop-littleli</a></li>
+<li><a href="https://github.com/ChinLong/scoop-customize">ChinLong/scoop-customize</a></li>
+<li><a href="https://github.com/Darkatse/Scoop-KanColle">Darkatse/Scoop-KanColle</a></li>
+<li><a href="https://github.com/aliesbelik/poldi">aliesbelik/poldi</a></li>
+<li><a href="https://github.com/MCOfficer/scoop-bucket">MCOfficer/scoop-bucket</a></li>
+<li><a href="https://github.com/KnotUntied/scoop-fonts">KnotUntied/scoop-fonts</a></li>
+<li><a href="https://github.com/beerpiss/scoop-bucket">beerpiss/scoop-bucket</a></li>
+<li><a href="https://github.com/HUMORCE/nuke">HUMORCE/nuke</a></li>
+<li><a href="https://github.com/AkinoKaede/maple">AkinoKaede/maple</a></li>
+<li><a href="https://github.com/hulucc/bucket">hulucc/bucket</a></li>
+<li><a href="https://github.com/Deide/deide-bucket">Deide/deide-bucket</a></li>
+<li><a href="https://github.com/echoiron/echo-scoop">echoiron/echo-scoop</a></li>
+<li><a href="https://github.com/tetradice/scoop-iyokan-jp">tetradice/scoop-iyokan-jp</a></li>
+</ul>
+<h2>Beyan</h2>
+<blockquote>
+<p>[!UYARI]<br>Bu depo, içindeki uygulama bilgilerini yalnızca üçüncü taraf depolardan senkronize etmektedir, her birinin kullanılabilirliği ve güvenliği tek tek doğrulanmamıştır. Lütfen kurulum sırasında kendiniz doğrulama yapınız. Herhangi bir hak ihlali durumunda lütfen issue açarak bildirin.</p>
+</blockquote>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
+<hr>
+</div>
     </div>
 
     <footer class="footer">

@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>Dana wallet - cygnet3/danawallet</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="Dana wallet - cygnet3/danawallet">
+    <meta name="description" content="cygnet3/danawallet - GitHub repository zh-TW documentation and information">
+    <meta name="keywords" content="cygnet3, danawallet, GitHub, repository, zh-TW documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/cygnet3/danawallet/README-zh-TW.html">
+    <meta property="og:title" content="Dana wallet - cygnet3/danawallet">
+    <meta property="og:description" content="cygnet3/danawallet - GitHub repository zh-TW documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,67 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>載入內容時出錯</h2>
-                    <p>載入markdown內容失敗。請檢查：</p>
-                    <ul>
-                        <li>URL參數正確</li>
-                        <li>指定路徑的檔案存在</li>
-                        <li>您有活躍的網際網路連線</li>
-                    </ul>
-                    <p>錯誤詳情： Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><h1>Dana wallet</h1>
+<p>Dana 是一款用於接受比特幣捐款的 Flutter 應用程式。它使用 silent payments，一種新的靜態支付協議，以在保護鏈上隱私的同時接收捐款。</p>
+<h2>試用 Dana wallet</h2>
+<p><strong>Dana wallet 目前仍處於實驗階段。我們建議使用 testnet/signet。如果您真的想在主網測試錢包，請僅使用您願意損失的資金。我們不對資金損失負責。</strong></p>
+<p>我們正在考慮在應用程式更加穩定後，在流行的應用商店發布 Dana wallet。</p>
+<p>在此期間，有兩種方式可以試用 Dana wallet：</p>
+<ul>
+<li>從 <a href="https://github.com/cygnet3/danawallet/releases">releases 頁面</a> 下載最新的 Dana wallet APK</li>
+<li>使用我們的 <a href="https://fdroid.silentpayments.dev/fdroid/repo">自建 F-Droid 軟體庫</a> 下載 Dana wallet</li>
+</ul>
+<h3>使用 F-Droid 下載</h3>
+<p>我們推薦使用 F-Droid 選項，因為它支持自動更新，且只需設定一次。</p>
+<ul>
+<li>在您的 Android 手機上開啟 F-Droid</li>
+<li>前往「設定」</li>
+<li>在「我的應用程式」區段，點選「軟體庫」</li>
+<li>點擊「+」圖示新增軟體庫</li>
+<li>掃描本頁提供的 QR 碼：<a href="https://fdroid.silentpayments.dev/fdroid/repo">https://fdroid.silentpayments.dev/fdroid/repo</a></li>
+</ul>
+<p>您已新增我們自建的軟體庫。要下載應用程式，請在 F-Droid 應用商店區搜尋「Dana Wallet」（您可能需要先透過向下滑動來刷新應用列表）。</p>
+<h2>從原始碼建置 Dana wallet</h2>
+<p>以下是從原始碼建置 Dana wallet 的說明。僅建議想協助 Dana wallet 開發者使用。</p>
+<h3>為 Linux（桌面）建置</h3>
+<p>為 Linux 建置應不需額外操作，只需執行</p>
+<pre><code class="hljs language-undefined">flutter run
+</code></pre>
+<p>這可能也適用於其他平台（macOS、Windows），但我們尚未測試。</p>
+<h3>為 Android 建置</h3>
+<p>為 Android 裝置建置需先進行準備工作，以產生該架構的二進位檔。</p>
+<p>首先，您需要安裝 <code>cargo-ndk</code>。您可能還需新增所需的工具鏈：</p>
+<pre><code class="hljs language-csharp">cargo install cargo-ndk
+rustup target <span class="hljs-keyword">add</span> \
+    aarch64-linux-android \
+    armv7-linux-androideabi \
+    x86_64-linux-android \
+    i686-linux-android
+</code></pre>
+<p>安裝完成後，進入 rust 目錄並執行 <code>just build-android</code>。</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">cd</span> rust
+just build-android
+</code></pre>
+<p>如果未安裝 <code>just</code>，也可以複製 <code>justfile</code> 中的命令執行。<br>此步驟會產生二進位檔。</p>
+<p>接著，連接您的手機並啟用除錯模式。<br>執行以下指令確認手機是否連接：</p>
+<pre><code class="hljs language-undefined">flutter devices
+</code></pre>
+<p>最後，為您的 Android 裝置建置並安裝應用程式：</p>
+<pre><code class="hljs language-undefined">flutter run
+</code></pre>
+<h2>捐贈給 Dana</h2>
+<p>您可以使用以下地址捐贈給 Dana wallet：</p>
+<blockquote>
+<p>₿<a href="mailto:donate@danawallet.app">donate@danawallet.app</a></p>
+</blockquote>
+<p>或使用下列 silent payment 地址：</p>
+<blockquote>
+<p>sp1qq0cygnetgn3rz2kla5cp05nj5uetlsrzez0l4p8g7wehf7ldr93lcqadw65upymwzvp5ed38l8ur2rznd6934xh95msevwrdwtrpk372hyz4vr6g</p>
+</blockquote>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
+<hr>
+</div>
     </div>
 
     <footer class="footer">

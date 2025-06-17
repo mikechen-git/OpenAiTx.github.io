@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>mini-software/PocoClassGenerator - nl Documentation</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="mini-software/PocoClassGenerator - nl Documentation">
+    <meta name="description" content="mini-software/PocoClassGenerator - GitHub repository nl documentation and information">
+    <meta name="keywords" content="mini-software, PocoClassGenerator, GitHub, repository, nl documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/mini-software/PocoClassGenerator/README-nl.html">
+    <meta property="og:title" content="mini-software/PocoClassGenerator - nl Documentation">
+    <meta property="og:description" content="mini-software/PocoClassGenerator - GitHub repository nl documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,104 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>Fout bij het laden van inhoud</h2>
-                    <p>Het laden van markdown-inhoud is mislukt. Controleer het volgende:</p>
-                    <ul>
-                        <li>De URL-parameters zijn correct</li>
-                        <li>Het bestand bestaat op het opgegeven pad</li>
-                        <li>U heeft een actieve internetverbinding</li>
-                    </ul>
-                    <p>Foutdetails: Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><p><a href="https://www.nuget.org/packages/PocoClassGenerator"><img src="https://img.shields.io/nuget/v/PocoClassGenerator.svg" alt="NuGet"></a><br><img src="https://img.shields.io/nuget/dt/PocoClassGenerator.svg" alt=""></p>
+<hr>
+<p>PocoClassGenerator is gestart met <code>Necroskillz</code>'s POCO Generator <a href="http://www.necronet.org/archive/2012/10/09/generate-c-pocos-from-sql-statement-in-linqpad.aspx">Genereer C# POCO's vanuit SQL-statement in LINQPad </a></p>
+<h3>Functies</h3>
+<ul>
+<li>Ondersteunt het genereren van POCO-classcode voor alle tabellen en views in de huidige database</li>
+<li>Ondersteunt <a href="https://github.com/StackExchange/Dapper/tree/master/Dapper.Contrib">Dapper.Contrib</a></li>
+<li>Ondersteunt meerdere RDBMS: <code>sqlserver, oracle, mysql, postgresql</code></li>
+<li>Klein en snel (genereert code voor 100 tabellen in slechts 5 seconden)</li>
+<li>Gebruikt voor elke databasequery de juiste dialect-schema-tabel-SQL</li>
+</ul>
+<h3>DEMO</h3>
+<ul>
+<li><a href="https://dotnetfiddle.net/bDdSCA">POCOGenerator Genereer Klasse Via Dynamische SQL | .NET Fiddle</a><br><img src="https://i.loli.net/2019/10/09/4AOsU2X8PWBcbGS.png" alt="20191009102303.png"></li>
+<li><a href="https://dotnetfiddle.net/GkdqsU">POCO Class Generator GenerateAllTables  | .NET Fiddle</a></li>
+<li><a href="https://dotnetfiddle.net/vVeYwA">DataTable POCO Class Generator  | .NET Fiddle</a></li>
+</ul>
+<p><img src="https://github.com/user-attachments/assets/235c4952-259b-4ecc-90b2-d0138c17316c" alt="image"></p>
+<h3>Aan de slag</h3>
+<p>👇Eerst:  Kopieer en plak <a href="https://raw.githubusercontent.com/mini-software/PocoClassGenerator/master/PocoClassGenerator/PocoClassGenerator/PocoClassGenerator.cs">PocoClassGenerator.cs</a> code in je project of LINQPad.<br>of installeer via <a href="https://www.nuget.org/packages/PocoClassGenerator/">NuGet</a></p>
+<pre><code class="language-cmd">PM&gt; install-package PocoClassGenerator
+</code></pre>
+<p>👇Ten tweede: Gebruik de connectie om <code>GenerateAllTables</code> aan te roepen en print het resultaat.</p>
+<pre><code class="language-C# hljs language-C">using (var connection = Connection)
+{
+	Console.WriteLine(connection.GenerateAllTables());
+}
+</code></pre>
+<h4>Ondersteuning voor Dapper Contrib POCO Class</h4>
+<ul>
+<li>Roep eenvoudig de methode aan met <code>GeneratorBehavior.DapperContrib</code></li>
+</ul>
+<pre><code class="language-C# hljs language-C">using (var conn = GetConnection())
+{
+    var result = conn.GenerateAllTables(GeneratorBehavior.DapperContrib);
+    Console.WriteLine(result);
+}
+</code></pre>
+<p><strong>De online demo: <a href="https://dotnetfiddle.net/yeuK1E">POCO Dapper Contrib Class Generator GenerateAllTables | .NET Fiddle</a></strong></p>
+<p><img src="https://github.com/user-attachments/assets/2989c2dc-8c06-4732-9069-a09605e1b18f" alt="image"></p>
+<h4>Genereer Commentaar</h4>
+<pre><code class="language-C# hljs language-C">using (var conn = GetConnection())
+{
+    var result = conn.GenerateAllTables(GeneratorBehavior.Comment);
+    Console.WriteLine(result);
+}
+</code></pre>
+<h4>Genereer View</h4>
+<pre><code class="language-C# hljs language-C">using (var conn = GetConnection())
+{
+    var result = conn.GenerateAllTables(GeneratorBehavior.View);
+    Console.WriteLine(result);
+}
+</code></pre>
+<h4>Genereer View en Commentaar en Dapper.Contrib</h4>
+<pre><code class="language-C# hljs language-C">using (var conn = GetConnection())
+{
+    var result = conn.GenerateAllTables(GeneratorBehavior.View | GeneratorBehavior.Comment | GeneratorBehavior.DapperContrib);
+    Console.WriteLine(result);
+}
+</code></pre>
+<h4>Genereer één klasse via SQL</h4>
+<ol>
+<li>Genereer één klasse</li>
+</ol>
+<pre><code class="language-C# hljs language-C">using (var connection = Connection)
+{
+	var classCode = connection.GenerateClass(<span class="hljs-string">"select * from Table"</span>);
+	Console.WriteLine(classCode);
+}
+</code></pre>
+<ol start="2">
+<li>Specificeer de klassenaam</li>
+</ol>
+<pre><code class="language-C# hljs language-C">using (var connection = Connection)
+{
+	var classCode = connection.GenerateClass(<span class="hljs-string">"with EMP as (select 1 ID,'WeiHan' Name,25 Age) select * from EMP"</span>, className: <span class="hljs-string">"EMP"</span>);
+	Console.WriteLine(classCode);
+}
+</code></pre>
+<h4>DataTablePocoClass</h4>
+<p>Code op <a href="https://raw.githubusercontent.com/mini-software/PocoClassGenerator/master/PocoClassGenerator/PocoClassGenerator/DataTablePocoClassGenerator.cs">DataTablePocoClassGenerator.cs</a></p>
+<pre><code class="language-C# hljs language-C">var dt = new DataTable();
+dt.TableName = <span class="hljs-string">"TestTable"</span>;
+dt.Columns.Add(new DataColumn() { ColumnName = <span class="hljs-string">"ID"</span>, DataType = typeof(<span class="hljs-built_in">string</span>) });
+
+var result = dt.GenerateClass();
+var expect =
+@<span class="hljs-string">"public class TestTable
+{
+public string ID { get; set; }
+}"</span>;
+Assert.Equal(expect, result);
+</code></pre>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
+<hr>
+</div>
     </div>
 
     <footer class="footer">

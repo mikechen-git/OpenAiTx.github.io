@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>Text Generation Inference - huggingface/text-generation-inference</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="Text Generation Inference - huggingface/text-generation-inference">
+    <meta name="description" content="huggingface/text-generation-inference - GitHub repository vi documentation and information">
+    <meta name="keywords" content="huggingface, text-generation-inference, GitHub, repository, vi documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/huggingface/text-generation-inference/README-vi.html">
+    <meta property="og:title" content="Text Generation Inference - huggingface/text-generation-inference">
+    <meta property="og:description" content="huggingface/text-generation-inference - GitHub repository vi documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,250 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>Lỗi tải nội dung</h2>
-                    <p>Không thể tải nội dung markdown. Vui lòng kiểm tra:</p>
-                    <ul>
-                        <li>Các tham số URL chính xác</li>
-                        <li>Tệp tồn tại tại đường dẫn được chỉ định</li>
-                        <li>Bạn có kết nối internet hoạt động</li>
-                    </ul>
-                    <p>Chi tiết lỗi: Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><div align="center">
+
+<a href="https://www.youtube.com/watch?v=jlMAX2Oaht0">
+  <img width="560" alt="Making TGI deployment optimal" src="https://huggingface.co/datasets/Narsil/tgi_assets/resolve/main/thumbnail.png">
+</a>
+
+<h1>Text Generation Inference</h1>
+<a href="https://github.com/huggingface/text-generation-inference">
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/huggingface/text-generation-inference?style=social">
+</a>
+<a href="https://huggingface.github.io/text-generation-inference">
+  <img alt="Swagger API documentation" src="https://img.shields.io/badge/API-Swagger-informational">
+</a>
+
+<p>Một server Rust, Python và gRPC cho suy luận sinh văn bản. Được sử dụng trong sản xuất tại <a href="https://huggingface.co">Hugging Face</a><br>để cung cấp năng lượng cho Hugging Chat, API Suy luận và Các Điểm cuối Suy luận.</p>
+</div>
+
+<h2>Mục lục</h2>
+<ul>
+<li><a href="#get-started">Bắt đầu</a><ul>
+<li><a href="#docker">Docker</a></li>
+<li><a href="#api-documentation">Tài liệu API</a></li>
+<li><a href="#using-a-private-or-gated-model">Sử dụng mô hình riêng tư hoặc giới hạn</a></li>
+<li><a href="#a-note-on-shared-memory-shm">Ghi chú về Bộ nhớ Chia sẻ (shm)</a></li>
+<li><a href="#distributed-tracing">Theo dõi Phân tán</a></li>
+<li><a href="#architecture">Kiến trúc</a></li>
+<li><a href="#local-install">Cài đặt cục bộ</a></li>
+<li><a href="#local-install-nix">Cài đặt cục bộ (Nix)</a></li>
+</ul>
+</li>
+<li><a href="#optimized-architectures">Kiến trúc tối ưu hóa</a></li>
+<li><a href="#run-locally">Chạy cục bộ</a><ul>
+<li><a href="#run">Chạy</a></li>
+<li><a href="#quantization">Lượng tử hóa</a></li>
+</ul>
+</li>
+<li><a href="#develop">Phát triển</a></li>
+<li><a href="#testing">Kiểm thử</a></li>
+</ul>
+<p>Text Generation Inference (TGI) là một bộ công cụ để triển khai và phục vụ các Mô hình Ngôn ngữ Lớn (LLMs). TGI cho phép sinh văn bản hiệu suất cao cho các LLM mã nguồn mở phổ biến nhất, bao gồm Llama, Falcon, StarCoder, BLOOM, GPT-NeoX và <a href="https://huggingface.co/docs/text-generation-inference/supported_models">nhiều hơn nữa</a>. TGI triển khai nhiều tính năng, như:</p>
+<ul>
+<li>Trình khởi chạy đơn giản để phục vụ hầu hết các LLM phổ biến</li>
+<li>Sẵn sàng cho sản xuất (theo dõi phân tán với Open Telemetry, số liệu Prometheus)</li>
+<li>Song song Tensor để suy luận nhanh hơn trên nhiều GPU</li>
+<li>Phát trực tiếp token sử dụng Server-Sent Events (SSE)</li>
+<li>Gom lô yêu cầu liên tục để tăng tổng thông lượng</li>
+<li><a href="https://huggingface.co/docs/text-generation-inference/en/messages_api">Messages API</a> tương thích với Open AI Chat Completion API</li>
+<li>Mã transformers tối ưu cho suy luận sử dụng <a href="https://github.com/HazyResearch/flash-attention">Flash Attention</a> và <a href="https://github.com/vllm-project/vllm">Paged Attention</a> trên các kiến trúc phổ biến nhất</li>
+<li>Lượng tử hóa với:<ul>
+<li><a href="https://github.com/TimDettmers/bitsandbytes">bitsandbytes</a></li>
+<li><a href="https://arxiv.org/abs/2210.17323">GPT-Q</a></li>
+<li><a href="https://github.com/NetEase-FuXi/EETQ">EETQ</a></li>
+<li><a href="https://github.com/casper-hansen/AutoAWQ">AWQ</a></li>
+<li><a href="https://github.com/IST-DASLab/marlin">Marlin</a></li>
+<li><a href="https://developer.nvidia.com/blog/nvidia-arm-and-intel-publish-fp8-specification-for-standardization-as-an-interchange-format-for-ai/">fp8</a></li>
+</ul>
+</li>
+<li>Tải trọng số bằng <a href="https://github.com/huggingface/safetensors">Safetensors</a></li>
+<li>Đóng dấu bản quyền với <a href="https://arxiv.org/abs/2301.10226">A Watermark for Large Language Models</a></li>
+<li>Bộ biến đổi logits (điều chỉnh nhiệt độ, top-p, top-k, phạt lặp lại, xem thêm chi tiết tại <a href="https://huggingface.co/docs/transformers/internal/generation_utils#transformers.LogitsProcessor">transformers.LogitsProcessor</a>)</li>
+<li>Dừng chuỗi</li>
+<li>Xác suất log</li>
+<li><a href="https://huggingface.co/docs/text-generation-inference/conceptual/speculation">Dự đoán</a> giảm độ trễ khoảng 2 lần</li>
+<li><a href="https://huggingface.co/docs/text-generation-inference/conceptual/guidance">Hướng dẫn/JSON</a>. Chỉ định định dạng đầu ra để tăng tốc suy luận và đảm bảo đầu ra hợp lệ theo một số tiêu chuẩn.</li>
+<li>Tạo Prompt tùy chỉnh: Dễ dàng tạo văn bản bằng cách cung cấp prompt tùy chỉnh để hướng dẫn đầu ra của mô hình</li>
+<li>Hỗ trợ tinh chỉnh: Sử dụng các mô hình đã được tinh chỉnh cho các tác vụ cụ thể để đạt độ chính xác và hiệu suất cao hơn</li>
+</ul>
+<h3>Hỗ trợ phần cứng</h3>
+<ul>
+<li><a href="https://github.com/huggingface/text-generation-inference/pkgs/container/text-generation-inference">Nvidia</a></li>
+<li><a href="https://github.com/huggingface/text-generation-inference/pkgs/container/text-generation-inference">AMD</a> (-rocm)</li>
+<li><a href="https://github.com/huggingface/optimum-neuron/tree/main/text-generation-inference">Inferentia</a></li>
+<li><a href="https://github.com/huggingface/text-generation-inference/pull/1475">Intel GPU</a></li>
+<li><a href="https://github.com/huggingface/tgi-gaudi">Gaudi</a></li>
+<li><a href="https://huggingface.co/docs/optimum-tpu/howto/serving">Google TPU</a></li>
+</ul>
+<h2>Bắt đầu</h2>
+<h3>Docker</h3>
+<p>Để có hướng dẫn khởi đầu chi tiết, vui lòng xem <a href="https://huggingface.co/docs/text-generation-inference/quicktour">Quick Tour</a>. Cách dễ nhất để bắt đầu là sử dụng container Docker chính thức:</p>
+<pre><code class="language-shell hljs">model=HuggingFaceH4/zephyr-7b-beta
+<span class="hljs-meta prompt_"># </span><span class="language-bash">chia sẻ một volume với container Docker để <span class="hljs-built_in">tr</span>ánh tải <span class="hljs-built_in">tr</span>ọng số mỗi lần chạy</span>
+volume=$PWD/data
+
+docker run --gpus all --shm-size 1g -p 8080:80 -v $volume:/data \
+    ghcr.io/huggingface/text-generation-inference:3.3.2 --model-id $model
+</code></pre>
+<p>Và sau đó bạn có thể gửi yêu cầu như</p>
+<pre><code class="language-bash hljs">curl 127.0.0.1:8080/generate_stream \
+    -X POST \
+    -d <span class="hljs-string">'{"inputs":"What is Deep Learning?","parameters":{"max_new_tokens":20}}'</span> \
+    -H <span class="hljs-string">'Content-Type: application/json'</span>
+</code></pre>
+<p>Bạn cũng có thể sử dụng <a href="https://huggingface.co/docs/text-generation-inference/en/messages_api">Messages API của TGI</a> để nhận phản hồi tương thích với Open AI Chat Completion API.</p>
+<pre><code class="language-bash hljs">curl localhost:8080/v1/chat/completions \
+    -X POST \
+    -d <span class="hljs-string">'{
+  "model": "tgi",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a helpful assistant."
+    },
+    {
+      "role": "user",
+      "content": "What is deep learning?"
+    }
+  ],
+  "stream": true,
+  "max_tokens": 20
+}'</span> \
+    -H <span class="hljs-string">'Content-Type: application/json'</span>
+</code></pre>
+<p><strong>Lưu ý:</strong> Để sử dụng GPU NVIDIA, bạn cần cài đặt <a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html">NVIDIA Container Toolkit</a>. Chúng tôi cũng khuyến nghị sử dụng driver NVIDIA với phiên bản CUDA 12.2 trở lên. Để chạy container Docker trên máy không có GPU hoặc không hỗ trợ CUDA, chỉ cần bỏ flag <code>--gpus all</code> và thêm <code>--disable-custom-kernels</code>, lưu ý CPU không phải nền tảng dự kiến cho dự án này nên hiệu năng có thể không cao.</p>
+<p><strong>Lưu ý:</strong> TGI hỗ trợ GPU AMD Instinct MI210 và MI250. Chi tiết có trong <a href="https://huggingface.co/docs/text-generation-inference/installation_amd#using-tgi-with-amd-gpus">Tài liệu Phần cứng Hỗ trợ</a>. Để sử dụng GPU AMD, vui lòng dùng lệnh <code>docker run --device /dev/kfd --device /dev/dri --shm-size 1g -p 8080:80 -v $volume:/data ghcr.io/huggingface/text-generation-inference:3.3.2-rocm --model-id $model</code> thay cho lệnh trên.</p>
+<p>Để xem tất cả các tùy chọn phục vụ mô hình của bạn (trong <a href="https://github.com/huggingface/text-generation-inference/blob/main/launcher/src/main.rs">mã nguồn</a> hoặc trong cli):</p>
+<pre><code class="hljs language-scss">text-generation-launcher <span class="hljs-attr">--help</span>
+</code></pre>
+<h3>Tài liệu API</h3>
+<p>Bạn có thể tham khảo tài liệu OpenAPI của REST API <code>text-generation-inference</code> thông qua đường dẫn <code>/docs</code>.<br>Giao diện Swagger UI cũng có sẵn tại: <a href="https://huggingface.github.io/text-generation-inference">https://huggingface.github.io/text-generation-inference</a>.</p>
+<h3>Sử dụng mô hình riêng tư hoặc giới hạn</h3>
+<p>Bạn có thể sử dụng biến môi trường <code>HF_TOKEN</code> để cấu hình token được <code>text-generation-inference</code> sử dụng. Điều này cho phép truy cập tài nguyên được bảo vệ.</p>
+<p>Ví dụ, nếu bạn muốn phục vụ các biến thể mô hình Llama V2 giới hạn:</p>
+<ol>
+<li>Truy cập <a href="https://huggingface.co/settings/tokens">https://huggingface.co/settings/tokens</a></li>
+<li>Sao chép token CLI READ của bạn</li>
+<li>Xuất <code>HF_TOKEN=&lt;token CLI READ của bạn&gt;</code></li>
+</ol>
+<p>hoặc với Docker:</p>
+<pre><code class="language-shell hljs">model=meta-llama/Meta-Llama-3.1-8B-Instruct
+volume=$PWD/data # chia sẻ volume với container Docker để tránh tải trọng số mỗi lần chạy
+token=&lt;token cli READ của bạn&gt;
+
+docker run --gpus all --shm-size 1g -e HF_TOKEN=$token -p 8080:80 -v $volume:/data \
+    ghcr.io/huggingface/text-generation-inference:3.3.2 --model-id $model
+</code></pre>
+<h3>Ghi chú về Bộ nhớ Chia sẻ (shm)</h3>
+<p><a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/index.html"><code>NCCL</code></a> là một framework giao tiếp được <code>PyTorch</code> sử dụng để huấn luyện/suy luận phân tán. <code>text-generation-inference</code> sử dụng <code>NCCL</code> để kích hoạt Tensor Parallelism giúp tăng tốc suy luận cho các mô hình ngôn ngữ lớn.</p>
+<p>Để chia sẻ dữ liệu giữa các thiết bị trong nhóm <code>NCCL</code>, <code>NCCL</code> có thể dựa vào bộ nhớ host nếu không thể giao tiếp peer-to-peer qua NVLink hoặc PCI.</p>
+<p>Để cho phép container sử dụng 1G Bộ nhớ Chia sẻ và hỗ trợ chia sẻ SHM, chúng tôi thêm <code>--shm-size 1g</code> vào lệnh trên.</p>
+<p>Nếu bạn chạy <code>text-generation-inference</code> trong <code>Kubernetes</code>, bạn cũng có thể thêm Bộ nhớ Chia sẻ vào container bằng cách tạo volume:</p>
+<pre><code class="language-yaml hljs"><span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">shm</span>
+  <span class="hljs-attr">emptyDir:</span>
+   <span class="hljs-attr">medium:</span> <span class="hljs-string">Memory</span>
+   <span class="hljs-attr">sizeLimit:</span> <span class="hljs-string">1Gi</span>
+</code></pre>
+<p>và mount nó vào <code>/dev/shm</code>.</p>
+<p>Cuối cùng, bạn cũng có thể tắt chia sẻ SHM bằng biến môi trường <code>NCCL_SHM_DISABLE=1</code>. Tuy nhiên, lưu ý điều này sẽ ảnh hưởng đến hiệu năng.</p>
+<h3>Theo dõi Phân tán</h3>
+<p><code>text-generation-inference</code> được tích hợp theo dõi phân tán sử dụng OpenTelemetry. Bạn có thể sử dụng tính năng này bằng cách đặt địa chỉ tới bộ thu OTLP với tham số <code>--otlp-endpoint</code>. Tên dịch vụ mặc định có thể được ghi đè bằng tham số <code>--otlp-service-name</code>.</p>
+<h3>Kiến trúc</h3>
+<p><img src="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/TGI.png" alt="TGI architecture"></p>
+<p>Bài viết chi tiết của Adyen về hoạt động bên trong TGI: <a href="https://www.adyen.com/knowledge-hub/llm-inference-at-scale-with-tgi">LLM inference at scale with TGI (Martin Iglesias Goyanes - Adyen, 2024)</a></p>
+<h3>Cài đặt cục bộ</h3>
+<p>Bạn cũng có thể chọn cài đặt <code>text-generation-inference</code> cục bộ.</p>
+<p>Trước tiên, clone repository và chuyển vào thư mục đó:<br>Dưới đây là bản dịch tài liệu kỹ thuật sang tiếng Việt, giữ nguyên định dạng Markdown và đường dẫn tương đối đã được hoàn chỉnh với <a href="https://raw.githubusercontent.com/huggingface/text-generation-inference/main/">https://raw.githubusercontent.com/huggingface/text-generation-inference/main/</a>:</p>
+<pre><code class="language-shell hljs">git clone https://github.com/huggingface/text-generation-inference
+cd text-generation-inference
+</code></pre>
+<p>Sau đó <a href="https://rustup.rs/">cài đặt Rust</a> và tạo môi trường ảo Python với ít nhất<br>Python 3.9, ví dụ sử dụng <code>conda</code> hoặc <code>python venv</code>:</p>
+<pre><code class="language-shell hljs">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+<span class="hljs-meta prompt_">
+# </span><span class="language-bash">sử dụng conda</span>
+conda create -n text-generation-inference python=3.11
+conda activate text-generation-inference
+<span class="hljs-meta prompt_">
+# </span><span class="language-bash">sử dụng python venv</span>
+python3 -m venv .venv
+source .venv/bin/activate
+</code></pre>
+<p>Bạn cũng có thể cần cài đặt Protoc.</p>
+<p>Trên Linux:</p>
+<pre><code class="language-shell hljs">PROTOC_ZIP=protoc-21.12-linux-x86_64.zip
+curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v21.12/$PROTOC_ZIP
+sudo unzip -o $PROTOC_ZIP -d /usr/local bin/protoc
+sudo unzip -o $PROTOC_ZIP -d /usr/local 'include/*'
+rm -f $PROTOC_ZIP
+</code></pre>
+<p>Trên MacOS, sử dụng Homebrew:</p>
+<pre><code class="language-shell hljs">brew install protobuf
+</code></pre>
+<p>Sau đó chạy:</p>
+<pre><code class="language-shell hljs">BUILD_EXTENSIONS=True make install # Cài đặt kho lưu trữ và bản fork HF/transformer với CUDA kernels
+text-generation-launcher --model-id mistralai/Mistral-7B-Instruct-v0.2
+</code></pre>
+<p><strong>Lưu ý:</strong> trên một số máy, bạn cũng có thể cần các thư viện OpenSSL và gcc. Trên các máy Linux, chạy:</p>
+<pre><code class="language-shell hljs">sudo apt-get install libssl-dev gcc -y
+</code></pre>
+<h3>Cài đặt cục bộ (Nix)</h3>
+<p>Một lựa chọn khác là cài đặt <code>text-generation-inference</code> cục bộ bằng <a href="https://nixos.org">Nix</a>. Hiện tại,<br>chúng tôi chỉ hỗ trợ Nix trên Linux x86_64 với GPU CUDA. Khi sử dụng Nix, tất cả các phụ thuộc có thể<br>được lấy từ bộ nhớ đệm nhị phân, loại bỏ nhu cầu xây dựng chúng cục bộ.</p>
+<p>Trước tiên làm theo hướng dẫn để <a href="https://app.cachix.org/cache/huggingface">cài đặt Cachix và kích hoạt bộ nhớ đệm Hugging Face</a>.<br>Việc thiết lập bộ nhớ đệm rất quan trọng, nếu không Nix sẽ xây dựng nhiều phụ thuộc<br>tại chỗ, điều này có thể mất nhiều giờ.</p>
+<p>Sau đó bạn có thể chạy TGI với <code>nix run</code>:</p>
+<pre><code class="language-shell hljs">cd text-generation-inference
+nix run --extra-experimental-features nix-command --extra-experimental-features flakes . -- --model-id meta-llama/Llama-3.1-8B-Instruct
+</code></pre>
+<p><strong>Lưu ý:</strong> khi bạn sử dụng Nix trên hệ thống không phải NixOS, bạn phải <a href="https://danieldk.eu/Nix-CUDA-on-non-NixOS-systems#make-runopengl-driverlib-and-symlink-the-driver-library">tạo một số liên kết tượng trưng</a><br>để làm cho các thư viện trình điều khiển CUDA hiển thị với các gói Nix.</p>
+<p>Để phát triển TGI, bạn có thể sử dụng shell phát triển <code>impure</code>:</p>
+<pre><code class="language-shell hljs">nix develop .#impure
+<span class="hljs-meta prompt_">
+# </span><span class="language-bash">Chỉ cần thiết lần đầu khởi động devshell hoặc sau khi cập nhật protobuf.</span>
+(
+cd server
+mkdir text_generation_server/pb || true
+python -m grpc_tools.protoc -I../proto/v3 --python_out=text_generation_server/pb \
+       --grpc_python_out=text_generation_server/pb --mypy_out=text_generation_server/pb ../proto/v3/generate.proto
+find text_generation_server/pb/ -type f -name "*.py" -print0 -exec sed -i -e 's/^\(import.*pb2\)/from . \1/g' {} \;
+touch text_generation_server/pb/__init__.py
+)
+</code></pre>
+<p>Tất cả các phụ thuộc phát triển (cargo, Python, Torch), v.v... đều có trong<br>shell phát triển này.</p>
+<h2>Kiến trúc tối ưu hóa</h2>
+<p>TGI hoạt động ngay lập tức để phục vụ các mô hình tối ưu cho tất cả các mô hình hiện đại. Chúng có thể được tìm thấy trong <a href="https://huggingface.co/docs/text-generation-inference/supported_models">danh sách này</a>.</p>
+<p>Các kiến trúc khác được hỗ trợ trên cơ sở cố gắng tốt nhất bằng cách sử dụng:</p>
+<p><code>AutoModelForCausalLM.from_pretrained(&lt;model&gt;, device_map="auto")</code></p>
+<p>hoặc</p>
+<p><code>AutoModelForSeq2SeqLM.from_pretrained(&lt;model&gt;, device_map="auto")</code></p>
+<h2>Chạy cục bộ</h2>
+<h3>Chạy</h3>
+<pre><code class="language-shell hljs">text-generation-launcher --model-id mistralai/Mistral-7B-Instruct-v0.2
+</code></pre>
+<h3>Lượng tử hóa</h3>
+<p>Bạn cũng có thể chạy trọng số đã được lượng tử hóa trước (AWQ, GPTQ, Marlin) hoặc lượng tử hóa trọng số khi chạy với bitsandbytes, EETQ, fp8, để giảm yêu cầu VRAM:</p>
+<pre><code class="language-shell hljs">text-generation-launcher --model-id mistralai/Mistral-7B-Instruct-v0.2 --quantize
+</code></pre>
+<p>Lượng tử 4bit có sẵn sử dụng <a href="https://arxiv.org/pdf/2305.14314.pdf">kiểu dữ liệu NF4 và FP4 từ bitsandbytes</a>. Nó có thể được bật bằng cách cung cấp <code>--quantize bitsandbytes-nf4</code> hoặc <code>--quantize bitsandbytes-fp4</code> như một tham số dòng lệnh cho <code>text-generation-launcher</code>.</p>
+<p>Đọc thêm về lượng tử hóa trong <a href="https://huggingface.co/docs/text-generation-inference/en/conceptual/quantization">tài liệu Lượng tử hóa</a>.</p>
+<h2>Phát triển</h2>
+<pre><code class="language-shell hljs">make server-dev
+make router-dev
+</code></pre>
+<h2>Kiểm thử</h2>
+<pre><code class="language-shell hljs"><span class="hljs-meta prompt_"># </span><span class="language-bash">python</span>
+make python-server-tests
+make python-client-tests
+<span class="hljs-meta prompt_"># </span><span class="language-bash">hoặc kiểm thử cả server và client</span>
+make python-tests
+<span class="hljs-meta prompt_"># </span><span class="language-bash">kiểm thử rust cargo</span>
+make rust-tests
+<span class="hljs-meta prompt_"># </span><span class="language-bash">kiểm thử tích hợp</span>
+make integration-tests
+</code></pre>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
+<hr>
+</div>
     </div>
 
     <footer class="footer">

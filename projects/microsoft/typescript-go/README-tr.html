@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
+    <title>TypeScript 7 - microsoft/typescript-go</title>
 
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <meta name="title" content="TypeScript 7 - microsoft/typescript-go">
+    <meta name="description" content="microsoft/typescript-go - GitHub repository tr documentation and information">
+    <meta name="keywords" content="microsoft, typescript-go, GitHub, repository, tr documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/microsoft/typescript-go/README-tr.html">
+    <meta property="og:title" content="TypeScript 7 - microsoft/typescript-go">
+    <meta property="og:description" content="microsoft/typescript-go - GitHub repository tr documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
 
     <!-- Favicon -->
@@ -136,18 +136,149 @@
     </div>
 
     <div class="main-container">
-        <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>İçerik yükleme hatası</h2>
-                    <p>Markdown içeriği yüklenemedi. Lütfen kontrol edin:</p>
-                    <ul>
-                        <li>URL parametreleri doğru</li>
-                        <li>Dosya belirtilen yolda mevcut</li>
-                        <li>Aktif internet bağlantınız var</li>
-                    </ul>
-                    <p>Hata detayları: Failed to fetch</p>
-                </div>
-            </div>
+        <div class="markdown-body" id="content"><h1>TypeScript 7</h1>
+<p><a href="https://devblogs.microsoft.com/typescript/typescript-native-port/">Bunun ne olduğundan emin değil misiniz? Duyuru gönderisini okuyun!</a></p>
+<h2>Önizleme</h2>
+<p>Bir önizleme derlemesi npm'de <code>@typescript/native-preview</code> olarak mevcuttur.</p>
+<pre><code class="language-sh hljs language-bash">npm install @typescript/native-preview
+npx tsgo <span class="hljs-comment"># Bunu tsc gibi kullanın.</span>
+</code></pre>
+<p>Bir önizleme VS Code eklentisi <a href="https://marketplace.visualstudio.com/items?itemName=TypeScriptTeam.native-preview">VS Code Market'te mevcuttur</a>.</p>
+<p>Bunu kullanmak için, VS Code ayarlarınıza şunu ekleyin:</p>
+<pre><code class="language-json hljs"><span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"typescript.experimental.useTsgo"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h2>Nasıl Derlenir ve Çalıştırılır</h2>
+<p>Bu depo <a href="https://go.dev/dl/">Go 1.24 veya üstü</a>, <a href="https://www.rust-lang.org/tools/install">Rust 1.85 veya üstü</a>, <a href="https://nodejs.org/">npm ile Node.js</a> ve <a href="https://www.npmjs.com/package/hereby"><code>hereby</code></a> kullanır.</p>
+<p>Testler ve kod üretimi için, bu depoda ana TypeScript deposuna, taşınan commit'e işaret eden bir git alt modülü vardır.<br>Klonlama sırasında, alt modüllerle birlikte klonlamak isteyeceksiniz:</p>
+<pre><code class="language-sh hljs language-bash">git <span class="hljs-built_in">clone</span> --recurse-submodules https://github.com/microsoft/typescript-go.git
+</code></pre>
+<p>Depoyu zaten klonladıysanız, alt modülü aşağıdakiyle başlatabilirsiniz:</p>
+<pre><code class="language-sh hljs language-bash">git submodule update --init --recursive
+</code></pre>
+<p>Alt modül ve <code>npm ci</code> ile, TypeScript deposunda olduğu gibi <code>hereby</code> aracılığıyla görevleri çalıştırabilirsiniz:</p>
+<pre><code class="language-sh hljs language-bash">hereby build          <span class="hljs-comment"># Projenin derlendiğini doğrular</span>
+hereby <span class="hljs-built_in">test</span>           <span class="hljs-comment"># Tüm testleri çalıştırır</span>
+hereby install-tools  <span class="hljs-comment"># Linter gibi ek araçları yükler</span>
+hereby lint           <span class="hljs-comment"># Tüm linter'ları çalıştırır</span>
+hereby format         <span class="hljs-comment"># Tüm kodu biçimlendirir</span>
+hereby generate       <span class="hljs-comment"># Tüm Go kodunu üretir (örn. tanılar, depoya işlenir)</span>
+</code></pre>
+<p>Ek görevler üzerinde çalışılmaktadır.</p>
+<p>Depoda çalışmak için <code>hereby</code> gerekli değildir; normal <code>go</code> araçları (örn. <code>go build</code>, <code>go test ./...</code>) beklendiği gibi çalışacaktır.<br><code>hereby</code> görevleri, TypeScript deposuna aşina olanlar için kolaylık olarak sağlanır.</p>
+<h3><code>tsgo</code> Çalıştırma</h3>
+<p><code>hereby build</code> çalıştırıldıktan sonra, çoğunlukla <code>tsc</code> ile aynı şekilde davranan <code>built/local/tsgo</code>'yu çalıştırabilirsiniz.</p>
+<h3>LSP Prototipini Çalıştırma</h3>
+<p>VS Code eklentisini global olarak yüklemeden hata ayıklamak ve çalıştırmak için:</p>
+<ul>
+<li>Depo çalışma alanında VS Code'u başlatın (<code>code .</code>)</li>
+<li><code>.vscode/launch.template.json</code> dosyasını <code>.vscode/launch.json</code> olarak kopyalayın</li>
+<li><kbd>F5</kbd> (veya komut paletinden <code>Debug: Start Debugging</code>)</li>
+</ul>
+<p>Bu, arka uç olarak Corsa LS kullanan yeni bir VS Code örneği başlatacaktır. Doğru kurulduysa, bir TypeScript veya JavaScript dosyası açıkken durum çubuğunda "tsgo"yu görmelisiniz:</p>
+<p><img src=".github/ls-screenshot.png" alt="LSP Prototype Screenshot"></p>
+<h2>Şu Ana Kadar Neler Çalışıyor?</h2>
+<p>Bu hâlâ devam eden bir çalışmadır ve henüz TypeScript ile tam özellik eşitliğine sahip değildir. Hatalar olabilir. Lütfen yeni bir sorun bildirmeden veya kasıtlı bir değişiklik olduğunu varsaymadan önce bu listeyi dikkatlice kontrol edin.</p>
+<table>
+<thead>
+<tr>
+<th>Özellik</th>
+<th>Durum</th>
+<th>Notlar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Program oluşturma</td>
+<td>tamamlandı</td>
+<td>TS5.8 ile aynı dosya ve modül çözünürlüğü. Henüz tüm çözünürlük modları desteklenmiyor.</td>
+</tr>
+<tr>
+<td>Ayrıştırma/tarama</td>
+<td>tamamlandı</td>
+<td>TS5.8 ile tamamen aynı sözdizimi hataları</td>
+</tr>
+<tr>
+<td>Komut satırı ve <code>tsconfig.json</code> ayrıştırma</td>
+<td>çoğunlukla tamam</td>
+<td>Giriş noktası şimdilik biraz farklı</td>
+</tr>
+<tr>
+<td>Tip çözümleme</td>
+<td>tamamlandı</td>
+<td>TS5.8 ile aynı tipler</td>
+</tr>
+<tr>
+<td>Tip denetleme</td>
+<td>tamamlandı</td>
+<td>Aynı hatalar, konumlar ve mesajlar. Hatalarda tiplerin yazdırılması farklı görünebilir (devam ediyor)</td>
+</tr>
+<tr>
+<td>JavaScript'e özgü çıkarım ve JS Doc</td>
+<td>hazır değil</td>
+<td>-</td>
+</tr>
+<tr>
+<td>JSX</td>
+<td>tamamlandı</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Bildirim üretimi</td>
+<td>devam ediyor</td>
+<td>En yaygın özellikler mevcut, ancak bazı köşe durumları ve özellik bayrakları henüz ele alınmadı</td>
+</tr>
+<tr>
+<td>Üretim (JS çıktısı)</td>
+<td>devam ediyor</td>
+<td><code>target: esnext</code> iyi destekleniyor, diğer hedeflerde eksikler olabilir</td>
+</tr>
+<tr>
+<td>İzleme modu</td>
+<td>prototip</td>
+<td>Dosyaları izler ve yeniden derler, ancak artımlı tekrar denetleme yok</td>
+</tr>
+<tr>
+<td>Derleme modu / proje referansları</td>
+<td>hazır değil</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Artımlı derleme</td>
+<td>hazır değil</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Dil servisi (LSP)</td>
+<td>prototip</td>
+<td>Minimum işlevsellik (hatalar, üzerine gelince bilgi, tanıma git). Yakında daha fazla özellik eklenecek</td>
+</tr>
+<tr>
+<td>API</td>
+<td>hazır değil</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<p>Tanımlar:</p>
+<ul>
+<li><strong>tamamlandı</strong> yani "tamamlandığına inanılıyor": Şu anda herhangi bir eksiklik veya büyük bir yapılacak iş bilmiyoruz. Hata bildirebilirsiniz</li>
+<li><strong>devam ediyor</strong>: şu anda üzerinde çalışılıyor; bazı özellikler çalışabilir, bazıları çalışmayabilir. Panik hatalarını bildirebilirsiniz, başka bir şey lütfen bildirmeyin</li>
+<li><strong>prototip</strong>: sadece kavram kanıtı; hata bildirmeyin</li>
+<li><strong>hazır değil</strong>: ya henüz hiç başlanmadı ya da tamamlanmaktan çok uzak, uğraşmaya değmez</li>
+</ul>
+<h2>Diğer Notlar</h2>
+<p>Uzun vadede, bu deponun ve içeriğinin <code>microsoft/TypeScript</code> ile birleştirilmesini bekliyoruz.<br>Sonuç olarak, typescript-go için depo ve sorun izleyici sonunda kapatılacaktır, bu yüzden tartışmaları/sorunları buna göre ele alın.</p>
+<p>TypeScript 5.7 ile ilgili kasıtlı değişikliklerin listesi için bkz. CHANGES.md.</p>
+<h2>Katkıda Bulunmak</h2>
+<p>Bu proje katkıları ve önerileri memnuniyetle karşılar.  Çoğu katkı, bize katkınızı kullanma hakkı verdiğinizi ve gerçekten verdiğinizi beyan eden bir<br>Katılımcı Lisans Sözleşmesi'ni (CLA) kabul etmenizi gerektirir. Ayrıntılar için bkz. <a href="https://cla.opensource.microsoft.com">Katılımcı Lisans Sözleşmeleri</a>.</p>
+<p>Bir pull request gönderdiğinizde, bir CLA botu otomatik olarak bir CLA sağlamanız gerekip gerekmediğini belirleyecek<br>ve PR'ı uygun şekilde işaretleyecektir (örn., durum kontrolü, yorum). Bot tarafından verilen talimatları izleyin.<br>Bunu, CLA'mızı kullanan tüm depolarda yalnızca bir kez yapmanız gerekir.</p>
+<p>Bu proje <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Açık Kaynak Davranış Kuralları'nı</a> benimsemiştir.<br>Daha fazla bilgi için <a href="https://opensource.microsoft.com/codeofconduct/faq/">Davranış Kuralları SSS</a> veya<br>ek sorularınız veya yorumlarınız için <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> ile iletişime geçin.</p>
+<h2>Ticari Markalar</h2>
+<p>Bu projede projelere, ürünlere veya hizmetlere ait ticari markalar veya logolar bulunabilir. Microsoft ticari markaları veya logolarının yetkili kullanımı<br><a href="https://www.microsoft.com/legal/intellectualproperty/trademarks/usage/general">Microsoft Ticari Marka &amp; Marka Yönergeleri</a>'ne tabidir ve bunlara uymalıdır.<br>Bu projenin değiştirilmiş sürümlerinde Microsoft ticari markalarının veya logolarının kullanımı karışıklığa yol açmamalı veya Microsoft sponsorluğu ima etmemelidir.<br>Üçüncü taraf ticari markaların veya logoların kullanımı, ilgili üçüncü taraf politikalarına tabidir.</p>
+<hr>
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-10</p>
+<hr>
+</div>
     </div>
 
     <footer class="footer">
