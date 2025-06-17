@@ -1,147 +1,59 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Good 4D Model Format (G4MF) - godot-dimensions/g4mf</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Good 4D Model Format (G4MF) - godot-dimensions/g4mf">
-    <meta name="description" content="godot-dimensions/g4mf - GitHub repository ko documentation and information">
+    <title>g4mf - godot-dimensions/g4mf</title>
+    <meta name="title" content="g4mf - godot-dimensions/g4mf">
+    <meta name="description" content="godot-dimensions/g4mf - GitHub repository ko documentation and informationGood 4D Model Format (G4MF) Good 4D Model Format, 또는 줄여서 G4MF는 Khronos의 glTF™에서 영감을 받은 JSON 기반의 4D 중심 다차원 모델 포맷으로, 애플리케이션 간 고차원 콘텐츠의 전송, 교환, 상호운용성을 가능하게 합니다. G4MF 파일은 다음과 같은 유형이 있습니다: .g4tf는 &quot;Good 4D model Text File&quot;의 약자입니다. 이 파일은 JSON 데이터를 순수 텍스트 기반 UTF-8 형식으로 포함하며, 바이너리 블롭은 문자열 내에 Base64로 인코딩되거나 외부 파일로 저장됩니다. 유효한 G4TF 파일에는 BOM 또는 캐리지 리턴이 포함되지 않습니다. .g4b는 &quot;Good 4D model Binary&quot;의 약자입니다. 사이즈 효율성을 위해 바이너리 데이터를 조밀하게 패킹하지만, 텍스트 에디터에서 내용을 확인하기 어렵다는 단점이 있습니다. 사양서는 여기에서 읽을 수 있습니다: Good 4D Model Format (G4MF) Specification. glTF™와의 차이점 G4MF는 glTF™에서 영감을 받았으며 전체적인 구조가 유사하지만, 많은 차이점이 있습니다. 주요 차이점: G4MF는 다차원 4D 중심 포맷이고, glTF™는 3D 포맷입니다. (명확성을 위해 명시) glTF™는 GPU에 바로 로드할 수 있도록 데이터를 저장하는 마지막 단계 포맷으로 설계되었습니다. OpenGL™이나 Vulkan™ 등 그래픽 API가 4D, 5D, 6D 등을...">
     <meta name="keywords" content="godot-dimensions, g4mf, GitHub, repository, ko documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/godot-dimensions/g4mf/README-ko.html">
-    <meta property="og:title" content="Good 4D Model Format (G4MF) - godot-dimensions/g4mf">
+    <meta property="og:title" content="g4mf - godot-dimensions/g4mf">
     <meta property="og:description" content="godot-dimensions/g4mf - GitHub repository ko documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/godot-dimensions/g4mf" id="githubRepoLink" target="_blank">godot-dimensions/g4mf</a>
+<br>
+<h1 style="display: none;">Good 4D Model Format (G4MF) Good 4D Model Format, 또는 줄여서 G4MF는 Khronos의 glTF™에서 영감을 받은 JSON 기반의 4D 중심 다차원 모델 포맷으로, 애플리케이션 간 고차원 콘텐츠의 전송, 교환, 상호운용성을 가능하게 합니다. G4MF 파일은 다음과 같은 유형이 있습니다: .g4tf는 &quot;Good 4D model Text File&quot;의 약자입니다. 이 파일은 JSON 데이터를 순수 텍스트 기반 UTF-8 형식으로 포함하며, 바이너리 블롭은 문자열 내에 Base64로 인코딩되거나 외부 파일로 저장됩니다. 유효한 G4TF 파일에는 BOM 또는 캐리지 리턴이 포함되지 않습니다. .g4b는 &quot;Good 4D model Binary&quot;의 약자입니다. 사이즈 효율성을 위해 바이너리 데이터를 조밀하게 패킹하지만, 텍스트 에디터에서 내용을 확인하기 어렵다는 단점이 있습니다. 사양서는 여기에서 읽을 수 있습니다: Good 4D Model Format (G4MF) Specification. glTF™와의 차이점 G4MF는 glTF™에서 영감을 받았으며 전체적인 구조가 유사하지만, 많은 차이점이 있습니다. 주요 차이점: G4MF는 다차원 4D 중심 포맷이고, glTF™는 3D 포맷입니다. (명확성을 위해 명시) glTF™는 GPU에 바로 로드할 수 있도록 데이터를 저장하는 마지막 단계 포맷으로 설계되었습니다. OpenGL™이나 Vulkan™ 등 그래픽 API가 4D, 5D, 6D 등을...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>Good 4D Model Format (G4MF)</h1>
+        <div class="markdown-body" id="content">
+            <h1>Good 4D Model Format (G4MF)</h1>
 <p>Good 4D Model Format, 또는 줄여서 G4MF는 Khronos의 <a href="https://github.com/KhronosGroup/glTF">glTF™</a>에서 영감을 받은 JSON 기반의 4D 중심 다차원 모델 포맷으로, 애플리케이션 간 고차원 콘텐츠의 전송, 교환, 상호운용성을 가능하게 합니다.</p>
 <p>G4MF 파일은 다음과 같은 유형이 있습니다:</p>
 <ul>
-<li><code>.g4tf</code>는 "Good 4D model Text File"의 약자입니다. 이 파일은 JSON 데이터를 순수 텍스트 기반 UTF-8 형식으로 포함하며, 바이너리 블롭은 문자열 내에 Base64로 인코딩되거나 외부 파일로 저장됩니다. 유효한 G4TF 파일에는 BOM 또는 캐리지 리턴이 포함되지 않습니다.</li>
-<li><code>.g4b</code>는 "Good 4D model Binary"의 약자입니다. 사이즈 효율성을 위해 바이너리 데이터를 조밀하게 패킹하지만, 텍스트 에디터에서 내용을 확인하기 어렵다는 단점이 있습니다.</li>
+<li><code>.g4tf</code>는 &quot;Good 4D model Text File&quot;의 약자입니다. 이 파일은 JSON 데이터를 순수 텍스트 기반 UTF-8 형식으로 포함하며, 바이너리 블롭은 문자열 내에 Base64로 인코딩되거나 외부 파일로 저장됩니다. 유효한 G4TF 파일에는 BOM 또는 캐리지 리턴이 포함되지 않습니다.</li>
+<li><code>.g4b</code>는 &quot;Good 4D model Binary&quot;의 약자입니다. 사이즈 효율성을 위해 바이너리 데이터를 조밀하게 패킹하지만, 텍스트 에디터에서 내용을 확인하기 어렵다는 단점이 있습니다.</li>
 </ul>
 <p>사양서는 여기에서 읽을 수 있습니다: <a href="https://raw.githubusercontent.com/godot-dimensions/g4mf/main/specification/specification.md">Good 4D Model Format (G4MF) Specification</a>.</p>
 <h2>glTF™와의 차이점</h2>
@@ -150,57 +62,42 @@
 <ul>
 <li>G4MF는 다차원 4D 중심 포맷이고, glTF™는 3D 포맷입니다. (명확성을 위해 명시)</li>
 <li>glTF™는 GPU에 바로 로드할 수 있도록 데이터를 저장하는 마지막 단계 포맷으로 설계되었습니다. OpenGL™이나 Vulkan™ 등 그래픽 API가 4D, 5D, 6D 등을 지원하지 않으므로, 이 목표는 G4MF에는 적합하지 않습니다. 대신 G4MF는 주로 사람이 읽을 수 있는 교환 포맷으로 설계되었습니다.</li>
-<li>G4MF 메시 버텍스는 일반적으로 중복되지 않게 저장되고, 엣지와 셀에 의해 참조됩니다. glTF™는 각 삼각형을 고유한 버텍스로 저장하여 GPU에 바로 로드하기 쉽지만, 버텍스가 중복된 것에 대한 혼란을 초래할 수 있습니다. <a href="https://blender.stackexchange.com/questions/167372/gltf-export-has-twice-the-vertices-it-should/167383#167383">https://blender.stackexchange.com/questions/167372/gltf-export-has-twice-the-vertices-it-should/167383#167383</a></li>
-<li>G4MF는 파일당 하나의 씬과 하나의 루트 노드만 허용하지만, glTF™는 여러 씬과 여러 루트 노드를 허용합니다. <a href="https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Vendor/GODOT_single_root">https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Vendor/GODOT_single_root</a></li>
-<li>G4MF 바이너리는 <code>.g4b</code> 파일과 청크의 크기로 64비트 부호 없는 정수를 사용하지만, <code>.glb</code>는 32비트 부호 없는 정수를 사용합니다. 따라서 4 GiB를 초과하는 파일도 지원합니다. <a href="https://github.com/KhronosGroup/glTF/issues/2114">https://github.com/KhronosGroup/glTF/issues/2114</a></li>
+<li>G4MF 메시 버텍스는 일반적으로 중복되지 않게 저장되고, 엣지와 셀에 의해 참조됩니다. glTF™는 각 삼각형을 고유한 버텍스로 저장하여 GPU에 바로 로드하기 쉽지만, 버텍스가 중복된 것에 대한 혼란을 초래할 수 있습니다. https://blender.stackexchange.com/questions/167372/gltf-export-has-twice-the-vertices-it-should/167383#167383</li>
+<li>G4MF는 파일당 하나의 씬과 하나의 루트 노드만 허용하지만, glTF™는 여러 씬과 여러 루트 노드를 허용합니다. https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Vendor/GODOT_single_root</li>
+<li>G4MF 바이너리는 <code>.g4b</code> 파일과 청크의 크기로 64비트 부호 없는 정수를 사용하지만, <code>.glb</code>는 32비트 부호 없는 정수를 사용합니다. 따라서 4 GiB를 초과하는 파일도 지원합니다. https://github.com/KhronosGroup/glTF/issues/2114</li>
 <li>G4MF는 완전히 새로운 포맷이고, glTF™는 성숙한 산업 표준 포맷입니다. 따라서 3D 모델에는 glTF™ 사용을 권장하며, 3D G4MF 파일 사용은 권장하지 않습니다.</li>
 </ul>
 <p>또한, G4MF와 glTF™ 간에는 다음과 같은 세부적인 차이점들이 있습니다:</p>
 <ul>
-<li>G4MF는 <code>"asset"</code>에 필수 정수 키 <code>"dimension"</code>을 추가합니다. 이 값이 반드시 정의되어야 하며, 없으면 파일이 유효하지 않습니다. 즉, 4D 모델은 JSON 데이터에 반드시 <code>{ "asset": { "dimension": 4 } }</code>를 포함해야 합니다.</li>
-<li>G4MF 에셋 헤더는 <code>"extensionsUsed"</code>와 <code>"extensionsRequired"</code> 배열을 포함합니다. glTF™에서는 이들이 최상위 JSON 오브젝트에 정의되어 있습니다.</li>
-<li>G4MF 노드 트랜스폼은 <code>"position"</code>과 <code>"basis"</code> 또는 <code>"rotor"</code>+<code>"scale"</code> 조합을 사용합니다. glTF™는 <code>"translation"</code>+<code>"rotation"</code>+<code>"scale"</code> 또는 4x4 <code>"matrix"</code>를 사용합니다. 두 포맷 모두 선형 변환만 허용하며, glTF™의 <code>"matrix"</code> 속성의 마지막 행은 항상 (0, 0, 0, 1) 값입니다. 이 마지막 행은 GPU로 데이터를 전송할 때 유용하지만, 교환을 위한 의미 있는 데이터는 아니므로 G4MF에는 존재하지 않습니다.</li>
-<li>G4MF 노드 <code>"scale"</code>은 음수 스케일을 허용하지 않지만, glTF™는 허용합니다. G4MF에서는 필요 시 <code>"basis"</code>를 사용하여 플립/반사를 처리해야 합니다.</li>
-<li>G4MF 노드 <code>"scale"</code>은 균일 스케일을 나타내는 단일 값도 허용하여, 특히 매우 높은 차원에서의 데이터 압축에 유리합니다. glTF™의 <code>"scale"</code>은 항상 3D 벡터입니다.</li>
-<li>G4MF 노드는 <code>"visible"</code> 불리언을 포함하여, glTF™의 <code>KHR_node_visibility</code> 확장 기능을 기본 사양에 제공합니다. <a href="https://github.com/KhronosGroup/glTF/pull/2410">https://github.com/KhronosGroup/glTF/pull/2410</a></li>
-<li>G4MF 메시에는 <code>"surfaces"</code>가 있으며, 이는 보다 사용자 친화적인 명칭입니다. glTF™ 메시에는 <code>"primitives"</code>가 있는데, 이는 OpenGL™에서 사용하는 용어입니다. <a href="https://www.khronos.org/opengl/wiki/primitive">https://www.khronos.org/opengl/wiki/primitive</a></li>
-<li>G4MF 메시 서피스는 표면의 버텍스, 엣지, 셀을 명시적으로 정의합니다. glTF™ 메시 프리미티브는 이를 <code>"attributes"</code>와 <code>"mode"</code> 내에 정의합니다.</li>
-<li>G4MF 메시 서피스는 <code>"polytopeCells"</code> 불리언을 가질 수 있으며, glTF™의 <code>FB_ngon_encoding</code> 확장 기능을 기본 사양에 제공합니다. <a href="https://github.com/KhronosGroup/glTF/pull/1620">https://github.com/KhronosGroup/glTF/pull/1620</a></li>
-<li>G4MF 머티리얼은 glTF™의 개별 머티리얼 속성 개념을 일반화한 채널을 가집니다. 예를 들어, glTF™의 기본 색상은 <code>"baseColorFactor"</code>와 <code>"baseColorTexture"</code>를 사용하며, 후자는 텍스처 <code>"index"</code>와 <code>"texCoord"</code> 인덱스를 정의하는 textureInfo를 가집니다. G4MF 머티리얼은 <code>"baseColor"</code>와 같은 채널에 이러한 속성을 통합합니다.</li>
+<li>G4MF는 <code>&quot;asset&quot;</code>에 필수 정수 키 <code>&quot;dimension&quot;</code>을 추가합니다. 이 값이 반드시 정의되어야 하며, 없으면 파일이 유효하지 않습니다. 즉, 4D 모델은 JSON 데이터에 반드시 <code>{ &quot;asset&quot;: { &quot;dimension&quot;: 4 } }</code>를 포함해야 합니다.</li>
+<li>G4MF 에셋 헤더는 <code>&quot;extensionsUsed&quot;</code>와 <code>&quot;extensionsRequired&quot;</code> 배열을 포함합니다. glTF™에서는 이들이 최상위 JSON 오브젝트에 정의되어 있습니다.</li>
+<li>G4MF 노드 트랜스폼은 <code>&quot;position&quot;</code>과 <code>&quot;basis&quot;</code> 또는 <code>&quot;rotor&quot;</code>+<code>&quot;scale&quot;</code> 조합을 사용합니다. glTF™는 <code>&quot;translation&quot;</code>+<code>&quot;rotation&quot;</code>+<code>&quot;scale&quot;</code> 또는 4x4 <code>&quot;matrix&quot;</code>를 사용합니다. 두 포맷 모두 선형 변환만 허용하며, glTF™의 <code>&quot;matrix&quot;</code> 속성의 마지막 행은 항상 (0, 0, 0, 1) 값입니다. 이 마지막 행은 GPU로 데이터를 전송할 때 유용하지만, 교환을 위한 의미 있는 데이터는 아니므로 G4MF에는 존재하지 않습니다.</li>
+<li>G4MF 노드 <code>&quot;scale&quot;</code>은 음수 스케일을 허용하지 않지만, glTF™는 허용합니다. G4MF에서는 필요 시 <code>&quot;basis&quot;</code>를 사용하여 플립/반사를 처리해야 합니다.</li>
+<li>G4MF 노드 <code>&quot;scale&quot;</code>은 균일 스케일을 나타내는 단일 값도 허용하여, 특히 매우 높은 차원에서의 데이터 압축에 유리합니다. glTF™의 <code>&quot;scale&quot;</code>은 항상 3D 벡터입니다.</li>
+<li>G4MF 노드는 <code>&quot;visible&quot;</code> 불리언을 포함하여, glTF™의 <code>KHR_node_visibility</code> 확장 기능을 기본 사양에 제공합니다. https://github.com/KhronosGroup/glTF/pull/2410</li>
+<li>G4MF 메시에는 <code>&quot;surfaces&quot;</code>가 있으며, 이는 보다 사용자 친화적인 명칭입니다. glTF™ 메시에는 <code>&quot;primitives&quot;</code>가 있는데, 이는 OpenGL™에서 사용하는 용어입니다. https://www.khronos.org/opengl/wiki/primitive</li>
+<li>G4MF 메시 서피스는 표면의 버텍스, 엣지, 셀을 명시적으로 정의합니다. glTF™ 메시 프리미티브는 이를 <code>&quot;attributes&quot;</code>와 <code>&quot;mode&quot;</code> 내에 정의합니다.</li>
+<li>G4MF 메시 서피스는 <code>&quot;polytopeCells&quot;</code> 불리언을 가질 수 있으며, glTF™의 <code>FB_ngon_encoding</code> 확장 기능을 기본 사양에 제공합니다. https://github.com/KhronosGroup/glTF/pull/1620</li>
+<li>G4MF 머티리얼은 glTF™의 개별 머티리얼 속성 개념을 일반화한 채널을 가집니다. 예를 들어, glTF™의 기본 색상은 <code>&quot;baseColorFactor&quot;</code>와 <code>&quot;baseColorTexture&quot;</code>를 사용하며, 후자는 텍스처 <code>&quot;index&quot;</code>와 <code>&quot;texCoord&quot;</code> 인덱스를 정의하는 textureInfo를 가집니다. G4MF 머티리얼은 <code>&quot;baseColor&quot;</code>와 같은 채널에 이러한 속성을 통합합니다.</li>
 <li>G4MF 라이트는 기본 사양에 포함되어 있지만, glTF™ 라이트는 <code>KHR_lights_punctual</code> 확장에 있습니다.</li>
 <li>G4MF 라이트는 연결된 노드의 스케일을 반드시 고려해야 하지만, glTF™ 라이트는 연결된 노드의 스케일을 무시해야 합니다.</li>
-<li>G4MF 액세서는 <code>"primitiveType"</code> 문자열을 가지며, <code>"uint8"</code>, <code>"int16"</code>, <code>"float32"</code> 등 값을 가집니다. glTF™ 액세서는 <code>"componentType"</code> 속성을 가지며, <code>5121</code>, <code>5122</code>, <code>5126</code> 등 OpenGL™ 전용 열거형 값을 사용합니다. G4MF 방식이 더 사람이 읽기 쉽고 확장 가능합니다. glTF™ 방식은 값을 이해하려면 열거형 테이블을 참고해야 합니다.</li>
-<li>G4MF 액세서는 <code>"vectorSize"</code> 정수로, glTF™의 <code>"SCALAR"</code>, <code>"VEC2"</code>, <code>"VEC3"</code>, <code>"VEC4"</code> 개념을 임의 크기로 일반화합니다.</li>
-<li>G4MF 액세서에는 glTF™의 <code>"count"</code>가 없으며, 개수는 버퍼 뷰의 크기로 결정됩니다.</li>
-<li>G4MF 액세서에는 <code>"normalized"</code>, <code>"max"</code>, <code>"min"</code> 속성이 없으며, 이는 교환에 유용하지 않기 때문입니다.</li>
+<li>G4MF 액세서는 <code>&quot;primitiveType&quot;</code> 문자열을 가지며, <code>&quot;uint8&quot;</code>, <code>&quot;int16&quot;</code>, <code>&quot;float32&quot;</code> 등 값을 가집니다. glTF™ 액세서는 <code>&quot;componentType&quot;</code> 속성을 가지며, <code>5121</code>, <code>5122</code>, <code>5126</code> 등 OpenGL™ 전용 열거형 값을 사용합니다. G4MF 방식이 더 사람이 읽기 쉽고 확장 가능합니다. glTF™ 방식은 값을 이해하려면 열거형 테이블을 참고해야 합니다.</li>
+<li>G4MF 액세서는 <code>&quot;vectorSize&quot;</code> 정수로, glTF™의 <code>&quot;SCALAR&quot;</code>, <code>&quot;VEC2&quot;</code>, <code>&quot;VEC3&quot;</code>, <code>&quot;VEC4&quot;</code> 개념을 임의 크기로 일반화합니다.</li>
+<li>G4MF 액세서에는 glTF™의 <code>&quot;count&quot;</code>가 없으며, 개수는 버퍼 뷰의 크기로 결정됩니다.</li>
+<li>G4MF 액세서에는 <code>&quot;normalized&quot;</code>, <code>&quot;max&quot;</code>, <code>&quot;min&quot;</code> 속성이 없으며, 이는 교환에 유용하지 않기 때문입니다.</li>
 <li>G4MF 액세서는 연속적이며, 희소(sparse) 형태를 지원하지 않습니다. 반면 glTF™ 액세서는 sparse를 지원합니다. 이는 GPU를 위한 성능 최적화에 유용하지만, 교환에는 필요하지 않습니다.</li>
-<li>G4MF 버퍼 뷰에는 <code>"byteStride"</code>나 <code>"target"</code> 속성이 없으므로, G4MF는 인터리브(interleaved) 데이터를 지원하지 않습니다. 이는 glTF™에서 GPU 최적화에 유용하지만, 교환에는 필요하지 않습니다.</li>
+<li>G4MF 버퍼 뷰에는 <code>&quot;byteStride&quot;</code>나 <code>&quot;target&quot;</code> 속성이 없으므로, G4MF는 인터리브(interleaved) 데이터를 지원하지 않습니다. 이는 glTF™에서 GPU 최적화에 유용하지만, 교환에는 필요하지 않습니다.</li>
 <li>G4MF 바이너리 청크에는 4바이트 압축 포맷 표시자가 있어, 향후 압축된 G4MF 바이너리 파일을 지원할 수 있습니다.</li>
 </ul>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-09</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

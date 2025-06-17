@@ -1,143 +1,56 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>容器化 - apple/containerization</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="容器化 - apple/containerization">
-    <meta name="description" content="apple/containerization - GitHub repository zh-CN documentation and information">
+    <title>containerization - apple/containerization</title>
+    <meta name="title" content="containerization - apple/containerization">
+    <meta name="description" content="apple/containerization - GitHub repository zh-CN documentation and information容器化 容器化包允许应用程序使用 Linux 容器。 容器化使用 Swift 编写，并在 Apple silicon 上使用 Virtualization.framework。 容器化提供以下 API： 管理 OCI 镜像。 与远程注册表交互。 创建和填充 ext4 文件系统。 与 Netlink 套接字族交互。 创建用于快速启动的优化 Linux 内核。 启动轻量级虚拟机并管理运行时环境。 启动并与容器化进程交互。 在 Apple silicon 上使用 Rosetta 2 运行 linux/amd64 容器。 请查看 API 文档 了解容器化提供的 Swift 包信息。 设计 容器化在每个 Linux 容器内运行其自身的轻量级虚拟机。客户端可以为每个容器创建专用 IP 地址，消除单独端口转发的需求。容器通过优化的 Linux 内核配置 和带有轻量级 init 系统的最小根文件系统，实现亚秒级启动时间。 vminitd 是一个小型 init 系统，是容器化的一个子项目。 vminitd 作为虚拟机内的初始进程启动，并通过 vsock 提供 GRPC API。 该 API 允许配置运行时环境并启动容器化进程。 当运行进程时，vminitd 向调用进程提供 I/O、信号和事件。 要求 您需要一台 Apple silicon Mac 来构建和运行容器化。 构建容器化包，您的系统需要满足以下条件之一： macOS 15 或更高版本，且使用 Xcode 26 beta macOS 26 beta 或更高版本 使用该包构建的应用程序将在 macOS 15 或更高版本运行，但以下功能在 macOS 15 上不可用： 非隔离容器网络 —— 在 macOS 15 上，同一 vmnet 网络内的容器之间无法通信 示例用法 有关如何使用部分库功能的示例，cctl 可执行文件是一个很好的起点。该工具的主要作用是作为 API 试验场。它包含执行各种核心功能的命令，例如： 操作 OCI 镜像 登录容器注册表 创建根文件系统块 运行简单的 Linux 容器 Linux 内核 在 macOS 上启动轻量级虚拟机需要 Linux 内核。 容器化提供了一个位于 kernel 目录下的优化内核配置。 该目录包含一个容器化构建环境，可轻松编译适用于容器化的内核。 内核配置是一组最小功能集，支持快速启动时间和轻量级环境。 虽然此配置适用于大多数工作负载，但我们理解某些工作负载可能需要额外功能。 为解决此问题，容器化提供了一流的 API，允许按容器使用不同的内核配置和版本。 这使得容器可以在不同内核版本间开发和验证。 请参阅 kernel 目录下的 README 了解如何编译优化内核。 预编译内核 如果您希望使用预编译内核，必须将 VIRTIO 驱动编译进内核，而非作为模块。 Kata Containers 项目提供了一个优化的容器内核，启用了所有必需的配置选项，详见其 releases 页面。 内核镜像 vmlinux.container 可在发布工件的 /opt/kata/share/kata-containers/ 目录中找到。...">
     <meta name="keywords" content="apple, containerization, GitHub, repository, zh-CN documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/apple/containerization/README-zh-CN.html">
-    <meta property="og:title" content="容器化 - apple/containerization">
+    <meta property="og:title" content="containerization - apple/containerization">
     <meta property="og:description" content="apple/containerization - GitHub repository zh-CN documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/apple/containerization" id="githubRepoLink" target="_blank">apple/containerization</a>
+<br>
+<h1 style="display: none;">容器化 容器化包允许应用程序使用 Linux 容器。 容器化使用 Swift 编写，并在 Apple silicon 上使用 Virtualization.framework。 容器化提供以下 API： 管理 OCI 镜像。 与远程注册表交互。 创建和填充 ext4 文件系统。 与 Netlink 套接字族交互。 创建用于快速启动的优化 Linux 内核。 启动轻量级虚拟机并管理运行时环境。 启动并与容器化进程交互。 在 Apple silicon 上使用 Rosetta 2 运行 linux/amd64 容器。 请查看 API 文档 了解容器化提供的 Swift 包信息。 设计 容器化在每个 Linux 容器内运行其自身的轻量级虚拟机。客户端可以为每个容器创建专用 IP 地址，消除单独端口转发的需求。容器通过优化的 Linux 内核配置 和带有轻量级 init 系统的最小根文件系统，实现亚秒级启动时间。 vminitd 是一个小型 init 系统，是容器化的一个子项目。 vminitd 作为虚拟机内的初始进程启动，并通过 vsock 提供 GRPC API。 该 API 允许配置运行时环境并启动容器化进程。 当运行进程时，vminitd 向调用进程提供 I/O、信号和事件。 要求 您需要一台 Apple silicon Mac 来构建和运行容器化。 构建容器化包，您的系统需要满足以下条件之一： macOS 15 或更高版本，且使用 Xcode 26 beta macOS 26 beta 或更高版本 使用该包构建的应用程序将在 macOS 15 或更高版本运行，但以下功能在 macOS 15 上不可用： 非隔离容器网络 —— 在 macOS 15 上，同一 vmnet 网络内的容器之间无法通信 示例用法 有关如何使用部分库功能的示例，cctl 可执行文件是一个很好的起点。该工具的主要作用是作为 API 试验场。它包含执行各种核心功能的命令，例如： 操作 OCI 镜像 登录容器注册表 创建根文件系统块 运行简单的 Linux 容器 Linux 内核 在 macOS 上启动轻量级虚拟机需要 Linux 内核。 容器化提供了一个位于 kernel 目录下的优化内核配置。 该目录包含一个容器化构建环境，可轻松编译适用于容器化的内核。 内核配置是一组最小功能集，支持快速启动时间和轻量级环境。 虽然此配置适用于大多数工作负载，但我们理解某些工作负载可能需要额外功能。 为解决此问题，容器化提供了一流的 API，允许按容器使用不同的内核配置和版本。 这使得容器可以在不同内核版本间开发和验证。 请参阅 kernel 目录下的 README 了解如何编译优化内核。 预编译内核 如果您希望使用预编译内核，必须将 VIRTIO 驱动编译进内核，而非作为模块。 Kata Containers 项目提供了一个优化的容器内核，启用了所有必需的配置选项，详见其 releases 页面。 内核镜像 vmlinux.container 可在发布工件的 /opt/kata/share/kata-containers/ 目录中找到。...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>容器化</h1>
-<p>容器化包允许应用程序使用 Linux 容器。<br>容器化使用 <a href="https://www.swift.org">Swift</a> 编写，并在 Apple silicon 上使用 <a href="https://developer.apple.com/documentation/virtualization">Virtualization.framework</a>。</p>
+        <div class="markdown-body" id="content">
+            <h1>容器化</h1>
+<p>容器化包允许应用程序使用 Linux 容器。<br />
+容器化使用 <a href="https://www.swift.org">Swift</a> 编写，并在 Apple silicon 上使用 <a href="https://developer.apple.com/documentation/virtualization">Virtualization.framework</a>。</p>
 <p>容器化提供以下 API：</p>
 <ul>
 <li><a href="https://raw.githubusercontent.com/apple/containerization/main/Sources/ContainerizationOCI/">管理 OCI 镜像</a>。</li>
@@ -152,7 +65,10 @@
 <p>请查看 <a href="https://apple.github.io/containerization/documentation/">API 文档</a> 了解容器化提供的 Swift 包信息。</p>
 <h2>设计</h2>
 <p>容器化在每个 Linux 容器内运行其自身的轻量级虚拟机。客户端可以为每个容器创建专用 IP 地址，消除单独端口转发的需求。容器通过优化的 <a href="https://raw.githubusercontent.com/apple/containerization/main/kernel">Linux 内核配置</a> 和带有轻量级 init 系统的最小根文件系统，实现亚秒级启动时间。</p>
-<p><a href="https://raw.githubusercontent.com/apple/containerization/main/vminitd">vminitd</a> 是一个小型 init 系统，是容器化的一个子项目。<br><code>vminitd</code> 作为虚拟机内的初始进程启动，并通过 vsock 提供 GRPC API。<br>该 API 允许配置运行时环境并启动容器化进程。<br>当运行进程时，<code>vminitd</code> 向调用进程提供 I/O、信号和事件。</p>
+<p><a href="https://raw.githubusercontent.com/apple/containerization/main/vminitd">vminitd</a> 是一个小型 init 系统，是容器化的一个子项目。<br />
+<code>vminitd</code> 作为虚拟机内的初始进程启动，并通过 vsock 提供 GRPC API。<br />
+该 API 允许配置运行时环境并启动容器化进程。<br />
+当运行进程时，<code>vminitd</code> 向调用进程提供 I/O、信号和事件。</p>
 <h2>要求</h2>
 <p>您需要一台 Apple silicon Mac 来构建和运行容器化。</p>
 <p>构建容器化包，您的系统需要满足以下条件之一：</p>
@@ -173,10 +89,13 @@
 <li><a href="https://raw.githubusercontent.com/apple/containerization/main/Sources/cctl/RunCommand.swift">运行简单的 Linux 容器</a></li>
 </ol>
 <h2>Linux 内核</h2>
-<p>在 macOS 上启动轻量级虚拟机需要 Linux 内核。<br>容器化提供了一个位于 <a href="https://raw.githubusercontent.com/apple/containerization/main/kernel">kernel</a> 目录下的优化内核配置。</p>
+<p>在 macOS 上启动轻量级虚拟机需要 Linux 内核。<br />
+容器化提供了一个位于 <a href="https://raw.githubusercontent.com/apple/containerization/main/kernel">kernel</a> 目录下的优化内核配置。</p>
 <p>该目录包含一个容器化构建环境，可轻松编译适用于容器化的内核。</p>
 <p>内核配置是一组最小功能集，支持快速启动时间和轻量级环境。</p>
-<p>虽然此配置适用于大多数工作负载，但我们理解某些工作负载可能需要额外功能。<br>为解决此问题，容器化提供了一流的 API，允许按容器使用不同的内核配置和版本。<br>这使得容器可以在不同内核版本间开发和验证。</p>
+<p>虽然此配置适用于大多数工作负载，但我们理解某些工作负载可能需要额外功能。<br />
+为解决此问题，容器化提供了一流的 API，允许按容器使用不同的内核配置和版本。<br />
+这使得容器可以在不同内核版本间开发和验证。</p>
 <p>请参阅 kernel 目录下的 <a href="https://raw.githubusercontent.com/apple/containerization/main/kernel/README.md">README</a> 了解如何编译优化内核。</p>
 <h3>预编译内核</h3>
 <p>如果您希望使用预编译内核，必须将 <code>VIRTIO</code> 驱动编译进内核，而非作为模块。</p>
@@ -184,74 +103,60 @@
 <p>内核镜像 <code>vmlinux.container</code> 可在发布工件的 <code>/opt/kata/share/kata-containers/</code> 目录中找到。</p>
 <h2>准备构建包</h2>
 <p>安装 Swiftly、<a href="https://www.swift.org">Swift</a> 和 <a href="https://www.swift.org/documentation/articles/static-linux-getting-started.html">Static Linux SDK</a>：</p>
-<pre><code class="language-bash hljs">make cross-prep
+<pre><code class="language-bash">make cross-prep
 </code></pre>
 <p>如果您使用自定义终端应用，可能需要将此命令从 <code>.zprofile</code> 移动到 <code>.zshrc</code>（替换 <code>&lt;USERNAME&gt;</code>）：</p>
-<pre><code class="language-bash hljs"><span class="hljs-comment"># Added by swiftly</span>
-. <span class="hljs-string">"/Users/&lt;USERNAME&gt;/.swiftly/env.sh"</span>
+<pre><code class="language-bash"># Added by swiftly
+. &quot;/Users/&lt;USERNAME&gt;/.swiftly/env.sh&quot;
 </code></pre>
 <p>重启终端应用。确保以下命令返回 <code>/Users/&lt;USERNAME&gt;/.swiftly/bin/swift</code>（替换 <code>&lt;USERNAME&gt;</code>）：</p>
-<pre><code class="language-bash hljs"><span class="hljs-built_in">which</span> swift
+<pre><code class="language-bash">which swift
 </code></pre>
 <p>如果您之前安装或使用过 Static Linux SDK，可能需要从系统中移除旧版本 SDK（替换 <code>&lt;SDK-ID&gt;</code>）：</p>
-<pre><code class="language-bash hljs">swift sdk list
+<pre><code class="language-bash">swift sdk list
 swift sdk remove &lt;SDK-ID&gt;
 </code></pre>
 <h2>构建包</h2>
 <p>从源码构建容器化：</p>
-<pre><code class="language-bash hljs">make all
+<pre><code class="language-bash">make all
 </code></pre>
 <h2>测试包</h2>
 <p>构建完成后，运行基本和集成测试：</p>
-<pre><code class="language-bash hljs">make <span class="hljs-built_in">test</span> integration
+<pre><code class="language-bash">make test integration
 </code></pre>
-<p>运行集成测试需要内核。<br>如果您本地没有内核，可以使用 <code>make fetch-default-kernel</code> 目标获取默认内核。</p>
+<p>运行集成测试需要内核。<br />
+如果您本地没有内核，可以使用 <code>make fetch-default-kernel</code> 目标获取默认内核。</p>
 <p>获取默认内核只需在初次构建后或执行 <code>make clean</code> 后执行。</p>
-<pre><code class="language-bash hljs">make fetch-default-kernel
-make all <span class="hljs-built_in">test</span> integration
+<pre><code class="language-bash">make fetch-default-kernel
+make all test integration
 </code></pre>
 <h2>Protobufs</h2>
 <p>容器化依赖特定版本的 <code>grpc-swift</code> 和 <code>swift-protobuf</code>。您可以安装它们并重新生成 RPC 接口：</p>
-<pre><code class="language-bash hljs">make protos
+<pre><code class="language-bash">make protos
 </code></pre>
 <h2>文档</h2>
 <p>生成本地查看的 API 文档：</p>
-<pre><code class="language-bash hljs">make docs
+<pre><code class="language-bash">make docs
 make serve-docs
 </code></pre>
 <p>在另一个终端运行以下命令预览文档：</p>
-<pre><code class="language-bash hljs">open http://localhost:8000/documentation/
+<pre><code class="language-bash">open http://localhost:8000/documentation/
 </code></pre>
 <h2>贡献</h2>
 <p>欢迎并鼓励对容器化的贡献。详情请参阅 <a href="https://raw.githubusercontent.com/apple/containerization/main/CONTRIBUTING.md">CONTRIBUTING.md</a>。</p>
 <h2>项目状态</h2>
 <p>版本 0.1.0 是容器化的第一个正式发布版本。早期版本不保证源代码稳定性。</p>
-<p>由于容器化库处于积极开发中，源代码稳定性仅在小版本内保证（例如 0.1.1 与 0.1.2 之间）。如果您不希望包更新破坏源代码兼容性，可以使用 .upToNextMinorVersion(from: "0.1.0") 来指定依赖版本。</p>
+<p>由于容器化库处于积极开发中，源代码稳定性仅在小版本内保证（例如 0.1.1 与 0.1.2 之间）。如果您不希望包更新破坏源代码兼容性，可以使用 .upToNextMinorVersion(from: &quot;0.1.0&quot;) 来指定依赖版本。</p>
 <p>未来的小版本可能根据需要调整这些规则。</p>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

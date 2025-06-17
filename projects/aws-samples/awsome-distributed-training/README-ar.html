@@ -1,218 +1,85 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="ar">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مراجع هندسة تدريب التعلم الآلي والاختبارات  - aws-samples/awsome-distributed-training</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="مراجع هندسة تدريب التعلم الآلي والاختبارات - aws-samples/awsome-distributed-training">
-    <meta name="description" content="aws-samples/awsome-distributed-training - GitHub repository ar documentation and information">
+    <title>awsome-distributed-training - aws-samples/awsome-distributed-training</title>
+    <meta name="title" content="awsome-distributed-training - aws-samples/awsome-distributed-training">
+    <meta name="description" content="aws-samples/awsome-distributed-training - GitHub repository ar documentation and informationمراجع هندسة تدريب التعلم الآلي والاختبارات تحذير نحن حاليًا نقوم بإعادة هيكلة كبيرة لهذا المستودع، مع التركيز بشكل خاص على قسم حالات الاختبار. إذا كنت تفضل استخدام هيكل الدليل السابق وحالات الاختبار المهجورة، يرجى الرجوع إلى الإصدار v1.1.0. يحتوي هذا المستودع على مراجع هندسية وحالات اختبار لتدريب النماذج الموزعة باستخدام Amazon SageMaker Hyperpod، و AWS ParallelCluster، و AWS Batch، و Amazon EKS. تغطي حالات الاختبار أنواعًا وأحجامًا مختلفة من النماذج بالإضافة إلى أُطُر مختلفة وتحسينات موازية (Pytorch DDP/FSDP، MegatronLM، NemoMegatron...). المكونات الرئيسية لهذا الدليل هي: reference-architectures/ |-- 1.architectures/ # قوالب CloudFormation للهندسة المرجعية |-- 2.ami_and_containers/ # سكريبتات لإنشاء صور AMI وصور الحاويات |-- 3.test_cases/ # حالات اختبار مرجعية و/أو سكريبتات القياس المرجعي |-- 4.validation_observability/ # أدوات لقياس الأداء أو استكشاف الأخطاء وإصلاحها `-- ... ملاحظة: تم تصميم هذه الهندسات للعمل مع دلو S3 وشبكة VPC التي تم إنشاؤها باستخدام القوالب المرجعية 1.architectures/0.s3/ و 1.architectures/1.vpc_network/. ننصح بشدة بنشر هذين القالبين قبل...">
     <meta name="keywords" content="aws-samples, awsome-distributed-training, GitHub, repository, ar documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/aws-samples/awsome-distributed-training/README-ar.html">
-    <meta property="og:title" content="مراجع هندسة تدريب التعلم الآلي والاختبارات - aws-samples/awsome-distributed-training">
+    <meta property="og:title" content="awsome-distributed-training - aws-samples/awsome-distributed-training">
     <meta property="og:description" content="aws-samples/awsome-distributed-training - GitHub repository ar documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/aws-samples/awsome-distributed-training" id="githubRepoLink" target="_blank">aws-samples/awsome-distributed-training</a>
+<br>
+<h1 style="display: none;">مراجع هندسة تدريب التعلم الآلي والاختبارات تحذير نحن حاليًا نقوم بإعادة هيكلة كبيرة لهذا المستودع، مع التركيز بشكل خاص على قسم حالات الاختبار. إذا كنت تفضل استخدام هيكل الدليل السابق وحالات الاختبار المهجورة، يرجى الرجوع إلى الإصدار v1.1.0. يحتوي هذا المستودع على مراجع هندسية وحالات اختبار لتدريب النماذج الموزعة باستخدام Amazon SageMaker Hyperpod، و AWS ParallelCluster، و AWS Batch، و Amazon EKS. تغطي حالات الاختبار أنواعًا وأحجامًا مختلفة من النماذج بالإضافة إلى أُطُر مختلفة وتحسينات موازية (Pytorch DDP/FSDP، MegatronLM، NemoMegatron...). المكونات الرئيسية لهذا الدليل هي: reference-architectures/ |-- 1.architectures/ # قوالب CloudFormation للهندسة المرجعية |-- 2.ami_and_containers/ # سكريبتات لإنشاء صور AMI وصور الحاويات |-- 3.test_cases/ # حالات اختبار مرجعية و/أو سكريبتات القياس المرجعي |-- 4.validation_observability/ # أدوات لقياس الأداء أو استكشاف الأخطاء وإصلاحها `-- ... ملاحظة: تم تصميم هذه الهندسات للعمل مع دلو S3 وشبكة VPC التي تم إنشاؤها باستخدام القوالب المرجعية 1.architectures/0.s3/ و 1.architectures/1.vpc_network/. ننصح بشدة بنشر هذين القالبين قبل...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>مراجع هندسة تدريب التعلم الآلي والاختبارات <!-- omit from toc --></h1>
+        <div class="markdown-body" id="content">
+            <h1>مراجع هندسة تدريب التعلم الآلي والاختبارات <!-- omit from toc --></h1>
 <blockquote>
-<p><strong>تحذير</strong><br>نحن حاليًا نقوم بإعادة هيكلة كبيرة لهذا المستودع، مع التركيز بشكل خاص على قسم حالات الاختبار. إذا كنت تفضل استخدام هيكل الدليل السابق وحالات الاختبار المهجورة، يرجى الرجوع إلى <a href="https://github.com/aws-samples/awsome-distributed-training/releases/tag/v1.1.0">الإصدار v1.1.0</a>.</p>
+<p><strong>تحذير</strong>
+نحن حاليًا نقوم بإعادة هيكلة كبيرة لهذا المستودع، مع التركيز بشكل خاص على قسم حالات الاختبار. إذا كنت تفضل استخدام هيكل الدليل السابق وحالات الاختبار المهجورة، يرجى الرجوع إلى <a href="https://github.com/aws-samples/awsome-distributed-training/releases/tag/v1.1.0">الإصدار v1.1.0</a>.</p>
 </blockquote>
 <p>يحتوي هذا المستودع على مراجع هندسية وحالات اختبار لتدريب النماذج الموزعة باستخدام <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html">Amazon SageMaker Hyperpod</a>، و <a href="https://docs.aws.amazon.com/parallelcluster/latest/ug/what-is-aws-parallelcluster.html">AWS ParallelCluster</a>، و <a href="https://docs.aws.amazon.com/batch/latest/userguide/what-is-batch.html">AWS Batch</a>، و <a href="https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html">Amazon EKS</a>. تغطي حالات الاختبار أنواعًا وأحجامًا مختلفة من النماذج بالإضافة إلى أُطُر مختلفة وتحسينات موازية (Pytorch DDP/FSDP، MegatronLM، NemoMegatron...).</p>
 <p>المكونات الرئيسية لهذا الدليل هي:</p>
-<pre><code class="language-bash hljs">reference-architectures/
-|-- 1.architectures/               <span class="hljs-comment"># قوالب CloudFormation للهندسة المرجعية</span>
-|-- 2.ami_and_containers/          <span class="hljs-comment"># سكريبتات لإنشاء صور AMI وصور الحاويات</span>
-|-- 3.test_cases/                  <span class="hljs-comment"># حالات اختبار مرجعية و/أو سكريبتات القياس المرجعي</span>
-|-- 4.validation_observability/    <span class="hljs-comment"># أدوات لقياس الأداء أو استكشاف الأخطاء وإصلاحها</span>
+<pre><code class="language-bash">reference-architectures/
+|-- 1.architectures/               # قوالب CloudFormation للهندسة المرجعية
+|-- 2.ami_and_containers/          # سكريبتات لإنشاء صور AMI وصور الحاويات
+|-- 3.test_cases/                  # حالات اختبار مرجعية و/أو سكريبتات القياس المرجعي
+|-- 4.validation_observability/    # أدوات لقياس الأداء أو استكشاف الأخطاء وإصلاحها
 `-- ...
 </code></pre>
 <p><strong>ملاحظة</strong>: تم تصميم هذه الهندسات للعمل مع دلو S3 وشبكة VPC التي تم إنشاؤها باستخدام القوالب المرجعية <code>1.architectures/0.s3/</code> و <code>1.architectures/1.vpc_network/</code>. <em>ننصح بشدة بنشر هذين القالبين <strong>قبل</strong> نشر أي من الهندسات المرجعية.</em></p>
 <h2>0. ورش العمل</h2>
 <p>يمكنك متابعة ورش العمل التالية لتدريب النماذج على AWS. يحتوي كل منها على أمثلة لعدة حالات اختبار بالإضافة إلى معلومات قيمة حول تشغيل الكتلة لتدريب نماذج اللغة الكبيرة.</p>
-<table>
-<thead>
-<tr>
-<th>الاسم</th>
-<th>التعليقات</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://catalog.workshops.aws/sagemaker-hyperpod/en-US">Amazon SageMaker HyperPod</a></td>
-<td>ورشة عمل لـ SageMaker HyperPod، توضح كيفية النشر والمراقبة</td>
-</tr>
-<tr>
-<td><a href="https://catalog.workshops.aws/ml-on-aws-parallelcluster">AWS ParallelCluster</a></td>
-<td>ورشة عمل مشابهة لـ HyperPod ولكن على ParallelCluster</td>
-</tr>
-<tr>
-<td><a href="https://catalog.workshops.aws/sagemaker-hyperpod-eks">Amazon SageMaker HyperPod EKS</a></td>
-<td>ورشة عمل لـ SageMaker HyperPod على EKS، توضح كيفية النشر والمراقبة</td>
-</tr>
-</tbody></table>
+<p>| الاسم                                                                           | التعليقات
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------- |
+| <a href="https://catalog.workshops.aws/sagemaker-hyperpod/en-US">Amazon SageMaker HyperPod</a>   | ورشة عمل لـ SageMaker HyperPod، توضح كيفية النشر والمراقبة          |
+| <a href="https://catalog.workshops.aws/ml-on-aws-parallelcluster">AWS ParallelCluster</a> | ورشة عمل مشابهة لـ HyperPod ولكن على ParallelCluster                |
+| <a href="https://catalog.workshops.aws/sagemaker-hyperpod-eks">Amazon SageMaker HyperPod EKS</a>   | ورشة عمل لـ SageMaker HyperPod على EKS، توضح كيفية النشر والمراقبة  |</p>
 <h2>1. الهندسات</h2>
 <p>تقع الهندسات في <code>1.architectures</code> وتتألف من أدوات وهندسات متعلقة بالخدمات.</p>
-<table>
-<thead>
-<tr>
-<th>الاسم</th>
-<th>الفئة</th>
-<th>الاستخدام</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/0.s3"><code>0.s3</code></a></td>
-<td>تخزين</td>
-<td>إنشاء دلو S3</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/1.vpc_network"><code>1.vpc_network</code></a></td>
-<td>شبكة</td>
-<td>إنشاء VPC مع الشبكات الفرعية والموارد المطلوبة</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/2.aws-parallelcluster"><code>2.aws-parallelcluster</code></a></td>
-<td>حوسبة</td>
-<td>قوالب كتلة لتدريب GPU وشرائح مخصصة</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/3.aws-batch"><code>3.aws-batch</code></a></td>
-<td>حوسبة</td>
-<td>قالب AWS Batch للتدريب الموزع</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/4.amazon-eks"><code>4.amazon-eks</code></a></td>
-<td>حوسبة</td>
-<td>ملفات التعريف للتدريب باستخدام Amazon EKS</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/5.sagemaker-hyperpod"><code>5.sagemaker-hyperpod</code></a></td>
-<td>حوسبة</td>
-<td>قالب SageMaker HyperPod للتدريب الموزع</td>
-</tr>
-</tbody></table>
+<p>| الاسم                                                               | الفئة    | الاستخدام                                             |
+| ------------------------------------------------------------------ | -------- | ----------------------------------------------------- |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/0.s3"><code>0.s3</code></a>                                   | تخزين    | إنشاء دلو S3                                         |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/1.vpc_network"><code>1.vpc_network</code></a>                 | شبكة     | إنشاء VPC مع الشبكات الفرعية والموارد المطلوبة       |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/2.aws-parallelcluster"><code>2.aws-parallelcluster</code></a> | حوسبة    | قوالب كتلة لتدريب GPU وشرائح مخصصة                    |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/3.aws-batch"><code>3.aws-batch</code></a>                     | حوسبة    | قالب AWS Batch للتدريب الموزع                         |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/4.amazon-eks"><code>4.amazon-eks</code></a>                   | حوسبة    | ملفات التعريف للتدريب باستخدام Amazon EKS            |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/5.sagemaker-hyperpod"><code>5.sagemaker-hyperpod</code></a>   | حوسبة    | قالب SageMaker HyperPod للتدريب الموزع                |</p>
 <p>سيتم إضافة المزيد، لا تتردد في إضافة أخرى جديدة (مثلاً Ray؟). ستجد أيضًا <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-cheatsheet.md">توثيقًا</a> لـ EFA والمتغيرات البيئية الموصى بها.</p>
 <h2>2. صور أمازون المخصصة للآلات</h2>
 <p>يمكن بناء الصور المخصصة للآلات باستخدام <a href="www.packer.io">Packer</a> لـ AWS ParallelCluster، Amazon EKS و EC2 العادي. هذه الصور مبنية على أدوار Ansible وملفات التشغيل (playbooks).</p>
@@ -243,71 +110,35 @@
 <li>أدوات مراقبة الأداء والتحقق</li>
 </ul>
 <h2>4. سكريبتات التحقق</h2>
-<p>توجد سكريبتات مساعدة وأمثلة على المقاييس الدقيقة في <code>4.validation_scripts/</code>. يمكن العثور على برنامج تصدير EFA Prometheus في هذا <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter">الدليل</a> </p>
-<table>
-<thead>
-<tr>
-<th>الاسم</th>
-<th>التعليقات</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/1.pytorch-env-validation"><code>1.pytorch-env-validation</code></a></td>
-<td>يتحقق من بيئة PyTorch الخاصة بك</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter"><code>3.efa-node-exporter</code></a></td>
-<td>برنامج تصدير العقدة مع وحدات مراقبة Amazon EFA</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/4.prometheus-grafana"><code>4.prometheus-grafana</code></a></td>
-<td>أصول نشر لمراقبة عناقيد SageMaker Hyperpod</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/5.nsight"><code>5.nsight</code></a></td>
-<td>يوضح كيفية تشغيل Nvidia Nsight Systems لتحليل حمل العمل الخاص بك</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-versions.py"><code>efa-versions.py</code></a></td>
-<td>الحصول على إصدارات مكتبات Nvidia وبرامج التشغيل وبرامج تشغيل EFA</td>
-</tr>
-</tbody></table>
+<p>توجد سكريبتات مساعدة وأمثلة على المقاييس الدقيقة في <code>4.validation_scripts/</code>. يمكن العثور على برنامج تصدير EFA Prometheus في هذا <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter">الدليل</a></p>
+<p>| الاسم                                                                                    | التعليقات                                                        |
+| --------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/1.pytorch-env-validation"><code>1.pytorch-env-validation</code></a> | يتحقق من بيئة PyTorch الخاصة بك                                 |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter"><code>3.efa-node-exporter</code></a>           | برنامج تصدير العقدة مع وحدات مراقبة Amazon EFA                 |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/4.prometheus-grafana"><code>4.prometheus-grafana</code></a>         | أصول نشر لمراقبة عناقيد SageMaker Hyperpod                     |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/5.nsight"><code>5.nsight</code></a>                                 | يوضح كيفية تشغيل Nvidia Nsight Systems لتحليل حمل العمل الخاص بك|
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-versions.py"><code>efa-versions.py</code></a>                                  | الحصول على إصدارات مكتبات Nvidia وبرامج التشغيل وبرامج تشغيل EFA|</p>
 <h2>5. التكامل المستمر (CI)</h2>
 <p>اختبارات التكامل مكتوبة باستخدام <a href="https://docs.pytest.org">pytest</a>. فقط قم بتشغيل:</p>
-<pre><code class="language-bash hljs">pytest .
+<pre><code class="language-bash">pytest .
 </code></pre>
 <p>بدلاً من ذلك، يمكنك تشغيل الاختبارات بدون التقاط المخرجات القياسية واحتفاظ بجميع صور الدوكر والقطع الفنية الأخرى.</p>
-<pre><code class="language-bash hljs">pytest -s --keep-artifacts=t
+<pre><code class="language-bash">pytest -s --keep-artifacts=t
 </code></pre>
 <h2>6. المساهمون</h2>
 <p>شكرًا لجميع المساهمين على البناء والمراجعة والاختبار.</p>
-<p><a href="https://github.com/aws-samples/awsome-distributed-training/graphs/contributors"><img src="https://contrib.rocks/image?repo=aws-samples/awsome-distributed-training" alt="المساهمون"></a></p>
+<p><a href="https://github.com/aws-samples/awsome-distributed-training/graphs/contributors"><img src="https://contrib.rocks/image?repo=aws-samples/awsome-distributed-training" alt="المساهمون" /></a></p>
 <h2>7. تاريخ النجوم</h2>
-<p><a href="https://star-history.com/#aws-samples/awsome-distributed-training&amp;Date"><img src="https://api.star-history.com/svg?repos=aws-samples/awsome-distributed-training&amp;type=Date" alt="مخطط تاريخ النجوم"></a></p>
-<hr>
+<p><a href="https://star-history.com/#aws-samples/awsome-distributed-training&amp;Date"><img src="https://api.star-history.com/svg?repos=aws-samples/awsome-distributed-training&amp;type=Date" alt="مخطط تاريخ النجوم" /></a></p>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

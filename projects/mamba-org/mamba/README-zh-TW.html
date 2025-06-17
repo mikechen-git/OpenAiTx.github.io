@@ -1,145 +1,56 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mamba：快速跨平台套件管理器 - mamba-org/mamba</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Mamba：快速跨平台套件管理器 - mamba-org/mamba">
-    <meta name="description" content="mamba-org/mamba - GitHub repository zh-TW documentation and information">
+    <title>mamba - mamba-org/mamba</title>
+    <meta name="title" content="mamba - mamba-org/mamba">
+    <meta name="description" content="mamba-org/mamba - GitHub repository zh-TW documentation and informationMamba：快速跨平台套件管理器 mamba-org 的一部分 套件管理器 mamba 套件伺服器 quetz mamba mamba 是用 C++ 重新實現的 conda 套件管理器。 透過多執行緒平行下載儲存庫資料和套件檔案 使用 libsolv 進行更快速的相依性解析，這是 Red Hat、Fedora 和 OpenSUSE 的 RPM 套件管理器所採用的先進函式庫 mamba 的核心部分以 C++ 實作，以達到最大效率 同時，mamba 採用了與 conda 相同的命令列解析器、套件安裝與解除安裝程式碼，以及交易驗證流程，以保持最大相容性。 mamba 是 conda-forge 生態系的一部分，該生態系同時也包含 quetz，一個開源的 conda 套件伺服器。 您可以閱讀我們的公告部落格文章。 micromamba micromamba 是 mamba 的靜態連結版本。 它可以作為單一可執行檔安裝，無需任何依賴，非常適合 CI/CD 管線及容器化環境。 詳情請參閱 micromamba 文件。 mamba v.s. micromamba 建議選用 mamba 的情境： 其他軟體於同一環境中使用 libmambapy 或 libmamba。 需要定期更新函式庫（尤其是安全性） 的場景。 環境著重於減少依賴所需磁碟空間。 建議選用 micromamba 的情境： 需要依賴單一自包含的可執行檔。 沒有 miniforge 發行版。 需要最小化執行時需求。 安裝 請參閱文件中的 mamba 及 micromamba 安裝指南。 Mamba 與 Micromamba 的額外功能 mamba 與 micromamba 在原生 conda 之上提供更多功能。 repoquery 欲高效查詢儲存庫及套件依賴關係，可使用 mamba repoquery 或 micromamba repoquery。 詳情請參閱 repoquery 文件。 安裝鎖定檔 micromamba 可用於安裝由 conda-lock 產生的鎖定檔，無需安裝 conda-lock。 只需以 -f 選項呼叫 micromamba create，並提供環境鎖定檔，檔名需以 -lock.yml 或 -lock.yaml 結尾，例如： micromamba create -n my-env -f conda-lock.yml setup-micromamba（setup-miniconda 替代品） setup-micromamba 是 setup-miniconda 的替代品，採用 micromamba。 它可大幅減少您的 CI 設定時間： 使用 micromamba，安裝僅需約 1 秒。 快取套件下載。 快取整個 conda 環境。 與 conda 的差異 雖然 mamba 和 micromamba 通常可直接替換 conda，但仍有部分差異： mamba 與 micromamba...">
     <meta name="keywords" content="mamba-org, mamba, GitHub, repository, zh-TW documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/mamba-org/mamba/README-zh-TW.html">
-    <meta property="og:title" content="Mamba：快速跨平台套件管理器 - mamba-org/mamba">
+    <meta property="og:title" content="mamba - mamba-org/mamba">
     <meta property="og:description" content="mamba-org/mamba - GitHub repository zh-TW documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/mamba-org/mamba" id="githubRepoLink" target="_blank">mamba-org/mamba</a>
+<br>
+<h1 style="display: none;">Mamba：快速跨平台套件管理器 mamba-org 的一部分 套件管理器 mamba 套件伺服器 quetz mamba mamba 是用 C++ 重新實現的 conda 套件管理器。 透過多執行緒平行下載儲存庫資料和套件檔案 使用 libsolv 進行更快速的相依性解析，這是 Red Hat、Fedora 和 OpenSUSE 的 RPM 套件管理器所採用的先進函式庫 mamba 的核心部分以 C++ 實作，以達到最大效率 同時，mamba 採用了與 conda 相同的命令列解析器、套件安裝與解除安裝程式碼，以及交易驗證流程，以保持最大相容性。 mamba 是 conda-forge 生態系的一部分，該生態系同時也包含 quetz，一個開源的 conda 套件伺服器。 您可以閱讀我們的公告部落格文章。 micromamba micromamba 是 mamba 的靜態連結版本。 它可以作為單一可執行檔安裝，無需任何依賴，非常適合 CI/CD 管線及容器化環境。 詳情請參閱 micromamba 文件。 mamba v.s. micromamba 建議選用 mamba 的情境： 其他軟體於同一環境中使用 libmambapy 或 libmamba。 需要定期更新函式庫（尤其是安全性） 的場景。 環境著重於減少依賴所需磁碟空間。 建議選用 micromamba 的情境： 需要依賴單一自包含的可執行檔。 沒有 miniforge 發行版。 需要最小化執行時需求。 安裝 請參閱文件中的 mamba 及 micromamba 安裝指南。 Mamba 與 Micromamba 的額外功能 mamba 與 micromamba 在原生 conda 之上提供更多功能。 repoquery 欲高效查詢儲存庫及套件依賴關係，可使用 mamba repoquery 或 micromamba repoquery。 詳情請參閱 repoquery 文件。 安裝鎖定檔 micromamba 可用於安裝由 conda-lock 產生的鎖定檔，無需安裝 conda-lock。 只需以 -f 選項呼叫 micromamba create，並提供環境鎖定檔，檔名需以 -lock.yml 或 -lock.yaml 結尾，例如： micromamba create -n my-env -f conda-lock.yml setup-micromamba（setup-miniconda 替代品） setup-micromamba 是 setup-miniconda 的替代品，採用 micromamba。 它可大幅減少您的 CI 設定時間： 使用 micromamba，安裝僅需約 1 秒。 快取套件下載。 快取整個 conda 環境。 與 conda 的差異 雖然 mamba 和 micromamba 通常可直接替換 conda，但仍有部分差異： mamba 與 micromamba...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mamba-org&amp;project=mamba&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>Mamba：快速跨平台套件管理器</h1>
-<p><img src="https://raw.githubusercontent.com/mamba-org/mamba/main/docs/assets/mamba_header.png" alt="mamba header image"></p>
+        <div class="markdown-body" id="content">
+            <h1>Mamba：快速跨平台套件管理器</h1>
+<p><img src="https://raw.githubusercontent.com/mamba-org/mamba/main/docs/assets/mamba_header.png" alt="mamba header image" /></p>
 <!-- markdownlint-disable-file MD033 -->
-
 <table>
 <thead align="center" cellspacing="10">
   <tr>
@@ -153,9 +64,11 @@
   </tr>
 </tbody>
 </table>
-
 <h2>mamba</h2>
-<p><a href="https://github.com/mamba-org/mamba/actions/workflows/tests.yml?query=branch%3Amain"><img src="https://github.com/mamba-org/mamba/actions/workflows/tests.yml/badge.svg" alt="建置狀態"></a><br><a href="https://gitter.im/mamba-org/Lobby?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="加入 Gitter 聊天"></a><br><a href="https://mamba.readthedocs.io/en/latest"><img src="https://readthedocs.org/projects/mamba/badge/?version=latest&amp;style=flat" alt="文件"></a><br><a href="https://gurubase.io/g/mamba"><img src="https://img.shields.io/badge/Gurubase-Ask%20mamba%20Guru-006BFF" alt="Gurubase"></a></p>
+<p><a href="https://github.com/mamba-org/mamba/actions/workflows/tests.yml?query=branch%3Amain"><img src="https://github.com/mamba-org/mamba/actions/workflows/tests.yml/badge.svg" alt="建置狀態" /></a>
+<a href="https://gitter.im/mamba-org/Lobby?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="加入 Gitter 聊天" /></a>
+<a href="https://mamba.readthedocs.io/en/latest"><img src="https://readthedocs.org/projects/mamba/badge/?version=latest&amp;style=flat" alt="文件" /></a>
+<a href="https://gurubase.io/g/mamba"><img src="https://img.shields.io/badge/Gurubase-Ask%20mamba%20Guru-006BFF" alt="Gurubase" /></a></p>
 <p><code>mamba</code> 是用 C++ 重新實現的 conda 套件管理器。</p>
 <ul>
 <li>透過多執行緒平行下載儲存庫資料和套件檔案</li>
@@ -183,7 +96,8 @@
 <li>需要最小化執行時需求。</li>
 </ul>
 <h2>安裝</h2>
-<p>請參閱文件中的 <a href="https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html">mamba</a><br>及 <a href="https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html">micromamba</a> 安裝指南。</p>
+<p>請參閱文件中的 <a href="https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html">mamba</a>
+及 <a href="https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html">micromamba</a> 安裝指南。</p>
 <h2>Mamba 與 Micromamba 的額外功能</h2>
 <p><code>mamba</code> 與 <code>micromamba</code> 在原生 <code>conda</code> 之上提供更多功能。</p>
 <h3><code>repoquery</code></h3>
@@ -191,8 +105,9 @@
 <p>詳情請參閱 <a href="https://mamba.readthedocs.io/en/latest/user_guide/mamba.html#repoquery">repoquery 文件</a>。</p>
 <h3>安裝鎖定檔</h3>
 <p><code>micromamba</code> 可用於安裝由 <a href="https://conda.github.io/conda-lock/">conda-lock</a> 產生的鎖定檔，無需安裝 <code>conda-lock</code>。</p>
-<p>只需以 <code>-f</code> 選項呼叫 <code>micromamba create</code>，並提供環境鎖定檔，檔名需以<br><code>-lock.yml</code> 或 <code>-lock.yaml</code> 結尾，例如：</p>
-<pre><code class="language-bash hljs">micromamba create -n my-env -f conda-lock.yml
+<p>只需以 <code>-f</code> 選項呼叫 <code>micromamba create</code>，並提供環境鎖定檔，檔名需以
+<code>-lock.yml</code> 或 <code>-lock.yaml</code> 結尾，例如：</p>
+<pre><code class="language-bash">micromamba create -n my-env -f conda-lock.yml
 </code></pre>
 <h3>setup-micromamba（setup-miniconda 替代品）</h3>
 <p><a href="https://github.com/marketplace/actions/setup-micromamba">setup-micromamba</a> 是 <a href="https://github.com/marketplace/actions/setup-miniconda">setup-miniconda</a> 的替代品，採用 <code>micromamba</code>。</p>
@@ -206,26 +121,38 @@
 <p>雖然 <code>mamba</code> 和 <code>micromamba</code> 通常可直接替換 <code>conda</code>，但仍有部分差異：</p>
 <ul>
 <li><code>mamba</code> 與 <code>micromamba</code> 不支援修訂（相關討論見 <a href="https://github.com/mamba-org/mamba/issues/803">https://github.com/mamba-org/mamba/issues/803</a>）</li>
-<li><code>mamba</code> 與 <code>micromamba</code> 會將 <code>MatchSpec</code> 字串正規化為最簡形式，而 <code>conda</code> 使用較冗長的格式<br>這可能導致 <code>conda env export</code> 與 <code>mamba env export</code> 輸出略有不同。</li>
+<li><code>mamba</code> 與 <code>micromamba</code> 會將 <code>MatchSpec</code> 字串正規化為最簡形式，而 <code>conda</code> 使用較冗長的格式
+這可能導致 <code>conda env export</code> 與 <code>mamba env export</code> 輸出略有不同。</li>
 </ul>
 <h2>開發安裝</h2>
 <p>請參閱<a href="https://mamba.readthedocs.io/en/latest/developer_zone/dev_environment.html">官方文件</a>中的說明。</p>
 <h2>API 與 ABI 穩定性</h2>
-<p>Mamba 專案採用 <a href="https://semver.org/">語意化版本控制</a>（格式為 <code>MAJOR.MINOR.PATCH</code>）。<br>雖然我們盡力為用戶維持穩定，但仍需不時進行破壞性更新以提升 Mamba 並減少技術債。<br>未來版本將可能提供更強的穩定性保證。</p>
+<p>Mamba 專案採用 <a href="https://semver.org/">語意化版本控制</a>（格式為 <code>MAJOR.MINOR.PATCH</code>）。
+雖然我們盡力為用戶維持穩定，但仍需不時進行破壞性更新以提升 Mamba 並減少技術債。
+未來版本將可能提供更強的穩定性保證。</p>
 <h3><code>libmamba</code>（C++）</h3>
-<p>我們尚未發現有 C++ API 的下游使用者，因此保留改進的空間。<br>對於 <code>libmamba</code>，<em>向後相容</em> 定義如下：</p>
+<p>我們尚未發現有 C++ API 的下游使用者，因此保留改進的空間。
+對於 <code>libmamba</code>，<em>向後相容</em> 定義如下：</p>
 <ul>
-<li><em>ABI 向後相容</em> 表示可以直接替換函式庫二進位檔，而不需用更新的標頭檔重新編譯您的程式碼。<br>除了修復的錯誤（希望如此）及效能，行為應與舊版一致。</li>
-<li><em>API 向後相容</em> 表示您必須以新版本函式庫的程式碼重新編譯您的程式碼，但無需修改您的程式碼，只需重新建置即可。<br>這適用於未使用任何視為私有的宣告，例如在 <code>detail</code> 子命名空間中的內容。<br>除了修復的錯誤（希望如此）及效能，行為應與舊版一致。<br>當宣告已被棄用但未移除且仍可運作時，我們也認為其向後相容，因為僅在編譯時行為發生變化。</li>
+<li><em>ABI 向後相容</em> 表示可以直接替換函式庫二進位檔，而不需用更新的標頭檔重新編譯您的程式碼。
+除了修復的錯誤（希望如此）及效能，行為應與舊版一致。</li>
+<li><em>API 向後相容</em> 表示您必須以新版本函式庫的程式碼重新編譯您的程式碼，但無需修改您的程式碼，只需重新建置即可。
+這適用於未使用任何視為私有的宣告，例如在 <code>detail</code> 子命名空間中的內容。
+除了修復的錯誤（希望如此）及效能，行為應與舊版一致。
+當宣告已被棄用但未移除且仍可運作時，我們也認為其向後相容，因為僅在編譯時行為發生變化。</li>
 </ul>
 <p>基於上述，<code>libmamba</code> 提供以下保證：</p>
 <ul>
 <li><code>PATCH</code> 版本為 API 與 ABI 向後相容；</li>
-<li><code>MINOR</code> 版本對 <code>mamba/api</code> 宣告維持 API 向後相容；<br>其他地方的 API 及任意位置的 ABI 可能會變動；</li>
+<li><code>MINOR</code> 版本對 <code>mamba/api</code> 宣告維持 API 向後相容；
+其他地方的 API 及任意位置的 ABI 可能會變動；</li>
 <li><code>MAJOR</code> 版本不作任何保證。</li>
 </ul>
 <h3><code>libmambapy</code>（Python）</h3>
-<p>對於 <code>libmambapy</code>，<em>API 向後相容</em> 意味著您的 Python 程式碼在新版 <code>libmambapy</code> 下能正常運作，只要未使用任何視為私有的宣告（如以 <code>_</code> 開頭的名稱）。<br>除了修復的錯誤（希望如此）及效能，行為應與舊版一致。<br>當宣告已被棄用但未移除且仍可運作時，我們也認為其向後相容，僅在啟用 Python<br><code>DeprecationWarning</code> 時才能觀察到變化，通常僅在開發時啟用。</p>
+<p>對於 <code>libmambapy</code>，<em>API 向後相容</em> 意味著您的 Python 程式碼在新版 <code>libmambapy</code> 下能正常運作，只要未使用任何視為私有的宣告（如以 <code>_</code> 開頭的名稱）。
+除了修復的錯誤（希望如此）及效能，行為應與舊版一致。
+當宣告已被棄用但未移除且仍可運作時，我們也認為其向後相容，僅在啟用 Python
+<code>DeprecationWarning</code> 時才能觀察到變化，通常僅在開發時啟用。</p>
 <p>基於上述，<code>libmambapy</code> 提供以下保證：</p>
 <ul>
 <li><code>PATCH</code> 版本為 API 向後相容；</li>
@@ -233,7 +160,9 @@
 <li><code>MAJOR</code> 版本不作任何保證。</li>
 </ul>
 <h3><code>mamba</code> 與 <code>micromamba</code>（可執行檔）</h3>
-<p>對於可執行檔，<em>向後相容</em> 應用於可編程輸入與輸出，表示您的程式碼（包含 shell 指令稿）可於新版可執行檔下運作，無需修改。<br>可編程輸入/輸出包含執行檔名稱、命令列參數、設定檔、環境變數、JSON 命令列輸出及產生的檔案。<br><em>不包含</em> 人類可讀的輸出及錯誤訊息，因此人類可讀輸出的棄用警告不在此限。</p>
+<p>對於可執行檔，<em>向後相容</em> 應用於可編程輸入與輸出，表示您的程式碼（包含 shell 指令稿）可於新版可執行檔下運作，無需修改。
+可編程輸入/輸出包含執行檔名稱、命令列參數、設定檔、環境變數、JSON 命令列輸出及產生的檔案。
+<em>不包含</em> 人類可讀的輸出及錯誤訊息，因此人類可讀輸出的棄用警告不在此限。</p>
 <p>基於上述，<code>mamba</code> 與 <code>micromamba</code> 提供以下保證：</p>
 <ul>
 <li><code>PATCH</code> 版本向後相容；</li>
@@ -243,11 +172,12 @@
 <h2>支持我們</h2>
 <p>僅 <code>mamba</code> 與 <code>micromamba</code> 2.0 及以後版本受支持且持續開發。</p>
 <p><code>1.x</code> 分支僅針對安全性議題（如 CVE）維護。</p>
-<p>如有疑問，歡迎加入 <a href="https://gitter.im/QuantStack/Lobby">QuantStack 聊天室</a><br>或 <a href="https://gitter.im/conda/conda">Conda 頻道</a>（請注意，本專案與 <code>conda</code> 或 Anaconda Inc. 並無官方關聯）。</p>
+<p>如有疑問，歡迎加入 <a href="https://gitter.im/QuantStack/Lobby">QuantStack 聊天室</a>
+或 <a href="https://gitter.im/conda/conda">Conda 頻道</a>（請注意，本專案與 <code>conda</code> 或 Anaconda Inc. 並無官方關聯）。</p>
 <h2>授權</h2>
 <p>我們採用共享版權模式，使所有貢獻者都可保留其貢獻的版權。</p>
 <p>本軟體採用 BSD-3-Clause 授權。詳情請參閱 <a href="https://raw.githubusercontent.com/mamba-org/mamba/main/LICENSE">LICENSE</a> 檔案。</p>
-<hr>
+<hr />
 <h3>雙週開發會議</h3>
 <p>我們每兩週舉辦一次視訊會議，討論近期進展並互相回饋。</p>
 <p>歡迎任何人參加，無論是想討論主題或只是旁聽。</p>
@@ -256,30 +186,15 @@
 <li>地點：<a href="https://meet.jit.si/mamba-org">Mamba jitsi</a></li>
 <li>內容：<a href="https://hackmd.io/@guj2k_aBSSyr1YHBG9raWw/HyHt-Ekzj">會議記錄</a></li>
 </ul>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-08</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

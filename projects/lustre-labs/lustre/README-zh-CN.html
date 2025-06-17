@@ -1,162 +1,71 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lustre - lustre-labs/lustre</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Lustre - lustre-labs/lustre">
-    <meta name="description" content="lustre-labs/lustre - GitHub repository zh-CN documentation and information">
+    <title>lustre - lustre-labs/lustre</title>
+    <meta name="title" content="lustre - lustre-labs/lustre">
+    <meta name="description" content="lustre-labs/lustre - GitHub repository zh-CN documentation and informationLustre ✨ 让你的前端闪耀起来 ✨ 用 Gleam 构建 Web 应用的框架！ 快速开始 | 参考文档 | Discord 由 ❤︎ 构建， Hayleigh Thompson 以及 贡献者 目录 特性 示例 理念 安装 接下来 支持 特性 {#features} 用于构建 HTML 的声明式、函数式 API。没有模板，没有宏， 只有 Gleam。 借鉴 Erlang 和 Elm 架构的状态管理。 受控副作用，实现可预测、可测试的代码。 通用组件。一次编写，处处运行。Elm 与 Phoenix LiveView 的结合。 内置功能齐全的 CLI，让脚手架和应用构建变得轻松愉快。 服务端渲染，用于静态 HTML 模板。 示例 {#example} Lustre 提供了20 多个示例！ 以下是一个示例： import gleam/int import lustre import lustre/element.{text} import lustre/element/html.{div, button, p} import lustre/event.{on_click} pub fn main() { let app = lustre.simple(init, update, view) let assert Ok(_) = lustre.start(app, &quot;#app&quot;, Nil) Nil } fn init(_flags) { 0 } type Msg { Incr Decr } fn update(model, msg) { case msg { Incr -&gt; model + 1 Decr -&gt; model - 1 } } fn view(model) { let count = int.to_string(model) div([], [ button([on_click(Incr)], [text(&quot; + &quot;)]), p([], [text(count)]), button([on_click(Decr)], [text(&quot; - &quot;)]) ]) } 理念 {#philosophy} Lustre 是一个有“主见”的框架，适用于构建中小型 Web 应用。现代前端开发既困难又复杂，其中一部分复杂性是必需的，但很多复杂性是偶然的，或者源自于可选项过多。Lustre 与 Gleam 拥有相同的设计理念：在可能的情况下，事情只应有一种做法。 这意味着默认自带唯一的状态管理系统，借鉴...">
     <meta name="keywords" content="lustre-labs, lustre, GitHub, repository, zh-CN documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/lustre-labs/lustre/README-zh-CN.html">
-    <meta property="og:title" content="Lustre - lustre-labs/lustre">
+    <meta property="og:title" content="lustre - lustre-labs/lustre">
     <meta property="og:description" content="lustre-labs/lustre - GitHub repository zh-CN documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/lustre-labs/lustre" id="githubRepoLink" target="_blank">lustre-labs/lustre</a>
+<br>
+<h1 style="display: none;">Lustre ✨ 让你的前端闪耀起来 ✨ 用 Gleam 构建 Web 应用的框架！ 快速开始 | 参考文档 | Discord 由 ❤︎ 构建， Hayleigh Thompson 以及 贡献者 目录 特性 示例 理念 安装 接下来 支持 特性 {#features} 用于构建 HTML 的声明式、函数式 API。没有模板，没有宏， 只有 Gleam。 借鉴 Erlang 和 Elm 架构的状态管理。 受控副作用，实现可预测、可测试的代码。 通用组件。一次编写，处处运行。Elm 与 Phoenix LiveView 的结合。 内置功能齐全的 CLI，让脚手架和应用构建变得轻松愉快。 服务端渲染，用于静态 HTML 模板。 示例 {#example} Lustre 提供了20 多个示例！ 以下是一个示例： import gleam/int import lustre import lustre/element.{text} import lustre/element/html.{div, button, p} import lustre/event.{on_click} pub fn main() { let app = lustre.simple(init, update, view) let assert Ok(_) = lustre.start(app, &quot;#app&quot;, Nil) Nil } fn init(_flags) { 0 } type Msg { Incr Decr } fn update(model, msg) { case msg { Incr -&gt; model + 1 Decr -&gt; model - 1 } } fn view(model) { let count = int.to_string(model) div([], [ button([on_click(Incr)], [text(&quot; + &quot;)]), p([], [text(count)]), button([on_click(Decr)], [text(&quot; - &quot;)]) ]) } 理念 {#philosophy} Lustre 是一个有“主见”的框架，适用于构建中小型 Web 应用。现代前端开发既困难又复杂，其中一部分复杂性是必需的，但很多复杂性是偶然的，或者源自于可选项过多。Lustre 与 Gleam 拥有相同的设计理念：在可能的情况下，事情只应有一种做法。 这意味着默认自带唯一的状态管理系统，借鉴...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=lustre-labs&amp;project=lustre&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1 align="center">Lustre</h1>
-
+        <div class="markdown-body" id="content">
+            <h1 align="center">Lustre</h1>
 <div align="center">
   ✨ <strong>让你的前端闪耀起来</strong> ✨
 </div>
-
 <div align="center">
   用 Gleam 构建 Web 应用的框架！
 </div>
-
-<br>
-
+<br />
 <div align="center">
   <a href="https://hex.pm/packages/lustre">
-    <img src="https://img.shields.io/hexpm/v/lustre" alt="Available on Hex">
+    <img src="https://img.shields.io/hexpm/v/lustre"
+      alt="Available on Hex" />
   </a>
   <a href="https://hexdocs.pm/lustre">
-    <img src="https://img.shields.io/badge/hex-docs-ffaff3" alt="Documentation">
+    <img src="https://img.shields.io/badge/hex-docs-ffaff3"
+      alt="Documentation" />
   </a>
 </div>
-
 <div align="center">
   <h3>
     <!--
@@ -178,16 +87,14 @@
     </a>
   </h3>
 </div>
-
 <div align="center">
   <sub>由 ❤︎ 构建，
   <a href="https://twitter.com/hayleighdotdev">Hayleigh Thompson</a> 以及
   <a href="https://github.com/lustre-labs/lustre/graphs/contributors">
     贡献者
   </a>
-</sub></div>
-
-<hr>
+</div>
+<hr />
 <h2>目录</h2>
 <ul>
 <li><a href="#features">特性</a></li>
@@ -199,7 +106,8 @@
 </ul>
 <h2>特性 {#features}</h2>
 <ul>
-<li><p>用于构建 HTML 的<strong>声明式</strong>、函数式 API。没有模板，没有宏，<br>只有 Gleam。</p>
+<li><p>用于构建 HTML 的<strong>声明式</strong>、函数式 API。没有模板，没有宏，
+只有 Gleam。</p>
 </li>
 <li><p>借鉴 Erlang 和 Elm 架构的<strong>状态管理</strong>。</p>
 </li>
@@ -213,7 +121,8 @@
 </li>
 </ul>
 <h2>示例 {#example}</h2>
-<p>Lustre 提供了<a href="https://hexdocs.pm/lustre/reference/examples.html">20 多个示例</a>！<br>以下是一个示例：</p>
+<p>Lustre 提供了<a href="https://hexdocs.pm/lustre/reference/examples.html">20 多个示例</a>！
+以下是一个示例：</p>
 <pre><code class="language-gleam">import gleam/int
 import lustre
 import lustre/element.{text}
@@ -222,7 +131,7 @@ import lustre/event.{on_click}
 
 pub fn main() {
   let app = lustre.simple(init, update, view)
-  let assert Ok(_) = lustre.start(app, "#app", Nil)
+  let assert Ok(_) = lustre.start(app, &quot;#app&quot;, Nil)
 
   Nil
 }
@@ -247,9 +156,9 @@ fn view(model) {
   let count = int.to_string(model)
 
   div([], [
-    button([on_click(Incr)], [text(" + ")]),
+    button([on_click(Incr)], [text(&quot; + &quot;)]),
     p([], [text(count)]),
-    button([on_click(Decr)], [text(" - ")])
+    button([on_click(Decr)], [text(&quot; - &quot;)])
   ])
 }
 </code></pre>
@@ -260,44 +169,33 @@ fn view(model) {
 <p>在确实需要组件的场景下，充分利用 Lustre 组件可以<strong>任意运行</strong>这一特性。Lustre 提供了工具，让你能编写可以在现有 Lustre 应用内运行的组件，也可以将其导出为独立的 Web 组件，或在服务器上用极简运行时打补丁 DOM。Lustre 称这些为<strong>通用组件</strong>，并以 Gleam 的多目标为设计出发点。</p>
 <h2>安装 {#installation}</h2>
 <p>Lustre 已发布在 <a href="https://hex.pm/packages/lustre">Hex</a>！你可以通过命令行将其添加到你的 Gleam 项目中：</p>
-<pre><code class="language-sh hljs language-bash">gleam add lustre
+<pre><code class="language-sh">gleam add lustre
 </code></pre>
 <p>Lustre 还有一个配套开发工具包，你可能也需要安装：</p>
 <blockquote>
-<p><strong>注意</strong>：lustre_dev_tools 开发服务器会监听你的文件系统，<br>检测 gleam 代码的变更并自动刷新浏览器。Linux 用户需要安装 <a href="">inotify-tools</a></p>
+<p><strong>注意</strong>：lustre_dev_tools 开发服务器会监听你的文件系统，
+检测 gleam 代码的变更并自动刷新浏览器。Linux 用户需要安装 <a href="">inotify-tools</a></p>
 </blockquote>
-<pre><code class="language-sh hljs language-bash">gleam add --dev lustre_dev_tools
+<pre><code class="language-sh">gleam add --dev lustre_dev_tools
 </code></pre>
 <h2>接下来 {#where-next}</h2>
-<p>想快速上手 Lustre，可以阅读<a href="https://hexdocs.pm/lustre/guide/01-quickstart.html">快速开始指南</a>。<br>如果你更喜欢直接看代码，<a href="https://github.com/lustre-labs/lustre/tree/main/examples">examples</a><br>目录包含了多个小型应用，展示了该框架的不同方面。</p>
+<p>想快速上手 Lustre，可以阅读<a href="https://hexdocs.pm/lustre/guide/01-quickstart.html">快速开始指南</a>。
+如果你更喜欢直接看代码，<a href="https://github.com/lustre-labs/lustre/tree/main/examples">examples</a>
+目录包含了多个小型应用，展示了该框架的不同方面。</p>
 <p>你也可以在 <a href="https://hexdocs.pm/lustre">HexDocs</a> 阅读文档和 API 参考。</p>
 <h2>支持 {#support}</h2>
-<p>Lustre 主要由我，<a href="https://github.com/hayleigh-dot-dev">Hayleigh</a> 一个人开发，<br>是在两份工作的空闲时间完成的。如果你愿意支持我的工作，可以<a href="https://github.com/sponsors/hayleigh-dot-dev">在 GitHub 上赞助我</a>。</p>
+<p>Lustre 主要由我，<a href="https://github.com/hayleigh-dot-dev">Hayleigh</a> 一个人开发，
+是在两份工作的空闲时间完成的。如果你愿意支持我的工作，可以<a href="https://github.com/sponsors/hayleigh-dot-dev">在 GitHub 上赞助我</a>。</p>
 <p>也非常欢迎贡献！如果你发现了 bug，或者有新特性的建议，请提交 issue 或 pull request。</p>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-10</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

@@ -1,218 +1,85 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML Eğitim Referans Mimarileri &amp; Testler  - aws-samples/awsome-distributed-training</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="ML Eğitim Referans Mimarileri &amp; Testler - aws-samples/awsome-distributed-training">
-    <meta name="description" content="aws-samples/awsome-distributed-training - GitHub repository tr documentation and information">
+    <title>awsome-distributed-training - aws-samples/awsome-distributed-training</title>
+    <meta name="title" content="awsome-distributed-training - aws-samples/awsome-distributed-training">
+    <meta name="description" content="aws-samples/awsome-distributed-training - GitHub repository tr documentation and informationML Eğitim Referans Mimarileri &amp; Testler Uyarı Bu depo şu anda büyük bir yeniden yapılandırma sürecinden geçmektedir, özellikle test vakaları bölümü üzerinde yoğunlaşılmıştır. Önceki dizin yapısını ve kullanımdan kaldırılmış test vakalarını kullanmayı tercih ederseniz, lütfen v1.1.0 sürümüne bakınız. Bu depo, Amazon SageMaker Hyperpod, AWS ParallelCluster, AWS Batch ve Amazon EKS ile dağıtılmış model eğitimi için referans mimariler ve test vakalarını içermektedir. Test vakaları, farklı tür ve boyuttaki modelleri, farklı frameworkleri ve paralel optimizasyonları (Pytorch DDP/FSDP, MegatronLM, NemoMegatron...) kapsamaktadır. Bu dizinin ana bileşenleri şunlardır: reference-architectures/ |-- 1.architectures/ # Referans mimariler için CloudFormation şablonları |-- 2.ami_and_containers/ # AMI'ler ve container imajları oluşturma scriptleri |-- 3.test_cases/ # Referans test vakaları ve/veya benchmark scriptleri |-- 4.validation_observability/ # Performans ölçüm veya sorun giderme araçları `-- ... NOT: Mimariler, 1.architectures/0.s3/ ve 1.architectures/1.vpc_network/ referans şablonları kullanılarak oluşturulan S3 bucket ve VPC ile çalışacak şekilde tasarlanmıştır. Herhangi bir referans mimariyi dağıtmadan önce bu iki şablonu dağıtmanız şiddetle önerilir....">
     <meta name="keywords" content="aws-samples, awsome-distributed-training, GitHub, repository, tr documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/aws-samples/awsome-distributed-training/README-tr.html">
-    <meta property="og:title" content="ML Eğitim Referans Mimarileri &amp; Testler - aws-samples/awsome-distributed-training">
+    <meta property="og:title" content="awsome-distributed-training - aws-samples/awsome-distributed-training">
     <meta property="og:description" content="aws-samples/awsome-distributed-training - GitHub repository tr documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/aws-samples/awsome-distributed-training" id="githubRepoLink" target="_blank">aws-samples/awsome-distributed-training</a>
+<br>
+<h1 style="display: none;">ML Eğitim Referans Mimarileri &amp; Testler Uyarı Bu depo şu anda büyük bir yeniden yapılandırma sürecinden geçmektedir, özellikle test vakaları bölümü üzerinde yoğunlaşılmıştır. Önceki dizin yapısını ve kullanımdan kaldırılmış test vakalarını kullanmayı tercih ederseniz, lütfen v1.1.0 sürümüne bakınız. Bu depo, Amazon SageMaker Hyperpod, AWS ParallelCluster, AWS Batch ve Amazon EKS ile dağıtılmış model eğitimi için referans mimariler ve test vakalarını içermektedir. Test vakaları, farklı tür ve boyuttaki modelleri, farklı frameworkleri ve paralel optimizasyonları (Pytorch DDP/FSDP, MegatronLM, NemoMegatron...) kapsamaktadır. Bu dizinin ana bileşenleri şunlardır: reference-architectures/ |-- 1.architectures/ # Referans mimariler için CloudFormation şablonları |-- 2.ami_and_containers/ # AMI'ler ve container imajları oluşturma scriptleri |-- 3.test_cases/ # Referans test vakaları ve/veya benchmark scriptleri |-- 4.validation_observability/ # Performans ölçüm veya sorun giderme araçları `-- ... NOT: Mimariler, 1.architectures/0.s3/ ve 1.architectures/1.vpc_network/ referans şablonları kullanılarak oluşturulan S3 bucket ve VPC ile çalışacak şekilde tasarlanmıştır. Herhangi bir referans mimariyi dağıtmadan önce bu iki şablonu dağıtmanız şiddetle önerilir....</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>ML Eğitim Referans Mimarileri &amp; Testler <!-- omit from toc --></h1>
+        <div class="markdown-body" id="content">
+            <h1>ML Eğitim Referans Mimarileri &amp; Testler <!-- omit from toc --></h1>
 <blockquote>
-<p><strong>Uyarı</strong><br>Bu depo şu anda büyük bir yeniden yapılandırma sürecinden geçmektedir, özellikle test vakaları bölümü üzerinde yoğunlaşılmıştır. Önceki dizin yapısını ve kullanımdan kaldırılmış test vakalarını kullanmayı tercih ederseniz, lütfen <a href="https://github.com/aws-samples/awsome-distributed-training/releases/tag/v1.1.0">v1.1.0</a> sürümüne bakınız.</p>
+<p><strong>Uyarı</strong>
+Bu depo şu anda büyük bir yeniden yapılandırma sürecinden geçmektedir, özellikle test vakaları bölümü üzerinde yoğunlaşılmıştır. Önceki dizin yapısını ve kullanımdan kaldırılmış test vakalarını kullanmayı tercih ederseniz, lütfen <a href="https://github.com/aws-samples/awsome-distributed-training/releases/tag/v1.1.0">v1.1.0</a> sürümüne bakınız.</p>
 </blockquote>
 <p>Bu depo, <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html">Amazon SageMaker Hyperpod</a>, <a href="https://docs.aws.amazon.com/parallelcluster/latest/ug/what-is-aws-parallelcluster.html">AWS ParallelCluster</a>, <a href="https://docs.aws.amazon.com/batch/latest/userguide/what-is-batch.html">AWS Batch</a> ve <a href="https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html">Amazon EKS</a> ile dağıtılmış model eğitimi için referans mimariler ve test vakalarını içermektedir. Test vakaları, farklı tür ve boyuttaki modelleri, farklı frameworkleri ve paralel optimizasyonları (Pytorch DDP/FSDP, MegatronLM, NemoMegatron...) kapsamaktadır.</p>
 <p>Bu dizinin ana bileşenleri şunlardır:</p>
-<pre><code class="language-bash hljs">reference-architectures/
-|-- 1.architectures/               <span class="hljs-comment"># Referans mimariler için CloudFormation şablonları</span>
-|-- 2.ami_and_containers/          <span class="hljs-comment"># AMI'ler ve container imajları oluşturma scriptleri</span>
-|-- 3.test_cases/                  <span class="hljs-comment"># Referans test vakaları ve/veya benchmark scriptleri</span>
-|-- 4.validation_observability/    <span class="hljs-comment"># Performans ölçüm veya sorun giderme araçları</span>
+<pre><code class="language-bash">reference-architectures/
+|-- 1.architectures/               # Referans mimariler için CloudFormation şablonları
+|-- 2.ami_and_containers/          # AMI'ler ve container imajları oluşturma scriptleri
+|-- 3.test_cases/                  # Referans test vakaları ve/veya benchmark scriptleri
+|-- 4.validation_observability/    # Performans ölçüm veya sorun giderme araçları
 `-- ...
 </code></pre>
 <p><strong>NOT</strong>: Mimariler, <code>1.architectures/0.s3/</code> ve <code>1.architectures/1.vpc_network/</code> referans şablonları kullanılarak oluşturulan S3 bucket ve VPC ile çalışacak şekilde tasarlanmıştır. <em>Herhangi bir referans mimariyi dağıtmadan <strong>önce</strong> bu iki şablonu dağıtmanız şiddetle önerilir.</em></p>
 <h2>0. Atölyeler</h2>
 <p>Aşağıdaki atölyeleri takip ederek AWS üzerinde modeller eğitebilirsiniz. Her biri çeşitli test vakaları için örnekler ve LLM eğitimi için bir küme işletme hakkında bilgiler içerir.</p>
-<table>
-<thead>
-<tr>
-<th>İsim</th>
-<th>Açıklamalar</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://catalog.workshops.aws/sagemaker-hyperpod/en-US">Amazon SageMaker HyperPod</a></td>
-<td>SageMaker HyperPod için atölye, nasıl dağıtılacağı ve izleneceğini gösterir</td>
-</tr>
-<tr>
-<td><a href="https://catalog.workshops.aws/ml-on-aws-parallelcluster">AWS ParallelCluster</a></td>
-<td>HyperPod ile benzer atölye ama ParallelCluster için</td>
-</tr>
-<tr>
-<td><a href="https://catalog.workshops.aws/sagemaker-hyperpod-eks">Amazon SageMaker HyperPod EKS</a></td>
-<td>SageMaker HyperPod EKS için atölye, nasıl dağıtılacağı ve izleneceğini gösterir</td>
-</tr>
-</tbody></table>
+<p>| İsim                                                                           | Açıklamalar
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------- |
+| <a href="https://catalog.workshops.aws/sagemaker-hyperpod/en-US">Amazon SageMaker HyperPod</a>   | SageMaker HyperPod için atölye, nasıl dağıtılacağı ve izleneceğini gösterir |
+| <a href="https://catalog.workshops.aws/ml-on-aws-parallelcluster">AWS ParallelCluster</a> | HyperPod ile benzer atölye ama ParallelCluster için                 |
+| <a href="https://catalog.workshops.aws/sagemaker-hyperpod-eks">Amazon SageMaker HyperPod EKS</a>   | SageMaker HyperPod EKS için atölye, nasıl dağıtılacağı ve izleneceğini gösterir |</p>
 <h2>1. Mimariler</h2>
 <p>Mimariler <code>1.architectures</code> içinde yer almakta olup yardımcı programlar ve servis ile ilgili mimarilerden oluşur.</p>
-<table>
-<thead>
-<tr>
-<th>İsim</th>
-<th>Kategori</th>
-<th>Kullanım</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/0.s3"><code>0.s3</code></a></td>
-<td>Depolama</td>
-<td>Bir S3 bucket oluşturur</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/1.vpc_network"><code>1.vpc_network</code></a></td>
-<td>Ağ</td>
-<td>Gerekli kaynaklarla bir VPC ve alt ağlar oluşturur</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/2.aws-parallelcluster"><code>2.aws-parallelcluster</code></a></td>
-<td>Hesaplama</td>
-<td>GPU &amp; özel silikon eğitimi için küme şablonları</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/3.aws-batch"><code>3.aws-batch</code></a></td>
-<td>Hesaplama</td>
-<td>Dağıtılmış eğitim için AWS Batch şablonu</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/4.amazon-eks"><code>4.amazon-eks</code></a></td>
-<td>Hesaplama</td>
-<td>Amazon EKS ile eğitim için manifest dosyaları</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/5.sagemaker-hyperpod"><code>5.sagemaker-hyperpod</code></a></td>
-<td>Hesaplama</td>
-<td>Dağıtılmış eğitim için SageMaker HyperPod şablonu</td>
-</tr>
-</tbody></table>
+<p>| İsim                                                               | Kategori | Kullanım                                               |
+| ------------------------------------------------------------------ | -------- | ----------------------------------------------------- |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/0.s3"><code>0.s3</code></a>                                   | Depolama  | Bir S3 bucket oluşturur                                |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/1.vpc_network"><code>1.vpc_network</code></a>                 | Ağ  | Gerekli kaynaklarla bir VPC ve alt ağlar oluşturur     |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/2.aws-parallelcluster"><code>2.aws-parallelcluster</code></a> | Hesaplama  | GPU &amp; özel silikon eğitimi için küme şablonları       |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/3.aws-batch"><code>3.aws-batch</code></a>                     | Hesaplama  | Dağıtılmış eğitim için AWS Batch şablonu               |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/4.amazon-eks"><code>4.amazon-eks</code></a>                   | Hesaplama  | Amazon EKS ile eğitim için manifest dosyaları          |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/5.sagemaker-hyperpod"><code>5.sagemaker-hyperpod</code></a>   | Hesaplama  | Dağıtılmış eğitim için SageMaker HyperPod şablonu      |</p>
 <p>Daha fazlası gelecek, yeni mimariler eklemekten çekinmeyin (ör. Ray?). Ayrıca EFA ve önerilen ortam değişkenleri için <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-cheatsheet.md">belgelere</a> ulaşabilirsiniz.</p>
 <h2>2. Özel Amazon Makine İmajları</h2>
 <p>Özel makine imajları, AWS ParallelCluster, Amazon EKS ve saf EC2 için <a href="www.packer.io">Packer</a> kullanılarak oluşturulabilir. Bu imajlar Ansible rollerine ve playbook'larına dayanmaktadır.</p>
@@ -244,70 +111,34 @@
 </ul>
 <h2>4. Doğrulama scriptleri</h2>
 <p>Yardımcı scriptler ve mikro-benchmark örnekleri <code>4.validation_observability/</code> altında bulunmaktadır. EFA Prometheus exporter bu <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter">dizinde</a> bulunabilir.</p>
-<table>
-<thead>
-<tr>
-<th>İsim</th>
-<th>Açıklamalar</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/1.pytorch-env-validation"><code>1.pytorch-env-validation</code></a></td>
-<td>PyTorch ortamınızı doğrular</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter"><code>3.efa-node-exporter</code></a></td>
-<td>Amazon EFA izleme modülleri ile node exporter</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/4.prometheus-grafana"><code>4.prometheus-grafana</code></a></td>
-<td>SageMaker Hyperpod Kümelerini izlemek için dağıtım varlıkları</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/5.nsight"><code>5.nsight</code></a></td>
-<td>İş yükünüzü profil çıkarmak için Nvidia Nsight Systems nasıl çalıştırılır</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-versions.py"><code>efa-versions.py</code></a></td>
-<td>Nvidia kütüphane, sürücü ve EFA sürümlerini alır</td>
-</tr>
-</tbody></table>
+<p>| İsim                                                                                    | Açıklamalar                                                    |
+| --------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/1.pytorch-env-validation"><code>1.pytorch-env-validation</code></a> | PyTorch ortamınızı doğrular                                   |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter"><code>3.efa-node-exporter</code></a>           | Amazon EFA izleme modülleri ile node exporter                 |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/4.prometheus-grafana"><code>4.prometheus-grafana</code></a>         | SageMaker Hyperpod Kümelerini izlemek için dağıtım varlıkları  |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/5.nsight"><code>5.nsight</code></a>                                 | İş yükünüzü profil çıkarmak için Nvidia Nsight Systems nasıl çalıştırılır |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-versions.py"><code>efa-versions.py</code></a>                                  | Nvidia kütüphane, sürücü ve EFA sürümlerini alır              |</p>
 <h2>5. CI</h2>
 <p>Entegrasyon testleri <a href="https://docs.pytest.org">pytest</a> ile yazılmıştır. Aşağıdaki komutu çalıştırmanız yeterlidir:</p>
-<pre><code class="language-bash hljs">pytest .
+<pre><code class="language-bash">pytest .
 </code></pre>
 <p>Alternatif olarak stdout yakalamadan ve tüm docker imajları ile diğer artefaktları koruyarak testleri çalıştırabilirsiniz.</p>
-<pre><code class="language-bash hljs">pytest -s --keep-artifacts=t
+<pre><code class="language-bash">pytest -s --keep-artifacts=t
 </code></pre>
 <h2>6. Katkıda Bulunanlar</h2>
 <p>Yapılandırma, inceleme ve test için katkıda bulunan herkese teşekkürler.</p>
-<p><a href="https://github.com/aws-samples/awsome-distributed-training/graphs/contributors"><img src="https://contrib.rocks/image?repo=aws-samples/awsome-distributed-training" alt="Katkıda Bulunanlar"></a></p>
+<p><a href="https://github.com/aws-samples/awsome-distributed-training/graphs/contributors"><img src="https://contrib.rocks/image?repo=aws-samples/awsome-distributed-training" alt="Katkıda Bulunanlar" /></a></p>
 <h2>7. Yıldız Geçmişi</h2>
-<p><a href="https://star-history.com/#aws-samples/awsome-distributed-training&amp;Date"><img src="https://api.star-history.com/svg?repos=aws-samples/awsome-distributed-training&amp;type=Date" alt="Yıldız Geçmişi Grafiği"></a></p>
-<hr>
+<p><a href="https://star-history.com/#aws-samples/awsome-distributed-training&amp;Date"><img src="https://api.star-history.com/svg?repos=aws-samples/awsome-distributed-training&amp;type=Date" alt="Yıldız Geçmişi Grafiği" /></a></p>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

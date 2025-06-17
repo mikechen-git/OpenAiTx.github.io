@@ -1,143 +1,56 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Storm - asdine/storm</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Storm - asdine/storm">
-    <meta name="description" content="asdine/storm - GitHub repository zh-TW documentation and information">
+    <title>storm - asdine/storm</title>
+    <meta name="title" content="storm - asdine/storm">
+    <meta name="description" content="asdine/storm - GitHub repository zh-TW documentation and informationStorm Storm 是一個為 BoltDB 設計的簡單且強大的工具包。基本上，Storm 提供索引、各種儲存與抓取資料的方法、進階查詢系統，以及更多功能。 除了下方的範例之外，請參閱 GoDoc 上的範例。 如需進階查詢及對 Badger 的支援，請參閱 Genji 目錄 入門指南 匯入 Storm 開啟資料庫 簡易 CRUD 系統 宣告你的結構體 儲存你的物件 自動遞增 簡單查詢 取得單一物件 取得多個物件 取得所有物件 依索引排序取得所有物件 取得物件範圍 依前綴取得物件 跳過、限制與反向 刪除物件 更新物件 儲存物件前初始化 bucket 與索引 刪除 bucket 重新索引 bucket 進階查詢 交易 選項 BoltOptions MarshalUnmarshaler 內建編解碼器 使用現有 Bolt 連線 批次模式 節點與巢狀 bucket 節點選項 簡單 Key/Value 儲存 BoltDB 授權條款 致謝 入門指南 GO111MODULE=on go get -u github.com/asdine/storm/v3 匯入 Storm import &quot;github.com/asdine/storm/v3&quot; 開啟資料庫 快速開啟資料庫的方法 db, err := storm.Open(&quot;my.db&quot;) defer db.Close() Open 可接收多個選項以自訂其行為。詳見下方 選項 簡易 CRUD 系統 宣告你的結構體 type User struct { ID int // 主鍵 Group string `storm:&quot;index&quot;` // 此欄位將被建立索引 Email string `storm:&quot;unique&quot;` // 此欄位將建立唯一性索引 Name string // 此欄位不建立索引 Age int `storm:&quot;index&quot;` } 主鍵可以是任意型別，只要不是零值即可。Storm 會先尋找 id 標籤，若不存在則尋找名為 ID 的欄位。 type User struct { ThePrimaryKey string `storm:&quot;id&quot;`// 主鍵 Group string `storm:&quot;index&quot;` // 此欄位將被建立索引 Email string `storm:&quot;unique&quot;` // 此欄位將建立唯一性索引 Name string // 此欄位不建立索引 } Storm 透過 inline 標籤處理巢狀結構中的標籤 type Base struct { Ident bson.ObjectId...">
     <meta name="keywords" content="asdine, storm, GitHub, repository, zh-TW documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/asdine/storm/README-zh-TW.html">
-    <meta property="og:title" content="Storm - asdine/storm">
+    <meta property="og:title" content="storm - asdine/storm">
     <meta property="og:description" content="asdine/storm - GitHub repository zh-TW documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/asdine/storm" id="githubRepoLink" target="_blank">asdine/storm</a>
+<br>
+<h1 style="display: none;">Storm Storm 是一個為 BoltDB 設計的簡單且強大的工具包。基本上，Storm 提供索引、各種儲存與抓取資料的方法、進階查詢系統，以及更多功能。 除了下方的範例之外，請參閱 GoDoc 上的範例。 如需進階查詢及對 Badger 的支援，請參閱 Genji 目錄 入門指南 匯入 Storm 開啟資料庫 簡易 CRUD 系統 宣告你的結構體 儲存你的物件 自動遞增 簡單查詢 取得單一物件 取得多個物件 取得所有物件 依索引排序取得所有物件 取得物件範圍 依前綴取得物件 跳過、限制與反向 刪除物件 更新物件 儲存物件前初始化 bucket 與索引 刪除 bucket 重新索引 bucket 進階查詢 交易 選項 BoltOptions MarshalUnmarshaler 內建編解碼器 使用現有 Bolt 連線 批次模式 節點與巢狀 bucket 節點選項 簡單 Key/Value 儲存 BoltDB 授權條款 致謝 入門指南 GO111MODULE=on go get -u github.com/asdine/storm/v3 匯入 Storm import &quot;github.com/asdine/storm/v3&quot; 開啟資料庫 快速開啟資料庫的方法 db, err := storm.Open(&quot;my.db&quot;) defer db.Close() Open 可接收多個選項以自訂其行為。詳見下方 選項 簡易 CRUD 系統 宣告你的結構體 type User struct { ID int // 主鍵 Group string `storm:&quot;index&quot;` // 此欄位將被建立索引 Email string `storm:&quot;unique&quot;` // 此欄位將建立唯一性索引 Name string // 此欄位不建立索引 Age int `storm:&quot;index&quot;` } 主鍵可以是任意型別，只要不是零值即可。Storm 會先尋找 id 標籤，若不存在則尋找名為 ID 的欄位。 type User struct { ThePrimaryKey string `storm:&quot;id&quot;`// 主鍵 Group string `storm:&quot;index&quot;` // 此欄位將被建立索引 Email string `storm:&quot;unique&quot;` // 此欄位將建立唯一性索引 Name string // 此欄位不建立索引 } Storm 透過 inline 標籤處理巢狀結構中的標籤 type Base struct { Ident bson.ObjectId...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>Storm</h1>
-<p><a href="https://travis-ci.org/asdine/storm"><img src="https://travis-ci.org/asdine/storm.svg" alt="Build Status"></a><br><a href="https://godoc.org/github.com/asdine/storm"><img src="https://godoc.org/github.com/asdine/storm?status.svg" alt="GoDoc"></a></p>
+        <div class="markdown-body" id="content">
+            <h1>Storm</h1>
+<p><a href="https://travis-ci.org/asdine/storm"><img src="https://travis-ci.org/asdine/storm.svg" alt="Build Status" /></a>
+<a href="https://godoc.org/github.com/asdine/storm"><img src="https://godoc.org/github.com/asdine/storm?status.svg" alt="GoDoc" /></a></p>
 <p>Storm 是一個為 <a href="https://github.com/coreos/bbolt">BoltDB</a> 設計的簡單且強大的工具包。基本上，Storm 提供索引、各種儲存與抓取資料的方法、進階查詢系統，以及更多功能。</p>
 <p>除了下方的範例之外，請參閱 <a href="https://godoc.org/github.com/asdine/storm#pkg-examples">GoDoc 上的範例</a>。</p>
 <p><em>如需進階查詢及對 <a href="https://github.com/dgraph-io/badger">Badger</a> 的支援，請參閱 <a href="https://github.com/asdine/genji">Genji</a></em></p>
@@ -146,13 +59,16 @@
 <li><a href="#getting-started">入門指南</a></li>
 <li><a href="#import-storm">匯入 Storm</a></li>
 <li><a href="#open-a-database">開啟資料庫</a></li>
-<li><a href="#simple-crud-system">簡易 CRUD 系統</a><ul>
+<li><a href="#simple-crud-system">簡易 CRUD 系統</a>
+<ul>
 <li><a href="#declare-your-structures">宣告你的結構體</a></li>
-<li><a href="#save-your-object">儲存你的物件</a><ul>
+<li><a href="#save-your-object">儲存你的物件</a>
+<ul>
 <li><a href="#auto-increment">自動遞增</a></li>
 </ul>
 </li>
-<li><a href="#simple-queries">簡單查詢</a><ul>
+<li><a href="#simple-queries">簡單查詢</a>
+<ul>
 <li><a href="#fetch-one-object">取得單一物件</a></li>
 <li><a href="#fetch-multiple-objects">取得多個物件</a></li>
 <li><a href="#fetch-all-objects">取得所有物件</a></li>
@@ -169,9 +85,11 @@
 </li>
 <li><a href="#advanced-queries">進階查詢</a></li>
 <li><a href="#transactions">交易</a></li>
-<li><a href="#options">選項</a><ul>
+<li><a href="#options">選項</a>
+<ul>
 <li><a href="#boltoptions">BoltOptions</a></li>
-<li><a href="#marshalunmarshaler">MarshalUnmarshaler</a><ul>
+<li><a href="#marshalunmarshaler">MarshalUnmarshaler</a>
+<ul>
 <li><a href="#provided-codecs">內建編解碼器</a></li>
 </ul>
 </li>
@@ -181,7 +99,8 @@
 </li>
 </ul>
 </li>
-<li><a href="#nodes-and-nested-buckets">節點與巢狀 bucket</a><ul>
+<li><a href="#nodes-and-nested-buckets">節點與巢狀 bucket</a>
+<ul>
 <li><a href="#node-options">節點選項</a></li>
 </ul>
 </li>
@@ -191,89 +110,89 @@
 <li><a href="#credits">致謝</a></li>
 </ul>
 <h2>入門指南</h2>
-<pre><code class="language-bash hljs">GO111MODULE=on go get -u github.com/asdine/storm/v3
+<pre><code class="language-bash">GO111MODULE=on go get -u github.com/asdine/storm/v3
 </code></pre>
 <h2>匯入 Storm</h2>
-<pre><code class="language-go hljs"><span class="hljs-keyword">import</span> <span class="hljs-string">"github.com/asdine/storm/v3"</span>
+<pre><code class="language-go">import &quot;github.com/asdine/storm/v3&quot;
 </code></pre>
 <h2>開啟資料庫</h2>
 <p>快速開啟資料庫的方法</p>
-<pre><code class="language-go hljs">db, err := storm.Open(<span class="hljs-string">"my.db"</span>)
+<pre><code class="language-go">db, err := storm.Open(&quot;my.db&quot;)
 
-<span class="hljs-keyword">defer</span> db.Close()
+defer db.Close()
 </code></pre>
 <p><code>Open</code> 可接收多個選項以自訂其行為。詳見下方 <a href="#options">選項</a></p>
 <h2>簡易 CRUD 系統</h2>
 <h3>宣告你的結構體</h3>
-<pre><code class="language-go hljs"><span class="hljs-keyword">type</span> User <span class="hljs-keyword">struct</span> {
-  ID <span class="hljs-type">int</span> <span class="hljs-comment">// 主鍵</span>
-  Group <span class="hljs-type">string</span> <span class="hljs-string">`storm:"index"`</span> <span class="hljs-comment">// 此欄位將被建立索引</span>
-  Email <span class="hljs-type">string</span> <span class="hljs-string">`storm:"unique"`</span> <span class="hljs-comment">// 此欄位將建立唯一性索引</span>
-  Name <span class="hljs-type">string</span> <span class="hljs-comment">// 此欄位不建立索引</span>
-  Age <span class="hljs-type">int</span> <span class="hljs-string">`storm:"index"`</span>
+<pre><code class="language-go">type User struct {
+  ID int // 主鍵
+  Group string `storm:&quot;index&quot;` // 此欄位將被建立索引
+  Email string `storm:&quot;unique&quot;` // 此欄位將建立唯一性索引
+  Name string // 此欄位不建立索引
+  Age int `storm:&quot;index&quot;`
 }
 </code></pre>
 <p>主鍵可以是任意型別，只要不是零值即可。Storm 會先尋找 <code>id</code> 標籤，若不存在則尋找名為 <code>ID</code> 的欄位。</p>
-<pre><code class="language-go hljs"><span class="hljs-keyword">type</span> User <span class="hljs-keyword">struct</span> {
-  ThePrimaryKey <span class="hljs-type">string</span> <span class="hljs-string">`storm:"id"`</span><span class="hljs-comment">// 主鍵</span>
-  Group <span class="hljs-type">string</span> <span class="hljs-string">`storm:"index"`</span> <span class="hljs-comment">// 此欄位將被建立索引</span>
-  Email <span class="hljs-type">string</span> <span class="hljs-string">`storm:"unique"`</span> <span class="hljs-comment">// 此欄位將建立唯一性索引</span>
-  Name <span class="hljs-type">string</span> <span class="hljs-comment">// 此欄位不建立索引</span>
+<pre><code class="language-go">type User struct {
+  ThePrimaryKey string `storm:&quot;id&quot;`// 主鍵
+  Group string `storm:&quot;index&quot;` // 此欄位將被建立索引
+  Email string `storm:&quot;unique&quot;` // 此欄位將建立唯一性索引
+  Name string // 此欄位不建立索引
 }
 </code></pre>
 <p>Storm 透過 <code>inline</code> 標籤處理巢狀結構中的標籤</p>
-<pre><code class="language-go hljs"><span class="hljs-keyword">type</span> Base <span class="hljs-keyword">struct</span> {
-  Ident bson.ObjectId <span class="hljs-string">`storm:"id"`</span>
+<pre><code class="language-go">type Base struct {
+  Ident bson.ObjectId `storm:&quot;id&quot;`
 }
 
-<span class="hljs-keyword">type</span> User <span class="hljs-keyword">struct</span> {
-  Base      <span class="hljs-string">`storm:"inline"`</span>
-  Group     <span class="hljs-type">string</span> <span class="hljs-string">`storm:"index"`</span>
-  Email     <span class="hljs-type">string</span> <span class="hljs-string">`storm:"unique"`</span>
-  Name      <span class="hljs-type">string</span>
-  CreatedAt time.Time <span class="hljs-string">`storm:"index"`</span>
+type User struct {
+  Base      `storm:&quot;inline&quot;`
+  Group     string `storm:&quot;index&quot;`
+  Email     string `storm:&quot;unique&quot;`
+  Name      string
+  CreatedAt time.Time `storm:&quot;index&quot;`
 }
 </code></pre>
 <h3>儲存你的物件</h3>
-<pre><code class="language-go hljs">user := User{
-  ID: <span class="hljs-number">10</span>,
-  Group: <span class="hljs-string">"staff"</span>,
-  Email: <span class="hljs-string">"john@provider.com"</span>,
-  Name: <span class="hljs-string">"John"</span>,
-  Age: <span class="hljs-number">21</span>,
+<pre><code class="language-go">user := User{
+  ID: 10,
+  Group: &quot;staff&quot;,
+  Email: &quot;john@provider.com&quot;,
+  Name: &quot;John&quot;,
+  Age: 21,
   CreatedAt: time.Now(),
 }
 
 err := db.Save(&amp;user)
-<span class="hljs-comment">// err == nil</span>
+// err == nil
 
 user.ID++
 err = db.Save(&amp;user)
-<span class="hljs-comment">// err == storm.ErrAlreadyExists</span>
+// err == storm.ErrAlreadyExists
 </code></pre>
 <p>就是這麼簡單。</p>
 <p><code>Save</code> 會建立或更新所有必要的索引與 bucket，檢查唯一性約束，並將物件存入資料庫。</p>
 <h4>自動遞增</h4>
 <p>Storm 可以自動遞增整數欄位，因此你在儲存物件時無需擔心這一點。此外，新值會自動寫入你的欄位。</p>
-<pre><code class="language-go hljs">
-<span class="hljs-keyword">type</span> Product <span class="hljs-keyword">struct</span> {
-  Pk                  <span class="hljs-type">int</span> <span class="hljs-string">`storm:"id,increment"`</span> <span class="hljs-comment">// 主鍵，自動遞增</span>
-  Name                <span class="hljs-type">string</span>
-  IntegerField        <span class="hljs-type">uint64</span> <span class="hljs-string">`storm:"increment"`</span>
-  IndexedIntegerField <span class="hljs-type">uint32</span> <span class="hljs-string">`storm:"index,increment"`</span>
-  UniqueIntegerField  <span class="hljs-type">int16</span>  <span class="hljs-string">`storm:"unique,increment=100"`</span> <span class="hljs-comment">// 可設定起始值</span>
+<pre><code class="language-go">
+type Product struct {
+  Pk                  int `storm:&quot;id,increment&quot;` // 主鍵，自動遞增
+  Name                string
+  IntegerField        uint64 `storm:&quot;increment&quot;`
+  IndexedIntegerField uint32 `storm:&quot;index,increment&quot;`
+  UniqueIntegerField  int16  `storm:&quot;unique,increment=100&quot;` // 可設定起始值
 }
 
-p := Product{Name: <span class="hljs-string">"Vaccum Cleaner"</span>}
+p := Product{Name: &quot;Vaccum Cleaner&quot;}
 
 fmt.Println(p.Pk)
 fmt.Println(p.IntegerField)
 fmt.Println(p.IndexedIntegerField)
 fmt.Println(p.UniqueIntegerField)
-<span class="hljs-comment">// 0</span>
-<span class="hljs-comment">// 0</span>
-<span class="hljs-comment">// 0</span>
-<span class="hljs-comment">// 0</span>
+// 0
+// 0
+// 0
+// 0
 
 _ = db.Save(&amp;p)
 
@@ -281,331 +200,337 @@ fmt.Println(p.Pk)
 fmt.Println(p.IntegerField)
 fmt.Println(p.IndexedIntegerField)
 fmt.Println(p.UniqueIntegerField)
-<span class="hljs-comment">// 1</span>
-<span class="hljs-comment">// 1</span>
-<span class="hljs-comment">// 1</span>
-<span class="hljs-comment">// 100</span>
+// 1
+// 1
+// 1
+// 100
+
 </code></pre>
 <h3>簡單查詢</h3>
 <p>任何物件都可以被查詢，不論是否建立索引。Storm 會優先使用可用的索引，否則使用 <a href="#advanced-queries">查詢系統</a>。</p>
 <h4>取得單一物件</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> user User
-err := db.One(<span class="hljs-string">"Email"</span>, <span class="hljs-string">"john@provider.com"</span>, &amp;user)
-<span class="hljs-comment">// err == nil</span>
+<pre><code class="language-go">var user User
+err := db.One(&quot;Email&quot;, &quot;john@provider.com&quot;, &amp;user)
+// err == nil
 
-err = db.One(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"John"</span>, &amp;user)
-<span class="hljs-comment">// err == nil</span>
+err = db.One(&quot;Name&quot;, &quot;John&quot;, &amp;user)
+// err == nil
 
-err = db.One(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"Jack"</span>, &amp;user)
-<span class="hljs-comment">// err == storm.ErrNotFound</span>
+err = db.One(&quot;Name&quot;, &quot;Jack&quot;, &amp;user)
+// err == storm.ErrNotFound
 </code></pre>
 <h4>取得多個物件</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
-err := db.Find(<span class="hljs-string">"Group"</span>, <span class="hljs-string">"staff"</span>, &amp;users)
+<pre><code class="language-go">var users []User
+err := db.Find(&quot;Group&quot;, &quot;staff&quot;, &amp;users)
 </code></pre>
 <h4>取得所有物件</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
+<pre><code class="language-go">var users []User
 err := db.All(&amp;users)
 </code></pre>
 <h4>依索引排序取得所有物件</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
-err := db.AllByIndex(<span class="hljs-string">"CreatedAt"</span>, &amp;users)
+<pre><code class="language-go">var users []User
+err := db.AllByIndex(&quot;CreatedAt&quot;, &amp;users)
 </code></pre>
 <h4>取得物件範圍</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
-err := db.Range(<span class="hljs-string">"Age"</span>, <span class="hljs-number">10</span>, <span class="hljs-number">21</span>, &amp;users)
+<pre><code class="language-go">var users []User
+err := db.Range(&quot;Age&quot;, 10, 21, &amp;users)
 </code></pre>
 <h4>依前綴查詢物件</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
-err := db.Prefix(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"Jo"</span>, &amp;users)
+<pre><code class="language-go">var users []User
+err := db.Prefix(&quot;Name&quot;, &quot;Jo&quot;, &amp;users)
 </code></pre>
 <h4>Skip、Limit 與 Reverse</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
-err := db.Find(<span class="hljs-string">"Group"</span>, <span class="hljs-string">"staff"</span>, &amp;users, storm.Skip(<span class="hljs-number">10</span>))
-err = db.Find(<span class="hljs-string">"Group"</span>, <span class="hljs-string">"staff"</span>, &amp;users, storm.Limit(<span class="hljs-number">10</span>))
-err = db.Find(<span class="hljs-string">"Group"</span>, <span class="hljs-string">"staff"</span>, &amp;users, storm.Reverse())
-err = db.Find(<span class="hljs-string">"Group"</span>, <span class="hljs-string">"staff"</span>, &amp;users, storm.Limit(<span class="hljs-number">10</span>), storm.Skip(<span class="hljs-number">10</span>), storm.Reverse())
+<pre><code class="language-go">var users []User
+err := db.Find(&quot;Group&quot;, &quot;staff&quot;, &amp;users, storm.Skip(10))
+err = db.Find(&quot;Group&quot;, &quot;staff&quot;, &amp;users, storm.Limit(10))
+err = db.Find(&quot;Group&quot;, &quot;staff&quot;, &amp;users, storm.Reverse())
+err = db.Find(&quot;Group&quot;, &quot;staff&quot;, &amp;users, storm.Limit(10), storm.Skip(10), storm.Reverse())
 
-err = db.All(&amp;users, storm.Limit(<span class="hljs-number">10</span>), storm.Skip(<span class="hljs-number">10</span>), storm.Reverse())
-err = db.AllByIndex(<span class="hljs-string">"CreatedAt"</span>, &amp;users, storm.Limit(<span class="hljs-number">10</span>), storm.Skip(<span class="hljs-number">10</span>), storm.Reverse())
-err = db.Range(<span class="hljs-string">"Age"</span>, <span class="hljs-number">10</span>, <span class="hljs-number">21</span>, &amp;users, storm.Limit(<span class="hljs-number">10</span>), storm.Skip(<span class="hljs-number">10</span>), storm.Reverse())
+err = db.All(&amp;users, storm.Limit(10), storm.Skip(10), storm.Reverse())
+err = db.AllByIndex(&quot;CreatedAt&quot;, &amp;users, storm.Limit(10), storm.Skip(10), storm.Reverse())
+err = db.Range(&quot;Age&quot;, 10, 21, &amp;users, storm.Limit(10), storm.Skip(10), storm.Reverse())
 </code></pre>
 <h4>刪除物件</h4>
-<pre><code class="language-go hljs">err := db.DeleteStruct(&amp;user)
+<pre><code class="language-go">err := db.DeleteStruct(&amp;user)
 </code></pre>
 <h4>更新物件</h4>
-<pre><code class="language-go hljs"><span class="hljs-comment">// 更新多個欄位</span>
-<span class="hljs-comment">// 僅適用於非零值欄位（例如 Name 不能為 ""，Age 不能為 0）</span>
-err := db.Update(&amp;User{ID: <span class="hljs-number">10</span>, Name: <span class="hljs-string">"Jack"</span>, Age: <span class="hljs-number">45</span>})
+<pre><code class="language-go">// 更新多個欄位
+// 僅適用於非零值欄位（例如 Name 不能為 &quot;&quot;，Age 不能為 0）
+err := db.Update(&amp;User{ID: 10, Name: &quot;Jack&quot;, Age: 45})
 
-<span class="hljs-comment">// 更新單一欄位</span>
-<span class="hljs-comment">// 也適用於零值欄位（0, false, "", ...）</span>
-err := db.UpdateField(&amp;User{ID: <span class="hljs-number">10</span>}, <span class="hljs-string">"Age"</span>, <span class="hljs-number">0</span>)
+// 更新單一欄位
+// 也適用於零值欄位（0, false, &quot;&quot;, ...）
+err := db.UpdateField(&amp;User{ID: 10}, &quot;Age&quot;, 0)
 </code></pre>
 <h4>在儲存物件前初始化 bucket 和索引</h4>
-<pre><code class="language-go hljs">err := db.Init(&amp;User{})
+<pre><code class="language-go">err := db.Init(&amp;User{})
 </code></pre>
 <p>啟動應用程式時很有用</p>
 <h4>刪除 bucket</h4>
 <p>使用 struct</p>
-<pre><code class="language-go hljs">err := db.Drop(&amp;User)
+<pre><code class="language-go">err := db.Drop(&amp;User)
 </code></pre>
 <p>使用 bucket 名稱</p>
-<pre><code class="language-go hljs">err := db.Drop(<span class="hljs-string">"User"</span>)
+<pre><code class="language-go">err := db.Drop(&quot;User&quot;)
 </code></pre>
 <h4>重新索引 bucket</h4>
-<pre><code class="language-go hljs">err := db.ReIndex(&amp;User{})
+<pre><code class="language-go">err := db.ReIndex(&amp;User{})
 </code></pre>
 <p>當結構有變更時很有用</p>
 <h3>進階查詢</h3>
-<p>對於更複雜的查詢，可以使用 <code>Select</code> 方法。<br><code>Select</code> 可以接受任意數量來自 <a href="https://godoc.org/github.com/asdine/storm/q"><code>q</code></a> 套件的 <a href="https://godoc.org/github.com/asdine/storm/q#Matcher"><code>Matcher</code></a>。</p>
+<p>對於更複雜的查詢，可以使用 <code>Select</code> 方法。
+<code>Select</code> 可以接受任意數量來自 <a href="https://godoc.org/github.com/asdine/storm/q"><code>q</code></a> 套件的 <a href="https://godoc.org/github.com/asdine/storm/q#Matcher"><code>Matcher</code></a>。</p>
 <p>以下是一些常用的 Matcher：</p>
-<pre><code class="language-go hljs"><span class="hljs-comment">// 相等</span>
-q.Eq(<span class="hljs-string">"Name"</span>, John)
+<pre><code class="language-go">// 相等
+q.Eq(&quot;Name&quot;, John)
 
-<span class="hljs-comment">// 嚴格大於</span>
-q.Gt(<span class="hljs-string">"Age"</span>, <span class="hljs-number">7</span>)
+// 嚴格大於
+q.Gt(&quot;Age&quot;, 7)
 
-<span class="hljs-comment">// 小於等於</span>
-q.Lte(<span class="hljs-string">"Age"</span>, <span class="hljs-number">77</span>)
+// 小於等於
+q.Lte(&quot;Age&quot;, 77)
 
-<span class="hljs-comment">// 名稱以 D 開頭的正規表達式</span>
-q.Re(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"^D"</span>)
+// 名稱以 D 開頭的正規表達式
+q.Re(&quot;Name&quot;, &quot;^D&quot;)
 
-<span class="hljs-comment">// 在指定的值切片內</span>
-q.In(<span class="hljs-string">"Group"</span>, []<span class="hljs-type">string</span>{<span class="hljs-string">"Staff"</span>, <span class="hljs-string">"Admin"</span>})
+// 在指定的值切片內
+q.In(&quot;Group&quot;, []string{&quot;Staff&quot;, &quot;Admin&quot;})
 
-<span class="hljs-comment">// 欄位比較</span>
-q.EqF(<span class="hljs-string">"FieldName"</span>, <span class="hljs-string">"SecondFieldName"</span>)
-q.LtF(<span class="hljs-string">"FieldName"</span>, <span class="hljs-string">"SecondFieldName"</span>)
-q.GtF(<span class="hljs-string">"FieldName"</span>, <span class="hljs-string">"SecondFieldName"</span>)
-q.LteF(<span class="hljs-string">"FieldName"</span>, <span class="hljs-string">"SecondFieldName"</span>)
-q.GteF(<span class="hljs-string">"FieldName"</span>, <span class="hljs-string">"SecondFieldName"</span>)
+// 欄位比較
+q.EqF(&quot;FieldName&quot;, &quot;SecondFieldName&quot;)
+q.LtF(&quot;FieldName&quot;, &quot;SecondFieldName&quot;)
+q.GtF(&quot;FieldName&quot;, &quot;SecondFieldName&quot;)
+q.LteF(&quot;FieldName&quot;, &quot;SecondFieldName&quot;)
+q.GteF(&quot;FieldName&quot;, &quot;SecondFieldName&quot;)
 </code></pre>
 <p>Matchers 也可以用 <code>And</code>、<code>Or</code> 和 <code>Not</code> 組合：</p>
-<pre><code class="language-go hljs">
-<span class="hljs-comment">// 所有條件皆符合時匹配</span>
+<pre><code class="language-go">
+// 所有條件皆符合時匹配
 q.And(
-  q.Gt(<span class="hljs-string">"Age"</span>, <span class="hljs-number">7</span>),
-  q.Re(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"^D"</span>)
+  q.Gt(&quot;Age&quot;, 7),
+  q.Re(&quot;Name&quot;, &quot;^D&quot;)
 )
 
-<span class="hljs-comment">// 任一條件符合時匹配</span>
+// 任一條件符合時匹配
 q.Or(
-  q.Re(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"^A"</span>),
+  q.Re(&quot;Name&quot;, &quot;^A&quot;),
   q.Not(
-    q.Re(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"^B"</span>)
+    q.Re(&quot;Name&quot;, &quot;^B&quot;)
   ),
-  q.Re(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"^C"</span>),
-  q.In(<span class="hljs-string">"Group"</span>, []<span class="hljs-type">string</span>{<span class="hljs-string">"Staff"</span>, <span class="hljs-string">"Admin"</span>}),
+  q.Re(&quot;Name&quot;, &quot;^C&quot;),
+  q.In(&quot;Group&quot;, []string{&quot;Staff&quot;, &quot;Admin&quot;}),
   q.And(
-    q.StrictEq(<span class="hljs-string">"Password"</span>, []<span class="hljs-type">byte</span>(password)),
-    q.Eq(<span class="hljs-string">"Registered"</span>, <span class="hljs-literal">true</span>)
+    q.StrictEq(&quot;Password&quot;, []byte(password)),
+    q.Eq(&quot;Registered&quot;, true)
   )
 )
 </code></pre>
 <p>你可以在<a href="https://godoc.org/github.com/asdine/storm/q#Matcher">文件</a>中找到完整列表。</p>
 <p><code>Select</code> 接受任意數量的 matcher，並自動包裝成 <code>q.And()</code>，因此不需要特別指定。它會返回一個 <a href="https://godoc.org/github.com/asdine/storm#Query"><code>Query</code></a> 類型。</p>
-<pre><code class="language-go hljs">query := db.Select(q.Gte(<span class="hljs-string">"Age"</span>, <span class="hljs-number">7</span>), q.Lte(<span class="hljs-string">"Age"</span>, <span class="hljs-number">77</span>))
+<pre><code class="language-go">query := db.Select(q.Gte(&quot;Age&quot;, 7), q.Lte(&quot;Age&quot;, 77))
 </code></pre>
 <p><code>Query</code> 類型包含了過濾與排序記錄的方法。</p>
-<pre><code class="language-go hljs"><span class="hljs-comment">// 限制筆數</span>
-query = query.Limit(<span class="hljs-number">10</span>)
+<pre><code class="language-go">// 限制筆數
+query = query.Limit(10)
 
-<span class="hljs-comment">// 跳過筆數</span>
-query = query.Skip(<span class="hljs-number">20</span>)
+// 跳過筆數
+query = query.Skip(20)
 
-<span class="hljs-comment">// 方法可鏈式呼叫</span>
-query = query.Limit(<span class="hljs-number">10</span>).Skip(<span class="hljs-number">20</span>).OrderBy(<span class="hljs-string">"Age"</span>).Reverse()
+// 方法可鏈式呼叫
+query = query.Limit(10).Skip(20).OrderBy(&quot;Age&quot;).Reverse()
 </code></pre>
 <p>也可以指定如何取得資料。</p>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
+<pre><code class="language-go">var users []User
 err = query.Find(&amp;users)
 
-<span class="hljs-keyword">var</span> user User
+var user User
 err = query.First(&amp;user)
 </code></pre>
 <p><code>Select</code> 的範例：</p>
-<pre><code class="language-go hljs"><span class="hljs-comment">// 找出 ID 介於 10 到 100 的所有使用者</span>
-err = db.Select(q.Gte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">10</span>), q.Lte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">100</span>)).Find(&amp;users)
+<pre><code class="language-go">// 找出 ID 介於 10 到 100 的所有使用者
+err = db.Select(q.Gte(&quot;ID&quot;, 10), q.Lte(&quot;ID&quot;, 100)).Find(&amp;users)
 
-<span class="hljs-comment">// 巢狀 matcher</span>
+// 巢狀 matcher
 err = db.Select(q.Or(
-  q.Gt(<span class="hljs-string">"ID"</span>, <span class="hljs-number">50</span>),
-  q.Lt(<span class="hljs-string">"Age"</span>, <span class="hljs-number">21</span>),
+  q.Gt(&quot;ID&quot;, 50),
+  q.Lt(&quot;Age&quot;, 21),
   q.And(
-    q.Eq(<span class="hljs-string">"Group"</span>, <span class="hljs-string">"admin"</span>),
-    q.Gte(<span class="hljs-string">"Age"</span>, <span class="hljs-number">21</span>),
+    q.Eq(&quot;Group&quot;, &quot;admin&quot;),
+    q.Gte(&quot;Age&quot;, 21),
   ),
 )).Find(&amp;users)
 
-query := db.Select(q.Gte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">10</span>), q.Lte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">100</span>)).Limit(<span class="hljs-number">10</span>).Skip(<span class="hljs-number">5</span>).Reverse().OrderBy(<span class="hljs-string">"Age"</span>, <span class="hljs-string">"Name"</span>)
+query := db.Select(q.Gte(&quot;ID&quot;, 10), q.Lte(&quot;ID&quot;, 100)).Limit(10).Skip(5).Reverse().OrderBy(&quot;Age&quot;, &quot;Name&quot;)
 
-<span class="hljs-comment">// 查詢多筆記錄</span>
+// 查詢多筆記錄
 err = query.Find(&amp;users)
-<span class="hljs-comment">// 或</span>
-err = db.Select(q.Gte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">10</span>), q.Lte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">100</span>)).Limit(<span class="hljs-number">10</span>).Skip(<span class="hljs-number">5</span>).Reverse().OrderBy(<span class="hljs-string">"Age"</span>, <span class="hljs-string">"Name"</span>).Find(&amp;users)
+// 或
+err = db.Select(q.Gte(&quot;ID&quot;, 10), q.Lte(&quot;ID&quot;, 100)).Limit(10).Skip(5).Reverse().OrderBy(&quot;Age&quot;, &quot;Name&quot;).Find(&amp;users)
 </code></pre>
-<pre><code class="language-go hljs"><span class="hljs-comment">// 尋找第一筆紀錄</span>
+<pre><code class="language-go">// 尋找第一筆紀錄
 err = query.First(&amp;user)
-<span class="hljs-comment">// 或</span>
-err = db.Select(q.Gte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">10</span>), q.Lte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">100</span>)).Limit(<span class="hljs-number">10</span>).Skip(<span class="hljs-number">5</span>).Reverse().OrderBy(<span class="hljs-string">"Age"</span>, <span class="hljs-string">"Name"</span>).First(&amp;user)
+// 或
+err = db.Select(q.Gte(&quot;ID&quot;, 10), q.Lte(&quot;ID&quot;, 100)).Limit(10).Skip(5).Reverse().OrderBy(&quot;Age&quot;, &quot;Name&quot;).First(&amp;user)
 
-<span class="hljs-comment">// 刪除所有符合條件的紀錄</span>
-err = query.Delete(<span class="hljs-built_in">new</span>(User))
+// 刪除所有符合條件的紀錄
+err = query.Delete(new(User))
 
-<span class="hljs-comment">// 逐筆讀取紀錄（當資料桶內含大量紀錄時很有用）</span>
-query = db.Select(q.Gte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">10</span>),q.Lte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">100</span>)).OrderBy(<span class="hljs-string">"Age"</span>, <span class="hljs-string">"Name"</span>)
+// 逐筆讀取紀錄（當資料桶內含大量紀錄時很有用）
+query = db.Select(q.Gte(&quot;ID&quot;, 10),q.Lte(&quot;ID&quot;, 100)).OrderBy(&quot;Age&quot;, &quot;Name&quot;)
 
-err = query.Each(<span class="hljs-built_in">new</span>(User), <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(record <span class="hljs-keyword">interface</span>{})</span></span> <span class="hljs-type">error</span>) {
+err = query.Each(new(User), func(record interface{}) error) {
   u := record.(*User)
   ...
-  <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>
+  return nil
 }
 </code></pre>
 <p>請參考<a href="https://godoc.org/github.com/asdine/storm#Query">文件</a>以取得完整的方法列表。</p>
 <h3>交易（Transactions）</h3>
-<pre><code class="language-go hljs">tx, err := db.Begin(<span class="hljs-literal">true</span>)
-<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-  <span class="hljs-keyword">return</span> err
+<pre><code class="language-go">tx, err := db.Begin(true)
+if err != nil {
+  return err
 }
-<span class="hljs-keyword">defer</span> tx.Rollback()
+defer tx.Rollback()
 
-accountA.Amount -= <span class="hljs-number">100</span>
-accountB.Amount += <span class="hljs-number">100</span>
+accountA.Amount -= 100
+accountB.Amount += 100
 
 err = tx.Save(accountA)
-<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-  <span class="hljs-keyword">return</span> err
+if err != nil {
+  return err
 }
 
 err = tx.Save(accountB)
-<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-  <span class="hljs-keyword">return</span> err
+if err != nil {
+  return err
 }
 
-<span class="hljs-keyword">return</span> tx.Commit()
+return tx.Commit()
 </code></pre>
 <h3>選項（Options）</h3>
 <p>Storm 的選項是可以在建立 Storm 實例時傳入的函數。你可以傳入任意數量的選項。</p>
 <h4>BoltOptions</h4>
-<p>預設情況下，Storm 以 <code>0600</code> 權限及一秒 timeout 開啟資料庫。<br>你可以使用 <code>BoltOptions</code> 來變更這個行為</p>
-<pre><code class="language-go hljs">db, err := storm.Open(<span class="hljs-string">"my.db"</span>, storm.BoltOptions(<span class="hljs-number">0600</span>, &amp;bolt.Options{Timeout: <span class="hljs-number">1</span> * time.Second}))
+<p>預設情況下，Storm 以 <code>0600</code> 權限及一秒 timeout 開啟資料庫。
+你可以使用 <code>BoltOptions</code> 來變更這個行為</p>
+<pre><code class="language-go">db, err := storm.Open(&quot;my.db&quot;, storm.BoltOptions(0600, &amp;bolt.Options{Timeout: 1 * time.Second}))
 </code></pre>
 <h4>MarshalUnmarshaler</h4>
 <p>為了將資料儲存到 BoltDB，Storm 預設會以 JSON 格式進行編解碼。如果你希望改變這個行為，可以透過 <a href="https://godoc.org/github.com/asdine/storm#Codec"><code>storm.Codec</code></a> 選項傳入一個實作 <a href="https://godoc.org/github.com/asdine/storm/codec#MarshalUnmarshaler"><code>codec.MarshalUnmarshaler</code></a> 的 codec：</p>
-<pre><code class="language-go hljs">db := storm.Open(<span class="hljs-string">"my.db"</span>, storm.Codec(myCodec))
+<pre><code class="language-go">db := storm.Open(&quot;my.db&quot;, storm.Codec(myCodec))
 </code></pre>
 <h5>內建 Codec</h5>
 <p>你可以輕鬆實作自己的 <code>MarshalUnmarshaler</code>，但 Storm 也內建支援 <a href="https://godoc.org/github.com/asdine/storm/codec/json">JSON</a>（預設）、<a href="https://godoc.org/github.com/asdine/storm/codec/gob">GOB</a>、<a href="https://godoc.org/github.com/asdine/storm/codec/sereal">Sereal</a>、<a href="https://godoc.org/github.com/asdine/storm/codec/protobuf">Protocol Buffers</a> 和 <a href="https://godoc.org/github.com/asdine/storm/codec/msgpack">MessagePack</a>。</p>
 <p>你可以透過匯入相關套件並用該 codec 來設定 Storm。下方範例展示所有類型（未做完整錯誤處理）：</p>
-<pre><code class="language-go hljs"><span class="hljs-keyword">import</span> (
-  <span class="hljs-string">"github.com/asdine/storm/v3"</span>
-  <span class="hljs-string">"github.com/asdine/storm/v3/codec/gob"</span>
-  <span class="hljs-string">"github.com/asdine/storm/v3/codec/json"</span>
-  <span class="hljs-string">"github.com/asdine/storm/v3/codec/sereal"</span>
-  <span class="hljs-string">"github.com/asdine/storm/v3/codec/protobuf"</span>
-  <span class="hljs-string">"github.com/asdine/storm/v3/codec/msgpack"</span>
+<pre><code class="language-go">import (
+  &quot;github.com/asdine/storm/v3&quot;
+  &quot;github.com/asdine/storm/v3/codec/gob&quot;
+  &quot;github.com/asdine/storm/v3/codec/json&quot;
+  &quot;github.com/asdine/storm/v3/codec/sereal&quot;
+  &quot;github.com/asdine/storm/v3/codec/protobuf&quot;
+  &quot;github.com/asdine/storm/v3/codec/msgpack&quot;
 )
 
-<span class="hljs-keyword">var</span> gobDb, _ = storm.Open(<span class="hljs-string">"gob.db"</span>, storm.Codec(gob.Codec))
-<span class="hljs-keyword">var</span> jsonDb, _ = storm.Open(<span class="hljs-string">"json.db"</span>, storm.Codec(json.Codec))
-<span class="hljs-keyword">var</span> serealDb, _ = storm.Open(<span class="hljs-string">"sereal.db"</span>, storm.Codec(sereal.Codec))
-<span class="hljs-keyword">var</span> protobufDb, _ = storm.Open(<span class="hljs-string">"protobuf.db"</span>, storm.Codec(protobuf.Codec))
-<span class="hljs-keyword">var</span> msgpackDb, _ = storm.Open(<span class="hljs-string">"msgpack.db"</span>, storm.Codec(msgpack.Codec))
+var gobDb, _ = storm.Open(&quot;gob.db&quot;, storm.Codec(gob.Codec))
+var jsonDb, _ = storm.Open(&quot;json.db&quot;, storm.Codec(json.Codec))
+var serealDb, _ = storm.Open(&quot;sereal.db&quot;, storm.Codec(sereal.Codec))
+var protobufDb, _ = storm.Open(&quot;protobuf.db&quot;, storm.Codec(protobuf.Codec))
+var msgpackDb, _ = storm.Open(&quot;msgpack.db&quot;, storm.Codec(msgpack.Codec))
 </code></pre>
 <p><strong>小提示</strong>：在產生的 Protobuf 檔案中添加 Storm 標籤可能有些麻煩。一個不錯的解決方案是使用<a href="https://github.com/favadi/protoc-go-inject-tag">這個工具</a>在編譯時自動注入標籤。</p>
 <h4>使用既有的 Bolt 連線</h4>
 <p>你可以使用既有的連線並傳給 Storm</p>
-<pre><code class="language-go hljs">bDB, _ := bolt.Open(filepath.Join(dir, <span class="hljs-string">"bolt.db"</span>), <span class="hljs-number">0600</span>, &amp;bolt.Options{Timeout: <span class="hljs-number">10</span> * time.Second})
-db := storm.Open(<span class="hljs-string">"my.db"</span>, storm.UseDB(bDB))
+<pre><code class="language-go">bDB, _ := bolt.Open(filepath.Join(dir, &quot;bolt.db&quot;), 0600, &amp;bolt.Options{Timeout: 10 * time.Second})
+db := storm.Open(&quot;my.db&quot;, storm.UseDB(bDB))
 </code></pre>
 <h4>批次模式（Batch mode）</h4>
 <p>可以啟用批次模式以加速並行寫入（參見 <a href="https://github.com/coreos/bbolt#batch-read-write-transactions">Batch read-write transactions</a>）</p>
-<pre><code class="language-go hljs">db := storm.Open(<span class="hljs-string">"my.db"</span>, storm.Batch())
+<pre><code class="language-go">db := storm.Open(&quot;my.db&quot;, storm.Batch())
 </code></pre>
 <h2>節點與巢狀資料桶（Nodes and nested buckets）</h2>
-<p>Storm 透過 <code>storm.Node</code> 利用 BoltDB 的巢狀資料桶功能。<br><code>storm.Node</code> 是 <code>storm.DB</code> 操作資料桶時使用的底層物件。<br>要建立巢狀資料桶並使用與 <code>storm.DB</code> 相同的 API，可以使用 <code>DB.From</code> 方法。</p>
-<pre><code class="language-go hljs">repo := db.From(<span class="hljs-string">"repo"</span>)
+<p>Storm 透過 <code>storm.Node</code> 利用 BoltDB 的巢狀資料桶功能。
+<code>storm.Node</code> 是 <code>storm.DB</code> 操作資料桶時使用的底層物件。
+要建立巢狀資料桶並使用與 <code>storm.DB</code> 相同的 API，可以使用 <code>DB.From</code> 方法。</p>
+<pre><code class="language-go">repo := db.From(&quot;repo&quot;)
 
 err := repo.Save(&amp;Issue{
-  Title: <span class="hljs-string">"I want more features"</span>,
+  Title: &quot;I want more features&quot;,
   Author: user.ID,
 })
 
-err = repo.Save(newRelease(<span class="hljs-string">"0.10"</span>))
+err = repo.Save(newRelease(&quot;0.10&quot;))
 
-<span class="hljs-keyword">var</span> issues []Issue
-err = repo.Find(<span class="hljs-string">"Author"</span>, user.ID, &amp;issues)
+var issues []Issue
+err = repo.Find(&quot;Author&quot;, user.ID, &amp;issues)
 
-<span class="hljs-keyword">var</span> release Release
-err = repo.One(<span class="hljs-string">"Tag"</span>, <span class="hljs-string">"0.10"</span>, &amp;release)
+var release Release
+err = repo.One(&quot;Tag&quot;, &quot;0.10&quot;, &amp;release)
 </code></pre>
 <p>你也可以串接節點來建立階層結構</p>
-<pre><code class="language-go hljs">chars := db.From(<span class="hljs-string">"characters"</span>)
-heroes := chars.From(<span class="hljs-string">"heroes"</span>)
-enemies := chars.From(<span class="hljs-string">"enemies"</span>)
+<pre><code class="language-go">chars := db.From(&quot;characters&quot;)
+heroes := chars.From(&quot;heroes&quot;)
+enemies := chars.From(&quot;enemies&quot;)
 
-items := db.From(<span class="hljs-string">"items"</span>)
-potions := items.From(<span class="hljs-string">"consumables"</span>).From(<span class="hljs-string">"medicine"</span>).From(<span class="hljs-string">"potions"</span>)
+items := db.From(&quot;items&quot;)
+potions := items.From(&quot;consumables&quot;).From(&quot;medicine&quot;).From(&quot;potions&quot;)
 </code></pre>
 <p>你甚至可以將整個階層當作參數傳給 <code>From</code>：</p>
-<pre><code class="language-go hljs">privateNotes := db.From(<span class="hljs-string">"notes"</span>, <span class="hljs-string">"private"</span>)
-workNotes :=  db.From(<span class="hljs-string">"notes"</span>, <span class="hljs-string">"work"</span>)
+<pre><code class="language-go">privateNotes := db.From(&quot;notes&quot;, &quot;private&quot;)
+workNotes :=  db.From(&quot;notes&quot;, &quot;work&quot;)
 </code></pre>
 <h3>節點選項</h3>
 <p>節點也可以進行個別設定。對節點啟用選項會建立一個副本，因此節點總是執行緒安全的。</p>
-<pre><code class="language-go hljs">n := db.From(<span class="hljs-string">"my-node"</span>)
+<pre><code class="language-go">n := db.From(&quot;my-node&quot;)
 </code></pre>
 <p>將 bolt.Tx 交易傳給節點</p>
-<pre><code class="language-go hljs">n = n.WithTransaction(tx)
+<pre><code class="language-go">n = n.WithTransaction(tx)
 </code></pre>
 <p>啟用批次模式</p>
-<pre><code class="language-go hljs">n = n.WithBatch(<span class="hljs-literal">true</span>)
+<pre><code class="language-go">n = n.WithBatch(true)
 </code></pre>
 <p>使用 Codec</p>
-<pre><code class="language-go hljs">n = n.WithCodec(gob.Codec)
+<pre><code class="language-go">n = n.WithCodec(gob.Codec)
 </code></pre>
 <h2>簡易鍵值儲存（Simple Key/Value store）</h2>
-<p>Storm 也可以作為一個簡單、穩健的鍵值儲存系統，能儲存任何東西。<br>只要 key 不是零值，key 和 value 可以是任何型別。</p>
+<p>Storm 也可以作為一個簡單、穩健的鍵值儲存系統，能儲存任何東西。
+只要 key 不是零值，key 和 value 可以是任何型別。</p>
 <p>儲存資料：</p>
-<pre><code class="language-go hljs">db.Set(<span class="hljs-string">"logs"</span>, time.Now(), <span class="hljs-string">"I'm eating my breakfast man"</span>)
-db.Set(<span class="hljs-string">"sessions"</span>, bson.NewObjectId(), &amp;someUser)
-db.Set(<span class="hljs-string">"weird storage"</span>, <span class="hljs-string">"754-3010"</span>, <span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-keyword">interface</span>{}{
-  <span class="hljs-string">"hair"</span>: <span class="hljs-string">"blonde"</span>,
-  <span class="hljs-string">"likes"</span>: []<span class="hljs-type">string</span>{<span class="hljs-string">"cheese"</span>, <span class="hljs-string">"star wars"</span>},
+<pre><code class="language-go">db.Set(&quot;logs&quot;, time.Now(), &quot;I'm eating my breakfast man&quot;)
+db.Set(&quot;sessions&quot;, bson.NewObjectId(), &amp;someUser)
+db.Set(&quot;weird storage&quot;, &quot;754-3010&quot;, map[string]interface{}{
+  &quot;hair&quot;: &quot;blonde&quot;,
+  &quot;likes&quot;: []string{&quot;cheese&quot;, &quot;star wars&quot;},
 })
 </code></pre>
 <p>讀取資料：</p>
-<pre><code class="language-go hljs">user := User{}
-db.Get(<span class="hljs-string">"sessions"</span>, someObjectId, &amp;user)
+<pre><code class="language-go">user := User{}
+db.Get(&quot;sessions&quot;, someObjectId, &amp;user)
 
-<span class="hljs-keyword">var</span> details <span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-keyword">interface</span>{}
-db.Get(<span class="hljs-string">"weird storage"</span>, <span class="hljs-string">"754-3010"</span>, &amp;details)
+var details map[string]interface{}
+db.Get(&quot;weird storage&quot;, &quot;754-3010&quot;, &amp;details)
 </code></pre>
-<pre><code class="hljs language-vbnet">db.<span class="hljs-keyword">Get</span>(<span class="hljs-string">"sessions"</span>, someObjectId, &amp;details)
+<pre><code>db.Get(&quot;sessions&quot;, someObjectId, &amp;details)
 </code></pre>
 <p>刪除資料：</p>
-<pre><code class="language-go hljs">db.Delete(<span class="hljs-string">"sessions"</span>, someObjectId)
-db.Delete(<span class="hljs-string">"weird storage"</span>, <span class="hljs-string">"754-3010"</span>)
+<pre><code class="language-go">db.Delete(&quot;sessions&quot;, someObjectId)
+db.Delete(&quot;weird storage&quot;, &quot;754-3010&quot;)
 </code></pre>
 <p>你可以在<a href="https://godoc.org/github.com/asdine/storm#KeyValueStore">文件</a>中找到其他有用的方法。</p>
 <h2>BoltDB</h2>
 <p>BoltDB 仍然可以輕鬆訪問，並且可以像往常一樣使用</p>
-<pre><code class="language-go hljs">db.Bolt.View(<span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(tx *bolt.Tx)</span></span> <span class="hljs-type">error</span> {
-  bucket := tx.Bucket([]<span class="hljs-type">byte</span>(<span class="hljs-string">"my bucket"</span>))
-  val := bucket.Get([]<span class="hljs-type">byte</span>(<span class="hljs-string">"any id"</span>))
-  fmt.Println(<span class="hljs-type">string</span>(val))
-  <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>
+<pre><code class="language-go">db.Bolt.View(func(tx *bolt.Tx) error {
+  bucket := tx.Bucket([]byte(&quot;my bucket&quot;))
+  val := bucket.Get([]byte(&quot;any id&quot;))
+  fmt.Println(string(val))
+  return nil
 })
 </code></pre>
 <p>也可以將交易傳遞給 Storm</p>
-<pre><code class="language-go hljs">db.Bolt.Update(<span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(tx *bolt.Tx)</span></span> <span class="hljs-type">error</span> {
+<pre><code class="language-go">db.Bolt.Update(func(tx *bolt.Tx) error {
   ...
   dbx := db.WithTransaction(tx)
   err = dbx.Save(&amp;user)
   ...
-  <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>
+  return nil
 })
 </code></pre>
 <h2>授權</h2>
@@ -615,30 +540,15 @@ db.Delete(<span class="hljs-string">"weird storage"</span>, <span class="hljs-st
 <li><a href="https://github.com/asdine">Asdine El Hrychy</a></li>
 <li><a href="https://github.com/bep">Bjørn Erik Pedersen</a></li>
 </ul>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

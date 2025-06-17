@@ -1,143 +1,57 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Gaussian Splatting für Echtzeit-Radiance-Field-Rendering – C++- und CUDA-Implementierung - MrNeRF/gaussian-splatting-cuda</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="3D Gaussian Splatting für Echtzeit-Radiance-Field-Rendering – C++- und CUDA-Implementierung - MrNeRF/gaussian-splatting-cuda">
-    <meta name="description" content="MrNeRF/gaussian-splatting-cuda - GitHub repository de documentation and information">
+    <title>gaussian-splatting-cuda - MrNeRF/gaussian-splatting-cuda</title>
+    <meta name="title" content="gaussian-splatting-cuda - MrNeRF/gaussian-splatting-cuda">
+    <meta name="description" content="MrNeRF/gaussian-splatting-cuda - GitHub repository de documentation and information3D Gaussian Splatting für Echtzeit-Radiance-Field-Rendering – C++- und CUDA-Implementierung Eine leistungsstarke C++- und CUDA-Implementierung von 3D Gaussian Splatting, basierend auf dem gsplat Rasterisierungs-Backend. Neuigkeiten [2025-06-10]: Einige Probleme behoben. Wir schließen die Lücke zu den gsplat-Metriken. Es besteht jedoch noch eine kleine Abweichung. [2025-06-04]: MCMC-Strategie mit der Befehlszeilenoption --max-cap zur Steuerung der maximalen Anzahl von Gaussians hinzugefügt. [2025-06-03]: Wechsel zum Gsplat-Backend und Aktualisierung der Lizenz. [2024-05-27]: Aktualisierung auf LibTorch 2.7.0 für bessere Kompatibilität und Leistung. Breaking Changes im Optimizer-State-Management wurden behoben. [2024-05-26]: Ziel dieses Repos ist es, zu einer permissiven Lizenz zu wechseln. Umfangreiche Arbeiten wurden durchgeführt, um den Rasterizer durch die gsplat-Implementierung zu ersetzen. Metriken Derzeit erreicht die Implementierung nicht die gleichen Ergebnisse wie gsplat-mcmc, befindet sich aber in Entwicklung. Es ist nur eine Frage der Zeit, den Fehler zu beheben. Hilfe ist willkommen :) Die Metriken für die MCMC-Strategie sind wie folgt: | Szene | Iteration | PSNR |...">
     <meta name="keywords" content="MrNeRF, gaussian-splatting-cuda, GitHub, repository, de documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/MrNeRF/gaussian-splatting-cuda/README-de.html">
-    <meta property="og:title" content="3D Gaussian Splatting für Echtzeit-Radiance-Field-Rendering – C++- und CUDA-Implementierung - MrNeRF/gaussian-splatting-cuda">
+    <meta property="og:title" content="gaussian-splatting-cuda - MrNeRF/gaussian-splatting-cuda">
     <meta property="og:description" content="MrNeRF/gaussian-splatting-cuda - GitHub repository de documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/MrNeRF/gaussian-splatting-cuda" id="githubRepoLink" target="_blank">MrNeRF/gaussian-splatting-cuda</a>
+<br>
+<h1 style="display: none;">3D Gaussian Splatting für Echtzeit-Radiance-Field-Rendering – C++- und CUDA-Implementierung Eine leistungsstarke C++- und CUDA-Implementierung von 3D Gaussian Splatting, basierend auf dem gsplat Rasterisierungs-Backend. Neuigkeiten [2025-06-10]: Einige Probleme behoben. Wir schließen die Lücke zu den gsplat-Metriken. Es besteht jedoch noch eine kleine Abweichung. [2025-06-04]: MCMC-Strategie mit der Befehlszeilenoption --max-cap zur Steuerung der maximalen Anzahl von Gaussians hinzugefügt. [2025-06-03]: Wechsel zum Gsplat-Backend und Aktualisierung der Lizenz. [2024-05-27]: Aktualisierung auf LibTorch 2.7.0 für bessere Kompatibilität und Leistung. Breaking Changes im Optimizer-State-Management wurden behoben. [2024-05-26]: Ziel dieses Repos ist es, zu einer permissiven Lizenz zu wechseln. Umfangreiche Arbeiten wurden durchgeführt, um den Rasterizer durch die gsplat-Implementierung zu ersetzen. Metriken Derzeit erreicht die Implementierung nicht die gleichen Ergebnisse wie gsplat-mcmc, befindet sich aber in Entwicklung. Es ist nur eine Frage der Zeit, den Fehler zu beheben. Hilfe ist willkommen :) Die Metriken für die MCMC-Strategie sind wie folgt: | Szene | Iteration | PSNR |...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=MrNeRF&amp;project=gaussian-splatting-cuda&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>3D Gaussian Splatting für Echtzeit-Radiance-Field-Rendering – C++- und CUDA-Implementierung</h1>
-<p><a href="https://discord.gg/TbxJST2BbC"><img src="https://img.shields.io/badge/Discord-Join%20Us-7289DA?logo=discord&amp;logoColor=white" alt="Discord"></a><br><a href="https://mrnerf.com"><img src="https://img.shields.io/badge/Website-mrnerf.com-blue" alt="Website"></a><br><a href="https://mrnerf.github.io/awesome-3D-gaussian-splatting/"><img src="https://img.shields.io/badge/Papers-Awesome%203DGS-orange" alt="Papers"></a></p>
+        <div class="markdown-body" id="content">
+            <h1>3D Gaussian Splatting für Echtzeit-Radiance-Field-Rendering – C++- und CUDA-Implementierung</h1>
+<p><a href="https://discord.gg/TbxJST2BbC"><img src="https://img.shields.io/badge/Discord-Join%20Us-7289DA?logo=discord&amp;logoColor=white" alt="Discord" /></a><br />
+<a href="https://mrnerf.com"><img src="https://img.shields.io/badge/Website-mrnerf.com-blue" alt="Website" /></a><br />
+<a href="https://mrnerf.github.io/awesome-3D-gaussian-splatting/"><img src="https://img.shields.io/badge/Papers-Awesome%203DGS-orange" alt="Papers" /></a></p>
 <p>Eine leistungsstarke C++- und CUDA-Implementierung von 3D Gaussian Splatting, basierend auf dem <a href="https://github.com/nerfstudio-project/gsplat">gsplat</a> Rasterisierungs-Backend.</p>
 <h2>Neuigkeiten</h2>
 <ul>
@@ -148,114 +62,41 @@
 <li><strong>[2024-05-26]</strong>: Ziel dieses Repos ist es, zu einer permissiven Lizenz zu wechseln. Umfangreiche Arbeiten wurden durchgeführt, um den Rasterizer durch die gsplat-Implementierung zu ersetzen.</li>
 </ul>
 <h2>Metriken</h2>
-<p>Derzeit erreicht die Implementierung nicht die gleichen Ergebnisse wie gsplat-mcmc, befindet sich aber in Entwicklung.<br>Es ist nur eine Frage der Zeit, den Fehler zu beheben. Hilfe ist willkommen :) Die Metriken für die MCMC-Strategie sind wie folgt:</p>
-<table>
-<thead>
-<tr>
-<th>Szene</th>
-<th>Iteration</th>
-<th>PSNR</th>
-<th>SSIM</th>
-<th>LPIPS</th>
-<th>Zeit pro Bild</th>
-<th>Anzahl Gaussians</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>garden</td>
-<td>30000</td>
-<td>27.112114</td>
-<td>0.854833</td>
-<td>0.157624</td>
-<td>0.304765</td>
-<td>1000000</td>
-</tr>
-<tr>
-<td>bicycle</td>
-<td>30000</td>
-<td>25.047745</td>
-<td>0.767729</td>
-<td>0.254825</td>
-<td>0.293618</td>
-<td>1000000</td>
-</tr>
-<tr>
-<td>stump</td>
-<td>30000</td>
-<td>26.554749</td>
-<td>0.784203</td>
-<td>0.263013</td>
-<td>0.296536</td>
-<td>1000000</td>
-</tr>
-<tr>
-<td>bonsai</td>
-<td>30000</td>
-<td>32.534199</td>
-<td>0.948675</td>
-<td>0.246924</td>
-<td>0.436188</td>
-<td>1000000</td>
-</tr>
-<tr>
-<td>counter</td>
-<td>30000</td>
-<td>29.187017</td>
-<td>0.915823</td>
-<td>0.242159</td>
-<td>0.441259</td>
-<td>1000000</td>
-</tr>
-<tr>
-<td>kitchen</td>
-<td>30000</td>
-<td>31.680832</td>
-<td>0.933897</td>
-<td>0.154965</td>
-<td>0.449078</td>
-<td>1000000</td>
-</tr>
-<tr>
-<td>room</td>
-<td>30000</td>
-<td>32.211632</td>
-<td>0.930754</td>
-<td>0.273719</td>
-<td>0.413519</td>
-<td>1000000</td>
-</tr>
-<tr>
-<td><strong>mean</strong></td>
-<td><strong>30000</strong></td>
-<td><strong>29.189755</strong></td>
-<td><strong>0.876559</strong></td>
-<td><strong>0.227604</strong></td>
-<td><strong>0.376423</strong></td>
-<td><strong>1000000</strong></td>
-</tr>
-</tbody></table>
+<p>Derzeit erreicht die Implementierung nicht die gleichen Ergebnisse wie gsplat-mcmc, befindet sich aber in Entwicklung.<br />
+Es ist nur eine Frage der Zeit, den Fehler zu beheben. Hilfe ist willkommen :) Die Metriken für die MCMC-Strategie sind wie folgt:</p>
+<p>| Szene    | Iteration | PSNR          | SSIM         | LPIPS        | Zeit pro Bild | Anzahl Gaussians |
+| -------- | --------- | ------------- | ------------ | ------------ | ------------- | ---------------- |
+| garden   | 30000     | 27.112114     | 0.854833     | 0.157624     | 0.304765      | 1000000          |
+| bicycle  | 30000     | 25.047745     | 0.767729     | 0.254825     | 0.293618      | 1000000          |
+| stump    | 30000     | 26.554749     | 0.784203     | 0.263013     | 0.296536      | 1000000          |
+| bonsai   | 30000     | 32.534199     | 0.948675     | 0.246924     | 0.436188      | 1000000          |
+| counter  | 30000     | 29.187017     | 0.915823     | 0.242159     | 0.441259      | 1000000          |
+| kitchen  | 30000     | 31.680832     | 0.933897     | 0.154965     | 0.449078      | 1000000          |
+| room     | 30000     | 32.211632     | 0.930754     | 0.273719     | 0.413519      | 1000000          |
+| <strong>mean</strong> | <strong>30000</strong> | <strong>29.189755</strong> | <strong>0.876559</strong> | <strong>0.227604</strong> | <strong>0.376423</strong>  | <strong>1000000</strong>      |</p>
 <h2>Community &amp; Support</h2>
-<p>Tritt unserer wachsenden Community für Diskussionen, Support und Updates bei:  </p>
+<p>Tritt unserer wachsenden Community für Diskussionen, Support und Updates bei:</p>
 <ul>
-<li>💬 <strong><a href="https://discord.gg/TbxJST2BbC">Discord Community</a></strong> – Hilfe erhalten, Ergebnisse teilen und Entwicklung diskutieren  </li>
-<li>🌐 <strong><a href="https://mrnerf.com">mrnerf.com</a></strong> – Besuche unsere Webseite für weitere Ressourcen  </li>
-<li>📚 <strong><a href="https://mrnerf.github.io/awesome-3D-gaussian-splatting/">Awesome 3D Gaussian Splatting</a></strong> – Umfangreiche Paper-Liste und Ressourcen  </li>
+<li>💬 <strong><a href="https://discord.gg/TbxJST2BbC">Discord Community</a></strong> – Hilfe erhalten, Ergebnisse teilen und Entwicklung diskutieren</li>
+<li>🌐 <strong><a href="https://mrnerf.com">mrnerf.com</a></strong> – Besuche unsere Webseite für weitere Ressourcen</li>
+<li>📚 <strong><a href="https://mrnerf.github.io/awesome-3D-gaussian-splatting/">Awesome 3D Gaussian Splatting</a></strong> – Umfangreiche Paper-Liste und Ressourcen</li>
 <li>🐦 <strong><a href="https://twitter.com/janusch_patas">@janusch_patas</a></strong> – Folge für die neuesten Updates</li>
 </ul>
 <h2>Build- und Ausführungsanweisungen</h2>
 <h3>Software-Voraussetzungen</h3>
 <ol>
-<li><strong>Linux</strong> (getestet mit Ubuntu 22.04) – Windows wird derzeit nicht unterstützt  </li>
-<li><strong>CMake</strong> Version 3.24 oder höher  </li>
-<li><strong>CUDA</strong> 11.8 oder höher (kann mit manueller Konfiguration auch mit älteren Versionen funktionieren)  </li>
-<li><strong>Python</strong> mit Entwicklungsköpfen  </li>
-<li><strong>LibTorch 2.7.0</strong> – Installationsanleitung unten  </li>
+<li><strong>Linux</strong> (getestet mit Ubuntu 22.04) – Windows wird derzeit nicht unterstützt</li>
+<li><strong>CMake</strong> Version 3.24 oder höher</li>
+<li><strong>CUDA</strong> 11.8 oder höher (kann mit manueller Konfiguration auch mit älteren Versionen funktionieren)</li>
+<li><strong>Python</strong> mit Entwicklungsköpfen</li>
+<li><strong>LibTorch 2.7.0</strong> – Installationsanleitung unten</li>
 <li>Andere Abhängigkeiten werden automatisch von CMake verwaltet</li>
 </ol>
 <h3>Hardware-Voraussetzungen</h3>
 <ol>
-<li><strong>NVIDIA GPU</strong> mit CUDA-Unterstützung  <ul>
-<li>Getestet mit: RTX 4090, RTX A5000, RTX 3090Ti, A100  </li>
+<li><strong>NVIDIA GPU</strong> mit CUDA-Unterstützung
+<ul>
+<li>Getestet mit: RTX 4090, RTX A5000, RTX 3090Ti, A100</li>
 <li>Bekannter Fehler mit RTX 3080Ti bei größeren Datensätzen (siehe #21)</li>
 </ul>
 </li>
@@ -265,84 +106,93 @@
 <p>Wenn du das Projekt erfolgreich auf anderer Hardware ausführst, teile deine Erfahrung bitte im Discussions-Bereich!</p>
 </blockquote>
 <h3>Build-Anleitung</h3>
-<pre><code class="language-bash hljs"><span class="hljs-comment"># Repository mit Submodulen klonen</span>
-git <span class="hljs-built_in">clone</span> --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
-<span class="hljs-built_in">cd</span> gaussian-splatting-cuda
+<pre><code class="language-bash"># Repository mit Submodulen klonen
+git clone --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
+cd gaussian-splatting-cuda
 
-<span class="hljs-comment"># LibTorch herunterladen und einrichten</span>
+# LibTorch herunterladen und einrichten
 wget https://raw.githubusercontent.com/MrNeRF/gaussian-splatting-cuda/master/libtorch-cxx11-abi-shared-with-deps-2.7.0%2Bcu118.zip  
 unzip libtorch-cxx11-abi-shared-with-deps-2.7.0+cu118.zip -d external/
-<span class="hljs-built_in">rm</span> libtorch-cxx11-abi-shared-with-deps-2.7.0+cu118.zip
+rm libtorch-cxx11-abi-shared-with-deps-2.7.0+cu118.zip
 
-<span class="hljs-comment"># Projekt bauen</span>
+# Projekt bauen
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build -- -j
 </code></pre>
 <h2>LibTorch 2.7.0</h2>
 <p>Dieses Projekt verwendet <strong>LibTorch 2.7.0</strong> für optimale Leistung und Kompatibilität:</p>
 <ul>
-<li><strong>Verbesserte Leistung</strong>: Optimierung und Speicherverwaltung wurden verbessert  </li>
-<li><strong>API-Stabilität</strong>: Aktuell stabile PyTorch C++ API  </li>
-<li><strong>CUDA-Kompatibilität</strong>: Bessere Integration mit CUDA 11.8+  </li>
+<li><strong>Verbesserte Leistung</strong>: Optimierung und Speicherverwaltung wurden verbessert</li>
+<li><strong>API-Stabilität</strong>: Aktuell stabile PyTorch C++ API</li>
+<li><strong>CUDA-Kompatibilität</strong>: Bessere Integration mit CUDA 11.8+</li>
 <li><strong>Fehlerbehebungen</strong>: Probleme im Optimizer-State-Management gelöst</li>
 </ul>
 <h3>Upgrade von vorherigen Versionen</h3>
 <ol>
-<li>Lade die neue LibTorch-Version mit den Build-Anweisungen herunter  </li>
-<li>Lösche dein Build-Verzeichnis: <code>rm -rf build/</code>  </li>
+<li>Lade die neue LibTorch-Version mit den Build-Anweisungen herunter</li>
+<li>Lösche dein Build-Verzeichnis: <code>rm -rf build/</code></li>
 <li>Baue das Projekt neu</li>
 </ol>
 <h2>Datensatz</h2>
-<p>Lade den Datensatz aus dem Original-Repository herunter:<br><a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/datasets/input/tandt_db.zip">Tanks &amp; Trains Dataset</a></p>
+<p>Lade den Datensatz aus dem Original-Repository herunter:<br />
+<a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/datasets/input/tandt_db.zip">Tanks &amp; Trains Dataset</a></p>
 <p>Entpacke ihn in den <code>data</code>-Ordner im Projektstammverzeichnis.</p>
 <h2>Befehlszeilenoptionen</h2>
 <h3>Kernoptionen</h3>
 <ul>
-<li><p><strong><code>-h, --help</code></strong><br>Zeigt das Hilfemenü an</p>
+<li><p><strong><code>-h, --help</code></strong><br />
+Zeigt das Hilfemenü an</p>
 </li>
-<li><p><strong><code>-d, --data-path [PFAD]</code></strong><br>Pfad zu den Trainingsdaten (erforderlich)</p>
+<li><p><strong><code>-d, --data-path [PFAD]</code></strong><br />
+Pfad zu den Trainingsdaten (erforderlich)</p>
 </li>
-<li><p><strong><code>-o, --output-path [PFAD]</code></strong><br>Pfad zum Speichern des trainierten Modells (Standard: <code>./output</code>)</p>
+<li><p><strong><code>-o, --output-path [PFAD]</code></strong><br />
+Pfad zum Speichern des trainierten Modells (Standard: <code>./output</code>)</p>
 </li>
-<li><p><strong><code>-i, --iter [ANZAHL]</code></strong><br>Anzahl der Trainingsiterationen (Standard: 30000)  </p>
+<li><p><strong><code>-i, --iter [ANZAHL]</code></strong><br />
+Anzahl der Trainingsiterationen (Standard: 30000)</p>
 <ul>
-<li>Im Paper werden 30k empfohlen, aber 6k-7k liefern oft gute vorläufige Ergebnisse  </li>
+<li>Im Paper werden 30k empfohlen, aber 6k-7k liefern oft gute vorläufige Ergebnisse</li>
 <li>Ergebnisse werden alle 7k Iterationen und am Ende gespeichert</li>
 </ul>
 </li>
-<li><p><strong><code>-f, --force</code></strong><br>Überschreibt vorhandenen Ausgabeordner zwangsweise</p>
+<li><p><strong><code>-f, --force</code></strong><br />
+Überschreibt vorhandenen Ausgabeordner zwangsweise</p>
 </li>
-<li><p><strong><code>-r, --resolution [ANZAHL]</code></strong><br>Setzt die Auflösung für Trainingsbilder</p>
+<li><p><strong><code>-r, --resolution [ANZAHL]</code></strong><br />
+Setzt die Auflösung für Trainingsbilder</p>
 </li>
 </ul>
 <h3>MCMC-spezifische Optionen</h3>
 <ul>
-<li><strong><code>--max-cap [ANZAHL]</code></strong><br>Maximale Anzahl von Gaussians für die MCMC-Strategie (Standard: 1000000)  <ul>
-<li>Begrenzt die maximale Anzahl von Gaussian-Splats während des Trainings  </li>
+<li><strong><code>--max-cap [ANZAHL]</code></strong><br />
+Maximale Anzahl von Gaussians für die MCMC-Strategie (Standard: 1000000)
+<ul>
+<li>Begrenzt die maximale Anzahl von Gaussian-Splats während des Trainings</li>
 <li>Nützlich bei speicherbeschränkten Umgebungen</li>
 </ul>
 </li>
 </ul>
 <h3>Beispielanwendung</h3>
-<p>Basis-Training:  </p>
-<pre><code class="language-bash hljs">./build/gaussian_splatting_cuda -d /pfad/zu/daten -o /pfad/zum/ausgabe -i 10000
+<p>Basis-Training:</p>
+<pre><code class="language-bash">./build/gaussian_splatting_cuda -d /pfad/zu/daten -o /pfad/zum/ausgabe -i 10000
 </code></pre>
-<p>MCMC-Training mit begrenzter Gaussian-Anzahl:  </p>
-<pre><code class="language-bash hljs">./build/gaussian_splatting_cuda -d /pfad/zu/daten -o /pfad/zum/ausgabe -i 10000 --max-cap 500000
+<p>MCMC-Training mit begrenzter Gaussian-Anzahl:</p>
+<pre><code class="language-bash">./build/gaussian_splatting_cuda -d /pfad/zu/daten -o /pfad/zum/ausgabe -i 10000 --max-cap 500000
 </code></pre>
 <h2>Richtlinien für Beiträge</h2>
 <p>Wir freuen uns über Beiträge! So fängst du an:</p>
 <ol>
-<li><p><strong>Erste Schritte</strong>:  </p>
+<li><p><strong>Erste Schritte</strong>:</p>
 <ul>
-<li>Schau dir Issues mit dem Label <strong>good first issues</strong> für anfängerfreundliche Aufgaben an  </li>
+<li>Schau dir Issues mit dem Label <strong>good first issues</strong> für anfängerfreundliche Aufgaben an</li>
 <li>Für neue Ideen öffne eine Diskussion oder trete unserem <a href="https://discord.gg/TbxJST2BbC">Discord</a> bei</li>
 </ul>
 </li>
-<li><p><strong>Vor dem Einreichen eines PR</strong>:  </p>
+<li><p><strong>Vor dem Einreichen eines PR</strong>:</p>
 <ul>
-<li>Verwende <code>clang-format</code> für konsistenten Code-Stil  </li>
-<li>Nutze den pre-commit Hook: <code>cp tools/pre-commit .git/hooks/</code>  </li>
+<li>Verwende <code>clang-format</code> für konsistenten Code-Stil</li>
+<li>Nutze den pre-commit Hook: <code>cp tools/pre-commit .git/hooks/</code></li>
 <li>Diskutiere neue Abhängigkeiten zuerst in einem Issue – wir möchten Abhängigkeiten möglichst gering halten</li>
 </ul>
 </li>
@@ -370,38 +220,23 @@ cmake --build build -- -j
 </code></pre>
 <h2>Lizenz</h2>
 <p>Details siehe LICENSE-Datei.</p>
-<hr>
-<p><strong>Verbinde dich mit uns:</strong>  </p>
+<hr />
+<p><strong>Verbinde dich mit uns:</strong></p>
 <ul>
-<li>🌐 Webseite: <a href="https://mrnerf.com">mrnerf.com</a>  </li>
-<li>📚 Papers: <a href="https://mrnerf.github.io/awesome-3D-gaussian-splatting/">Awesome 3D Gaussian Splatting</a>  </li>
-<li>💬 Discord: <a href="https://discord.gg/TbxJST2BbC">Tritt unserer Community bei</a>  </li>
+<li>🌐 Webseite: <a href="https://mrnerf.com">mrnerf.com</a></li>
+<li>📚 Papers: <a href="https://mrnerf.github.io/awesome-3D-gaussian-splatting/">Awesome 3D Gaussian Splatting</a></li>
+<li>💬 Discord: <a href="https://discord.gg/TbxJST2BbC">Tritt unserer Community bei</a></li>
 <li>🐦 Twitter: Folge <a href="https://twitter.com/janusch_patas">@janusch_patas</a> für Entwicklungsupdates</li>
 </ul>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

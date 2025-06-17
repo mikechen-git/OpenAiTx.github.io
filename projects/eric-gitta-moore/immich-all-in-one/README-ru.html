@@ -1,146 +1,57 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Immich + cn-clip + RapidOCR + InsightFace - eric-gitta-moore/immich-all-in-one</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Immich + cn-clip + RapidOCR + InsightFace - eric-gitta-moore/immich-all-in-one">
-    <meta name="description" content="eric-gitta-moore/immich-all-in-one - GitHub repository ru documentation and information">
+    <title>immich-all-in-one - eric-gitta-moore/immich-all-in-one</title>
+    <meta name="title" content="immich-all-in-one - eric-gitta-moore/immich-all-in-one">
+    <meta name="description" content="eric-gitta-moore/immich-all-in-one - GitHub repository ru documentation and informationImmich + cn-clip + RapidOCR + InsightFace ~~В дальнейшем планируется перейти на ente-io/ente, так как мне нужен s3 для хранения фотографий~~ Однако у ente все еще слишком мало функций Изменено на использование juicedata/juicefs для монтирования s3 Описание проекта Данный проект представляет собой решение по расширению AI-возможностей Immich — системы управления фотографиями. Основные улучшения Immich реализованы с помощью следующих компонентов: inference-gateway: шлюзовый сервис на Go, отвечающий за интеллектуальную маршрутизацию запросов машинного обучения Immich mt-photos-ai: AI-сервис на Python и FastAPI, интегрирующий RapidOCR и cn-clip модели Расширение функциональности Immich, включая поиск по OCR-распознаванию текста и повторную обработку AI-данных для отдельных медиа, смешанная сортировка по вектору OCR и CLIP Добавлен zhparser для китайской сегментации слов в PostgreSQL Основные функции 1. Распознавание и поиск текста (OCR) Использование RapidOCR для распознавания текста на изображениях Поддержка распознавания смешанного китайско-английского текста Реализация поиска по содержимому текста на изображениях 2. Обработка векторов изображений CLIP Более точное сопоставление изображение–текст на...">
     <meta name="keywords" content="eric-gitta-moore, immich-all-in-one, GitHub, repository, ru documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/eric-gitta-moore/immich-all-in-one/README-ru.html">
-    <meta property="og:title" content="Immich + cn-clip + RapidOCR + InsightFace - eric-gitta-moore/immich-all-in-one">
+    <meta property="og:title" content="immich-all-in-one - eric-gitta-moore/immich-all-in-one">
     <meta property="og:description" content="eric-gitta-moore/immich-all-in-one - GitHub repository ru documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/eric-gitta-moore/immich-all-in-one" id="githubRepoLink" target="_blank">eric-gitta-moore/immich-all-in-one</a>
+<br>
+<h1 style="display: none;">Immich + cn-clip + RapidOCR + InsightFace ~~В дальнейшем планируется перейти на ente-io/ente, так как мне нужен s3 для хранения фотографий~~ Однако у ente все еще слишком мало функций Изменено на использование juicedata/juicefs для монтирования s3 Описание проекта Данный проект представляет собой решение по расширению AI-возможностей Immich — системы управления фотографиями. Основные улучшения Immich реализованы с помощью следующих компонентов: inference-gateway: шлюзовый сервис на Go, отвечающий за интеллектуальную маршрутизацию запросов машинного обучения Immich mt-photos-ai: AI-сервис на Python и FastAPI, интегрирующий RapidOCR и cn-clip модели Расширение функциональности Immich, включая поиск по OCR-распознаванию текста и повторную обработку AI-данных для отдельных медиа, смешанная сортировка по вектору OCR и CLIP Добавлен zhparser для китайской сегментации слов в PostgreSQL Основные функции 1. Распознавание и поиск текста (OCR) Использование RapidOCR для распознавания текста на изображениях Поддержка распознавания смешанного китайско-английского текста Реализация поиска по содержимому текста на изображениях 2. Обработка векторов изображений CLIP Более точное сопоставление изображение–текст на...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>Immich + cn-clip + RapidOCR + InsightFace</h1>
-<div style="text-align: center"><p><a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&amp;project=immich-all-in-one&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> </p></div>
-
+        <div class="markdown-body" id="content">
+            <h1>Immich + cn-clip + RapidOCR + InsightFace</h1>
+<div style="text-align: center"><p><a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=eric-gitta-moore&project=immich-all-in-one&lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> </p></div>
 <blockquote>
-<p><del>В дальнейшем планируется перейти на ente-io/ente, так как мне нужен s3 для хранения фотографий</del></p>
+<p>~~В дальнейшем планируется перейти на ente-io/ente, так как мне нужен s3 для хранения фотографий~~</p>
 <p>Однако у ente все еще слишком мало функций</p>
 <p>Изменено на использование juicedata/juicefs для монтирования s3</p>
 </blockquote>
@@ -171,14 +82,14 @@
 <li>Возможность вручную обновить результаты, если они некорректны</li>
 </ul>
 <h2>Архитектура системы</h2>
-<pre><code class="hljs language-css">┌─────────────┐      ┌──────────────────┐      ┌───────────────┐
+<pre><code>┌─────────────┐      ┌──────────────────┐      ┌───────────────┐
 │             │      │                  │      │               │
 │   Immich    │─────▶│ inference-gateway│─────▶│  Immich ML    │
 │   Server    │      │    (Go网关)      │      │   Server      │
 │             │      │                  │      │               │
 └─────────────┘      └──────────────────┘      └───────────────┘
                               │
-                              │ OCR/<span class="hljs-attribute">CLIP</span>请求
+                              │ OCR/CLIP请求
                               ▼
                      ┌──────────────────┐
                      │                  │
@@ -215,64 +126,64 @@
 <li><strong>Конфигурация inference-gateway</strong></li>
 </ol>
 <p>Основные переменные окружения:</p>
-<pre><code class="hljs language-ini"><span class="hljs-attr">IMMICH_API</span>=http://localhost:<span class="hljs-number">3003</span>  <span class="hljs-comment"># адрес API Immich</span>
-<span class="hljs-attr">MT_PHOTOS_API</span>=http://localhost:<span class="hljs-number">8060</span>  <span class="hljs-comment"># адрес сервиса mt-photos-ai</span>
-<span class="hljs-attr">MT_PHOTOS_API_KEY</span>=mt_photos_ai_extra  <span class="hljs-comment"># API-ключ</span>
-<span class="hljs-attr">PORT</span>=<span class="hljs-number">8080</span>  <span class="hljs-comment"># порт для прослушивания шлюза</span>
+<pre><code>IMMICH_API=http://localhost:3003  # адрес API Immich
+MT_PHOTOS_API=http://localhost:8060  # адрес сервиса mt-photos-ai
+MT_PHOTOS_API_KEY=mt_photos_ai_extra  # API-ключ
+PORT=8080  # порт для прослушивания шлюза
 </code></pre>
 <ol start="2">
 <li><strong>Конфигурация mt-photos-ai</strong></li>
 </ol>
 <p>Основные переменные окружения:</p>
-<pre><code class="hljs language-ini"><span class="hljs-attr">CLIP_MODEL</span>=ViT-B-<span class="hljs-number">16</span>  <span class="hljs-comment"># название модели CLIP</span>
-<span class="hljs-attr">CLIP_DOWNLOAD_ROOT</span>=./models/clip  <span class="hljs-comment"># путь для загрузки модели</span>
-<span class="hljs-attr">DEVICE</span>=cuda  <span class="hljs-comment"># или cpu, устройство для инференса</span>
-<span class="hljs-attr">HTTP_PORT</span>=<span class="hljs-number">8060</span>  <span class="hljs-comment"># порт для прослушивания сервиса</span>
+<pre><code>CLIP_MODEL=ViT-B-16  # название модели CLIP
+CLIP_DOWNLOAD_ROOT=./models/clip  # путь для загрузки модели
+DEVICE=cuda  # или cpu, устройство для инференса
+HTTP_PORT=8060  # порт для прослушивания сервиса
 </code></pre>
 <h3>Шаги развертывания</h3>
 <ol>
 <li>Клонируйте репозиторий:</li>
 </ol>
-<pre><code class="language-bash hljs">git <span class="hljs-built_in">clone</span> https://github.com/ваш_пользователь/immich-all-in-one.git
-<span class="hljs-built_in">cd</span> immich-all-in-one
+<pre><code class="language-bash">git clone https://github.com/ваш_пользователь/immich-all-in-one.git
+cd immich-all-in-one
 </code></pre>
 <ol start="2">
 <li>Запустите сервисы:</li>
 </ol>
-<pre><code class="language-bash hljs">docker-compose up -d
+<pre><code class="language-bash">docker-compose up -d
 </code></pre>
 <h2>Инструкция по использованию</h2>
 <ol>
 <li><strong>Настройте Immich для использования пользовательского ML-сервиса</strong></li>
 </ol>
 <p>В конфигурационном файле Immich укажите адрес ML-сервиса на inference-gateway:</p>
-<pre><code class="hljs language-ini"><span class="hljs-attr">MACHINE_LEARNING_URL</span>=http://inference-gateway:<span class="hljs-number">8080</span>
+<pre><code>MACHINE_LEARNING_URL=http://inference-gateway:8080
 </code></pre>
 <ol start="2">
 <li><strong>Использование поиска по OCR</strong></li>
 </ol>
 <ul>
 <li>В строке поиска Immich используйте префикс <code>ocr:</code> для поиска по OCR</li>
-<li>Например: <code>ocr:счет</code> найдет фотографии с текстом "счет" на изображении</li>
+<li>Например: <code>ocr:счет</code> найдет фотографии с текстом &quot;счет&quot; на изображении</li>
 </ul>
 <ol start="3">
 <li><strong>Повторная обработка AI-данных для отдельного медиа</strong></li>
 </ol>
 <ul>
 <li>На странице с деталями фото откройте меню</li>
-<li>Выберите "Повторно сгенерировать OCR-данные" или "Повторно сгенерировать CLIP-векторы"</li>
+<li>Выберите &quot;Повторно сгенерировать OCR-данные&quot; или &quot;Повторно сгенерировать CLIP-векторы&quot;</li>
 <li>Система повторно обработает AI-данные для выбранного фото</li>
 </ul>
 <h2>Руководство по разработке</h2>
 <h3>inference-gateway (Go)</h3>
 <p>Сборка и запуск:</p>
-<pre><code class="language-bash hljs"><span class="hljs-built_in">cd</span> inference-gateway
+<pre><code class="language-bash">cd inference-gateway
 go build
 ./inference-gateway
 </code></pre>
 <h3>mt-photos-ai (Python)</h3>
 <p>Настройка среды разработки:</p>
-<pre><code class="language-bash hljs"><span class="hljs-built_in">cd</span> mt-photos-ai
+<pre><code class="language-bash">cd mt-photos-ai
 pip install -r requirements.txt
 python -m app.main
 </code></pre>
@@ -284,30 +195,15 @@ python -m app.main
 <li><a href="https://github.com/RapidAI/RapidOCR">RapidOCR</a> — кроссплатформенная OCR-библиотека на базе PaddleOCR</li>
 <li><a href="https://github.com/OFA-Sys/Chinese-CLIP">cn-clip</a> — мультимодальная модель предварительного обучения для китайского языка</li>
 </ul>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-09</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

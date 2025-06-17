@@ -1,173 +1,674 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <title>ky - sindresorhus/ky</title>
+    <meta name="title" content="ky - sindresorhus/ky">
+    <meta name="description" content="sindresorhus/ky - GitHub repository ja documentation and informationKy は Fetch API に基づく小さくてエレガントな HTTP クライアントです。 Ky は モダンブラウザ、Node.js、Bun、Deno をターゲットにしています。 依存関係のない小さなパッケージです。 プレーンな fetch より優れている点 シンプルな API メソッドショートカット（ky.post() など） 2xx 以外のステータスコードをエラーとして扱う（リダイレクト後） 失敗したリクエストのリトライ JSON オプション タイムアウト対応 URL プレフィックスオプション カスタムデフォルトを持つインスタンス フック TypeScript との親和性（例：.json() はジェネリクスをサポートし、デフォルトは any ではなく unknown） インストール npm install ky CDN jsdelivr unpkg esm.sh 使い方 import ky from 'ky'; const json = await ky.post('https://example.com', {json: {foo: true}}).json(); console.log(json); //=&gt; {data: '🦄'} プレーンな fetch で書くと、次のようになります: class HTTPError extends Error {} const response = await fetch('https://example.com', { method: 'POST', body: JSON.stringify({foo: true}), headers: { 'content-type': 'application/json' } }); if (!response.ok) { throw new HTTPError(`Fetch error: ${response.statusText}`); } const json = await response.json(); console.log(json); //=&gt; {data: '🦄'} Deno を利用する場合は、URL から Ky をインポートしてください。例えば CDN を利用する場合: import ky from 'https://esm.sh/ky'; API ky(input, options?) input と options は fetch と同じですが、追加の options も利用できます（下記参照）。 Response オブジェクト を返し、利便性のために Body メソッド が追加されています。したがって、例えば ky.get(input).json() のように、まず Response を await せずに直接呼び出すことができます。このように呼び出すと、使用されるボディメソッドに応じて適切な Accept ヘッダーが設定されます。window.Fetch の Body メソッドとは異なり、レスポンスステータスが 200...299 の範囲外の場合は HTTPError をスローします。また、.json() はボディが空の場合やレスポンスステータスが 204 の場合、パースエラーをスローする代わりに空文字列を返します。 import...">
+    <meta name="keywords" content="sindresorhus, ky, GitHub, repository, ja documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/sindresorhus/ky/README-ja.html">
+    <meta property="og:title" content="ky - sindresorhus/ky">
+    <meta property="og:description" content="sindresorhus/ky - GitHub repository ja documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/sindresorhus/ky" id="githubRepoLink" target="_blank">sindresorhus/ky</a>
+<br>
+<h1 style="display: none;">Ky は Fetch API に基づく小さくてエレガントな HTTP クライアントです。 Ky は モダンブラウザ、Node.js、Bun、Deno をターゲットにしています。 依存関係のない小さなパッケージです。 プレーンな fetch より優れている点 シンプルな API メソッドショートカット（ky.post() など） 2xx 以外のステータスコードをエラーとして扱う（リダイレクト後） 失敗したリクエストのリトライ JSON オプション タイムアウト対応 URL プレフィックスオプション カスタムデフォルトを持つインスタンス フック TypeScript との親和性（例：.json() はジェネリクスをサポートし、デフォルトは any ではなく unknown） インストール npm install ky CDN jsdelivr unpkg esm.sh 使い方 import ky from 'ky'; const json = await ky.post('https://example.com', {json: {foo: true}}).json(); console.log(json); //=&gt; {data: '🦄'} プレーンな fetch で書くと、次のようになります: class HTTPError extends Error {} const response = await fetch('https://example.com', { method: 'POST', body: JSON.stringify({foo: true}), headers: { 'content-type': 'application/json' } }); if (!response.ok) { throw new HTTPError(`Fetch error: ${response.statusText}`); } const json = await response.json(); console.log(json); //=&gt; {data: '🦄'} Deno を利用する場合は、URL から Ky をインポートしてください。例えば CDN を利用する場合: import ky from 'https://esm.sh/ky'; API ky(input, options?) input と options は fetch と同じですが、追加の options も利用できます（下記参照）。 Response オブジェクト を返し、利便性のために Body メソッド が追加されています。したがって、例えば ky.get(input).json() のように、まず Response を await せずに直接呼び出すことができます。このように呼び出すと、使用されるボディメソッドに応じて適切な Accept ヘッダーが設定されます。window.Fetch の Body メソッドとは異なり、レスポンスステータスが 200...299 の範囲外の場合は HTTPError をスローします。また、.json() はボディが空の場合やレスポンスステータスが 204 の場合、パースエラーをスローする代わりに空文字列を返します。 import...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=sindresorhus&amp;project=ky&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
         <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>コンテンツの読み込みエラー</h2>
-                    <p>markdownコンテンツの読み込みに失敗しました。以下を確認してください：</p>
-                    <ul>
-                        <li>URLパラメータが正しい</li>
-                        <li>指定されたパスにファイルが存在する</li>
-                        <li>アクティブなインターネット接続がある</li>
-                    </ul>
-                    <p>エラー詳細： Failed to fetch</p>
-                </div>
-            </div>
-    </div>
+            <div align="center">
+	<br>
+	<div>
+		<img width="600" height="600" src="https://raw.githubusercontent.com/sindresorhus/ky/main/media/logo.svg" alt="ky">
+	</div>
+	<br>
+	<br>
+	<br>
+</div>
+<blockquote>
+<p>Ky は <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch">Fetch API</a> に基づく小さくてエレガントな HTTP クライアントです。</p>
+</blockquote>
+<p><a href="https://codecov.io/gh/sindresorhus/ky"><img src="https://codecov.io/gh/sindresorhus/ky/branch/main/graph/badge.svg" alt="Coverage Status" /></a>
+<a href="https://bundlephobia.com/result?p=ky"><img src="https://badgen.net/bundlephobia/minzip/ky" alt="" /></a></p>
+<p>Ky は <a href="#browser-support">モダンブラウザ</a>、Node.js、Bun、Deno をターゲットにしています。</p>
+<p>依存関係のない小さなパッケージです。</p>
+<h2>プレーンな <code>fetch</code> より優れている点</h2>
+<ul>
+<li>シンプルな API</li>
+<li>メソッドショートカット（<code>ky.post()</code> など）</li>
+<li>2xx 以外のステータスコードをエラーとして扱う（リダイレクト後）</li>
+<li>失敗したリクエストのリトライ</li>
+<li>JSON オプション</li>
+<li>タイムアウト対応</li>
+<li>URL プレフィックスオプション</li>
+<li>カスタムデフォルトを持つインスタンス</li>
+<li>フック</li>
+<li>TypeScript との親和性（例：<code>.json()</code> はジェネリクスをサポートし、デフォルトは <code>any</code> ではなく <code>unknown</code>）</li>
+</ul>
+<h2>インストール</h2>
+<pre><code class="language-sh">npm install ky
+</code></pre>
+<h6>CDN</h6>
+<ul>
+<li><a href="https://cdn.jsdelivr.net/npm/ky/+esm">jsdelivr</a></li>
+<li><a href="https://unpkg.com/ky">unpkg</a></li>
+<li><a href="https://esm.sh/ky">esm.sh</a></li>
+</ul>
+<h2>使い方</h2>
+<pre><code class="language-js">import ky from 'ky';
 
+const json = await ky.post('https://example.com', {json: {foo: true}}).json();
+
+console.log(json);
+//=&gt; {data: '🦄'}
+</code></pre>
+<p>プレーンな <code>fetch</code> で書くと、次のようになります:</p>
+<pre><code class="language-js">class HTTPError extends Error {}
+
+const response = await fetch('https://example.com', {
+	method: 'POST',
+	body: JSON.stringify({foo: true}),
+	headers: {
+		'content-type': 'application/json'
+	}
+});
+
+if (!response.ok) {
+	throw new HTTPError(`Fetch error: ${response.statusText}`);
+}
+
+const json = await response.json();
+
+console.log(json);
+//=&gt; {data: '🦄'}
+</code></pre>
+<p><a href="https://github.com/denoland/deno">Deno</a> を利用する場合は、URL から Ky をインポートしてください。例えば CDN を利用する場合:</p>
+<pre><code class="language-js">import ky from 'https://esm.sh/ky';
+</code></pre>
+<h2>API</h2>
+<h3>ky(input, options?)</h3>
+<p><code>input</code> と <code>options</code> は <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch"><code>fetch</code></a> と同じですが、追加の <code>options</code> も利用できます（下記参照）。</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Response"><code>Response</code> オブジェクト</a> を返し、利便性のために <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#body"><code>Body</code> メソッド</a> が追加されています。したがって、例えば <code>ky.get(input).json()</code> のように、まず <code>Response</code> を await せずに直接呼び出すことができます。このように呼び出すと、使用されるボディメソッドに応じて適切な <code>Accept</code> ヘッダーが設定されます。<code>window.Fetch</code> の <code>Body</code> メソッドとは異なり、レスポンスステータスが <code>200...299</code> の範囲外の場合は <code>HTTPError</code> をスローします。また、<code>.json()</code> はボディが空の場合やレスポンスステータスが <code>204</code> の場合、パースエラーをスローする代わりに空文字列を返します。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+const user = await ky('/api/user').json();
+
+console.log(user);
+</code></pre>
+<p>⌨️ <strong>TypeScript:</strong> オプションの <a href="https://www.typescriptlang.org/docs/handbook/2/generics.html">型パラメータ</a> を受け付けます（デフォルトは <a href="https://www.typescriptlang.org/docs/handbook/2/functions.html#unknown"><code>unknown</code></a>）。この型は <code>.json()</code> の戻り値の型として反映されます。</p>
+<pre><code class="language-ts">import ky from 'ky';
+
+// user1 の型は unknown
+const user1 = await ky('/api/users/1').json();
+// user2 の型は User
+const user2 = await ky&lt;User&gt;('/api/users/2').json();
+// user3 の型は User
+const user3 = await ky('/api/users/3').json&lt;User&gt;();
+
+console.log([user1, user2, user3]);
+</code></pre>
+<h3>ky.get(input, options?)</h3>
+<h3>ky.post(input, options?)</h3>
+<h3>ky.put(input, options?)</h3>
+<h3>ky.patch(input, options?)</h3>
+<h3>ky.head(input, options?)</h3>
+<h3>ky.delete(input, options?)</h3>
+<p><code>options.method</code> をメソッド名に設定してリクエストを実行します。</p>
+<p>⌨️ <strong>TypeScript:</strong> JSON レスポンスと併用するためのオプションの型パラメータを受け付けます（<a href="#kyinput-options"><code>ky()</code></a> を参照）。</p>
+<h4>input</h4>
+<p>型: <code>string</code> | <code>URL</code> | <code>Request</code></p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#input"><code>fetch</code> の input</a> と同じです。</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Request"><code>Request</code></a> インスタンスを <code>input</code> として使用する場合、URL を変更するオプション（<code>prefixUrl</code> など）は無視されます。</p>
+<h4>options</h4>
+<p>型: <code>object</code></p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch#options"><code>fetch</code> の options</a> と同じですが、以下の追加オプションがあります:</p>
+<h5>method</h5>
+<p>型: <code>string</code><br />
+デフォルト: <code>'get'</code></p>
+<p>リクエストで使用する HTTP メソッド。</p>
+<p>内部的には、標準メソッド（<code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>PATCH</code>, <code>HEAD</code>, <code>DELETE</code>）は大文字に変換され、サーバーの大文字小文字区別によるエラーを回避します。</p>
+<h5>json</h5>
+<p>型: <code>object</code> および <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify"><code>JSON.stringify()</code></a> で受け付けられるその他の値</p>
+<p>JSON を送信するためのショートカットです。<code>body</code> オプションの代わりにこちらを使用してください。プレーンなオブジェクトや値を受け付け、<code>JSON.stringify()</code> された上で正しいヘッダーとともにボディに送信されます。</p>
+<h5>searchParams</h5>
+<p>型: <code>string | object&lt;string, string | number | boolean&gt; | Array&lt;Array&lt;string | number | boolean&gt;&gt; | URLSearchParams</code><br />
+デフォルト: <code>''</code></p>
+<p>リクエスト URL に含める検索パラメータ。これを設定すると、input URL に存在するすべての検索パラメータが上書きされます。</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/URLSearchParams"><code>URLSearchParams()</code></a> でサポートされているすべての値を受け付けます。</p>
+<h5>prefixUrl</h5>
+<p>型: <code>string | URL</code></p>
+<p>リクエスト時に <code>input</code> URL の前に付加するプレフィックス。相対または絶対の有効な URL であれば何でも指定できます。末尾のスラッシュ <code>/</code> は任意で、必要に応じて自動的に追加されます。<code>input</code> が文字列の場合のみ有効です。このオプションを使用する場合、<code>input</code> 引数はスラッシュ <code>/</code> で始めてはいけません。</p>
+<p><a href="#kyextenddefaultoptions"><code>ky.extend()</code></a> と組み合わせて、用途に応じた Ky インスタンスを作成する際に便利です。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+// https://example.com で
+
+const response = await ky('unicorn', {prefixUrl: '/api'});
+//=&gt; 'https://example.com/api/unicorn'
+
+const response2 = await ky('unicorn', {prefixUrl: 'https://cats.com'});
+//=&gt; 'https://cats.com/unicorn'
+</code></pre>
+<p>注意事項:</p>
+<ul>
+<li><code>prefixUrl</code> と <code>input</code> が結合された後、その結果はページの <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/baseURI">ベースURL</a>（存在する場合）を基準に解決されます。</li>
+<li>このオプションを使用する場合、<code>input</code> の先頭にスラッシュを付けることは禁止されています。これは一貫性を持たせるためと、<code>prefixUrl</code> 使用時は通常の URL 解決ルールが適用されず、スラッシュの意味が変わるため混乱を避けるためです。</li>
+</ul>
+<h5>retry</h5>
+<p>型: <code>object | number</code><br />
+デフォルト:</p>
+<ul>
+<li><code>limit</code>: <code>2</code></li>
+<li><code>methods</code>: <code>get</code> <code>put</code> <code>head</code> <code>delete</code> <code>options</code> <code>trace</code></li>
+<li><code>statusCodes</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/408"><code>408</code></a> <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/413"><code>413</code></a> <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429"><code>429</code></a> <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"><code>500</code></a> <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502"><code>502</code></a> <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"><code>503</code></a> <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/504"><code>504</code></a></li>
+<li><code>afterStatusCodes</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/413"><code>413</code></a>, <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429"><code>429</code></a>, <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"><code>503</code></a></li>
+<li><code>maxRetryAfter</code>: <code>undefined</code></li>
+<li><code>backoffLimit</code>: <code>undefined</code></li>
+<li><code>delay</code>: <code>attemptCount =&gt; 0.3 * (2 ** (attemptCount - 1)) * 1000</code></li>
+</ul>
+<p><code>limit</code>、<code>methods</code>、<code>statusCodes</code>、<code>afterStatusCodes</code>、および <code>maxRetryAfter</code> フィールドを表すオブジェクトで、最大リトライ回数、許可されるメソッド、許可されるステータスコード、<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After"><code>Retry-After</code></a> 時間を使用できるステータスコード、最大の <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After"><code>Retry-After</code></a> 時間を指定します。</p>
+<p><code>retry</code> が数値の場合、その値が <code>limit</code> として使用され、その他のデフォルト値はそのまま適用されます。</p>
+<p>レスポンスが <code>afterStatusCodes</code> に含まれる HTTP ステータスを返した場合、Ky は <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After"><code>Retry-After</code></a> ヘッダーで指定された日時、タイムアウト、またはタイムスタンプが経過するまでリクエストの再試行を待ちます。<code>Retry-After</code> が存在しない場合、標準外の <a href="https://www.ietf.org/archive/id/draft-polli-ratelimit-headers-05.html#section-3.3"><code>RateLimit-Reset</code></a> ヘッダーが代わりにフォールバックとして使用されます。指定されたステータスコードがリストにない場合、<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After"><code>Retry-After</code></a> ヘッダーは無視されます。</p>
+<p><code>maxRetryAfter</code> が <code>undefined</code> に設定されている場合は、<code>options.timeout</code> が使用されます。<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After"><code>Retry-After</code></a> ヘッダーの値が <code>maxRetryAfter</code> より大きい場合は、<code>maxRetryAfter</code> が使用されます。</p>
+<p><code>backoffLimit</code> オプションは、リトライごとのディレイ（遅延）の上限（ミリ秒単位）です。
+遅延を制限するには、例えば <code>backoffLimit</code> を 1000 に設定します。
+デフォルトでは、遅延は <code>0.3 * (2 ** (attemptCount - 1)) * 1000</code> で計算されます。遅延は指数関数的に増加します。</p>
+<p><code>delay</code> オプションを使うことで、リトライ間の遅延の計算方法を変更できます。この関数は、1 から始まる試行回数をパラメータとして受け取ります。</p>
+<p><a href="#timeout">タイムアウト</a> 発生後にはリトライは実行されません。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+const json = await ky('https://example.com', {
+	retry: {
+		limit: 10,
+		methods: ['get'],
+		statusCodes: [413],
+		backoffLimit: 3000
+	}
+}).json();
+</code></pre>
+<h5>timeout</h5>
+<p>型: <code>number | false</code><br />
+デフォルト: <code>10000</code></p>
+<p>レスポンス取得までのタイムアウト（ミリ秒単位）。リトライも含みます。2147483647 より大きい値は指定できません。
+<code>false</code> に設定するとタイムアウトは発生しません。</p>
+<h5>hooks</h5>
+<p>型: <code>object&lt;string, Function[]&gt;</code><br />
+デフォルト: <code>{beforeRequest: [], beforeRetry: [], afterResponse: []}</code></p>
+<p>フックはリクエストライフサイクル中の変更を可能にします。フック関数は非同期でもよく、直列で実行されます。</p>
+<h6>hooks.beforeRequest</h6>
+<p>型: <code>Function[]</code><br />
+デフォルト: <code>[]</code></p>
+<p>このフックにより、リクエスト送信直前にリクエストを変更できます。Ky はこの後、リクエストに変更を加えません。フック関数は <code>request</code> と <code>options</code> を引数に受け取ります。例えば、ここで <code>request.headers</code> を変更できます。</p>
+<p>このフックは、送信するリクエストを置き換えるために <a href="https://developer.mozilla.org/en-US/docs/Web/API/Request"><code>Request</code></a> を返すか、HTTP リクエスト自体を完全に回避するために <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response"><code>Response</code></a> を返すことができます。これにより、リクエストのモックや内部キャッシュの確認などが可能です。このフックからリクエストまたはレスポンスを返す場合、残りの <code>beforeRequest</code> フックはスキップされるため、最後のフックでのみ返すことを推奨します。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+const api = ky.extend({
+	hooks: {
+		beforeRequest: [
+			request =&gt; {
+				request.headers.set('X-Requested-With', 'ky');
+			}
+		]
+	}
+});
+
+const response = await api.get('https://example.com/api/users');
+</code></pre>
+<h6>hooks.beforeRetry</h6>
+<p>型: <code>Function[]</code><br />
+デフォルト: <code>[]</code></p>
+<p>このフックにより、リトライ直前にリクエストを変更できます。Ky はこの後、リクエストに変更を加えません。フック関数は正規化されたリクエストとオプション、エラーインスタンス、リトライ回数を含むオブジェクトを受け取ります。ここで <code>request.headers</code> を変更することもできます。</p>
+<p>リクエストがレスポンスを受信している場合、エラーは <code>HTTPError</code> 型となり、<code>error.response</code> で <code>Response</code> オブジェクトが利用できます。ネットワークエラーなど一部のエラーはレスポンスが存在しないため、その場合エラーは <code>HTTPError</code> のインスタンスではありません。</p>
+<p>エラーを throw することで Ky のリトライを防げます。Ky はこのエラーを処理せず、リクエスト発行元に伝播されます。残りの <code>beforeRetry</code> フックは呼び出されません。あるいは、エラーを伝播させずに同じ動作をさせたい場合は <a href="#kystop"><code>ky.stop</code></a> シンボルを返すことも可能です（詳細は <code>ky.stop</code> ドキュメント参照）。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+const response = await ky('https://example.com', {
+	hooks: {
+		beforeRetry: [
+			async ({request, options, error, retryCount}) =&gt; {
+				const token = await ky('https://example.com/refresh-token');
+				request.headers.set('Authorization', `token ${token}`);
+			}
+		]
+	}
+});
+</code></pre>
+<h6>hooks.beforeError</h6>
+<p>型: <code>Function[]</code><br />
+デフォルト: <code>[]</code></p>
+<p>このフックにより、<code>HTTPError</code> が throw される直前に修正できます。フック関数は <code>HTTPError</code> を引数に受け取り、<code>HTTPError</code> のインスタンスを返す必要があります。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+await ky('https://example.com', {
+	hooks: {
+		beforeError: [
+			error =&gt; {
+				const {response} = error;
+				if (response &amp;&amp; response.body) {
+					error.name = 'GitHubError';
+					error.message = `${response.body.message} (${response.status})`;
+				}
+
+				return error;
+			}
+		]
+	}
+});
+</code></pre>
+<h6>hooks.afterResponse</h6>
+<p>型: <code>Function[]</code><br />
+デフォルト: <code>[]</code></p>
+<p>このフックにより、レスポンスを読み取り、必要に応じて修正できます。フック関数は正規化されたリクエスト、オプション、レスポンスのクローンを引数に受け取ります。フック関数の戻り値が <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response"><code>Response</code></a> のインスタンスであれば、Ky はそれをレスポンスオブジェクトとして使用します。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+const response = await ky('https://example.com', {
+	hooks: {
+		afterResponse: [
+			(_request, _options, response) =&gt; {
+				// 例えばレスポンスをログ出力できます。
+				log(response);
+
+				// または `Response` インスタンスを返してレスポンスを上書きできます。
+				return new Response('A different response', {status: 200});
+			},
+
+			// 403 エラー時に新しいトークンで再試行する例
+			async (request, options, response) =&gt; {
+				if (response.status === 403) {
+					// 新しいトークンを取得
+					const token = await ky('https://example.com/token').text();
+
+					// トークン付きで再試行
+					request.headers.set('Authorization', `token ${token}`);
+
+					return ky(request);
+				}
+			}
+		]
+	}
+});
+</code></pre>
+<h5>throwHttpErrors</h5>
+<p>型: <code>boolean</code><br />
+デフォルト: <code>true</code></p>
+<p>リダイレクト後、レスポンスのステータスコードが 2xx 以外の場合に <code>HTTPError</code> を throw します。リダイレクトもエラーとして投げたい場合は、<a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch#Parameters"><code>redirect</code></a> オプションを <code>'manual'</code> に設定してください。</p>
+<p>リソースの存在確認などでエラーレスポンスを想定している場合、これを <code>false</code> にすることが有用です。</p>
+<p>注意: <code>false</code> の場合、エラーレスポンスも成功と見なされ、リトライは行われません。</p>
+<h5>onDownloadProgress</h5>
+<p>型: <code>Function</code></p>
+<p>ダウンロード進捗イベントハンドラー。</p>
+<p>関数は以下の引数を受け取ります:</p>
+<ul>
+<li><code>progress</code> は以下のプロパティを持つオブジェクトです:</li>
+<li>
+<ul>
+<li><code>percent</code> は進捗率を表す 0 から 1 の数値です。</li>
+</ul>
+</li>
+<li>
+<ul>
+<li><code>transferredBytes</code> はこれまでに転送されたバイト数です。</li>
+</ul>
+</li>
+<li>
+<ul>
+<li><code>totalBytes</code> は転送予定の総バイト数です。これは推定値であり、総サイズが判定できない場合は 0 になります。</li>
+</ul>
+</li>
+<li><code>chunk</code> は送信されたデータを含む <code>Uint8Array</code> のインスタンスです。注意: 最初の呼び出し時は空です。</li>
+</ul>
+<pre><code class="language-js">import ky from 'ky';
+
+const response = await ky('https://example.com', {
+	onDownloadProgress: (progress, chunk) =&gt; {
+		// 例:
+		// `0% - 0 of 1271 bytes`
+		// `100% - 1271 of 1271 bytes`
+		console.log(`${progress.percent * 100}% - ${progress.transferredBytes} of ${progress.totalBytes} bytes`);
+	}
+});
+</code></pre>
+<h5>onUploadProgress</h5>
+<p>型: <code>Function</code>
+アップロード進行状況イベントハンドラー</p>
+<p>この関数は以下の引数を受け取ります:</p>
+<ul>
+<li><code>progress</code> は以下のプロパティを持つオブジェクトです:
+<ul>
+<li><code>percent</code> は進捗率を表す0から1の数値です。</li>
+<li><code>transferredBytes</code> はこれまでに転送されたバイト数です。</li>
+<li><code>totalBytes</code> は転送される合計バイト数です。これは推定値であり、合計サイズが判別できない場合は0となります。</li>
+</ul>
+</li>
+<li><code>chunk</code> は送信されたデータを含む <code>Uint8Array</code> のインスタンスです。注意: 最後の呼び出し時には空です。</li>
+</ul>
+<pre><code class="language-js">import ky from 'ky';
+
+const response = await ky.post('https://example.com/upload', {
+	body: largeFile,
+	onUploadProgress: (progress, chunk) =&gt; {
+		// 出力例:
+		// `0% - 0 of 1271 bytes`
+		// `100% - 1271 of 1271 bytes`
+		console.log(`${progress.percent * 100}% - ${progress.transferredBytes} of ${progress.totalBytes} bytes`);
+	}
+});
+</code></pre>
+<h5>parseJson</h5>
+<p>型: <code>Function</code><br />
+デフォルト: <code>JSON.parse()</code></p>
+<p>ユーザー定義のJSONパース関数。</p>
+<p>ユースケース:</p>
+<ol>
+<li><a href="https://github.com/hapijs/bourne"><code>bourne</code> パッケージ</a> を用いてプロトタイプ汚染から保護しつつJSONをパースする場合。</li>
+<li><code>JSON.parse()</code> の <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse"><code>reviver</code> オプション</a> を使ってJSONをパースする場合。</li>
+</ol>
+<pre><code class="language-js">import ky from 'ky';
+import bourne from '@hapijs/bourne';
+
+const json = await ky('https://example.com', {
+	parseJson: text =&gt; bourne(text)
+}).json();
+</code></pre>
+<h5>stringifyJson</h5>
+<p>型: <code>Function</code><br />
+デフォルト: <code>JSON.stringify()</code></p>
+<p>ユーザー定義のJSON文字列化関数。</p>
+<p>ユースケース:</p>
+<ol>
+<li>カスタム <code>replacer</code> 関数を用いてJSONを文字列化する場合。</li>
+</ol>
+<pre><code class="language-js">import ky from 'ky';
+import {DateTime} from 'luxon';
+
+const json = await ky('https://example.com', {
+	stringifyJson: data =&gt; JSON.stringify(data, (key, value) =&gt; {
+		if (key.endsWith('_at')) {
+			return DateTime.fromISO(value).toSeconds();
+		}
+
+		return value;
+	})
+}).json();
+</code></pre>
+<h5>fetch</h5>
+<p>型: <code>Function</code><br />
+デフォルト: <code>fetch</code></p>
+<p>ユーザー定義の <code>fetch</code> 関数。
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">Fetch API</a> 標準と完全互換である必要があります。</p>
+<p>ユースケース:</p>
+<ol>
+<li><a href="https://www.npmjs.com/package/isomorphic-unfetch"><code>isomorphic-unfetch</code></a> のようなカスタム <code>fetch</code> 実装を使用する場合。</li>
+<li>サーバーサイドレンダリング (SSR) を利用するフレームワークが提供する <code>fetch</code> ラッパー関数を利用する場合。</li>
+</ol>
+<pre><code class="language-js">import ky from 'ky';
+import fetch from 'isomorphic-unfetch';
+
+const json = await ky('https://example.com', {fetch}).json();
+</code></pre>
+<h3>ky.extend(defaultOptions)</h3>
+<p>デフォルト値の一部を独自に上書きして新しい <code>ky</code> インスタンスを作成します。</p>
+<p><code>ky.create()</code> とは異なり、<code>ky.extend()</code> は親のデフォルト値を継承します。</p>
+<p>ヘッダーは <code>Headers</code> インスタンスまたはプレーンなオブジェクトとして渡せます。</p>
+<p><code>.extend()</code> でヘッダーに <code>undefined</code> 値を渡すことで、ヘッダーを削除できます。
+文字列の <code>undefined</code> を渡した場合、<code>Headers</code> インスタンス由来の場合のみヘッダーが削除されます。</p>
+<p>同様に、既存の <code>hooks</code> エントリも、明示的に <code>undefined</code> で拡張することで削除できます。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+const url = 'https://sindresorhus.com';
+
+const original = ky.create({
+	headers: {
+		rainbow: 'rainbow',
+		unicorn: 'unicorn'
+	},
+	hooks: {
+		beforeRequest: [ () =&gt; console.log('before 1') ],
+		afterResponse: [ () =&gt; console.log('after 1') ],
+	},
+});
+
+const extended = original.extend({
+	headers: {
+		rainbow: undefined
+	},
+	hooks: {
+		beforeRequest: undefined,
+		afterResponse: [ () =&gt; console.log('after 2') ],
+	}
+});
+
+const response = await extended(url).json();
+//=&gt; after 1
+//=&gt; after 2
+
+console.log('rainbow' in response);
+//=&gt; false
+
+console.log('unicorn' in response);
+//=&gt; true
+</code></pre>
+<p><code>.extend()</code> に関数を渡すことで親のデフォルト値を参照することもできます。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+const api = ky.create({prefixUrl: 'https://example.com/api'});
+
+const usersApi = api.extend((options) =&gt; ({prefixUrl: `${options.prefixUrl}/users`}));
+
+const response = await usersApi.get('123');
+//=&gt; 'https://example.com/api/users/123'
+
+const response = await api.get('version');
+//=&gt; 'https://example.com/api/version'
+</code></pre>
+<h3>ky.create(defaultOptions)</h3>
+<p>完全に新しいデフォルト値で新しいKyインスタンスを作成します。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+// https://my-site.com 上で
+
+const api = ky.create({prefixUrl: 'https://example.com/api'});
+
+const response = await api.get('users/123');
+//=&gt; 'https://example.com/api/users/123'
+
+const response = await api.get('/status', {prefixUrl: ''});
+//=&gt; 'https://my-site.com/status'
+</code></pre>
+<h4>defaultOptions</h4>
+<p>型: <code>object</code></p>
+<h3>ky.stop</h3>
+<p><code>beforeRetry</code> フックから返すことでリトライを停止できる <code>Symbol</code> です。これにより残りの <code>beforeRetry</code> フックも短絡されます。</p>
+<p>注意: このシンボルを返すとKyは中断し、<code>undefined</code> のレスポンスを返します。レスポンスのプロパティにアクセスする前にレスポンスが存在するか確認するか、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining">オプショナルチェーン</a> を使ってください。また、<code>.json()</code> や <code>.text()</code> などのボディメソッドとは互換性がありません。パースするレスポンスが存在しないためです。一般的に、このシンボルを返すのではなくエラーをスローすることを推奨します。そうすればKyは中断してスローし、これらの制限を回避できます。</p>
+<p><code>ky.stop</code> の正当なユースケースは、副作用のためにリクエストを行い、返却データが重要でない場合にリトライを防ぐことです。例として、クライアントのアクティビティをサーバーに記録する場合などです。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+const options = {
+	hooks: {
+		beforeRetry: [
+			async ({request, options, error, retryCount}) =&gt; {
+				const shouldStopRetry = await ky('https://example.com/api');
+				if (shouldStopRetry) {
+					return ky.stop;
+				}
+			}
+		]
+	}
+};
+</code></pre>
+<pre><code class="language-markdown">// 注意：`ky.stop`が返された場合、responseは`undefined`になります。
+const response = await ky.post('https://example.com', options);
+
+// `.text()`や他のボディメソッドの使用はサポートされていません。
+const text = await ky('https://example.com', options).text();
+</code></pre>
+<h3>HTTPError</h3>
+<p><code>instanceof</code>チェックのために公開されています。エラーには<a href="https://developer.mozilla.org/en-US/docs/Web/API/Response"><code>Response</code>オブジェクト</a>を持つ<code>response</code>プロパティ、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Request"><code>Request</code>オブジェクト</a>を持つ<code>request</code>プロパティ、正規化されたオプション（<code>ky.create()</code>でインスタンス作成時、またはリクエスト実行時に直接渡されたもの）を持つ<code>options</code>プロパティがあります。</p>
+<p>ネットワークエラーのような一部のエラータイプは、本質的にレスポンスが受信されなかったことを意味します。その場合、エラーはHTTPErrorのインスタンスではなく、<code>response</code>プロパティも含みません。</p>
+<p><code>HTTPError</code>が発生した際に実際のレスポンスを読みたい場合は、レスポンスオブジェクトの該当するパーサーメソッドを呼び出してください。例：</p>
+<pre><code class="language-js">try {
+	await ky('https://example.com').json();
+} catch (error) {
+	if (error.name === 'HTTPError') {
+		const errorJson = await error.response.json();
+	}
+}
+</code></pre>
+<p>⌨️ <strong>TypeScript:</strong> オプションの<a href="https://www.typescriptlang.org/docs/handbook/2/generics.html">型パラメータ</a>を受け入れ、デフォルトは<a href="https://www.typescriptlang.org/docs/handbook/2/functions.html#unknown"><code>unknown</code></a>で、これは<code>error.response.json()</code>の返り値型に渡されます。</p>
+<h3>TimeoutError</h3>
+<p>リクエストがタイムアウトした時にスローされるエラーです。<a href="https://developer.mozilla.org/en-US/docs/Web/API/Request"><code>Request</code>オブジェクト</a>を持つ<code>request</code>プロパティがあります。</p>
+<h2>Tips</h2>
+<h3>フォームデータの送信</h3>
+<p>Kyでのフォームデータ送信は<code>fetch</code>と同様です。ただ<a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData"><code>FormData</code></a>インスタンスを<code>body</code>オプションに渡すだけです。<code>Content-Type</code>ヘッダーは自動的に<code>multipart/form-data</code>に設定されます。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+// `multipart/form-data`
+const formData = new FormData();
+formData.append('food', 'fries');
+formData.append('drink', 'icetea');
+
+const response = await ky.post(url, {body: formData});
+</code></pre>
+<p><code>application/x-www-form-urlencoded</code>形式でデータを送信したい場合は、<a href="https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams"><code>URLSearchParams</code></a>でデータをエンコードしてください。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+// `application/x-www-form-urlencoded`
+const searchParams = new URLSearchParams();
+searchParams.set('food', 'fries');
+searchParams.set('drink', 'icetea');
+
+const response = await ky.post(url, {body: searchParams});
+</code></pre>
+<h3>カスタム<code>Content-Type</code>の設定</h3>
+<p>Kyはリクエストボディのデータに基づいて適切な<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type"><code>Content-Type</code></a>ヘッダーを自動的に設定しますが、<code>application/x-amz-json-1.1</code>のようなカスタム・非標準のコンテンツタイプを必要とするAPIもあります。<code>headers</code>オプションを使えば、コンテンツタイプを手動で上書きできます。</p>
+<pre><code class="language-js">import ky from 'ky';
+
+const json = await ky.post('https://example.com', {
+	headers: {
+		'content-type': 'application/json'
+	},
+	json: {
+		foo: true
+	},
+}).json();
+
+console.log(json);
+//=&gt; {data: '🦄'}
+</code></pre>
+<h3>キャンセル処理</h3>
+<p>Fetch（およびKy）は、<a href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController"><code>AbortController</code> API</a>によるリクエストのキャンセルを標準でサポートしています。<a href="https://developers.google.com/web/updates/2017/09/abortable-fetch">詳しくはこちら</a></p>
+<p>例：</p>
+<pre><code class="language-js">import ky from 'ky';
+
+const controller = new AbortController();
+const {signal} = controller;
+
+setTimeout(() =&gt; {
+	controller.abort();
+}, 5000);
+
+try {
+	console.log(await ky(url, {signal}).text());
+} catch (error) {
+	if (error.name === 'AbortError') {
+		console.log('Fetch aborted');
+	} else {
+		console.error('Fetch error:', error);
+	}
+}
+</code></pre>
+<h2>FAQ</h2>
+<h4>Node.jsでの使い方は？</h4>
+<p>Node.js 18以降では<code>fetch</code>がネイティブサポートされているので、このパッケージをそのまま使えます。</p>
+<h4>サーバーサイドレンダリング（SSR）を使うWebアプリ（React, Vue.jsなど）では？</h4>
+<p>上記と同じです。</p>
+<h4>これを使用するブラウザライブラリのテスト方法は？</h4>
+<p>Mochaのようにブラウザで実行できるテストランナーを使うか、<a href="https://avajs.dev">AVA</a>と<code>ky-universal</code>を使ってください。<a href="https://github.com/sindresorhus/ky-universal#faq">詳しくはこちら</a></p>
+<h4>Webpackのようなバンドラなしで使うには？</h4>
+<p>コードがJavaScriptモジュール（ESM）として実行されていることを確認してください。例えばHTMLドキュメントで<code>&lt;script type=&quot;module&quot;&gt;</code>タグを使う方法があります。その場合、Kyはバンドラや他のツールなしで直接インポート可能です。</p>
+<pre><code class="language-html">&lt;script type=&quot;module&quot;&gt;
+import ky from 'https://unpkg.com/ky/distribution/index.js';
+
+const json = await ky('https://jsonplaceholder.typicode.com/todos/1').json();
+
+console.log(json.title);
+//=&gt; 'delectus aut autem'
+&lt;/script&gt;
+</code></pre>
+<h4><a href="https://github.com/sindresorhus/got"><code>got</code></a>との違いは？</h4>
+<p><a href="https://twitter.com/sindresorhus/status/1037406558945042432">こちらの回答</a>をご覧ください。GotはKyと同じ開発者によってメンテナンスされています。</p>
+<h4><a href="https://github.com/axios/axios"><code>axios</code></a>との違いは？</h4>
+<p><a href="https://twitter.com/sindresorhus/status/1037763588826398720">こちらの回答</a>をご覧ください。</p>
+<h4><a href="https://github.com/mikeal/r2"><code>r2</code></a>との違いは？</h4>
+<p><a href="https://github.com/sindresorhus/ky/issues/10">#10の回答</a>をご覧ください。</p>
+<h4><code>ky</code>の意味は？</h4>
+<p>npmで取得できたランダムな短いパッケージ名です。ただし、日本語では意味があります：</p>
+<blockquote>
+<p>テキストスラングの一種で、KYは「空気読めない（kuuki yomenai）」の略。直訳すると「空気が読めない」。「場の雰囲気や暗黙の意味を読み取れない人」を指す言葉です。</p>
+</blockquote>
+<h2>ブラウザ対応</h2>
+<p>最新バージョンのChrome、Firefox、Safari。</p>
+<h2>Node.js対応</h2>
+<p>Node.js 18以降。</p>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="https://github.com/sindresorhus/fetch-extras">fetch-extras</a> - Fetchを扱うための便利なユーティリティ</li>
+<li><a href="https://github.com/alice-health/ky-hooks-change-case">ky-hooks-change-case</a> - オブジェクトのリクエスト・レスポンスのケースを変更するためのKyフック</li>
+</ul>
+<h2>メンテナー</h2>
+<ul>
+<li><a href="https://github.com/sindresorhus">Sindre Sorhus</a></li>
+<li><a href="https://github.com/sholladay">Seth Holladay</a></li>
+<li><a href="https://github.com/szmarczak">Szymon Marczak</a></li>
+</ul>
+<pre><code>
+
+---
+
+
+Tranlated By [Open Ai Tx](https://github.com/OpenAiTx/OpenAiTx) | Last indexed: 2025-06-11
+
+
+---
+</code></pre>
+
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

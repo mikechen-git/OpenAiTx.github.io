@@ -1,152 +1,62 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RMCP - modelcontextprotocol/rust-sdk</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="RMCP - modelcontextprotocol/rust-sdk">
-    <meta name="description" content="modelcontextprotocol/rust-sdk - GitHub repository documentation and information">
-    <meta name="keywords" content="modelcontextprotocol, rust-sdk, GitHub, repository, documentation, ">
+    <title>rust-sdk - modelcontextprotocol/rust-sdk</title>
+    <meta name="title" content="rust-sdk - modelcontextprotocol/rust-sdk">
+    <meta name="description" content="modelcontextprotocol/rust-sdk - GitHub repository zh-CN documentation and information简体中文(待更新) RMCP 等待首次发布。 官方 Rust Model Context Protocol SDK 实现，基于 tokio 异步运行时。 本仓库包含以下 crate： rmcp: 提供 RMCP 协议实现的核心 crate（如需获取更多信息，请访问 rmcp） rmcp-macros: 用于生成 RMCP 工具实现的过程宏 crate（如需获取更多信息，请访问 rmcp-macros） 用法 导入 crate rmcp = { version = &quot;0.1&quot;, features = [&quot;server&quot;] } ## 或开发通道 rmcp = { git = &quot;https://github.com/modelcontextprotocol/rust-sdk&quot;, branch = &quot;main&quot; } 第三方依赖 基本依赖： tokio 必需 serde 必需 构建客户端 启动客户端 use rmcp::{ServiceExt, transport::{TokioChildProcess, ConfigureCommandExt}}; use tokio::process::Command; #[tokio::main] async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; { let client = ().serve(TokioChildProcess::new(Command::new(&quot;npx&quot;).configure(|cmd| { cmd.arg(&quot;-y&quot;).arg(&quot;@modelcontextprotocol/server-everything&quot;); }))?).await?; Ok(()) } 构建服务端 构建传输通道 use tokio::io::{stdin, stdout}; let transport = (stdin(), stdout()); 构建服务 你可以通过 ServerHandler 或 ClientHandler 轻松构建服务。 let service = common::counter::Counter::new(); 启动服务端 // 该调用将完成初始化流程 let server = service.serve(transport).await?; 与服务端交互 服务初始化后，你可以发送请求或通知： // 请求 let roots = server.list_roots().await?; // 或发送通知 server.notify_cancelled(...).await?; 等待服务关闭 let quit_reason = server.waiting().await?; // 或取消 let quit_reason = server.cancel().await?; 示例 参见 examples OAuth 支持 详情请参见 oauth_support。 相关资源 MCP 规范 Schema 相关项目 containerd-mcp-server - 基于 containerd 的 MCP...">
+    <meta name="keywords" content="modelcontextprotocol, rust-sdk, GitHub, repository, zh-CN documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=zh-CN">
-    <meta property="og:title" content="RMCP - modelcontextprotocol/rust-sdk">
-    <meta property="og:description" content="modelcontextprotocol/rust-sdk - GitHub repository documentation and information">
+    <meta property="og:url" content="https://openaitx.github.io/projects/modelcontextprotocol/rust-sdk/README-zh-CN.html">
+    <meta property="og:title" content="rust-sdk - modelcontextprotocol/rust-sdk">
+    <meta property="og:description" content="modelcontextprotocol/rust-sdk - GitHub repository zh-CN documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" href="icon.jpg">
-    <link rel="apple-touch-icon" href="icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
-    <link rel="stylesheet" href="css/github.min.css?v=20250613">
-    <script src="js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="view.css?v=20250613">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
-        <a href="javascript:history.back()" class="back-button">Back</a>
         <div class="links">
             GitHub Repository: <a href="https://github.com/modelcontextprotocol/rust-sdk" id="githubRepoLink" target="_blank">modelcontextprotocol/rust-sdk</a>
+<br>
+<h1 style="display: none;">简体中文(待更新) RMCP 等待首次发布。 官方 Rust Model Context Protocol SDK 实现，基于 tokio 异步运行时。 本仓库包含以下 crate： rmcp: 提供 RMCP 协议实现的核心 crate（如需获取更多信息，请访问 rmcp） rmcp-macros: 用于生成 RMCP 工具实现的过程宏 crate（如需获取更多信息，请访问 rmcp-macros） 用法 导入 crate rmcp = { version = &quot;0.1&quot;, features = [&quot;server&quot;] } ## 或开发通道 rmcp = { git = &quot;https://github.com/modelcontextprotocol/rust-sdk&quot;, branch = &quot;main&quot; } 第三方依赖 基本依赖： tokio 必需 serde 必需 构建客户端 启动客户端 use rmcp::{ServiceExt, transport::{TokioChildProcess, ConfigureCommandExt}}; use tokio::process::Command; #[tokio::main] async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; { let client = ().serve(TokioChildProcess::new(Command::new(&quot;npx&quot;).configure(|cmd| { cmd.arg(&quot;-y&quot;).arg(&quot;@modelcontextprotocol/server-everything&quot;); }))?).await?; Ok(()) } 构建服务端 构建传输通道 use tokio::io::{stdin, stdout}; let transport = (stdin(), stdout()); 构建服务 你可以通过 ServerHandler 或 ClientHandler 轻松构建服务。 let service = common::counter::Counter::new(); 启动服务端 // 该调用将完成初始化流程 let server = service.serve(transport).await?; 与服务端交互 服务初始化后，你可以发送请求或通知： // 请求 let roots = server.list_roots().await?; // 或发送通知 server.notify_cancelled(...).await?; 等待服务关闭 let quit_reason = server.waiting().await?; // 或取消 let quit_reason = server.cancel().await?; 示例 参见 examples OAuth 支持 详情请参见 oauth_support。 相关资源 MCP 规范 Schema 相关项目 containerd-mcp-server - 基于 containerd 的 MCP...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=modelcontextprotocol&amp;project=rust-sdk&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><div align="right">
+        <div class="markdown-body" id="content">
+            <div align = "right">
 <a href="docs/readme/README.zh-cn.md">简体中文(待更新)</a>
 </div>
-
 <h1>RMCP</h1>
 <p>等待首次发布。</p>
 <!-- [![Crates.io Version](todo)](todo) -->
 <!-- ![Release status](https://github.com/modelcontextprotocol/rust-sdk/actions/workflows/release.yml/badge.svg) -->
 <!-- [![docs.rs](todo)](todo) -->
-<p><img src="docs/coverage.svg" alt="Coverage"></p>
+<p><img src="docs/coverage.svg" alt="Coverage" /></p>
 <p>官方 Rust Model Context Protocol SDK 实现，基于 tokio 异步运行时。</p>
 <p>本仓库包含以下 crate：</p>
 <ul>
@@ -155,9 +65,9 @@
 </ul>
 <h2>用法</h2>
 <h3>导入 crate</h3>
-<pre><code class="language-toml hljs language-ini"><span class="hljs-attr">rmcp</span> = { version = <span class="hljs-string">"0.1"</span>, features = [<span class="hljs-string">"server"</span>] }
-<span class="hljs-comment">## 或开发通道</span>
-<span class="hljs-attr">rmcp</span> = { git = <span class="hljs-string">"https://github.com/modelcontextprotocol/rust-sdk"</span>, branch = <span class="hljs-string">"main"</span> }
+<pre><code class="language-toml">rmcp = { version = &quot;0.1&quot;, features = [&quot;server&quot;] }
+## 或开发通道
+rmcp = { git = &quot;https://github.com/modelcontextprotocol/rust-sdk&quot;, branch = &quot;main&quot; }
 </code></pre>
 <h3>第三方依赖</h3>
 <p>基本依赖：</p>
@@ -168,67 +78,54 @@
 <h3>构建客户端</h3>
 <details>
 <summary>启动客户端</summary>
+<pre><code class="language-rust,">use rmcp::{ServiceExt, transport::{TokioChildProcess, ConfigureCommandExt}};
+use tokio::process::Command;
 
-<pre><code class="language-rust, hljs language-rust"><span class="hljs-keyword">use</span> rmcp::{ServiceExt, transport::{TokioChildProcess, ConfigureCommandExt}};
-<span class="hljs-keyword">use</span> tokio::process::Command;
-
-<span class="hljs-meta">#[tokio::main]</span>
-<span class="hljs-keyword">async</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">main</span>() <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;(), <span class="hljs-type">Box</span>&lt;<span class="hljs-keyword">dyn</span> std::error::Error&gt;&gt; {
-    <span class="hljs-keyword">let</span> <span class="hljs-variable">client</span> = ().<span class="hljs-title function_ invoke__">serve</span>(TokioChildProcess::<span class="hljs-title function_ invoke__">new</span>(Command::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-string">"npx"</span>).<span class="hljs-title function_ invoke__">configure</span>(|cmd| {
-        cmd.<span class="hljs-title function_ invoke__">arg</span>(<span class="hljs-string">"-y"</span>).<span class="hljs-title function_ invoke__">arg</span>(<span class="hljs-string">"@modelcontextprotocol/server-everything"</span>);
-    }))?).<span class="hljs-keyword">await</span>?;
-    <span class="hljs-title function_ invoke__">Ok</span>(())
+#[tokio::main]
+async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let client = ().serve(TokioChildProcess::new(Command::new(&quot;npx&quot;).configure(|cmd| {
+        cmd.arg(&quot;-y&quot;).arg(&quot;@modelcontextprotocol/server-everything&quot;);
+    }))?).await?;
+    Ok(())
 }
 </code></pre>
 </details>
-
 <h3>构建服务端</h3>
 <details>
 <summary>构建传输通道</summary>
-
-<pre><code class="language-rust, hljs language-rust"><span class="hljs-keyword">use</span> tokio::io::{stdin, stdout};
-<span class="hljs-keyword">let</span> <span class="hljs-variable">transport</span> = (<span class="hljs-title function_ invoke__">stdin</span>(), <span class="hljs-title function_ invoke__">stdout</span>());
+<pre><code class="language-rust,">use tokio::io::{stdin, stdout};
+let transport = (stdin(), stdout());
 </code></pre>
 </details>
-
 <details>
 <summary>构建服务</summary>
-
 <p>你可以通过 <a href="crates/rmcp/src/handler/server.rs"><code>ServerHandler</code></a> 或 <a href="crates/rmcp/src/handler/client.rs"><code>ClientHandler</code></a> 轻松构建服务。</p>
-<pre><code class="language-rust, hljs language-rust"><span class="hljs-keyword">let</span> <span class="hljs-variable">service</span> = common::counter::Counter::<span class="hljs-title function_ invoke__">new</span>();
+<pre><code class="language-rust,">let service = common::counter::Counter::new();
 </code></pre>
 </details>
-
 <details>
 <summary>启动服务端</summary>
-
-<pre><code class="language-rust, hljs language-rust"><span class="hljs-comment">// 该调用将完成初始化流程</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">server</span> = service.<span class="hljs-title function_ invoke__">serve</span>(transport).<span class="hljs-keyword">await</span>?;
+<pre><code class="language-rust,">// 该调用将完成初始化流程
+let server = service.serve(transport).await?;
 </code></pre>
 </details>
-
 <details>
 <summary>与服务端交互</summary>
-
 <p>服务初始化后，你可以发送请求或通知：</p>
-<pre><code class="language-rust, hljs language-rust"><span class="hljs-comment">// 请求</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">roots</span> = server.<span class="hljs-title function_ invoke__">list_roots</span>().<span class="hljs-keyword">await</span>?;
+<pre><code class="language-rust,">// 请求
+let roots = server.list_roots().await?;
 
-<span class="hljs-comment">// 或发送通知</span>
-server.<span class="hljs-title function_ invoke__">notify_cancelled</span>(...).<span class="hljs-keyword">await</span>?;
+// 或发送通知
+server.notify_cancelled(...).await?;
 </code></pre>
 </details>
-
 <details>
 <summary>等待服务关闭</summary>
-
-<pre><code class="language-rust, hljs language-rust"><span class="hljs-keyword">let</span> <span class="hljs-variable">quit_reason</span> = server.<span class="hljs-title function_ invoke__">waiting</span>().<span class="hljs-keyword">await</span>?;
-<span class="hljs-comment">// 或取消</span>
-<span class="hljs-keyword">let</span> <span class="hljs-variable">quit_reason</span> = server.<span class="hljs-title function_ invoke__">cancel</span>().<span class="hljs-keyword">await</span>?;
+<pre><code class="language-rust,">let quit_reason = server.waiting().await?;
+// 或取消
+let quit_reason = server.cancel().await?;
 </code></pre>
 </details>
-
-
 <h2>示例</h2>
 <p>参见 <a href="examples/README.md">examples</a></p>
 <h2>OAuth 支持</h2>
@@ -244,30 +141,15 @@ server.<span class="hljs-title function_ invoke__">notify_cancelled</span>(...).
 </ul>
 <h2>Dev Container 开发</h2>
 <p>关于如何使用 Dev Container 进行开发，请参见 <a href="docs/DEVCONTAINER.md">docs/DEVCONTAINER.md</a>。</p>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-09</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    <script src="view.js?v=20250613"></script>
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

@@ -1,155 +1,66 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChartGalaxy/ChartGalaxy - ja Documentation</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="ChartGalaxy/ChartGalaxy - ja Documentation">
-    <meta name="description" content="ChartGalaxy/ChartGalaxy - GitHub repository ja documentation and information">
+    <title>ChartGalaxy - ChartGalaxy/ChartGalaxy</title>
+    <meta name="title" content="ChartGalaxy - ChartGalaxy/ChartGalaxy">
+    <meta name="description" content="ChartGalaxy/ChartGalaxy - GitHub repository ja documentation and informationデータセット 📦 👉 ChartGalaxyの完全なデータセットをHugging Faceで入手！👈 保存容量の制限により、代表的なサンプルのみを収録しています。 このリポジトリは、論文「ChartGalaxy: A Dataset for Infographic Chart Understanding and Generation」に関連するコードを含みます。 🔥 ニュース 2025.5: 🎉🎉 データセットの初版をリリースしました。1,151,087個の合成インフォグラフィックチャートと104,519個の実際のインフォグラフィックチャートを収録し、75種類のチャートタイプと330のバリエーションをカバーしています。 はじめに 概要 ChartGalaxyは、データテーブル付きの合成および実際のインフォグラフィックチャートを大量に収集したデータセットであり、インフォグラフィックチャートの理解、コード生成、チャート生成などの応用を支援します。本データセットは、既存のデータセットが主にシンプルなチャートに限定され、インフォグラフィックチャートの主要な特徴である多様なデザインスタイルやレイアウトを十分に捉えられていない課題を解決します。 統計情報 規模: 1,255,606件のインフォグラフィックチャート（合成1,151,087件 + 実際104,519件） 内容: 各インフォグラフィックチャートには生成に使用された表形式データが付随 チャートタイプ: 75種類のチャートタイプ、330種類のバリエーション レイアウトテンプレート: 68種類のレイアウトテンプレート データ収集・生成 ChartGalaxyは以下のプロセスで構築されました： 実際のインフォグラフィックチャートの収集 Pinterest、Visual Capitalist、Statista、Information is Beautifulなど、19の信頼性の高いチャート豊富なWebサイトからチャートを収集しました。 合成インフォグラフィックチャートの生成 帰納的な構造化プロセスに従い、 75種類のチャートタイプ（例：棒グラフ）および異なるビジュアル要素スタイルを表現する330種類のバリエーションを特定 要素間の空間関係を定義する68種類のレイアウトテンプレートを抽出 これらのパターンに基づき合成チャートをプログラム的に生成 🎯 応用例 ChartGalaxyの有用性は、以下の3つの代表的な応用例で実証されています： 1. 🧠 インフォグラフィックチャートの理解 ChartGalaxyでファインチューニングすることで、基盤モデルのインフォグラフィックチャート理解性能が向上します。 2. 💻 インフォグラフィックチャートのコード生成 LVLMsによるインフォグラフィックチャートのコード生成を評価するベンチマークを提供します。 このベンチマークは、生成されたD3.jsコードで描画されたチャートと正解チャートとの類似度を、2つの粒度（高レベル：全体的な視覚的類似度、低レベル：細粒度SVG要素ごとの平均類似度）で評価します。 概要 ベンチマークは2つのレベルでチャートコード生成を評価します： 低レベル: 生成SVGと参照SVGの要素ごとの類似度 高レベル: 全体的な視覚的忠実度および機能性評価 インストール git clone https://github.com/ChartGalaxy/ChartGalaxy.git cd ChartGalaxy/code_generation_benchmark 使い方 code_generation_benchmark/configs/default_config.yamlで設定を行います： prompts: high_level_eval_prompt_file: eval_high_level.txt chat_prompt_file: chat_direct_prompt.txt VLM: max_tokens: null thinking_budget: 1024 temperature: 0.0 top_p: 1.0 models: # 評価するモデルのコメントアウトを外す # - gpt-4o-2024-11-20 # - claude-3-7-sonnet-20250219 # - gemini-2.5-pro-preview-05-06 # - Qwen/Qwen2.5-VL-72B-Instruct dirs: output_dir: ./output log_dir: ./logs data_root_dir: ./data clip_cache_dir: ./model-ckpts eval_model: gpt-4o-2024-11-20 n_workers: 10 ベンチマークを実行します： python main.py データ構成 data_root_dir内の各チャートフォルダには以下が含まれている必要があります： chart.svg: オリジナルのSVG形式チャート システムが生成するファイル： convert_chart.html: 参照チャートのHTMLレンダリング convert_chart.png: 参照チャートのPNGスクリーンショット convert_chart.json: 参照チャートの要素構造 モデルごとの出力を含むサブフォルダ 結果 結果はモデルごとのサブフォルダに保存されます： 生成されたHTML/PNGレンダリング JSON形式の評価指標 log_dir内の詳細ログ 3. 🖼️ サンプルベースのインフォグラフィックチャート生成 ユーザーが指定した表形式データを、与えられたサンプルチャートのレイアウトやビジュアルスタイルに合わせてインフォグラフィックチャートに変換するサンプルベース手法。ユーザースタディにより、この手法は忠実度、美しさ、創造性の面でGPT-Image-1を上回ることが示されています。 お問い合わせ chartgalaxy@163.com 論文リンク 📌 メイン論文（本リポジトリ） ChartGalaxy: A Dataset for Infographic Chart Understanding...">
     <meta name="keywords" content="ChartGalaxy, ChartGalaxy, GitHub, repository, ja documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/ChartGalaxy/ChartGalaxy/README-ja.html">
-    <meta property="og:title" content="ChartGalaxy/ChartGalaxy - ja Documentation">
+    <meta property="og:title" content="ChartGalaxy - ChartGalaxy/ChartGalaxy">
     <meta property="og:description" content="ChartGalaxy/ChartGalaxy - GitHub repository ja documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/ChartGalaxy/ChartGalaxy" id="githubRepoLink" target="_blank">ChartGalaxy/ChartGalaxy</a>
+<br>
+<h1 style="display: none;">データセット 📦 👉 ChartGalaxyの完全なデータセットをHugging Faceで入手！👈 保存容量の制限により、代表的なサンプルのみを収録しています。 このリポジトリは、論文「ChartGalaxy: A Dataset for Infographic Chart Understanding and Generation」に関連するコードを含みます。 🔥 ニュース 2025.5: 🎉🎉 データセットの初版をリリースしました。1,151,087個の合成インフォグラフィックチャートと104,519個の実際のインフォグラフィックチャートを収録し、75種類のチャートタイプと330のバリエーションをカバーしています。 はじめに 概要 ChartGalaxyは、データテーブル付きの合成および実際のインフォグラフィックチャートを大量に収集したデータセットであり、インフォグラフィックチャートの理解、コード生成、チャート生成などの応用を支援します。本データセットは、既存のデータセットが主にシンプルなチャートに限定され、インフォグラフィックチャートの主要な特徴である多様なデザインスタイルやレイアウトを十分に捉えられていない課題を解決します。 統計情報 規模: 1,255,606件のインフォグラフィックチャート（合成1,151,087件 + 実際104,519件） 内容: 各インフォグラフィックチャートには生成に使用された表形式データが付随 チャートタイプ: 75種類のチャートタイプ、330種類のバリエーション レイアウトテンプレート: 68種類のレイアウトテンプレート データ収集・生成 ChartGalaxyは以下のプロセスで構築されました： 実際のインフォグラフィックチャートの収集 Pinterest、Visual Capitalist、Statista、Information is Beautifulなど、19の信頼性の高いチャート豊富なWebサイトからチャートを収集しました。 合成インフォグラフィックチャートの生成 帰納的な構造化プロセスに従い、 75種類のチャートタイプ（例：棒グラフ）および異なるビジュアル要素スタイルを表現する330種類のバリエーションを特定 要素間の空間関係を定義する68種類のレイアウトテンプレートを抽出 これらのパターンに基づき合成チャートをプログラム的に生成 🎯 応用例 ChartGalaxyの有用性は、以下の3つの代表的な応用例で実証されています： 1. 🧠 インフォグラフィックチャートの理解 ChartGalaxyでファインチューニングすることで、基盤モデルのインフォグラフィックチャート理解性能が向上します。 2. 💻 インフォグラフィックチャートのコード生成 LVLMsによるインフォグラフィックチャートのコード生成を評価するベンチマークを提供します。 このベンチマークは、生成されたD3.jsコードで描画されたチャートと正解チャートとの類似度を、2つの粒度（高レベル：全体的な視覚的類似度、低レベル：細粒度SVG要素ごとの平均類似度）で評価します。 概要 ベンチマークは2つのレベルでチャートコード生成を評価します： 低レベル: 生成SVGと参照SVGの要素ごとの類似度 高レベル: 全体的な視覚的忠実度および機能性評価 インストール git clone https://github.com/ChartGalaxy/ChartGalaxy.git cd ChartGalaxy/code_generation_benchmark 使い方 code_generation_benchmark/configs/default_config.yamlで設定を行います： prompts: high_level_eval_prompt_file: eval_high_level.txt chat_prompt_file: chat_direct_prompt.txt VLM: max_tokens: null thinking_budget: 1024 temperature: 0.0 top_p: 1.0 models: # 評価するモデルのコメントアウトを外す # - gpt-4o-2024-11-20 # - claude-3-7-sonnet-20250219 # - gemini-2.5-pro-preview-05-06 # - Qwen/Qwen2.5-VL-72B-Instruct dirs: output_dir: ./output log_dir: ./logs data_root_dir: ./data clip_cache_dir: ./model-ckpts eval_model: gpt-4o-2024-11-20 n_workers: 10 ベンチマークを実行します： python main.py データ構成 data_root_dir内の各チャートフォルダには以下が含まれている必要があります： chart.svg: オリジナルのSVG形式チャート システムが生成するファイル： convert_chart.html: 参照チャートのHTMLレンダリング convert_chart.png: 参照チャートのPNGスクリーンショット convert_chart.json: 参照チャートの要素構造 モデルごとの出力を含むサブフォルダ 結果 結果はモデルごとのサブフォルダに保存されます： 生成されたHTML/PNGレンダリング JSON形式の評価指標 log_dir内の詳細ログ 3. 🖼️ サンプルベースのインフォグラフィックチャート生成 ユーザーが指定した表形式データを、与えられたサンプルチャートのレイアウトやビジュアルスタイルに合わせてインフォグラフィックチャートに変換するサンプルベース手法。ユーザースタディにより、この手法は忠実度、美しさ、創造性の面でGPT-Image-1を上回ることが示されています。 お問い合わせ chartgalaxy@163.com 論文リンク 📌 メイン論文（本リポジトリ） ChartGalaxy: A Dataset for Infographic Chart Understanding...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ChartGalaxy&amp;project=ChartGalaxy&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><p><img src="https://raw.githubusercontent.com/ChartGalaxy/ChartGalaxy/main/title.png" alt="ChartGalaxy Logo"></p>
+        <div class="markdown-body" id="content">
+            <p><img src="https://raw.githubusercontent.com/ChartGalaxy/ChartGalaxy/main/title.png" alt="ChartGalaxy Logo" /></p>
 <h2>データセット</h2>
 <blockquote>
 <p>📦 <strong><a href="https://huggingface.co/datasets/ChartGalaxy/ChartGalaxy">👉 ChartGalaxyの完全なデータセットをHugging Faceで入手！👈</a></strong></p>
 </blockquote>
-<p>保存容量の制限により、代表的なサンプルのみを収録しています。<br>このリポジトリは、論文「ChartGalaxy: A Dataset for Infographic Chart Understanding and Generation」に関連するコードを含みます。</p>
+<p>保存容量の制限により、代表的なサンプルのみを収録しています。<br />
+このリポジトリは、論文「ChartGalaxy: A Dataset for Infographic Chart Understanding and Generation」に関連するコードを含みます。</p>
 <h2>🔥 ニュース</h2>
 <p><strong>2025.5</strong>:  🎉🎉 データセットの初版をリリースしました。1,151,087個の合成インフォグラフィックチャートと104,519個の実際のインフォグラフィックチャートを収録し、75種類のチャートタイプと330のバリエーションをカバーしています。</p>
-<hr>
+<hr />
 <img src="https://raw.githubusercontent.com/ChartGalaxy/ChartGalaxy/main/teaser.png" style="border:none;box-shadow:none;">
-
-<p><img src="https://raw.githubusercontent.com/ChartGalaxy/ChartGalaxy/main/examples.png" alt="Examples image"></p>
+<p><img src="https://raw.githubusercontent.com/ChartGalaxy/ChartGalaxy/main/examples.png" alt="Examples image" /></p>
 <!-- ## 🔔 News -->
-
 <h2>はじめに</h2>
 <h3>概要</h3>
 <p>ChartGalaxyは、データテーブル付きの合成および実際のインフォグラフィックチャートを大量に収集したデータセットであり、インフォグラフィックチャートの理解、コード生成、チャート生成などの応用を支援します。本データセットは、既存のデータセットが主にシンプルなチャートに限定され、インフォグラフィックチャートの主要な特徴である多様なデザインスタイルやレイアウトを十分に捉えられていない課題を解決します。</p>
@@ -163,9 +74,11 @@
 <h3>データ収集・生成</h3>
 <p>ChartGalaxyは以下のプロセスで構築されました：</p>
 <ol>
-<li><p><strong>実際のインフォグラフィックチャートの収集</strong><br>Pinterest、Visual Capitalist、Statista、Information is Beautifulなど、19の信頼性の高いチャート豊富なWebサイトからチャートを収集しました。</p>
+<li><p><strong>実際のインフォグラフィックチャートの収集</strong><br />
+Pinterest、Visual Capitalist、Statista、Information is Beautifulなど、19の信頼性の高いチャート豊富なWebサイトからチャートを収集しました。</p>
 </li>
-<li><p><strong>合成インフォグラフィックチャートの生成</strong><br>帰納的な構造化プロセスに従い、</p>
+<li><p><strong>合成インフォグラフィックチャートの生成</strong><br />
+帰納的な構造化プロセスに従い、</p>
 <ul>
 <li>75種類のチャートタイプ（例：棒グラフ）および異なるビジュアル要素スタイルを表現する330種類のバリエーションを特定</li>
 <li>要素間の空間関係を定義する68種類のレイアウトテンプレートを抽出</li>
@@ -178,7 +91,8 @@
 <h3>1. 🧠 インフォグラフィックチャートの理解</h3>
 <p>ChartGalaxyでファインチューニングすることで、基盤モデルのインフォグラフィックチャート理解性能が向上します。</p>
 <h3>2. 💻 インフォグラフィックチャートのコード生成</h3>
-<p>LVLMsによるインフォグラフィックチャートのコード生成を評価するベンチマークを提供します。<br>このベンチマークは、生成されたD3.jsコードで描画されたチャートと正解チャートとの類似度を、2つの粒度（高レベル：全体的な視覚的類似度、低レベル：細粒度SVG要素ごとの平均類似度）で評価します。</p>
+<p>LVLMsによるインフォグラフィックチャートのコード生成を評価するベンチマークを提供します。<br />
+このベンチマークは、生成されたD3.jsコードで描画されたチャートと正解チャートとの類似度を、2つの粒度（高レベル：全体的な視覚的類似度、低レベル：細粒度SVG要素ごとの平均類似度）で評価します。</p>
 <h4>概要</h4>
 <p>ベンチマークは2つのレベルでチャートコード生成を評価します：</p>
 <ul>
@@ -186,41 +100,41 @@
 <li><strong>高レベル</strong>: 全体的な視覚的忠実度および機能性評価</li>
 </ul>
 <h4>インストール</h4>
-<pre><code class="language-bash hljs">git <span class="hljs-built_in">clone</span> https://github.com/ChartGalaxy/ChartGalaxy.git
-<span class="hljs-built_in">cd</span> ChartGalaxy/code_generation_benchmark
+<pre><code class="language-bash">git clone https://github.com/ChartGalaxy/ChartGalaxy.git
+cd ChartGalaxy/code_generation_benchmark
 </code></pre>
 <h4>使い方</h4>
 <ol>
 <li><p><code>code_generation_benchmark/configs/default_config.yaml</code>で設定を行います：</p>
-<pre><code class="language-yaml hljs"><span class="hljs-attr">prompts:</span>
-  <span class="hljs-attr">high_level_eval_prompt_file:</span> <span class="hljs-string">eval_high_level.txt</span>
-  <span class="hljs-attr">chat_prompt_file:</span> <span class="hljs-string">chat_direct_prompt.txt</span>
+<pre><code class="language-yaml">prompts:
+  high_level_eval_prompt_file: eval_high_level.txt
+  chat_prompt_file: chat_direct_prompt.txt
 
-<span class="hljs-attr">VLM:</span>
-  <span class="hljs-attr">max_tokens:</span> <span class="hljs-literal">null</span>
-  <span class="hljs-attr">thinking_budget:</span> <span class="hljs-number">1024</span>
-  <span class="hljs-attr">temperature:</span> <span class="hljs-number">0.0</span>
-  <span class="hljs-attr">top_p:</span> <span class="hljs-number">1.0</span>
+VLM:
+  max_tokens: null
+  thinking_budget: 1024
+  temperature: 0.0
+  top_p: 1.0
 
-<span class="hljs-attr">models:</span>
-  <span class="hljs-comment"># 評価するモデルのコメントアウトを外す</span>
-  <span class="hljs-comment"># - gpt-4o-2024-11-20</span>
-  <span class="hljs-comment"># - claude-3-7-sonnet-20250219</span>
-  <span class="hljs-comment"># - gemini-2.5-pro-preview-05-06</span>
-  <span class="hljs-comment"># - Qwen/Qwen2.5-VL-72B-Instruct</span>
+models:
+  # 評価するモデルのコメントアウトを外す
+  # - gpt-4o-2024-11-20
+  # - claude-3-7-sonnet-20250219
+  # - gemini-2.5-pro-preview-05-06
+  # - Qwen/Qwen2.5-VL-72B-Instruct
 
-<span class="hljs-attr">dirs:</span>
-  <span class="hljs-attr">output_dir:</span> <span class="hljs-string">./output</span>
-  <span class="hljs-attr">log_dir:</span> <span class="hljs-string">./logs</span>
-  <span class="hljs-attr">data_root_dir:</span> <span class="hljs-string">./data</span>
-  <span class="hljs-attr">clip_cache_dir:</span> <span class="hljs-string">./model-ckpts</span>
+dirs:
+  output_dir: ./output
+  log_dir: ./logs
+  data_root_dir: ./data
+  clip_cache_dir: ./model-ckpts
 
-<span class="hljs-attr">eval_model:</span> <span class="hljs-string">gpt-4o-2024-11-20</span>
-<span class="hljs-attr">n_workers:</span> <span class="hljs-number">10</span>
+eval_model: gpt-4o-2024-11-20
+n_workers: 10
 </code></pre>
 </li>
 <li><p>ベンチマークを実行します：</p>
-<pre><code class="language-bash hljs">python main.py
+<pre><code class="language-bash">python main.py
 </code></pre>
 </li>
 </ol>
@@ -247,56 +161,44 @@
 <p>ユーザーが指定した表形式データを、与えられたサンプルチャートのレイアウトやビジュアルスタイルに合わせてインフォグラフィックチャートに変換するサンプルベース手法。ユーザースタディにより、この手法は忠実度、美しさ、創造性の面でGPT-Image-1を上回ることが示されています。</p>
 <h2>お問い合わせ</h2>
 <ul>
-<li><a href="mailto:chartgalaxy@163.com">chartgalaxy@163.com</a></li>
+<li>chartgalaxy@163.com</li>
 </ul>
 <h2>論文リンク</h2>
 <h3>📌 メイン論文（本リポジトリ）</h3>
 <ul>
-<li><strong><a href="https://arxiv.org/abs/2505.18668">ChartGalaxy: A Dataset for Infographic Chart Understanding and Generation</a></strong><br><em>Zhen Li, Duan Li, Yukai Guo, Xinyuan Guo, Bowen Li, Lanxi Xiao, Shenyu Qiao, Jiashu Chen, Zijian Wu, Hui Zhang, Xinhuan Shu, Shixia Liu</em></li>
+<li><strong><a href="https://arxiv.org/abs/2505.18668">ChartGalaxy: A Dataset for Infographic Chart Understanding and Generation</a></strong><br />
+<em>Zhen Li, Duan Li, Yukai Guo, Xinyuan Guo, Bowen Li, Lanxi Xiao, Shenyu Qiao, Jiashu Chen, Zijian Wu, Hui Zhang, Xinhuan Shu, Shixia Liu</em></li>
 </ul>
 <h3>関連論文</h3>
 <ul>
-<li><p><strong><a href="https://arxiv.org/abs/2505.17473">OrionBench: A Benchmark for Chart and Human-Recognizable Object Detection in Infographics</a></strong><br><em>Jiangning Zhu, Yuxing Zhou, Zheng Wang, Juntao Yao, Yima Gu, Yuhui Yuan, Shixia Liu</em>  </p>
+<li><p><strong><a href="https://arxiv.org/abs/2505.17473">OrionBench: A Benchmark for Chart and Human-Recognizable Object Detection in Infographics</a></strong><br />
+<em>Jiangning Zhu, Yuxing Zhou, Zheng Wang, Juntao Yao, Yima Gu, Yuhui Yuan, Shixia Liu</em></p>
 </li>
-<li><p><strong><a href="https://arxiv.org/abs/2505.19028">InfoChartQA: A Benchmark for Multimodal Question Answering on Infographic Charts</a></strong><br><em>Minzhi Lin, Tianchi Xie, Mengchen Liu, Yilin Ye, Changjian Chen, Shixia Liu</em></p>
+<li><p><strong><a href="https://arxiv.org/abs/2505.19028">InfoChartQA: A Benchmark for Multimodal Question Answering on Infographic Charts</a></strong><br />
+<em>Minzhi Lin, Tianchi Xie, Mengchen Liu, Yilin Ye, Changjian Chen, Shixia Liu</em></p>
 </li>
 </ul>
 <h2>📚 引用</h2>
 <p>ChartGalaxyを研究で利用する場合は、以下の情報を引用してください：</p>
-<pre><code class="hljs language-perl">@misc{li2025chartgalaxydatasetinfographicchart,
-      title={ChartGalaxy: A Dataset <span class="hljs-keyword">for</span> Infographic Chart Understanding <span class="hljs-keyword">and</span> Generation}, 
-      author={Zhen Li <span class="hljs-keyword">and</span> Yukai Guo <span class="hljs-keyword">and</span> Duan Li <span class="hljs-keyword">and</span> Xinyuan Guo <span class="hljs-keyword">and</span> Bowen Li <span class="hljs-keyword">and</span> Lanxi Xiao <span class="hljs-keyword">and</span> Shenyu Qiao <span class="hljs-keyword">and</span> Jiashu Chen <span class="hljs-keyword">and</span> Zijian Wu <span class="hljs-keyword">and</span> Hui Zhang <span class="hljs-keyword">and</span> Xinhuan Shu <span class="hljs-keyword">and</span> Shixia Liu},
-      year=<span class="hljs-string">{2025}</span>,
-      eprint={<span class="hljs-number">2505.18668</span>},
-      archivePrefix=<span class="hljs-string">{arXiv}</span>,
+<pre><code>@misc{li2025chartgalaxydatasetinfographicchart,
+      title={ChartGalaxy: A Dataset for Infographic Chart Understanding and Generation}, 
+      author={Zhen Li and Yukai Guo and Duan Li and Xinyuan Guo and Bowen Li and Lanxi Xiao and Shenyu Qiao and Jiashu Chen and Zijian Wu and Hui Zhang and Xinhuan Shu and Shixia Liu},
+      year={2025},
+      eprint={2505.18668},
+      archivePrefix={arXiv},
       primaryClass={cs.CV},
-      url={https:<span class="hljs-regexp">//arxi</span>v.org/<span class="hljs-keyword">abs</span>/<span class="hljs-number">2505.18668</span>}, 
+      url={https://arxiv.org/abs/2505.18668}, 
 }
 </code></pre>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-08</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

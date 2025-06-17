@@ -1,192 +1,102 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fish Speech - fishaudio/fish-speech</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Fish Speech - fishaudio/fish-speech">
-    <meta name="description" content="fishaudio/fish-speech - GitHub repository ja documentation and information">
+    <title>fish-speech - fishaudio/fish-speech</title>
+    <meta name="title" content="fish-speech - fishaudio/fish-speech">
+    <meta name="description" content="fishaudio/fish-speech - GitHub repository ja documentation and informationFish Speech English | 简体中文 | Portuguese | 日本語 | 한국어 [!IMPORTANT] ライセンスに関する注意 このコードベースはApache Licenseの下でリリースされており、すべてのモデル重みはCC-BY-NC-SA-4.0 Licenseの下でリリースされています。詳細はLICENSEをご参照ください。 [!WARNING] 法的免責事項 本コードベースの不正利用について、当方は一切の責任を負いません。DMCAなど関連法規については、お住まいの地域の法律をご確認ください。 🎉 お知らせ 私たちはOpenAudioへとリブランディングし、Fish-Speechの基盤の上に構築された革新的な新シリーズの高度なテキスト読み上げモデルを発表できることを嬉しく思います。 本シリーズの最初のモデルとして、品質・性能・機能性において大幅な向上を実現したOpenAudio-S1をリリースいたします。 OpenAudio-S1にはOpenAudio-S1とOpenAudio-S1-miniの2バージョンがあり、どちらもFish Audio Playground（OpenAudio-S1）およびHugging Face（OpenAudio-S1-mini）でご利用いただけます。 ブログや技術レポートはOpenAudio公式サイトをご覧ください。 主な特長 ✨ 優れたTTS品質 Seed TTS評価指標を用いてモデル性能を評価した結果、OpenAudio S1は英語テキストで0.008 WERおよび0.004 CERを達成し、従来モデルよりも大幅に高い精度を示しました。（英語、自動評価、OpenAI gpt-4o-transcribeベース、話者距離はRevai/pyannote-wespeaker-voxceleb-resnet34-LM利用） | モデル | Word Error Rate (WER) | Character Error Rate (CER) | Speaker Distance | |--------|----------------------|---------------------------|------------------| | S1 | 0.008 | 0.004 | 0.332 | | S1-mini | 0.011 | 0.005 | 0.380 | TTS-Arena2で最高評価 🏆 OpenAudio S1は、テキスト読み上げベンチマークTTS-Arena2で第1位を獲得しました。 音声コントロール OpenAudio S1は多様な感情・トーン・特殊マーカーをサポートし、音声合成の表現力を高めます。 基本感情: (angry) (sad) (excited) (surprised) (satisfied) (delighted) (scared) (worried) (upset) (nervous) (frustrated) (depressed) (empathetic) (embarrassed) (disgusted) (moved) (proud) (relaxed) (grateful) (confident) (interested) (curious) (confused) (joyful) 高度な感情: (disdainful) (unhappy) (anxious) (hysterical) (indifferent) (impatient) (guilty) (scornful) (panicked) (furious) (reluctant) (keen) (disapproving) (negative) (denying) (astonished) (serious) (sarcastic) (conciliative) (comforting) (sincere) (sneering) (hesitating) (yielding) (painful) (awkward) (amused) トーンマーカー: (in a hurry tone) (shouting) (screaming) (whispering) (soft tone) 特殊音声効果: (laughing) (chuckling) (sobbing) (crying loudly) (sighing) (panting)...">
     <meta name="keywords" content="fishaudio, fish-speech, GitHub, repository, ja documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/fishaudio/fish-speech/README-ja.html">
-    <meta property="og:title" content="Fish Speech - fishaudio/fish-speech">
+    <meta property="og:title" content="fish-speech - fishaudio/fish-speech">
     <meta property="og:description" content="fishaudio/fish-speech - GitHub repository ja documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/fishaudio/fish-speech" id="githubRepoLink" target="_blank">fishaudio/fish-speech</a>
+<br>
+<h1 style="display: none;">Fish Speech English | 简体中文 | Portuguese | 日本語 | 한국어 [!IMPORTANT] ライセンスに関する注意 このコードベースはApache Licenseの下でリリースされており、すべてのモデル重みはCC-BY-NC-SA-4.0 Licenseの下でリリースされています。詳細はLICENSEをご参照ください。 [!WARNING] 法的免責事項 本コードベースの不正利用について、当方は一切の責任を負いません。DMCAなど関連法規については、お住まいの地域の法律をご確認ください。 🎉 お知らせ 私たちはOpenAudioへとリブランディングし、Fish-Speechの基盤の上に構築された革新的な新シリーズの高度なテキスト読み上げモデルを発表できることを嬉しく思います。 本シリーズの最初のモデルとして、品質・性能・機能性において大幅な向上を実現したOpenAudio-S1をリリースいたします。 OpenAudio-S1にはOpenAudio-S1とOpenAudio-S1-miniの2バージョンがあり、どちらもFish Audio Playground（OpenAudio-S1）およびHugging Face（OpenAudio-S1-mini）でご利用いただけます。 ブログや技術レポートはOpenAudio公式サイトをご覧ください。 主な特長 ✨ 優れたTTS品質 Seed TTS評価指標を用いてモデル性能を評価した結果、OpenAudio S1は英語テキストで0.008 WERおよび0.004 CERを達成し、従来モデルよりも大幅に高い精度を示しました。（英語、自動評価、OpenAI gpt-4o-transcribeベース、話者距離はRevai/pyannote-wespeaker-voxceleb-resnet34-LM利用） | モデル | Word Error Rate (WER) | Character Error Rate (CER) | Speaker Distance | |--------|----------------------|---------------------------|------------------| | S1 | 0.008 | 0.004 | 0.332 | | S1-mini | 0.011 | 0.005 | 0.380 | TTS-Arena2で最高評価 🏆 OpenAudio S1は、テキスト読み上げベンチマークTTS-Arena2で第1位を獲得しました。 音声コントロール OpenAudio S1は多様な感情・トーン・特殊マーカーをサポートし、音声合成の表現力を高めます。 基本感情: (angry) (sad) (excited) (surprised) (satisfied) (delighted) (scared) (worried) (upset) (nervous) (frustrated) (depressed) (empathetic) (embarrassed) (disgusted) (moved) (proud) (relaxed) (grateful) (confident) (interested) (curious) (confused) (joyful) 高度な感情: (disdainful) (unhappy) (anxious) (hysterical) (indifferent) (impatient) (guilty) (scornful) (panicked) (furious) (reluctant) (keen) (disapproving) (negative) (denying) (astonished) (serious) (sarcastic) (conciliative) (comforting) (sincere) (sneering) (hesitating) (yielding) (painful) (awkward) (amused) トーンマーカー: (in a hurry tone) (shouting) (screaming) (whispering) (soft tone) 特殊音声効果: (laughing) (chuckling) (sobbing) (crying loudly) (sighing) (panting)...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=fishaudio&amp;project=fish-speech&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><div align="center">
+        <div class="markdown-body" id="content">
+            <div align="center">
 <h1>Fish Speech</h1>
-
 <p><strong>English</strong> | <a href="docs/README.zh.md">简体中文</a> | <a href="docs/README.pt-BR.md">Portuguese</a> | <a href="docs/README.ja.md">日本語</a> | <a href="docs/README.ko.md">한국어</a> <br></p>
-<a href="https://www.producthunt.com/posts/fish-speech-1-4?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_souce=badge-fish-speech-1-4" target="_blank">
-    <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=488440&amp;theme=light" alt="Fish Speech 1.4 - Open-Source Multilingual Text-to-Speech with Voice Cloning | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54">
+<a href="https://www.producthunt.com/posts/fish-speech-1-4?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-fish&#0045;speech&#0045;1&#0045;4" target="_blank">
+    <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=488440&theme=light" alt="Fish&#0032;Speech&#0032;1&#0046;4 - Open&#0045;Source&#0032;Multilingual&#0032;Text&#0045;to&#0045;Speech&#0032;with&#0032;Voice&#0032;Cloning | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" />
 </a>
 <a href="https://trendshift.io/repositories/7014" target="_blank">
-    <img src="https://trendshift.io/api/badge/repositories/7014" alt="fishaudio%2Ffish-speech | Trendshift" style="width: 250px; height: 55px;" width="250" height="55">
+    <img src="https://trendshift.io/api/badge/repositories/7014" alt="fishaudio%2Ffish-speech | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/>
 </a>
 <br>
 </div>
 <br>
-
 <div align="center">
-    <img src="https://count.getloli.com/get/@fish-speech?theme=asoul"><br>
+    <img src="https://count.getloli.com/get/@fish-speech?theme=asoul" /><br>
 </div>
-
 <br>
-
 <div align="center">
     <a target="_blank" href="https://discord.gg/Es5qTB9BcN">
-        <img alt="Discord" src="https://img.shields.io/discord/1214047546020728892?color=%23738ADB&amp;label=Discord&amp;logo=discord&amp;logoColor=white&amp;style=flat-square">
+        <img alt="Discord" src="https://img.shields.io/discord/1214047546020728892?color=%23738ADB&label=Discord&logo=discord&logoColor=white&style=flat-square"/>
     </a>
     <a target="_blank" href="https://hub.docker.com/r/fishaudio/fish-speech">
-        <img alt="Docker" src="https://img.shields.io/docker/pulls/fishaudio/fish-speech?style=flat-square&amp;logo=docker">
+        <img alt="Docker" src="https://img.shields.io/docker/pulls/fishaudio/fish-speech?style=flat-square&logo=docker"/>
     </a>
     <a target="_blank" href="https://pd.qq.com/s/bwxia254o">
       <img alt="QQ Channel" src="https://img.shields.io/badge/QQ-blue?logo=tencentqq">
     </a>
 </div>
-
 <div align="center">
     <a target="_blank" href="https://huggingface.co/spaces/TTS-AGI/TTS-Arena-V2">
-      <img alt="TTS-Arena2 Score" src="https://img.shields.io/badge/TTS_Arena2-Rank_%231-gold?style=flat-square&amp;logo=trophy&amp;logoColor=white">
+      <img alt="TTS-Arena2 Score" src="https://img.shields.io/badge/TTS_Arena2-Rank_%231-gold?style=flat-square&logo=trophy&logoColor=white">
     </a>
     <a target="_blank" href="https://huggingface.co/spaces/fishaudio/fish-speech-1">
-        <img alt="Huggingface" src="https://img.shields.io/badge/🤗%20-space%20demo-yellow">
+        <img alt="Huggingface" src="https://img.shields.io/badge/🤗%20-space%20demo-yellow"/>
     </a>
     <a target="_blank" href="https://huggingface.co/fishaudio/openaudio-s1-mini">
-        <img alt="HuggingFace Model" src="https://img.shields.io/badge/🤗%20-models-orange">
+        <img alt="HuggingFace Model" src="https://img.shields.io/badge/🤗%20-models-orange"/>
     </a>
 </div>
-
 <blockquote>
-<p>[!IMPORTANT]<br><strong>ライセンスに関する注意</strong><br>このコードベースは<strong>Apache License</strong>の下でリリースされており、すべてのモデル重みは<strong>CC-BY-NC-SA-4.0 License</strong>の下でリリースされています。詳細は<a href="LICENSE">LICENSE</a>をご参照ください。</p>
+<p>[!IMPORTANT]
+<strong>ライセンスに関する注意</strong><br />
+このコードベースは<strong>Apache License</strong>の下でリリースされており、すべてのモデル重みは<strong>CC-BY-NC-SA-4.0 License</strong>の下でリリースされています。詳細は<a href="LICENSE">LICENSE</a>をご参照ください。</p>
 </blockquote>
 <blockquote>
-<p>[!WARNING]<br><strong>法的免責事項</strong><br>本コードベースの不正利用について、当方は一切の責任を負いません。DMCAなど関連法規については、お住まいの地域の法律をご確認ください。</p>
+<p>[!WARNING]
+<strong>法的免責事項</strong><br />
+本コードベースの不正利用について、当方は一切の責任を負いません。DMCAなど関連法規については、お住まいの地域の法律をご確認ください。</p>
 </blockquote>
-<hr>
+<hr />
 <h2>🎉 お知らせ</h2>
 <p>私たちは<strong>OpenAudio</strong>へとリブランディングし、Fish-Speechの基盤の上に構築された革新的な新シリーズの高度なテキスト読み上げモデルを発表できることを嬉しく思います。</p>
 <p>本シリーズの最初のモデルとして、品質・性能・機能性において大幅な向上を実現した<strong>OpenAudio-S1</strong>をリリースいたします。</p>
@@ -195,40 +105,21 @@
 <h2>主な特長 ✨</h2>
 <h3><strong>優れたTTS品質</strong></h3>
 <p>Seed TTS評価指標を用いてモデル性能を評価した結果、OpenAudio S1は英語テキストで<strong>0.008 WER</strong>および<strong>0.004 CER</strong>を達成し、従来モデルよりも大幅に高い精度を示しました。（英語、自動評価、OpenAI gpt-4o-transcribeベース、話者距離はRevai/pyannote-wespeaker-voxceleb-resnet34-LM利用）</p>
-<table>
-<thead>
-<tr>
-<th>モデル</th>
-<th>Word Error Rate (WER)</th>
-<th>Character Error Rate (CER)</th>
-<th>Speaker Distance</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>S1</strong></td>
-<td><strong>0.008</strong></td>
-<td><strong>0.004</strong></td>
-<td><strong>0.332</strong></td>
-</tr>
-<tr>
-<td><strong>S1-mini</strong></td>
-<td><strong>0.011</strong></td>
-<td><strong>0.005</strong></td>
-<td><strong>0.380</strong></td>
-</tr>
-</tbody></table>
+<p>| モデル | Word Error Rate (WER) | Character Error Rate (CER) | Speaker Distance |
+|--------|----------------------|---------------------------|------------------|
+| <strong>S1</strong> | <strong>0.008</strong>  | <strong>0.004</strong>  | <strong>0.332</strong> |
+| <strong>S1-mini</strong> | <strong>0.011</strong> | <strong>0.005</strong> | <strong>0.380</strong> |</p>
 <h3><strong>TTS-Arena2で最高評価</strong> 🏆</h3>
 <p>OpenAudio S1は、テキスト読み上げベンチマーク<a href="https://arena.speechcolab.org/">TTS-Arena2</a>で<strong>第1位</strong>を獲得しました。</p>
 <div align="center">
-    <img src="https://raw.githubusercontent.com/fishaudio/fish-speech/main/docs/assets/Elo.jpg" alt="TTS-Arena2 Ranking" style="width: 75%;">
+    <img src="https://raw.githubusercontent.com/fishaudio/fish-speech/main/docs/assets/Elo.jpg" alt="TTS-Arena2 Ranking" style="width: 75%;" />
 </div>
-
 <h3><strong>音声コントロール</strong></h3>
 <p>OpenAudio S1は<strong>多様な感情・トーン・特殊マーカー</strong>をサポートし、音声合成の表現力を高めます。</p>
 <ul>
 <li><strong>基本感情</strong>:</li>
 </ul>
-<pre><code class="hljs language-scss">(angry) (sad) (excited) (surprised) (satisfied) (delighted) 
+<pre><code>(angry) (sad) (excited) (surprised) (satisfied) (delighted) 
 (scared) (worried) (upset) (nervous) (frustrated) (depressed)
 (empathetic) (embarrassed) (disgusted) (moved) (proud) (relaxed)
 (grateful) (confident) (interested) (curious) (confused) (joyful)
@@ -236,7 +127,7 @@
 <ul>
 <li><strong>高度な感情</strong>:</li>
 </ul>
-<pre><code class="hljs language-scss">(disdainful) (unhappy) (anxious) (hysterical) (indifferent) 
+<pre><code>(disdainful) (unhappy) (anxious) (hysterical) (indifferent) 
 (impatient) (guilty) (scornful) (panicked) (furious) (reluctant)
 (keen) (disapproving) (negative) (denying) (astonished) (serious)
 (sarcastic) (conciliative) (comforting) (sincere) (sneering)
@@ -245,39 +136,21 @@
 <ul>
 <li><strong>トーンマーカー</strong>:</li>
 </ul>
-<pre><code class="hljs language-scss">(in a hurry tone) (shouting) (screaming) (whispering) (soft tone)
+<pre><code>(in a hurry tone) (shouting) (screaming) (whispering) (soft tone)
 </code></pre>
 <ul>
 <li><strong>特殊音声効果</strong>:</li>
 </ul>
-<pre><code class="hljs language-scss">(laughing) (chuckling) (sobbing) (crying loudly) (sighing) (panting)
+<pre><code>(laughing) (chuckling) (sobbing) (crying loudly) (sighing) (panting)
 (groaning) (crowd laughing) (background laughter) (audience laughing)
 </code></pre>
 <p>Ha,ha,haのような記述でもコントロール可能です。他にも様々な使い方がありますので、ぜひお試しください。</p>
 <p>（現在、英語・中国語・日本語に対応。今後さらに多言語対応予定！）</p>
 <h3><strong>2種類のモデル</strong></h3>
-<table>
-<thead>
-<tr>
-<th>モデル</th>
-<th>サイズ</th>
-<th>提供状況</th>
-<th>特徴</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>S1</strong></td>
-<td>40億パラメータ</td>
-<td><a href="fish.audio">fish.audio</a>で利用可能</td>
-<td>フル機能のフラッグシップモデル</td>
-</tr>
-<tr>
-<td><strong>S1-mini</strong></td>
-<td>5億パラメータ</td>
-<td>huggingfaceの<a href="https://huggingface.co/spaces/fishaudio/openaudio-s1-mini">hf space</a>で利用可能</td>
-<td>コア機能を持つ蒸留版</td>
-</tr>
-</tbody></table>
+<p>| モデル | サイズ | 提供状況 | 特徴 |
+|--------|--------|----------|------|
+| <strong>S1</strong> | 40億パラメータ | <a href="fish.audio">fish.audio</a>で利用可能 | フル機能のフラッグシップモデル |
+| <strong>S1-mini</strong> | 5億パラメータ | huggingfaceの<a href="https://huggingface.co/spaces/fishaudio/openaudio-s1-mini">hf space</a>で利用可能 | コア機能を持つ蒸留版 |</p>
 <p>S1およびS1-miniともに、オンラインでの人間フィードバックによる強化学習（RLHF）を導入しています。</p>
 <h2><strong>機能一覧</strong></h2>
 <ol>
@@ -300,33 +173,27 @@
 </ol>
 <h2><strong>メディア・デモ</strong></h2>
 <div align="center">
-
 <h3><strong>ソーシャルメディア</strong></h3>
 <a href="https://x.com/FishAudio/status/1929915992299450398" target="_blank">
-    <img src="https://img.shields.io/badge/𝕏-Latest_Demo-black?style=for-the-badge&amp;logo=x&amp;logoColor=white" alt="Latest Demo on X">
+    <img src="https://img.shields.io/badge/𝕏-Latest_Demo-black?style=for-the-badge&logo=x&logoColor=white" alt="Latest Demo on X" />
 </a>
-
 <h3><strong>インタラクティブデモ</strong></h3>
 <a href="https://fish.audio" target="_blank">
-    <img src="https://img.shields.io/badge/Fish_Audio-Try_OpenAudio_S1-blue?style=for-the-badge" alt="Try OpenAudio S1">
+    <img src="https://img.shields.io/badge/Fish_Audio-Try_OpenAudio_S1-blue?style=for-the-badge" alt="Try OpenAudio S1" />
 </a>
 <a href="https://huggingface.co/spaces/fishaudio/openaudio-s1-mini" target="_blank">
-    <img src="https://img.shields.io/badge/Hugging_Face-Try_S1_Mini-yellow?style=for-the-badge" alt="Try S1 Mini">
+    <img src="https://img.shields.io/badge/Hugging_Face-Try_S1_Mini-yellow?style=for-the-badge" alt="Try S1 Mini" />
 </a>
-
 <h3><strong>ビデオ紹介</strong></h3>
 <a href="https://www.youtube.com/watch?v=SYuPvd7m06A" target="_blank">
-    <img src="https://raw.githubusercontent.com/fishaudio/fish-speech/main/docs/assets/Thumbnail.jpg" alt="OpenAudio S1 Video" style="width: 50%;">
+    <img src="https://raw.githubusercontent.com/fishaudio/fish-speech/main/docs/assets/Thumbnail.jpg" alt="OpenAudio S1 Video" style="width: 50%;" />
 </a>
-
 <h3><strong>音声サンプル</strong></h3>
 <div style="margin: 20px 0;">
     <em> 近日中に高品質な音声サンプルを公開予定です。多言語・多感情TTSの性能をご確認いただけます。</em>
 </div>
-
 </div>
-
-<hr>
+<hr />
 <h2>ドキュメント</h2>
 <ul>
 <li><a href="https://raw.githubusercontent.com/fishaudio/fish-speech/main/docs/en/install.md">ビルド環境</a></li>
@@ -348,43 +215,28 @@
       author={Shijia Liao and Yuxuan Wang and Tianyu Li and Yifan Cheng and Ruoyi Zhang and Rongzhi Zhou and Yijin Xing},
       year={2024},
 </code></pre>
-<pre><code class="hljs language-ini">  <span class="hljs-attr">eprint</span>={<span class="hljs-number">2411.01156</span>},
-  <span class="hljs-attr">archivePrefix</span>={arXiv},
-  <span class="hljs-attr">primaryClass</span>={cs.SD},
-  <span class="hljs-attr">url</span>={https://arxiv.org/abs/<span class="hljs-number">2411.01156</span>},
+<pre><code>  eprint={2411.01156},
+  archivePrefix={arXiv},
+  primaryClass={cs.SD},
+  url={https://arxiv.org/abs/2411.01156},
 </code></pre>
 <p>}</p>
-<pre><code class="hljs language-yaml">
+<pre><code>
 
-<span class="hljs-meta">---
-
-</span>
-<span class="hljs-string">Tranlated</span> <span class="hljs-string">By</span> [<span class="hljs-string">Open</span> <span class="hljs-string">Ai</span> <span class="hljs-string">Tx</span>]<span class="hljs-string">(https://github.com/OpenAiTx/OpenAiTx)</span> <span class="hljs-string">|</span> <span class="hljs-attr">Last indexed:</span> <span class="hljs-number">2025-06-10</span>
+---
 
 
-<span class="hljs-meta">---
-</span></code></pre>
-</div>
+Tranlated By [Open Ai Tx](https://github.com/OpenAiTx/OpenAiTx) | Last indexed: 2025-06-10
+
+
+---
+</code></pre>
+
+        </div>
     </div>
-
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

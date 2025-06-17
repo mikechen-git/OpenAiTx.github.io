@@ -1,150 +1,64 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MemoryPack - Cysharp/MemoryPack</title>
-
-    <!-- Primary Meta Tags -->
     <meta name="title" content="MemoryPack - Cysharp/MemoryPack">
-    <meta name="description" content="Cysharp/MemoryPack - GitHub repository en documentation and information">
+    <meta name="description" content="Cysharp/MemoryPack - GitHub repository en documentation and informationMemoryPack Zero-encoding, extremely high-performance binary serializer for C# and Unity. Compared with System.Text.Json, protobuf-net, MessagePack for C#, Orleans.Serialization. Measured on a .NET 7 / Ryzen 9 5950X machine. These serializers have IBufferWriter&lt;byte&gt; methods, serialized using ArrayBufferWriter&lt;byte&gt; and reused to avoid measuring buffer copy. For standard objects, MemoryPack is x10 faster and x2 ~ x5 faster than other binary serializers. For struct arrays, MemoryPack is even more powerful, with speeds up to x50 ~ x200 greater than other serializers. MemoryPack is my 4th serializer; previously I've created well-known serializers, ~~ZeroFormatter~~, ~~Utf8Json~~, MessagePack for C#. The reason for MemoryPack's speed is due to its C#-specific, C#-optimized binary format and a well-tuned implementation based on my past experience. It is also a completely new design utilizing .NET 7 and C# 11 and the Incremental Source Generator (.NET Standard 2.1 (.NET 5, 6) and there is also Unity support). Other serializers perform many encoding...">
     <meta name="keywords" content="Cysharp, MemoryPack, GitHub, repository, en documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/Cysharp/MemoryPack/README-en.html">
     <meta property="og:title" content="MemoryPack - Cysharp/MemoryPack">
     <meta property="og:description" content="Cysharp/MemoryPack - GitHub repository en documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/Cysharp/MemoryPack" id="githubRepoLink" target="_blank">Cysharp/MemoryPack</a>
+<br>
+<h1 style="display: none;">MemoryPack Zero-encoding, extremely high-performance binary serializer for C# and Unity. Compared with System.Text.Json, protobuf-net, MessagePack for C#, Orleans.Serialization. Measured on a .NET 7 / Ryzen 9 5950X machine. These serializers have IBufferWriter&lt;byte&gt; methods, serialized using ArrayBufferWriter&lt;byte&gt; and reused to avoid measuring buffer copy. For standard objects, MemoryPack is x10 faster and x2 ~ x5 faster than other binary serializers. For struct arrays, MemoryPack is even more powerful, with speeds up to x50 ~ x200 greater than other serializers. MemoryPack is my 4th serializer; previously I've created well-known serializers, ~~ZeroFormatter~~, ~~Utf8Json~~, MessagePack for C#. The reason for MemoryPack's speed is due to its C#-specific, C#-optimized binary format and a well-tuned implementation based on my past experience. It is also a completely new design utilizing .NET 7 and C# 11 and the Incremental Source Generator (.NET Standard 2.1 (.NET 5, 6) and there is also Unity support). Other serializers perform many encoding...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>MemoryPack</h1>
-<p><a href="https://www.nuget.org/packages/MemoryPack"><img src="https://img.shields.io/nuget/v/MemoryPack.svg" alt="NuGet"></a><br><a href="https://github.com/Cysharp/MemoryPack/actions"><img src="https://github.com/Cysharp/MemoryPack/workflows/Build-Debug/badge.svg" alt="GitHub Actions"></a><br><a href="https://github.com/Cysharp/MemoryPack/releases"><img src="https://img.shields.io/github/release/Cysharp/MemoryPack.svg" alt="Releases"></a></p>
+        <div class="markdown-body" id="content">
+            <h1>MemoryPack</h1>
+<p><a href="https://www.nuget.org/packages/MemoryPack"><img src="https://img.shields.io/nuget/v/MemoryPack.svg" alt="NuGet" /></a>
+<a href="https://github.com/Cysharp/MemoryPack/actions"><img src="https://github.com/Cysharp/MemoryPack/workflows/Build-Debug/badge.svg" alt="GitHub Actions" /></a>
+<a href="https://github.com/Cysharp/MemoryPack/releases"><img src="https://img.shields.io/github/release/Cysharp/MemoryPack.svg" alt="Releases" /></a></p>
 <p>Zero-encoding, extremely high-performance binary serializer for C# and Unity.</p>
-<p><img src="https://user-images.githubusercontent.com/46207/200979655-63ed38ae-dad2-4ca0-bbb7-9e0aa98914af.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/46207/200979655-63ed38ae-dad2-4ca0-bbb7-9e0aa98914af.png" alt="image" /></p>
 <blockquote>
 <p>Compared with <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.text.json">System.Text.Json</a>, <a href="https://github.com/protobuf-net/protobuf-net">protobuf-net</a>, <a href="https://github.com/neuecc/MessagePack-CSharp">MessagePack for C#</a>, <a href="https://github.com/dotnet/orleans/">Orleans.Serialization</a>. Measured on a .NET 7 / Ryzen 9 5950X machine. These serializers have <code>IBufferWriter&lt;byte&gt;</code> methods, serialized using <code>ArrayBufferWriter&lt;byte&gt;</code> and reused to avoid measuring buffer copy.</p>
 </blockquote>
 <p>For standard objects, MemoryPack is x10 faster and x2 ~ x5 faster than other binary serializers. For struct arrays, MemoryPack is even more powerful, with speeds up to x50 ~ x200 greater than other serializers.</p>
-<p>MemoryPack is my 4th serializer; previously I've created well-known serializers, <del><a href="https://github.com/neuecc/ZeroFormatter">ZeroFormatter</a></del>, <del><a href="https://github.com/neuecc/Utf8Json">Utf8Json</a></del>, <a href="https://github.com/neuecc/MessagePack-CSharp">MessagePack for C#</a>. The reason for MemoryPack's speed is due to its C#-specific, C#-optimized binary format and a well-tuned implementation based on my past experience. It is also a completely new design utilizing .NET 7 and C# 11 and the Incremental Source Generator (.NET Standard 2.1 (.NET 5, 6) and there is also Unity support).</p>
+<p>MemoryPack is my 4th serializer; previously I've created well-known serializers, ~~<a href="https://github.com/neuecc/ZeroFormatter">ZeroFormatter</a>~~, ~~<a href="https://github.com/neuecc/Utf8Json">Utf8Json</a>~~, <a href="https://github.com/neuecc/MessagePack-CSharp">MessagePack for C#</a>. The reason for MemoryPack's speed is due to its C#-specific, C#-optimized binary format and a well-tuned implementation based on my past experience. It is also a completely new design utilizing .NET 7 and C# 11 and the Incremental Source Generator (.NET Standard 2.1 (.NET 5, 6) and there is also Unity support).</p>
 <p>Other serializers perform many encoding operations such as VarInt encoding, tags, strings, etc. MemoryPack format uses a zero-encoding design that copies as much C# memory as possible. Zero-encoding is similar to FlatBuffers, but it doesn't require a special type; MemoryPack's serialization target is POCO.</p>
 <p>Other than performance, MemoryPack has these features:</p>
 <ul>
@@ -168,21 +82,21 @@
 <p>For Unity, the requirements and installation process are completely different. See the <a href="#unity">Unity</a> section for details.</p>
 <h2>Quick Start</h2>
 <p>Define a struct or class to be serialized and annotate it with the <code>[MemoryPackable]</code> attribute and the <code>partial</code> keyword.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> MemoryPack;
+<pre><code class="language-csharp">using MemoryPack;
 
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>
+[MemoryPackable]
+public partial class Person
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Age { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Age { get; set; }
+    public string Name { get; set; }
 }
 </code></pre>
 <p>Serialization code is generated by the C# source generator feature which implements the <code>IMemoryPackable&lt;T&gt;</code> interface. In Visual Studio you can check the generated code by using the shortcut <code>Ctrl+K, R</code> on the class name and selecting <code>*.MemoryPackFormatter.g.cs</code>.</p>
 <p>Call <code>MemoryPackSerializer.Serialize&lt;T&gt;/Deserialize&lt;T&gt;</code> to serialize/deserialize an object instance.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> v = <span class="hljs-keyword">new</span> Person { Age = <span class="hljs-number">40</span>, Name = <span class="hljs-string">"John"</span> };
+<pre><code class="language-csharp">var v = new Person { Age = 40, Name = &quot;John&quot; };
 
-<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(v);
-<span class="hljs-keyword">var</span> val = MemoryPackSerializer.Deserialize&lt;Person&gt;(bin);
+var bin = MemoryPackSerializer.Serialize(v);
+var val = MemoryPackSerializer.Deserialize&lt;Person&gt;(bin);
 </code></pre>
 <p>The <code>Serialize</code> method supports a return type of <code>byte[]</code> as well as serializing to <code>IBufferWriter&lt;byte&gt;</code> or <code>Stream</code>. The <code>Deserialize</code> method supports <code>ReadOnlySpan&lt;byte&gt;</code>, <code>ReadOnlySequence&lt;byte&gt;</code>, and <code>Stream</code>. There are also non-generic versions.</p>
 <h2>Built-in supported types</h2>
@@ -207,57 +121,57 @@
 <h2>Define <code>[MemoryPackable]</code> <code>class</code> / <code>struct</code> / <code>record</code> / <code>record struct</code></h2>
 <p><code>[MemoryPackable]</code> can be annotated on any <code>class</code>, <code>struct</code>, <code>record</code>, <code>record struct</code>, and <code>interface</code>. If a type is a <code>struct</code> or <code>record struct</code> which contains no reference types (<a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/unmanaged-types">C# Unmanaged types</a>), any additional annotation (ignore, include, constructor, callbacks) is not used, and it serializes/deserializes directly from memory.</p>
 <p>Otherwise, by default, <code>[MemoryPackable]</code> serializes public instance properties or fields. You can use <code>[MemoryPackIgnore]</code> to remove a serialization target, <code>[MemoryPackInclude]</code> promotes a private member to a serialization target.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-comment">// these types are serialized by default</span>
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PublicField;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> PublicReadOnlyField;
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PublicProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PrivateSetPublicProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> ReadOnlyPublicProperty { <span class="hljs-keyword">get</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> InitProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">int</span> RequiredInitProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    // these types are serialized by default
+    public int PublicField;
+    public readonly int PublicReadOnlyField;
+    public int PublicProperty { get; set; }
+    public int PrivateSetPublicProperty { get; private set; }
+    public int ReadOnlyPublicProperty { get; }
+    public int InitProperty { get; init; }
+    public required int RequiredInitProperty { get; init; }
 
-    <span class="hljs-comment">// these types are not serialized by default</span>
-    <span class="hljs-built_in">int</span> privateProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-built_in">int</span> privateField;
-    <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> privateReadOnlyField;
+    // these types are not serialized by default
+    int privateProperty { get; set; }
+    int privateField;
+    readonly int privateReadOnlyField;
 
-    <span class="hljs-comment">// use [MemoryPackIgnore] to remove target of a public member</span>
-    [<span class="hljs-meta">MemoryPackIgnore</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PublicProperty2 =&gt; PublicProperty + PublicField;
+    // use [MemoryPackIgnore] to remove target of a public member
+    [MemoryPackIgnore]
+    public int PublicProperty2 =&gt; PublicProperty + PublicField;
 
-    <span class="hljs-comment">// use [MemoryPackInclude] to promote a private member to serialization target</span>
-    [<span class="hljs-meta">MemoryPackInclude</span>]
-    <span class="hljs-built_in">int</span> privateField2;
-    [<span class="hljs-meta">MemoryPackInclude</span>]
-    <span class="hljs-built_in">int</span> privateProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    // use [MemoryPackInclude] to promote a private member to serialization target
+    [MemoryPackInclude]
+    int privateField2;
+    [MemoryPackInclude]
+    int privateProperty2 { get; set; }
 }
 </code></pre>
 <p>MemoryPack's code generator adds information about which members are serialized to the <code>&lt;remarks /&gt;</code> section. This can be viewed by hovering over the type with Intellisense.</p>
-<p><img src="https://user-images.githubusercontent.com/46207/192393984-9af01fcb-872e-46fb-b08f-4783e8cef4ae.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/46207/192393984-9af01fcb-872e-46fb-b08f-4783e8cef4ae.png" alt="image" /></p>
 <p>All members must be memorypack-serializable; if not, the code generator will emit an error.</p>
-<p><img src="https://user-images.githubusercontent.com/46207/192413557-8a47d668-5339-46c5-a3da-a77841666f81.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/46207/192413557-8a47d668-5339-46c5-a3da-a77841666f81.png" alt="image" /></p>
 <p>MemoryPack has 35 diagnostic rules (<code>MEMPACK001</code> to <code>MEMPACK035</code>) to help define types comfortably.</p>
 <p>If a target type is defined for MemoryPack serialization externally and registered, use <code>[MemoryPackAllowSerialize]</code> to silence diagnostics.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample2</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample2
 {
-    [<span class="hljs-meta">MemoryPackAllowSerialize</span>]
-    <span class="hljs-keyword">public</span> NotSerializableType? NotSerializableProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [MemoryPackAllowSerialize]
+    public NotSerializableType? NotSerializableProperty { get; set; }
 }
 </code></pre>
 <p>Member order is <strong>important</strong>; MemoryPack does not serialize the member name or other information, instead serializing fields in the order they are declared. If a type is inherited, serialization is performed in the order of parent → child. The order of members cannot change for deserialization. For schema evolution, see the <a href="#version-tolerant">Version tolerant</a> section.</p>
 <p>The default order is sequential, but you can choose the explicit layout with <code>[MemoryPackable(SerializeLayout.Explicit)]</code> and <code>[MemoryPackOrder()]</code>.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// serialize Prop0 -&gt; Prop1</span>
-[<span class="hljs-meta">MemoryPackable(SerializeLayout.Explicit)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SampleExplicitOrder</span>
+<pre><code class="language-csharp">// serialize Prop0 -&gt; Prop1
+[MemoryPackable(SerializeLayout.Explicit)]
+public partial class SampleExplicitOrder
 {
-    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [MemoryPackOrder(1)]
+    public int Prop1 { get; set; }
+    [MemoryPackOrder(0)]
+    public int Prop0 { get; set; }
 }
 </code></pre>
 <h3>Constructor selection</h3>
@@ -269,245 +183,245 @@
 <li>If there are multiple constructors, then the <code>[MemoryPackConstructor]</code> attribute must be applied to the desired constructor (the generator will not automatically choose one), otherwise the generator will emit an error.</li>
 <li>If using a parameterized constructor, all parameter names must match corresponding member names (case-insensitive).</li>
 </ul>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Person
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> Age;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> Name;
+    public readonly int Age;
+    public readonly string Name;
 
-    <span class="hljs-comment">// You can use a parameterized constructor - parameter names must match corresponding member names (case-insensitive)</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> age, <span class="hljs-built_in">string</span> name</span>)</span>
+    // You can use a parameterized constructor - parameter names must match corresponding member names (case-insensitive)
+    public Person(int age, string name)
     {
-        <span class="hljs-keyword">this</span>.Age = age;
-        <span class="hljs-keyword">this</span>.Name = name;
+        this.Age = age;
+        this.Name = name;
     }
 }
 
-<span class="hljs-comment">// also supports record primary constructor</span>
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">record</span> <span class="hljs-title">Person2</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> Age, <span class="hljs-built_in">string</span> Name</span>)</span>;
+// also supports record primary constructor
+[MemoryPackable]
+public partial record Person2(int Age, string Name);
 
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person3</span>
+public partial class Person3
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Age { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Age { get; set; }
+    public string Name { get; set; }
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person3</span>()</span>
+    public Person3()
     {
     }
 </code></pre>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// If there are multiple constructors, then [MemoryPackConstructor] should be used</span>
-[<span class="hljs-meta">MemoryPackConstructor</span>]
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person3</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> age, <span class="hljs-built_in">string</span> name</span>)</span>
+<pre><code class="language-csharp">// If there are multiple constructors, then [MemoryPackConstructor] should be used
+[MemoryPackConstructor]
+public Person3(int age, string name)
 {
-    <span class="hljs-keyword">this</span>.Age = age;
-    <span class="hljs-keyword">this</span>.Name = name;
+    this.Age = age;
+    this.Name = name;
 }
 </code></pre>
 <h3>Serialization callbacks</h3>
 <p>When serializing/deserializing, MemoryPack can invoke a before/after event using the <code>[MemoryPackOnSerializing]</code>, <code>[MemoryPackOnSerialized]</code>, <code>[MemoryPackOnDeserializing]</code>, <code>[MemoryPackOnDeserialized]</code> attributes. It can annotate both static and instance (non-static) methods, and public and private methods.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MethodCallSample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class MethodCallSample
 {
-    <span class="hljs-comment">// method call order is static -&gt; instance</span>
-    [<span class="hljs-meta">MemoryPackOnSerializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnSerializing1</span>()</span>
+    // method call order is static -&gt; instance
+    [MemoryPackOnSerializing]
+    public static void OnSerializing1()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerializing1));
+        Console.WriteLine(nameof(OnSerializing1));
     }
 
-    <span class="hljs-comment">// also allows private method</span>
-    [<span class="hljs-meta">MemoryPackOnSerializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnSerializing2</span>()</span>
+    // also allows private method
+    [MemoryPackOnSerializing]
+    void OnSerializing2()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerializing2));
+        Console.WriteLine(nameof(OnSerializing2));
     }
 
-    <span class="hljs-comment">// serializing -&gt; /* serialize */ -&gt; serialized</span>
-    [<span class="hljs-meta">MemoryPackOnSerialized</span>]
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnSerialized1</span>()</span>
+    // serializing -&gt; /* serialize */ -&gt; serialized
+    [MemoryPackOnSerialized]
+    static void OnSerialized1()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerialized1));
+        Console.WriteLine(nameof(OnSerialized1));
     }
 
-    [<span class="hljs-meta">MemoryPackOnSerialized</span>]
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnSerialized2</span>()</span>
+    [MemoryPackOnSerialized]
+    public void OnSerialized2()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerialized2));
+        Console.WriteLine(nameof(OnSerialized2));
     }
 
-    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserializing1</span>()</span>
+    [MemoryPackOnDeserializing]
+    public static void OnDeserializing1()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserializing1));
+        Console.WriteLine(nameof(OnDeserializing1));
     }
 
-    <span class="hljs-comment">// Note: instance method with MemoryPackOnDeserializing, that not called if instance is not passed by `ref`</span>
-    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserializing2</span>()</span>
+    // Note: instance method with MemoryPackOnDeserializing, that not called if instance is not passed by `ref`
+    [MemoryPackOnDeserializing]
+    public void OnDeserializing2()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserializing2));
+        Console.WriteLine(nameof(OnDeserializing2));
     }
 
-    [<span class="hljs-meta">MemoryPackOnDeserialized</span>]
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserialized1</span>()</span>
+    [MemoryPackOnDeserialized]
+    public static void OnDeserialized1()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserialized1));
+        Console.WriteLine(nameof(OnDeserialized1));
     }
 
-    [<span class="hljs-meta">MemoryPackOnDeserialized</span>]
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserialized2</span>()</span>
+    [MemoryPackOnDeserialized]
+    public void OnDeserialized2()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserialized2));
+        Console.WriteLine(nameof(OnDeserialized2));
     }
 }
 </code></pre>
 <p>Callbacks allow parameterless methods and <code>ref reader/writer, ref T value</code> methods. For example, ref callbacks can write/read a custom header before the serialization process.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EmitIdData</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class EmitIdData
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int MyProperty { get; set; }
 
-    [<span class="hljs-meta">MemoryPackOnSerializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">WriteId</span>&lt;<span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackWriter&lt;TBufferWriter&gt; writer, <span class="hljs-keyword">ref</span> EmitIdData? <span class="hljs-keyword">value</span></span>)
-        <span class="hljs-keyword">where</span> TBufferWriter : IBufferWriter&lt;<span class="hljs-built_in">byte</span>&gt; <span class="hljs-comment">// .NET Standard 2.1, use where TBufferWriter : class, IBufferWriter&lt;byte&gt;</span></span>
+    [MemoryPackOnSerializing]
+    static void WriteId&lt;TBufferWriter&gt;(ref MemoryPackWriter&lt;TBufferWriter&gt; writer, ref EmitIdData? value)
+        where TBufferWriter : IBufferWriter&lt;byte&gt; // .NET Standard 2.1, use where TBufferWriter : class, IBufferWriter&lt;byte&gt;
     {
-        writer.WriteUnmanaged(Guid.NewGuid()); <span class="hljs-comment">// emit GUID in header.</span>
+        writer.WriteUnmanaged(Guid.NewGuid()); // emit GUID in header.
     }
 
-    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ReadId</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">ref</span> EmitIdData? <span class="hljs-keyword">value</span></span>)</span>
+    [MemoryPackOnDeserializing]
+    static void ReadId(ref MemoryPackReader reader, ref EmitIdData? value)
     {
-        <span class="hljs-comment">// read custom header before deserialize</span>
-        <span class="hljs-keyword">var</span> guid = reader.ReadUnmanaged&lt;Guid&gt;();
+        // read custom header before deserialize
+        var guid = reader.ReadUnmanaged&lt;Guid&gt;();
         Console.WriteLine(guid);
     }
 }
 </code></pre>
 <p>If you set a value to <code>ref value</code>, you can change the value used for serialization/deserialization. For example, instantiate from ServiceProvider.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// before using this formatter, set ServiceProvider</span>
-<span class="hljs-comment">// var options = MemoryPackSerializerOptions.Default with { ServiceProvider = provider };</span>
-<span class="hljs-comment">// MemoryPackSerializer.Deserialize(value, options);</span>
+<pre><code class="language-csharp">// before using this formatter, set ServiceProvider
+// var options = MemoryPackSerializerOptions.Default with { ServiceProvider = provider };
+// MemoryPackSerializer.Deserialize(value, options);
 
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">InstantiateFromServiceProvider</span>
+[MemoryPackable]
+public partial class InstantiateFromServiceProvider
 {
-    <span class="hljs-keyword">static</span> IServiceProvider serviceProvider = <span class="hljs-literal">default</span>!;
+    static IServiceProvider serviceProvider = default!;
 
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+    public int MyProperty { get; private set; }
 
-    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserializing</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">ref</span> InstantiateFromServiceProvider <span class="hljs-keyword">value</span></span>)</span>
+    [MemoryPackOnDeserializing]
+    static void OnDeserializing(ref MemoryPackReader reader, ref InstantiateFromServiceProvider value)
     {
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> != <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;
-        <span class="hljs-keyword">value</span> = reader.Options.ServiceProvider!.GetRequiredService&lt;InstantiateFromServiceProvider&gt;();
+        if (value != null) return;
+        value = reader.Options.ServiceProvider!.GetRequiredService&lt;InstantiateFromServiceProvider&gt;();
     }
 }
 </code></pre>
 <h2>Define custom collection</h2>
 <p>By default, a type annotated with <code>[MemoryPackObject]</code> will try to serialize its members. However, if a type is a collection (<code>ICollection&lt;&gt;</code>, <code>ISet&lt;&gt;</code>, <code>IDictionary&lt;,&gt;</code>), use <code>GenerateType.Collection</code> to serialize it correctly.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable(GenerateType.Collection)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyList</span>&lt;<span class="hljs-title">T</span>&gt; : <span class="hljs-title">List</span>&lt;<span class="hljs-title">T</span>&gt;
+<pre><code class="language-csharp">[MemoryPackable(GenerateType.Collection)]
+public partial class MyList&lt;T&gt; : List&lt;T&gt;
 {
 }
 
-[<span class="hljs-meta">MemoryPackable(GenerateType.Collection)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyStringDictionary</span>&lt;<span class="hljs-title">TValue</span>&gt; : <span class="hljs-title">Dictionary</span>&lt;<span class="hljs-title">string</span>, <span class="hljs-title">TValue</span>&gt;
+[MemoryPackable(GenerateType.Collection)]
+public partial class MyStringDictionary&lt;TValue&gt; : Dictionary&lt;string, TValue&gt;
 {
 
 }
 </code></pre>
 <h2>Static constructor</h2>
 <p>A MemoryPackable class cannot define a static constructor because the generated partial class uses it. Instead, you can define a <code>static partial void StaticConstructor()</code> to do the same thing.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">CctorSample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class CctorSample
 {
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">void</span> <span class="hljs-title">StaticConstructor</span>()</span>
+    static partial void StaticConstructor()
     {
     }
 }
 </code></pre>
 <h2>Polymorphism (Union)</h2>
 <p>MemoryPack supports serializing interface and abstract class objects for polymorphic serialization. In MemoryPack this feature is called Union. Only interfaces and abstract classes are allowed to be annotated with <code>[MemoryPackUnion]</code> attributes. Unique union tags are required.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// Annotate [MemoryPackable] and inheritance types with [MemoryPackUnion]</span>
-<span class="hljs-comment">// Union also supports abstract class</span>
-[<span class="hljs-meta">MemoryPackable</span>]
-[<span class="hljs-meta">MemoryPackUnion(0, typeof(FooClass))</span>]
-[<span class="hljs-meta">MemoryPackUnion(1, typeof(BarClass))</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IUnionSample</span>
+<pre><code class="language-csharp">// Annotate [MemoryPackable] and inheritance types with [MemoryPackUnion]
+// Union also supports abstract class
+[MemoryPackable]
+[MemoryPackUnion(0, typeof(FooClass))]
+[MemoryPackUnion(1, typeof(BarClass))]
+public partial interface IUnionSample
 {
 }
 
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">FooClass</span> : <span class="hljs-title">IUnionSample</span>
+[MemoryPackable]
+public partial class FooClass : IUnionSample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> XYZ { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int XYZ { get; set; }
 }
 
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">BarClass</span> : <span class="hljs-title">IUnionSample</span>
+[MemoryPackable]
+public partial class BarClass : IUnionSample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? OPQ { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public string? OPQ { get; set; }
 }
-<span class="hljs-comment">// ---</span>
+// ---
 
-IUnionSample data = <span class="hljs-keyword">new</span> FooClass() { XYZ = <span class="hljs-number">999</span> };
+IUnionSample data = new FooClass() { XYZ = 999 };
 
-<span class="hljs-comment">// Serialize as interface type.</span>
-<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(data);
+// Serialize as interface type.
+var bin = MemoryPackSerializer.Serialize(data);
 
-<span class="hljs-comment">// Deserialize as interface type.</span>
-<span class="hljs-keyword">var</span> reData = MemoryPackSerializer.Deserialize&lt;IUnionSample&gt;(bin);
+// Deserialize as interface type.
+var reData = MemoryPackSerializer.Deserialize&lt;IUnionSample&gt;(bin);
 
-<span class="hljs-keyword">switch</span> (reData)
+switch (reData)
 {
-    <span class="hljs-keyword">case</span> FooClass x:
+    case FooClass x:
         Console.WriteLine(x.XYZ);
-        <span class="hljs-keyword">break</span>;
-    <span class="hljs-keyword">case</span> BarClass x:
+        break;
+    case BarClass x:
         Console.WriteLine(x.OPQ);
-        <span class="hljs-keyword">break</span>;
-    <span class="hljs-literal">default</span>:
-        <span class="hljs-keyword">break</span>;
+        break;
+    default:
+        break;
 }
 </code></pre>
 <p><code>tag</code> allows <code>0</code> ~ <code>65535</code>, it is especially efficient for less than <code>250</code>.</p>
-<pre><code class="hljs language-kotlin">If an <span class="hljs-keyword">interface</span> <span class="hljs-title class_">and</span> <span class="hljs-title">derived</span> <span class="hljs-title">types</span> <span class="hljs-title">are</span> <span class="hljs-title">in</span> <span class="hljs-title">different</span> <span class="hljs-title">assemblies</span>, <span class="hljs-type">you</span> <span class="hljs-title">can</span> <span class="hljs-title">use</span> `<span class="hljs-title">MemoryPackUnionFormatterAttribute</span>` <span class="hljs-title">instead</span>. <span class="hljs-title">Formatters</span> <span class="hljs-title">are</span> <span class="hljs-title">generated</span> <span class="hljs-title">in</span> <span class="hljs-title">a</span> <span class="hljs-title">way</span> <span class="hljs-title">that</span> <span class="hljs-title">they</span> <span class="hljs-title">are</span> <span class="hljs-title">automatically</span> <span class="hljs-title">registered</span> <span class="hljs-title">via</span> `<span class="hljs-title">ModuleInitializer</span>` <span class="hljs-title">in</span> <span class="hljs-title">C</span># 9.0 <span class="hljs-title">and</span> <span class="hljs-title">above</span>.
+<pre><code>If an interface and derived types are in different assemblies, you can use `MemoryPackUnionFormatterAttribute` instead. Formatters are generated in a way that they are automatically registered via `ModuleInitializer` in C# 9.0 and above.
 
-&gt; Note that `ModuleInitializer` <span class="hljs-keyword">is</span> not supported <span class="hljs-keyword">in</span> Unity, so the formatter must be manually registered. To register your union formatter, invoke `{name of your union formatter}Initializer.RegisterFormatter()` manually <span class="hljs-keyword">in</span> Startup. For example, `UnionSampleFormatterInitializer.RegisterFormatter()`.
+&gt; Note that `ModuleInitializer` is not supported in Unity, so the formatter must be manually registered. To register your union formatter, invoke `{name of your union formatter}Initializer.RegisterFormatter()` manually in Startup. For example, `UnionSampleFormatterInitializer.RegisterFormatter()`.
 
 ```csharp
-<span class="hljs-comment">// AssemblyA</span>
+// AssemblyA
 [MemoryPackable(GenerateType.NoGenerate)]
-<span class="hljs-keyword">public</span> partial <span class="hljs-keyword">interface</span> <span class="hljs-title class_">IUnionSample</span>
+public partial interface IUnionSample
 {
 }
 
-<span class="hljs-comment">// AssemblyB define definition outside of target type</span>
+// AssemblyB define definition outside of target type
 [MemoryPackUnionFormatter(typeof(IUnionSample))]
-[MemoryPackUnion(<span class="hljs-number">0</span>, typeof(FooClass))]
-[MemoryPackUnion(<span class="hljs-number">1</span>, typeof(BarClass))]
-<span class="hljs-keyword">public</span> partial <span class="hljs-keyword">class</span> <span class="hljs-title class_">UnionSampleFormatter</span>
+[MemoryPackUnion(0, typeof(FooClass))]
+[MemoryPackUnion(1, typeof(BarClass))]
+public partial class UnionSampleFormatter
 {
 }
 </code></pre>
 <p>A union can be assembled in code via <code>DynamicUnionFormatter&lt;T&gt;</code>.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// (ushort, Type)[]</span>
-<span class="hljs-keyword">var</span> formatter = <span class="hljs-keyword">new</span> DynamicUnionFormatter&lt;IFooBarBaz&gt;(
-    (<span class="hljs-number">0</span>, <span class="hljs-keyword">typeof</span>(Foo)),
-    (<span class="hljs-number">1</span>, <span class="hljs-keyword">typeof</span>(Bar)),
-    (<span class="hljs-number">2</span>, <span class="hljs-keyword">typeof</span>(Baz))
+<pre><code class="language-csharp">// (ushort, Type)[]
+var formatter = new DynamicUnionFormatter&lt;IFooBarBaz&gt;(
+    (0, typeof(Foo)),
+    (1, typeof(Bar)),
+    (2, typeof(Baz))
 );
 
 MemoryPackFormatterProvider.Register(formatter);
 </code></pre>
 <h2>Serialize API</h2>
 <p><code>Serialize</code> has three overloads.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// Non generic API also available, these version is first argument is Type and value is object?</span>
-<span class="hljs-function"><span class="hljs-built_in">byte</span>[] <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> T? <span class="hljs-keyword">value</span>, MemoryPackSerializerOptions? options = <span class="hljs-literal">default</span></span>)
-<span class="hljs-keyword">void</span> <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">T</span>, <span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> TBufferWriter bufferWriter, <span class="hljs-keyword">in</span> T? <span class="hljs-keyword">value</span>, MemoryPackSerializerOptions? options = <span class="hljs-literal">default</span></span>)
-<span class="hljs-keyword">async</span> ValueTask <span class="hljs-title">SerializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream, T? <span class="hljs-keyword">value</span>, MemoryPackSerializerOptions? options = <span class="hljs-literal">default</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
-</span></code></pre>
+<pre><code class="language-csharp">// Non generic API also available, these version is first argument is Type and value is object?
+byte[] Serialize&lt;T&gt;(in T? value, MemoryPackSerializerOptions? options = default)
+void Serialize&lt;T, TBufferWriter&gt;(in TBufferWriter bufferWriter, in T? value, MemoryPackSerializerOptions? options = default)
+async ValueTask SerializeAsync&lt;T&gt;(Stream stream, T? value, MemoryPackSerializerOptions? options = default, CancellationToken cancellationToken = default)
+</code></pre>
 <p>For performance, the recommended API uses <code>BufferWriter</code>. This serializes directly into the buffer. It can be applied to <code>PipeWriter</code> in <code>System.IO.Pipelines</code>, <code>BodyWriter</code> in ASP .NET Core, etc.</p>
 <p>If a <code>byte[]</code> is required (e.g. <code>RedisValue</code> in <a href="https://github.com/StackExchange/StackExchange.Redis">StackExchange.Redis</a>), the returned <code>byte[]</code> API is simple and almost as fast.</p>
 <p>Note that <code>SerializeAsync</code> for <code>Stream</code> is asynchronous only for Flush; it serializes everything once into MemoryPack's internal pool buffer and then writes using <code>WriteAsync</code>. Therefore, the <code>BufferWriter</code> overload, which separates and controls buffer and flush, is better.</p>
@@ -520,22 +434,22 @@ MemoryPackFormatterProvider.Register(formatter);
 <p>Additionally, you can get/set <code>IServiceProvider? ServiceProvider { get; init; }</code> from options. It is useful to get a DI object (such as <code>ILogger&lt;T&gt;</code>) from the serialization process (<code>MemoryPackReader/MemoryPackWriter</code> has an .Options property).</p>
 <h2>Deserialize API</h2>
 <p><code>Deserialize</code> has <code>ReadOnlySpan&lt;byte&gt;</code> and <code>ReadOnlySequence&lt;byte&gt;</code>, <code>Stream</code> overload, and <code>ref</code> support.</p>
-<pre><code class="language-csharp hljs">T? Deserialize&lt;T&gt;(ReadOnlySpan&lt;<span class="hljs-built_in">byte</span>&gt; buffer)
-<span class="hljs-function"><span class="hljs-built_in">int</span> <span class="hljs-title">Deserialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">ReadOnlySpan&lt;<span class="hljs-built_in">byte</span>&gt; buffer, <span class="hljs-keyword">ref</span> T? <span class="hljs-keyword">value</span></span>)
-T? <span class="hljs-title">Deserialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> ReadOnlySequence&lt;<span class="hljs-built_in">byte</span>&gt; buffer</span>)
-<span class="hljs-built_in">int</span> <span class="hljs-title">Deserialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> ReadOnlySequence&lt;<span class="hljs-built_in">byte</span>&gt; buffer, <span class="hljs-keyword">ref</span> T? <span class="hljs-keyword">value</span></span>)
-<span class="hljs-keyword">async</span> <span class="hljs-title">ValueTask</span>&lt;<span class="hljs-title">T</span>?&gt; <span class="hljs-title">DeserializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream</span>)
-</span></code></pre>
+<pre><code class="language-csharp">T? Deserialize&lt;T&gt;(ReadOnlySpan&lt;byte&gt; buffer)
+int Deserialize&lt;T&gt;(ReadOnlySpan&lt;byte&gt; buffer, ref T? value)
+T? Deserialize&lt;T&gt;(in ReadOnlySequence&lt;byte&gt; buffer)
+int Deserialize&lt;T&gt;(in ReadOnlySequence&lt;byte&gt; buffer, ref T? value)
+async ValueTask&lt;T?&gt; DeserializeAsync&lt;T&gt;(Stream stream)
+</code></pre>
 <p>The <code>ref</code> overload overwrites an existing instance; for details see the <a href="#overwrite">Overwrite</a> section.</p>
 <p><code>DeserializeAsync(Stream)</code> is not a complete streaming read operation; first, it reads into MemoryPack's internal pool up to the end-of-stream, then it deserializes.</p>
 <p>If you want to do a complete streaming read operation, see the <a href="#streaming-serialization">Streaming Serialization</a> section.</p>
 <h2>Overwrite</h2>
 <p>To reduce allocations, MemoryPack supports deserializing to an existing instance, overwriting it. This can be used with the <code>Deserialize(ref T? value)</code> overload.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> person = <span class="hljs-keyword">new</span> Person();
-<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(person);
+<pre><code class="language-csharp">var person = new Person();
+var bin = MemoryPackSerializer.Serialize(person);
 
-<span class="hljs-comment">// overwrite data to existing instance.</span>
-MemoryPackSerializer.Deserialize(bin, <span class="hljs-keyword">ref</span> person);
+// overwrite data to existing instance.
+MemoryPackSerializer.Deserialize(bin, ref person);
 </code></pre>
 <p>MemoryPack will attempt to overwrite as much as possible, but if the following conditions do not match, it will create a new instance (as in normal deserialization).</p>
 <ul>
@@ -553,52 +467,53 @@ MemoryPackSerializer.Deserialize(bin, <span class="hljs-keyword">ref</span> pers
 <li>can't change member order</li>
 <li>can't change member type</li>
 </ul>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class VersionCheck
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Prop1 { get; set; }
+    public long Prop2 { get; set; }
 }
 
-<span class="hljs-comment">// Add is OK.</span>
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+// Add is OK.
+[MemoryPackable]
+public partial class VersionCheck
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span>? AddedProp { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Prop1 { get; set; }
+    public long Prop2 { get; set; }
+    public int? AddedProp { get; set; }
 }
 
-<span class="hljs-comment">// Remove is NG.</span>
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+// Remove is NG.
+[MemoryPackable]
+public partial class VersionCheck
 {
-    <span class="hljs-comment">// public int Prop1 { get; set; }</span>
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    // public int Prop1 { get; set; }
+    public long Prop2 { get; set; }
 }
 
-<span class="hljs-comment">// Change order is NG.</span>
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+// Change order is NG.
+[MemoryPackable]
+public partial class VersionCheck
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public long Prop2 { get; set; }
+    public int Prop1 { get; set; }
 }
 </code></pre>
 <p>In use-case, storing old data (to file, to redis, etc...) and reading to new schema is always ok. In the RPC scenario, schema exists both on the client and the server side, the client must be updated before the server. An updated client has no problem connecting to the old server but an old client cannot connect to a new server.</p>
-<p>By default, when old data is read to a new schema, any members not on the data side are initialized with the <code>default</code> literal.<br>If you want to avoid this and use initial values of fields/properties, you can use <code>[SuppressDefaultInitialization]</code>.</p>
-<pre><code class="language-cs hljs language-csharp">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">DefaultValue</span>
+<p>By default, when old data is read to a new schema, any members not on the data side are initialized with the <code>default</code> literal.
+If you want to avoid this and use initial values of fields/properties, you can use <code>[SuppressDefaultInitialization]</code>.</p>
+<pre><code class="language-cs">[MemoryPackable]
+public partial class DefaultValue
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public string Prop1 { get; set; }
 
-    [<span class="hljs-meta">SuppressDefaultInitialization</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-number">111</span>; <span class="hljs-comment">// &lt; if old data is missing, set `111`.</span>
+    [SuppressDefaultInitialization]
+    public int Prop2 { get; set; } = 111; // &lt; if old data is missing, set `111`.
     
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop3 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-number">222</span>; <span class="hljs-comment">// &lt; if old data is missing, set `default`.</span>
+    public int Prop3 { get; set; } = 222; // &lt; if old data is missing, set `default`.
 }
 </code></pre>
-<p> <code>[SuppressDefaultInitialization]</code> has the following limitation:</p>
+<p><code>[SuppressDefaultInitialization]</code> has the following limitation:</p>
 <ul>
 <li>Cannot be used with readonly, init-only, and required modifier.</li>
 </ul>
@@ -612,67 +527,67 @@ MemoryPackSerializer.Deserialize(bin, <span class="hljs-keyword">ref</span> pers
 <li>can't change member order</li>
 <li>can't change member type</li>
 </ul>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// Ok to serialize/deserialize both </span>
-<span class="hljs-comment">// VersionTolerantObject1 -&gt; VersionTolerantObject2 and </span>
-<span class="hljs-comment">// VersionTolerantObject2 -&gt; VersionTolerantObject1</span>
+<pre><code class="language-csharp">// Ok to serialize/deserialize both 
+// VersionTolerantObject1 -&gt; VersionTolerantObject2 and 
+// VersionTolerantObject2 -&gt; VersionTolerantObject1
 
-[<span class="hljs-meta">MemoryPackable(GenerateType.VersionTolerant)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionTolerantObject1</span>
+[MemoryPackable(GenerateType.VersionTolerant)]
+public partial class VersionTolerantObject1
 {
-    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+    [MemoryPackOrder(0)]
+    public int MyProperty0 { get; set; } = default;
 
-    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> MyProperty1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+    [MemoryPackOrder(1)]
+    public long MyProperty1 { get; set; } = default;
 
-    [<span class="hljs-meta">MemoryPackOrder(2)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+    [MemoryPackOrder(2)]
+    public short MyProperty2 { get; set; } = default;
 }
 
-[<span class="hljs-meta">MemoryPackable(GenerateType.VersionTolerant)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionTolerantObject2</span>
+[MemoryPackable(GenerateType.VersionTolerant)]
+public partial class VersionTolerantObject2
 {
 ```csharp
-[<span class="hljs-meta">MemoryPackOrder(0)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+[MemoryPackOrder(0)]
+public int MyProperty0 { get; set; } = default;
 
-<span class="hljs-comment">// deleted</span>
-<span class="hljs-comment">//[MemoryPackOrder(1)]</span>
-<span class="hljs-comment">//public long MyProperty1 { get; set; } = default;</span>
+// deleted
+//[MemoryPackOrder(1)]
+//public long MyProperty1 { get; set; } = default;
 
-[<span class="hljs-meta">MemoryPackOrder(2)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+[MemoryPackOrder(2)]
+public short MyProperty2 { get; set; } = default;
 
-<span class="hljs-comment">// added</span>
-[<span class="hljs-meta">MemoryPackOrder(3)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty3 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+// added
+[MemoryPackOrder(3)]
+public short MyProperty3 { get; set; } = default;
 }
 </code></pre>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// If you set SerializeLayout.Sequential explicitly, automatic ordering is allowed.</span>
-<span class="hljs-comment">// However, you cannot remove any member for version-tolerance.</span>
-[<span class="hljs-meta">MemoryPackable(GenerateType.VersionTolerant, SerializeLayout.Sequential)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionTolerantObject3</span>
+<pre><code class="language-csharp">// If you set SerializeLayout.Sequential explicitly, automatic ordering is allowed.
+// However, you cannot remove any member for version-tolerance.
+[MemoryPackable(GenerateType.VersionTolerant, SerializeLayout.Sequential)]
+public partial class VersionTolerantObject3
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> MyProperty1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+    public int MyProperty0 { get; set; } = default;
+    public long MyProperty1 { get; set; } = default;
+    public short MyProperty2 { get; set; } = default;
 }
 </code></pre>
 <p><code>GenerateType.VersionTolerant</code> is slower than <code>GenerateType.Object</code> during serialization. Also, the payload size will be slightly larger.</p>
 <h2>Serialization info</h2>
 <p>You can check which members are serialized using IntelliSense on the type. There is an option to output this information to a file at compile time. Set <code>MemoryPackGenerator_SerializationInfoOutputDirectory</code> as follows.</p>
-<pre><code class="language-xml hljs"><span class="hljs-comment">&lt;!-- output memorypack serialization info to directory --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_SerializationInfoOutputDirectory"</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">PropertyGroup</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_SerializationInfoOutputDirectory</span>&gt;</span>$(MSBuildProjectDirectory)\MemoryPackLogs<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_SerializationInfoOutputDirectory</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">PropertyGroup</span>&gt;</span>
+<pre><code class="language-xml">&lt;!-- output memorypack serialization info to directory --&gt;
+&lt;ItemGroup&gt;
+    &lt;CompilerVisibleProperty Include=&quot;MemoryPackGenerator_SerializationInfoOutputDirectory&quot; /&gt;
+&lt;/ItemGroup&gt;
+&lt;PropertyGroup&gt;
+    &lt;MemoryPackGenerator_SerializationInfoOutputDirectory&gt;$(MSBuildProjectDirectory)\MemoryPackLogs&lt;/MemoryPackGenerator_SerializationInfoOutputDirectory&gt;
+&lt;/PropertyGroup&gt;
 </code></pre>
 <p>The following information will be written to the file.</p>
-<p><img src="https://user-images.githubusercontent.com/46207/192460684-c2fd8bcb-375e-41dd-9960-58205d5b1b7a.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/46207/192460684-c2fd8bcb-375e-41dd-9960-58205d5b1b7a.png" alt="image" /></p>
 <p>If the type is unmanaged, <code>unmanaged</code> is shown before the type name.</p>
-<pre><code class="language-txt hljs language-plaintext">unmanaged FooStruct
+<pre><code class="language-txt">unmanaged FooStruct
 ---
 int x
 int y
@@ -685,192 +600,192 @@ int y
 </ul>
 <h2>Circular Reference</h2>
 <p>MemoryPack also supports circular references. This allows tree objects to be serialized as they are.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// to enable circular-reference, use GenerateType.CircularReference</span>
-[<span class="hljs-meta">MemoryPackable(GenerateType.CircularReference)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>
+<pre><code class="language-csharp">// to enable circular-reference, use GenerateType.CircularReference
+[MemoryPackable(GenerateType.CircularReference)]
+public partial class Node
 {
-    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
-    <span class="hljs-keyword">public</span> Node? Parent { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
-    <span class="hljs-keyword">public</span> Node[]? Children { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [MemoryPackOrder(0)]
+    public Node? Parent { get; set; }
+    [MemoryPackOrder(1)]
+    public Node[]? Children { get; set; }
 }
 </code></pre>
 <p>For example, <a href="https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references">System.Text.Json preserve-references</a> code will look like this.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references?pivots=dotnet-7-0</span>
-Employee tyler = <span class="hljs-keyword">new</span>()
+<pre><code class="language-csharp">// https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references?pivots=dotnet-7-0
+Employee tyler = new()
 {
-    Name = <span class="hljs-string">"Tyler Stein"</span>
+    Name = &quot;Tyler Stein&quot;
 };
 
-Employee adrian = <span class="hljs-keyword">new</span>()
+Employee adrian = new()
 {
-    Name = <span class="hljs-string">"Adrian King"</span>
+    Name = &quot;Adrian King&quot;
 };
 
-tyler.DirectReports = <span class="hljs-keyword">new</span> List&lt;Employee&gt; { adrian };
+tyler.DirectReports = new List&lt;Employee&gt; { adrian };
 adrian.Manager = tyler;
 
-<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(tyler);
+var bin = MemoryPackSerializer.Serialize(tyler);
 Employee? tylerDeserialized = MemoryPackSerializer.Deserialize&lt;Employee&gt;(bin);
 
-Console.WriteLine(tylerDeserialized?.DirectReports?[<span class="hljs-number">0</span>].Manager == tylerDeserialized); <span class="hljs-comment">// true</span>
+Console.WriteLine(tylerDeserialized?.DirectReports?[0].Manager == tylerDeserialized); // true
 
-[<span class="hljs-meta">MemoryPackable(GenerateType.CircularReference)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Employee</span>
+[MemoryPackable(GenerateType.CircularReference)]
+public partial class Employee
 {
-    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
-    <span class="hljs-keyword">public</span> Employee? Manager { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    [<span class="hljs-meta">MemoryPackOrder(2)</span>]
-    <span class="hljs-keyword">public</span> List&lt;Employee&gt;? DirectReports { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [MemoryPackOrder(0)]
+    public string? Name { get; set; }
+    [MemoryPackOrder(1)]
+    public Employee? Manager { get; set; }
+    [MemoryPackOrder(2)]
+    public List&lt;Employee&gt;? DirectReports { get; set; }
 }
 </code></pre>
 <p><code>GenerateType.CircularReference</code> has the same characteristics as version-tolerant. However, as an additional constraint, only parameterless constructors are allowed. Also, object reference tracking is only performed for objects marked with <code>GenerateType.CircularReference</code>. If you want to track any other object, wrap it.</p>
 <h2>CustomFormatter</h2>
 <p>If you implement <code>MemoryPackCustomFormatterAttribute&lt;T&gt;</code> or <code>MemoryPackCustomFormatterAttribute&lt;TFormatter, T&gt;</code> (more performant, but more complex), you can configure a custom formatter for a MemoryPackObject's member.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = false)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MemoryPackCustomFormatterAttribute</span>&lt;<span class="hljs-title">T</span>&gt; : <span class="hljs-title">Attribute</span>
+<pre><code class="language-csharp">[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+public abstract class MemoryPackCustomFormatterAttribute&lt;T&gt; : Attribute
 {
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> IMemoryPackFormatter&lt;T&gt; <span class="hljs-title">GetFormatter</span>()</span>;
+    public abstract IMemoryPackFormatter&lt;T&gt; GetFormatter();
 }
 </code></pre>
 <p>MemoryPack provides the following formatting attributes: <code>Utf8StringFormatterAttribute</code>, <code>Utf16StringFormatterAttribute</code>, <code>InternStringFormatterAttribute</code>, <code>OrdinalIgnoreCaseStringDictionaryFormatterAttribute&lt;TValue&gt;</code>, <code>BitPackFormatterAttribute</code>, <code>BrotliFormatter</code>, <code>BrotliStringFormatter</code>, <code>BrotliFormatter&lt;T&gt;</code>, <code>MemoryPoolFormatter&lt;T&gt;</code>, <code>ReadOnlyMemoryPoolFormatter&lt;T&gt;</code>.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-comment">// serialize this member as UTF16 String, it is more performant than UTF8 but for ASCII, the size is larger (but for non-ASCII, sometimes smaller).</span>
-    [<span class="hljs-meta">Utf16StringFormatter</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Text { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    // serialize this member as UTF16 String, it is more performant than UTF8 but for ASCII, the size is larger (but for non-ASCII, sometimes smaller).
+    [Utf16StringFormatter]
+    public string? Text { get; set; }
 
-    <span class="hljs-comment">// During deserialization, Dictionary is initialized with StringComparer.OrdinalIgnoreCase.</span>
-    [<span class="hljs-meta">OrdinalIgnoreCaseStringDictionaryFormatter&lt;int&gt;</span>]
-    <span class="hljs-keyword">public</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>&gt;? Ids { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    // During deserialization, Dictionary is initialized with StringComparer.OrdinalIgnoreCase.
+    [OrdinalIgnoreCaseStringDictionaryFormatter&lt;int&gt;]
+    public Dictionary&lt;string, int&gt;? Ids { get; set; }
     
-    <span class="hljs-comment">// During deserialization, all strings are interned (see: String.Intern). If similar values appear repeatedly, it saves memory.</span>
-    [<span class="hljs-meta">InternStringFormatter</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Flag { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    // During deserialization, all strings are interned (see: String.Intern). If similar values appear repeatedly, it saves memory.
+    [InternStringFormatter]
+    public string? Flag { get; set; }
 }
 </code></pre>
 <p>To configure a set/dictionary's equality comparer, all built-in formatters have a comparer constructor overload. You can easily create custom equality-comparer formatters.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title">OrdinalIgnoreCaseStringDictionaryFormatter</span>&lt;<span class="hljs-title">TValue</span>&gt; : <span class="hljs-title">MemoryPackCustomFormatterAttribute</span>&lt;<span class="hljs-title">Dictionary</span>&lt;<span class="hljs-title">string</span>, <span class="hljs-title">TValue</span>?&gt;&gt;
+<pre><code class="language-csharp">public sealed class OrdinalIgnoreCaseStringDictionaryFormatter&lt;TValue&gt; : MemoryPackCustomFormatterAttribute&lt;Dictionary&lt;string, TValue?&gt;&gt;
 {
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> DictionaryFormatter&lt;<span class="hljs-built_in">string</span>, TValue?&gt; formatter = <span class="hljs-keyword">new</span> DictionaryFormatter&lt;<span class="hljs-built_in">string</span>, TValue?&gt;(StringComparer.OrdinalIgnoreCase);
+    static readonly DictionaryFormatter&lt;string, TValue?&gt; formatter = new DictionaryFormatter&lt;string, TValue?&gt;(StringComparer.OrdinalIgnoreCase);
 
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> IMemoryPackFormatter&lt;Dictionary&lt;<span class="hljs-built_in">string</span>, TValue?&gt;&gt; GetFormatter()
+    public override IMemoryPackFormatter&lt;Dictionary&lt;string, TValue?&gt;&gt; GetFormatter()
     {
-        <span class="hljs-keyword">return</span> formatter;
+        return formatter;
     }
 }
 </code></pre>
 <p><code>BitPackFormatter</code> compresses only <code>bool[]</code> types. <code>bool[]</code> is normally serialized as 1 byte per boolean value, but <code>BitPackFormatter</code> serializes <code>bool[]</code> like a <code>BitArray</code>, storing each bool as 1 bit. Using <code>BitPackFormatter</code>, 8 bools become 1 byte instead of 8 bytes, resulting in a size 8x smaller.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Id { get; set; }
 
-    [<span class="hljs-meta">BitPackFormatter</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span>[]? Data { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [BitPackFormatter]
+    public bool[]? Data { get; set; }
 }
 </code></pre>
 <p><code>BrotliFormatter</code> is for <code>byte[]</code>; for example, you can compress a large payload using Brotli.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Id { get; set; }
 
-    [<span class="hljs-meta">BrotliFormatter</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span>[]? Payload { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [BrotliFormatter]
+    public byte[]? Payload { get; set; }
 }
 </code></pre>
 <p><code>BrotliStringFormatter</code> is for <code>string</code>; it serializes a compressed string (UTF16) using Brotli.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Id { get; set; }
 
-    [<span class="hljs-meta">BrotliStringFormatter</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? LargeText { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [BrotliStringFormatter]
+    public string? LargeText { get; set; }
 }
 </code></pre>
-<pre><code class="hljs language-csharp">`BrotliFormatter&lt;T&gt;` <span class="hljs-keyword">is</span> <span class="hljs-keyword">for</span> any type, serialized data compressed <span class="hljs-keyword">by</span> Brotli. If a type <span class="hljs-keyword">is</span> `<span class="hljs-built_in">byte</span>[]` <span class="hljs-keyword">or</span> `<span class="hljs-built_in">string</span>`, you should use `BrotliFormatter` <span class="hljs-keyword">or</span> `BrotliStringFormatter` <span class="hljs-keyword">for</span> performance.
+<pre><code>`BrotliFormatter&lt;T&gt;` is for any type, serialized data compressed by Brotli. If a type is `byte[]` or `string`, you should use `BrotliFormatter` or `BrotliStringFormatter` for performance.
 
 ```csharp
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Id { get; set; }
 
-    [<span class="hljs-meta">BrotliFormatter&lt;ChildType&gt;</span>]
-    <span class="hljs-keyword">public</span> ChildType? Child { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [BrotliFormatter&lt;ChildType&gt;]
+    public ChildType? Child { get; set; }
 }
 </code></pre>
 <h2>Deserialize array pooling</h2>
 <p>In order to deserialize a large array (any <code>T</code>), MemoryPack offers multiple efficient pooling methods. The most effective way is to use the <a href="https://raw.githubusercontent.com/Cysharp/MemoryPack/main/#overwrite">#Overwrite</a> function. In particular <code>List&lt;T&gt;</code> is always reused.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ListBytesSample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class ListBytesSample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">List</span>&lt;<span class="hljs-title">byte</span>&gt; Payload</span> { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Id { get; set; }
+    public List&lt;byte&gt; Payload { get; set; }
 }
 
-<span class="hljs-comment">// ----</span>
+// ----
 
-<span class="hljs-comment">// List&lt;byte&gt; is reused, no allocation in deserialize.</span>
-MemoryPackSerializer.Deserialize&lt;ListBytesSample&gt;(bin, <span class="hljs-keyword">ref</span> reuseObject);
+// List&lt;byte&gt; is reused, no allocation in deserialize.
+MemoryPackSerializer.Deserialize&lt;ListBytesSample&gt;(bin, ref reuseObject);
 
-<span class="hljs-comment">// for efficient operation, you can get Span&lt;T&gt; by CollectionsMarshal</span>
-<span class="hljs-keyword">var</span> span = CollectionsMarshal.AsSpan(<span class="hljs-keyword">value</span>.Payload);
+// for efficient operation, you can get Span&lt;T&gt; by CollectionsMarshal
+var span = CollectionsMarshal.AsSpan(value.Payload);
 </code></pre>
 <p>A convenient way is to deserialize to an ArrayPool at deserialization time. MemoryPack provides <code>MemoryPoolFormatter&lt;T&gt;</code> and <code>ReadOnlyMemoryPoolFormatter&lt;T&gt;</code>.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">PoolModelSample</span> : <span class="hljs-title">IDisposable</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class PoolModelSample : IDisposable
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; }
+    public int Id { get; }
 
-    [<span class="hljs-meta">MemoryPoolFormatter&lt;byte&gt;</span>]
-    <span class="hljs-keyword">public</span> Memory&lt;<span class="hljs-built_in">byte</span>&gt; Payload { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+    [MemoryPoolFormatter&lt;byte&gt;]
+    public Memory&lt;byte&gt; Payload { get; private set; }
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PoolModelSample</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> id, Memory&lt;<span class="hljs-built_in">byte</span>&gt; payload</span>)</span>
+    public PoolModelSample(int id, Memory&lt;byte&gt; payload)
     {
         Id = id;
         Payload = payload;
     }
 
-    <span class="hljs-comment">// You must write the return code yourself, here is snippet.</span>
+    // You must write the return code yourself, here is snippet.
 
-    <span class="hljs-built_in">bool</span> usePool;
+    bool usePool;
 
-    [<span class="hljs-meta">MemoryPackOnDeserialized</span>]
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserialized</span>()</span>
+    [MemoryPackOnDeserialized]
+    void OnDeserialized()
     {
-        usePool = <span class="hljs-literal">true</span>;
+        usePool = true;
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Dispose</span>()</span>
+    public void Dispose()
     {
-        <span class="hljs-keyword">if</span> (!usePool) <span class="hljs-keyword">return</span>;
+        if (!usePool) return;
 
-        Return(Payload); Payload = <span class="hljs-literal">default</span>;
+        Return(Payload); Payload = default;
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Return</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Memory&lt;T&gt; memory</span>)</span> =&gt; Return((ReadOnlyMemory&lt;T&gt;)memory);
+    static void Return&lt;T&gt;(Memory&lt;T&gt; memory) =&gt; Return((ReadOnlyMemory&lt;T&gt;)memory);
 
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Return</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">ReadOnlyMemory&lt;T&gt; memory</span>)</span>
+    static void Return&lt;T&gt;(ReadOnlyMemory&lt;T&gt; memory)
     {
-        <span class="hljs-keyword">if</span> (MemoryMarshal.TryGetArray(memory, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> segment) &amp;&amp; segment.Array <span class="hljs-keyword">is</span> { Length: &gt; <span class="hljs-number">0</span> })
+        if (MemoryMarshal.TryGetArray(memory, out var segment) &amp;&amp; segment.Array is { Length: &gt; 0 })
         {
             ArrayPool&lt;T&gt;.Shared.Return(segment.Array, clearArray: RuntimeHelpers.IsReferenceOrContainsReferences&lt;T&gt;());
         }
     }
 }
 
-<span class="hljs-comment">// ---</span>
+// ---
 
-<span class="hljs-keyword">using</span>(<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = MemoryPackSerializer.Deserialize&lt;PoolModelSample&gt;(bin))
+using(var value = MemoryPackSerializer.Deserialize&lt;PoolModelSample&gt;(bin))
 {
-    <span class="hljs-comment">// do anything...</span>
-}   <span class="hljs-comment">// return to ArrayPool</span>
+    // do anything...
+}   // return to ArrayPool
 </code></pre>
 <h2>Performance</h2>
 <p>See the my blog post <a href="https://medium.com/@neuecc/how-to-make-the-fastest-net-serializer-with-net-7-c-11-case-of-memorypack-ad28c0366516">How to make the fastest .NET Serializer with .NET 7 / C# 11, case of MemoryPack</a></p>
@@ -882,106 +797,106 @@ MemoryPackSerializer.Deserialize&lt;ListBytesSample&gt;(bin, <span class="hljs-k
 <p>In any case, if the payload size is large, compression should be considered. LZ4, ZStandard and Brotli are recommended.</p>
 <h3>Compression</h3>
 <p>MemoryPack provides an efficient helper for <a href="https://github.com/google/brotli">Brotli</a> compression via <a href="https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.brotliencoder">BrotliEncoder</a> and <a href="https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.brotlidecoder">BrotliDecoder</a>. MemoryPack's <code>BrotliCompressor</code> and <code>BrotliDecompressor</code> provide compression/decompression optimized for MemoryPack's internal behavior.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> MemoryPack.Compression;
+<pre><code class="language-csharp">using MemoryPack.Compression;
 
-<span class="hljs-comment">// Compression(require using)</span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> compressor = <span class="hljs-keyword">new</span> BrotliCompressor();
-MemoryPackSerializer.Serialize(compressor, <span class="hljs-keyword">value</span>);
+// Compression(require using)
+using var compressor = new BrotliCompressor();
+MemoryPackSerializer.Serialize(compressor, value);
 
-<span class="hljs-comment">// Get compressed byte[]</span>
-<span class="hljs-keyword">var</span> compressedBytes = compressor.ToArray();
+// Get compressed byte[]
+var compressedBytes = compressor.ToArray();
 
-<span class="hljs-comment">// Or write to other IBufferWriter&lt;byte&gt;(for example PipeWriter)</span>
+// Or write to other IBufferWriter&lt;byte&gt;(for example PipeWriter)
 compressor.CopyTo(response.BodyWriter);
 </code></pre>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> MemoryPack.Compression;
+<pre><code class="language-csharp">using MemoryPack.Compression;
 
-<span class="hljs-comment">// Decompression(require using)</span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> decompressor = <span class="hljs-keyword">new</span> BrotliDecompressor();
+// Decompression(require using)
+using var decompressor = new BrotliDecompressor();
 
-<span class="hljs-comment">// Get decompressed ReadOnlySequence&lt;byte&gt; from ReadOnlySpan&lt;byte&gt; or ReadOnlySequence&lt;byte&gt;</span>
-<span class="hljs-keyword">var</span> decompressedBuffer = decompressor.Decompress(buffer);
+// Get decompressed ReadOnlySequence&lt;byte&gt; from ReadOnlySpan&lt;byte&gt; or ReadOnlySequence&lt;byte&gt;
+var decompressedBuffer = decompressor.Decompress(buffer);
 
-<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = MemoryPackSerializer.Deserialize&lt;T&gt;(decompressedBuffer);
+var value = MemoryPackSerializer.Deserialize&lt;T&gt;(decompressedBuffer);
 </code></pre>
 <p>Both <code>BrotliCompressor</code> and <code>BrotliDecompressor</code> are struct, it does not allocate memory on heap. Both store compressed or decompressed data in an internal memory pool for Serialize/Deserialize. Therefore, it is necessary to release the memory pooling, don't forget to use <code>using</code>.</p>
 <p>Compression level is very important. The default is set to quality-1 (CompressionLevel.Fastest), which is different from the .NET default (CompressionLevel.Optimal, quality-4).</p>
 <p>Fastest (quality-1) will be close to the speed of <a href="https://github.com/lz4/lz4">LZ4</a>, but 4 is much slower. This was determined to be critical in the serializer use scenario. Be careful when using the standard <code>BrotliStream</code> (quality-4 is the default). In any case, compression/decompression speeds and sizes will result in very different results for different data. Please prepare the data to be handled by your application and test it yourself.</p>
 <p>Note that there is a several-fold speed penalty between MemoryPack's uncompressed and Brotli's added compression.</p>
 <p>Brotli is also suppored in a custom formatter. <code>BrotliFormatter</code> can compress a specific member.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Id { get; set; }
 
-    [<span class="hljs-meta">BrotliFormatter</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span>[]? Payload { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [BrotliFormatter]
+    public byte[]? Payload { get; set; }
 }
 </code></pre>
 <h2>Serialize external types</h2>
 <p>If you want to serialize external types, you can make a custom formatter and register it to provider, see <a href="https://raw.githubusercontent.com/Cysharp/MemoryPack/main/#formatterprovider-api">Formatter/Provider API</a> for details. However, creating a custom formatter is difficult. Therefore, we recommend making a wrapper type. For example, if you want to serialize an external type called <code>AnimationCurve</code>.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// Keyframe: (float time, float inTangent, float outTangent, int tangentMode, int weightedMode, float inWeight, float outWeight)</span>
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">struct</span> SerializableAnimationCurve
+<pre><code class="language-csharp">// Keyframe: (float time, float inTangent, float outTangent, int tangentMode, int weightedMode, float inWeight, float outWeight)
+[MemoryPackable]
+public readonly partial struct SerializableAnimationCurve
 {
-    [<span class="hljs-meta">MemoryPackIgnore</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> AnimationCurve AnimationCurve;
+    [MemoryPackIgnore]
+    public readonly AnimationCurve AnimationCurve;
 
-    [<span class="hljs-meta">MemoryPackInclude</span>]
+    [MemoryPackInclude]
     WrapMode preWrapMode =&gt; AnimationCurve.preWrapMode;
-    [<span class="hljs-meta">MemoryPackInclude</span>]
+    [MemoryPackInclude]
     WrapMode postWrapMode =&gt; AnimationCurve.postWrapMode;
-    [<span class="hljs-meta">MemoryPackInclude</span>]
+    [MemoryPackInclude]
     Keyframe[] keys =&gt; AnimationCurve.keys;
 
-    [<span class="hljs-meta">MemoryPackConstructor</span>]
+    [MemoryPackConstructor]
     SerializableAnimationCurve(WrapMode preWrapMode, WrapMode postWrapMode, Keyframe[] keys)
     {
-        <span class="hljs-keyword">var</span> curve = <span class="hljs-keyword">new</span> AnimationCurve(keys);
+        var curve = new AnimationCurve(keys);
         curve.preWrapMode = preWrapMode;
         curve.postWrapMode = postWrapMode;
-        <span class="hljs-keyword">this</span>.AnimationCurve = curve;
+        this.AnimationCurve = curve;
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SerializableAnimationCurve</span>(<span class="hljs-params">AnimationCurve animationCurve</span>)</span>
+    public SerializableAnimationCurve(AnimationCurve animationCurve)
     {
-        <span class="hljs-keyword">this</span>.AnimationCurve = animationCurve;
+        this.AnimationCurve = animationCurve;
     }
 }
 </code></pre>
 <p>The type to wrap is public, but excluded from serialization (<code>MemoryPackIgnore</code>). The properties you want to serialize are private, but included (<code>MemoryPackInclude</code>). Two patterns of constructors should also be prepared. The constructor used by the serializer should be private.</p>
 <p>As it is, it must be wrapped every time, which is inconvenient. And also strcut wrapper can not represents null. So let's create a custom formatter.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">AnimationCurveFormatter</span> : <span class="hljs-title">MemoryPackFormatter</span>&lt;<span class="hljs-title">AnimationCurve</span>&gt;
+<pre><code class="language-csharp">public class AnimationCurveFormatter : MemoryPackFormatter&lt;AnimationCurve&gt;
 {
-    <span class="hljs-comment">// Unity does not support scoped and TBufferWriter so change signature to `Serialize(ref MemoryPackWriter writer, ref AnimationCurve value)`</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackWriter&lt;TBufferWriter&gt; writer, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> AnimationCurve? <span class="hljs-keyword">value</span></span>)</span>
+    // Unity does not support scoped and TBufferWriter so change signature to `Serialize(ref MemoryPackWriter writer, ref AnimationCurve value)`
+    public override void Serialize&lt;TBufferWriter&gt;(ref MemoryPackWriter&lt;TBufferWriter&gt; writer, scoped ref AnimationCurve? value)
     {
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> == <span class="hljs-literal">null</span>)
+        if (value == null)
 ```csharp
 {
     writer.WriteNullObjectHeader();
-    <span class="hljs-keyword">return</span>;
+    return;
 }
 
-writer.WritePackable(<span class="hljs-keyword">new</span> SerializableAnimationCurve(<span class="hljs-keyword">value</span>));
+writer.WritePackable(new SerializableAnimationCurve(value));
 }
 
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Deserialize</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> AnimationCurve? <span class="hljs-keyword">value</span></span>)</span>
+public override void Deserialize(ref MemoryPackReader reader, scoped ref AnimationCurve? value)
 {
-    <span class="hljs-keyword">if</span> (reader.PeekIsNull())
+    if (reader.PeekIsNull())
     {
-        reader.Advance(<span class="hljs-number">1</span>); <span class="hljs-comment">// skip null block</span>
-        <span class="hljs-keyword">value</span> = <span class="hljs-literal">null</span>;
-        <span class="hljs-keyword">return</span>;
+        reader.Advance(1); // skip null block
+        value = null;
+        return;
     }
     
-    <span class="hljs-keyword">var</span> wrapped = reader.ReadPackable&lt;SerializableAnimationCurve&gt;();
-    <span class="hljs-keyword">value</span> = wrapped.AnimationCurve;
+    var wrapped = reader.ReadPackable&lt;SerializableAnimationCurve&gt;();
+    value = wrapped.AnimationCurve;
 }
 }
 </code></pre>
 <p>Finally, register the formatter in startup.</p>
-<pre><code class="language-csharp hljs">MemoryPackFormatterProvider.Register&lt;AnimationCurve&gt;(<span class="hljs-keyword">new</span> AnimationCurveFormatter());
+<pre><code class="language-csharp">MemoryPackFormatterProvider.Register&lt;AnimationCurve&gt;(new AnimationCurveFormatter());
 </code></pre>
 <blockquote>
 <p>Note: Unity's AnimationCurve can be serialized by default so this custom formatter is not needed for AnimationCurve</p>
@@ -1000,204 +915,165 @@ writer.WritePackable(<span class="hljs-keyword">new</span> SerializableAnimation
 <h2>TypeScript and ASP.NET Core Formatter</h2>
 <p>MemoryPack supports TypeScript code generation. It generates classes and serialization code from C#. In other words, you can share types with the Browser without using OpenAPI, proto, etc.</p>
 <p>Code generation is integrated with Source Generator. The following option (<code>MemoryPackGenerator_TypeScriptOutputDirectory</code>) sets the output directory for TypeScript code. Runtime code is output at the same time, so no additional dependencies are required.</p>
-<pre><code class="language-xml hljs"><span class="hljs-comment">&lt;!-- output memorypack TypeScript code to directory --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_TypeScriptOutputDirectory"</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">PropertyGroup</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_TypeScriptOutputDirectory</span>&gt;</span>$(MSBuildProjectDirectory)\wwwroot\js\memorypack<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_TypeScriptOutputDirectory</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">PropertyGroup</span>&gt;</span>
+<pre><code class="language-xml">&lt;!-- output memorypack TypeScript code to directory --&gt;
+&lt;ItemGroup&gt;
+    &lt;CompilerVisibleProperty Include=&quot;MemoryPackGenerator_TypeScriptOutputDirectory&quot; /&gt;
+&lt;/ItemGroup&gt;
+&lt;PropertyGroup&gt;
+    &lt;MemoryPackGenerator_TypeScriptOutputDirectory&gt;$(MSBuildProjectDirectory)\wwwroot\js\memorypack&lt;/MemoryPackGenerator_TypeScriptOutputDirectory&gt;
+&lt;/PropertyGroup&gt;
 </code></pre>
 <p>A C# MemoryPackable type must be annotated with <code>[GenerateTypeScript]</code>.</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-[<span class="hljs-meta">GenerateTypeScript</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>
+<pre><code class="language-csharp">[MemoryPackable]
+[GenerateTypeScript]
+public partial class Person
 {
-    <span class="hljs-keyword">public</span> required Guid Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">int</span> Age { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">string</span> FirstName { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">string</span> LastName { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required DateTime DateOfBirth { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required Gender Gender { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">string</span>[] Emails { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    public required Guid Id { get; init; }
+    public required int Age { get; init; }
+    public required string FirstName { get; init; }
+    public required string LastName { get; init; }
+    public required DateTime DateOfBirth { get; init; }
+    public required Gender Gender { get; init; }
+    public required string[] Emails { get; init; }
 }
 
-<span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> Gender
+public enum Gender
 {
     Male, Female, Other
 }
 </code></pre>
 <p>Runtime code and TypeScript type will be generated in the target directory.</p>
-<p><img src="https://user-images.githubusercontent.com/46207/194916544-1b6bb5ed-966b-43c3-a378-3eac297c2b40.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/46207/194916544-1b6bb5ed-966b-43c3-a378-3eac297c2b40.png" alt="image" /></p>
 <p>The generated code is as follows, with simple fields and static methods for serialize/serializeArray and deserialize/deserializeArray.</p>
-<pre><code class="language-typescript hljs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">MemoryPackWriter</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"./MemoryPackWriter.js"</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">MemoryPackReader</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"./MemoryPackReader.js"</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Gender</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"./Gender.js"</span>; 
+<pre><code class="language-typescript">import { MemoryPackWriter } from &quot;./MemoryPackWriter.js&quot;;
+import { MemoryPackReader } from &quot;./MemoryPackReader.js&quot;;
+import { Gender } from &quot;./Gender.js&quot;; 
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> {
-    <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;
-    <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>;
-    <span class="hljs-attr">firstName</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
-    <span class="hljs-attr">lastName</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
-    <span class="hljs-attr">dateOfBirth</span>: <span class="hljs-title class_">Date</span>;
-    <span class="hljs-attr">gender</span>: <span class="hljs-title class_">Gender</span>;
-    <span class="hljs-attr">emails</span>: (<span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span>;
+export class Person {
+    id: string;
+    age: number;
+    firstName: string | null;
+    lastName: string | null;
+    dateOfBirth: Date;
+    gender: Gender;
+    emails: (string | null)[] | null;
 
-    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
-        <span class="hljs-comment">// snip...</span>
+    constructor() {
+        // snip...
     }
 
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serialize</span>(<span class="hljs-attr">value</span>: <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>): <span class="hljs-title class_">Uint8Array</span> {
-        <span class="hljs-comment">// snip...</span>
+    static serialize(value: Person | null): Uint8Array {
+        // snip...
     }
 
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serializeCore</span>(<span class="hljs-attr">writer</span>: <span class="hljs-title class_">MemoryPackWriter</span>, <span class="hljs-attr">value</span>: <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>): <span class="hljs-built_in">void</span> {
-        <span class="hljs-comment">// snip...</span>
+    static serializeCore(writer: MemoryPackWriter, value: Person | null): void {
+        // snip...
     }
 
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serializeArray</span>(<span class="hljs-attr">value</span>: (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span>): <span class="hljs-title class_">Uint8Array</span> {
-        <span class="hljs-comment">// snip...</span>
+    static serializeArray(value: (Person | null)[] | null): Uint8Array {
+        // snip...
     }
 
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serializeArrayCore</span>(<span class="hljs-attr">writer</span>: <span class="hljs-title class_">MemoryPackWriter</span>, <span class="hljs-attr">value</span>: (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span>): <span class="hljs-built_in">void</span> {
-        <span class="hljs-comment">// snip...</span>
+    static serializeArrayCore(writer: MemoryPackWriter, value: (Person | null)[] | null): void {
+        // snip...
     }
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserialize</span>(<span class="hljs-attr">buffer</span>: <span class="hljs-title class_">ArrayBuffer</span>): <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span> {
-        <span class="hljs-comment">// snip...</span>
-    }
-
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserializeCore</span>(<span class="hljs-attr">reader</span>: <span class="hljs-title class_">MemoryPackReader</span>): <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span> {
-        <span class="hljs-comment">// snip...</span>
+    static deserialize(buffer: ArrayBuffer): Person | null {
+        // snip...
     }
 
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserializeArray</span>(<span class="hljs-attr">buffer</span>: <span class="hljs-title class_">ArrayBuffer</span>): (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span> {
-        <span class="hljs-comment">// snip...</span>
+    static deserializeCore(reader: MemoryPackReader): Person | null {
+        // snip...
     }
 
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserializeArrayCore</span>(<span class="hljs-attr">reader</span>: <span class="hljs-title class_">MemoryPackReader</span>): (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span> {
-        <span class="hljs-comment">// snip...</span>
+    static deserializeArray(buffer: ArrayBuffer): (Person | null)[] | null {
+        // snip...
+    }
+
+    static deserializeArrayCore(reader: MemoryPackReader): (Person | null)[] | null {
+        // snip...
     }
 }
 </code></pre>
 <p>You can use this type as follows.</p>
-<pre><code class="language-typescript hljs"><span class="hljs-keyword">let</span> person = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>();
-person.<span class="hljs-property">id</span> = crypto.<span class="hljs-title function_">randomUUID</span>();
-person.<span class="hljs-property">age</span> = <span class="hljs-number">30</span>;
-person.<span class="hljs-property">firstName</span> = <span class="hljs-string">"foo"</span>;
-person.<span class="hljs-property">lastName</span> = <span class="hljs-string">"bar"</span>;
-person.<span class="hljs-property">dateOfBirth</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(<span class="hljs-number">1999</span>, <span class="hljs-number">12</span>, <span class="hljs-number">31</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
-person.<span class="hljs-property">gender</span> = <span class="hljs-title class_">Gender</span>.<span class="hljs-property">Other</span>;
-person.<span class="hljs-property">emails</span> = [<span class="hljs-string">"foo@bar.com"</span>, <span class="hljs-string">"zoo@bar.net"</span>];
+<pre><code class="language-typescript">let person = new Person();
+person.id = crypto.randomUUID();
+person.age = 30;
+person.firstName = &quot;foo&quot;;
+person.lastName = &quot;bar&quot;;
+person.dateOfBirth = new Date(1999, 12, 31, 0, 0, 0);
+person.gender = Gender.Other;
+person.emails = [&quot;foo@bar.com&quot;, &quot;zoo@bar.net&quot;];
 
-<span class="hljs-comment">// serialize to Uint8Array</span>
-<span class="hljs-keyword">let</span> bin = <span class="hljs-title class_">Person</span>.<span class="hljs-title function_">serialize</span>(person);
+// serialize to Uint8Array
+let bin = Person.serialize(person);
 
-<span class="hljs-keyword">let</span> blob = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Blob</span>([bin.<span class="hljs-property">buffer</span>], { <span class="hljs-attr">type</span>: <span class="hljs-string">"application/x-memorypack"</span> })
+let blob = new Blob([bin.buffer], { type: &quot;application/x-memorypack&quot; })
 
-<span class="hljs-keyword">let</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">"http://localhost:5260/api"</span>,
-    { <span class="hljs-attr">method</span>: <span class="hljs-string">"POST"</span>, <span class="hljs-attr">body</span>: blob, <span class="hljs-attr">headers</span>: { <span class="hljs-string">"Content-Type"</span>: <span class="hljs-string">"application/x-memorypack"</span> } });
+let response = await fetch(&quot;http://localhost:5260/api&quot;,
+    { method: &quot;POST&quot;, body: blob, headers: { &quot;Content-Type&quot;: &quot;application/x-memorypack&quot; } });
 
-<span class="hljs-keyword">let</span> buffer = <span class="hljs-keyword">await</span> response.<span class="hljs-title function_">arrayBuffer</span>();
+let buffer = await response.arrayBuffer();
 
-<span class="hljs-comment">// deserialize from ArrayBuffer </span>
-<span class="hljs-keyword">let</span> person2 = <span class="hljs-title class_">Person</span>.<span class="hljs-title function_">deserialize</span>(buffer);
+// deserialize from ArrayBuffer 
+let person2 = Person.deserialize(buffer);
 </code></pre>
 <p>The <code>MemoryPack.AspNetCoreMvcFormatter</code> package adds <code>MemoryPack</code> input and output formatters for ASP.NET Core MVC. You can add <code>MemoryPackInputFormatter</code> and <code>MemoryPackOutputFormatter</code> to ASP.NET Core MVC with the following code.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> builder = WebApplication.CreateBuilder(args);
+<pre><code class="language-csharp">var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 
 builder.Services.AddControllers(options =&gt;
 {
-    options.InputFormatters.Insert(<span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> MemoryPackInputFormatter());
-    <span class="hljs-comment">// If checkContentType: true then can output multiple formats (JSON/MemoryPack, etc...). Default is false.</span>
-    options.OutputFormatters.Insert(<span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> MemoryPackOutputFormatter(checkContentType: <span class="hljs-literal">false</span>));
+    options.InputFormatters.Insert(0, new MemoryPackInputFormatter());
+    // If checkContentType: true then can output multiple formats (JSON/MemoryPack, etc...). Default is false.
+    options.OutputFormatters.Insert(0, new MemoryPackOutputFormatter(checkContentType: false));
 });
 </code></pre>
 <p>If you call from HttpClient, you can set <code>application/x-memorypack</code> to the content header.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> content = <span class="hljs-keyword">new</span> ByteArrayContent(bin)
-content.Headers.ContentType = <span class="hljs-keyword">new</span> MediaTypeHeaderValue(<span class="hljs-string">"application/x-memorypack"</span>);
+<pre><code class="language-csharp">var content = new ByteArrayContent(bin)
+content.Headers.ContentType = new MediaTypeHeaderValue(&quot;application/x-memorypack&quot;);
 </code></pre>
 <h3>TypeScript Type Mapping</h3>
 <p>There are a few restrictions on the types that can be generated. Among the primitives, <code>char</code> and <code>decimal</code> are not supported. Also, OpenGenerics types cannot be used.</p>
-<table>
-<thead>
-<tr>
-<th>C#</th>
-<th>TypeScript</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>bool</code></td>
-<td><code>boolean</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>byte</code></td>
-<td><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sbyte</code></td>
-<td><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>int</code></td>
-<td><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>uint</code></td>
-<td><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>short</code></td>
-<td><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>ushort</code></td>
-<td><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>long</code></td>
-<td><code>bigint</code></td>
-<td></td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-r"><span class="hljs-operator">|</span> `ulong` <span class="hljs-operator">|</span>  `bigint` <span class="hljs-operator">|</span>
-<span class="hljs-operator">|</span> `float` <span class="hljs-operator">|</span>  `number` <span class="hljs-operator">|</span>
-<span class="hljs-operator">|</span> `double` <span class="hljs-operator">|</span>  `number` <span class="hljs-operator">|</span>
-<span class="hljs-operator">|</span> `string` <span class="hljs-operator">|</span>  `string \| null`  <span class="hljs-operator">|</span> 
-<span class="hljs-operator">|</span> `Guid` <span class="hljs-operator">|</span>  `string`  <span class="hljs-operator">|</span> In TypeScript<span class="hljs-punctuation">,</span> represents as string but serialize<span class="hljs-operator">/</span>deserialize as <span class="hljs-number">16</span>byte binary
-<span class="hljs-operator">|</span> `DateTime` <span class="hljs-operator">|</span> `Date` <span class="hljs-operator">|</span> DateTimeKind will be ignored
-<span class="hljs-operator">|</span> `enum` <span class="hljs-operator">|</span> `const enum` <span class="hljs-operator">|</span> `long` and `ulong` underlying type is not supported
-<span class="hljs-operator">|</span> `T?` <span class="hljs-operator">|</span> `T \| null` <span class="hljs-operator">|</span>
-<span class="hljs-operator">|</span> `T[]` <span class="hljs-operator">|</span> `T[] \| null` <span class="hljs-operator">|</span>
-<span class="hljs-operator">|</span> `byte[]` <span class="hljs-operator">|</span> `Uint8Array \| null` <span class="hljs-operator">|</span>
-<span class="hljs-operator">|</span> `: ICollection&lt;T&gt;` <span class="hljs-operator">|</span> `T[] \| null` <span class="hljs-operator">|</span> Supports <span class="hljs-built_in">all</span> `ICollection&lt;T&gt;` implemented type like `List&lt;T&gt;`
-<span class="hljs-operator">|</span> `: ISet&lt;T&gt;` <span class="hljs-operator">|</span> `Set&lt;T&gt; \| null` <span class="hljs-operator">|</span> Supports <span class="hljs-built_in">all</span> `ISet&lt;T&gt;` implemented type like `HashSet&lt;T&gt;`
-<span class="hljs-operator">|</span> `: IDictionary&lt;K,V&gt;` <span class="hljs-operator">|</span> `Map&lt;K, V&gt; \| null` <span class="hljs-operator">|</span> Supports <span class="hljs-built_in">all</span> `IDictionary&lt;K,V&gt;` implemented type like `Dictionary&lt;K,V&gt;`.
-<span class="hljs-operator">|</span> `[MemoryPackable]` <span class="hljs-operator">|</span> `class` <span class="hljs-operator">|</span> Supports <span class="hljs-built_in">class</span> only
-<span class="hljs-operator">|</span> `[MemoryPackUnion]` <span class="hljs-operator">|</span> `abstract class` <span class="hljs-operator">|</span>
+<p>|  C#  |  TypeScript  | Description |
+| ---- | ---- | ---- |
+| <code>bool</code> |  <code>boolean</code>  |
+| <code>byte</code> |  <code>number</code>  |
+| <code>sbyte</code> |  <code>number</code>  |
+| <code>int</code> |  <code>number</code> |
+| <code>uint</code> |  <code>number</code> |
+| <code>short</code> |  <code>number</code> |
+| <code>ushort</code> |  <code>number</code> |
+| <code>long</code> |  <code>bigint</code> |</p>
+<pre><code>| `ulong` |  `bigint` |
+| `float` |  `number` |
+| `double` |  `number` |
+| `string` |  `string \| null`  | 
+| `Guid` |  `string`  | In TypeScript, represents as string but serialize/deserialize as 16byte binary
+| `DateTime` | `Date` | DateTimeKind will be ignored
+| `enum` | `const enum` | `long` and `ulong` underlying type is not supported
+| `T?` | `T \| null` |
+| `T[]` | `T[] \| null` |
+| `byte[]` | `Uint8Array \| null` |
+| `: ICollection&lt;T&gt;` | `T[] \| null` | Supports all `ICollection&lt;T&gt;` implemented type like `List&lt;T&gt;`
+| `: ISet&lt;T&gt;` | `Set&lt;T&gt; \| null` | Supports all `ISet&lt;T&gt;` implemented type like `HashSet&lt;T&gt;`
+| `: IDictionary&lt;K,V&gt;` | `Map&lt;K, V&gt; \| null` | Supports all `IDictionary&lt;K,V&gt;` implemented type like `Dictionary&lt;K,V&gt;`.
+| `[MemoryPackable]` | `class` | Supports class only
+| `[MemoryPackUnion]` | `abstract class` |
 
 `[GenerateTypeScript]` can only be applied to classes and is currently not supported by struct.
 
-<span class="hljs-comment">### Configure import file extension and member name casing</span>
+### Configure import file extension and member name casing
 
-By default<span class="hljs-punctuation">,</span> MemoryPack generates file extensions as `.js` like `import { MemoryPackWriter } from "./MemoryPackWriter.js";`. If you want to change to another extension or leave it empty<span class="hljs-punctuation">,</span> use `MemoryPackGenerator_TypeScriptImportExtension` to configure it.
-Also<span class="hljs-punctuation">,</span> member <span class="hljs-built_in">names</span> are automatically converted to camelCase. If you want to use the original name<span class="hljs-punctuation">,</span> set `MemoryPackGenerator_TypeScriptConvertPropertyName` to `false`.
+By default, MemoryPack generates file extensions as `.js` like `import { MemoryPackWriter } from &quot;./MemoryPackWriter.js&quot;;`. If you want to change to another extension or leave it empty, use `MemoryPackGenerator_TypeScriptImportExtension` to configure it.
+Also, member names are automatically converted to camelCase. If you want to use the original name, set `MemoryPackGenerator_TypeScriptConvertPropertyName` to `false`.
 
 ```xml
 &lt;ItemGroup&gt;
-    &lt;CompilerVisibleProperty Include="MemoryPackGenerator_TypeScriptOutputDirectory" /&gt;
-    &lt;CompilerVisibleProperty Include="MemoryPackGenerator_TypeScriptImportExtension" /&gt;
-    &lt;CompilerVisibleProperty Include="MemoryPackGenerator_TypeScriptConvertPropertyName" /&gt;
-    &lt;CompilerVisibleProperty Include="MemoryPackGenerator_TypeScriptEnableNullableTypes" /&gt;
+    &lt;CompilerVisibleProperty Include=&quot;MemoryPackGenerator_TypeScriptOutputDirectory&quot; /&gt;
+    &lt;CompilerVisibleProperty Include=&quot;MemoryPackGenerator_TypeScriptImportExtension&quot; /&gt;
+    &lt;CompilerVisibleProperty Include=&quot;MemoryPackGenerator_TypeScriptConvertPropertyName&quot; /&gt;
+    &lt;CompilerVisibleProperty Include=&quot;MemoryPackGenerator_TypeScriptEnableNullableTypes&quot; /&gt;
 &lt;/ItemGroup&gt;
 &lt;PropertyGroup&gt;
     &lt;MemoryPackGenerator_TypeScriptOutputDirectory&gt;$(MSBuildProjectDirectory)\wwwroot\js\memorypack&lt;/MemoryPackGenerator_TypeScriptOutputDirectory&gt;
@@ -1212,57 +1088,57 @@ Also<span class="hljs-punctuation">,</span> member <span class="hljs-built_in">n
 <p><code>MemoryPackGenerator_TypeScriptEnableNullableTypes</code> allows C# nullable annotations to be reflected in TypeScript code. The default is false, making everything nullable.</p>
 <h2>Streaming Serialization</h2>
 <p><code>MemoryPack.Streaming</code> provides <code>MemoryPackStreamingSerializer</code>, which adds additional support for serializing and deserializing collections with streams.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MemoryPackStreamingSerializer</span>
+<pre><code class="language-csharp">public static class MemoryPackStreamingSerializer
 {
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> ValueTask <span class="hljs-title">SerializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">PipeWriter pipeWriter, <span class="hljs-built_in">int</span> count, IEnumerable&lt;T&gt; source, <span class="hljs-built_in">int</span> flushRate = <span class="hljs-number">4096</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> ValueTask <span class="hljs-title">SerializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream, <span class="hljs-built_in">int</span> count, IEnumerable&lt;T&gt; source, <span class="hljs-built_in">int</span> flushRate = <span class="hljs-number">4096</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> <span class="hljs-title">IAsyncEnumerable</span>&lt;<span class="hljs-title">T</span>?&gt; <span class="hljs-title">DeserializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">PipeReader pipeReader, <span class="hljs-built_in">int</span> bufferAtLeast = <span class="hljs-number">4096</span>, <span class="hljs-built_in">int</span> readMinimumSize = <span class="hljs-number">8192</span>, [EnumeratorCancellation] CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-title">IAsyncEnumerable</span>&lt;<span class="hljs-title">T</span>?&gt; <span class="hljs-title">DeserializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream, <span class="hljs-built_in">int</span> bufferAtLeast = <span class="hljs-number">4096</span>, <span class="hljs-built_in">int</span> readMinimumSize = <span class="hljs-number">8192</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
+    public static async ValueTask SerializeAsync&lt;T&gt;(PipeWriter pipeWriter, int count, IEnumerable&lt;T&gt; source, int flushRate = 4096, CancellationToken cancellationToken = default)
+    public static async ValueTask SerializeAsync&lt;T&gt;(Stream stream, int count, IEnumerable&lt;T&gt; source, int flushRate = 4096, CancellationToken cancellationToken = default)
+    public static async IAsyncEnumerable&lt;T?&gt; DeserializeAsync&lt;T&gt;(PipeReader pipeReader, int bufferAtLeast = 4096, int readMinimumSize = 8192, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public static IAsyncEnumerable&lt;T?&gt; DeserializeAsync&lt;T&gt;(Stream stream, int bufferAtLeast = 4096, int readMinimumSize = 8192, CancellationToken cancellationToken = default)
 }
-</span></code></pre>
+</code></pre>
 <h2>Formatter/Provider API</h2>
 <p>If you want to implement a formatter manually, inherit from <code>MemoryPackFormatter&lt;T&gt;</code> and override the <code>Serialize</code> and <code>Deserialize</code> methods.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SkeltonFormatter</span> : <span class="hljs-title">MemoryPackFormatter</span>&lt;<span class="hljs-title">Skelton</span>&gt;
+<pre><code class="language-csharp">public class SkeltonFormatter : MemoryPackFormatter&lt;Skelton&gt;
 {
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackWriter&lt;TBufferWriter&gt; writer, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> Skelton? <span class="hljs-keyword">value</span></span>)</span>
+    public override void Serialize&lt;TBufferWriter&gt;(ref MemoryPackWriter&lt;TBufferWriter&gt; writer, scoped ref Skelton? value)
     {
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> == <span class="hljs-literal">null</span>)
+        if (value == null)
         {
             writer.WriteNullObjectHeader();
-            <span class="hljs-keyword">return</span>;
+            return;
         }
 
-        <span class="hljs-comment">// use writer method.</span>
+        // use writer method.
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Deserialize</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> Skelton? <span class="hljs-keyword">value</span></span>)</span>
+    public override void Deserialize(ref MemoryPackReader reader, scoped ref Skelton? value)
     {
-        <span class="hljs-keyword">if</span> (!reader.TryReadObjectHeader(<span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> count))
+        if (!reader.TryReadObjectHeader(out var count))
         {
-            <span class="hljs-keyword">value</span> = <span class="hljs-literal">null</span>;
-            <span class="hljs-keyword">return</span>;
+            value = null;
+            return;
         }
 
-        <span class="hljs-comment">// use reader method.</span>
+        // use reader method.
     }
 }
 </code></pre>
 <p>The created formatter is registered with <code>MemoryPackFormatterProvider</code>.</p>
-<pre><code class="language-csharp hljs">MemoryPackFormatterProvider.Register(<span class="hljs-keyword">new</span> SkeltonFormatter());
+<pre><code class="language-csharp">MemoryPackFormatterProvider.Register(new SkeltonFormatter());
 </code></pre>
 <p>Note: <code>unmanaged struct</code> (doesn't contain reference types) cannot use custom formatter, it always serializes native memory layout.</p>
 <h2>MemoryPackWriter/ReaderOptionalState</h2>
 <p>Initializing <code>MemoryPackWriter</code>/<code>MemoryPackReader</code> requires OptionalState. It is a wrapper of <code>MemoryPackSerializerOptions</code>, and can be created from <code>MemoryPackWriterOptionalStatePool</code>.</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// when disposed, OptionalState will return to pool.</span>
-<span class="hljs-keyword">using</span>(<span class="hljs-keyword">var</span> state = MemoryPackWriterOptionalStatePool.Rent(MemoryPackSerializerOptions.Default))
+<pre><code class="language-csharp">// when disposed, OptionalState will return to pool.
+using(var state = MemoryPackWriterOptionalStatePool.Rent(MemoryPackSerializerOptions.Default))
 {
-    <span class="hljs-keyword">var</span> writer = <span class="hljs-keyword">new</span> MemoryPackWriter&lt;T&gt;(<span class="hljs-keyword">ref</span> t, state);
+    var writer = new MemoryPackWriter&lt;T&gt;(ref t, state);
 }
 
-<span class="hljs-comment">// for Reader</span>
-<span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> state = MemoryPackReaderOptionalStatePool.Rent(MemoryPackSerializerOptions.Default))
+// for Reader
+using (var state = MemoryPackReaderOptionalStatePool.Rent(MemoryPackSerializerOptions.Default))
 {
-    <span class="hljs-keyword">var</span> reader = <span class="hljs-keyword">new</span> MemoryPackReader(buffer, state);
+    var reader = new MemoryPackReader(buffer, state);
 }
 </code></pre>
 <h2>Target framework dependency</h2>
@@ -1272,7 +1148,7 @@ Also<span class="hljs-punctuation">,</span> member <span class="hljs-built_in">n
 </blockquote>
 <p>Since net7.0 uses static abstract members (<code>Virtual static method</code>), which are not supported in netstandard2.1, this behavior is by design.</p>
 <p>A .NET 7 project shouldn't use the netstandard 2.1 dll. In other words, if the Application is a .NET 7 Project, all the dependencies that use MemoryPack must support .NET 7. So if a library developer has a dependency on MemoryPack, you need to configure dual target frameworks.</p>
-<pre><code class="language-xml hljs"><span class="hljs-tag">&lt;<span class="hljs-name">TargetFrameworks</span>&gt;</span>netstandard2.1;net7.0<span class="hljs-tag">&lt;/<span class="hljs-name">TargetFrameworks</span>&gt;</span>
+<pre><code class="language-xml">&lt;TargetFrameworks&gt;netstandard2.1;net7.0&lt;/TargetFrameworks&gt;
 </code></pre>
 <h2>RPC</h2>
 <p><a href="https://github.com/Cysharp/MagicOnion">Cysharp/MagicOnion</a> is a code-first grpc-dotnet framework using MessagePack instead of protobuf. MagicOnion now supports MemoryPack as a serialization layer via the <code>MagicOnion.Serialization.MemoryPack</code> package (preview). See details: <a href="https://github.com/Cysharp/MagicOnion#memorypack-support">MagicOnion#MemoryPack support</a></p>
@@ -1283,16 +1159,19 @@ Also<span class="hljs-punctuation">,</span> member <span class="hljs-built_in">n
 <li>Install <code>MemoryPack</code> from NuGet using <a href="https://github.com/GlitchEnzo/NuGetForUnity">NuGetForUnity</a></li>
 </ol>
 <ul>
-<li><p>Open the NuGet window -&gt; Manage NuGet Packages, Search "MemoryPack" and Press Install.<br><img src="https://github.com/Cysharp/MemoryPack/assets/727159/599ff1ed-6cca-4724-be67-3edddb5e62ee" alt="screenshot"></p>
+<li><p>Open the NuGet window -&gt; Manage NuGet Packages, Search &quot;MemoryPack&quot; and Press Install.
+<img src="https://github.com/Cysharp/MemoryPack/assets/727159/599ff1ed-6cca-4724-be67-3edddb5e62ee" alt="screenshot" /></p>
 </li>
-<li><p>If you encounter version conflicts error, please disable version validation in Player Settings (Edit -&gt; Project Settings -&gt; Player -&gt; Scroll down and expand "Other Settings" then uncheck "Assembly Version Validation" under the "Configuration" section).</p>
+<li><p>If you encounter version conflicts error, please disable version validation in Player Settings (Edit -&gt; Project Settings -&gt; Player -&gt; Scroll down and expand &quot;Other Settings&quot; then uncheck &quot;Assembly Version Validation&quot; under the &quot;Configuration&quot; section).</p>
 </li>
 </ul>
 <ol start="2">
 <li>Install the <code>MemoryPack.Unity</code> package by referencing the git URL</li>
 </ol>
 <ul>
-<li><code>https://github.com/Cysharp/MemoryPack.git?path=src/MemoryPack.Unity/Assets/MemoryPack.Unity</code><br><img src="https://github.com/Cysharp/ZLogger/assets/46207/7325d266-05b4-47c9-b06a-a67a40368dd2" alt="screenshot"><br><img src="https://github.com/Cysharp/MemoryPack/assets/727159/9a4af1df-ce07-49d7-9420-922dfb139b55" alt="screenshot"></li>
+<li><code>https://github.com/Cysharp/MemoryPack.git?path=src/MemoryPack.Unity/Assets/MemoryPack.Unity</code>
+<img src="https://github.com/Cysharp/ZLogger/assets/46207/7325d266-05b4-47c9-b06a-a67a40368dd2" alt="screenshot" />
+<img src="https://github.com/Cysharp/MemoryPack/assets/727159/9a4af1df-ce07-49d7-9420-922dfb139b55" alt="screenshot" /></li>
 </ul>
 <p>MemoryPack uses the <em>.</em>.* release tag, so you can specify a version like #1.0.0. For example: <code>https://github.com/Cysharp/MemoryPack.git?path=src/MemoryPack.Unity/Assets/MemoryPack.Unity#1.0.0</code></p>
 <p>As with the .NET version, the code is generated by a code generator (<code>MemoryPack.Generator.dll</code>). The reflection-free implementation also provides the best performance in IL2CPP.</p>
@@ -1300,17 +1179,20 @@ Also<span class="hljs-punctuation">,</span> member <span class="hljs-built_in">n
 <p>Source Generator is also used officially by Unity by <a href="https://docs.unity3d.com/Packages/com.unity.entities@1.0/manual/index.html">com.unity.properties</a> and <a href="https://docs.unity3d.com/Packages/com.unity.properties@2.0/changelog/CHANGELOG.html">com.unity.entities</a>. In other words, it is the standard for code generation in the next generation of Unity.</p>
 <p>You can serialize all unmanaged types (such as <code>Vector3</code>, <code>Rect</code>, etc...) and some classes (<code>AnimationCurve</code>, <code>Gradient</code>, <code>RectOffset</code>). If you want to serialize other Unity-specific types, see the <a href="#serialize-external-types">Serialize external types</a> section.</p>
 <p>In Unity performance, MemoryPack is x3~x10 faster than JsonUtility.</p>
-<p><img src="https://user-images.githubusercontent.com/46207/209254561-79ec18fe-c421-4d8c-9c86-b55276dd1a45.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/46207/209254561-79ec18fe-c421-4d8c-9c86-b55276dd1a45.png" alt="image" /></p>
 <p>If shared code has Unity's type (<code>Vector2</code>, etc...), MemoryPack provides a <code>MemoryPack.UnityShims</code> package in NuGet.</p>
 <p>The <code>MemoryPack.UnityShims</code> package provides shims for Unity's standard structs (<code>Vector2</code>, <code>Vector3</code>, <code>Vector4</code>, <code>Quaternion</code>, <code>Color</code>, <code>Bounds</code>, <code>Rect</code>, <code>Keyframe</code>, <code>WrapMode</code>, <code>Matrix4x4</code>, <code>GradientColorKey</code>, <code>GradientAlphaKey</code>, <code>GradientMode</code>, <code>Color32</code>, <code>LayerMask</code>, <code>Vector2Int</code>, <code>Vector3Int</code>, <code>RangeInt</code>, <code>RectInt</code>, <code>BoundsInt</code>) and some classes (<code>AnimationCurve</code>, <code>Gradient</code>, <code>RectOffset</code>).</p>
 <blockquote>
-<p>[!WARNING]<br>Currently, the following limitations exist for use in Unity</p>
+<p>[!WARNING]
+Currently, the following limitations exist for use in Unity</p>
 </blockquote>
 <ol>
 <li>The Unity version does not support CustomFormatter.</li>
-<li>If you are using .NET7 or later, MemoryPack binary format is not fully compatible with Unity.<ul>
+<li>If you are using .NET7 or later, MemoryPack binary format is not fully compatible with Unity.
+<ul>
 <li>This problem occurs with value types where <code>[StructLayout(LayoutKind.Auto)]</code> is explicitly specified. (The default for struct is <code>LayoutKind.Sequential</code>.) For such types, binaries serialized in .NET cannot be deserialized in Unity. Similarly, a binary serialized in Unity cannot be deserialized on the .NET side.</li>
-<li>The affected types typically include the following types.<ul>
+<li>The affected types typically include the following types.
+<ul>
 <li><code>DateTimeOffset</code></li>
 <li><code>ValueTuple</code></li>
 </ul>
@@ -1320,7 +1202,8 @@ Also<span class="hljs-punctuation">,</span> member <span class="hljs-built_in">n
 </li>
 </ol>
 <h2>Native AOT</h2>
-<p>Unfortunately, .NET 7 Native AOT causes crashes (<code>Generic virtual method pointer lookup failure</code>) when using MemoryPack due to a runtime bug. It<br>is going to be fixed in .NET 8. Using the <code>Microsoft.DotNet.ILCompiler</code> preview version will fix it in .NET 7. Please see <a href="https://github.com/Cysharp/MemoryPack/issues/75#issuecomment-1386884611">issue's comment</a> on how to set it up.</p>
+<p>Unfortunately, .NET 7 Native AOT causes crashes (<code>Generic virtual method pointer lookup failure</code>) when using MemoryPack due to a runtime bug. It
+is going to be fixed in .NET 8. Using the <code>Microsoft.DotNet.ILCompiler</code> preview version will fix it in .NET 7. Please see <a href="https://github.com/Cysharp/MemoryPack/issues/75#issuecomment-1386884611">issue's comment</a> on how to set it up.</p>
 <h2>Binary wire format specification</h2>
 <p>The type of <code>T</code> defined in <code>Serialize&lt;T&gt;</code> and <code>Deserialize&lt;T&gt;</code> is called the C# schema. The MemoryPack format is not a self-describing format. Deserialization requires the corresponding C# schema. These types exist as internal representations of binaries, but types cannot be determined without a C# schema.</p>
 <p>Endianness must be <code>Little Endian</code>. However, the reference C# implementation does not care about endianness so it cannot be used on big-endian machines. However, modern computers are usually little-endian.</p>
@@ -1344,7 +1227,8 @@ Also<span class="hljs-punctuation">,</span> member <span class="hljs-built_in">n
 <p><code>(byte memberCount, [varint byte-length-of-values...], [values...])</code></p>
 <p>Version Tolerant Object is similar to Object but has byte length of values in the header. varint follows these specs: first sbyte is value or typeCode and next X bytes is value. 0 to 127 = unsigned byte value, -1 to -120 = signed byte value, -121 = byte, -122 = sbyte, -123 = ushort, -124 = short, -125 = uint, -126 = int, -127 = ulong, -128 = long.</p>
 <h3>Circular Reference Object</h3>
-<p><code>(byte memberCount, [varint byte-length-of-values...], varint referenceId, [values...])</code><br><code>(250, varint referenceId)</code></p>
+<p><code>(byte memberCount, [varint byte-length-of-values...], varint referenceId, [values...])</code><br />
+<code>(250, varint referenceId)</code></p>
 <p>Circular Reference Object is similar to Version Tolerant Object but if memberCount is 250, next varint(unsigned-int32) is referenceId. If not, after byte-length-of-values, varint referenceId is written.</p>
 <h3>Tuple</h3>
 <p><code>(values...)</code></p>
@@ -1353,37 +1237,24 @@ Also<span class="hljs-punctuation">,</span> member <span class="hljs-built_in">n
 <p><code>(int length, [values...])</code></p>
 <p>Collection has a 4-byte signed integer as data count in the header, <code>-1</code> represents <code>null</code>. Values store memorypack value for the number of length.</p>
 <h3>String</h3>
-<p><code>(int utf16-length, utf16-value)</code><br><code>(int ~utf8-byte-count, int utf16-length, utf8-bytes)</code></p>
+<p><code>(int utf16-length, utf16-value)</code><br />
+<code>(int ~utf8-byte-count, int utf16-length, utf8-bytes)</code></p>
 <p>String has two forms, UTF16 and UTF8. If first 4-byte signed integer is <code>-1</code>, represents null. <code>0</code> represents empty. UTF16 is same as collection (serialized as <code>ReadOnlySpan&lt;char&gt;</code>, utf16-value's byte count is utf16-length * 2). If first signed integer &lt;= <code>-2</code>, value is encoded by UTF8. utf8-byte-count is encoded in complement, use <code>~utf8-byte-count</code> to retrieve count of bytes. Next signed integer is utf16-length, it allows <code>-1</code> that represents unknown length. utf8-bytes store bytes for the number of utf8-byte-count.</p>
 <h3>Union</h3>
-<p><code>(byte tag, value)</code><br><code>(250, ushort tag, value)</code></p>
+<p><code>(byte tag, value)</code><br />
+<code>(250, ushort tag, value)</code></p>
 <p>First unsigned byte is tag that is for discriminated value type or flag, <code>0</code> to <code>249</code> represents tag, <code>250</code> means the next unsigned short is tag, <code>255</code> represents union is <code>null</code>.</p>
 <h2>License</h2>
 <p>This library is licensed under the MIT License.</p>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-09</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

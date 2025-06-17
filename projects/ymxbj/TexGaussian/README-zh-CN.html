@@ -1,229 +1,106 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TexGaussian: 基于八叉树的3D高斯溅射生成高质量PBR材质 - ymxbj/TexGaussian</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="TexGaussian: 基于八叉树的3D高斯溅射生成高质量PBR材质 - ymxbj/TexGaussian">
-    <meta name="description" content="ymxbj/TexGaussian - GitHub repository documentation and information">
-    <meta name="keywords" content="ymxbj, TexGaussian, GitHub, repository, documentation, ">
+    <title>TexGaussian - ymxbj/TexGaussian</title>
+    <meta name="title" content="TexGaussian - ymxbj/TexGaussian">
+    <meta name="description" content="ymxbj/TexGaussian - GitHub repository zh-CN documentation and informationTexGaussian: 基于八叉树的3D高斯溅射生成高质量PBR材质 基于物理渲染（PBR）材质在现代图形学中发挥着至关重要的作用，使得在不同环境贴图下实现真实感渲染成为可能。开发一种能够自动为3D网格生成高质量PBR材质（而不仅仅是RGB纹理）的高效算法，可以极大地简化3D内容创作流程。现有大多数方法利用预训练的2D扩散模型进行多视图图像合成，这通常会导致生成的纹理与输入3D网格之间存在严重不一致性。本文提出了一种新颖的方法TexGaussian，利用八分体对齐的3D高斯溅射实现快速PBR材质生成。具体而言，我们将每个3D高斯放置于由输入3D网格构建的八叉树最细叶节点上，用于渲染多视图图像，不仅用于反照率贴图（albedo map），还用于粗糙度（roughness）和金属度（metallic）。此外，我们的模型采用回归方式进行训练，而非扩散去噪，能够在单次前馈过程中为3D网格生成PBR材质。基于公开基准的广泛实验表明，我们的方法在无条件和文本条件下都能合成更具视觉吸引力的PBR材质，并且运行速度快于以往方法，与给定几何体的一致性更佳。 📦 安装 conda create -n texgaussian python==3.10 pip3 install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118 # 修改过的高斯溅射（+ 深度和alpha渲染） git clone --recursive https://github.com/ashawkey/diff-gaussian-rasterization pip3 install ./diff-gaussian-rasterization pip3 install git+https://github.com/NVlabs/nvdiffrast # 其他依赖项 pip3 install -r requirements.txt 🤖 预训练模型 我们提供以下预训练模型： | 模型 | 描述 | 参数量 | 下载链接 | | --- | --- | --- | --- | | TexGaussian-bench | 在ShapeNet bench上训练的无条件RGB纹理模型 | 70M | 下载 | | TexGaussian-car | 在ShapeNet car上训练的无条件RGB纹理模型 | 70M | 下载 | | TexGaussian-chair | 在ShapeNet chair上训练的无条件RGB纹理模型 | 70M | 下载 | | TexGaussian-table | 在ShapeNet table上训练的无条件RGB纹理模型 | 70M | 下载 | | TexGaussian-PBR | 在Objaverse上训练的文本条件PBR材质模型 | 295M | 下载 | 💡 推理 PBR材质 如需进行文本条件PBR材质生成，请运行 bash inference_for_PBR_material.sh 纹理和材质烘焙完成后，您将获得两张贴图，一张是反照率贴图（albedo map），另一张是PBR材质贴图。具体来说，PBR材质贴图包含三个通道，其中绿色通道表示粗糙度值，蓝色通道表示金属度值。若需对生成的纹理和材质贴图进行PBR渲染，推荐使用bpy实现的此渲染脚本。 此外，我们建议大家模仿Cap3D数据集的文本风格，创建属于自己的提示词，以获得更好的生成效果。Cap3D数据集可在这里下载。 RGB纹理 如需无条件RGB纹理生成（仅支持bench、car、chair、table四个特定类别），请运行 bash inference_for_RGB_texture.sh 纹理烘焙后，您将获得一张反照率贴图。 🏋️‍♂️ 训练 Objaverse数据集训练： bash train_for_objaverse.sh ShapeNet数据集训练： bash train_for_shapenet.sh 🚧 TODO [x] 发布训练和推理代码 [x] 发布ShapeNet数据集上的无条件albedo-only预训练模型 [x] 发布Objaverse数据集上的文本条件PBR预训练模型 [ ] 发布数据集和数据集工具包 📚致谢 本项目基于众多出色的研究工作和开源项目，非常感谢所有作者的无私分享！ gaussian-splatting 和 diff-gaussian-rasterization nvdiffrast LGM ocnn-pytorch 📜 引用...">
+    <meta name="keywords" content="ymxbj, TexGaussian, GitHub, repository, zh-CN documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=zh-CN">
-    <meta property="og:title" content="TexGaussian: 基于八叉树的3D高斯溅射生成高质量PBR材质 - ymxbj/TexGaussian">
-    <meta property="og:description" content="ymxbj/TexGaussian - GitHub repository documentation and information">
+    <meta property="og:url" content="https://openaitx.github.io/projects/ymxbj/TexGaussian/README-zh-CN.html">
+    <meta property="og:title" content="TexGaussian - ymxbj/TexGaussian">
+    <meta property="og:description" content="ymxbj/TexGaussian - GitHub repository zh-CN documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" href="icon.jpg">
-    <link rel="apple-touch-icon" href="icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
-    <link rel="stylesheet" href="css/github.min.css?v=20250613">
-    <script src="js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="view.css?v=20250613">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
-        <a href="javascript:history.back()" class="back-button">Back</a>
         <div class="links">
             GitHub Repository: <a href="https://github.com/ymxbj/TexGaussian" id="githubRepoLink" target="_blank">ymxbj/TexGaussian</a>
+<br>
+<h1 style="display: none;">TexGaussian: 基于八叉树的3D高斯溅射生成高质量PBR材质 基于物理渲染（PBR）材质在现代图形学中发挥着至关重要的作用，使得在不同环境贴图下实现真实感渲染成为可能。开发一种能够自动为3D网格生成高质量PBR材质（而不仅仅是RGB纹理）的高效算法，可以极大地简化3D内容创作流程。现有大多数方法利用预训练的2D扩散模型进行多视图图像合成，这通常会导致生成的纹理与输入3D网格之间存在严重不一致性。本文提出了一种新颖的方法TexGaussian，利用八分体对齐的3D高斯溅射实现快速PBR材质生成。具体而言，我们将每个3D高斯放置于由输入3D网格构建的八叉树最细叶节点上，用于渲染多视图图像，不仅用于反照率贴图（albedo map），还用于粗糙度（roughness）和金属度（metallic）。此外，我们的模型采用回归方式进行训练，而非扩散去噪，能够在单次前馈过程中为3D网格生成PBR材质。基于公开基准的广泛实验表明，我们的方法在无条件和文本条件下都能合成更具视觉吸引力的PBR材质，并且运行速度快于以往方法，与给定几何体的一致性更佳。 📦 安装 conda create -n texgaussian python==3.10 pip3 install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118 # 修改过的高斯溅射（+ 深度和alpha渲染） git clone --recursive https://github.com/ashawkey/diff-gaussian-rasterization pip3 install ./diff-gaussian-rasterization pip3 install git+https://github.com/NVlabs/nvdiffrast # 其他依赖项 pip3 install -r requirements.txt 🤖 预训练模型 我们提供以下预训练模型： | 模型 | 描述 | 参数量 | 下载链接 | | --- | --- | --- | --- | | TexGaussian-bench | 在ShapeNet bench上训练的无条件RGB纹理模型 | 70M | 下载 | | TexGaussian-car | 在ShapeNet car上训练的无条件RGB纹理模型 | 70M | 下载 | | TexGaussian-chair | 在ShapeNet chair上训练的无条件RGB纹理模型 | 70M | 下载 | | TexGaussian-table | 在ShapeNet table上训练的无条件RGB纹理模型 | 70M | 下载 | | TexGaussian-PBR | 在Objaverse上训练的文本条件PBR材质模型 | 295M | 下载 | 💡 推理 PBR材质 如需进行文本条件PBR材质生成，请运行 bash inference_for_PBR_material.sh 纹理和材质烘焙完成后，您将获得两张贴图，一张是反照率贴图（albedo map），另一张是PBR材质贴图。具体来说，PBR材质贴图包含三个通道，其中绿色通道表示粗糙度值，蓝色通道表示金属度值。若需对生成的纹理和材质贴图进行PBR渲染，推荐使用bpy实现的此渲染脚本。 此外，我们建议大家模仿Cap3D数据集的文本风格，创建属于自己的提示词，以获得更好的生成效果。Cap3D数据集可在这里下载。 RGB纹理 如需无条件RGB纹理生成（仅支持bench、car、chair、table四个特定类别），请运行 bash inference_for_RGB_texture.sh 纹理烘焙后，您将获得一张反照率贴图。 🏋️‍♂️ 训练 Objaverse数据集训练： bash train_for_objaverse.sh ShapeNet数据集训练： bash train_for_shapenet.sh 🚧 TODO [x] 发布训练和推理代码 [x] 发布ShapeNet数据集上的无条件albedo-only预训练模型 [x] 发布Objaverse数据集上的文本条件PBR预训练模型 [ ] 发布数据集和数据集工具包 📚致谢 本项目基于众多出色的研究工作和开源项目，非常感谢所有作者的无私分享！ gaussian-splatting 和 diff-gaussian-rasterization nvdiffrast LGM ocnn-pytorch 📜 引用...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1 align="center">TexGaussian: 基于八叉树的3D高斯溅射生成高质量PBR材质</h1>
-<p align="center"><a href="https://arxiv.org/abs/2411.19654"><img src="https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv&amp;logoColor=white" alt="arXiv"></a>
-<a href="https://3d-aigc.github.io/TexGaussian/"><img src="https://img.shields.io/badge/Project_Page-Website-green?logo=googlechrome&amp;logoColor=white" alt="Project Page"></a>
-</p><p align="center"><img src="assets/teaser.png" width="100%"></p>
-
+        <div class="markdown-body" id="content">
+            <h1 align="center">TexGaussian: 基于八叉树的3D高斯溅射生成高质量PBR材质</h1>
+<p align="center"><a href="https://arxiv.org/abs/2411.19654"><img src='https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv&logoColor=white' alt='arXiv'></a>
+<a href='https://3d-aigc.github.io/TexGaussian/'><img src='https://img.shields.io/badge/Project_Page-Website-green?logo=googlechrome&logoColor=white' alt='Project Page'></a>
+<p align="center"><img src="assets/teaser.png" width="100%"></p>
 <p>基于物理渲染（PBR）材质在现代图形学中发挥着至关重要的作用，使得在不同环境贴图下实现真实感渲染成为可能。开发一种能够自动为3D网格生成高质量PBR材质（而不仅仅是RGB纹理）的高效算法，可以极大地简化3D内容创作流程。现有大多数方法利用预训练的2D扩散模型进行多视图图像合成，这通常会导致生成的纹理与输入3D网格之间存在严重不一致性。本文提出了一种新颖的方法TexGaussian，利用八分体对齐的3D高斯溅射实现快速PBR材质生成。具体而言，我们将每个3D高斯放置于由输入3D网格构建的八叉树最细叶节点上，用于渲染多视图图像，不仅用于反照率贴图（albedo map），还用于粗糙度（roughness）和金属度（metallic）。此外，我们的模型采用回归方式进行训练，而非扩散去噪，能够在单次前馈过程中为3D网格生成PBR材质。基于公开基准的广泛实验表明，我们的方法在无条件和文本条件下都能合成更具视觉吸引力的PBR材质，并且运行速度快于以往方法，与给定几何体的一致性更佳。</p>
 <h2>📦 安装</h2>
-<pre><code class="language-bash hljs">conda create -n texgaussian python==3.10
+<pre><code class="language-bash">conda create -n texgaussian python==3.10
 pip3 install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118
 
-<span class="hljs-comment"># 修改过的高斯溅射（+ 深度和alpha渲染）</span>
-git <span class="hljs-built_in">clone</span> --recursive https://github.com/ashawkey/diff-gaussian-rasterization
+# 修改过的高斯溅射（+ 深度和alpha渲染）
+git clone --recursive https://github.com/ashawkey/diff-gaussian-rasterization
 
 pip3 install ./diff-gaussian-rasterization
 
 pip3 install git+https://github.com/NVlabs/nvdiffrast
 
-<span class="hljs-comment"># 其他依赖项</span>
+# 其他依赖项
 pip3 install -r requirements.txt
 </code></pre>
 <h2>🤖 预训练模型</h2>
 <p>我们提供以下预训练模型：</p>
-<table>
-<thead>
-<tr>
-<th>模型</th>
-<th>描述</th>
-<th>参数量</th>
-<th>下载链接</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>TexGaussian-bench</td>
-<td>在ShapeNet bench上训练的无条件RGB纹理模型</td>
-<td>70M</td>
-<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/bench.safetensors?download=true">下载</a></td>
-</tr>
-<tr>
-<td>TexGaussian-car</td>
-<td>在ShapeNet car上训练的无条件RGB纹理模型</td>
-<td>70M</td>
-<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/car.safetensors?download=true">下载</a></td>
-</tr>
-<tr>
-<td>TexGaussian-chair</td>
-<td>在ShapeNet chair上训练的无条件RGB纹理模型</td>
-<td>70M</td>
-<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/chair.safetensors?download=true">下载</a></td>
-</tr>
-<tr>
-<td>TexGaussian-table</td>
-<td>在ShapeNet table上训练的无条件RGB纹理模型</td>
-<td>70M</td>
-<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/table.safetensors?download=true">下载</a></td>
-</tr>
-<tr>
-<td>TexGaussian-PBR</td>
-<td>在Objaverse上训练的文本条件PBR材质模型</td>
-<td>295M</td>
-<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/PBR_model.safetensors?download=true">下载</a></td>
-</tr>
-</tbody></table>
+<p>| 模型 | 描述 | 参数量 | 下载链接 |
+| --- | --- | --- | --- |
+| TexGaussian-bench | 在ShapeNet bench上训练的无条件RGB纹理模型 | 70M | <a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/bench.safetensors?download=true">下载</a> |
+| TexGaussian-car | 在ShapeNet car上训练的无条件RGB纹理模型 | 70M | <a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/car.safetensors?download=true">下载</a> |
+| TexGaussian-chair | 在ShapeNet chair上训练的无条件RGB纹理模型 | 70M | <a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/chair.safetensors?download=true">下载</a> |
+| TexGaussian-table | 在ShapeNet table上训练的无条件RGB纹理模型 | 70M | <a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/table.safetensors?download=true">下载</a> |
+| TexGaussian-PBR | 在Objaverse上训练的文本条件PBR材质模型 | 295M | <a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/PBR_model.safetensors?download=true">下载</a> |</p>
 <h2>💡 推理</h2>
 <h3>PBR材质</h3>
 <p>如需进行文本条件PBR材质生成，请运行</p>
-<pre><code class="language-bash hljs">bash inference_for_PBR_material.sh
+<pre><code class="language-bash">bash inference_for_PBR_material.sh
 </code></pre>
 <p>纹理和材质烘焙完成后，您将获得两张贴图，一张是反照率贴图（albedo map），另一张是PBR材质贴图。具体来说，PBR材质贴图包含三个通道，其中绿色通道表示粗糙度值，蓝色通道表示金属度值。若需对生成的纹理和材质贴图进行PBR渲染，推荐使用<a href="https://github.com/ymxbj/BlenderToolboxPBR">bpy实现的此渲染脚本</a>。</p>
 <p>此外，我们建议大家模仿Cap3D数据集的文本风格，创建属于自己的提示词，以获得更好的生成效果。Cap3D数据集可在<a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/Cap3D_automated_Objaverse_full.csv?download=true">这里</a>下载。</p>
 <h3>RGB纹理</h3>
 <p>如需无条件RGB纹理生成（仅支持bench、car、chair、table四个特定类别），请运行</p>
-<pre><code class="language-bash hljs">bash inference_for_RGB_texture.sh
+<pre><code class="language-bash">bash inference_for_RGB_texture.sh
 </code></pre>
 <p>纹理烘焙后，您将获得一张反照率贴图。</p>
 <h2>🏋️‍♂️ 训练</h2>
 <p>Objaverse数据集训练：</p>
-<pre><code class="language-bash hljs">bash train_for_objaverse.sh
+<pre><code class="language-bash">bash train_for_objaverse.sh
 </code></pre>
 <p>ShapeNet数据集训练：</p>
-<pre><code class="language-bash hljs">bash train_for_shapenet.sh
+<pre><code class="language-bash">bash train_for_shapenet.sh
 </code></pre>
 <h2>🚧 TODO</h2>
 <ul>
-<li><input checked="" disabled="" type="checkbox"> 发布训练和推理代码</li>
-<li><input checked="" disabled="" type="checkbox"> 发布ShapeNet数据集上的无条件albedo-only预训练模型</li>
-<li><input checked="" disabled="" type="checkbox"> 发布Objaverse数据集上的文本条件PBR预训练模型</li>
-<li><input disabled="" type="checkbox"> 发布数据集和数据集工具包</li>
+<li>[x] 发布训练和推理代码</li>
+<li>[x] 发布ShapeNet数据集上的无条件albedo-only预训练模型</li>
+<li>[x] 发布Objaverse数据集上的文本条件PBR预训练模型</li>
+<li>[ ] 发布数据集和数据集工具包</li>
 </ul>
 <h2>📚致谢</h2>
 <p>本项目基于众多出色的研究工作和开源项目，非常感谢所有作者的无私分享！</p>
@@ -258,30 +135,15 @@ pip3 install -r requirements.txt
     pages     = {551-561}
 }
 </code></pre>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-08</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    <script src="view.js?v=20250613"></script>
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

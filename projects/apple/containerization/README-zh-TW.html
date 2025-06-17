@@ -1,143 +1,56 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Containerization - apple/containerization</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Containerization - apple/containerization">
-    <meta name="description" content="apple/containerization - GitHub repository zh-TW documentation and information">
+    <title>containerization - apple/containerization</title>
+    <meta name="title" content="containerization - apple/containerization">
+    <meta name="description" content="apple/containerization - GitHub repository zh-TW documentation and informationContainerization Containerization 套件允許應用程式使用 Linux 容器。 Containerization 是用 Swift 撰寫，並在 Apple silicon 上使用 Virtualization.framework。 Containerization 提供以下 API： 管理 OCI 映像。 與遠端註冊中心互動。 建立並填充 ext4 檔案系統。 與 Netlink socket 類別互動。 建立優化的 Linux 核心以加快啟動速度。 啟動輕量級虛擬機並管理執行時環境。 啟動並互動容器化程序。 使用 Rosetta 2 在 Apple silicon 上執行 linux/amd64 容器。 請參閱 API 文件 以了解 Containerization 提供的 Swift 套件資訊。 設計 Containerization 將每個 Linux 容器執行在其自身的輕量級虛擬機中。客戶端可以為每個容器建立專用 IP 位址，免除個別端口轉發的需求。容器透過優化的 Linux 核心設定 和搭配輕量級 init 系統的最小根檔案系統，實現秒級啟動時間。 vminitd 是一個小型 init 系統，是 Containerization 的子專案。 vminitd 作為虛擬機中的初始程序啟動，並透過 vsock 提供 GRPC API。 該 API 允許配置執行時環境並啟動容器化程序。 vminitd 在程序執行時為呼叫程序提供 I/O、訊號及事件。 系統需求 您需要 Apple silicon Mac 來建構與執行 Containerization。 建構 Containerization 套件需要符合以下條件之一： macOS 15 或更新版本，且 Xcode 26 beta macOS 26 beta 或更新版本 使用此套件建置的應用程式可在 macOS 15 或更新版本執行，但 macOS 15 上不支援以下功能： 非隔離容器網路 — 在 macOS 15 上，同一 vmnet 網路中的容器無法相互通訊 範例使用 若要了解如何使用部分函式庫介面，cctl 可執行檔是一個不錯的起點。此工具主要作為 API 試驗場，包含測試各產品核心功能的指令，例如： 操作 OCI 映像 登入容器註冊中心 建立根檔案系統區塊 執行簡單的 Linux 容器 Linux 核心 在 macOS 上啟動輕量級虛擬機需要 Linux 核心。 Containerization 提供位於 kernel 目錄下的優化核心設定。 此目錄包含容器化建置環境，可輕鬆編譯用於 Containerization 的核心。 核心設定為支援快速啟動及輕量環境的最小功能集。 雖然此設定可適用於多數工作負載，但我們了解部分需求可能需額外功能。 為此，Containerization 提供一級 API，允許每個容器使用不同的核心設定與版本。 此功能使容器可針對不同核心版本進行開發與驗證。 請參閱 kernel 目錄中的...">
     <meta name="keywords" content="apple, containerization, GitHub, repository, zh-TW documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/apple/containerization/README-zh-TW.html">
-    <meta property="og:title" content="Containerization - apple/containerization">
+    <meta property="og:title" content="containerization - apple/containerization">
     <meta property="og:description" content="apple/containerization - GitHub repository zh-TW documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/apple/containerization" id="githubRepoLink" target="_blank">apple/containerization</a>
+<br>
+<h1 style="display: none;">Containerization Containerization 套件允許應用程式使用 Linux 容器。 Containerization 是用 Swift 撰寫，並在 Apple silicon 上使用 Virtualization.framework。 Containerization 提供以下 API： 管理 OCI 映像。 與遠端註冊中心互動。 建立並填充 ext4 檔案系統。 與 Netlink socket 類別互動。 建立優化的 Linux 核心以加快啟動速度。 啟動輕量級虛擬機並管理執行時環境。 啟動並互動容器化程序。 使用 Rosetta 2 在 Apple silicon 上執行 linux/amd64 容器。 請參閱 API 文件 以了解 Containerization 提供的 Swift 套件資訊。 設計 Containerization 將每個 Linux 容器執行在其自身的輕量級虛擬機中。客戶端可以為每個容器建立專用 IP 位址，免除個別端口轉發的需求。容器透過優化的 Linux 核心設定 和搭配輕量級 init 系統的最小根檔案系統，實現秒級啟動時間。 vminitd 是一個小型 init 系統，是 Containerization 的子專案。 vminitd 作為虛擬機中的初始程序啟動，並透過 vsock 提供 GRPC API。 該 API 允許配置執行時環境並啟動容器化程序。 vminitd 在程序執行時為呼叫程序提供 I/O、訊號及事件。 系統需求 您需要 Apple silicon Mac 來建構與執行 Containerization。 建構 Containerization 套件需要符合以下條件之一： macOS 15 或更新版本，且 Xcode 26 beta macOS 26 beta 或更新版本 使用此套件建置的應用程式可在 macOS 15 或更新版本執行，但 macOS 15 上不支援以下功能： 非隔離容器網路 — 在 macOS 15 上，同一 vmnet 網路中的容器無法相互通訊 範例使用 若要了解如何使用部分函式庫介面，cctl 可執行檔是一個不錯的起點。此工具主要作為 API 試驗場，包含測試各產品核心功能的指令，例如： 操作 OCI 映像 登入容器註冊中心 建立根檔案系統區塊 執行簡單的 Linux 容器 Linux 核心 在 macOS 上啟動輕量級虛擬機需要 Linux 核心。 Containerization 提供位於 kernel 目錄下的優化核心設定。 此目錄包含容器化建置環境，可輕鬆編譯用於 Containerization 的核心。 核心設定為支援快速啟動及輕量環境的最小功能集。 雖然此設定可適用於多數工作負載，但我們了解部分需求可能需額外功能。 為此，Containerization 提供一級 API，允許每個容器使用不同的核心設定與版本。 此功能使容器可針對不同核心版本進行開發與驗證。 請參閱 kernel 目錄中的...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=apple&amp;project=containerization&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>Containerization</h1>
-<p>Containerization 套件允許應用程式使用 Linux 容器。<br>Containerization 是用 <a href="https://www.swift.org">Swift</a> 撰寫，並在 Apple silicon 上使用 <a href="https://developer.apple.com/documentation/virtualization">Virtualization.framework</a>。</p>
+        <div class="markdown-body" id="content">
+            <h1>Containerization</h1>
+<p>Containerization 套件允許應用程式使用 Linux 容器。<br />
+Containerization 是用 <a href="https://www.swift.org">Swift</a> 撰寫，並在 Apple silicon 上使用 <a href="https://developer.apple.com/documentation/virtualization">Virtualization.framework</a>。</p>
 <p>Containerization 提供以下 API：</p>
 <ul>
 <li><a href="https://raw.githubusercontent.com/apple/containerization/main/Sources/ContainerizationOCI/">管理 OCI 映像</a>。</li>
@@ -152,7 +65,10 @@
 <p>請參閱 <a href="https://apple.github.io/containerization/documentation/">API 文件</a> 以了解 Containerization 提供的 Swift 套件資訊。</p>
 <h2>設計</h2>
 <p>Containerization 將每個 Linux 容器執行在其自身的輕量級虛擬機中。客戶端可以為每個容器建立專用 IP 位址，免除個別端口轉發的需求。容器透過優化的 <a href="/kernel">Linux 核心設定</a> 和搭配輕量級 init 系統的最小根檔案系統，實現秒級啟動時間。</p>
-<p><a href="/vminitd">vminitd</a> 是一個小型 init 系統，是 Containerization 的子專案。<br><code>vminitd</code> 作為虛擬機中的初始程序啟動，並透過 vsock 提供 GRPC API。<br>該 API 允許配置執行時環境並啟動容器化程序。<br><code>vminitd</code> 在程序執行時為呼叫程序提供 I/O、訊號及事件。</p>
+<p><a href="/vminitd">vminitd</a> 是一個小型 init 系統，是 Containerization 的子專案。<br />
+<code>vminitd</code> 作為虛擬機中的初始程序啟動，並透過 vsock 提供 GRPC API。<br />
+該 API 允許配置執行時環境並啟動容器化程序。<br />
+<code>vminitd</code> 在程序執行時為呼叫程序提供 I/O、訊號及事件。</p>
 <h2>系統需求</h2>
 <p>您需要 Apple silicon Mac 來建構與執行 Containerization。</p>
 <p>建構 Containerization 套件需要符合以下條件之一：</p>
@@ -167,16 +83,19 @@
 <h2>範例使用</h2>
 <p>若要了解如何使用部分函式庫介面，cctl 可執行檔是一個不錯的起點。此工具主要作為 API 試驗場，包含測試各產品核心功能的指令，例如：</p>
 <ol>
-<li><a href="https://raw.githubusercontent.com/apple/containerization/main/Sources/cctl/ImageCommand.swift">操作 OCI 映像</a>  </li>
-<li><a href="https://raw.githubusercontent.com/apple/containerization/main/Sources/cctl/LoginCommand.swift">登入容器註冊中心</a>  </li>
-<li><a href="https://raw.githubusercontent.com/apple/containerization/main/Sources/cctl/RootfsCommand.swift">建立根檔案系統區塊</a>  </li>
+<li><a href="https://raw.githubusercontent.com/apple/containerization/main/Sources/cctl/ImageCommand.swift">操作 OCI 映像</a></li>
+<li><a href="https://raw.githubusercontent.com/apple/containerization/main/Sources/cctl/LoginCommand.swift">登入容器註冊中心</a></li>
+<li><a href="https://raw.githubusercontent.com/apple/containerization/main/Sources/cctl/RootfsCommand.swift">建立根檔案系統區塊</a></li>
 <li><a href="https://raw.githubusercontent.com/apple/containerization/main/Sources/cctl/RunCommand.swift">執行簡單的 Linux 容器</a></li>
 </ol>
 <h2>Linux 核心</h2>
-<p>在 macOS 上啟動輕量級虛擬機需要 Linux 核心。<br>Containerization 提供位於 <a href="https://raw.githubusercontent.com/apple/containerization/main/kernel">kernel</a> 目錄下的優化核心設定。</p>
+<p>在 macOS 上啟動輕量級虛擬機需要 Linux 核心。<br />
+Containerization 提供位於 <a href="https://raw.githubusercontent.com/apple/containerization/main/kernel">kernel</a> 目錄下的優化核心設定。</p>
 <p>此目錄包含容器化建置環境，可輕鬆編譯用於 Containerization 的核心。</p>
 <p>核心設定為支援快速啟動及輕量環境的最小功能集。</p>
-<p>雖然此設定可適用於多數工作負載，但我們了解部分需求可能需額外功能。<br>為此，Containerization 提供一級 API，允許每個容器使用不同的核心設定與版本。<br>此功能使容器可針對不同核心版本進行開發與驗證。</p>
+<p>雖然此設定可適用於多數工作負載，但我們了解部分需求可能需額外功能。<br />
+為此，Containerization 提供一級 API，允許每個容器使用不同的核心設定與版本。<br />
+此功能使容器可針對不同核心版本進行開發與驗證。</p>
 <p>請參閱 kernel 目錄中的 <a href="https://raw.githubusercontent.com/apple/containerization/main/kernel/README.md">README</a> 以了解如何編譯優化核心。</p>
 <h3>預建核心</h3>
 <p>若您想使用預建核心，核心必須將 <code>VIRTIO</code> 驅動編譯進核心中，不能作為模組。</p>
@@ -184,74 +103,60 @@
 <p>核心映像檔 <code>vmlinux.container</code> 位於釋出檔案的 <code>/opt/kata/share/kata-containers/</code> 目錄中。</p>
 <h2>建構套件準備</h2>
 <p>安裝 Swiftly、<a href="https://www.swift.org">Swift</a> 與 <a href="https://www.swift.org/documentation/articles/static-linux-getting-started.html">Static Linux SDK</a>：</p>
-<pre><code class="language-bash hljs">make cross-prep
+<pre><code class="language-bash">make cross-prep
 </code></pre>
 <p>若使用自訂終端機應用程式，可能需要將此指令從 <code>.zprofile</code> 移至 <code>.zshrc</code>（請替換 <code>&lt;USERNAME&gt;</code>）：</p>
-<pre><code class="language-bash hljs"><span class="hljs-comment"># Added by swiftly</span>
-. <span class="hljs-string">"/Users/&lt;USERNAME&gt;/.swiftly/env.sh"</span>
+<pre><code class="language-bash"># Added by swiftly
+. &quot;/Users/&lt;USERNAME&gt;/.swiftly/env.sh&quot;
 </code></pre>
 <p>重新啟動終端機應用程式。確保此指令回傳 <code>/Users/&lt;USERNAME&gt;/.swiftly/bin/swift</code>（請替換 <code>&lt;USERNAME&gt;</code>）：</p>
-<pre><code class="language-bash hljs"><span class="hljs-built_in">which</span> swift
+<pre><code class="language-bash">which swift
 </code></pre>
 <p>若之前安裝或使用過 Static Linux SDK，可能需移除系統中的舊版 SDK（請替換 <code>&lt;SDK-ID&gt;</code>）：</p>
-<pre><code class="language-bash hljs">swift sdk list
+<pre><code class="language-bash">swift sdk list
 swift sdk remove &lt;SDK-ID&gt;
 </code></pre>
 <h2>建構套件</h2>
 <p>從原始碼建構 Containerization：</p>
-<pre><code class="language-bash hljs">make all
+<pre><code class="language-bash">make all
 </code></pre>
 <h2>測試套件</h2>
 <p>建構後執行基本與整合測試：</p>
-<pre><code class="language-bash hljs">make <span class="hljs-built_in">test</span> integration
+<pre><code class="language-bash">make test integration
 </code></pre>
-<p>執行整合測試需有核心。<br>若本地沒有可用核心，可使用 <code>make fetch-default-kernel</code> 指令下載預設核心。</p>
+<p>執行整合測試需有核心。<br />
+若本地沒有可用核心，可使用 <code>make fetch-default-kernel</code> 指令下載預設核心。</p>
 <p>下載預設核心只需在初次建構後或執行 <code>make clean</code> 後執行一次。</p>
-<pre><code class="language-bash hljs">make fetch-default-kernel
-make all <span class="hljs-built_in">test</span> integration
+<pre><code class="language-bash">make fetch-default-kernel
+make all test integration
 </code></pre>
 <h2>Protobufs</h2>
 <p>Containerization 依賴特定版本的 <code>grpc-swift</code> 與 <code>swift-protobuf</code>。您可安裝並重新產生 RPC 介面：</p>
-<pre><code class="language-bash hljs">make protos
+<pre><code class="language-bash">make protos
 </code></pre>
 <h2>文件</h2>
 <p>產生本機瀏覽的 API 文件：</p>
-<pre><code class="language-bash hljs">make docs
+<pre><code class="language-bash">make docs
 make serve-docs
 </code></pre>
 <p>在另一個終端機執行以下指令預覽文件：</p>
-<pre><code class="language-bash hljs">open http://localhost:8000/documentation/
+<pre><code class="language-bash">open http://localhost:8000/documentation/
 </code></pre>
 <h2>貢獻</h2>
 <p>歡迎並鼓勵為 Containerization 貢獻。詳細資訊請參閱 <a href="https://raw.githubusercontent.com/apple/containerization/main/CONTRIBUTING.md">CONTRIBUTING.md</a>。</p>
 <h2>專案狀態</h2>
 <p>版本 0.1.0 是 Containerization 的首個正式發行版本。早期版本不保證原始碼穩定性。</p>
-<p>由於 Containerization 正處於積極開發階段，原始碼穩定性僅在次版本內保證（例如 0.1.1 與 0.1.2 之間）。若您不希望遭遇可能破壞原始碼的套件更新，可使用 .upToNextMinorVersion(from: "0.1.0") 指定套件相依版本。</p>
+<p>由於 Containerization 正處於積極開發階段，原始碼穩定性僅在次版本內保證（例如 0.1.1 與 0.1.2 之間）。若您不希望遭遇可能破壞原始碼的套件更新，可使用 .upToNextMinorVersion(from: &quot;0.1.0&quot;) 指定套件相依版本。</p>
 <p>未來次版本可能視需求調整這些規則。</p>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

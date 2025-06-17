@@ -1,152 +1,65 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>wmproxy - tickbh/wmproxy</title>
-
-    <!-- Primary Meta Tags -->
     <meta name="title" content="wmproxy - tickbh/wmproxy">
-    <meta name="description" content="tickbh/wmproxy - GitHub repository documentation and information">
-    <meta name="keywords" content="tickbh, wmproxy, GitHub, repository, documentation, ">
+    <meta name="description" content="tickbh/wmproxy - GitHub repository ru documentation and informationwmproxy wmproxy уже реализовал на Rust следующие функции: прокси http/https, прокси socks5, обратный прокси, балансировка нагрузки, сервер статических файлов, прокси websocket, пересылка TCP/UDP на 4-м уровне, проброс во внутреннюю сеть и др. 📦 Установка &amp; 🏃 Использование Установка cargo install wmproxy ИЛИ git clone https://github.com/tickbh/wmproxy cd wmproxy cargo install --path . docker pull dreamwhat/wmproxy docker run -p 8090:8090 --name proxy_bash dreamwhat/wmproxy /bin/./wmproxy proxy -b 0.0.0.0:8090 Использование Порт по умолчанию — 8090, адрес для прослушивания по умолчанию — 127.0.0.1 # Запуск с параметрами по умолчанию wmproxy proxy # Установка логина и пароля wmproxy proxy -b 0.0.0.0:8090 --user wmproxy --pass wmproxy # Другие команды wmproxy --help #Запуск с помощью файла конфигурации wmproxy config -c config/client.toml Запуск вторичного прокси Запустите прокси локально wmproxy proxy -b 127.0.0.1:8090 -S 127.0.0.1:8091 --ts или wmproxy config -c config/client.toml Файл конфигурации: [proxy] # Адрес подключения к серверу #server = &quot;127.0.0.1:8091&quot; bind_addr = &quot;0.0.0.0:8090&quot; flag = &quot;http https socks5&quot;...">
+    <meta name="keywords" content="tickbh, wmproxy, GitHub, repository, ru documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=ru">
+    <meta property="og:url" content="https://openaitx.github.io/projects/tickbh/wmproxy/README-ru.html">
     <meta property="og:title" content="wmproxy - tickbh/wmproxy">
-    <meta property="og:description" content="tickbh/wmproxy - GitHub repository documentation and information">
+    <meta property="og:description" content="tickbh/wmproxy - GitHub repository ru documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" href="icon.jpg">
-    <link rel="apple-touch-icon" href="icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
-    <link rel="stylesheet" href="css/github.min.css?v=20250613">
-    <script src="js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="view.css?v=20250613">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
-        <a href="javascript:history.back()" class="back-button">Back</a>
         <div class="links">
             GitHub Repository: <a href="https://github.com/tickbh/wmproxy" id="githubRepoLink" target="_blank">tickbh/wmproxy</a>
+<br>
+<h1 style="display: none;">wmproxy wmproxy уже реализовал на Rust следующие функции: прокси http/https, прокси socks5, обратный прокси, балансировка нагрузки, сервер статических файлов, прокси websocket, пересылка TCP/UDP на 4-м уровне, проброс во внутреннюю сеть и др. 📦 Установка &amp; 🏃 Использование Установка cargo install wmproxy ИЛИ git clone https://github.com/tickbh/wmproxy cd wmproxy cargo install --path . docker pull dreamwhat/wmproxy docker run -p 8090:8090 --name proxy_bash dreamwhat/wmproxy /bin/./wmproxy proxy -b 0.0.0.0:8090 Использование Порт по умолчанию — 8090, адрес для прослушивания по умолчанию — 127.0.0.1 # Запуск с параметрами по умолчанию wmproxy proxy # Установка логина и пароля wmproxy proxy -b 0.0.0.0:8090 --user wmproxy --pass wmproxy # Другие команды wmproxy --help #Запуск с помощью файла конфигурации wmproxy config -c config/client.toml Запуск вторичного прокси Запустите прокси локально wmproxy proxy -b 127.0.0.1:8090 -S 127.0.0.1:8091 --ts или wmproxy config -c config/client.toml Файл конфигурации: [proxy] # Адрес подключения к серверу #server = &quot;127.0.0.1:8091&quot; bind_addr = &quot;0.0.0.0:8090&quot; flag = &quot;http https socks5&quot;...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=tickbh&amp;project=wmproxy&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>wmproxy</h1>
-<p><a href="https://crates.io/crates/wmproxy"><img src="https://img.shields.io/crates/v/wmproxy.svg" alt="crates.io"></a><br><a href="https://img.shields.io/badge/rust-1.70%2B-orange.svg"><img src="https://img.shields.io/badge/rust-1.70%2B-orange.svg" alt="rustc 1.70.0"></a><br><a href="https://docs.rs/wmproxy"><img src="https://docs.rs/wmproxy/badge.svg" alt="Released API docs"></a></p>
+        <div class="markdown-body" id="content">
+            <h1>wmproxy</h1>
+<p><a href="https://crates.io/crates/wmproxy"><img src="https://img.shields.io/crates/v/wmproxy.svg" alt="crates.io" /></a>
+<a href="https://img.shields.io/badge/rust-1.70%2B-orange.svg"><img src="https://img.shields.io/badge/rust-1.70%2B-orange.svg" alt="rustc 1.70.0" /></a>
+<a href="https://docs.rs/wmproxy"><img src="https://docs.rs/wmproxy/badge.svg" alt="Released API docs" /></a></p>
 <p><code>wmproxy</code> уже реализовал на <code>Rust</code> следующие функции: прокси http/https, прокси socks5, обратный прокси, балансировка нагрузки, сервер статических файлов, прокси websocket, пересылка TCP/UDP на 4-м уровне, проброс во внутреннюю сеть и др.</p>
 <h2>📦 Установка &amp; 🏃 Использование</h2>
 <h3>Установка</h3>
-<pre><code class="language-bash hljs">cargo install wmproxy
+<pre><code class="language-bash">cargo install wmproxy
 </code></pre>
 <p>ИЛИ</p>
-<pre><code class="language-bash hljs">git <span class="hljs-built_in">clone</span> https://github.com/tickbh/wmproxy
-<span class="hljs-built_in">cd</span> wmproxy
+<pre><code class="language-bash">git clone https://github.com/tickbh/wmproxy
+cd wmproxy
 cargo install --path .
 </code></pre>
 <pre><code class="language-docker">docker pull dreamwhat/wmproxy
@@ -154,97 +67,97 @@ docker run -p 8090:8090 --name proxy_bash dreamwhat/wmproxy /bin/./wmproxy proxy
 </code></pre>
 <h3>Использование</h3>
 <p>Порт по умолчанию — 8090, адрес для прослушивания по умолчанию — 127.0.0.1</p>
-<pre><code class="language-bash hljs"><span class="hljs-comment"># Запуск с параметрами по умолчанию</span>
+<pre><code class="language-bash"># Запуск с параметрами по умолчанию
 wmproxy proxy
 
-<span class="hljs-comment"># Установка логина и пароля</span>
+# Установка логина и пароля
 wmproxy proxy -b 0.0.0.0:8090 --user wmproxy --pass wmproxy
 
-<span class="hljs-comment"># Другие команды</span>
-wmproxy --<span class="hljs-built_in">help</span>
+# Другие команды
+wmproxy --help
 
-<span class="hljs-comment">#Запуск с помощью файла конфигурации</span>
+#Запуск с помощью файла конфигурации
 wmproxy config -c config/client.toml
 </code></pre>
 <h5>Запуск вторичного прокси</h5>
 <ol>
 <li>Запустите прокси локально</li>
 </ol>
-<pre><code class="language-bash hljs">wmproxy proxy -b 127.0.0.1:8090 -S 127.0.0.1:8091 --ts
+<pre><code class="language-bash">wmproxy proxy -b 127.0.0.1:8090 -S 127.0.0.1:8091 --ts
 </code></pre>
 <p>или</p>
-<pre><code class="language-bash hljs">wmproxy config -c config/client.toml
+<pre><code class="language-bash">wmproxy config -c config/client.toml
 </code></pre>
 <p>Файл конфигурации:</p>
-<pre><code class="language-toml hljs language-ini"><span class="hljs-section">[proxy]</span>
-<span class="hljs-comment"># Адрес подключения к серверу</span>
-<span class="hljs-comment">#server = "127.0.0.1:8091"</span>
-<span class="hljs-attr">bind_addr</span> = <span class="hljs-string">"0.0.0.0:8090"</span>
-<span class="hljs-attr">flag</span> = <span class="hljs-string">"http https socks5"</span>
-<span class="hljs-comment"># Шифровать ли соединение с сервером</span>
-<span class="hljs-attr">ts</span> = <span class="hljs-literal">true</span>
-<span class="hljs-attr">two_way_tls</span> = <span class="hljs-literal">true</span>
-<span class="hljs-comment"># username = "wmproxy"</span>
-<span class="hljs-comment"># password = "wmproxy"</span>
+<pre><code class="language-toml">[proxy]
+# Адрес подключения к серверу
+#server = &quot;127.0.0.1:8091&quot;
+bind_addr = &quot;0.0.0.0:8090&quot;
+flag = &quot;http https socks5&quot;
+# Шифровать ли соединение с сервером
+ts = true
+two_way_tls = true
+# username = &quot;wmproxy&quot;
+# password = &quot;wmproxy&quot;
 
-<span class="hljs-comment"># Массив настроек проброса во внутреннюю сеть</span>
+# Массив настроек проброса во внутреннюю сеть
 
-  <span class="hljs-comment">#Перенаправить домен localhost на локальный 127.0.0.1:8080</span>
-<span class="hljs-section">[[proxy.mappings]]</span>
-<span class="hljs-attr">name</span> = <span class="hljs-string">"web"</span>
-<span class="hljs-attr">mode</span> = <span class="hljs-string">"http"</span>
-<span class="hljs-attr">local_addr</span> = <span class="hljs-string">"127.0.0.1:8080"</span>
-<span class="hljs-attr">domain</span> = <span class="hljs-string">"localhost"</span>
+  #Перенаправить домен localhost на локальный 127.0.0.1:8080
+[[proxy.mappings]]
+name = &quot;web&quot;
+mode = &quot;http&quot;
+local_addr = &quot;127.0.0.1:8080&quot;
+domain = &quot;localhost&quot;
 
-<span class="hljs-attr">headers</span> = [
-  <span class="hljs-string">"proxy x-forward-for {client_ip}"</span>,
-  <span class="hljs-string">"proxy + from $url"</span>,
-  <span class="hljs-string">"+ last-modified 'from proxy'"</span>,
-  <span class="hljs-string">"- etag"</span>,
+headers = [
+  &quot;proxy x-forward-for {client_ip}&quot;,
+  &quot;proxy + from $url&quot;,
+  &quot;+ last-modified 'from proxy'&quot;,
+  &quot;- etag&quot;,
 ]
 
-<span class="hljs-comment">#Безусловная пересылка TCP-трафика на 127.0.0.1:8080</span>
-<span class="hljs-section">[[proxy.mappings]]</span>
-<span class="hljs-attr">name</span> = <span class="hljs-string">"tcp"</span>
-<span class="hljs-attr">mode</span> = <span class="hljs-string">"tcp"</span>
-<span class="hljs-attr">local_addr</span> = <span class="hljs-string">"127.0.0.1:8080"</span>
-<span class="hljs-attr">domain</span> = <span class="hljs-string">""</span>
+#Безусловная пересылка TCP-трафика на 127.0.0.1:8080
+[[proxy.mappings]]
+name = &quot;tcp&quot;
+mode = &quot;tcp&quot;
+local_addr = &quot;127.0.0.1:8080&quot;
+domain = &quot;&quot;
 </code></pre>
 <p>Поскольку осуществляется только пересылка, установка логина и пароля на этом узле не имеет смысла. <code>-S</code> указывает на адрес вторичного прокси, <strong>если этот параметр указан, то это транзитный прокси, иначе — конечный прокси.</strong> <code>--ts</code> означает, что при подключении к вышестоящему прокси используется шифрование.</p>
 <ol start="2">
 <li>Запуск прокси на удалённом сервере</li>
 </ol>
-<pre><code class="language-bash hljs">wmproxy proxy --user proxy --pass proxy -b 0.0.0.0:8091 --tc
+<pre><code class="language-bash">wmproxy proxy --user proxy --pass proxy -b 0.0.0.0:8091 --tc
 </code></pre>
 <p>или</p>
-<pre><code class="language-bash hljs">wmproxy config -c config/server.toml
+<pre><code class="language-bash">wmproxy config -c config/server.toml
 </code></pre>
 <p>Файл конфигурации:</p>
-<pre><code class="language-toml hljs language-ini"><span class="hljs-section">[proxy]</span>
-<span class="hljs-comment"># IP-адрес для привязки</span>
-<span class="hljs-attr">bind_addr</span> = <span class="hljs-string">"127.0.0.1:8091"</span>
+<pre><code class="language-toml">[proxy]
+# IP-адрес для привязки
+bind_addr = &quot;127.0.0.1:8091&quot;
 
-<span class="hljs-comment"># Поддерживаемые функции прокси: 1 — http, 2 — https, 4 — socks5</span>
-<span class="hljs-comment"># flag = "7"</span>
-<span class="hljs-attr">username</span> = <span class="hljs-string">"wmproxy"</span>
-<span class="hljs-attr">password</span> = <span class="hljs-string">"wmproxy"</span>
+# Поддерживаемые функции прокси: 1 — http, 2 — https, 4 — socks5
+# flag = &quot;7&quot;
+username = &quot;wmproxy&quot;
+password = &quot;wmproxy&quot;
 
-<span class="hljs-comment"># Адрес привязки http-проброса во внутреннюю сеть</span>
-<span class="hljs-attr">map_http_bind</span> = <span class="hljs-string">"127.0.0.1:8001"</span>
-<span class="hljs-comment"># Адрес привязки tcp-проброса во внутреннюю сеть</span>
-<span class="hljs-attr">map_tcp_bind</span> = <span class="hljs-string">"127.0.0.1:8002"</span>
-<span class="hljs-comment"># Адрес привязки https-проброса во внутреннюю сеть</span>
-<span class="hljs-attr">map_https_bind</span> = <span class="hljs-string">"127.0.0.1:8003"</span>
-<span class="hljs-comment"># Публичный сертификат для проброса, если пусто — используется сертификат по умолчанию</span>
-<span class="hljs-comment"># map_cert = </span>
-<span class="hljs-comment"># Приватный ключ для проброса, если пусто — используется ключ по умолчанию</span>
-<span class="hljs-comment"># map_key =</span>
-<span class="hljs-comment"># Двусторонняя аутентификация</span>
-<span class="hljs-attr">two_way_tls</span> = <span class="hljs-literal">true</span>
-<span class="hljs-comment"># Принимать ли клиентов с шифрованием</span>
-<span class="hljs-attr">tc</span> = <span class="hljs-literal">true</span>
-<span class="hljs-comment"># Режим работы сервиса: server — сервер, client — клиент</span>
-<span class="hljs-attr">mode</span> = <span class="hljs-string">"server"</span>
+# Адрес привязки http-проброса во внутреннюю сеть
+map_http_bind = &quot;127.0.0.1:8001&quot;
+# Адрес привязки tcp-проброса во внутреннюю сеть
+map_tcp_bind = &quot;127.0.0.1:8002&quot;
+# Адрес привязки https-проброса во внутреннюю сеть
+map_https_bind = &quot;127.0.0.1:8003&quot;
+# Публичный сертификат для проброса, если пусто — используется сертификат по умолчанию
+# map_cert = 
+# Приватный ключ для проброса, если пусто — используется ключ по умолчанию
+# map_key =
+# Двусторонняя аутентификация
+two_way_tls = true
+# Принимать ли клиентов с шифрованием
+tc = true
+# Режим работы сервиса: server — сервер, client — клиент
+mode = &quot;server&quot;
 </code></pre>
 <p><code>--tc</code> означает, что при приёме дочернего прокси используется шифрованное соединение, можно указать публичный сертификат через <code>--cert</code>, приватный ключ через <code>--key</code>, домен сертификата через <code>--domain</code>. Если параметры не заданы, используется встроенный сертификат.</p>
 <blockquote>
@@ -252,90 +165,78 @@ wmproxy config -c config/client.toml
 </blockquote>
 <h3>Аутентификация между прокси</h3>
 <blockquote>
-<p>В настоящее время реализованы два типа двусторонней аутентификации: если <code>two_way_tls</code> включен, требуется клиентский сертификат; если на сервере заданы <code>username</code> и <code>password</code>, клиент должен указать те же данные для прохождения аутентификации. Оба способа можно использовать вместе или по отдельности.<br>Пример конфигурации:</p>
+<p>В настоящее время реализованы два типа двусторонней аутентификации: если <code>two_way_tls</code> включен, требуется клиентский сертификат; если на сервере заданы <code>username</code> и <code>password</code>, клиент должен указать те же данные для прохождения аутентификации. Оба способа можно использовать вместе или по отдельности.
+Пример конфигурации:</p>
 </blockquote>
-<pre><code class="language-yaml hljs"><span class="hljs-attr">proxy:</span>
-  <span class="hljs-attr">two_way_tls:</span> <span class="hljs-literal">true</span>
-  <span class="hljs-attr">username:</span> <span class="hljs-string">wmproxy</span>
-  <span class="hljs-attr">password:</span> <span class="hljs-string">wmproxy</span>
+<pre><code class="language-yaml">proxy:
+  two_way_tls: true
+  username: wmproxy
+  password: wmproxy
 </code></pre>
 <h1>🚥 Дорожная карта</h1>
 <h3>socks5</h3>
 <ul>
-<li><input checked="" disabled="" type="checkbox"> Поддержка IPV6</li>
-<li><input checked="" disabled="" type="checkbox"> Методы аутентификации <code>SOCKS5</code><ul>
-<li><input checked="" disabled="" type="checkbox"> <code>NOAUTH</code></li>
-<li><input checked="" disabled="" type="checkbox"> <code>USERPASS</code></li>
+<li>[x] Поддержка IPV6</li>
+<li>[x] Методы аутентификации <code>SOCKS5</code>
+<ul>
+<li>[x] <code>NOAUTH</code></li>
+<li>[x] <code>USERPASS</code></li>
 </ul>
 </li>
-<li><input checked="" disabled="" type="checkbox"> Команды <code>SOCKS5</code><ul>
-<li><input checked="" disabled="" type="checkbox"> <code>CONNECT</code></li>
-<li><input checked="" disabled="" type="checkbox"> <code>UDP ASSOCIATE</code></li>
+<li>[x] Команды <code>SOCKS5</code>
+<ul>
+<li>[x] <code>CONNECT</code></li>
+<li>[x] <code>UDP ASSOCIATE</code></li>
 </ul>
 </li>
 </ul>
 <h3>http/https</h3>
 <ul>
-<li><input checked="" disabled="" type="checkbox"> Поддержка IPV6</li>
+<li>[x] Поддержка IPV6</li>
 </ul>
 <h3>Проброс во внутреннюю сеть</h3>
 <ul>
-<li><input checked="" disabled="" type="checkbox"> Поддержка Http</li>
-<li><input checked="" disabled="" type="checkbox"> Поддержка Https</li>
-<li><input checked="" disabled="" type="checkbox"> Поддержка Tcp</li>
+<li>[x] Поддержка Http</li>
+<li>[x] Поддержка Https</li>
+<li>[x] Поддержка Tcp</li>
 </ul>
 <h3>Обратный прокси</h3>
 <ul>
-<li><input checked="" disabled="" type="checkbox"> Сервер статических файлов</li>
-<li><input checked="" disabled="" type="checkbox"> Пассивная проверка состояния</li>
-<li><input checked="" disabled="" type="checkbox"> Активная проверка состояния</li>
-<li><input checked="" disabled="" type="checkbox"> Горячая перезагрузка конфигурации</li>
-<li><input checked="" disabled="" type="checkbox"> Балансировка нагрузки</li>
-<li><input checked="" disabled="" type="checkbox"> Балансировка TCP на 4 уровне</li>
-<li><input checked="" disabled="" type="checkbox"> Балансировка UDP на 4 уровне</li>
-<li><input checked="" disabled="" type="checkbox"> Контроль трафика</li>
-<li><input checked="" disabled="" type="checkbox"> Пересылка websocket</li>
+<li>[x] Сервер статических файлов</li>
+<li>[x] Пассивная проверка состояния</li>
+<li>[x] Активная проверка состояния</li>
+<li>[x] Горячая перезагрузка конфигурации</li>
+<li>[x] Балансировка нагрузки</li>
+<li>[x] Балансировка TCP на 4 уровне</li>
+<li>[x] Балансировка UDP на 4 уровне</li>
+<li>[x] Контроль трафика</li>
+<li>[x] Пересылка websocket</li>
 </ul>
 <h3>Базовые возможности</h3>
 <ul>
-<li><input checked="" disabled="" type="checkbox"> Логирование</li>
+<li>[x] Логирование</li>
 </ul>
 <h4>Расширенные возможности</h4>
 <ul>
-<li><input checked="" disabled="" type="checkbox"> Ограничение скорости запросов (limit_req)</li>
-<li><input checked="" disabled="" type="checkbox"> Изменение HTTP-заголовков запроса</li>
-<li><input checked="" disabled="" type="checkbox"> Поддержка проброса HTTP2 во внутреннюю сеть</li>
-<li><input checked="" disabled="" type="checkbox"> Управление микроклиентом</li>
-<li><input checked="" disabled="" type="checkbox"> try_paths</li>
-<li><input checked="" disabled="" type="checkbox"> Перевод tcp в websocket</li>
-<li><input checked="" disabled="" type="checkbox"> Перевод websocket в tcp</li>
+<li>[x] Ограничение скорости запросов (limit_req)</li>
+<li>[x] Изменение HTTP-заголовков запроса</li>
+<li>[x] Поддержка проброса HTTP2 во внутреннюю сеть</li>
+<li>[x] Управление микроклиентом</li>
+<li>[x] try_paths</li>
+<li>[x] Перевод tcp в websocket</li>
+<li>[x] Перевод websocket в tcp</li>
 </ul>
 <h2>История Star</h2>
-<p><a href="https://star-history.com/#tickbh/wmproxy&amp;Date"><img src="https://api.star-history.com/svg?repos=tickbh/wmproxy&amp;type=Date" alt="Star History Chart"></a></p>
-<hr>
+<p><a href="https://star-history.com/#tickbh/wmproxy&amp;Date"><img src="https://api.star-history.com/svg?repos=tickbh/wmproxy&amp;type=Date" alt="Star History Chart" /></a></p>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-09</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    <script src="view.js?v=20250613"></script>
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

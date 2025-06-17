@@ -1,146 +1,61 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KAI Scheduler - NVIDIA/KAI-Scheduler</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="KAI Scheduler - NVIDIA/KAI-Scheduler">
-    <meta name="description" content="NVIDIA/KAI-Scheduler - GitHub repository zh-CN documentation and information">
+    <title>KAI-Scheduler - NVIDIA/KAI-Scheduler</title>
+    <meta name="title" content="KAI-Scheduler - NVIDIA/KAI-Scheduler">
+    <meta name="description" content="NVIDIA/KAI-Scheduler - GitHub repository zh-CN documentation and informationKAI Scheduler KAI Scheduler 是一个强大、高效且可扩展的 Kubernetes 调度器，专为优化 AI 和机器学习工作负载的 GPU 资源分配而设计。 KAI Scheduler 能够管理大规模 GPU 集群，包括数千个节点和高吞吐量的工作负载，使其成为广泛且高需求环境的理想选择。 KAI Scheduler 允许 Kubernetes 集群管理员动态地为工作负载分配 GPU 资源。 KAI Scheduler 支持整个 AI 生命周期，从需要最少资源的小型交互式作业到大型训练和推理，都可在同一集群中完成。 它确保不同使用者之间资源分配最优且公平。 KAI Scheduler 可以与集群中已安装的其他调度器并行运行。 主要特性 批量调度：确保一组中的所有 pod 要么同时调度，要么全部不调度。 紧凑打包与分散调度：通过最小化碎片（紧凑打包）或提高弹性和负载均衡（分散调度）优化节点使用率。 工作负载优先级：在队列内高效地为工作负载分级排序。 分层队列：通过两级队列层级灵活地管理组织内的工作负载。 资源分配：可为每个队列自定义配额、超额权重、限制和优先级。 公平性策略：通过主导资源公平（DRF）和队列间的资源回收，确保资源分配公平。 工作负载整合：智能重新分配运行中的工作负载，减少碎片并提升集群利用率。 弹性工作负载：在定义的最小和最大 pod 数量范围内动态扩缩工作负载。 动态资源分配（DRA）：通过 Kubernetes ResourceClaims 支持特定厂商的硬件资源（如 NVIDIA 或 AMD 的 GPU）。 GPU 共享：允许多个工作负载高效共享单个或多个 GPU，最大化资源利用率。 云与本地部署支持：完全兼容动态云基础设施（包括如 Karpenter 的自动扩缩）以及静态本地部署。 前置条件 在安装 KAI Scheduler 之前，请确保你已具备： 一个正在运行的 Kubernetes 集群 已安装 Helm CLI 已安装 NVIDIA GPU-Operator，以便调度请求 GPU 资源的工作负载 安装 KAI Scheduler 将安装在 kai-scheduler 命名空间中。提交工作负载时请确保使用专用命名空间。 安装方式 KAI Scheduler 可通过以下方式安装： 从生产环境安装（推荐） 从源码构建（自行编译） 从生产环境安装 在 releases 页面找到最新的发布版本。 将 &lt;VERSION&gt; 替换为所需的版本后，运行以下命令： helm upgrade -i kai-scheduler oci://ghcr.io/nvidia/kai-scheduler/kai-scheduler -n kai-scheduler --create-namespace --version &lt;VERSION&gt; 从源码构建 请按照这里的说明操作 快速开始 要开始使用 KAI Scheduler 调度工作负载，请参阅 快速开始示例 路线图 2025 年主要优先级概览 重构代码库以增强厂商中立性 支持 Scheduling Gates https://github.com/NVIDIA/KAI-Scheduler/issues/63 研究与 Kueue 的集成可能性 https://github.com/NVIDIA/KAI-Scheduler/issues/68 为 pod-group 增加拓扑感知调度支持 https://github.com/NVIDIA/KAI-Scheduler/issues/66 支持每个工作负载的最小运行时间 支持每个工作负载的最大运行时间（支持延迟重新入队） 在 KAI 默认安装包中增加更多 PriorityClasses 支持 JobSet 支持 LWS (LeaderWorkerSet) 添加 pod 和 pod-group 抢占的指标统计 解耦优先级与抢占功能 长期目标 支持每个队列的时间衰减 超大规模集群改进 支持推理工作负载的整合，以实现集群碎片整理...">
     <meta name="keywords" content="NVIDIA, KAI-Scheduler, GitHub, repository, zh-CN documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/NVIDIA/KAI-Scheduler/README-zh-CN.html">
-    <meta property="og:title" content="KAI Scheduler - NVIDIA/KAI-Scheduler">
+    <meta property="og:title" content="KAI-Scheduler - NVIDIA/KAI-Scheduler">
     <meta property="og:description" content="NVIDIA/KAI-Scheduler - GitHub repository zh-CN documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/NVIDIA/KAI-Scheduler" id="githubRepoLink" target="_blank">NVIDIA/KAI-Scheduler</a>
+<br>
+<h1 style="display: none;">KAI Scheduler KAI Scheduler 是一个强大、高效且可扩展的 Kubernetes 调度器，专为优化 AI 和机器学习工作负载的 GPU 资源分配而设计。 KAI Scheduler 能够管理大规模 GPU 集群，包括数千个节点和高吞吐量的工作负载，使其成为广泛且高需求环境的理想选择。 KAI Scheduler 允许 Kubernetes 集群管理员动态地为工作负载分配 GPU 资源。 KAI Scheduler 支持整个 AI 生命周期，从需要最少资源的小型交互式作业到大型训练和推理，都可在同一集群中完成。 它确保不同使用者之间资源分配最优且公平。 KAI Scheduler 可以与集群中已安装的其他调度器并行运行。 主要特性 批量调度：确保一组中的所有 pod 要么同时调度，要么全部不调度。 紧凑打包与分散调度：通过最小化碎片（紧凑打包）或提高弹性和负载均衡（分散调度）优化节点使用率。 工作负载优先级：在队列内高效地为工作负载分级排序。 分层队列：通过两级队列层级灵活地管理组织内的工作负载。 资源分配：可为每个队列自定义配额、超额权重、限制和优先级。 公平性策略：通过主导资源公平（DRF）和队列间的资源回收，确保资源分配公平。 工作负载整合：智能重新分配运行中的工作负载，减少碎片并提升集群利用率。 弹性工作负载：在定义的最小和最大 pod 数量范围内动态扩缩工作负载。 动态资源分配（DRA）：通过 Kubernetes ResourceClaims 支持特定厂商的硬件资源（如 NVIDIA 或 AMD 的 GPU）。 GPU 共享：允许多个工作负载高效共享单个或多个 GPU，最大化资源利用率。 云与本地部署支持：完全兼容动态云基础设施（包括如 Karpenter 的自动扩缩）以及静态本地部署。 前置条件 在安装 KAI Scheduler 之前，请确保你已具备： 一个正在运行的 Kubernetes 集群 已安装 Helm CLI 已安装 NVIDIA GPU-Operator，以便调度请求 GPU 资源的工作负载 安装 KAI Scheduler 将安装在 kai-scheduler 命名空间中。提交工作负载时请确保使用专用命名空间。 安装方式 KAI Scheduler 可通过以下方式安装： 从生产环境安装（推荐） 从源码构建（自行编译） 从生产环境安装 在 releases 页面找到最新的发布版本。 将 &lt;VERSION&gt; 替换为所需的版本后，运行以下命令： helm upgrade -i kai-scheduler oci://ghcr.io/nvidia/kai-scheduler/kai-scheduler -n kai-scheduler --create-namespace --version &lt;VERSION&gt; 从源码构建 请按照这里的说明操作 快速开始 要开始使用 KAI Scheduler 调度工作负载，请参阅 快速开始示例 路线图 2025 年主要优先级概览 重构代码库以增强厂商中立性 支持 Scheduling Gates https://github.com/NVIDIA/KAI-Scheduler/issues/63 研究与 Kueue 的集成可能性 https://github.com/NVIDIA/KAI-Scheduler/issues/68 为 pod-group 增加拓扑感知调度支持 https://github.com/NVIDIA/KAI-Scheduler/issues/66 支持每个工作负载的最小运行时间 支持每个工作负载的最大运行时间（支持延迟重新入队） 在 KAI 默认安装包中增加更多 PriorityClasses 支持 JobSet 支持 LWS (LeaderWorkerSet) 添加 pod 和 pod-group 抢占的指标统计 解耦优先级与抢占功能 长期目标 支持每个队列的时间衰减 超大规模集群改进 支持推理工作负载的整合，以实现集群碎片整理...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=NVIDIA&amp;project=KAI-Scheduler&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><p><a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"></a> <a href="https://github.com/NVIDIA/KAI-Scheduler/blob/main/.github/workflows/update-coverage-badge.yaml"><img src="https://github.com/NVIDIA/KAI-Scheduler/raw/coverage-badge/badges/coverage.svg" alt="Coverage"></a></p>
+        <div class="markdown-body" id="content">
+            <p><a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License" /></a> <a href="https://github.com/NVIDIA/KAI-Scheduler/blob/main/.github/workflows/update-coverage-badge.yaml"><img src="https://github.com/NVIDIA/KAI-Scheduler/raw/coverage-badge/badges/coverage.svg" alt="Coverage" /></a></p>
 <h1>KAI Scheduler</h1>
 <p>KAI Scheduler 是一个强大、高效且可扩展的 <a href="https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/kube-scheduler/">Kubernetes 调度器</a>，专为优化 AI 和机器学习工作负载的 GPU 资源分配而设计。</p>
-<p>KAI Scheduler 能够管理大规模 GPU 集群，包括数千个节点和高吞吐量的工作负载，使其成为广泛且高需求环境的理想选择。<br>KAI Scheduler 允许 Kubernetes 集群管理员动态地为工作负载分配 GPU 资源。</p>
-<p>KAI Scheduler 支持整个 AI 生命周期，从需要最少资源的小型交互式作业到大型训练和推理，都可在同一集群中完成。<br>它确保不同使用者之间资源分配最优且公平。<br>KAI Scheduler 可以与集群中已安装的其他调度器并行运行。</p>
+<p>KAI Scheduler 能够管理大规模 GPU 集群，包括数千个节点和高吞吐量的工作负载，使其成为广泛且高需求环境的理想选择。
+KAI Scheduler 允许 Kubernetes 集群管理员动态地为工作负载分配 GPU 资源。</p>
+<p>KAI Scheduler 支持整个 AI 生命周期，从需要最少资源的小型交互式作业到大型训练和推理，都可在同一集群中完成。
+它确保不同使用者之间资源分配最优且公平。
+KAI Scheduler 可以与集群中已安装的其他调度器并行运行。</p>
 <h2>主要特性</h2>
 <ul>
 <li><a href="https://raw.githubusercontent.com/NVIDIA/KAI-Scheduler/main/docs/batch/README.md">批量调度</a>：确保一组中的所有 pod 要么同时调度，要么全部不调度。</li>
@@ -171,8 +86,9 @@
 <li><strong>从源码构建（自行编译）</strong></li>
 </ul>
 <h4>从生产环境安装</h4>
-<p>在 <a href="https://github.com/NVIDIA/KAI-Scheduler/releases">releases</a> 页面找到最新的发布版本。<br>将 <code>&lt;VERSION&gt;</code> 替换为所需的版本后，运行以下命令：</p>
-<pre><code class="language-sh hljs language-bash">helm upgrade -i kai-scheduler oci://ghcr.io/nvidia/kai-scheduler/kai-scheduler -n kai-scheduler --create-namespace --version &lt;VERSION&gt;
+<p>在 <a href="https://github.com/NVIDIA/KAI-Scheduler/releases">releases</a> 页面找到最新的发布版本。
+将 <code>&lt;VERSION&gt;</code> 替换为所需的版本后，运行以下命令：</p>
+<pre><code class="language-sh">helm upgrade -i kai-scheduler oci://ghcr.io/nvidia/kai-scheduler/kai-scheduler -n kai-scheduler --create-namespace --version &lt;VERSION&gt;
 </code></pre>
 <h4>从源码构建</h4>
 <p>请按照<a href="https://raw.githubusercontent.com/NVIDIA/KAI-Scheduler/main/docs/developer/building-from-source.md">这里</a>的说明操作</p>
@@ -182,9 +98,9 @@
 <h3>2025 年主要优先级概览</h3>
 <ul>
 <li>重构代码库以增强厂商中立性</li>
-<li>支持 Scheduling Gates <a href="https://github.com/NVIDIA/KAI-Scheduler/issues/63">https://github.com/NVIDIA/KAI-Scheduler/issues/63</a></li>
-<li>研究与 Kueue 的集成可能性 <a href="https://github.com/NVIDIA/KAI-Scheduler/issues/68">https://github.com/NVIDIA/KAI-Scheduler/issues/68</a></li>
-<li>为 pod-group 增加拓扑感知调度支持 <a href="https://github.com/NVIDIA/KAI-Scheduler/issues/66">https://github.com/NVIDIA/KAI-Scheduler/issues/66</a></li>
+<li>支持 Scheduling Gates https://github.com/NVIDIA/KAI-Scheduler/issues/63</li>
+<li>研究与 Kueue 的集成可能性 https://github.com/NVIDIA/KAI-Scheduler/issues/68</li>
+<li>为 pod-group 增加拓扑感知调度支持 https://github.com/NVIDIA/KAI-Scheduler/issues/66</li>
 <li>支持每个工作负载的最小运行时间</li>
 <li>支持每个工作负载的最大运行时间（支持延迟重新入队）</li>
 <li>在 KAI 默认安装包中增加更多 PriorityClasses</li>
@@ -206,35 +122,21 @@
 <h3>Slack</h3>
 <p>首先加入 <a href="https://communityinviter.com/apps/cloud-native/cncf">CNCF Slack</a>，然后访问 <a href="https://cloud-native.slack.com/archives/kai-scheduler">#kai-scheduler</a> 频道。</p>
 <h3>双周社区会议</h3>
-<p><strong>时间：</strong> 每隔一周的周一，17:00 CEST<br><a href="https://dateful.com/time-zone-converter?t=17&amp;tz2=Germany">转换为你的时区</a> | <a href="https://calendar.google.com/calendar/event?action=TEMPLATE&amp;tmeid=N2Q2bjhoNXAzMGc0cWpnZTQ4OGtpdXFhanFfMjAyNTA2MDlUMTUwMDAwWiAxZjQ2OTZiOWVlM2JiMWE1ZWIzMTAwODBkNDZiZmMwMDZjNTUxYWFiZmU1YTM3ZGM2YTc0NTFhYmNhMmE1ODk0QGc&amp;tmsrc=1f4696b9ee3bb1a5eb310080d46bfc006c551aabfe5a37dc6a7451abca2a5894%40group.calendar.google.com&amp;scp=ALL">添加到你的日历</a>  | <a href="https://docs.google.com/document/d/13K7NGdPebOstlrsif1YLjGz1x-aJafMXeIgqbO7WghI/edit?usp=sharing">会议记录与议程</a></p>
+<p><strong>时间：</strong> 每隔一周的周一，17:00 CEST<br />
+<a href="https://dateful.com/time-zone-converter?t=17&amp;tz2=Germany">转换为你的时区</a> | <a href="https://calendar.google.com/calendar/event?action=TEMPLATE&amp;tmeid=N2Q2bjhoNXAzMGc0cWpnZTQ4OGtpdXFhanFfMjAyNTA2MDlUMTUwMDAwWiAxZjQ2OTZiOWVlM2JiMWE1ZWIzMTAwODBkNDZiZmMwMDZjNTUxYWFiZmU1YTM3ZGM2YTc0NTFhYmNhMmE1ODk0QGc&amp;tmsrc=1f4696b9ee3bb1a5eb310080d46bfc006c551aabfe5a37dc6a7451abca2a5894%40group.calendar.google.com&amp;scp=ALL">添加到你的日历</a>  | <a href="https://docs.google.com/document/d/13K7NGdPebOstlrsif1YLjGz1x-aJafMXeIgqbO7WghI/edit?usp=sharing">会议记录与议程</a></p>
 <h3>邮件列表</h3>
 <p>加入 <a href="https://groups.google.com/g/kai-scheduler">kai-scheduler 邮件列表</a> 以获取双周会议的最新信息。</p>
 <h3>技术问题与功能请求</h3>
 <p>如有 bug、功能建议或技术支持，请提交 <a href="https://github.com/NVIDIA/KAI-Scheduler/issues/new/choose">GitHub issue</a>。这有助于我们跟踪请求并高效响应。</p>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-08</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

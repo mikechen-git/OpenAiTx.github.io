@@ -1,150 +1,64 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MemoryPack - Cysharp/MemoryPack</title>
-
-    <!-- Primary Meta Tags -->
     <meta name="title" content="MemoryPack - Cysharp/MemoryPack">
-    <meta name="description" content="Cysharp/MemoryPack - GitHub repository zh-CN documentation and information">
+    <meta name="description" content="Cysharp/MemoryPack - GitHub repository zh-CN documentation and informationMemoryPack 用于 C# 和 Unity 的零编码极致性能二进制序列化器。 与 System.Text.Json、protobuf-net、MessagePack for C#、Orleans.Serialization 对比。在 .NET 7 / Ryzen 9 5950X 机器上测试。这些序列化器都支持 IBufferWriter&lt;byte&gt; 方法，使用 ArrayBufferWriter&lt;byte&gt; 进行序列化并复用以避免测量缓冲区复制。 对于标准对象，MemoryPack 的速度是其他二进制序列化器的 10 倍，是 x2 ~ x5 倍。而对于结构体数组，MemoryPack 更加高效，速度高达其他序列化器的 x50 ~ x200。 MemoryPack 是我开发的第 4 款序列化器，之前我还开发过知名序列化器，~~ZeroFormatter~~、~~Utf8Json~~、MessagePack for C#。MemoryPack 之所以如此之快，是因为它采用了针对 C# 优化的二进制格式和基于我以往经验精心调优的实现。这也是一个全新设计，充分利用了 .NET 7、C# 11 以及增量源生成器（.NET Standard 2.1 (.NET 5, 6) 也有支持，并支持 Unity）。 其他序列化器执行许多编码操作，如 VarInt 编码、标签、字符串等。MemoryPack 格式采用零编码设计，尽可能复制 C# 内存。零编码类似于 FlatBuffers，但不需要特殊类型，MemoryPack 的序列化目标是 POCO。 除了性能之外，MemoryPack 还具有以下特性： 支持现代 I/O API（IBufferWriter&lt;byte&gt;、ReadOnlySpan&lt;byte&gt;、ReadOnlySequence&lt;byte&gt;） 原生 AOT 友好的基于源生成器的代码生成，无动态代码生成（IL.Emit） 无反射、非泛型 API 支持反序列化到已有实例 支持多态（联合）序列化 支持有限版本容错（fast/default）和完全版本容错 支持循环引用序列化 支持基于 PipeWriter/Reader 的流式序列化 支持 TypeScript 代码生成和 ASP.NET Core Formatter 支持 Unity（2021.3）IL2CPP，通过 .NET 源生成器 安装 该库通过 NuGet 分发。为获得最佳性能，推荐使用 .NET 7。最低要求为 .NET Standard 2.1。 PM&gt; Install-Package MemoryPack 同时，代码编辑器需要支持 Roslyn 4.3.1，例如 Visual Studio 2022 17.3 版本、.NET SDK 6.0.401。详情请见 Roslyn 版本支持 文档。 对于 Unity，要求和安装流程完全不同。详见 Unity 部分。 快速开始 定义要序列化的结构体或类，并用 [MemoryPackable] 特性和 partial 关键字标注。 using MemoryPack; [MemoryPackable] public partial class Person { public int Age { get; set; } public string Name { get; set; } } 序列化代码通过 C#...">
     <meta name="keywords" content="Cysharp, MemoryPack, GitHub, repository, zh-CN documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/Cysharp/MemoryPack/README-zh-CN.html">
     <meta property="og:title" content="MemoryPack - Cysharp/MemoryPack">
     <meta property="og:description" content="Cysharp/MemoryPack - GitHub repository zh-CN documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/Cysharp/MemoryPack" id="githubRepoLink" target="_blank">Cysharp/MemoryPack</a>
+<br>
+<h1 style="display: none;">MemoryPack 用于 C# 和 Unity 的零编码极致性能二进制序列化器。 与 System.Text.Json、protobuf-net、MessagePack for C#、Orleans.Serialization 对比。在 .NET 7 / Ryzen 9 5950X 机器上测试。这些序列化器都支持 IBufferWriter&lt;byte&gt; 方法，使用 ArrayBufferWriter&lt;byte&gt; 进行序列化并复用以避免测量缓冲区复制。 对于标准对象，MemoryPack 的速度是其他二进制序列化器的 10 倍，是 x2 ~ x5 倍。而对于结构体数组，MemoryPack 更加高效，速度高达其他序列化器的 x50 ~ x200。 MemoryPack 是我开发的第 4 款序列化器，之前我还开发过知名序列化器，~~ZeroFormatter~~、~~Utf8Json~~、MessagePack for C#。MemoryPack 之所以如此之快，是因为它采用了针对 C# 优化的二进制格式和基于我以往经验精心调优的实现。这也是一个全新设计，充分利用了 .NET 7、C# 11 以及增量源生成器（.NET Standard 2.1 (.NET 5, 6) 也有支持，并支持 Unity）。 其他序列化器执行许多编码操作，如 VarInt 编码、标签、字符串等。MemoryPack 格式采用零编码设计，尽可能复制 C# 内存。零编码类似于 FlatBuffers，但不需要特殊类型，MemoryPack 的序列化目标是 POCO。 除了性能之外，MemoryPack 还具有以下特性： 支持现代 I/O API（IBufferWriter&lt;byte&gt;、ReadOnlySpan&lt;byte&gt;、ReadOnlySequence&lt;byte&gt;） 原生 AOT 友好的基于源生成器的代码生成，无动态代码生成（IL.Emit） 无反射、非泛型 API 支持反序列化到已有实例 支持多态（联合）序列化 支持有限版本容错（fast/default）和完全版本容错 支持循环引用序列化 支持基于 PipeWriter/Reader 的流式序列化 支持 TypeScript 代码生成和 ASP.NET Core Formatter 支持 Unity（2021.3）IL2CPP，通过 .NET 源生成器 安装 该库通过 NuGet 分发。为获得最佳性能，推荐使用 .NET 7。最低要求为 .NET Standard 2.1。 PM&gt; Install-Package MemoryPack 同时，代码编辑器需要支持 Roslyn 4.3.1，例如 Visual Studio 2022 17.3 版本、.NET SDK 6.0.401。详情请见 Roslyn 版本支持 文档。 对于 Unity，要求和安装流程完全不同。详见 Unity 部分。 快速开始 定义要序列化的结构体或类，并用 [MemoryPackable] 特性和 partial 关键字标注。 using MemoryPack; [MemoryPackable] public partial class Person { public int Age { get; set; } public string Name { get; set; } } 序列化代码通过 C#...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Cysharp&amp;project=MemoryPack&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>MemoryPack</h1>
-<p><a href="https://www.nuget.org/packages/MemoryPack"><img src="https://img.shields.io/nuget/v/MemoryPack.svg" alt="NuGet"></a><br><a href="https://github.com/Cysharp/MemoryPack/actions"><img src="https://github.com/Cysharp/MemoryPack/workflows/Build-Debug/badge.svg" alt="GitHub Actions"></a><br><a href="https://github.com/Cysharp/MemoryPack/releases"><img src="https://img.shields.io/github/release/Cysharp/MemoryPack.svg" alt="Releases"></a></p>
+        <div class="markdown-body" id="content">
+            <h1>MemoryPack</h1>
+<p><a href="https://www.nuget.org/packages/MemoryPack"><img src="https://img.shields.io/nuget/v/MemoryPack.svg" alt="NuGet" /></a>
+<a href="https://github.com/Cysharp/MemoryPack/actions"><img src="https://github.com/Cysharp/MemoryPack/workflows/Build-Debug/badge.svg" alt="GitHub Actions" /></a>
+<a href="https://github.com/Cysharp/MemoryPack/releases"><img src="https://img.shields.io/github/release/Cysharp/MemoryPack.svg" alt="Releases" /></a></p>
 <p>用于 C# 和 Unity 的零编码极致性能二进制序列化器。</p>
-<p><img src="https://user-images.githubusercontent.com/46207/200979655-63ed38ae-dad2-4ca0-bbb7-9e0aa98914af.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/46207/200979655-63ed38ae-dad2-4ca0-bbb7-9e0aa98914af.png" alt="image" /></p>
 <blockquote>
 <p>与 <a href="https://learn.microsoft.com/ja-jp/dotnet/api/system.text.json">System.Text.Json</a>、<a href="https://github.com/protobuf-net/protobuf-net">protobuf-net</a>、<a href="https://github.com/neuecc/MessagePack-CSharp">MessagePack for C#</a>、<a href="https://github.com/dotnet/orleans/">Orleans.Serialization</a> 对比。在 .NET 7 / Ryzen 9 5950X 机器上测试。这些序列化器都支持 <code>IBufferWriter&lt;byte&gt;</code> 方法，使用 <code>ArrayBufferWriter&lt;byte&gt;</code> 进行序列化并复用以避免测量缓冲区复制。</p>
 </blockquote>
 <p>对于标准对象，MemoryPack 的速度是其他二进制序列化器的 10 倍，是 x2 ~ x5 倍。而对于结构体数组，MemoryPack 更加高效，速度高达其他序列化器的 x50 ~ x200。</p>
-<p>MemoryPack 是我开发的第 4 款序列化器，之前我还开发过知名序列化器，<del><a href="https://github.com/neuecc/ZeroFormatter">ZeroFormatter</a></del>、<del><a href="https://github.com/neuecc/Utf8Json">Utf8Json</a></del>、<a href="https://github.com/neuecc/MessagePack-CSharp">MessagePack for C#</a>。MemoryPack 之所以如此之快，是因为它采用了针对 C# 优化的二进制格式和基于我以往经验精心调优的实现。这也是一个全新设计，充分利用了 .NET 7、C# 11 以及增量源生成器（.NET Standard 2.1 (.NET 5, 6) 也有支持，并支持 Unity）。</p>
+<p>MemoryPack 是我开发的第 4 款序列化器，之前我还开发过知名序列化器，~~<a href="https://github.com/neuecc/ZeroFormatter">ZeroFormatter</a>~~、~~<a href="https://github.com/neuecc/Utf8Json">Utf8Json</a>~~、<a href="https://github.com/neuecc/MessagePack-CSharp">MessagePack for C#</a>。MemoryPack 之所以如此之快，是因为它采用了针对 C# 优化的二进制格式和基于我以往经验精心调优的实现。这也是一个全新设计，充分利用了 .NET 7、C# 11 以及增量源生成器（.NET Standard 2.1 (.NET 5, 6) 也有支持，并支持 Unity）。</p>
 <p>其他序列化器执行许多编码操作，如 VarInt 编码、标签、字符串等。MemoryPack 格式采用零编码设计，尽可能复制 C# 内存。零编码类似于 FlatBuffers，但不需要特殊类型，MemoryPack 的序列化目标是 POCO。</p>
 <p>除了性能之外，MemoryPack 还具有以下特性：</p>
 <ul>
@@ -168,21 +82,21 @@
 <p>对于 Unity，要求和安装流程完全不同。详见 <a href="#unity">Unity</a> 部分。</p>
 <h2>快速开始</h2>
 <p>定义要序列化的结构体或类，并用 <code>[MemoryPackable]</code> 特性和 <code>partial</code> 关键字标注。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> MemoryPack;
+<pre><code class="language-csharp">using MemoryPack;
 
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>
+[MemoryPackable]
+public partial class Person
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Age { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Age { get; set; }
+    public string Name { get; set; }
 }
 </code></pre>
 <p>序列化代码通过 C# 源生成器功能生成，实现了 <code>IMemoryPackable&lt;T&gt;</code> 接口。在 Visual Studio 中，可以通过快捷键 <code>Ctrl+K, R</code> 并选中类名来查看生成的 <code>*.MemoryPackFormatter.g.cs</code> 代码。</p>
 <p>调用 <code>MemoryPackSerializer.Serialize&lt;T&gt;/Deserialize&lt;T&gt;</code> 方法来序列化/反序列化对象实例。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> v = <span class="hljs-keyword">new</span> Person { Age = <span class="hljs-number">40</span>, Name = <span class="hljs-string">"John"</span> };
+<pre><code class="language-csharp">var v = new Person { Age = 40, Name = &quot;John&quot; };
 
-<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(v);
-<span class="hljs-keyword">var</span> val = MemoryPackSerializer.Deserialize&lt;Person&gt;(bin);
+var bin = MemoryPackSerializer.Serialize(v);
+var val = MemoryPackSerializer.Deserialize&lt;Person&gt;(bin);
 </code></pre>
 <p><code>Serialize</code> 方法支持返回类型为 <code>byte[]</code>，也可以序列化到 <code>IBufferWriter&lt;byte&gt;</code> 或 <code>Stream</code>。<code>Deserialize</code> 方法支持 <code>ReadOnlySpan&lt;byte&gt;</code>、<code>ReadOnlySequence&lt;byte&gt;</code> 和 <code>Stream</code>。也有非泛型版本。</p>
 <h2>内置支持的类型</h2>
@@ -197,7 +111,7 @@
 <li><code>T[]</code>、<code>T[,]</code>、<code>T[,,]</code>、<code>T[,,,]</code>、<code>Memory&lt;&gt;</code>、<code>ReadOnlyMemory&lt;&gt;</code>、<code>ArraySegment&lt;&gt;</code>、<code>ReadOnlySequence&lt;&gt;</code></li>
 <li><code>Nullable&lt;&gt;</code>、<code>Lazy&lt;&gt;</code>、<code>KeyValuePair&lt;,&gt;</code>、<code>Tuple&lt;,...&gt;</code>、<code>ValueTuple&lt;,...&gt;</code></li>
 <li><code>List&lt;&gt;</code>、<code>LinkedList&lt;&gt;</code>、<code>Queue&lt;&gt;</code>、<code>Stack&lt;&gt;</code>、<code>HashSet&lt;&gt;</code>、<code>SortedSet&lt;&gt;</code>、<code>PriorityQueue&lt;,&gt;</code></li>
-<li><code>Dictionary&lt;,&gt;</code>、<code>SortedList&lt;,&gt;</code>、<code>SortedDictionary&lt;,&gt;</code>、<code>ReadOnlyDictionary&lt;,&gt;</code> </li>
+<li><code>Dictionary&lt;,&gt;</code>、<code>SortedList&lt;,&gt;</code>、<code>SortedDictionary&lt;,&gt;</code>、<code>ReadOnlyDictionary&lt;,&gt;</code></li>
 <li><code>Collection&lt;&gt;</code>、<code>ReadOnlyCollection&lt;&gt;</code>、<code>ObservableCollection&lt;&gt;</code>、<code>ReadOnlyObservableCollection&lt;&gt;</code></li>
 <li><code>IEnumerable&lt;&gt;</code>、<code>ICollection&lt;&gt;</code>、<code>IList&lt;&gt;</code>、<code>IReadOnlyCollection&lt;&gt;</code>、<code>IReadOnlyList&lt;&gt;</code>、<code>ISet&lt;&gt;</code></li>
 <li><code>IDictionary&lt;,&gt;</code>、<code>IReadOnlyDictionary&lt;,&gt;</code>、<code>ILookup&lt;,&gt;</code>、<code>IGrouping&lt;,&gt;</code></li>
@@ -207,57 +121,57 @@
 <h2>定义 <code>[MemoryPackable]</code> 的 <code>class</code> / <code>struct</code> / <code>record</code> / <code>record struct</code></h2>
 <p><code>[MemoryPackable]</code> 可用于任何 <code>class</code>、<code>struct</code>、<code>record</code>、<code>record struct</code> 及 <code>interface</code>。如果类型是包含无引用类型的 <code>struct</code> 或 <code>record struct</code>（<a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/unmanaged-types">C# 非托管类型</a>），则不会使用任何附加标注（ignore、include、constructor、callbacks），而是直接从内存序列化/反序列化。</p>
 <p>否则，默认情况下 <code>[MemoryPackable]</code> 会序列化公有实例属性或字段。你可以用 <code>[MemoryPackIgnore]</code> 排除序列化目标，也可以用 <code>[MemoryPackInclude]</code> 将私有成员提升为序列化目标。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-comment">// 这些类型默认被序列化</span>
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PublicField;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> PublicReadOnlyField;
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PublicProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PrivateSetPublicProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> ReadOnlyPublicProperty { <span class="hljs-keyword">get</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> InitProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">int</span> RequiredInitProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    // 这些类型默认被序列化
+    public int PublicField;
+    public readonly int PublicReadOnlyField;
+    public int PublicProperty { get; set; }
+    public int PrivateSetPublicProperty { get; private set; }
+    public int ReadOnlyPublicProperty { get; }
+    public int InitProperty { get; init; }
+    public required int RequiredInitProperty { get; init; }
 
-    <span class="hljs-comment">// 这些类型默认不被序列化</span>
-    <span class="hljs-built_in">int</span> privateProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-built_in">int</span> privateField;
-    <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> privateReadOnlyField;
+    // 这些类型默认不被序列化
+    int privateProperty { get; set; }
+    int privateField;
+    readonly int privateReadOnlyField;
 
-    <span class="hljs-comment">// 用 [MemoryPackIgnore] 移除公有成员的序列化目标</span>
-    [<span class="hljs-meta">MemoryPackIgnore</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> PublicProperty2 =&gt; PublicProperty + PublicField;
+    // 用 [MemoryPackIgnore] 移除公有成员的序列化目标
+    [MemoryPackIgnore]
+    public int PublicProperty2 =&gt; PublicProperty + PublicField;
 
-    <span class="hljs-comment">// 用 [MemoryPackInclude] 将私有成员提升为序列化目标</span>
-    [<span class="hljs-meta">MemoryPackInclude</span>]
-    <span class="hljs-built_in">int</span> privateField2;
-    [<span class="hljs-meta">MemoryPackInclude</span>]
-    <span class="hljs-built_in">int</span> privateProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    // 用 [MemoryPackInclude] 将私有成员提升为序列化目标
+    [MemoryPackInclude]
+    int privateField2;
+    [MemoryPackInclude]
+    int privateProperty2 { get; set; }
 }
 </code></pre>
 <p><code>MemoryPack</code> 的代码生成器会将被序列化的成员信息添加到 <code>&lt;remarks /&gt;</code> 部分。你可以通过 Intellisense 悬停类型查看。</p>
-<p><img src="https://user-images.githubusercontent.com/46207/192393984-9af01fcb-872e-46fb-b08f-4783e8cef4ae.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/46207/192393984-9af01fcb-872e-46fb-b08f-4783e8cef4ae.png" alt="image" /></p>
 <p>所有成员都必须是可被 MemoryPack 序列化的，否则代码生成器会报错。</p>
-<p><img src="https://user-images.githubusercontent.com/46207/192413557-8a47d668-5339-46c5-a3da-a77841666f81.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/46207/192413557-8a47d668-5339-46c5-a3da-a77841666f81.png" alt="image" /></p>
 <p>MemoryPack 拥有 35 条诊断规则（<code>MEMPACK001</code> 到 <code>MEMPACK035</code>），以便于规范定义。</p>
 <p>如果目标类型在外部定义了 MemoryPack 序列化并已注册，可以用 <code>[MemoryPackAllowSerialize]</code> 消除诊断警告。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample2</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample2
 {
-    [<span class="hljs-meta">MemoryPackAllowSerialize</span>]
-    <span class="hljs-keyword">public</span> NotSerializableType? NotSerializableProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [MemoryPackAllowSerialize]
+    public NotSerializableType? NotSerializableProperty { get; set; }
 }
 </code></pre>
 <p>成员顺序<strong>很重要</strong>，MemoryPack 不序列化成员名称或其它信息，而是按声明顺序序列化字段。如果类型有继承，则序列化顺序为父类 → 子类。成员顺序在反序列化时不能更改。如需演进 schema，见 <a href="#version-tolerant">版本容错</a> 部分。</p>
 <p>默认顺序是顺序式，也可以使用 <code>[MemoryPackable(SerializeLayout.Explicit)]</code> 和 <code>[MemoryPackOrder()]</code> 选择显式布局。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// 序列化顺序为 Prop0 -&gt; Prop1</span>
-[<span class="hljs-meta">MemoryPackable(SerializeLayout.Explicit)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SampleExplicitOrder</span>
+<pre><code class="language-csharp">// 序列化顺序为 Prop0 -&gt; Prop1
+[MemoryPackable(SerializeLayout.Explicit)]
+public partial class SampleExplicitOrder
 {
-    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [MemoryPackOrder(1)]
+    public int Prop1 { get; set; }
+    [MemoryPackOrder(0)]
+    public int Prop0 { get; set; }
 }
 </code></pre>
 <h3>构造函数选择</h3>
@@ -269,245 +183,245 @@
 <li>如果有多个构造函数，则必须在所需构造函数上加 <code>[MemoryPackConstructor]</code> 特性（生成器不会自动选择），否则会报错。</li>
 <li>如果使用带参构造函数，则所有参数名必须与对应成员名（不区分大小写）一致。</li>
 </ul>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Person
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> Age;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span> Name;
+    public readonly int Age;
+    public readonly string Name;
 
-    <span class="hljs-comment">// 可以使用带参构造函数——参数名必须与对应成员名（不区分大小写）一致</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> age, <span class="hljs-built_in">string</span> name</span>)</span>
+    // 可以使用带参构造函数——参数名必须与对应成员名（不区分大小写）一致
+    public Person(int age, string name)
     {
-        <span class="hljs-keyword">this</span>.Age = age;
-        <span class="hljs-keyword">this</span>.Name = name;
+        this.Age = age;
+        this.Name = name;
     }
 }
 
-<span class="hljs-comment">// 也支持 record 主构造函数</span>
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">record</span> <span class="hljs-title">Person2</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> Age, <span class="hljs-built_in">string</span> Name</span>)</span>;
+// 也支持 record 主构造函数
+[MemoryPackable]
+public partial record Person2(int Age, string Name);
 
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person3</span>
+public partial class Person3
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Age { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Age { get; set; }
+    public string Name { get; set; }
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person3</span>()</span>
+    public Person3()
     {
     }
 </code></pre>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// 如果有多个构造函数，则应使用 [MemoryPackConstructor]</span>
-[<span class="hljs-meta">MemoryPackConstructor</span>]
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person3</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> age, <span class="hljs-built_in">string</span> name</span>)</span>
+<pre><code class="language-csharp">// 如果有多个构造函数，则应使用 [MemoryPackConstructor]
+[MemoryPackConstructor]
+public Person3(int age, string name)
 {
-    <span class="hljs-keyword">this</span>.Age = age;
-    <span class="hljs-keyword">this</span>.Name = name;
+    this.Age = age;
+    this.Name = name;
 }
 </code></pre>
 <h3>序列化回调</h3>
 <p>在序列化/反序列化时，MemoryPack 可以通过 <code>[MemoryPackOnSerializing]</code>、<code>[MemoryPackOnSerialized]</code>、<code>[MemoryPackOnDeserializing]</code>、<code>[MemoryPackOnDeserialized]</code> 特性调用序列化前/后的事件。它可以标注静态和实例（非静态）方法，以及 public 和 private 方法。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MethodCallSample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class MethodCallSample
 {
-    <span class="hljs-comment">// 方法调用顺序为 static -&gt; instance</span>
-    [<span class="hljs-meta">MemoryPackOnSerializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnSerializing1</span>()</span>
+    // 方法调用顺序为 static -&gt; instance
+    [MemoryPackOnSerializing]
+    public static void OnSerializing1()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerializing1));
+        Console.WriteLine(nameof(OnSerializing1));
     }
 
-    <span class="hljs-comment">// 也允许 private 方法</span>
-    [<span class="hljs-meta">MemoryPackOnSerializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnSerializing2</span>()</span>
+    // 也允许 private 方法
+    [MemoryPackOnSerializing]
+    void OnSerializing2()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerializing2));
+        Console.WriteLine(nameof(OnSerializing2));
     }
 
-    <span class="hljs-comment">// serializing -&gt; /* serialize */ -&gt; serialized</span>
-    [<span class="hljs-meta">MemoryPackOnSerialized</span>]
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnSerialized1</span>()</span>
+    // serializing -&gt; /* serialize */ -&gt; serialized
+    [MemoryPackOnSerialized]
+    static void OnSerialized1()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerialized1));
+        Console.WriteLine(nameof(OnSerialized1));
     }
 
-    [<span class="hljs-meta">MemoryPackOnSerialized</span>]
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnSerialized2</span>()</span>
+    [MemoryPackOnSerialized]
+    public void OnSerialized2()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnSerialized2));
+        Console.WriteLine(nameof(OnSerialized2));
     }
 
-    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserializing1</span>()</span>
+    [MemoryPackOnDeserializing]
+    public static void OnDeserializing1()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserializing1));
+        Console.WriteLine(nameof(OnDeserializing1));
     }
 
-    <span class="hljs-comment">// 注意：带有 MemoryPackOnDeserializing 的实例方法，如果实例没有通过 `ref` 传递则不会被调用</span>
-    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserializing2</span>()</span>
+    // 注意：带有 MemoryPackOnDeserializing 的实例方法，如果实例没有通过 `ref` 传递则不会被调用
+    [MemoryPackOnDeserializing]
+    public void OnDeserializing2()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserializing2));
+        Console.WriteLine(nameof(OnDeserializing2));
     }
 
-    [<span class="hljs-meta">MemoryPackOnDeserialized</span>]
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserialized1</span>()</span>
+    [MemoryPackOnDeserialized]
+    public static void OnDeserialized1()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserialized1));
+        Console.WriteLine(nameof(OnDeserialized1));
     }
 
-    [<span class="hljs-meta">MemoryPackOnDeserialized</span>]
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserialized2</span>()</span>
+    [MemoryPackOnDeserialized]
+    public void OnDeserialized2()
     {
-        Console.WriteLine(<span class="hljs-keyword">nameof</span>(OnDeserialized2));
+        Console.WriteLine(nameof(OnDeserialized2));
     }
 }
 </code></pre>
 <p>回调允许无参数方法和 <code>ref reader/writer, ref T value</code> 方法。例如，ref 回调可以在序列化过程前写入/读取自定义头部。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">EmitIdData</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class EmitIdData
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int MyProperty { get; set; }
 
-    [<span class="hljs-meta">MemoryPackOnSerializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">WriteId</span>&lt;<span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackWriter&lt;TBufferWriter&gt; writer, <span class="hljs-keyword">ref</span> EmitIdData? <span class="hljs-keyword">value</span></span>)
-        <span class="hljs-keyword">where</span> TBufferWriter : IBufferWriter&lt;<span class="hljs-built_in">byte</span>&gt; <span class="hljs-comment">// .NET Standard 2.1, 使用 where TBufferWriter : class, IBufferWriter&lt;byte&gt;</span></span>
+    [MemoryPackOnSerializing]
+    static void WriteId&lt;TBufferWriter&gt;(ref MemoryPackWriter&lt;TBufferWriter&gt; writer, ref EmitIdData? value)
+        where TBufferWriter : IBufferWriter&lt;byte&gt; // .NET Standard 2.1, 使用 where TBufferWriter : class, IBufferWriter&lt;byte&gt;
     {
-        writer.WriteUnmanaged(Guid.NewGuid()); <span class="hljs-comment">// 在头部写入 GUID。</span>
+        writer.WriteUnmanaged(Guid.NewGuid()); // 在头部写入 GUID。
     }
 
-    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ReadId</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">ref</span> EmitIdData? <span class="hljs-keyword">value</span></span>)</span>
+    [MemoryPackOnDeserializing]
+    static void ReadId(ref MemoryPackReader reader, ref EmitIdData? value)
     {
-        <span class="hljs-comment">// 在反序列化前读取自定义头部</span>
-        <span class="hljs-keyword">var</span> guid = reader.ReadUnmanaged&lt;Guid&gt;();
+        // 在反序列化前读取自定义头部
+        var guid = reader.ReadUnmanaged&lt;Guid&gt;();
         Console.WriteLine(guid);
     }
 }
 </code></pre>
 <p>如果对 <code>ref value</code> 赋值，可以更改用于序列化/反序列化的值。例如，从 ServiceProvider 实例化对象。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// 在使用此格式化器前，设置 ServiceProvider</span>
-<span class="hljs-comment">// var options = MemoryPackSerializerOptions.Default with { ServiceProvider = provider };</span>
-<span class="hljs-comment">// MemoryPackSerializer.Deserialize(value, options);</span>
+<pre><code class="language-csharp">// 在使用此格式化器前，设置 ServiceProvider
+// var options = MemoryPackSerializerOptions.Default with { ServiceProvider = provider };
+// MemoryPackSerializer.Deserialize(value, options);
 
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">InstantiateFromServiceProvider</span>
+[MemoryPackable]
+public partial class InstantiateFromServiceProvider
 {
-    <span class="hljs-keyword">static</span> IServiceProvider serviceProvider = <span class="hljs-literal">default</span>!;
+    static IServiceProvider serviceProvider = default!;
 
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+    public int MyProperty { get; private set; }
 
-    [<span class="hljs-meta">MemoryPackOnDeserializing</span>]
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserializing</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">ref</span> InstantiateFromServiceProvider <span class="hljs-keyword">value</span></span>)</span>
+    [MemoryPackOnDeserializing]
+    static void OnDeserializing(ref MemoryPackReader reader, ref InstantiateFromServiceProvider value)
     {
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> != <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;
-        <span class="hljs-keyword">value</span> = reader.Options.ServiceProvider!.GetRequiredService&lt;InstantiateFromServiceProvider&gt;();
+        if (value != null) return;
+        value = reader.Options.ServiceProvider!.GetRequiredService&lt;InstantiateFromServiceProvider&gt;();
     }
 }
 </code></pre>
 <h2>定义自定义集合</h2>
 <p>默认情况下，被 <code>[MemoryPackObject]</code> 标注的类型会尝试序列化其成员。但如果类型是集合（<code>ICollection&lt;&gt;</code>、<code>ISet&lt;&gt;</code>、<code>IDictionary&lt;,&gt;</code>），应使用 <code>GenerateType.Collection</code> 来正确序列化。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable(GenerateType.Collection)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyList</span>&lt;<span class="hljs-title">T</span>&gt; : <span class="hljs-title">List</span>&lt;<span class="hljs-title">T</span>&gt;
+<pre><code class="language-csharp">[MemoryPackable(GenerateType.Collection)]
+public partial class MyList&lt;T&gt; : List&lt;T&gt;
 {
 }
 
-[<span class="hljs-meta">MemoryPackable(GenerateType.Collection)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyStringDictionary</span>&lt;<span class="hljs-title">TValue</span>&gt; : <span class="hljs-title">Dictionary</span>&lt;<span class="hljs-title">string</span>, <span class="hljs-title">TValue</span>&gt;
+[MemoryPackable(GenerateType.Collection)]
+public partial class MyStringDictionary&lt;TValue&gt; : Dictionary&lt;string, TValue&gt;
 {
 
 }
 </code></pre>
 <h2>静态构造函数</h2>
 <p>MemoryPackable 类不能定义静态构造函数，因为生成的 partial 类会使用它。可以改为定义 <code>static partial void StaticConstructor()</code> 来实现相同的功能。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">CctorSample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class CctorSample
 {
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">void</span> <span class="hljs-title">StaticConstructor</span>()</span>
+    static partial void StaticConstructor()
     {
     }
 }
 </code></pre>
 <h2>多态（Union）</h2>
 <p>MemoryPack 支持接口和抽象类对象的多态序列化。在 MemoryPack 中，这个特性称为 Union。只有接口和抽象类允许使用 <code>[MemoryPackUnion]</code> 特性标注。要求唯一的 union tag。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// 在 [MemoryPackable] 以及继承类型上标注 [MemoryPackUnion]</span>
-<span class="hljs-comment">// Union 同样支持抽象类</span>
-[<span class="hljs-meta">MemoryPackable</span>]
-[<span class="hljs-meta">MemoryPackUnion(0, typeof(FooClass))</span>]
-[<span class="hljs-meta">MemoryPackUnion(1, typeof(BarClass))</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IUnionSample</span>
+<pre><code class="language-csharp">// 在 [MemoryPackable] 以及继承类型上标注 [MemoryPackUnion]
+// Union 同样支持抽象类
+[MemoryPackable]
+[MemoryPackUnion(0, typeof(FooClass))]
+[MemoryPackUnion(1, typeof(BarClass))]
+public partial interface IUnionSample
 {
 }
 
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">FooClass</span> : <span class="hljs-title">IUnionSample</span>
+[MemoryPackable]
+public partial class FooClass : IUnionSample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> XYZ { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int XYZ { get; set; }
 }
 
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">BarClass</span> : <span class="hljs-title">IUnionSample</span>
+[MemoryPackable]
+public partial class BarClass : IUnionSample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? OPQ { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public string? OPQ { get; set; }
 }
-<span class="hljs-comment">// ---</span>
+// ---
 
-IUnionSample data = <span class="hljs-keyword">new</span> FooClass() { XYZ = <span class="hljs-number">999</span> };
+IUnionSample data = new FooClass() { XYZ = 999 };
 
-<span class="hljs-comment">// 作为接口类型序列化</span>
-<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(data);
+// 作为接口类型序列化
+var bin = MemoryPackSerializer.Serialize(data);
 
-<span class="hljs-comment">// 作为接口类型反序列化</span>
-<span class="hljs-keyword">var</span> reData = MemoryPackSerializer.Deserialize&lt;IUnionSample&gt;(bin);
+// 作为接口类型反序列化
+var reData = MemoryPackSerializer.Deserialize&lt;IUnionSample&gt;(bin);
 
-<span class="hljs-keyword">switch</span> (reData)
+switch (reData)
 {
-    <span class="hljs-keyword">case</span> FooClass x:
+    case FooClass x:
         Console.WriteLine(x.XYZ);
-        <span class="hljs-keyword">break</span>;
-    <span class="hljs-keyword">case</span> BarClass x:
+        break;
+    case BarClass x:
         Console.WriteLine(x.OPQ);
-        <span class="hljs-keyword">break</span>;
-    <span class="hljs-literal">default</span>:
-        <span class="hljs-keyword">break</span>;
+        break;
+    default:
+        break;
 }
 </code></pre>
 <p><code>tag</code> 允许的范围是 <code>0</code> ~ <code>65535</code>，特别是在小于 <code>250</code> 时效率更高。</p>
-<pre><code class="hljs language-csharp">如果接口和派生类型位于不同的程序集中，可以使用 `MemoryPackUnionFormatterAttribute`。格式化器会以自动通过 C<span class="hljs-meta"># 9.0 及以上的 `ModuleInitializer` 注册的方式生成。</span>
+<pre><code>如果接口和派生类型位于不同的程序集中，可以使用 `MemoryPackUnionFormatterAttribute`。格式化器会以自动通过 C# 9.0 及以上的 `ModuleInitializer` 注册的方式生成。
 
 &gt; 注意，`ModuleInitializer` 在 Unity 中不受支持，因此格式化器必须手动注册。要注册你的 union 格式化器，需要在启动时手动调用 `{你的 union 格式化器名称}Initializer.RegisterFormatter()`。例如 `UnionSampleFormatterInitializer.RegisterFormatter()`。
 
 ```csharp
-<span class="hljs-comment">// AssemblyA</span>
-[<span class="hljs-meta">MemoryPackable(GenerateType.NoGenerate)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IUnionSample</span>
+// AssemblyA
+[MemoryPackable(GenerateType.NoGenerate)]
+public partial interface IUnionSample
 {
 }
 
-<span class="hljs-comment">// AssemblyB 在目标类型外部定义</span>
-[<span class="hljs-meta">MemoryPackUnionFormatter(typeof(IUnionSample))</span>]
-[<span class="hljs-meta">MemoryPackUnion(0, typeof(FooClass))</span>]
-[<span class="hljs-meta">MemoryPackUnion(1, typeof(BarClass))</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UnionSampleFormatter</span>
+// AssemblyB 在目标类型外部定义
+[MemoryPackUnionFormatter(typeof(IUnionSample))]
+[MemoryPackUnion(0, typeof(FooClass))]
+[MemoryPackUnion(1, typeof(BarClass))]
+public partial class UnionSampleFormatter
 {
 }
 </code></pre>
 <p>Union 也可以通过 <code>DynamicUnionFormatter&lt;T&gt;</code> 在代码中组装。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// (ushort, Type)[]</span>
-<span class="hljs-keyword">var</span> formatter = <span class="hljs-keyword">new</span> DynamicUnionFormatter&lt;IFooBarBaz&gt;(
-    (<span class="hljs-number">0</span>, <span class="hljs-keyword">typeof</span>(Foo)),
-    (<span class="hljs-number">1</span>, <span class="hljs-keyword">typeof</span>(Bar)),
-    (<span class="hljs-number">2</span>, <span class="hljs-keyword">typeof</span>(Baz))
+<pre><code class="language-csharp">// (ushort, Type)[]
+var formatter = new DynamicUnionFormatter&lt;IFooBarBaz&gt;(
+    (0, typeof(Foo)),
+    (1, typeof(Bar)),
+    (2, typeof(Baz))
 );
 
 MemoryPackFormatterProvider.Register(formatter);
 </code></pre>
 <h2>序列化 API</h2>
 <p><code>Serialize</code> 有三个重载。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// 也提供非泛型 API，此版本第一个参数为 Type，值为 object?</span>
-<span class="hljs-function"><span class="hljs-built_in">byte</span>[] <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> T? <span class="hljs-keyword">value</span>, MemoryPackSerializerOptions? options = <span class="hljs-literal">default</span></span>)
-<span class="hljs-keyword">void</span> <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">T</span>, <span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> TBufferWriter bufferWriter, <span class="hljs-keyword">in</span> T? <span class="hljs-keyword">value</span>, MemoryPackSerializerOptions? options = <span class="hljs-literal">default</span></span>)
-<span class="hljs-keyword">async</span> ValueTask <span class="hljs-title">SerializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream, T? <span class="hljs-keyword">value</span>, MemoryPackSerializerOptions? options = <span class="hljs-literal">default</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
-</span></code></pre>
+<pre><code class="language-csharp">// 也提供非泛型 API，此版本第一个参数为 Type，值为 object?
+byte[] Serialize&lt;T&gt;(in T? value, MemoryPackSerializerOptions? options = default)
+void Serialize&lt;T, TBufferWriter&gt;(in TBufferWriter bufferWriter, in T? value, MemoryPackSerializerOptions? options = default)
+async ValueTask SerializeAsync&lt;T&gt;(Stream stream, T? value, MemoryPackSerializerOptions? options = default, CancellationToken cancellationToken = default)
+</code></pre>
 <p>为了性能，推荐使用 <code>BufferWriter</code> 的 API。它会直接序列化到缓冲区。可应用于 <code>System.IO.Pipelines</code> 中的 <code>PipeWriter</code>，ASP .NET Core 中的 <code>BodyWriter</code> 等。</p>
 <p>如果需要 <code>byte[]</code>（例如 <a href="https://github.com/StackExchange/StackExchange.Redis">StackExchange.Redis</a> 中的 <code>RedisValue</code>），返回 <code>byte[]</code> 的 API 简单且几乎同样快速。</p>
 <p>注意，<code>Stream</code> 的 <code>SerializeAsync</code> 仅在 Flush 阶段是异步的；它会一次性序列化所有内容到 MemoryPack 的内部池缓冲区中，然后用 <code>WriteAsync</code> 写出。因此，更推荐使用 <code>BufferWriter</code> 重载，可以分离和控制缓冲及刷新。</p>
@@ -520,22 +434,22 @@ MemoryPackFormatterProvider.Register(formatter);
 <p>此外，可以通过 options 获取/设置 <code>IServiceProvider? ServiceProvider { get; init; }</code>。这在序列化过程中（<code>MemoryPackReader/MemoryPackWriter</code> 有 .Options 属性）获取 DI 对象（如 <code>ILogger&lt;T&gt;</code>）时非常有用。</p>
 <h2>反序列化 API</h2>
 <p><code>Deserialize</code> 支持 <code>ReadOnlySpan&lt;byte&gt;</code>、<code>ReadOnlySequence&lt;byte&gt;</code>、<code>Stream</code> 重载及 <code>ref</code> 支持。</p>
-<pre><code class="language-csharp hljs">T? Deserialize&lt;T&gt;(ReadOnlySpan&lt;<span class="hljs-built_in">byte</span>&gt; buffer)
-<span class="hljs-function"><span class="hljs-built_in">int</span> <span class="hljs-title">Deserialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">ReadOnlySpan&lt;<span class="hljs-built_in">byte</span>&gt; buffer, <span class="hljs-keyword">ref</span> T? <span class="hljs-keyword">value</span></span>)
-T? <span class="hljs-title">Deserialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> ReadOnlySequence&lt;<span class="hljs-built_in">byte</span>&gt; buffer</span>)
-<span class="hljs-built_in">int</span> <span class="hljs-title">Deserialize</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">in</span> ReadOnlySequence&lt;<span class="hljs-built_in">byte</span>&gt; buffer, <span class="hljs-keyword">ref</span> T? <span class="hljs-keyword">value</span></span>)
-<span class="hljs-keyword">async</span> <span class="hljs-title">ValueTask</span>&lt;<span class="hljs-title">T</span>?&gt; <span class="hljs-title">DeserializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream</span>)
-</span></code></pre>
+<pre><code class="language-csharp">T? Deserialize&lt;T&gt;(ReadOnlySpan&lt;byte&gt; buffer)
+int Deserialize&lt;T&gt;(ReadOnlySpan&lt;byte&gt; buffer, ref T? value)
+T? Deserialize&lt;T&gt;(in ReadOnlySequence&lt;byte&gt; buffer)
+int Deserialize&lt;T&gt;(in ReadOnlySequence&lt;byte&gt; buffer, ref T? value)
+async ValueTask&lt;T?&gt; DeserializeAsync&lt;T&gt;(Stream stream)
+</code></pre>
 <p><code>ref</code> 重载会覆盖已存在的实例，详情见 <a href="#overwrite">Overwrite</a> 部分。</p>
 <p><code>DeserializeAsync(Stream)</code> 并不是完全的流式读取操作，首先会读取到 MemoryPack 的内部池直到流末尾，然后再进行反序列化。</p>
 <p>如果你想实现完整的流式读取操作，请参见 <a href="#streaming-serialization">流式序列化</a> 部分。</p>
 <h2>覆盖写入</h2>
 <p>为了减少分配，MemoryPack 支持反序列化到已有实例上，覆盖其数据。这可以通过 <code>Deserialize(ref T? value)</code> 重载实现。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> person = <span class="hljs-keyword">new</span> Person();
-<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(person);
+<pre><code class="language-csharp">var person = new Person();
+var bin = MemoryPackSerializer.Serialize(person);
 
-<span class="hljs-comment">// 覆盖已有实例的数据。</span>
-MemoryPackSerializer.Deserialize(bin, <span class="hljs-keyword">ref</span> person);
+// 覆盖已有实例的数据。
+MemoryPackSerializer.Deserialize(bin, ref person);
 </code></pre>
 <p>MemoryPack 会尽可能覆盖，但如不满足以下条件，会新建实例（与普通反序列化一样）。</p>
 <ul>
@@ -553,52 +467,53 @@ MemoryPackSerializer.Deserialize(bin, <span class="hljs-keyword">ref</span> pers
 <li>不可更改成员顺序</li>
 <li>不可更改成员类型</li>
 </ul>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class VersionCheck
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Prop1 { get; set; }
+    public long Prop2 { get; set; }
 }
 
-<span class="hljs-comment">// 新增成员是允许的</span>
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+// 新增成员是允许的
+[MemoryPackable]
+public partial class VersionCheck
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span>? AddedProp { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Prop1 { get; set; }
+    public long Prop2 { get; set; }
+    public int? AddedProp { get; set; }
 }
 
-<span class="hljs-comment">// 删除成员是不允许的</span>
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+// 删除成员是不允许的
+[MemoryPackable]
+public partial class VersionCheck
 {
-    <span class="hljs-comment">// public int Prop1 { get; set; }</span>
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    // public int Prop1 { get; set; }
+    public long Prop2 { get; set; }
 }
 
-<span class="hljs-comment">// 更改顺序是不允许的</span>
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionCheck</span>
+// 更改顺序是不允许的
+[MemoryPackable]
+public partial class VersionCheck
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public long Prop2 { get; set; }
+    public int Prop1 { get; set; }
 }
 </code></pre>
 <p>实际用例中，存储旧数据（如存储到文件、Redis 等）并读取到新 schema 总是可以的。在 RPC 场景下，schema 同时存在于客户端和服务端，必须先更新客户端。已更新的客户端可连接旧服务器，但旧客户端不能连接新服务器。</p>
-<p>默认情况下，将旧数据读入新 schema 时，数据端不存在的成员会初始化为 <code>default</code> 字面量。<br>如果想避免此情况，使用字段/属性的初始值，可以使用 <code>[SuppressDefaultInitialization]</code>。</p>
-<pre><code class="language-cs hljs language-csharp">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">DefaultValue</span>
+<p>默认情况下，将旧数据读入新 schema 时，数据端不存在的成员会初始化为 <code>default</code> 字面量。
+如果想避免此情况，使用字段/属性的初始值，可以使用 <code>[SuppressDefaultInitialization]</code>。</p>
+<pre><code class="language-cs">[MemoryPackable]
+public partial class DefaultValue
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Prop1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public string Prop1 { get; set; }
 
-    [<span class="hljs-meta">SuppressDefaultInitialization</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-number">111</span>; <span class="hljs-comment">// &lt; 若旧数据缺失，则设置为 `111`。</span>
+    [SuppressDefaultInitialization]
+    public int Prop2 { get; set; } = 111; // &lt; 若旧数据缺失，则设置为 `111`。
     
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Prop3 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-number">222</span>; <span class="hljs-comment">// &lt; 若旧数据缺失，则设置为 `default`。</span>
+    public int Prop3 { get; set; } = 222; // &lt; 若旧数据缺失，则设置为 `default`。
 }
 </code></pre>
-<p> <code>[SuppressDefaultInitialization]</code> 有以下限制：</p>
+<p><code>[SuppressDefaultInitialization]</code> 有以下限制：</p>
 <ul>
 <li>不能用于 readonly、init-only 及 required 修饰符。</li>
 </ul>
@@ -612,67 +527,67 @@ MemoryPackSerializer.Deserialize(bin, <span class="hljs-keyword">ref</span> pers
 <li>不可更改成员顺序</li>
 <li>不可更改成员类型</li>
 </ul>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// 支持双向序列化/反序列化 </span>
-<span class="hljs-comment">// VersionTolerantObject1 -&gt; VersionTolerantObject2 以及 </span>
-<span class="hljs-comment">// VersionTolerantObject2 -&gt; VersionTolerantObject1</span>
+<pre><code class="language-csharp">// 支持双向序列化/反序列化 
+// VersionTolerantObject1 -&gt; VersionTolerantObject2 以及 
+// VersionTolerantObject2 -&gt; VersionTolerantObject1
 
-[<span class="hljs-meta">MemoryPackable(GenerateType.VersionTolerant)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionTolerantObject1</span>
+[MemoryPackable(GenerateType.VersionTolerant)]
+public partial class VersionTolerantObject1
 {
-    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+    [MemoryPackOrder(0)]
+    public int MyProperty0 { get; set; } = default;
 
-    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> MyProperty1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+    [MemoryPackOrder(1)]
+    public long MyProperty1 { get; set; } = default;
 
-    [<span class="hljs-meta">MemoryPackOrder(2)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+    [MemoryPackOrder(2)]
+    public short MyProperty2 { get; set; } = default;
 }
 
-[<span class="hljs-meta">MemoryPackable(GenerateType.VersionTolerant)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionTolerantObject2</span>
+[MemoryPackable(GenerateType.VersionTolerant)]
+public partial class VersionTolerantObject2
 {
 ```csharp
-[<span class="hljs-meta">MemoryPackOrder(0)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+[MemoryPackOrder(0)]
+public int MyProperty0 { get; set; } = default;
 
-<span class="hljs-comment">// deleted</span>
-<span class="hljs-comment">//[MemoryPackOrder(1)]</span>
-<span class="hljs-comment">//public long MyProperty1 { get; set; } = default;</span>
+// deleted
+//[MemoryPackOrder(1)]
+//public long MyProperty1 { get; set; } = default;
 
-[<span class="hljs-meta">MemoryPackOrder(2)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+[MemoryPackOrder(2)]
+public short MyProperty2 { get; set; } = default;
 
-<span class="hljs-comment">// added</span>
-[<span class="hljs-meta">MemoryPackOrder(3)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty3 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+// added
+[MemoryPackOrder(3)]
+public short MyProperty3 { get; set; } = default;
 }
 </code></pre>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// 如果显式设置 SerializeLayout.Sequential，则允许自动排序。</span>
-<span class="hljs-comment">// 但它不能移除任何成员以支持版本容错。</span>
-[<span class="hljs-meta">MemoryPackable(GenerateType.VersionTolerant, SerializeLayout.Sequential)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">VersionTolerantObject3</span>
+<pre><code class="language-csharp">// 如果显式设置 SerializeLayout.Sequential，则允许自动排序。
+// 但它不能移除任何成员以支持版本容错。
+[MemoryPackable(GenerateType.VersionTolerant, SerializeLayout.Sequential)]
+public partial class VersionTolerantObject3
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> MyProperty0 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">long</span> MyProperty1 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">short</span> MyProperty2 { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-literal">default</span>;
+    public int MyProperty0 { get; set; } = default;
+    public long MyProperty1 { get; set; } = default;
+    public short MyProperty2 { get; set; } = default;
 }
 </code></pre>
 <p><code>GenerateType.VersionTolerant</code> 在序列化时比 <code>GenerateType.Object</code> 更慢。同时，负载大小也会略大。</p>
 <h2>序列化信息</h2>
 <p>你可以在类型的 IntelliSense 中查看哪些成员被序列化。也可以选择在编译时将该信息写入文件。设置 <code>MemoryPackGenerator_SerializationInfoOutputDirectory</code>，如下所示。</p>
-<pre><code class="language-xml hljs"><span class="hljs-comment">&lt;!-- 将 memorypack 序列化信息输出到目录 --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_SerializationInfoOutputDirectory"</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">PropertyGroup</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_SerializationInfoOutputDirectory</span>&gt;</span>$(MSBuildProjectDirectory)\MemoryPackLogs<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_SerializationInfoOutputDirectory</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">PropertyGroup</span>&gt;</span>
+<pre><code class="language-xml">&lt;!-- 将 memorypack 序列化信息输出到目录 --&gt;
+&lt;ItemGroup&gt;
+    &lt;CompilerVisibleProperty Include=&quot;MemoryPackGenerator_SerializationInfoOutputDirectory&quot; /&gt;
+&lt;/ItemGroup&gt;
+&lt;PropertyGroup&gt;
+    &lt;MemoryPackGenerator_SerializationInfoOutputDirectory&gt;$(MSBuildProjectDirectory)\MemoryPackLogs&lt;/MemoryPackGenerator_SerializationInfoOutputDirectory&gt;
+&lt;/PropertyGroup&gt;
 </code></pre>
 <p>以下信息会被写入到文件中。</p>
-<p><img src="https://user-images.githubusercontent.com/46207/192460684-c2fd8bcb-375e-41dd-9960-58205d5b1b7a.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/46207/192460684-c2fd8bcb-375e-41dd-9960-58205d5b1b7a.png" alt="image" /></p>
 <p>如果类型是非托管类型，则会在类型名前显示 <code>unmanaged</code>。</p>
-<pre><code class="language-txt hljs language-plaintext">unmanaged FooStruct
+<pre><code class="language-txt">unmanaged FooStruct
 ---
 int x
 int y
@@ -685,190 +600,190 @@ int y
 </ul>
 <h2>循环引用</h2>
 <p>MemoryPack 也支持循环引用。这允许树形对象按原样进行序列化。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// 如需启用循环引用，请使用 GenerateType.CircularReference</span>
-[<span class="hljs-meta">MemoryPackable(GenerateType.CircularReference)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>
+<pre><code class="language-csharp">// 如需启用循环引用，请使用 GenerateType.CircularReference
+[MemoryPackable(GenerateType.CircularReference)]
+public partial class Node
 {
-    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
-    <span class="hljs-keyword">public</span> Node? Parent { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
-    <span class="hljs-keyword">public</span> Node[]? Children { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [MemoryPackOrder(0)]
+    public Node? Parent { get; set; }
+    [MemoryPackOrder(1)]
+    public Node[]? Children { get; set; }
 }
 </code></pre>
-<p> 例如，<a href="https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references">System.Text.Json preserve-references</a> 的代码如下所示。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references?pivots=dotnet-7-0</span>
-Employee tyler = <span class="hljs-keyword">new</span>()
+<p>例如，<a href="https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references">System.Text.Json preserve-references</a> 的代码如下所示。</p>
+<pre><code class="language-csharp">// https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references?pivots=dotnet-7-0
+Employee tyler = new()
 {
-    Name = <span class="hljs-string">"Tyler Stein"</span>
+    Name = &quot;Tyler Stein&quot;
 };
 
-Employee adrian = <span class="hljs-keyword">new</span>()
+Employee adrian = new()
 {
-    Name = <span class="hljs-string">"Adrian King"</span>
+    Name = &quot;Adrian King&quot;
 };
 
-tyler.DirectReports = <span class="hljs-keyword">new</span> List&lt;Employee&gt; { adrian };
+tyler.DirectReports = new List&lt;Employee&gt; { adrian };
 adrian.Manager = tyler;
 
-<span class="hljs-keyword">var</span> bin = MemoryPackSerializer.Serialize(tyler);
+var bin = MemoryPackSerializer.Serialize(tyler);
 Employee? tylerDeserialized = MemoryPackSerializer.Deserialize&lt;Employee&gt;(bin);
 
-Console.WriteLine(tylerDeserialized?.DirectReports?[<span class="hljs-number">0</span>].Manager == tylerDeserialized); <span class="hljs-comment">// true</span>
+Console.WriteLine(tylerDeserialized?.DirectReports?[0].Manager == tylerDeserialized); // true
 
-[<span class="hljs-meta">MemoryPackable(GenerateType.CircularReference)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Employee</span>
+[MemoryPackable(GenerateType.CircularReference)]
+public partial class Employee
 {
-    [<span class="hljs-meta">MemoryPackOrder(0)</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Name { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    [<span class="hljs-meta">MemoryPackOrder(1)</span>]
-    <span class="hljs-keyword">public</span> Employee? Manager { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    [<span class="hljs-meta">MemoryPackOrder(2)</span>]
-    <span class="hljs-keyword">public</span> List&lt;Employee&gt;? DirectReports { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [MemoryPackOrder(0)]
+    public string? Name { get; set; }
+    [MemoryPackOrder(1)]
+    public Employee? Manager { get; set; }
+    [MemoryPackOrder(2)]
+    public List&lt;Employee&gt;? DirectReports { get; set; }
 }
 </code></pre>
 <p><code>GenerateType.CircularReference</code> 具有与版本容错相同的特性。但作为额外的约束，只允许无参数构造函数。同时，对象引用跟踪仅针对标记了 <code>GenerateType.CircularReference</code> 的对象进行。如果你需要跟踪其他对象，请进行包装。</p>
 <h2>自定义格式化器（CustomFormatter）</h2>
 <p>如果实现了 <code>MemoryPackCustomFormatterAttribute&lt;T&gt;</code> 或 <code>MemoryPackCustomFormatterAttribute&lt;TFormatter, T&gt;</code>（性能更高，但更复杂），你可以配置 MemoryPackObject 的成员使用自定义格式化器。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = false)</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MemoryPackCustomFormatterAttribute</span>&lt;<span class="hljs-title">T</span>&gt; : <span class="hljs-title">Attribute</span>
+<pre><code class="language-csharp">[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+public abstract class MemoryPackCustomFormatterAttribute&lt;T&gt; : Attribute
 {
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> IMemoryPackFormatter&lt;T&gt; <span class="hljs-title">GetFormatter</span>()</span>;
+    public abstract IMemoryPackFormatter&lt;T&gt; GetFormatter();
 }
 </code></pre>
 <p>MemoryPack 提供了如下格式化属性：<code>Utf8StringFormatterAttribute</code>、<code>Utf16StringFormatterAttribute</code>、<code>InternStringFormatterAttribute</code>、<code>OrdinalIgnoreCaseStringDictionaryFormatterAttribute&lt;TValue&gt;</code>、<code>BitPackFormatterAttribute</code>、<code>BrotliFormatter</code>、<code>BrotliStringFormatter</code>、<code>BrotliFormatter&lt;T&gt;</code>、<code>MemoryPoolFormatter&lt;T&gt;</code>、<code>ReadOnlyMemoryPoolFormatter&lt;T&gt;</code>。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-comment">// 将此成员序列化为 UTF16 字符串，比 UTF8 性能高，但在 ASCII 下体积更大（但非 ASCII 下有时更小）。</span>
-    [<span class="hljs-meta">Utf16StringFormatter</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Text { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    // 将此成员序列化为 UTF16 字符串，比 UTF8 性能高，但在 ASCII 下体积更大（但非 ASCII 下有时更小）。
+    [Utf16StringFormatter]
+    public string? Text { get; set; }
 
-    <span class="hljs-comment">// 反序列化时，Dictionary 会以 StringComparer.OrdinalIgnoreCase 初始化。</span>
-    [<span class="hljs-meta">OrdinalIgnoreCaseStringDictionaryFormatter&lt;int&gt;</span>]
-    <span class="hljs-keyword">public</span> Dictionary&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">int</span>&gt;? Ids { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    // 反序列化时，Dictionary 会以 StringComparer.OrdinalIgnoreCase 初始化。
+    [OrdinalIgnoreCaseStringDictionaryFormatter&lt;int&gt;]
+    public Dictionary&lt;string, int&gt;? Ids { get; set; }
     
-    <span class="hljs-comment">// 反序列化时，所有字符串都将被驻留（参见：String.Intern）。如果有大量重复字符串，可以节省内存。</span>
-    [<span class="hljs-meta">InternStringFormatter</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? Flag { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    // 反序列化时，所有字符串都将被驻留（参见：String.Intern）。如果有大量重复字符串，可以节省内存。
+    [InternStringFormatter]
+    public string? Flag { get; set; }
 }
 </code></pre>
 <p>为了配置集合/字典的相等比较器，所有内建格式化器都带有比较器构造重载。你可以轻松创建自定义相等比较器格式化器。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title">OrdinalIgnoreCaseStringDictionaryFormatter</span>&lt;<span class="hljs-title">TValue</span>&gt; : <span class="hljs-title">MemoryPackCustomFormatterAttribute</span>&lt;<span class="hljs-title">Dictionary</span>&lt;<span class="hljs-title">string</span>, <span class="hljs-title">TValue</span>?&gt;&gt;
+<pre><code class="language-csharp">public sealed class OrdinalIgnoreCaseStringDictionaryFormatter&lt;TValue&gt; : MemoryPackCustomFormatterAttribute&lt;Dictionary&lt;string, TValue?&gt;&gt;
 {
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> DictionaryFormatter&lt;<span class="hljs-built_in">string</span>, TValue?&gt; formatter = <span class="hljs-keyword">new</span> DictionaryFormatter&lt;<span class="hljs-built_in">string</span>, TValue?&gt;(StringComparer.OrdinalIgnoreCase);
+    static readonly DictionaryFormatter&lt;string, TValue?&gt; formatter = new DictionaryFormatter&lt;string, TValue?&gt;(StringComparer.OrdinalIgnoreCase);
 
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> IMemoryPackFormatter&lt;Dictionary&lt;<span class="hljs-built_in">string</span>, TValue?&gt;&gt; GetFormatter()
+    public override IMemoryPackFormatter&lt;Dictionary&lt;string, TValue?&gt;&gt; GetFormatter()
     {
-        <span class="hljs-keyword">return</span> formatter;
+        return formatter;
     }
 }
 </code></pre>
 <p><code>BitPackFormatter</code> 仅压缩 <code>bool[]</code> 类型。<code>bool[]</code> 通常按每个布尔值 1 字节序列化，但 <code>BitPackFormatter</code> 会像 <code>BitArray</code> 一样按每个 bool 1 bit 存储。使用 <code>BitPackFormatter</code>，8 个 bool 只占 1 字节，而通常为 8 字节，体积缩小 8 倍。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Id { get; set; }
 
-    [<span class="hljs-meta">BitPackFormatter</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">bool</span>[]? Data { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [BitPackFormatter]
+    public bool[]? Data { get; set; }
 }
 </code></pre>
 <p><code>BrotliFormatter</code> 用于 <code>byte[]</code>，例如你可以用 Brotli 压缩大型负载。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Id { get; set; }
 
-    [<span class="hljs-meta">BrotliFormatter</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span>[]? Payload { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [BrotliFormatter]
+    public byte[]? Payload { get; set; }
 }
 </code></pre>
 <p><code>BrotliStringFormatter</code> 用于 <code>string</code>，将字符串（UTF16）以 Brotli 压缩方式序列化。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Id { get; set; }
 
-    [<span class="hljs-meta">BrotliStringFormatter</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span>? LargeText { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [BrotliStringFormatter]
+    public string? LargeText { get; set; }
 }
 </code></pre>
 <p><code>BrotliFormatter&lt;T&gt;</code> 适用于任何类型，其序列化数据通过 Brotli 压缩。如果类型是 <code>byte[]</code> 或 <code>string</code>，为了性能，应该使用 <code>BrotliFormatter</code> 或 <code>BrotliStringFormatter</code>。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Id { get; set; }
 
-    [<span class="hljs-meta">BrotliFormatter&lt;ChildType&gt;</span>]
-    <span class="hljs-keyword">public</span> ChildType? Child { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [BrotliFormatter&lt;ChildType&gt;]
+    public ChildType? Child { get; set; }
 }
 </code></pre>
 <h2>反序列化数组池化</h2>
 <p>为了反序列化大型数组（任何 <code>T</code>），MemoryPack 提供了多种高效的池化方法。最有效的方法是使用 <a href="#overwrite">#Overwrite</a> 功能。特别是 <code>List&lt;T&gt;</code> 总是被复用。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ListBytesSample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class ListBytesSample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">List</span>&lt;<span class="hljs-title">byte</span>&gt; Payload</span> { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Id { get; set; }
+    public List&lt;byte&gt; Payload { get; set; }
 }
 
-<span class="hljs-comment">// ----</span>
+// ----
 
-<span class="hljs-comment">// List&lt;byte&gt; 被复用，反序列化时无分配。</span>
-MemoryPackSerializer.Deserialize&lt;ListBytesSample&gt;(bin, <span class="hljs-keyword">ref</span> reuseObject);
+// List&lt;byte&gt; 被复用，反序列化时无分配。
+MemoryPackSerializer.Deserialize&lt;ListBytesSample&gt;(bin, ref reuseObject);
 
-<span class="hljs-comment">// 为了高效操作，可以通过 CollectionsMarshal 获取 Span&lt;T&gt;</span>
-<span class="hljs-keyword">var</span> span = CollectionsMarshal.AsSpan(<span class="hljs-keyword">value</span>.Payload);
+// 为了高效操作，可以通过 CollectionsMarshal 获取 Span&lt;T&gt;
+var span = CollectionsMarshal.AsSpan(value.Payload);
 </code></pre>
 <p>一种方便的方法是在反序列化时反序列化到 ArrayPool。MemoryPack 提供了 <code>MemoryPoolFormatter&lt;T&gt;</code> 和 <code>ReadOnlyMemoryPoolFormatter&lt;T&gt;</code>。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">PoolModelSample</span> : <span class="hljs-title">IDisposable</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class PoolModelSample : IDisposable
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; }
+    public int Id { get; }
 
-    [<span class="hljs-meta">MemoryPoolFormatter&lt;byte&gt;</span>]
-    <span class="hljs-keyword">public</span> Memory&lt;<span class="hljs-built_in">byte</span>&gt; Payload { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+    [MemoryPoolFormatter&lt;byte&gt;]
+    public Memory&lt;byte&gt; Payload { get; private set; }
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PoolModelSample</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> id, Memory&lt;<span class="hljs-built_in">byte</span>&gt; payload</span>)</span>
+    public PoolModelSample(int id, Memory&lt;byte&gt; payload)
     {
         Id = id;
         Payload = payload;
     }
 
-    <span class="hljs-comment">// 必须自己编写释放代码，以下为片段示例。</span>
+    // 必须自己编写释放代码，以下为片段示例。
 
-    <span class="hljs-built_in">bool</span> usePool;
+    bool usePool;
 
-    [<span class="hljs-meta">MemoryPackOnDeserialized</span>]
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnDeserialized</span>()</span>
+    [MemoryPackOnDeserialized]
+    void OnDeserialized()
     {
-        usePool = <span class="hljs-literal">true</span>;
+        usePool = true;
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Dispose</span>()</span>
+    public void Dispose()
     {
-        <span class="hljs-keyword">if</span> (!usePool) <span class="hljs-keyword">return</span>;
+        if (!usePool) return;
 
-        Return(Payload); Payload = <span class="hljs-literal">default</span>;
+        Return(Payload); Payload = default;
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Return</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Memory&lt;T&gt; memory</span>)</span> =&gt; Return((ReadOnlyMemory&lt;T&gt;)memory);
+    static void Return&lt;T&gt;(Memory&lt;T&gt; memory) =&gt; Return((ReadOnlyMemory&lt;T&gt;)memory);
 
-    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Return</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">ReadOnlyMemory&lt;T&gt; memory</span>)</span>
+    static void Return&lt;T&gt;(ReadOnlyMemory&lt;T&gt; memory)
     {
-        <span class="hljs-keyword">if</span> (MemoryMarshal.TryGetArray(memory, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> segment) &amp;&amp; segment.Array <span class="hljs-keyword">is</span> { Length: &gt; <span class="hljs-number">0</span> })
+        if (MemoryMarshal.TryGetArray(memory, out var segment) &amp;&amp; segment.Array is { Length: &gt; 0 })
         {
             ArrayPool&lt;T&gt;.Shared.Return(segment.Array, clearArray: RuntimeHelpers.IsReferenceOrContainsReferences&lt;T&gt;());
         }
     }
 }
 
-<span class="hljs-comment">// ---</span>
+// ---
 
-<span class="hljs-keyword">using</span>(<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = MemoryPackSerializer.Deserialize&lt;PoolModelSample&gt;(bin))
+using(var value = MemoryPackSerializer.Deserialize&lt;PoolModelSample&gt;(bin))
 {
-    <span class="hljs-comment">// 执行任何操作...</span>
-}   <span class="hljs-comment">// 归还到 ArrayPool</span>
+    // 执行任何操作...
+}   // 归还到 ArrayPool
 </code></pre>
 <h2>性能</h2>
 <p>参见我的博客文章 <a href="https://medium.com/@neuecc/how-to-make-the-fastest-net-serializer-with-net-7-c-11-case-of-memorypack-ad28c0366516">How to make the fastest .NET Serializer with .NET 7 / C# 11, case of MemoryPack</a></p>
@@ -880,105 +795,105 @@ MemoryPackSerializer.Deserialize&lt;ListBytesSample&gt;(bin, <span class="hljs-k
 <p>无论如何，如果负载很大，应该考虑压缩。推荐使用 LZ4、ZStandard 和 Brotli。</p>
 <h3>压缩</h3>
 <p>MemoryPack 通过 <a href="https://learn.microsoft.com/zh-cn/dotnet/api/system.io.compression.brotliencoder">BrotliEncoder</a> 和 <a href="https://learn.microsoft.com/zh-cn/dotnet/api/system.io.compression.brotlidecoder">BrotliDecoder</a> 提供了高效的 <a href="https://github.com/google/brotli">Brotli</a> 压缩辅助。MemoryPack 的 <code>BrotliCompressor</code> 和 <code>BrotliDecompressor</code> 针对 MemoryPack 内部行为进行了压缩/解压缩优化。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> MemoryPack.Compression;
+<pre><code class="language-csharp">using MemoryPack.Compression;
 
-<span class="hljs-comment">// 压缩（需要 using）</span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> compressor = <span class="hljs-keyword">new</span> BrotliCompressor();
-MemoryPackSerializer.Serialize(compressor, <span class="hljs-keyword">value</span>);
+// 压缩（需要 using）
+using var compressor = new BrotliCompressor();
+MemoryPackSerializer.Serialize(compressor, value);
 
-<span class="hljs-comment">// 获取压缩后的 byte[]</span>
-<span class="hljs-keyword">var</span> compressedBytes = compressor.ToArray();
+// 获取压缩后的 byte[]
+var compressedBytes = compressor.ToArray();
 
-<span class="hljs-comment">// 或写入其他 IBufferWriter&lt;byte&gt;（例如 PipeWriter）</span>
+// 或写入其他 IBufferWriter&lt;byte&gt;（例如 PipeWriter）
 compressor.CopyTo(response.BodyWriter);
 </code></pre>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> MemoryPack.Compression;
+<pre><code class="language-csharp">using MemoryPack.Compression;
 
-<span class="hljs-comment">// 解压缩（需要 using）</span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> decompressor = <span class="hljs-keyword">new</span> BrotliDecompressor();
+// 解压缩（需要 using）
+using var decompressor = new BrotliDecompressor();
 
-<span class="hljs-comment">// 从 ReadOnlySpan&lt;byte&gt; 或 ReadOnlySequence&lt;byte&gt; 获取解压后的 ReadOnlySequence&lt;byte&gt;</span>
-<span class="hljs-keyword">var</span> decompressedBuffer = decompressor.Decompress(buffer);
+// 从 ReadOnlySpan&lt;byte&gt; 或 ReadOnlySequence&lt;byte&gt; 获取解压后的 ReadOnlySequence&lt;byte&gt;
+var decompressedBuffer = decompressor.Decompress(buffer);
 
-<span class="hljs-keyword">var</span> <span class="hljs-keyword">value</span> = MemoryPackSerializer.Deserialize&lt;T&gt;(decompressedBuffer);
+var value = MemoryPackSerializer.Deserialize&lt;T&gt;(decompressedBuffer);
 </code></pre>
 <p><code>BrotliCompressor</code> 和 <code>BrotliDecompressor</code> 都是结构体，不会在堆上分配内存。两者都将压缩或解压的数据存储在内部内存池中用于序列化/反序列化。因此，需要释放内存池，不要忘记使用 <code>using</code>。</p>
 <p>压缩级别非常重要。默认设置为 quality-1（CompressionLevel.Fastest），这与 .NET 默认值（CompressionLevel.Optimal，quality-4）不同。</p>
 <p>Fastest（quality-1）的速度接近 <a href="https://github.com/lz4/lz4">LZ4</a>，但 quality-4 慢得多。这在序列化器的使用场景中尤为关键。在使用标准的 <code>BrotliStream</code> 时要小心（默认是 quality-4）。无论如何，压缩/解压速度和体积对于不同数据会有很大差异。请准备你应用需要处理的数据并自行测试。</p>
 <p>注意，MemoryPack 的未压缩与 Brotli 压缩之间，速度会有数倍的损耗。</p>
 <p>Brotli 也支持自定义格式化器。<code>BrotliFormatter</code> 可以压缩某个特定成员。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Sample</span>
+<pre><code class="language-csharp">[MemoryPackable]
+public partial class Sample
 {
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    public int Id { get; set; }
 
-    [<span class="hljs-meta">BrotliFormatter</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span>[]? Payload { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+    [BrotliFormatter]
+    public byte[]? Payload { get; set; }
 }
 </code></pre>
 <h2>序列化外部类型</h2>
 <p>如果你想序列化外部类型，可以自定义格式化器并注册到 provider，详见 <a href="#formatterprovider-api">Formatter/Provider API</a>。然而，创建自定义格式化器较为困难。因此，推荐创建一个包装类型。例如，如果你想序列化一个名为 <code>AnimationCurve</code> 的外部类型。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// Keyframe: (float time, float inTangent, float outTangent, int tangentMode, int weightedMode, float inWeight, float outWeight)</span>
-[<span class="hljs-meta">MemoryPackable</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">struct</span> SerializableAnimationCurve
+<pre><code class="language-csharp">// Keyframe: (float time, float inTangent, float outTangent, int tangentMode, int weightedMode, float inWeight, float outWeight)
+[MemoryPackable]
+public readonly partial struct SerializableAnimationCurve
 {
-    [<span class="hljs-meta">MemoryPackIgnore</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> AnimationCurve AnimationCurve;
+    [MemoryPackIgnore]
+    public readonly AnimationCurve AnimationCurve;
 
-    [<span class="hljs-meta">MemoryPackInclude</span>]
+    [MemoryPackInclude]
     WrapMode preWrapMode =&gt; AnimationCurve.preWrapMode;
-    [<span class="hljs-meta">MemoryPackInclude</span>]
+    [MemoryPackInclude]
     WrapMode postWrapMode =&gt; AnimationCurve.postWrapMode;
-    [<span class="hljs-meta">MemoryPackInclude</span>]
+    [MemoryPackInclude]
     Keyframe[] keys =&gt; AnimationCurve.keys;
 
-    [<span class="hljs-meta">MemoryPackConstructor</span>]
+    [MemoryPackConstructor]
     SerializableAnimationCurve(WrapMode preWrapMode, WrapMode postWrapMode, Keyframe[] keys)
     {
-        <span class="hljs-keyword">var</span> curve = <span class="hljs-keyword">new</span> AnimationCurve(keys);
+        var curve = new AnimationCurve(keys);
         curve.preWrapMode = preWrapMode;
         curve.postWrapMode = postWrapMode;
-        <span class="hljs-keyword">this</span>.AnimationCurve = curve;
+        this.AnimationCurve = curve;
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SerializableAnimationCurve</span>(<span class="hljs-params">AnimationCurve animationCurve</span>)</span>
+    public SerializableAnimationCurve(AnimationCurve animationCurve)
     {
-        <span class="hljs-keyword">this</span>.AnimationCurve = animationCurve;
+        this.AnimationCurve = animationCurve;
     }
 }
 </code></pre>
 <p>需要包装的类型是 public，但通过 <code>MemoryPackIgnore</code> 排除序列化。你想序列化的属性是 private，但通过 <code>MemoryPackInclude</code> 包含。还应准备两种构造函数模式。序列化器使用的构造函数应为 private。</p>
 <p>这样的话，每次都必须进行包装，比较不方便。而且结构体包装器不能表示 null。因此，让我们创建一个自定义格式化器。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">AnimationCurveFormatter</span> : <span class="hljs-title">MemoryPackFormatter</span>&lt;<span class="hljs-title">AnimationCurve</span>&gt;
+<pre><code class="language-csharp">public class AnimationCurveFormatter : MemoryPackFormatter&lt;AnimationCurve&gt;
 {
-    <span class="hljs-comment">// Unity 不支持 scoped 和 TBufferWriter，因此签名更改为 `Serialize(ref MemoryPackWriter writer, ref AnimationCurve value)`</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackWriter&lt;TBufferWriter&gt; writer, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> AnimationCurve? <span class="hljs-keyword">value</span></span>)</span>
+    // Unity 不支持 scoped 和 TBufferWriter，因此签名更改为 `Serialize(ref MemoryPackWriter writer, ref AnimationCurve value)`
+    public override void Serialize&lt;TBufferWriter&gt;(ref MemoryPackWriter&lt;TBufferWriter&gt; writer, scoped ref AnimationCurve? value)
     {
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> == <span class="hljs-literal">null</span>)
+        if (value == null)
 ```csharp
 {
     writer.WriteNullObjectHeader();
-    <span class="hljs-keyword">return</span>;
+    return;
 }
 
-writer.WritePackable(<span class="hljs-keyword">new</span> SerializableAnimationCurve(<span class="hljs-keyword">value</span>));
+writer.WritePackable(new SerializableAnimationCurve(value));
 }
 
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Deserialize</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> AnimationCurve? <span class="hljs-keyword">value</span></span>)</span>
+public override void Deserialize(ref MemoryPackReader reader, scoped ref AnimationCurve? value)
 {
-    <span class="hljs-keyword">if</span> (reader.PeekIsNull())
+    if (reader.PeekIsNull())
     {
-        reader.Advance(<span class="hljs-number">1</span>); <span class="hljs-comment">// 跳过 null 块</span>
-        <span class="hljs-keyword">value</span> = <span class="hljs-literal">null</span>;
-        <span class="hljs-keyword">return</span>;
+        reader.Advance(1); // 跳过 null 块
+        value = null;
+        return;
     }
     
-    <span class="hljs-keyword">var</span> wrapped = reader.ReadPackable&lt;SerializableAnimationCurve&gt;();
-    <span class="hljs-keyword">value</span> = wrapped.AnimationCurve;
+    var wrapped = reader.ReadPackable&lt;SerializableAnimationCurve&gt;();
+    value = wrapped.AnimationCurve;
 }
 </code></pre>
 <p>最后，在启动时注册格式化器。</p>
-<pre><code class="language-csharp hljs">MemoryPackFormatterProvider.Register&lt;AnimationCurve&gt;(<span class="hljs-keyword">new</span> AnimationCurveFormatter());
+<pre><code class="language-csharp">MemoryPackFormatterProvider.Register&lt;AnimationCurve&gt;(new AnimationCurveFormatter());
 </code></pre>
 <blockquote>
 <p>注意：Unity 的 AnimationCurve 默认可序列化，因此对于 AnimationCurve 不需要这个自定义格式化器</p>
@@ -997,176 +912,137 @@ writer.WritePackable(<span class="hljs-keyword">new</span> SerializableAnimation
 <h2>TypeScript 和 ASP.NET Core 格式化器</h2>
 <p>MemoryPack 支持 TypeScript 代码生成。它可以从 C# 生成类和序列化代码，换句话说，你可以无需 OpenAPI、proto 等即可与浏览器共享类型。</p>
 <p>代码生成集成在 Source Generator 中，以下选项（<code>MemoryPackGenerator_TypeScriptOutputDirectory</code>）设置 TypeScript 代码的输出目录。运行时代码与类型同时输出，无需额外依赖。</p>
-<pre><code class="language-xml hljs"><span class="hljs-comment">&lt;!-- 输出 memorypack TypeScript 代码到目录 --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_TypeScriptOutputDirectory"</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">PropertyGroup</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_TypeScriptOutputDirectory</span>&gt;</span>$(MSBuildProjectDirectory)\wwwroot\js\memorypack<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_TypeScriptOutputDirectory</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">PropertyGroup</span>&gt;</span>
+<pre><code class="language-xml">&lt;!-- 输出 memorypack TypeScript 代码到目录 --&gt;
+&lt;ItemGroup&gt;
+    &lt;CompilerVisibleProperty Include=&quot;MemoryPackGenerator_TypeScriptOutputDirectory&quot; /&gt;
+&lt;/ItemGroup&gt;
+&lt;PropertyGroup&gt;
+    &lt;MemoryPackGenerator_TypeScriptOutputDirectory&gt;$(MSBuildProjectDirectory)\wwwroot\js\memorypack&lt;/MemoryPackGenerator_TypeScriptOutputDirectory&gt;
+&lt;/PropertyGroup&gt;
 </code></pre>
 <p>C# 的 MemoryPackable 类型必须使用 <code>[GenerateTypeScript]</code> 注解。</p>
-<pre><code class="language-csharp hljs">[<span class="hljs-meta">MemoryPackable</span>]
-[<span class="hljs-meta">GenerateTypeScript</span>]
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>
+<pre><code class="language-csharp">[MemoryPackable]
+[GenerateTypeScript]
+public partial class Person
 {
-    <span class="hljs-keyword">public</span> required Guid Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">int</span> Age { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">string</span> FirstName { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">string</span> LastName { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required DateTime DateOfBirth { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required Gender Gender { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
-    <span class="hljs-keyword">public</span> required <span class="hljs-built_in">string</span>[] Emails { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
+    public required Guid Id { get; init; }
+    public required int Age { get; init; }
+    public required string FirstName { get; init; }
+    public required string LastName { get; init; }
+    public required DateTime DateOfBirth { get; init; }
+    public required Gender Gender { get; init; }
+    public required string[] Emails { get; init; }
 }
 
-<span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> Gender
+public enum Gender
 {
     Male, Female, Other
 }
 </code></pre>
 <p>运行时代码和 TypeScript 类型将会生成在目标目录。</p>
-<p><img src="https://user-images.githubusercontent.com/46207/194916544-1b6bb5ed-966b-43c3-a378-3eac297c2b40.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/46207/194916544-1b6bb5ed-966b-43c3-a378-3eac297c2b40.png" alt="image" /></p>
 <p>生成的代码如下，包含简单字段和用于 serialize/serializeArray 及 deserialize/deserializeArray 的静态方法。</p>
-<pre><code class="language-typescript hljs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">MemoryPackWriter</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"./MemoryPackWriter.js"</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">MemoryPackReader</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"./MemoryPackReader.js"</span>;
-<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Gender</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"./Gender.js"</span>; 
+<pre><code class="language-typescript">import { MemoryPackWriter } from &quot;./MemoryPackWriter.js&quot;;
+import { MemoryPackReader } from &quot;./MemoryPackReader.js&quot;;
+import { Gender } from &quot;./Gender.js&quot;; 
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> {
-    <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;
-    <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>;
-    <span class="hljs-attr">firstName</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
-    <span class="hljs-attr">lastName</span>: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
-    <span class="hljs-attr">dateOfBirth</span>: <span class="hljs-title class_">Date</span>;
-    <span class="hljs-attr">gender</span>: <span class="hljs-title class_">Gender</span>;
-    <span class="hljs-attr">emails</span>: (<span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span>;
+export class Person {
+    id: string;
+    age: number;
+    firstName: string | null;
+    lastName: string | null;
+    dateOfBirth: Date;
+    gender: Gender;
+    emails: (string | null)[] | null;
 
-    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
-        <span class="hljs-comment">// 省略...</span>
+    constructor() {
+        // 省略...
     }
 
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serialize</span>(<span class="hljs-attr">value</span>: <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>): <span class="hljs-title class_">Uint8Array</span> {
-        <span class="hljs-comment">// 省略...</span>
+    static serialize(value: Person | null): Uint8Array {
+        // 省略...
     }
 
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serializeCore</span>(<span class="hljs-attr">writer</span>: <span class="hljs-title class_">MemoryPackWriter</span>, <span class="hljs-attr">value</span>: <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>): <span class="hljs-built_in">void</span> {
-        <span class="hljs-comment">// 省略...</span>
+    static serializeCore(writer: MemoryPackWriter, value: Person | null): void {
+        // 省略...
     }
 
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serializeArray</span>(<span class="hljs-attr">value</span>: (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span>): <span class="hljs-title class_">Uint8Array</span> {
-        <span class="hljs-comment">// 省略...</span>
+    static serializeArray(value: (Person | null)[] | null): Uint8Array {
+        // 省略...
     }
 
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">serializeArrayCore</span>(<span class="hljs-attr">writer</span>: <span class="hljs-title class_">MemoryPackWriter</span>, <span class="hljs-attr">value</span>: (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span>): <span class="hljs-built_in">void</span> {
-        <span class="hljs-comment">// 省略...</span>
+    static serializeArrayCore(writer: MemoryPackWriter, value: (Person | null)[] | null): void {
+        // 省略...
     }
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserialize</span>(<span class="hljs-attr">buffer</span>: <span class="hljs-title class_">ArrayBuffer</span>): <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span> {
-        <span class="hljs-comment">// 省略...</span>
-    }
-
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserializeCore</span>(<span class="hljs-attr">reader</span>: <span class="hljs-title class_">MemoryPackReader</span>): <span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span> {
-        <span class="hljs-comment">// 省略...</span>
+    static deserialize(buffer: ArrayBuffer): Person | null {
+        // 省略...
     }
 
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserializeArray</span>(<span class="hljs-attr">buffer</span>: <span class="hljs-title class_">ArrayBuffer</span>): (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span> {
-        <span class="hljs-comment">// 省略...</span>
+    static deserializeCore(reader: MemoryPackReader): Person | null {
+        // 省略...
     }
 
-    <span class="hljs-keyword">static</span> <span class="hljs-title function_">deserializeArrayCore</span>(<span class="hljs-attr">reader</span>: <span class="hljs-title class_">MemoryPackReader</span>): (<span class="hljs-title class_">Person</span> | <span class="hljs-literal">null</span>)[] | <span class="hljs-literal">null</span> {
-        <span class="hljs-comment">// 省略...</span>
+    static deserializeArray(buffer: ArrayBuffer): (Person | null)[] | null {
+        // 省略...
+    }
+
+    static deserializeArrayCore(reader: MemoryPackReader): (Person | null)[] | null {
+        // 省略...
     }
 }
 </code></pre>
 <p>你可以如下方式使用该类型。</p>
-<pre><code class="language-typescript hljs"><span class="hljs-keyword">let</span> person = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>();
-person.<span class="hljs-property">id</span> = crypto.<span class="hljs-title function_">randomUUID</span>();
-person.<span class="hljs-property">age</span> = <span class="hljs-number">30</span>;
-person.<span class="hljs-property">firstName</span> = <span class="hljs-string">"foo"</span>;
-person.<span class="hljs-property">lastName</span> = <span class="hljs-string">"bar"</span>;
-person.<span class="hljs-property">dateOfBirth</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(<span class="hljs-number">1999</span>, <span class="hljs-number">12</span>, <span class="hljs-number">31</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
-person.<span class="hljs-property">gender</span> = <span class="hljs-title class_">Gender</span>.<span class="hljs-property">Other</span>;
-person.<span class="hljs-property">emails</span> = [<span class="hljs-string">"foo@bar.com"</span>, <span class="hljs-string">"zoo@bar.net"</span>];
+<pre><code class="language-typescript">let person = new Person();
+person.id = crypto.randomUUID();
+person.age = 30;
+person.firstName = &quot;foo&quot;;
+person.lastName = &quot;bar&quot;;
+person.dateOfBirth = new Date(1999, 12, 31, 0, 0, 0);
+person.gender = Gender.Other;
+person.emails = [&quot;foo@bar.com&quot;, &quot;zoo@bar.net&quot;];
 
-<span class="hljs-comment">// 序列化为 Uint8Array</span>
-<span class="hljs-keyword">let</span> bin = <span class="hljs-title class_">Person</span>.<span class="hljs-title function_">serialize</span>(person);
+// 序列化为 Uint8Array
+let bin = Person.serialize(person);
 
-<span class="hljs-keyword">let</span> blob = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Blob</span>([bin.<span class="hljs-property">buffer</span>], { <span class="hljs-attr">type</span>: <span class="hljs-string">"application/x-memorypack"</span> })
+let blob = new Blob([bin.buffer], { type: &quot;application/x-memorypack&quot; })
 
-<span class="hljs-keyword">let</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">"http://localhost:5260/api"</span>,
-    { <span class="hljs-attr">method</span>: <span class="hljs-string">"POST"</span>, <span class="hljs-attr">body</span>: blob, <span class="hljs-attr">headers</span>: { <span class="hljs-string">"Content-Type"</span>: <span class="hljs-string">"application/x-memorypack"</span> } });
+let response = await fetch(&quot;http://localhost:5260/api&quot;,
+    { method: &quot;POST&quot;, body: blob, headers: { &quot;Content-Type&quot;: &quot;application/x-memorypack&quot; } });
 
-<span class="hljs-keyword">let</span> buffer = <span class="hljs-keyword">await</span> response.<span class="hljs-title function_">arrayBuffer</span>();
+let buffer = await response.arrayBuffer();
 
-<span class="hljs-comment">// 从 ArrayBuffer 反序列化</span>
-<span class="hljs-keyword">let</span> person2 = <span class="hljs-title class_">Person</span>.<span class="hljs-title function_">deserialize</span>(buffer);
+// 从 ArrayBuffer 反序列化
+let person2 = Person.deserialize(buffer);
 </code></pre>
 <p><code>MemoryPack.AspNetCoreMvcFormatter</code> 包为 ASP.NET Core MVC 添加了 <code>MemoryPack</code> 输入和输出格式化器。你可以通过如下代码将 <code>MemoryPackInputFormatter</code>、<code>MemoryPackOutputFormatter</code> 添加到 ASP.NET Core MVC。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> builder = WebApplication.CreateBuilder(args);
+<pre><code class="language-csharp">var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 
 builder.Services.AddControllers(options =&gt;
 {
-    options.InputFormatters.Insert(<span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> MemoryPackInputFormatter());
-    <span class="hljs-comment">// 如果 checkContentType: true，则可以输出多种格式（JSON/MemoryPack 等），默认为 false。</span>
-    options.OutputFormatters.Insert(<span class="hljs-number">0</span>, <span class="hljs-keyword">new</span> MemoryPackOutputFormatter(checkContentType: <span class="hljs-literal">false</span>));
+    options.InputFormatters.Insert(0, new MemoryPackInputFormatter());
+    // 如果 checkContentType: true，则可以输出多种格式（JSON/MemoryPack 等），默认为 false。
+    options.OutputFormatters.Insert(0, new MemoryPackOutputFormatter(checkContentType: false));
 });
 </code></pre>
 <p>如果从 HttpClient 调用，可以将 <code>application/x-memorypack</code> 设置为内容头。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> content = <span class="hljs-keyword">new</span> ByteArrayContent(bin)
-content.Headers.ContentType = <span class="hljs-keyword">new</span> MediaTypeHeaderValue(<span class="hljs-string">"application/x-memorypack"</span>);
+<pre><code class="language-csharp">var content = new ByteArrayContent(bin)
+content.Headers.ContentType = new MediaTypeHeaderValue(&quot;application/x-memorypack&quot;);
 </code></pre>
 <h3>TypeScript 类型映射</h3>
 <p>可生成的类型有一些限制。在基础类型中，<code>char</code> 和 <code>decimal</code> 不支持。同时不能使用开放泛型（OpenGenerics）类型。</p>
-<table>
-<thead>
-<tr>
-<th>C#</th>
-<th>TypeScript</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>bool</code></td>
-<td><code>boolean</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>byte</code></td>
-<td><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sbyte</code></td>
-<td><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>int</code></td>
-<td><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>uint</code></td>
-<td><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>short</code></td>
-<td><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>ushort</code></td>
-<td><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>long</code></td>
-<td><code>bigint</code></td>
-<td></td>
-</tr>
-</tbody></table>
-<pre><code class="hljs language-xml">| `ulong` |  `bigint` |
+<p>|  C#  |  TypeScript  | 说明 |
+| ---- | ---- | ---- |
+| <code>bool</code> |  <code>boolean</code>  |
+| <code>byte</code> |  <code>number</code>  |
+| <code>sbyte</code> |  <code>number</code>  |
+| <code>int</code> |  <code>number</code> |
+| <code>uint</code> |  <code>number</code> |
+| <code>short</code> |  <code>number</code> |
+| <code>ushort</code> |  <code>number</code> |
+| <code>long</code> |  <code>bigint</code> |</p>
+<pre><code>| `ulong` |  `bigint` |
 | `float` |  `number` |
 | `double` |  `number` |
 | `string` |  `string \| null`  | 
@@ -1176,8 +1052,8 @@ content.Headers.ContentType = <span class="hljs-keyword">new</span> MediaTypeHea
 | `T?` | `T \| null` |
 | `T[]` | `T[] \| null` |
 | `byte[]` | `Uint8Array \| null` |
-| `: ICollection<span class="hljs-tag">&lt;<span class="hljs-name">T</span>&gt;</span>` | `T[] \| null` | 支持所有实现了 `ICollection<span class="hljs-tag">&lt;<span class="hljs-name">T</span>&gt;</span>` 的类型，如 `List<span class="hljs-tag">&lt;<span class="hljs-name">T</span>&gt;</span>`
-| `: ISet<span class="hljs-tag">&lt;<span class="hljs-name">T</span>&gt;</span>` | `Set<span class="hljs-tag">&lt;<span class="hljs-name">T</span>&gt;</span> \| null` | 支持所有实现了 `ISet<span class="hljs-tag">&lt;<span class="hljs-name">T</span>&gt;</span>` 的类型，如 `HashSet<span class="hljs-tag">&lt;<span class="hljs-name">T</span>&gt;</span>`
+| `: ICollection&lt;T&gt;` | `T[] \| null` | 支持所有实现了 `ICollection&lt;T&gt;` 的类型，如 `List&lt;T&gt;`
+| `: ISet&lt;T&gt;` | `Set&lt;T&gt; \| null` | 支持所有实现了 `ISet&lt;T&gt;` 的类型，如 `HashSet&lt;T&gt;`
 | `: IDictionary&lt;K,V&gt;` | `Map&lt;K, V&gt; \| null` | 支持所有实现了 `IDictionary&lt;K,V&gt;` 的类型，如 `Dictionary&lt;K,V&gt;`
 | `[MemoryPackable]` | `class` | 仅支持类
 | `[MemoryPackUnion]` | `abstract class` |
@@ -1186,80 +1062,80 @@ content.Headers.ContentType = <span class="hljs-keyword">new</span> MediaTypeHea
 
 ### 配置导入文件扩展名和成员名称大小写
 
-默认情况下，MemoryPack 生成的文件扩展名为 `.js`，如 `import { MemoryPackWriter } from "./MemoryPackWriter.js";`。如果你想更改为其他扩展名或为空，可以使用 `MemoryPackGenerator_TypeScriptImportExtension` 进行配置。
+默认情况下，MemoryPack 生成的文件扩展名为 `.js`，如 `import { MemoryPackWriter } from &quot;./MemoryPackWriter.js&quot;;`。如果你想更改为其他扩展名或为空，可以使用 `MemoryPackGenerator_TypeScriptImportExtension` 进行配置。
 成员名称会自动转换为 camelCase。如果你想使用原始名称，可将 `MemoryPackGenerator_TypeScriptConvertPropertyName` 设置为 `false`。
 
 ```xml
-<span class="hljs-tag">&lt;<span class="hljs-name">ItemGroup</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_TypeScriptOutputDirectory"</span> /&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_TypeScriptImportExtension"</span> /&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_TypeScriptConvertPropertyName"</span> /&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">CompilerVisibleProperty</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"MemoryPackGenerator_TypeScriptEnableNullableTypes"</span> /&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">ItemGroup</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">PropertyGroup</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_TypeScriptOutputDirectory</span>&gt;</span>$(MSBuildProjectDirectory)\wwwroot\js\memorypack<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_TypeScriptOutputDirectory</span>&gt;</span>
-    <span class="hljs-comment">&lt;!-- 允许为空 --&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_TypeScriptImportExtension</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_TypeScriptImportExtension</span>&gt;</span>
-    <span class="hljs-comment">&lt;!-- 默认值为 true --&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_TypeScriptConvertPropertyName</span>&gt;</span>false<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_TypeScriptConvertPropertyName</span>&gt;</span>
-    <span class="hljs-comment">&lt;!-- 默认值为 false --&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">MemoryPackGenerator_TypeScriptEnableNullableTypes</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">MemoryPackGenerator_TypeScriptEnableNullableTypes</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">PropertyGroup</span>&gt;</span>
+&lt;ItemGroup&gt;
+    &lt;CompilerVisibleProperty Include=&quot;MemoryPackGenerator_TypeScriptOutputDirectory&quot; /&gt;
+    &lt;CompilerVisibleProperty Include=&quot;MemoryPackGenerator_TypeScriptImportExtension&quot; /&gt;
+    &lt;CompilerVisibleProperty Include=&quot;MemoryPackGenerator_TypeScriptConvertPropertyName&quot; /&gt;
+    &lt;CompilerVisibleProperty Include=&quot;MemoryPackGenerator_TypeScriptEnableNullableTypes&quot; /&gt;
+&lt;/ItemGroup&gt;
+&lt;PropertyGroup&gt;
+    &lt;MemoryPackGenerator_TypeScriptOutputDirectory&gt;$(MSBuildProjectDirectory)\wwwroot\js\memorypack&lt;/MemoryPackGenerator_TypeScriptOutputDirectory&gt;
+    &lt;!-- 允许为空 --&gt;
+    &lt;MemoryPackGenerator_TypeScriptImportExtension&gt;&lt;/MemoryPackGenerator_TypeScriptImportExtension&gt;
+    &lt;!-- 默认值为 true --&gt;
+    &lt;MemoryPackGenerator_TypeScriptConvertPropertyName&gt;false&lt;/MemoryPackGenerator_TypeScriptConvertPropertyName&gt;
+    &lt;!-- 默认值为 false --&gt;
+    &lt;MemoryPackGenerator_TypeScriptEnableNullableTypes&gt;true&lt;/MemoryPackGenerator_TypeScriptEnableNullableTypes&gt;
+&lt;/PropertyGroup&gt;
 </code></pre>
 <p><code>MemoryPackGenerator_TypeScriptEnableNullableTypes</code> 允许 C# 的可空注解在 TypeScript 代码中体现。默认值为 false，表示所有类型都可为 null。</p>
 <h2>流式序列化</h2>
 <p><code>MemoryPack.Streaming</code> 提供了 <code>MemoryPackStreamingSerializer</code>，用于支持通过流对集合进行序列化和反序列化。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MemoryPackStreamingSerializer</span>
+<pre><code class="language-csharp">public static class MemoryPackStreamingSerializer
 {
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> ValueTask <span class="hljs-title">SerializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">PipeWriter pipeWriter, <span class="hljs-built_in">int</span> count, IEnumerable&lt;T&gt; source, <span class="hljs-built_in">int</span> flushRate = <span class="hljs-number">4096</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> ValueTask <span class="hljs-title">SerializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream, <span class="hljs-built_in">int</span> count, IEnumerable&lt;T&gt; source, <span class="hljs-built_in">int</span> flushRate = <span class="hljs-number">4096</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">async</span> <span class="hljs-title">IAsyncEnumerable</span>&lt;<span class="hljs-title">T</span>?&gt; <span class="hljs-title">DeserializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">PipeReader pipeReader, <span class="hljs-built_in">int</span> bufferAtLeast = <span class="hljs-number">4096</span>, <span class="hljs-built_in">int</span> readMinimumSize = <span class="hljs-number">8192</span>, [EnumeratorCancellation] CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-title">IAsyncEnumerable</span>&lt;<span class="hljs-title">T</span>?&gt; <span class="hljs-title">DeserializeAsync</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params">Stream stream, <span class="hljs-built_in">int</span> bufferAtLeast = <span class="hljs-number">4096</span>, <span class="hljs-built_in">int</span> readMinimumSize = <span class="hljs-number">8192</span>, CancellationToken cancellationToken = <span class="hljs-literal">default</span></span>)
+    public static async ValueTask SerializeAsync&lt;T&gt;(PipeWriter pipeWriter, int count, IEnumerable&lt;T&gt; source, int flushRate = 4096, CancellationToken cancellationToken = default)
+    public static async ValueTask SerializeAsync&lt;T&gt;(Stream stream, int count, IEnumerable&lt;T&gt; source, int flushRate = 4096, CancellationToken cancellationToken = default)
+    public static async IAsyncEnumerable&lt;T?&gt; DeserializeAsync&lt;T&gt;(PipeReader pipeReader, int bufferAtLeast = 4096, int readMinimumSize = 8192, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public static IAsyncEnumerable&lt;T?&gt; DeserializeAsync&lt;T&gt;(Stream stream, int bufferAtLeast = 4096, int readMinimumSize = 8192, CancellationToken cancellationToken = default)
 }
-</span></code></pre>
+</code></pre>
 <h2>Formatter/Provider API</h2>
 <p>如果你希望手动实现格式化器，可以继承 <code>MemoryPackFormatter&lt;T&gt;</code> 并重写 <code>Serialize</code> 和 <code>Deserialize</code> 方法。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SkeltonFormatter</span> : <span class="hljs-title">MemoryPackFormatter</span>&lt;<span class="hljs-title">Skelton</span>&gt;
+<pre><code class="language-csharp">public class SkeltonFormatter : MemoryPackFormatter&lt;Skelton&gt;
 {
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Serialize</span>&lt;<span class="hljs-title">TBufferWriter</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackWriter&lt;TBufferWriter&gt; writer, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> Skelton? <span class="hljs-keyword">value</span></span>)</span>
+    public override void Serialize&lt;TBufferWriter&gt;(ref MemoryPackWriter&lt;TBufferWriter&gt; writer, scoped ref Skelton? value)
     {
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">value</span> == <span class="hljs-literal">null</span>)
+        if (value == null)
         {
             writer.WriteNullObjectHeader();
-            <span class="hljs-keyword">return</span>;
+            return;
         }
 
-        <span class="hljs-comment">// 使用 writer 方法。</span>
+        // 使用 writer 方法。
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Deserialize</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> MemoryPackReader reader, <span class="hljs-keyword">scoped</span> <span class="hljs-keyword">ref</span> Skelton? <span class="hljs-keyword">value</span></span>)</span>
+    public override void Deserialize(ref MemoryPackReader reader, scoped ref Skelton? value)
     {
-        <span class="hljs-keyword">if</span> (!reader.TryReadObjectHeader(<span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> count))
+        if (!reader.TryReadObjectHeader(out var count))
         {
-            <span class="hljs-keyword">value</span> = <span class="hljs-literal">null</span>;
-            <span class="hljs-keyword">return</span>;
+            value = null;
+            return;
         }
 
-        <span class="hljs-comment">// 使用 reader 方法。</span>
+        // 使用 reader 方法。
     }
 }
 </code></pre>
 <p>创建的格式化器需要通过 <code>MemoryPackFormatterProvider</code> 注册。</p>
-<pre><code class="language-csharp hljs">MemoryPackFormatterProvider.Register(<span class="hljs-keyword">new</span> SkeltonFormatter());
+<pre><code class="language-csharp">MemoryPackFormatterProvider.Register(new SkeltonFormatter());
 </code></pre>
 <p>注意：<code>unmanged struct</code>（不包含引用类型的结构体）无法使用自定义格式化器，始终以本地内存布局进行序列化。</p>
 <h2>MemoryPackWriter/ReaderOptionalState</h2>
 <p>初始化 <code>MemoryPackWriter</code>/<code>MemoryPackReader</code> 时需要 OptionalState。它是 <code>MemoryPackSerializerOptions</code> 的包装器，可通过 <code>MemoryPackWriterOptionalStatePool</code> 创建。</p>
-<pre><code class="language-csharp hljs"><span class="hljs-comment">// 释放时，OptionalState 会返回到池中。</span>
-<span class="hljs-keyword">using</span>(<span class="hljs-keyword">var</span> state = MemoryPackWriterOptionalStatePool.Rent(MemoryPackSerializerOptions.Default))
+<pre><code class="language-csharp">// 释放时，OptionalState 会返回到池中。
+using(var state = MemoryPackWriterOptionalStatePool.Rent(MemoryPackSerializerOptions.Default))
 {
-    <span class="hljs-keyword">var</span> writer = <span class="hljs-keyword">new</span> MemoryPackWriter&lt;T&gt;(<span class="hljs-keyword">ref</span> t, state);
+    var writer = new MemoryPackWriter&lt;T&gt;(ref t, state);
 }
 
-<span class="hljs-comment">// 对 Reader</span>
-<span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> state = MemoryPackReaderOptionalStatePool.Rent(MemoryPackSerializerOptions.Default))
+// 对 Reader
+using (var state = MemoryPackReaderOptionalStatePool.Rent(MemoryPackSerializerOptions.Default))
 {
-    <span class="hljs-keyword">var</span> reader = <span class="hljs-keyword">new</span> MemoryPackReader(buffer, state);
+    var reader = new MemoryPackReader(buffer, state);
 }
 </code></pre>
 <h2>目标框架依赖</h2>
@@ -1269,7 +1145,7 @@ content.Headers.ContentType = <span class="hljs-keyword">new</span> MediaTypeHea
 </blockquote>
 <p>由于 net7.0 使用了静态抽象成员（<code>Virtual static method</code>），该特性不支持 netstandard2.1，因此这是规范上的限制。</p>
 <p>.NET 7 项目不应使用 netstandard 2.1 的 dll。换句话说，如果应用程序是 .NET 7 项目，所有依赖 MemoryPack 的库必须同时支持 .NET 7。因此，如果库开发者依赖 MemoryPack，需要配置双目标框架。</p>
-<pre><code class="language-xml hljs"><span class="hljs-tag">&lt;<span class="hljs-name">TargetFrameworks</span>&gt;</span>netstandard2.1;net7.0<span class="hljs-tag">&lt;/<span class="hljs-name">TargetFrameworks</span>&gt;</span>
+<pre><code class="language-xml">&lt;TargetFrameworks&gt;netstandard2.1;net7.0&lt;/TargetFrameworks&gt;
 </code></pre>
 <h2>RPC</h2>
 <p><a href="https://github.com/Cysharp/MagicOnion">Cysharp/MagicOnion</a> 是一个基于代码优先的 grpc-dotnet 框架，使用 MessagePack 替代 protobuf。MagicOnion 现已通过 <code>MagicOnion.Serialization.MemoryPack</code> 包（预览版）支持 MemoryPack 作为序列化层。详情见：<a href="https://github.com/Cysharp/MagicOnion#memorypack-support">MagicOnion#MemoryPack support</a></p>
@@ -1280,7 +1156,8 @@ content.Headers.ContentType = <span class="hljs-keyword">new</span> MediaTypeHea
 <li>使用 <a href="https://github.com/GlitchEnzo/NuGetForUnity">NuGetForUnity</a> 从 NuGet 安装 <code>MemoryPack</code></li>
 </ol>
 <ul>
-<li><p>打开 NuGet 窗口 -&gt; 管理 NuGet 包，搜索 "MemoryPack" 并点击安装。<br><img src="https://github.com/Cysharp/MemoryPack/assets/727159/599ff1ed-6cca-4724-be67-3edddb5e62ee" alt="screenshot"></p>
+<li><p>打开 NuGet 窗口 -&gt; 管理 NuGet 包，搜索 &quot;MemoryPack&quot; 并点击安装。
+<img src="https://github.com/Cysharp/MemoryPack/assets/727159/599ff1ed-6cca-4724-be67-3edddb5e62ee" alt="screenshot" /></p>
 </li>
 <li><p>如果遇到版本冲突错误，请在 Player Settings（Edit -&gt; Project Settings -&gt; Player -&gt; 下拉并展开“Other Settings”，然后在“Configuration”部分取消勾选“Assembly Version Validation”）中禁用版本校验。</p>
 </li>
@@ -1289,7 +1166,9 @@ content.Headers.ContentType = <span class="hljs-keyword">new</span> MediaTypeHea
 <li>通过引用 git URL 安装 <code>MemoryPack.Unity</code> 包</li>
 </ol>
 <ul>
-<li><code>https://github.com/Cysharp/MemoryPack.git?path=src/MemoryPack.Unity/Assets/MemoryPack.Unity</code><br><img src="https://github.com/Cysharp/ZLogger/assets/46207/7325d266-05b4-47c9-b06a-a67a40368dd2" alt="screenshot"><br><img src="https://github.com/Cysharp/MemoryPack/assets/727159/9a4af1df-ce07-49d7-9420-922dfb139b55" alt="screenshot"></li>
+<li><code>https://github.com/Cysharp/MemoryPack.git?path=src/MemoryPack.Unity/Assets/MemoryPack.Unity</code>
+<img src="https://github.com/Cysharp/ZLogger/assets/46207/7325d266-05b4-47c9-b06a-a67a40368dd2" alt="screenshot" />
+<img src="https://github.com/Cysharp/MemoryPack/assets/727159/9a4af1df-ce07-49d7-9420-922dfb139b55" alt="screenshot" /></li>
 </ul>
 <p>MemoryPack 使用 <em>.</em>.* 版本标签，因此你可以指定版本，如 #1.0.0。例如：<code>https://github.com/Cysharp/MemoryPack.git?path=src/MemoryPack.Unity/Assets/MemoryPack.Unity#1.0.0</code></p>
 <p>与 .NET 版本一样，代码通过代码生成器（<code>MemoryPack.Generator.dll</code>）生成。无反射实现也为 IL2CPP 提供了最佳性能。</p>
@@ -1297,17 +1176,20 @@ content.Headers.ContentType = <span class="hljs-keyword">new</span> MediaTypeHea
 <p>Source Generator 也已被 Unity 官方用于 <a href="https://docs.unity3d.com/Packages/com.unity.entities@1.0/manual/index.html">com.unity.properties</a> 和 <a href="https://docs.unity3d.com/Packages/com.unity.properties@2.0/changelog/CHANGELOG.html">com.unity.entities</a>。换句话说，它是下一代 Unity 代码生成的标准方式。</p>
 <p>你可以序列化所有非托管类型（如 <code>Vector3</code>、<code>Rect</code> 等）和部分类（<code>AnimationCurve</code>、<code>Gradient</code>、<code>RectOffset</code>）。如需序列化其他 Unity 特有类型，请参阅 <a href="#serialize-external-types">序列化外部类型</a> 部分。</p>
 <p>在 Unity 环境下，MemoryPack 性能比 JsonUtility 快 3~10 倍。</p>
-<p><img src="https://user-images.githubusercontent.com/46207/209254561-79ec18fe-c421-4d8c-9c86-b55276dd1a45.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/46207/209254561-79ec18fe-c421-4d8c-9c86-b55276dd1a45.png" alt="image" /></p>
 <p>如果共享代码中包含 Unity 类型（如 <code>Vector2</code> 等），MemoryPack 在 NuGet 中提供了 <code>MemoryPack.UnityShims</code> 包。</p>
 <p><code>MemoryPack.UnityShims</code> 包为 Unity 的标准结构体（<code>Vector2</code>、<code>Vector3</code>、<code>Vector4</code>、<code>Quaternion</code>、<code>Color</code>、<code>Bounds</code>、<code>Rect</code>、<code>Keyframe</code>、<code>WrapMode</code>、<code>Matrix4x4</code>、<code>GradientColorKey</code>、<code>GradientAlphaKey</code>、<code>GradientMode</code>、<code>Color32</code>、<code>LayerMask</code>、<code>Vector2Int</code>、<code>Vector3Int</code>、<code>RangeInt</code>、<code>RectInt</code>、<code>BoundsInt</code>）和部分类（<code>AnimationCurve</code>、<code>Gradient</code>、<code>RectOffset</code>）提供了兼容层。</p>
 <blockquote>
-<p>[!WARNING]<br>目前，Unity 使用存在如下限制：</p>
+<p>[!WARNING]
+目前，Unity 使用存在如下限制：</p>
 </blockquote>
 <ol>
 <li>Unity 版本不支持 CustomFormatter。</li>
-<li>如果你使用 .NET7 或更高版本，MemoryPack 二进制格式与 Unity 不完全兼容。<ul>
+<li>如果你使用 .NET7 或更高版本，MemoryPack 二进制格式与 Unity 不完全兼容。
+<ul>
 <li>该问题出现在显式指定了 <code>[StructLayout(LayoutKind.Auto)]</code> 的值类型上。（结构体默认是 <code>LayoutKind.Sequencil</code>。）对于此类类型，在 .NET 下序列化的二进制数据无法在 Unity 反序列化。同样，在 Unity 下序列化的二进制数据也无法在 .NET 侧反序列化。</li>
-<li>受影响的类型通常包括如下类型：<ul>
+<li>受影响的类型通常包括如下类型：
+<ul>
 <li><code>DateTimeOffset</code></li>
 <li><code>ValueTuple</code></li>
 </ul>
@@ -1341,7 +1223,8 @@ content.Headers.ContentType = <span class="hljs-keyword">new</span> MediaTypeHea
 <p><code>(byte 成员数量, [varint 值的字节长度...], [值...])</code></p>
 <p>版本容错对象与对象类似，但在头部包含值的字节长度。varint 遵循如下规范，首字节为 sbyte，既可以是值也可以是 typeCode，后续 X 字节为值。0 到 127 = 无符号字节值，-1 到 -120 = 有符号字节值，-121 = byte，-122 = sbyte，-123 = ushort，-124 = short，-125 = uint，-126 = int，-127 = ulong，-128 = long。</p>
 <h3>循环引用对象</h3>
-<p><code>(byte 成员数量, [varint 值的字节长度...], varint 引用ID, [值...])</code><br><code>(250, varint 引用ID)</code></p>
+<p><code>(byte 成员数量, [varint 值的字节长度...], varint 引用ID, [值...])</code><br />
+<code>(250, varint 引用ID)</code></p>
 <p>循环引用对象与版本容错对象类似，但如果成员数量为 250，下一个 varint（无符号 int32）为引用ID。否则，在字节长度之后，写入 varint 引用ID。</p>
 <h3>元组</h3>
 <p><code>(值...)</code></p>
@@ -1350,37 +1233,24 @@ content.Headers.ContentType = <span class="hljs-keyword">new</span> MediaTypeHea
 <p><code>(int 长度, [值...])</code></p>
 <p>集合头部为 4 字节有符号整数，表示数据数量，<code>-1</code> 表示 <code>null</code>。值部分根据长度存储 memorypack 值。</p>
 <h3>字符串</h3>
-<p><code>(int utf16-长度, utf16-值)</code><br><code>(int ~utf8-字节数, int utf16-长度, utf8-字节)</code></p>
+<p><code>(int utf16-长度, utf16-值)</code><br />
+<code>(int ~utf8-字节数, int utf16-长度, utf8-字节)</code></p>
 <p>字符串有两种格式，UTF16 和 UTF8。如果第一个 4 字节有符号整数为 <code>-1</code>，表示 null；为 <code>0</code>，表示空字符串。UTF16 格式与集合类似（序列化为 <code>ReadOnlySpan&lt;char&gt;</code>，utf16-值的字节数为 utf16-长度 * 2）。如果第一个有符号整数 ≤ <code>-2</code>，则值按 UTF8 编码。utf8-字节数以补码形式编码，通过 <code>~utf8-字节数</code> 获取实际字节数。下一个有符号整数为 utf16-长度，允许为 <code>-1</code>，表示长度未知。utf8-字节根据 utf8-字节数存储实际字节数据。</p>
 <h3>联合类型</h3>
-<p><code>(byte 标签, 值)</code><br><code>(250, ushort 标签, 值)</code></p>
+<p><code>(byte 标签, 值)</code><br />
+<code>(250, ushort 标签, 值)</code></p>
 <p>第一个无符号字节为标签，用于区分值类型或标志，<code>0</code> 到 <code>249</code> 表示标签，<code>250</code> 表示下一个无符号短整型为标签，<code>255</code> 表示联合类型为 <code>null</code>。</p>
 <h2>License</h2>
 <p>该库采用 MIT 许可证。</p>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-09</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

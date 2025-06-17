@@ -1,143 +1,56 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mini-software/PocoClassGenerator - ja Documentation</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="mini-software/PocoClassGenerator - ja Documentation">
-    <meta name="description" content="mini-software/PocoClassGenerator - GitHub repository ja documentation and information">
+    <title>PocoClassGenerator - mini-software/PocoClassGenerator</title>
+    <meta name="title" content="PocoClassGenerator - mini-software/PocoClassGenerator">
+    <meta name="description" content="mini-software/PocoClassGenerator - GitHub repository ja documentation and informationPocoClassGeneratorは、NecroskillzのPOCO Generator Generate C# POCOs from SQL statement in LINQPad から始まりました。 特徴 現在のデータベース内のすべてのテーブルおよびビューからPOCOクラスコードを生成可能 Dapper.Contribをサポート 複数のRDBMSをサポート : sqlserver,oracle,mysql,postgresql 軽量かつ高速（わずか5秒で100テーブル分のコード生成） 各データベースに適したダイアレクトのスキーマテーブルSQLでクエリ デモ POCOGenerator Generate Class By Dynamic SQL | .NET Fiddle POCO Class Generator GenerateAllTables | .NET Fiddle DataTable POCO Class Generator | .NET Fiddle はじめ方 👇最初に : PocoClassGenerator.cs のコードをプロジェクトまたはLINQPadにコピー＆ペーストしてください。 または NuGet からインストールしてください。 PM&gt; install-package PocoClassGenerator 👇次に : コネクションを使用して GenerateAllTables を呼び出し、出力を表示します。 using (var connection = Connection) { Console.WriteLine(connection.GenerateAllTables()); } Dapper Contrib対応POCOクラス生成 GeneratorBehavior.DapperContrib でメソッドを呼び出すだけです using (var conn = GetConnection()) { var result = conn.GenerateAllTables(GeneratorBehavior.DapperContrib); Console.WriteLine(result); } オンラインデモ : POCO Dapper Contrib Class Generator GenerateAllTables | .NET Fiddle コメント生成 using (var conn = GetConnection()) { var result = conn.GenerateAllTables(GeneratorBehavior.Comment); Console.WriteLine(result); } ビュー生成 using (var conn = GetConnection()) { var result = conn.GenerateAllTables(GeneratorBehavior.View); Console.WriteLine(result); } ビュー＋コメント＋Dapper.Contribの生成 using (var conn = GetConnection()) { var result = conn.GenerateAllTables(GeneratorBehavior.View | GeneratorBehavior.Comment | GeneratorBehavior.DapperContrib); Console.WriteLine(result); } SQLで1つのクラスを生成 1つのクラスを生成 using (var connection = Connection) { var classCode = connection.GenerateClass(&quot;select *...">
     <meta name="keywords" content="mini-software, PocoClassGenerator, GitHub, repository, ja documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/mini-software/PocoClassGenerator/README-ja.html">
-    <meta property="og:title" content="mini-software/PocoClassGenerator - ja Documentation">
+    <meta property="og:title" content="PocoClassGenerator - mini-software/PocoClassGenerator">
     <meta property="og:description" content="mini-software/PocoClassGenerator - GitHub repository ja documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/mini-software/PocoClassGenerator" id="githubRepoLink" target="_blank">mini-software/PocoClassGenerator</a>
+<br>
+<h1 style="display: none;">PocoClassGeneratorは、NecroskillzのPOCO Generator Generate C# POCOs from SQL statement in LINQPad から始まりました。 特徴 現在のデータベース内のすべてのテーブルおよびビューからPOCOクラスコードを生成可能 Dapper.Contribをサポート 複数のRDBMSをサポート : sqlserver,oracle,mysql,postgresql 軽量かつ高速（わずか5秒で100テーブル分のコード生成） 各データベースに適したダイアレクトのスキーマテーブルSQLでクエリ デモ POCOGenerator Generate Class By Dynamic SQL | .NET Fiddle POCO Class Generator GenerateAllTables | .NET Fiddle DataTable POCO Class Generator | .NET Fiddle はじめ方 👇最初に : PocoClassGenerator.cs のコードをプロジェクトまたはLINQPadにコピー＆ペーストしてください。 または NuGet からインストールしてください。 PM&gt; install-package PocoClassGenerator 👇次に : コネクションを使用して GenerateAllTables を呼び出し、出力を表示します。 using (var connection = Connection) { Console.WriteLine(connection.GenerateAllTables()); } Dapper Contrib対応POCOクラス生成 GeneratorBehavior.DapperContrib でメソッドを呼び出すだけです using (var conn = GetConnection()) { var result = conn.GenerateAllTables(GeneratorBehavior.DapperContrib); Console.WriteLine(result); } オンラインデモ : POCO Dapper Contrib Class Generator GenerateAllTables | .NET Fiddle コメント生成 using (var conn = GetConnection()) { var result = conn.GenerateAllTables(GeneratorBehavior.Comment); Console.WriteLine(result); } ビュー生成 using (var conn = GetConnection()) { var result = conn.GenerateAllTables(GeneratorBehavior.View); Console.WriteLine(result); } ビュー＋コメント＋Dapper.Contribの生成 using (var conn = GetConnection()) { var result = conn.GenerateAllTables(GeneratorBehavior.View | GeneratorBehavior.Comment | GeneratorBehavior.DapperContrib); Console.WriteLine(result); } SQLで1つのクラスを生成 1つのクラスを生成 using (var connection = Connection) { var classCode = connection.GenerateClass(&quot;select *...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=mini-software&amp;project=PocoClassGenerator&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><p><a href="https://www.nuget.org/packages/PocoClassGenerator"><img src="https://img.shields.io/nuget/v/PocoClassGenerator.svg" alt="NuGet"></a><br><img src="https://img.shields.io/nuget/dt/PocoClassGenerator.svg" alt=""></p>
-<hr>
+        <div class="markdown-body" id="content">
+            <p><a href="https://www.nuget.org/packages/PocoClassGenerator"><img src="https://img.shields.io/nuget/v/PocoClassGenerator.svg" alt="NuGet" /></a>
+<img src="https://img.shields.io/nuget/dt/PocoClassGenerator.svg" alt="" /></p>
+<hr />
 <p>PocoClassGeneratorは、<code>Necroskillz</code>のPOCO Generator <a href="http://www.necronet.org/archive/2012/10/09/generate-c-pocos-from-sql-statement-in-linqpad.aspx">Generate C# POCOs from SQL statement in LINQPad </a> から始まりました。</p>
 <h3>特徴</h3>
 <ul>
@@ -149,17 +62,19 @@
 </ul>
 <h3>デモ</h3>
 <ul>
-<li><a href="https://dotnetfiddle.net/bDdSCA">POCOGenerator Generate Class By Dynamic SQL | .NET Fiddle</a><br><img src="https://i.loli.net/2019/10/09/4AOsU2X8PWBcbGS.png" alt="20191009102303.png"></li>
+<li><a href="https://dotnetfiddle.net/bDdSCA">POCOGenerator Generate Class By Dynamic SQL | .NET Fiddle</a>
+<img src="https://i.loli.net/2019/10/09/4AOsU2X8PWBcbGS.png" alt="20191009102303.png" /></li>
 <li><a href="https://dotnetfiddle.net/GkdqsU">POCO Class Generator GenerateAllTables  | .NET Fiddle</a></li>
 <li><a href="https://dotnetfiddle.net/vVeYwA">DataTable POCO Class Generator  | .NET Fiddle</a></li>
 </ul>
-<p><img src="https://github.com/user-attachments/assets/235c4952-259b-4ecc-90b2-d0138c17316c" alt="image"></p>
+<p><img src="https://github.com/user-attachments/assets/235c4952-259b-4ecc-90b2-d0138c17316c" alt="image" /></p>
 <h3>はじめ方</h3>
-<p>👇最初に : <a href="https://raw.githubusercontent.com/mini-software/PocoClassGenerator/master/PocoClassGenerator/PocoClassGenerator/PocoClassGenerator.cs">PocoClassGenerator.cs</a> のコードをプロジェクトまたはLINQPadにコピー＆ペーストしてください。<br>または <a href="https://www.nuget.org/packages/PocoClassGenerator/">NuGet</a> からインストールしてください。</p>
+<p>👇最初に : <a href="https://raw.githubusercontent.com/mini-software/PocoClassGenerator/master/PocoClassGenerator/PocoClassGenerator/PocoClassGenerator.cs">PocoClassGenerator.cs</a> のコードをプロジェクトまたはLINQPadにコピー＆ペーストしてください。<br />
+または <a href="https://www.nuget.org/packages/PocoClassGenerator/">NuGet</a> からインストールしてください。</p>
 <pre><code class="language-cmd">PM&gt; install-package PocoClassGenerator
 </code></pre>
 <p>👇次に : コネクションを使用して <code>GenerateAllTables</code> を呼び出し、出力を表示します。</p>
-<pre><code class="language-C# hljs language-C">using (var connection = Connection)
+<pre><code class="language-C#">using (var connection = Connection)
 {
 	Console.WriteLine(connection.GenerateAllTables());
 }
@@ -168,30 +83,30 @@
 <ul>
 <li><code>GeneratorBehavior.DapperContrib</code> でメソッドを呼び出すだけです</li>
 </ul>
-<pre><code class="language-C# hljs language-C">using (var conn = GetConnection())
+<pre><code class="language-C#">using (var conn = GetConnection())
 {
     var result = conn.GenerateAllTables(GeneratorBehavior.DapperContrib);
     Console.WriteLine(result);
 }
 </code></pre>
 <p><strong>オンラインデモ : <a href="https://dotnetfiddle.net/yeuK1E">POCO Dapper Contrib Class Generator GenerateAllTables | .NET Fiddle</a></strong></p>
-<p><img src="https://github.com/user-attachments/assets/2989c2dc-8c06-4732-9069-a09605e1b18f" alt="image"></p>
+<p><img src="https://github.com/user-attachments/assets/2989c2dc-8c06-4732-9069-a09605e1b18f" alt="image" /></p>
 <h4>コメント生成</h4>
-<pre><code class="language-C# hljs language-C">using (var conn = GetConnection())
+<pre><code class="language-C#">using (var conn = GetConnection())
 {
     var result = conn.GenerateAllTables(GeneratorBehavior.Comment);
     Console.WriteLine(result);
 }
 </code></pre>
 <h4>ビュー生成</h4>
-<pre><code class="language-C# hljs language-C">using (var conn = GetConnection())
+<pre><code class="language-C#">using (var conn = GetConnection())
 {
     var result = conn.GenerateAllTables(GeneratorBehavior.View);
     Console.WriteLine(result);
 }
 </code></pre>
 <h4>ビュー＋コメント＋Dapper.Contribの生成</h4>
-<pre><code class="language-C# hljs language-C">using (var conn = GetConnection())
+<pre><code class="language-C#">using (var conn = GetConnection())
 {
     var result = conn.GenerateAllTables(GeneratorBehavior.View | GeneratorBehavior.Comment | GeneratorBehavior.DapperContrib);
     Console.WriteLine(result);
@@ -201,59 +116,44 @@
 <ol>
 <li>1つのクラスを生成</li>
 </ol>
-<pre><code class="language-C# hljs language-C">using (var connection = Connection)
+<pre><code class="language-C#">using (var connection = Connection)
 {
-	var classCode = connection.GenerateClass(<span class="hljs-string">"select * from Table"</span>);
+	var classCode = connection.GenerateClass(&quot;select * from Table&quot;);
 	Console.WriteLine(classCode);
 }
 </code></pre>
 <ol start="2">
 <li>クラス名を指定</li>
 </ol>
-<pre><code class="language-C# hljs language-C">using (var connection = Connection)
+<pre><code class="language-C#">using (var connection = Connection)
 {
-	var classCode = connection.GenerateClass(<span class="hljs-string">"with EMP as (select 1 ID,'WeiHan' Name,25 Age) select * from EMP"</span>, className: <span class="hljs-string">"EMP"</span>);
+	var classCode = connection.GenerateClass(&quot;with EMP as (select 1 ID,'WeiHan' Name,25 Age) select * from EMP&quot;, className: &quot;EMP&quot;);
 	Console.WriteLine(classCode);
 }
 </code></pre>
 <h4>DataTablePocoClass</h4>
 <p>コードは <a href="https://raw.githubusercontent.com/mini-software/PocoClassGenerator/master/PocoClassGenerator/PocoClassGenerator/DataTablePocoClassGenerator.cs">DataTablePocoClassGenerator.cs</a> にあります</p>
-<pre><code class="language-C# hljs language-C">var dt = new DataTable();
-dt.TableName = <span class="hljs-string">"TestTable"</span>;
-dt.Columns.Add(new DataColumn() { ColumnName = <span class="hljs-string">"ID"</span>, DataType = typeof(<span class="hljs-built_in">string</span>) });
+<pre><code class="language-C#">var dt = new DataTable();
+dt.TableName = &quot;TestTable&quot;;
+dt.Columns.Add(new DataColumn() { ColumnName = &quot;ID&quot;, DataType = typeof(string) });
 
 var result = dt.GenerateClass();
 var expect =
-@<span class="hljs-string">"public class TestTable
+@&quot;public class TestTable
 {
 public string ID { get; set; }
-}"</span>;
+}&quot;;
 Assert.Equal(expect, result);
 </code></pre>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

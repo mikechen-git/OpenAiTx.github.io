@@ -1,218 +1,85 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>机器学习训练参考架构与测试  - aws-samples/awsome-distributed-training</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="机器学习训练参考架构与测试 - aws-samples/awsome-distributed-training">
-    <meta name="description" content="aws-samples/awsome-distributed-training - GitHub repository zh-CN documentation and information">
+    <title>awsome-distributed-training - aws-samples/awsome-distributed-training</title>
+    <meta name="title" content="awsome-distributed-training - aws-samples/awsome-distributed-training">
+    <meta name="description" content="aws-samples/awsome-distributed-training - GitHub repository zh-CN documentation and information机器学习训练参考架构与测试 警告 我们目前正在对该仓库进行重大重构，特别是测试用例部分。如果您更倾向于使用之前的目录结构和已弃用的测试用例，请参考 v1.1.0。 本仓库包含使用 Amazon SageMaker Hyperpod、AWS ParallelCluster、AWS Batch 和 Amazon EKS 进行分布式模型训练的参考架构和测试用例。测试用例涵盖不同类型和规模的模型，以及不同框架和并行优化（Pytorch DDP/FSDP、MegatronLM、NemoMegatron 等）。 该目录的主要组件包括： reference-architectures/ |-- 1.architectures/ # 参考架构的 CloudFormation 模板 |-- 2.ami_and_containers/ # 创建 AMI 和容器镜像的脚本 |-- 3.test_cases/ # 参考测试用例和/或基准脚本 |-- 4.validation_observability/ # 用于性能测量或故障排除的工具 `-- ... 注意：这些架构设计为配合使用通过参考模板 1.architectures/0.s3/ 和 1.architectures/1.vpc_network/ 创建的 S3 存储桶和 VPC。强烈建议在部署任何参考架构之前先部署这两个模板。 0. 研讨会 您可以通过以下研讨会在 AWS 上进行模型训练。每个研讨会都包含多个测试用例示例以及有关大规模语言模型训练集群操作的实用信息。 | 名称 | 备注 | | ------------------------------------------------------------------------------------- | --------------------------------------------------------------- | | Amazon SageMaker HyperPod | SageMaker HyperPod 研讨会，展示如何部署和监控 | | AWS ParallelCluster | 类似于 HyperPod 的 ParallelCluster 研讨会 | | Amazon SageMaker HyperPod EKS | SageMaker HyperPod EKS 研讨会，展示如何部署和监控 | 1. 架构 架构位于 1.architectures 目录，包含实用工具和服务相关的架构。 | 名称 | 类别 | 用途 | | ------------------------------------------------------------------ | ------- | ---------------------------------------------------- | | 0.s3 | 存储 | 创建 S3 存储桶 | | 1.vpc_network | 网络 | 创建带子网的 VPC 及所需资源 | | 2.aws-parallelcluster | 计算 | GPU 和自定义硅片训练的集群模板 | | 3.aws-batch | 计算 | 用于分布式训练的 AWS Batch 模板 | | 4.amazon-eks...">
     <meta name="keywords" content="aws-samples, awsome-distributed-training, GitHub, repository, zh-CN documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/aws-samples/awsome-distributed-training/README-zh-CN.html">
-    <meta property="og:title" content="机器学习训练参考架构与测试 - aws-samples/awsome-distributed-training">
+    <meta property="og:title" content="awsome-distributed-training - aws-samples/awsome-distributed-training">
     <meta property="og:description" content="aws-samples/awsome-distributed-training - GitHub repository zh-CN documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/aws-samples/awsome-distributed-training" id="githubRepoLink" target="_blank">aws-samples/awsome-distributed-training</a>
+<br>
+<h1 style="display: none;">机器学习训练参考架构与测试 警告 我们目前正在对该仓库进行重大重构，特别是测试用例部分。如果您更倾向于使用之前的目录结构和已弃用的测试用例，请参考 v1.1.0。 本仓库包含使用 Amazon SageMaker Hyperpod、AWS ParallelCluster、AWS Batch 和 Amazon EKS 进行分布式模型训练的参考架构和测试用例。测试用例涵盖不同类型和规模的模型，以及不同框架和并行优化（Pytorch DDP/FSDP、MegatronLM、NemoMegatron 等）。 该目录的主要组件包括： reference-architectures/ |-- 1.architectures/ # 参考架构的 CloudFormation 模板 |-- 2.ami_and_containers/ # 创建 AMI 和容器镜像的脚本 |-- 3.test_cases/ # 参考测试用例和/或基准脚本 |-- 4.validation_observability/ # 用于性能测量或故障排除的工具 `-- ... 注意：这些架构设计为配合使用通过参考模板 1.architectures/0.s3/ 和 1.architectures/1.vpc_network/ 创建的 S3 存储桶和 VPC。强烈建议在部署任何参考架构之前先部署这两个模板。 0. 研讨会 您可以通过以下研讨会在 AWS 上进行模型训练。每个研讨会都包含多个测试用例示例以及有关大规模语言模型训练集群操作的实用信息。 | 名称 | 备注 | | ------------------------------------------------------------------------------------- | --------------------------------------------------------------- | | Amazon SageMaker HyperPod | SageMaker HyperPod 研讨会，展示如何部署和监控 | | AWS ParallelCluster | 类似于 HyperPod 的 ParallelCluster 研讨会 | | Amazon SageMaker HyperPod EKS | SageMaker HyperPod EKS 研讨会，展示如何部署和监控 | 1. 架构 架构位于 1.architectures 目录，包含实用工具和服务相关的架构。 | 名称 | 类别 | 用途 | | ------------------------------------------------------------------ | ------- | ---------------------------------------------------- | | 0.s3 | 存储 | 创建 S3 存储桶 | | 1.vpc_network | 网络 | 创建带子网的 VPC 及所需资源 | | 2.aws-parallelcluster | 计算 | GPU 和自定义硅片训练的集群模板 | | 3.aws-batch | 计算 | 用于分布式训练的 AWS Batch 模板 | | 4.amazon-eks...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>机器学习训练参考架构与测试 <!-- omit from toc --></h1>
+        <div class="markdown-body" id="content">
+            <h1>机器学习训练参考架构与测试 <!-- omit from toc --></h1>
 <blockquote>
-<p><strong>警告</strong><br>我们目前正在对该仓库进行重大重构，特别是测试用例部分。如果您更倾向于使用之前的目录结构和已弃用的测试用例，请参考 <a href="https://github.com/aws-samples/awsome-distributed-training/releases/tag/v1.1.0">v1.1.0</a>。</p>
+<p><strong>警告</strong>
+我们目前正在对该仓库进行重大重构，特别是测试用例部分。如果您更倾向于使用之前的目录结构和已弃用的测试用例，请参考 <a href="https://github.com/aws-samples/awsome-distributed-training/releases/tag/v1.1.0">v1.1.0</a>。</p>
 </blockquote>
 <p>本仓库包含使用 <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html">Amazon SageMaker Hyperpod</a>、<a href="https://docs.aws.amazon.com/parallelcluster/latest/ug/what-is-aws-parallelcluster.html">AWS ParallelCluster</a>、<a href="https://docs.aws.amazon.com/batch/latest/userguide/what-is-batch.html">AWS Batch</a> 和 <a href="https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html">Amazon EKS</a> 进行分布式模型训练的参考架构和测试用例。测试用例涵盖不同类型和规模的模型，以及不同框架和并行优化（Pytorch DDP/FSDP、MegatronLM、NemoMegatron 等）。</p>
 <p>该目录的主要组件包括：</p>
-<pre><code class="language-bash hljs">reference-architectures/
-|-- 1.architectures/               <span class="hljs-comment"># 参考架构的 CloudFormation 模板</span>
-|-- 2.ami_and_containers/          <span class="hljs-comment"># 创建 AMI 和容器镜像的脚本</span>
-|-- 3.test_cases/                  <span class="hljs-comment"># 参考测试用例和/或基准脚本</span>
-|-- 4.validation_observability/    <span class="hljs-comment"># 用于性能测量或故障排除的工具</span>
+<pre><code class="language-bash">reference-architectures/
+|-- 1.architectures/               # 参考架构的 CloudFormation 模板
+|-- 2.ami_and_containers/          # 创建 AMI 和容器镜像的脚本
+|-- 3.test_cases/                  # 参考测试用例和/或基准脚本
+|-- 4.validation_observability/    # 用于性能测量或故障排除的工具
 `-- ...
 </code></pre>
 <p><strong>注意</strong>：这些架构设计为配合使用通过参考模板 <code>1.architectures/0.s3/</code> 和 <code>1.architectures/1.vpc_network/</code> 创建的 S3 存储桶和 VPC。<em>强烈建议在部署任何参考架构之前先部署这两个模板。</em></p>
 <h2>0. 研讨会</h2>
 <p>您可以通过以下研讨会在 AWS 上进行模型训练。每个研讨会都包含多个测试用例示例以及有关大规模语言模型训练集群操作的实用信息。</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://catalog.workshops.aws/sagemaker-hyperpod/en-US">Amazon SageMaker HyperPod</a></td>
-<td>SageMaker HyperPod 研讨会，展示如何部署和监控</td>
-</tr>
-<tr>
-<td><a href="https://catalog.workshops.aws/ml-on-aws-parallelcluster">AWS ParallelCluster</a></td>
-<td>类似于 HyperPod 的 ParallelCluster 研讨会</td>
-</tr>
-<tr>
-<td><a href="https://catalog.workshops.aws/sagemaker-hyperpod-eks">Amazon SageMaker HyperPod EKS</a></td>
-<td>SageMaker HyperPod EKS 研讨会，展示如何部署和监控</td>
-</tr>
-</tbody></table>
+<p>| 名称                                                                                  | 备注                                                            |
+| ------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| <a href="https://catalog.workshops.aws/sagemaker-hyperpod/en-US">Amazon SageMaker HyperPod</a>   | SageMaker HyperPod 研讨会，展示如何部署和监控                  |
+| <a href="https://catalog.workshops.aws/ml-on-aws-parallelcluster">AWS ParallelCluster</a>         | 类似于 HyperPod 的 ParallelCluster 研讨会                       |
+| <a href="https://catalog.workshops.aws/sagemaker-hyperpod-eks">Amazon SageMaker HyperPod EKS</a> | SageMaker HyperPod EKS 研讨会，展示如何部署和监控               |</p>
 <h2>1. 架构</h2>
 <p>架构位于 <code>1.architectures</code> 目录，包含实用工具和服务相关的架构。</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>类别</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/0.s3"><code>0.s3</code></a></td>
-<td>存储</td>
-<td>创建 S3 存储桶</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/1.vpc_network"><code>1.vpc_network</code></a></td>
-<td>网络</td>
-<td>创建带子网的 VPC 及所需资源</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/2.aws-parallelcluster"><code>2.aws-parallelcluster</code></a></td>
-<td>计算</td>
-<td>GPU 和自定义硅片训练的集群模板</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/3.aws-batch"><code>3.aws-batch</code></a></td>
-<td>计算</td>
-<td>用于分布式训练的 AWS Batch 模板</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/4.amazon-eks"><code>4.amazon-eks</code></a></td>
-<td>计算</td>
-<td>用于 Amazon EKS 训练的 Manifest 文件</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/5.sagemaker-hyperpod"><code>5.sagemaker-hyperpod</code></a></td>
-<td>计算</td>
-<td>SageMaker HyperPod 分布式训练模板</td>
-</tr>
-</tbody></table>
+<p>| 名称                                                               | 类别    | 用途                                                 |
+| ------------------------------------------------------------------ | ------- | ---------------------------------------------------- |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/0.s3"><code>0.s3</code></a>                                   | 存储    | 创建 S3 存储桶                                       |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/1.vpc_network"><code>1.vpc_network</code></a>                 | 网络    | 创建带子网的 VPC 及所需资源                          |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/2.aws-parallelcluster"><code>2.aws-parallelcluster</code></a> | 计算    | GPU 和自定义硅片训练的集群模板                        |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/3.aws-batch"><code>3.aws-batch</code></a>                     | 计算    | 用于分布式训练的 AWS Batch 模板                      |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/4.amazon-eks"><code>4.amazon-eks</code></a>                   | 计算    | 用于 Amazon EKS 训练的 Manifest 文件                 |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/5.sagemaker-hyperpod"><code>5.sagemaker-hyperpod</code></a>   | 计算    | SageMaker HyperPod 分布式训练模板                     |</p>
 <p>更多架构将陆续添加，欢迎自由新增（例如 Ray？）。您还可以找到 <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-cheatsheet.md">EFA 文档</a> 以及推荐的环境变量。</p>
 <h2>2. 自定义 Amazon 机器映像</h2>
 <p>可以使用 <a href="www.packer.io">Packer</a> 构建适用于 AWS ParallelCluster、Amazon EKS 和普通 EC2 的自定义机器映像。这些映像基于 Ansible 角色和剧本。</p>
@@ -244,70 +111,34 @@
 </ul>
 <h2>4. 验证脚本</h2>
 <p>实用脚本和微基准测试示例位于 <code>4.validation_scripts/</code>。EFA Prometheus 导出器可在此 <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter">目录</a> 找到。</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/1.pytorch-env-validation"><code>1.pytorch-env-validation</code></a></td>
-<td>验证您的 PyTorch 环境</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter"><code>3.efa-node-exporter</code></a></td>
-<td>带有 Amazon EFA 监控模块的节点导出器</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/4.prometheus-grafana"><code>4.prometheus-grafana</code></a></td>
-<td>用于监控 SageMaker Hyperpod 集群的部署资源</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/5.nsight"><code>5.nsight</code></a></td>
-<td>展示如何使用 Nvidia Nsight Systems 对工作负载进行分析</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-versions.py"><code>efa-versions.py</code></a></td>
-<td>获取 Nvidia 库、驱动和 EFA 驱动的版本信息</td>
-</tr>
-</tbody></table>
+<p>| 名称                                                                                          | 备注                                                          |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/1.pytorch-env-validation"><code>1.pytorch-env-validation</code></a> | 验证您的 PyTorch 环境                                         |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter"><code>3.efa-node-exporter</code></a>           | 带有 Amazon EFA 监控模块的节点导出器                         |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/4.prometheus-grafana"><code>4.prometheus-grafana</code></a>         | 用于监控 SageMaker Hyperpod 集群的部署资源                   |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/5.nsight"><code>5.nsight</code></a>                                 | 展示如何使用 Nvidia Nsight Systems 对工作负载进行分析       |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-versions.py"><code>efa-versions.py</code></a>                                  | 获取 Nvidia 库、驱动和 EFA 驱动的版本信息                    |</p>
 <h2>5. 持续集成</h2>
 <p>集成测试使用 <a href="https://docs.pytest.org">pytest</a> 编写。只需运行：</p>
-<pre><code class="language-bash hljs">pytest .
+<pre><code class="language-bash">pytest .
 </code></pre>
 <p>或者，您可以运行测试时不捕获标准输出，并保留所有 Docker 镜像及其他工件：</p>
-<pre><code class="language-bash hljs">pytest -s --keep-artifacts=t
+<pre><code class="language-bash">pytest -s --keep-artifacts=t
 </code></pre>
 <h2>6. 贡献者</h2>
 <p>感谢所有贡献者的构建、审查和测试工作。</p>
-<p><a href="https://github.com/aws-samples/awsome-distributed-training/graphs/contributors"><img src="https://contrib.rocks/image?repo=aws-samples/awsome-distributed-training" alt="Contributors"></a></p>
+<p><a href="https://github.com/aws-samples/awsome-distributed-training/graphs/contributors"><img src="https://contrib.rocks/image?repo=aws-samples/awsome-distributed-training" alt="Contributors" /></a></p>
 <h2>7. Star 历史</h2>
-<p><a href="https://star-history.com/#aws-samples/awsome-distributed-training&amp;Date"><img src="https://api.star-history.com/svg?repos=aws-samples/awsome-distributed-training&amp;type=Date" alt="Star History Chart"></a></p>
-<hr>
+<p><a href="https://star-history.com/#aws-samples/awsome-distributed-training&amp;Date"><img src="https://api.star-history.com/svg?repos=aws-samples/awsome-distributed-training&amp;type=Date" alt="Star History Chart" /></a></p>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

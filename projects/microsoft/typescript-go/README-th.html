@@ -1,172 +1,86 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="th">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TypeScript 7 - microsoft/typescript-go</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="TypeScript 7 - microsoft/typescript-go">
-    <meta name="description" content="microsoft/typescript-go - GitHub repository th documentation and information">
+    <title>typescript-go - microsoft/typescript-go</title>
+    <meta name="title" content="typescript-go - microsoft/typescript-go">
+    <meta name="description" content="microsoft/typescript-go - GitHub repository th documentation and informationTypeScript 7 ยังไม่แน่ใจว่านี่คืออะไร? อ่านโพสต์ประกาศ! พรีวิว สามารถใช้งาน build พรีวิวได้บน npm ในชื่อ @typescript/native-preview npm install @typescript/native-preview npx tsgo # ใช้งานเหมือนกับ tsc ส่วนขยายพรีวิวสำหรับ VS Code มีให้ใช้งานบน VS Code marketplace เพื่อใช้งานนี้ ให้ตั้งค่าดังนี้ใน VS Code settings: { &quot;typescript.experimental.useTsgo&quot;: true } วิธี Build และ Run Repo นี้ใช้ Go 1.24 หรือสูงกว่า, Rust 1.85 หรือสูงกว่า, Node.js พร้อม npm, และ hereby สำหรับการทดสอบและการสร้างโค้ด Repo นี้มี git submodule ไปยัง TypeScript repo หลักที่ชี้ไปยัง commit ที่ถูกพอร์ต เมื่อต้องการโคลน ควรโคลนพร้อม submodules: git clone --recurse-submodules https://github.com/microsoft/typescript-go.git หากคุณได้โคลน repo แล้ว สามารถ initialize submodule ได้ด้วย: git submodule update --init --recursive เมื่อมี submodule และรัน npm ci แล้ว สามารถรันงานต่าง ๆ ผ่าน hereby เช่นเดียวกับ TypeScript repo: hereby build # ตรวจสอบว่าโปรเจกต์ build สำเร็จ hereby test # รันการทดสอบทั้งหมด hereby install-tools # ติดตั้งเครื่องมือเพิ่มเติม เช่น linter hereby lint # รัน linter ทั้งหมด hereby format # จัดรูปแบบโค้ดทั้งหมด hereby generate # สร้าง Go code ทั้งหมด (เช่น diagnostics, committed to repo) งานเพิ่มเติมกำลังอยู่ในระหว่างดำเนินการ hereby ไม่จำเป็นสำหรับการทำงานกับ repo นี้; สามารถใช้ go tooling ปกติ (เช่น go build, go test ./...) ได้ตามปกติ งานของ...">
     <meta name="keywords" content="microsoft, typescript-go, GitHub, repository, th documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/microsoft/typescript-go/README-th.html">
-    <meta property="og:title" content="TypeScript 7 - microsoft/typescript-go">
+    <meta property="og:title" content="typescript-go - microsoft/typescript-go">
     <meta property="og:description" content="microsoft/typescript-go - GitHub repository th documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/microsoft/typescript-go" id="githubRepoLink" target="_blank">microsoft/typescript-go</a>
+<br>
+<h1 style="display: none;">TypeScript 7 ยังไม่แน่ใจว่านี่คืออะไร? อ่านโพสต์ประกาศ! พรีวิว สามารถใช้งาน build พรีวิวได้บน npm ในชื่อ @typescript/native-preview npm install @typescript/native-preview npx tsgo # ใช้งานเหมือนกับ tsc ส่วนขยายพรีวิวสำหรับ VS Code มีให้ใช้งานบน VS Code marketplace เพื่อใช้งานนี้ ให้ตั้งค่าดังนี้ใน VS Code settings: { &quot;typescript.experimental.useTsgo&quot;: true } วิธี Build และ Run Repo นี้ใช้ Go 1.24 หรือสูงกว่า, Rust 1.85 หรือสูงกว่า, Node.js พร้อม npm, และ hereby สำหรับการทดสอบและการสร้างโค้ด Repo นี้มี git submodule ไปยัง TypeScript repo หลักที่ชี้ไปยัง commit ที่ถูกพอร์ต เมื่อต้องการโคลน ควรโคลนพร้อม submodules: git clone --recurse-submodules https://github.com/microsoft/typescript-go.git หากคุณได้โคลน repo แล้ว สามารถ initialize submodule ได้ด้วย: git submodule update --init --recursive เมื่อมี submodule และรัน npm ci แล้ว สามารถรันงานต่าง ๆ ผ่าน hereby เช่นเดียวกับ TypeScript repo: hereby build # ตรวจสอบว่าโปรเจกต์ build สำเร็จ hereby test # รันการทดสอบทั้งหมด hereby install-tools # ติดตั้งเครื่องมือเพิ่มเติม เช่น linter hereby lint # รัน linter ทั้งหมด hereby format # จัดรูปแบบโค้ดทั้งหมด hereby generate # สร้าง Go code ทั้งหมด (เช่น diagnostics, committed to repo) งานเพิ่มเติมกำลังอยู่ในระหว่างดำเนินการ hereby ไม่จำเป็นสำหรับการทำงานกับ repo นี้; สามารถใช้ go tooling ปกติ (เช่น go build, go test ./...) ได้ตามปกติ งานของ...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=microsoft&amp;project=typescript-go&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>TypeScript 7</h1>
+        <div class="markdown-body" id="content">
+            <h1>TypeScript 7</h1>
 <p><a href="https://devblogs.microsoft.com/typescript/typescript-native-port/">ยังไม่แน่ใจว่านี่คืออะไร? อ่านโพสต์ประกาศ!</a></p>
 <h2>พรีวิว</h2>
 <p>สามารถใช้งาน build พรีวิวได้บน npm ในชื่อ <code>@typescript/native-preview</code></p>
-<pre><code class="language-sh hljs language-bash">npm install @typescript/native-preview
-npx tsgo <span class="hljs-comment"># ใช้งานเหมือนกับ tsc</span>
+<pre><code class="language-sh">npm install @typescript/native-preview
+npx tsgo # ใช้งานเหมือนกับ tsc
 </code></pre>
 <p>ส่วนขยายพรีวิวสำหรับ VS Code <a href="https://marketplace.visualstudio.com/items?itemName=TypeScriptTeam.native-preview">มีให้ใช้งานบน VS Code marketplace</a></p>
 <p>เพื่อใช้งานนี้ ให้ตั้งค่าดังนี้ใน VS Code settings:</p>
-<pre><code class="language-json hljs"><span class="hljs-punctuation">{</span>
-    <span class="hljs-attr">"typescript.experimental.useTsgo"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
-<span class="hljs-punctuation">}</span>
+<pre><code class="language-json">{
+    &quot;typescript.experimental.useTsgo&quot;: true
+}
 </code></pre>
 <h2>วิธี Build และ Run</h2>
 <p>Repo นี้ใช้ <a href="https://go.dev/dl/">Go 1.24 หรือสูงกว่า</a>, <a href="https://www.rust-lang.org/tools/install">Rust 1.85 หรือสูงกว่า</a>, <a href="https://nodejs.org/">Node.js พร้อม npm</a>, และ <a href="https://www.npmjs.com/package/hereby"><code>hereby</code></a></p>
-<p>สำหรับการทดสอบและการสร้างโค้ด Repo นี้มี git submodule ไปยัง TypeScript repo หลักที่ชี้ไปยัง commit ที่ถูกพอร์ต<br>เมื่อต้องการโคลน ควรโคลนพร้อม submodules:</p>
-<pre><code class="language-sh hljs language-bash">git <span class="hljs-built_in">clone</span> --recurse-submodules https://github.com/microsoft/typescript-go.git
+<p>สำหรับการทดสอบและการสร้างโค้ด Repo นี้มี git submodule ไปยัง TypeScript repo หลักที่ชี้ไปยัง commit ที่ถูกพอร์ต
+เมื่อต้องการโคลน ควรโคลนพร้อม submodules:</p>
+<pre><code class="language-sh">git clone --recurse-submodules https://github.com/microsoft/typescript-go.git
 </code></pre>
 <p>หากคุณได้โคลน repo แล้ว สามารถ initialize submodule ได้ด้วย:</p>
-<pre><code class="language-sh hljs language-bash">git submodule update --init --recursive
+<pre><code class="language-sh">git submodule update --init --recursive
 </code></pre>
 <p>เมื่อมี submodule และรัน <code>npm ci</code> แล้ว สามารถรันงานต่าง ๆ ผ่าน <code>hereby</code> เช่นเดียวกับ TypeScript repo:</p>
-<pre><code class="language-sh hljs language-bash">hereby build          <span class="hljs-comment"># ตรวจสอบว่าโปรเจกต์ build สำเร็จ</span>
-hereby <span class="hljs-built_in">test</span>           <span class="hljs-comment"># รันการทดสอบทั้งหมด</span>
-hereby install-tools  <span class="hljs-comment"># ติดตั้งเครื่องมือเพิ่มเติม เช่น linter</span>
-hereby lint           <span class="hljs-comment"># รัน linter ทั้งหมด</span>
-hereby format         <span class="hljs-comment"># จัดรูปแบบโค้ดทั้งหมด</span>
-hereby generate       <span class="hljs-comment"># สร้าง Go code ทั้งหมด (เช่น diagnostics, committed to repo)</span>
+<pre><code class="language-sh">hereby build          # ตรวจสอบว่าโปรเจกต์ build สำเร็จ
+hereby test           # รันการทดสอบทั้งหมด
+hereby install-tools  # ติดตั้งเครื่องมือเพิ่มเติม เช่น linter
+hereby lint           # รัน linter ทั้งหมด
+hereby format         # จัดรูปแบบโค้ดทั้งหมด
+hereby generate       # สร้าง Go code ทั้งหมด (เช่น diagnostics, committed to repo)
 </code></pre>
 <p>งานเพิ่มเติมกำลังอยู่ในระหว่างดำเนินการ</p>
-<p><code>hereby</code> ไม่จำเป็นสำหรับการทำงานกับ repo นี้; สามารถใช้ <code>go</code> tooling ปกติ (เช่น <code>go build</code>, <code>go test ./...</code>) ได้ตามปกติ<br>งานของ <code>hereby</code> มีไว้เพื่อความสะดวกสำหรับผู้ที่คุ้นเคยกับ TypeScript repo</p>
+<p><code>hereby</code> ไม่จำเป็นสำหรับการทำงานกับ repo นี้; สามารถใช้ <code>go</code> tooling ปกติ (เช่น <code>go build</code>, <code>go test ./...</code>) ได้ตามปกติ
+งานของ <code>hereby</code> มีไว้เพื่อความสะดวกสำหรับผู้ที่คุ้นเคยกับ TypeScript repo</p>
 <h3>การรัน <code>tsgo</code></h3>
 <p>หลังจากรัน <code>hereby build</code> แล้ว คุณสามารถรัน <code>built/local/tsgo</code> ซึ่งจะทำงานเหมือนกับ <code>tsc</code> เป็นส่วนใหญ่</p>
 <h3>การรัน LSP Prototype</h3>
@@ -176,129 +90,58 @@ hereby generate       <span class="hljs-comment"># สร้าง Go code ท�
 <li>คัดลอก <code>.vscode/launch.template.json</code> ไปเป็น <code>.vscode/launch.json</code></li>
 <li><kbd>F5</kbd> (หรือ <code>Debug: Start Debugging</code> จาก command palette)</li>
 </ul>
-<p>สิ่งนี้จะเปิดอินสแตนซ์ใหม่ของ VS Code ที่ใช้ Corsa LS เป็น backend หากตั้งค่าถูกต้อง จะเห็น "tsgo" ที่ status bar เมื่อเปิดไฟล์ TypeScript หรือ JavaScript:</p>
-<p><img src="https://raw.githubusercontent.com/microsoft/typescript-go/main/.github/ls-screenshot.png" alt="LSP Prototype Screenshot"></p>
+<p>สิ่งนี้จะเปิดอินสแตนซ์ใหม่ของ VS Code ที่ใช้ Corsa LS เป็น backend หากตั้งค่าถูกต้อง จะเห็น &quot;tsgo&quot; ที่ status bar เมื่อเปิดไฟล์ TypeScript หรือ JavaScript:</p>
+<p><img src="https://raw.githubusercontent.com/microsoft/typescript-go/main/.github/ls-screenshot.png" alt="LSP Prototype Screenshot" /></p>
 <h2>มีอะไรที่ใช้งานได้แล้วบ้าง?</h2>
 <p>ยังอยู่ในระหว่างพัฒนาและยังไม่ครบฟีเจอร์เท่ากับ TypeScript อาจมีบั๊ก กรุณาตรวจสอบรายการนี้อย่างละเอียดก่อนแจ้ง issue ใหม่หรือคิดว่าเป็นการเปลี่ยนแปลงโดยตั้งใจ</p>
-<table>
-<thead>
-<tr>
-<th>ฟีเจอร์</th>
-<th>สถานะ</th>
-<th>หมายเหตุ</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>การสร้างโปรแกรม</td>
-<td>เสร็จแล้ว</td>
-<td>ไฟล์และการ resolve module เหมือน TS5.8 ยังไม่รองรับโหมด resolve ทั้งหมด</td>
-</tr>
-<tr>
-<td>การ parsing/scanning</td>
-<td>เสร็จแล้ว</td>
-<td>ข้อผิดพลาด syntax เหมือนกับ TS5.8 ทุกประการ</td>
-</tr>
-<tr>
-<td>การพาร์ส Commandline และ <code>tsconfig.json</code></td>
-<td>เกือบเสร็จ</td>
-<td>จุด entry point อาจต่างกันเล็กน้อยในตอนนี้</td>
-</tr>
-<tr>
-<td>การ resolve type</td>
-<td>เสร็จแล้ว</td>
-<td>เหมือนกับ TS5.8</td>
-</tr>
-<tr>
-<td>การตรวจสอบ type</td>
-<td>เสร็จแล้ว</td>
-<td>ข้อผิดพลาด, ตำแหน่ง, ข้อความ เหมือน TS5.8 การแสดงผล types ใน error อาจต่างกัน (กำลังดำเนินการ)</td>
-</tr>
-<tr>
-<td>JavaScript inference เฉพาะและ JS Doc</td>
-<td>ยังไม่พร้อม</td>
-<td>-</td>
-</tr>
-<tr>
-<td>JSX</td>
-<td>เสร็จแล้ว</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Declaration emit</td>
-<td>กำลังดำเนินการ</td>
-<td>ฟีเจอร์ที่ใช้บ่อยพร้อมแล้ว แต่ edge case กับ feature flag บางอย่างยังไม่รองรับ</td>
-</tr>
-<tr>
-<td>Emit (JS output)</td>
-<td>กำลังดำเนินการ</td>
-<td><code>target: esnext</code> รองรับดี เป้าหมายอื่นอาจยังไม่ครบ</td>
-</tr>
-<tr>
-<td>Watch mode</td>
-<td>prototype</td>
-<td>ดูไฟล์และ rebuild แต่ไม่มี incremental rechecking</td>
-</tr>
-<tr>
-<td>Build mode / project references</td>
-<td>ยังไม่พร้อม</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Incremental build</td>
-<td>ยังไม่พร้อม</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Language service (LSP)</td>
-<td>prototype</td>
-<td>ฟีเจอร์พื้นฐาน (error, hover, go to def) ฟีเจอร์อื่นกำลังมาเร็ว ๆ นี้</td>
-</tr>
-<tr>
-<td>API</td>
-<td>ยังไม่พร้อม</td>
-<td>-</td>
-</tr>
-</tbody></table>
+<p>| ฟีเจอร์ | สถานะ | หมายเหตุ |
+|---------|--------|-------|
+| การสร้างโปรแกรม | เสร็จแล้ว | ไฟล์และการ resolve module เหมือน TS5.8 ยังไม่รองรับโหมด resolve ทั้งหมด |
+| การ parsing/scanning | เสร็จแล้ว | ข้อผิดพลาด syntax เหมือนกับ TS5.8 ทุกประการ |
+| การพาร์ส Commandline และ <code>tsconfig.json</code> | เกือบเสร็จ | จุด entry point อาจต่างกันเล็กน้อยในตอนนี้ |
+| การ resolve type | เสร็จแล้ว | เหมือนกับ TS5.8 |
+| การตรวจสอบ type | เสร็จแล้ว | ข้อผิดพลาด, ตำแหน่ง, ข้อความ เหมือน TS5.8 การแสดงผล types ใน error อาจต่างกัน (กำลังดำเนินการ) |
+| JavaScript inference เฉพาะและ JS Doc | ยังไม่พร้อม | - |
+| JSX | เสร็จแล้ว | - |
+| Declaration emit | กำลังดำเนินการ | ฟีเจอร์ที่ใช้บ่อยพร้อมแล้ว แต่ edge case กับ feature flag บางอย่างยังไม่รองรับ |
+| Emit (JS output) | กำลังดำเนินการ | <code>target: esnext</code> รองรับดี เป้าหมายอื่นอาจยังไม่ครบ |
+| Watch mode | prototype | ดูไฟล์และ rebuild แต่ไม่มี incremental rechecking |
+| Build mode / project references | ยังไม่พร้อม | - |
+| Incremental build | ยังไม่พร้อม | - |
+| Language service (LSP) | prototype | ฟีเจอร์พื้นฐาน (error, hover, go to def) ฟีเจอร์อื่นกำลังมาเร็ว ๆ นี้ |
+| API | ยังไม่พร้อม | - |</p>
 <p>คำนิยาม:</p>
 <ul>
-<li><strong>เสร็จแล้ว</strong> หรือ "believed done": ขณะนี้ไม่พบปัญหาหรือสิ่งที่ต้องทำเพิ่มแล้ว สามารถแจ้งบั๊กได้</li>
+<li><strong>เสร็จแล้ว</strong> หรือ &quot;believed done&quot;: ขณะนี้ไม่พบปัญหาหรือสิ่งที่ต้องทำเพิ่มแล้ว สามารถแจ้งบั๊กได้</li>
 <li><strong>กำลังดำเนินการ</strong>: กำลังพัฒนาอยู่ อาจใช้ได้บางฟีเจอร์ ยังไม่ครบ สามารถแจ้ง panic ได้แต่ยังไม่ต้องแจ้งอย่างอื่น</li>
 <li><strong>prototype</strong>: เป็น proof-of-concept เท่านั้น ไม่ต้องแจ้งบั๊ก</li>
 <li><strong>ยังไม่พร้อม</strong>: ยังไม่เริ่ม หรือยังห่างไกลจากความพร้อม ไม่ควรยุ่งกับฟีเจอร์นี้ตอนนี้</li>
 </ul>
 <h2>หมายเหตุอื่น ๆ</h2>
-<p>ระยะยาวคาดว่า repo นี้และเนื้อหาจะถูกรวมเข้า <code>microsoft/TypeScript</code><br>ดังนั้น repo และ issue tracker ของ typescript-go จะถูกปิดในอนาคต กรุณาพิจารณาเรื่องนี้ในการพูดคุย/แจ้งปัญหา</p>
+<p>ระยะยาวคาดว่า repo นี้และเนื้อหาจะถูกรวมเข้า <code>microsoft/TypeScript</code>
+ดังนั้น repo และ issue tracker ของ typescript-go จะถูกปิดในอนาคต กรุณาพิจารณาเรื่องนี้ในการพูดคุย/แจ้งปัญหา</p>
 <p>สำหรับรายการการเปลี่ยนแปลงโดยตั้งใจเทียบกับ TypeScript 5.7 ดูที่ CHANGES.md</p>
 <h2>การร่วมพัฒนา</h2>
-<p>โปรเจกต์นี้ยินดีต้อนรับการร่วมพัฒนาและข้อเสนอแนะ การร่วมพัฒนาส่วนใหญ่จะต้องตกลง<br>Contributor License Agreement (CLA) เพื่อยืนยันว่าคุณมีสิทธิ์และอนุญาตให้เราใช้ผลงานของคุณ รายละเอียดดูที่ <a href="https://cla.opensource.microsoft.com">Contributor License Agreements</a></p>
+<p>โปรเจกต์นี้ยินดีต้อนรับการร่วมพัฒนาและข้อเสนอแนะ การร่วมพัฒนาส่วนใหญ่จะต้องตกลง
+Contributor License Agreement (CLA) เพื่อยืนยันว่าคุณมีสิทธิ์และอนุญาตให้เราใช้ผลงานของคุณ รายละเอียดดูที่ <a href="https://cla.opensource.microsoft.com">Contributor License Agreements</a></p>
 <p>เมื่อคุณส่ง pull request จะมี CLA bot ตรวจสอบอัตโนมัติว่าคุณต้องให้ CLA หรือไม่ และจะแจ้งสถานะที่ PR (เช่น status check, comment) ให้ทำตามคำแนะนำของ bot ซึ่งต้องทำเพียงครั้งเดียวสำหรับ repo ที่ใช้ CLA ของเรา</p>
-<p>โปรเจกต์นี้ใช้ <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a><br>ดูข้อมูลเพิ่มเติมที่ <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> หรือ<br>ติดต่อ <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> หากมีคำถามหรือข้อคิดเห็นเพิ่มเติม</p>
+<p>โปรเจกต์นี้ใช้ <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>
+ดูข้อมูลเพิ่มเติมที่ <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> หรือ
+ติดต่อ <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> หากมีคำถามหรือข้อคิดเห็นเพิ่มเติม</p>
 <h2>เครื่องหมายการค้า</h2>
-<p>โปรเจกต์นี้อาจมีเครื่องหมายการค้าหรือโลโก้สำหรับโปรเจกต์ ผลิตภัณฑ์ หรือบริการ การใช้เครื่องหมายการค้าหรือโลโก้ของ Microsoft ต้องเป็นไปตาม<br><a href="https://www.microsoft.com/legal/intellectualproperty/trademarks/usage/general">Microsoft's Trademark &amp; Brand Guidelines</a><br>การใช้เครื่องหมายการค้าหรือโลโก้ของ Microsoft ในเวอร์ชันดัดแปลงของโปรเจกต์นี้ต้องไม่ก่อให้เกิดความสับสนหรือแสดงถึงการสนับสนุนจาก Microsoft<br>การใช้เครื่องหมายการค้าหรือโลโก้ของบุคคลที่สามเป็นไปตามนโยบายของเจ้าของเครื่องหมายนั้น ๆ</p>
-<hr>
+<p>โปรเจกต์นี้อาจมีเครื่องหมายการค้าหรือโลโก้สำหรับโปรเจกต์ ผลิตภัณฑ์ หรือบริการ การใช้เครื่องหมายการค้าหรือโลโก้ของ Microsoft ต้องเป็นไปตาม
+<a href="https://www.microsoft.com/legal/intellectualproperty/trademarks/usage/general">Microsoft's Trademark &amp; Brand Guidelines</a>
+การใช้เครื่องหมายการค้าหรือโลโก้ของ Microsoft ในเวอร์ชันดัดแปลงของโปรเจกต์นี้ต้องไม่ก่อให้เกิดความสับสนหรือแสดงถึงการสนับสนุนจาก Microsoft
+การใช้เครื่องหมายการค้าหรือโลโก้ของบุคคลที่สามเป็นไปตามนโยบายของเจ้าของเครื่องหมายนั้น ๆ</p>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-10</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

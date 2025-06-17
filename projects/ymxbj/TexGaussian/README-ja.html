@@ -1,229 +1,106 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TexGaussian: Octreeベースの3Dガウシアンスプラッティングによる高品質PBRマテリアル生成 - ymxbj/TexGaussian</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="TexGaussian: Octreeベースの3Dガウシアンスプラッティングによる高品質PBRマテリアル生成 - ymxbj/TexGaussian">
-    <meta name="description" content="ymxbj/TexGaussian - GitHub repository documentation and information">
-    <meta name="keywords" content="ymxbj, TexGaussian, GitHub, repository, documentation, ">
+    <title>TexGaussian - ymxbj/TexGaussian</title>
+    <meta name="title" content="TexGaussian - ymxbj/TexGaussian">
+    <meta name="description" content="ymxbj/TexGaussian - GitHub repository ja documentation and informationTexGaussian: Octreeベースの3Dガウシアンスプラッティングによる高品質PBRマテリアル生成 物理ベースレンダリング（PBR）マテリアルは、現代のグラフィックスにおいて重要な役割を果たしており、多様な環境マップにわたるフォトリアリスティックなレンダリングを可能にします。RGBテクスチャではなく3Dメッシュ用の高品質PBRマテリアルを自動生成できる効果的かつ効率的なアルゴリズムを開発することは、3Dコンテンツ制作を大幅に効率化します。既存のほとんどの手法は事前学習済み2D拡散モデルを用いてマルチビュー画像合成を行いますが、これにより生成されたテクスチャと入力3Dメッシュとの間に深刻な不整合が生じることが多いです。本論文では、八分木（Octree）に整列した3Dガウシアンスプラッティングを用いて高速なPBRマテリアル生成を実現する新しい手法「TexGaussian」を提案します。具体的には、入力3Dメッシュから構築されたOctreeの最も細かいリーフノードごとに3Dガウシアンを配置し、アルベドマップだけでなく、ラフネスやメタリックのマルチビュー画像もレンダリングします。さらに、本モデルは拡散ノイズ除去ではなく回帰的に学習されており、単一のフィードフォワード処理で3DメッシュのPBRマテリアルを生成できます。公開ベンチマークでの広範な実験により、本手法は視覚的により優れたPBRマテリアルを合成し、従来手法よりも高速に動作することが示されました。これにより、与えられたジオメトリとの整合性も向上しています。 📦 インストール conda create -n texgaussian python==3.10 pip3 install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118 # 修正版ガウシアンスプラッティング（+ depth, alpha rendering対応） git clone --recursive https://github.com/ashawkey/diff-gaussian-rasterization pip3 install ./diff-gaussian-rasterization pip3 install git+https://github.com/NVlabs/nvdiffrast # その他依存パッケージ pip3 install -r requirements.txt 🤖 学習済みモデル 以下の学習済みモデルを提供しています： | モデル | 説明 | パラメータ数 | ダウンロード | | --- | --- | --- | --- | | TexGaussian-bench | ShapeNetのbenchで学習された無条件RGBテクスチャモデル | 70M | ダウンロード | | TexGaussian-car | ShapeNetのcarで学習された無条件RGBテクスチャモデル | 70M | ダウンロード | | TexGaussian-chair | ShapeNetのchairで学習された無条件RGBテクスチャモデル | 70M | ダウンロード | | TexGaussian-table | ShapeNetのtableで学習された無条件RGBテクスチャモデル | 70M | ダウンロード | | TexGaussian-PBR | Objaverseで学習されたテキスト条件付きPBRマテリアルモデル | 295M | ダウンロード | 💡 推論 PBRマテリアル テキスト条件付きPBRマテリアル生成には、以下を実行してください。 bash inference_for_PBR_material.sh テクスチャとマテリアルのベイク後、2つのマップ（アルベドマップとPBRマテリアルマップ）が得られます。特に、PBRマテリアルマップは3チャンネルで構成され、緑チャンネルがラフネス値、青チャンネルがメタリック値を示します。生成されたテクスチャおよびマテリアルマップのPBRレンダリングには、bpyで記述されたこのレンダリングスクリプトの使用を推奨します。 さらに、Cap3Dデータセットのテキストスタイルを模倣し、自分自身のプロンプトを作成することで、より良い生成結果が得られます。Cap3Dデータセットはこちらからダウンロード可能です。 RGBテクスチャ 無条件RGBテクスチャ生成（bench, car, chair, tableの4カテゴリのみ対応）の場合は、以下を実行してください。 bash inference_for_RGB_texture.sh テクスチャのベイク後、1つのアルベドマップが得られます。 🏋️‍♂️ 学習 Objaverse用： bash train_for_objaverse.sh ShapeNet用： bash train_for_shapenet.sh 🚧 TODO [x] 学習・推論コードの公開 [x] ShapeNetデータセット上の無条件アルベドのみ事前学習済みモデルの公開 [x] Objaverseデータセット上のテキスト条件付きPBR事前学習済みモデルの公開 [ ] データセットおよびデータセットツールキットの公開 📚 謝辞 本研究は多くの素晴らしい研究およびオープンソースプロジェクトに基づいて構築されています。著者の皆様のご貢献に感謝いたします。 gaussian-splatting および diff-gaussian-rasterization nvdiffrast LGM ocnn-pytorch 📜 引用...">
+    <meta name="keywords" content="ymxbj, TexGaussian, GitHub, repository, ja documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=ja">
-    <meta property="og:title" content="TexGaussian: Octreeベースの3Dガウシアンスプラッティングによる高品質PBRマテリアル生成 - ymxbj/TexGaussian">
-    <meta property="og:description" content="ymxbj/TexGaussian - GitHub repository documentation and information">
+    <meta property="og:url" content="https://openaitx.github.io/projects/ymxbj/TexGaussian/README-ja.html">
+    <meta property="og:title" content="TexGaussian - ymxbj/TexGaussian">
+    <meta property="og:description" content="ymxbj/TexGaussian - GitHub repository ja documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" href="icon.jpg">
-    <link rel="apple-touch-icon" href="icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
-    <link rel="stylesheet" href="css/github.min.css?v=20250613">
-    <script src="js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="view.css?v=20250613">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
-        <a href="javascript:history.back()" class="back-button">Back</a>
         <div class="links">
             GitHub Repository: <a href="https://github.com/ymxbj/TexGaussian" id="githubRepoLink" target="_blank">ymxbj/TexGaussian</a>
+<br>
+<h1 style="display: none;">TexGaussian: Octreeベースの3Dガウシアンスプラッティングによる高品質PBRマテリアル生成 物理ベースレンダリング（PBR）マテリアルは、現代のグラフィックスにおいて重要な役割を果たしており、多様な環境マップにわたるフォトリアリスティックなレンダリングを可能にします。RGBテクスチャではなく3Dメッシュ用の高品質PBRマテリアルを自動生成できる効果的かつ効率的なアルゴリズムを開発することは、3Dコンテンツ制作を大幅に効率化します。既存のほとんどの手法は事前学習済み2D拡散モデルを用いてマルチビュー画像合成を行いますが、これにより生成されたテクスチャと入力3Dメッシュとの間に深刻な不整合が生じることが多いです。本論文では、八分木（Octree）に整列した3Dガウシアンスプラッティングを用いて高速なPBRマテリアル生成を実現する新しい手法「TexGaussian」を提案します。具体的には、入力3Dメッシュから構築されたOctreeの最も細かいリーフノードごとに3Dガウシアンを配置し、アルベドマップだけでなく、ラフネスやメタリックのマルチビュー画像もレンダリングします。さらに、本モデルは拡散ノイズ除去ではなく回帰的に学習されており、単一のフィードフォワード処理で3DメッシュのPBRマテリアルを生成できます。公開ベンチマークでの広範な実験により、本手法は視覚的により優れたPBRマテリアルを合成し、従来手法よりも高速に動作することが示されました。これにより、与えられたジオメトリとの整合性も向上しています。 📦 インストール conda create -n texgaussian python==3.10 pip3 install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118 # 修正版ガウシアンスプラッティング（+ depth, alpha rendering対応） git clone --recursive https://github.com/ashawkey/diff-gaussian-rasterization pip3 install ./diff-gaussian-rasterization pip3 install git+https://github.com/NVlabs/nvdiffrast # その他依存パッケージ pip3 install -r requirements.txt 🤖 学習済みモデル 以下の学習済みモデルを提供しています： | モデル | 説明 | パラメータ数 | ダウンロード | | --- | --- | --- | --- | | TexGaussian-bench | ShapeNetのbenchで学習された無条件RGBテクスチャモデル | 70M | ダウンロード | | TexGaussian-car | ShapeNetのcarで学習された無条件RGBテクスチャモデル | 70M | ダウンロード | | TexGaussian-chair | ShapeNetのchairで学習された無条件RGBテクスチャモデル | 70M | ダウンロード | | TexGaussian-table | ShapeNetのtableで学習された無条件RGBテクスチャモデル | 70M | ダウンロード | | TexGaussian-PBR | Objaverseで学習されたテキスト条件付きPBRマテリアルモデル | 295M | ダウンロード | 💡 推論 PBRマテリアル テキスト条件付きPBRマテリアル生成には、以下を実行してください。 bash inference_for_PBR_material.sh テクスチャとマテリアルのベイク後、2つのマップ（アルベドマップとPBRマテリアルマップ）が得られます。特に、PBRマテリアルマップは3チャンネルで構成され、緑チャンネルがラフネス値、青チャンネルがメタリック値を示します。生成されたテクスチャおよびマテリアルマップのPBRレンダリングには、bpyで記述されたこのレンダリングスクリプトの使用を推奨します。 さらに、Cap3Dデータセットのテキストスタイルを模倣し、自分自身のプロンプトを作成することで、より良い生成結果が得られます。Cap3Dデータセットはこちらからダウンロード可能です。 RGBテクスチャ 無条件RGBテクスチャ生成（bench, car, chair, tableの4カテゴリのみ対応）の場合は、以下を実行してください。 bash inference_for_RGB_texture.sh テクスチャのベイク後、1つのアルベドマップが得られます。 🏋️‍♂️ 学習 Objaverse用： bash train_for_objaverse.sh ShapeNet用： bash train_for_shapenet.sh 🚧 TODO [x] 学習・推論コードの公開 [x] ShapeNetデータセット上の無条件アルベドのみ事前学習済みモデルの公開 [x] Objaverseデータセット上のテキスト条件付きPBR事前学習済みモデルの公開 [ ] データセットおよびデータセットツールキットの公開 📚 謝辞 本研究は多くの素晴らしい研究およびオープンソースプロジェクトに基づいて構築されています。著者の皆様のご貢献に感謝いたします。 gaussian-splatting および diff-gaussian-rasterization nvdiffrast LGM ocnn-pytorch 📜 引用...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=ymxbj&amp;project=TexGaussian&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1 align="center">TexGaussian: Octreeベースの3Dガウシアンスプラッティングによる高品質PBRマテリアル生成</h1>
-<p align="center"><a href="https://arxiv.org/abs/2411.19654"><img src="https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv&amp;logoColor=white" alt="arXiv"></a>
-<a href="https://3d-aigc.github.io/TexGaussian/"><img src="https://img.shields.io/badge/Project_Page-Website-green?logo=googlechrome&amp;logoColor=white" alt="Project Page"></a>
-</p><p align="center"><img src="https://raw.githubusercontent.com/ymxbj/TexGaussian/main/assets/teaser.png" width="100%"></p>
-
+        <div class="markdown-body" id="content">
+            <h1 align="center">TexGaussian: Octreeベースの3Dガウシアンスプラッティングによる高品質PBRマテリアル生成</h1>
+<p align="center"><a href="https://arxiv.org/abs/2411.19654"><img src='https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv&logoColor=white' alt='arXiv'></a>
+<a href='https://3d-aigc.github.io/TexGaussian/'><img src='https://img.shields.io/badge/Project_Page-Website-green?logo=googlechrome&logoColor=white' alt='Project Page'></a>
+<p align="center"><img src="https://raw.githubusercontent.com/ymxbj/TexGaussian/main/assets/teaser.png" width="100%"></p>
 <p>物理ベースレンダリング（PBR）マテリアルは、現代のグラフィックスにおいて重要な役割を果たしており、多様な環境マップにわたるフォトリアリスティックなレンダリングを可能にします。RGBテクスチャではなく3Dメッシュ用の高品質PBRマテリアルを自動生成できる効果的かつ効率的なアルゴリズムを開発することは、3Dコンテンツ制作を大幅に効率化します。既存のほとんどの手法は事前学習済み2D拡散モデルを用いてマルチビュー画像合成を行いますが、これにより生成されたテクスチャと入力3Dメッシュとの間に深刻な不整合が生じることが多いです。本論文では、八分木（Octree）に整列した3Dガウシアンスプラッティングを用いて高速なPBRマテリアル生成を実現する新しい手法「TexGaussian」を提案します。具体的には、入力3Dメッシュから構築されたOctreeの最も細かいリーフノードごとに3Dガウシアンを配置し、アルベドマップだけでなく、ラフネスやメタリックのマルチビュー画像もレンダリングします。さらに、本モデルは拡散ノイズ除去ではなく回帰的に学習されており、単一のフィードフォワード処理で3DメッシュのPBRマテリアルを生成できます。公開ベンチマークでの広範な実験により、本手法は視覚的により優れたPBRマテリアルを合成し、従来手法よりも高速に動作することが示されました。これにより、与えられたジオメトリとの整合性も向上しています。</p>
 <h2>📦 インストール</h2>
-<pre><code class="language-bash hljs">conda create -n texgaussian python==3.10
+<pre><code class="language-bash">conda create -n texgaussian python==3.10
 pip3 install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118
 
-<span class="hljs-comment"># 修正版ガウシアンスプラッティング（+ depth, alpha rendering対応）</span>
-git <span class="hljs-built_in">clone</span> --recursive https://github.com/ashawkey/diff-gaussian-rasterization
+# 修正版ガウシアンスプラッティング（+ depth, alpha rendering対応）
+git clone --recursive https://github.com/ashawkey/diff-gaussian-rasterization
 
 pip3 install ./diff-gaussian-rasterization
 
 pip3 install git+https://github.com/NVlabs/nvdiffrast
 
-<span class="hljs-comment"># その他依存パッケージ</span>
+# その他依存パッケージ
 pip3 install -r requirements.txt
 </code></pre>
 <h2>🤖 学習済みモデル</h2>
 <p>以下の学習済みモデルを提供しています：</p>
-<table>
-<thead>
-<tr>
-<th>モデル</th>
-<th>説明</th>
-<th>パラメータ数</th>
-<th>ダウンロード</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>TexGaussian-bench</td>
-<td>ShapeNetのbenchで学習された無条件RGBテクスチャモデル</td>
-<td>70M</td>
-<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/bench.safetensors?download=true">ダウンロード</a></td>
-</tr>
-<tr>
-<td>TexGaussian-car</td>
-<td>ShapeNetのcarで学習された無条件RGBテクスチャモデル</td>
-<td>70M</td>
-<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/car.safetensors?download=true">ダウンロード</a></td>
-</tr>
-<tr>
-<td>TexGaussian-chair</td>
-<td>ShapeNetのchairで学習された無条件RGBテクスチャモデル</td>
-<td>70M</td>
-<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/chair.safetensors?download=true">ダウンロード</a></td>
-</tr>
-<tr>
-<td>TexGaussian-table</td>
-<td>ShapeNetのtableで学習された無条件RGBテクスチャモデル</td>
-<td>70M</td>
-<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/table.safetensors?download=true">ダウンロード</a></td>
-</tr>
-<tr>
-<td>TexGaussian-PBR</td>
-<td>Objaverseで学習されたテキスト条件付きPBRマテリアルモデル</td>
-<td>295M</td>
-<td><a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/PBR_model.safetensors?download=true">ダウンロード</a></td>
-</tr>
-</tbody></table>
+<p>| モデル | 説明 | パラメータ数 | ダウンロード |
+| --- | --- | --- | --- |
+| TexGaussian-bench | ShapeNetのbenchで学習された無条件RGBテクスチャモデル | 70M | <a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/bench.safetensors?download=true">ダウンロード</a> |
+| TexGaussian-car | ShapeNetのcarで学習された無条件RGBテクスチャモデル | 70M | <a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/car.safetensors?download=true">ダウンロード</a> |
+| TexGaussian-chair | ShapeNetのchairで学習された無条件RGBテクスチャモデル | 70M | <a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/chair.safetensors?download=true">ダウンロード</a> |
+| TexGaussian-table | ShapeNetのtableで学習された無条件RGBテクスチャモデル | 70M | <a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/table.safetensors?download=true">ダウンロード</a> |
+| TexGaussian-PBR | Objaverseで学習されたテキスト条件付きPBRマテリアルモデル | 295M | <a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/PBR_model.safetensors?download=true">ダウンロード</a> |</p>
 <h2>💡 推論</h2>
 <h3>PBRマテリアル</h3>
 <p>テキスト条件付きPBRマテリアル生成には、以下を実行してください。</p>
-<pre><code class="language-bash hljs">bash inference_for_PBR_material.sh
+<pre><code class="language-bash">bash inference_for_PBR_material.sh
 </code></pre>
 <p>テクスチャとマテリアルのベイク後、2つのマップ（アルベドマップとPBRマテリアルマップ）が得られます。特に、PBRマテリアルマップは3チャンネルで構成され、緑チャンネルがラフネス値、青チャンネルがメタリック値を示します。生成されたテクスチャおよびマテリアルマップのPBRレンダリングには、bpyで記述された<a href="https://github.com/ymxbj/BlenderToolboxPBR">このレンダリングスクリプト</a>の使用を推奨します。</p>
 <p>さらに、Cap3Dデータセットのテキストスタイルを模倣し、自分自身のプロンプトを作成することで、より良い生成結果が得られます。Cap3Dデータセットは<a href="https://huggingface.co/ymxbj/TexGaussian/resolve/main/Cap3D_automated_Objaverse_full.csv?download=true">こちら</a>からダウンロード可能です。</p>
 <h3>RGBテクスチャ</h3>
 <p>無条件RGBテクスチャ生成（bench, car, chair, tableの4カテゴリのみ対応）の場合は、以下を実行してください。</p>
-<pre><code class="language-bash hljs">bash inference_for_RGB_texture.sh
+<pre><code class="language-bash">bash inference_for_RGB_texture.sh
 </code></pre>
 <p>テクスチャのベイク後、1つのアルベドマップが得られます。</p>
 <h2>🏋️‍♂️ 学習</h2>
 <p>Objaverse用：</p>
-<pre><code class="language-bash hljs">bash train_for_objaverse.sh
+<pre><code class="language-bash">bash train_for_objaverse.sh
 </code></pre>
 <p>ShapeNet用：</p>
-<pre><code class="language-bash hljs">bash train_for_shapenet.sh
+<pre><code class="language-bash">bash train_for_shapenet.sh
 </code></pre>
 <h2>🚧 TODO</h2>
 <ul>
-<li><input checked="" disabled="" type="checkbox"> 学習・推論コードの公開</li>
-<li><input checked="" disabled="" type="checkbox"> ShapeNetデータセット上の無条件アルベドのみ事前学習済みモデルの公開</li>
-<li><input checked="" disabled="" type="checkbox"> Objaverseデータセット上のテキスト条件付きPBR事前学習済みモデルの公開</li>
-<li><input disabled="" type="checkbox"> データセットおよびデータセットツールキットの公開</li>
+<li>[x] 学習・推論コードの公開</li>
+<li>[x] ShapeNetデータセット上の無条件アルベドのみ事前学習済みモデルの公開</li>
+<li>[x] Objaverseデータセット上のテキスト条件付きPBR事前学習済みモデルの公開</li>
+<li>[ ] データセットおよびデータセットツールキットの公開</li>
 </ul>
 <h2>📚 謝辞</h2>
 <p>本研究は多くの素晴らしい研究およびオープンソースプロジェクトに基づいて構築されています。著者の皆様のご貢献に感謝いたします。</p>
@@ -258,30 +135,15 @@ pip3 install -r requirements.txt
     pages     = {551-561}
 }
 </code></pre>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-08</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    <script src="view.js?v=20250613"></script>
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

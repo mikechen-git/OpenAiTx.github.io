@@ -1,142 +1,54 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Node HL7 Client - Bugs5382/node-hl7-client</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Node HL7 Client - Bugs5382/node-hl7-client">
-    <meta name="description" content="Bugs5382/node-hl7-client - GitHub repository zh-CN documentation and information">
+    <title>node-hl7-client - Bugs5382/node-hl7-client</title>
+    <meta name="title" content="node-hl7-client - Bugs5382/node-hl7-client">
+    <meta name="description" content="Bugs5382/node-hl7-client - GitHub repository zh-CN documentation and informationNode HL7 Client 一个纯 TypeScript 的 HL7 客户端，适用于 Node.js，实现与 HL7 服务器的无缝通信。 node-hl7-client 是一个轻量级、无依赖的库，专为与 HL7 中间件/服务器的高性能通信而构建。它支持发送格式正确的 HL7 消息、处理响应，并能处理单条和批量 HL7 消息格式（MSH、BHS 和 FHS）。 ✨ 特性 ⚡ 零外部依赖 —— 超快性能，无冗余。 🔁 自动重连与重试 —— 自动处理连接中断。 🧠 TypeScript + 类型定义 —— 完全类型化，适合现代开发环境。 🤝 配套包可用 —— 可与 node-hl7-server 搭配使用，实现完整 HL7 解决方案。 💻 跨平台支持 —— 适用于 Windows、macOS 和 Linux。 🧭 基于标准 —— 类型化构建器确保 MSH、BHS 和 FHS 段遵循 HL7.org 规范。 📦 安装 npm install node-hl7-client 📚 包含内容 HL7 客户端 —— 连接远程 HL7 服务器，发送消息并处理响应。 HL7 解析器 —— 将原始 HL7 消息字符串解析为可访问的段。 HL7 构建器 —— 构建有效的 HL7 消息、批量消息或完整的 HL7 批量文件。 🧾 目录 关键词定义 文档 致谢 许可证 关键词定义 本 NPM 包旨在支持对患者护理和诊断可能产生影响的医疗应用。本文档及其配套包 node-hl7-server 为清晰和互操作性，使用以下标准化定义： 如 “MUST”、“MUST NOT”、“REQUIRED”、“SHALL”、“SHALL NOT”、“SHOULD”、“SHOULD NOT”、“RECOMMENDED”、“MAY” 和 “OPTIONAL” 等关键词在整个文档中均保持一致。这些术语即使未大写，也保留其含义。 MUST —— 此词，或 “REQUIRED” 或 “SHALL”，表示规范的绝对要求。 MUST NOT —— 此短语，或 “SHALL NOT”，表示规范的绝对禁止。 SHOULD —— 此词，或 “RECOMMENDED”，表示在特定情况下可能有充分理由忽略某项内容，但在这样做之前必须充分理解并权衡其全部影响。 SHOULD NOT —— 此短语，或 “NOT RECOMMENDED”，表示在特定情况下该行为可能是可接受的或有用的。在实施前应充分理解其影响并仔细权衡。 MAY —— 此词，或 “OPTIONAL”，表示该项为真正的可选项。不包含某选项的实现 MUST 仍需与包含该选项的实现互操作，尽管可能功能有所减少。同理，包含选项的实现 MUST 也需与不包含选项的实现互操作（当然，除该选项所提供的特定功能外）。 📖 文档 完整的 API 文档、使用示例及高级配置均可在项目网站获取： 🔗 https://bugs5382.github.io/node-hl7-client/ 🙏 致谢 node-rabbitmq-client ——...">
     <meta name="keywords" content="Bugs5382, node-hl7-client, GitHub, repository, zh-CN documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/Bugs5382/node-hl7-client/README-zh-CN.html">
-    <meta property="og:title" content="Node HL7 Client - Bugs5382/node-hl7-client">
+    <meta property="og:title" content="node-hl7-client - Bugs5382/node-hl7-client">
     <meta property="og:description" content="Bugs5382/node-hl7-client - GitHub repository zh-CN documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/Bugs5382/node-hl7-client" id="githubRepoLink" target="_blank">Bugs5382/node-hl7-client</a>
+<br>
+<h1 style="display: none;">Node HL7 Client 一个纯 TypeScript 的 HL7 客户端，适用于 Node.js，实现与 HL7 服务器的无缝通信。 node-hl7-client 是一个轻量级、无依赖的库，专为与 HL7 中间件/服务器的高性能通信而构建。它支持发送格式正确的 HL7 消息、处理响应，并能处理单条和批量 HL7 消息格式（MSH、BHS 和 FHS）。 ✨ 特性 ⚡ 零外部依赖 —— 超快性能，无冗余。 🔁 自动重连与重试 —— 自动处理连接中断。 🧠 TypeScript + 类型定义 —— 完全类型化，适合现代开发环境。 🤝 配套包可用 —— 可与 node-hl7-server 搭配使用，实现完整 HL7 解决方案。 💻 跨平台支持 —— 适用于 Windows、macOS 和 Linux。 🧭 基于标准 —— 类型化构建器确保 MSH、BHS 和 FHS 段遵循 HL7.org 规范。 📦 安装 npm install node-hl7-client 📚 包含内容 HL7 客户端 —— 连接远程 HL7 服务器，发送消息并处理响应。 HL7 解析器 —— 将原始 HL7 消息字符串解析为可访问的段。 HL7 构建器 —— 构建有效的 HL7 消息、批量消息或完整的 HL7 批量文件。 🧾 目录 关键词定义 文档 致谢 许可证 关键词定义 本 NPM 包旨在支持对患者护理和诊断可能产生影响的医疗应用。本文档及其配套包 node-hl7-server 为清晰和互操作性，使用以下标准化定义： 如 “MUST”、“MUST NOT”、“REQUIRED”、“SHALL”、“SHALL NOT”、“SHOULD”、“SHOULD NOT”、“RECOMMENDED”、“MAY” 和 “OPTIONAL” 等关键词在整个文档中均保持一致。这些术语即使未大写，也保留其含义。 MUST —— 此词，或 “REQUIRED” 或 “SHALL”，表示规范的绝对要求。 MUST NOT —— 此短语，或 “SHALL NOT”，表示规范的绝对禁止。 SHOULD —— 此词，或 “RECOMMENDED”，表示在特定情况下可能有充分理由忽略某项内容，但在这样做之前必须充分理解并权衡其全部影响。 SHOULD NOT —— 此短语，或 “NOT RECOMMENDED”，表示在特定情况下该行为可能是可接受的或有用的。在实施前应充分理解其影响并仔细权衡。 MAY —— 此词，或 “OPTIONAL”，表示该项为真正的可选项。不包含某选项的实现 MUST 仍需与包含该选项的实现互操作，尽管可能功能有所减少。同理，包含选项的实现 MUST 也需与不包含选项的实现互操作（当然，除该选项所提供的特定功能外）。 📖 文档 完整的 API 文档、使用示例及高级配置均可在项目网站获取： 🔗 https://bugs5382.github.io/node-hl7-client/ 🙏 致谢 node-rabbitmq-client ——...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=Bugs5382&amp;project=node-hl7-client&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>Node HL7 Client</h1>
+        <div class="markdown-body" id="content">
+            <h1>Node HL7 Client</h1>
 <blockquote>
 <p>一个纯 TypeScript 的 HL7 客户端，适用于 Node.js，实现与 HL7 服务器的无缝通信。</p>
 </blockquote>
@@ -151,7 +63,7 @@
 <li>🧭 <strong>基于标准</strong> —— 类型化构建器确保 MSH、BHS 和 FHS 段遵循 HL7.org 规范。</li>
 </ul>
 <h2>📦 安装</h2>
-<pre><code class="language-bash hljs">npm install node-hl7-client
+<pre><code class="language-bash">npm install node-hl7-client
 </code></pre>
 <h2>📚 包含内容</h2>
 <ul>
@@ -177,7 +89,8 @@
 <li><strong>MAY</strong> —— 此词，或 <strong>“OPTIONAL”</strong>，表示该项为真正的可选项。不包含某选项的实现 <strong>MUST</strong> 仍需与包含该选项的实现互操作，尽管可能功能有所减少。同理，包含选项的实现 <strong>MUST</strong> 也需与不包含选项的实现互操作（当然，除该选项所提供的特定功能外）。</li>
 </ul>
 <h2>📖 文档</h2>
-<p>完整的 API 文档、使用示例及高级配置均可在项目网站获取：<br>🔗 <a href="https://bugs5382.github.io/node-hl7-client/">https://bugs5382.github.io/node-hl7-client/</a></p>
+<p>完整的 API 文档、使用示例及高级配置均可在项目网站获取：
+🔗 <a href="https://bugs5382.github.io/node-hl7-client/">https://bugs5382.github.io/node-hl7-client/</a></p>
 <h2>🙏 致谢</h2>
 <ul>
 <li><a href="https://github.com/cody-greene/node-rabbitmq-client"><code>node-rabbitmq-client</code></a> —— 连接逻辑的灵感来源。</li>
@@ -186,30 +99,15 @@
 </ul>
 <h2>📄 许可证</h2>
 <p>MIT © <a href="LICENSE">LICENSE</a></p>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-08</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

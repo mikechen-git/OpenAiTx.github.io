@@ -1,173 +1,166 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <title>RSS-Master - TD21forever/RSS-Master</title>
+    <meta name="title" content="RSS-Master - TD21forever/RSS-Master">
+    <meta name="description" content="TD21forever/RSS-Master - GitHub repository ja documentation and informationRSS-Master RSSフィードのカスタムフィルタリング、絞り込み、AIによる要約、概括、スコアリングなどを行います。パフォーマンス最適化版で、非同期処理と並列AI要約に対応しています。 はじめに 9月初旬に、Inoreader + RSSHubを使って興味のあるRSSを集約・購読し、Reederで読むことで、毎日の情報源を完全にコントロールしようとしました。1ヶ月経つと増え続けるRSSフィードと未読情報が読書の不安を増大させ、何かカスタムフィルタルールを設定でき、できればAIを活用して読書負担を軽減する方法がないか考えました。 Inoreaderにはフィルター機能がありますが、それだけのために課金するのは割に合わないと感じました。NewsBlurには「Intelligence Trainer」というスマート分類機能がありますが、試した限りでは効果があまり感じられませんでした。FeedlyはフィルタリングとAI機能を備えていてニーズに合いそうでしたが、InoreaderからFeedlyの有料ユーザーに移行しようか迷っていた時に、以下の2つのプロジェクトに出会いました。 ChatGPTでHacker Newsを要約する RSS-GPT使用ガイド これらのプロジェクトの基本的な考え方は、GitActionを使ってスクリプトを実行し、情報を取得後OpenAIのAPIで翻訳・要約し、テンプレートにレンダリングしてGitHub Pageにデプロイするものです。RSS-GPTの方式は私のニーズにより合っており、定期実行でRSSのxmlファイルを直接取得し処理後にGitHub Pageへデプロイし、そのxmlファイルのアクセスリンクを取得、最後にリーダーがこのリンクを直接購読する形です。 私はInoreaderのマルチデバイス同期を強く求めており、config設定ファイルに新規追加されたRSSフィードをInoreaderに即時通知して同期させる必要がありました。そこでRSS-GPTの考え方を拡張し、「RSS-Master」と名付けました。 機能特徴 並列処理対応：非同期とスレッドプールを使い、RSSフィードとAI要約の並列処理を実現し処理速度を大幅に向上 強化されたキャッシュ機構：より安定したキャッシュシステムでデータ損失防止と重複アクセス性能向上 優れたエラーハンドリング：全操作に完全なエラーハンドリングとログ記録を実装し安定性を向上 HTML内容の最適抽出：記事内容をスマートに抽出し、無関係な情報を無視してAI要約品質を向上 最新のOpenAI API対応：最新バージョンのOpenAI APIに完全対応 詳細な統計情報：処理完了後に実行時間、成功率、コスト統計を提供 opmlファイル生成対応：config.ymlとの相互変換をサポート：script/convert_opml_to_yaml.sh script/convert_yaml_to_opml.sh カスタムフィルタルール対応：include、excludeの2種タイプとtitle、articleの2種スコープをサポート AIモデルのカスタマイズ可能：環境変数で異なるOpenAIモデルの設定が可能 基本URLのカスタマイズ可能：RSSファイルのベースアクセスURLを設定でき、異なる環境でのデプロイを容易化 インタラクティブテストノートブック：Jupyterノートブックで各機能のテストが可能 環境変数設定 プロジェクトは.envファイルで以下パラメータの設定をサポートしています： # 必須パラメータ OPENAI_API_KEY=your_openai_api_key_here # 任意パラメータ RSS_BASE_URL=https://example.com/rss-feeds/ # RSSベースURL OPENAI_MODEL=gpt-4o-mini-2024-07-18 # OpenAIモデル LOG_LEVEL=INFO # ログレベル PARALLEL_WORKERS=5 # 並列処理数 .env.exampleをコピーして.envにリネームし、パラメータ値を編集してください。 パフォーマンス改善 本バージョンは元バージョンに比べ以下の性能改善を実現しています： RSSフィードの並列処理：asyncioを使い複数のRSSフィードを同時処理 AI要約の並列化：スレッドプールを活用し複数記事のAI要約を並行処理 テキスト処理の最適化：HTML内容抽出アルゴリズムを改良し記事の重要内容をよりスマートに抽出 安全なファイル処理：安全なファイル書き込み機構を採用し、プログラムクラッシュによるデータ損失を防止 メモリ使用の最適化：データ構造と処理フローを改善しメモリ使用量を削減 使い方 プロジェクトをローカルにクローン 依存関係をインストール：pip install -r requirements.txt .envファイルを作成しOpenAI APIキーを設定：OPENAI_API_KEY=あなたのキー resource/config.ymlを編集してRSSフィードを設定 python main.pyを実行して処理開始 テストとデバッグ プロジェクトはインタラクティブなテストノートブックtest.ipynbを提供し、以下の機能テストが可能です： RSSフィード取得と解析 フィルタ機能 AI要約機能 キャッシュ機構 カスタム基本URL パフォーマンステスト 使用方法： # Jupyterのインストール pip install jupyter # ノートブック起動 jupyter notebook test.ipynb カスタムフィルタルール例 - htmlUrl: http://www.smzdm.com name: c5738f text: 什么值得买 | 优惠精选 url: http://feed.smzdm.com filters: - type: include field: title keywords: [ 'コーラ', 'スプライト', 'ファンタ', 'レモン', 'お茶', 'ティッシュ', 'アルコール', 'ウェットティッシュ', 'ナプキン', ] 使用スクリーンショット AIによる概括・要約機能 カスタムフィルタ：『什么值得买』のお得情報チャンネルから、最近まとめ買いしたい商品（例：炭酸飲料）のみを推薦 Tranlated By Open Ai Tx | Last indexed: 2025-06-11">
+    <meta name="keywords" content="TD21forever, RSS-Master, GitHub, repository, ja documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/TD21forever/RSS-Master/README-ja.html">
+    <meta property="og:title" content="RSS-Master - TD21forever/RSS-Master">
+    <meta property="og:description" content="TD21forever/RSS-Master - GitHub repository ja documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/TD21forever/RSS-Master" id="githubRepoLink" target="_blank">TD21forever/RSS-Master</a>
+<br>
+<h1 style="display: none;">RSS-Master RSSフィードのカスタムフィルタリング、絞り込み、AIによる要約、概括、スコアリングなどを行います。パフォーマンス最適化版で、非同期処理と並列AI要約に対応しています。 はじめに 9月初旬に、Inoreader + RSSHubを使って興味のあるRSSを集約・購読し、Reederで読むことで、毎日の情報源を完全にコントロールしようとしました。1ヶ月経つと増え続けるRSSフィードと未読情報が読書の不安を増大させ、何かカスタムフィルタルールを設定でき、できればAIを活用して読書負担を軽減する方法がないか考えました。 Inoreaderにはフィルター機能がありますが、それだけのために課金するのは割に合わないと感じました。NewsBlurには「Intelligence Trainer」というスマート分類機能がありますが、試した限りでは効果があまり感じられませんでした。FeedlyはフィルタリングとAI機能を備えていてニーズに合いそうでしたが、InoreaderからFeedlyの有料ユーザーに移行しようか迷っていた時に、以下の2つのプロジェクトに出会いました。 ChatGPTでHacker Newsを要約する RSS-GPT使用ガイド これらのプロジェクトの基本的な考え方は、GitActionを使ってスクリプトを実行し、情報を取得後OpenAIのAPIで翻訳・要約し、テンプレートにレンダリングしてGitHub Pageにデプロイするものです。RSS-GPTの方式は私のニーズにより合っており、定期実行でRSSのxmlファイルを直接取得し処理後にGitHub Pageへデプロイし、そのxmlファイルのアクセスリンクを取得、最後にリーダーがこのリンクを直接購読する形です。 私はInoreaderのマルチデバイス同期を強く求めており、config設定ファイルに新規追加されたRSSフィードをInoreaderに即時通知して同期させる必要がありました。そこでRSS-GPTの考え方を拡張し、「RSS-Master」と名付けました。 機能特徴 並列処理対応：非同期とスレッドプールを使い、RSSフィードとAI要約の並列処理を実現し処理速度を大幅に向上 強化されたキャッシュ機構：より安定したキャッシュシステムでデータ損失防止と重複アクセス性能向上 優れたエラーハンドリング：全操作に完全なエラーハンドリングとログ記録を実装し安定性を向上 HTML内容の最適抽出：記事内容をスマートに抽出し、無関係な情報を無視してAI要約品質を向上 最新のOpenAI API対応：最新バージョンのOpenAI APIに完全対応 詳細な統計情報：処理完了後に実行時間、成功率、コスト統計を提供 opmlファイル生成対応：config.ymlとの相互変換をサポート：script/convert_opml_to_yaml.sh script/convert_yaml_to_opml.sh カスタムフィルタルール対応：include、excludeの2種タイプとtitle、articleの2種スコープをサポート AIモデルのカスタマイズ可能：環境変数で異なるOpenAIモデルの設定が可能 基本URLのカスタマイズ可能：RSSファイルのベースアクセスURLを設定でき、異なる環境でのデプロイを容易化 インタラクティブテストノートブック：Jupyterノートブックで各機能のテストが可能 環境変数設定 プロジェクトは.envファイルで以下パラメータの設定をサポートしています： # 必須パラメータ OPENAI_API_KEY=your_openai_api_key_here # 任意パラメータ RSS_BASE_URL=https://example.com/rss-feeds/ # RSSベースURL OPENAI_MODEL=gpt-4o-mini-2024-07-18 # OpenAIモデル LOG_LEVEL=INFO # ログレベル PARALLEL_WORKERS=5 # 並列処理数 .env.exampleをコピーして.envにリネームし、パラメータ値を編集してください。 パフォーマンス改善 本バージョンは元バージョンに比べ以下の性能改善を実現しています： RSSフィードの並列処理：asyncioを使い複数のRSSフィードを同時処理 AI要約の並列化：スレッドプールを活用し複数記事のAI要約を並行処理 テキスト処理の最適化：HTML内容抽出アルゴリズムを改良し記事の重要内容をよりスマートに抽出 安全なファイル処理：安全なファイル書き込み機構を採用し、プログラムクラッシュによるデータ損失を防止 メモリ使用の最適化：データ構造と処理フローを改善しメモリ使用量を削減 使い方 プロジェクトをローカルにクローン 依存関係をインストール：pip install -r requirements.txt .envファイルを作成しOpenAI APIキーを設定：OPENAI_API_KEY=あなたのキー resource/config.ymlを編集してRSSフィードを設定 python main.pyを実行して処理開始 テストとデバッグ プロジェクトはインタラクティブなテストノートブックtest.ipynbを提供し、以下の機能テストが可能です： RSSフィード取得と解析 フィルタ機能 AI要約機能 キャッシュ機構 カスタム基本URL パフォーマンステスト 使用方法： # Jupyterのインストール pip install jupyter # ノートブック起動 jupyter notebook test.ipynb カスタムフィルタルール例 - htmlUrl: http://www.smzdm.com name: c5738f text: 什么值得买 | 优惠精选 url: http://feed.smzdm.com filters: - type: include field: title keywords: [ 'コーラ', 'スプライト', 'ファンタ', 'レモン', 'お茶', 'ティッシュ', 'アルコール', 'ウェットティッシュ', 'ナプキン', ] 使用スクリーンショット AIによる概括・要約機能 カスタムフィルタ：『什么值得买』のお得情報チャンネルから、最近まとめ買いしたい商品（例：炭酸飲料）のみを推薦 Tranlated By Open Ai Tx | Last indexed: 2025-06-11</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=TD21forever&amp;project=RSS-Master&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
         <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>コンテンツの読み込みエラー</h2>
-                    <p>markdownコンテンツの読み込みに失敗しました。以下を確認してください：</p>
-                    <ul>
-                        <li>URLパラメータが正しい</li>
-                        <li>指定されたパスにファイルが存在する</li>
-                        <li>アクティブなインターネット接続がある</li>
-                    </ul>
-                    <p>エラー詳細： Failed to fetch</p>
-                </div>
-            </div>
-    </div>
+            <h1>RSS-Master</h1>
+<p>RSSフィードのカスタムフィルタリング、絞り込み、AIによる要約、概括、スコアリングなどを行います。パフォーマンス最適化版で、非同期処理と並列AI要約に対応しています。</p>
+<h3>はじめに</h3>
+<p>9月初旬に、Inoreader + RSSHubを使って興味のあるRSSを集約・購読し、Reederで読むことで、毎日の情報源を完全にコントロールしようとしました。1ヶ月経つと増え続けるRSSフィードと未読情報が読書の不安を増大させ、何かカスタムフィルタルールを設定でき、できればAIを活用して読書負担を軽減する方法がないか考えました。</p>
+<p>Inoreaderにはフィルター機能がありますが、それだけのために課金するのは割に合わないと感じました。NewsBlurには「Intelligence Trainer」というスマート分類機能がありますが、試した限りでは効果があまり感じられませんでした。FeedlyはフィルタリングとAI機能を備えていてニーズに合いそうでしたが、InoreaderからFeedlyの有料ユーザーに移行しようか迷っていた時に、以下の2つのプロジェクトに出会いました。</p>
+<ul>
+<li><a href="https://blog.betacat.io/post/2023/06/summarize-hacker-news-by-chatgpt/">ChatGPTでHacker Newsを要約する</a></li>
+<li><a href="http://yinan.me/rss-gpt-manual-zh.html">RSS-GPT使用ガイド</a></li>
+</ul>
+<p>これらのプロジェクトの基本的な考え方は、GitActionを使ってスクリプトを実行し、情報を取得後OpenAIのAPIで翻訳・要約し、テンプレートにレンダリングしてGitHub Pageにデプロイするものです。RSS-GPTの方式は私のニーズにより合っており、定期実行でRSSのxmlファイルを直接取得し処理後にGitHub Pageへデプロイし、そのxmlファイルのアクセスリンクを取得、最後にリーダーがこのリンクを直接購読する形です。</p>
+<p>私はInoreaderのマルチデバイス同期を強く求めており、config設定ファイルに新規追加されたRSSフィードをInoreaderに即時通知して同期させる必要がありました。そこで<a href="https://github.com/yinan-c/">RSS-GPT</a>の考え方を拡張し、「RSS-Master」と名付けました。</p>
+<h3>機能特徴</h3>
+<ul>
+<li><strong>並列処理対応</strong>：非同期とスレッドプールを使い、RSSフィードとAI要約の並列処理を実現し処理速度を大幅に向上</li>
+<li><strong>強化されたキャッシュ機構</strong>：より安定したキャッシュシステムでデータ損失防止と重複アクセス性能向上</li>
+<li><strong>優れたエラーハンドリング</strong>：全操作に完全なエラーハンドリングとログ記録を実装し安定性を向上</li>
+<li><strong>HTML内容の最適抽出</strong>：記事内容をスマートに抽出し、無関係な情報を無視してAI要約品質を向上</li>
+<li><strong>最新のOpenAI API対応</strong>：最新バージョンのOpenAI APIに完全対応</li>
+<li><strong>詳細な統計情報</strong>：処理完了後に実行時間、成功率、コスト統計を提供</li>
+<li><strong>opmlファイル生成対応</strong>：config.ymlとの相互変換をサポート：<code>script/convert_opml_to_yaml.sh</code> <code>script/convert_yaml_to_opml.sh</code></li>
+<li><strong>カスタムフィルタルール対応</strong>：include、excludeの2種タイプとtitle、articleの2種スコープをサポート</li>
+<li><strong>AIモデルのカスタマイズ可能</strong>：環境変数で異なるOpenAIモデルの設定が可能</li>
+<li><strong>基本URLのカスタマイズ可能</strong>：RSSファイルのベースアクセスURLを設定でき、異なる環境でのデプロイを容易化</li>
+<li><strong>インタラクティブテストノートブック</strong>：Jupyterノートブックで各機能のテストが可能</li>
+</ul>
+<h3>環境変数設定</h3>
+<p>プロジェクトは<code>.env</code>ファイルで以下パラメータの設定をサポートしています：</p>
+<pre><code># 必須パラメータ
+OPENAI_API_KEY=your_openai_api_key_here
 
+# 任意パラメータ
+RSS_BASE_URL=https://example.com/rss-feeds/  # RSSベースURL
+OPENAI_MODEL=gpt-4o-mini-2024-07-18          # OpenAIモデル
+LOG_LEVEL=INFO                               # ログレベル
+PARALLEL_WORKERS=5                           # 並列処理数
+</code></pre>
+<p><code>.env.example</code>をコピーして<code>.env</code>にリネームし、パラメータ値を編集してください。</p>
+<h3>パフォーマンス改善</h3>
+<p>本バージョンは元バージョンに比べ以下の性能改善を実現しています：</p>
+<ol>
+<li><strong>RSSフィードの並列処理</strong>：<code>asyncio</code>を使い複数のRSSフィードを同時処理</li>
+<li><strong>AI要約の並列化</strong>：スレッドプールを活用し複数記事のAI要約を並行処理</li>
+<li><strong>テキスト処理の最適化</strong>：HTML内容抽出アルゴリズムを改良し記事の重要内容をよりスマートに抽出</li>
+<li><strong>安全なファイル処理</strong>：安全なファイル書き込み機構を採用し、プログラムクラッシュによるデータ損失を防止</li>
+<li><strong>メモリ使用の最適化</strong>：データ構造と処理フローを改善しメモリ使用量を削減</li>
+</ol>
+<h3>使い方</h3>
+<ol>
+<li>プロジェクトをローカルにクローン</li>
+<li>依存関係をインストール：<code>pip install -r requirements.txt</code></li>
+<li><code>.env</code>ファイルを作成しOpenAI APIキーを設定：<code>OPENAI_API_KEY=あなたのキー</code></li>
+<li><code>resource/config.yml</code>を編集してRSSフィードを設定</li>
+<li><code>python main.py</code>を実行して処理開始</li>
+</ol>
+<h3>テストとデバッグ</h3>
+<p>プロジェクトはインタラクティブなテストノートブック<code>test.ipynb</code>を提供し、以下の機能テストが可能です：</p>
+<ol>
+<li>RSSフィード取得と解析</li>
+<li>フィルタ機能</li>
+<li>AI要約機能</li>
+<li>キャッシュ機構</li>
+<li>カスタム基本URL</li>
+<li>パフォーマンステスト</li>
+</ol>
+<p>使用方法：</p>
+<pre><code class="language-bash"># Jupyterのインストール
+pip install jupyter
+
+# ノートブック起動
+jupyter notebook test.ipynb
+</code></pre>
+<h3>カスタムフィルタルール例</h3>
+<pre><code class="language-yaml">- htmlUrl: http://www.smzdm.com
+  name: c5738f
+  text: 什么值得买 | 优惠精选
+  url: http://feed.smzdm.com
+  filters:
+    - type: include
+      field: title
+      keywords:
+        [
+          'コーラ',
+          'スプライト',
+          'ファンタ',
+          'レモン',
+          'お茶',
+          'ティッシュ',
+          'アルコール',
+          'ウェットティッシュ',
+          'ナプキン',
+        ]
+</code></pre>
+<h3>使用スクリーンショット</h3>
+<ul>
+<li>AIによる概括・要約機能</li>
+</ul>
+<div style="display: flex;">
+    <img src="https://qiniu.dcts.top/typora/202310031757486.png" alt="image-20231003174334231" style="width: 45%;">
+    <img src="https://qiniu.dcts.top/typora/202310031757686.png" alt="image-20231003175143405" style="width: 45%;">
+</div>
+<ul>
+<li>カスタムフィルタ：『什么值得买』のお得情報チャンネルから、最近まとめ買いしたい商品（例：炭酸飲料）のみを推薦</li>
+</ul>
+<img src="https://qiniu.dcts.top/typora/%E4%BB%80%E4%B9%88%E5%80%BC%E5%BE%97%E4%B9%B0-%E6%B1%BD%E6%B0%B4.png" alt="image-20231003164248923" style="width: 400; height: 400;" />
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
+<hr />
+
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

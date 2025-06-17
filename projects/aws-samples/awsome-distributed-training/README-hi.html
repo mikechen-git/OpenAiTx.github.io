@@ -1,218 +1,85 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="hi">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML प्रशिक्षण संदर्भ वास्तुकला और परीक्षण  - aws-samples/awsome-distributed-training</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="ML प्रशिक्षण संदर्भ वास्तुकला और परीक्षण - aws-samples/awsome-distributed-training">
-    <meta name="description" content="aws-samples/awsome-distributed-training - GitHub repository hi documentation and information">
+    <title>awsome-distributed-training - aws-samples/awsome-distributed-training</title>
+    <meta name="title" content="awsome-distributed-training - aws-samples/awsome-distributed-training">
+    <meta name="description" content="aws-samples/awsome-distributed-training - GitHub repository hi documentation and informationML प्रशिक्षण संदर्भ वास्तुकला और परीक्षण चेतावनी हम वर्तमान में इस रिपॉजिटरी का एक बड़ा पुनर्गठन कर रहे हैं, विशेष रूप से परीक्षण मामलों के अनुभाग पर ध्यान केंद्रित करते हुए। यदि आप पिछली निर्देशिका संरचना और अव्यवस्थित परीक्षण मामलों का उपयोग करना पसंद करते हैं, तो कृपया v1.1.0 देखें। यह रिपॉजिटरी Amazon SageMaker Hyperpod, AWS ParallelCluster, AWS Batch, और Amazon EKS के साथ वितरित मॉडल प्रशिक्षण के लिए संदर्भ वास्तुकला और परीक्षण मामलों को शामिल करता है। परीक्षण मामले विभिन्न प्रकार और आकार के मॉडलों के साथ-साथ विभिन्न फ्रेमवर्क और समानांतर अनुकूलन (Pytorch DDP/FSDP, MegatronLM, NemoMegatron...) को कवर करते हैं। इस निर्देशिका के प्रमुख घटक हैं: reference-architectures/ |-- 1.architectures/ # संदर्भ वास्तुकला के लिए क्लाउडफॉर्मेशन टेम्प्लेट्स |-- 2.ami_and_containers/ # AMI और कंटेनर इमेज बनाने के लिए स्क्रिप्ट्स |-- 3.test_cases/ # संदर्भ परीक्षण मामले और/या बेंचमार्क स्क्रिप्ट्स |-- 4.validation_observability/ # प्रदर्शन मापन या समस्या निवारण के लिए उपकरण `-- ......">
     <meta name="keywords" content="aws-samples, awsome-distributed-training, GitHub, repository, hi documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/aws-samples/awsome-distributed-training/README-hi.html">
-    <meta property="og:title" content="ML प्रशिक्षण संदर्भ वास्तुकला और परीक्षण - aws-samples/awsome-distributed-training">
+    <meta property="og:title" content="awsome-distributed-training - aws-samples/awsome-distributed-training">
     <meta property="og:description" content="aws-samples/awsome-distributed-training - GitHub repository hi documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/aws-samples/awsome-distributed-training" id="githubRepoLink" target="_blank">aws-samples/awsome-distributed-training</a>
+<br>
+<h1 style="display: none;">ML प्रशिक्षण संदर्भ वास्तुकला और परीक्षण चेतावनी हम वर्तमान में इस रिपॉजिटरी का एक बड़ा पुनर्गठन कर रहे हैं, विशेष रूप से परीक्षण मामलों के अनुभाग पर ध्यान केंद्रित करते हुए। यदि आप पिछली निर्देशिका संरचना और अव्यवस्थित परीक्षण मामलों का उपयोग करना पसंद करते हैं, तो कृपया v1.1.0 देखें। यह रिपॉजिटरी Amazon SageMaker Hyperpod, AWS ParallelCluster, AWS Batch, और Amazon EKS के साथ वितरित मॉडल प्रशिक्षण के लिए संदर्भ वास्तुकला और परीक्षण मामलों को शामिल करता है। परीक्षण मामले विभिन्न प्रकार और आकार के मॉडलों के साथ-साथ विभिन्न फ्रेमवर्क और समानांतर अनुकूलन (Pytorch DDP/FSDP, MegatronLM, NemoMegatron...) को कवर करते हैं। इस निर्देशिका के प्रमुख घटक हैं: reference-architectures/ |-- 1.architectures/ # संदर्भ वास्तुकला के लिए क्लाउडफॉर्मेशन टेम्प्लेट्स |-- 2.ami_and_containers/ # AMI और कंटेनर इमेज बनाने के लिए स्क्रिप्ट्स |-- 3.test_cases/ # संदर्भ परीक्षण मामले और/या बेंचमार्क स्क्रिप्ट्स |-- 4.validation_observability/ # प्रदर्शन मापन या समस्या निवारण के लिए उपकरण `-- ......</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=aws-samples&amp;project=awsome-distributed-training&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>ML प्रशिक्षण संदर्भ वास्तुकला और परीक्षण <!-- omit from toc --></h1>
+        <div class="markdown-body" id="content">
+            <h1>ML प्रशिक्षण संदर्भ वास्तुकला और परीक्षण <!-- omit from toc --></h1>
 <blockquote>
-<p><strong>चेतावनी</strong><br>हम वर्तमान में इस रिपॉजिटरी का एक बड़ा पुनर्गठन कर रहे हैं, विशेष रूप से परीक्षण मामलों के अनुभाग पर ध्यान केंद्रित करते हुए। यदि आप पिछली निर्देशिका संरचना और अव्यवस्थित परीक्षण मामलों का उपयोग करना पसंद करते हैं, तो कृपया <a href="https://github.com/aws-samples/awsome-distributed-training/releases/tag/v1.1.0">v1.1.0</a> देखें।</p>
+<p><strong>चेतावनी</strong>
+हम वर्तमान में इस रिपॉजिटरी का एक बड़ा पुनर्गठन कर रहे हैं, विशेष रूप से परीक्षण मामलों के अनुभाग पर ध्यान केंद्रित करते हुए। यदि आप पिछली निर्देशिका संरचना और अव्यवस्थित परीक्षण मामलों का उपयोग करना पसंद करते हैं, तो कृपया <a href="https://github.com/aws-samples/awsome-distributed-training/releases/tag/v1.1.0">v1.1.0</a> देखें।</p>
 </blockquote>
 <p>यह रिपॉजिटरी <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html">Amazon SageMaker Hyperpod</a>, <a href="https://docs.aws.amazon.com/parallelcluster/latest/ug/what-is-aws-parallelcluster.html">AWS ParallelCluster</a>, <a href="https://docs.aws.amazon.com/batch/latest/userguide/what-is-batch.html">AWS Batch</a>, और <a href="https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html">Amazon EKS</a> के साथ वितरित मॉडल प्रशिक्षण के लिए संदर्भ वास्तुकला और परीक्षण मामलों को शामिल करता है। परीक्षण मामले विभिन्न प्रकार और आकार के मॉडलों के साथ-साथ विभिन्न फ्रेमवर्क और समानांतर अनुकूलन (Pytorch DDP/FSDP, MegatronLM, NemoMegatron...) को कवर करते हैं।</p>
 <p>इस निर्देशिका के प्रमुख घटक हैं:</p>
-<pre><code class="language-bash hljs">reference-architectures/
-|-- 1.architectures/               <span class="hljs-comment"># संदर्भ वास्तुकला के लिए क्लाउडफॉर्मेशन टेम्प्लेट्स</span>
-|-- 2.ami_and_containers/          <span class="hljs-comment"># AMI और कंटेनर इमेज बनाने के लिए स्क्रिप्ट्स</span>
-|-- 3.test_cases/                  <span class="hljs-comment"># संदर्भ परीक्षण मामले और/या बेंचमार्क स्क्रिप्ट्स</span>
-|-- 4.validation_observability/    <span class="hljs-comment"># प्रदर्शन मापन या समस्या निवारण के लिए उपकरण</span>
+<pre><code class="language-bash">reference-architectures/
+|-- 1.architectures/               # संदर्भ वास्तुकला के लिए क्लाउडफॉर्मेशन टेम्प्लेट्स
+|-- 2.ami_and_containers/          # AMI और कंटेनर इमेज बनाने के लिए स्क्रिप्ट्स
+|-- 3.test_cases/                  # संदर्भ परीक्षण मामले और/या बेंचमार्क स्क्रिप्ट्स
+|-- 4.validation_observability/    # प्रदर्शन मापन या समस्या निवारण के लिए उपकरण
 `-- ...
 </code></pre>
 <p><strong>ध्यान दें</strong>: वास्तुकला को S3 बकेट और VPC के साथ काम करने के लिए डिज़ाइन किया गया है जो संदर्भ टेम्प्लेट <code>1.architectures/0.s3/</code> और <code>1.architectures/1.vpc_network/</code> का उपयोग करके बनाए गए हैं। <em>आपको दृढ़ता से सलाह दी जाती है कि इन दोनों टेम्प्लेट्स को किसी भी संदर्भ वास्तुकला को तैनात करने से <strong>पहले</strong> तैनात करें।</em></p>
 <h2>0. कार्यशालाएँ</h2>
 <p>आप नीचे दी गई कार्यशाला का पालन करके AWS पर मॉडल प्रशिक्षण कर सकते हैं। प्रत्येक में कई परीक्षण मामलों के उदाहरण और LLM प्रशिक्षण के लिए क्लस्टर संचालित करने की जानकारी के टुकड़े शामिल हैं।</p>
-<table>
-<thead>
-<tr>
-<th>नाम</th>
-<th>टिप्पणियां</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://catalog.workshops.aws/sagemaker-hyperpod/en-US">Amazon SageMaker HyperPod</a></td>
-<td>SageMaker HyperPod के लिए कार्यशाला, यह दिखाता है कि इसे कैसे तैनात और मॉनिटर करें</td>
-</tr>
-<tr>
-<td><a href="https://catalog.workshops.aws/ml-on-aws-parallelcluster">AWS ParallelCluster</a></td>
-<td>HyperPod के समान कार्यशाला लेकिन ParallelCluster पर</td>
-</tr>
-<tr>
-<td><a href="https://catalog.workshops.aws/sagemaker-hyperpod-eks">Amazon SageMaker HyperPod EKS</a></td>
-<td>SageMaker HyperPod EKS के लिए कार्यशाला, यह दिखाता है कि इसे कैसे तैनात और मॉनिटर करें</td>
-</tr>
-</tbody></table>
+<p>| नाम                                                                           | टिप्पणियां
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------- |
+| <a href="https://catalog.workshops.aws/sagemaker-hyperpod/en-US">Amazon SageMaker HyperPod</a>   | SageMaker HyperPod के लिए कार्यशाला, यह दिखाता है कि इसे कैसे तैनात और मॉनिटर करें |
+| <a href="https://catalog.workshops.aws/ml-on-aws-parallelcluster">AWS ParallelCluster</a> | HyperPod के समान कार्यशाला लेकिन ParallelCluster पर                 |
+| <a href="https://catalog.workshops.aws/sagemaker-hyperpod-eks">Amazon SageMaker HyperPod EKS</a>   | SageMaker HyperPod EKS के लिए कार्यशाला, यह दिखाता है कि इसे कैसे तैनात और मॉनिटर करें |</p>
 <h2>1. वास्तुकला</h2>
 <p>वास्तुकला <code>1.architectures</code> में स्थित हैं और उपयोगिताओं और सेवा संबंधित वास्तुकला से मिलकर बनी हैं।</p>
-<table>
-<thead>
-<tr>
-<th>नाम</th>
-<th>श्रेणी</th>
-<th>उपयोग</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/0.s3"><code>0.s3</code></a></td>
-<td>संग्रहण</td>
-<td>एक S3 बकेट बनाएँ</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/1.vpc_network"><code>1.vpc_network</code></a></td>
-<td>नेटवर्क</td>
-<td>आवश्यक संसाधनों के साथ एक VPC और सबनेट बनाएँ</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/2.aws-parallelcluster"><code>2.aws-parallelcluster</code></a></td>
-<td>कंप्यूट</td>
-<td>GPU और कस्टम सिलिकॉन प्रशिक्षण के लिए क्लस्टर टेम्प्लेट्स</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/3.aws-batch"><code>3.aws-batch</code></a></td>
-<td>कंप्यूट</td>
-<td>वितरित प्रशिक्षण के लिए AWS बैच टेम्प्लेट</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/4.amazon-eks"><code>4.amazon-eks</code></a></td>
-<td>कंप्यूट</td>
-<td>Amazon EKS के साथ प्रशिक्षण के लिए मैनिफेस्ट फ़ाइलें</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/5.sagemaker-hyperpod"><code>5.sagemaker-hyperpod</code></a></td>
-<td>कंप्यूट</td>
-<td>वितरित प्रशिक्षण के लिए SageMaker HyperPod टेम्प्लेट</td>
-</tr>
-</tbody></table>
+<p>| नाम                                                               | श्रेणी | उपयोग                                               |
+| ------------------------------------------------------------------ | -------- | --------------------------------------------------- |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/0.s3"><code>0.s3</code></a>                                   | संग्रहण  | एक S3 बकेट बनाएँ                                 |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/1.vpc_network"><code>1.vpc_network</code></a>                 | नेटवर्क  | आवश्यक संसाधनों के साथ एक VPC और सबनेट बनाएँ        |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/2.aws-parallelcluster"><code>2.aws-parallelcluster</code></a> | कंप्यूट  | GPU और कस्टम सिलिकॉन प्रशिक्षण के लिए क्लस्टर टेम्प्लेट्स |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/3.aws-batch"><code>3.aws-batch</code></a>                     | कंप्यूट  | वितरित प्रशिक्षण के लिए AWS बैच टेम्प्लेट         |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/4.amazon-eks"><code>4.amazon-eks</code></a>                   | कंप्यूट  | Amazon EKS के साथ प्रशिक्षण के लिए मैनिफेस्ट फ़ाइलें             |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/5.sagemaker-hyperpod"><code>5.sagemaker-hyperpod</code></a>   | कंप्यूट  | वितरित प्रशिक्षण के लिए SageMaker HyperPod टेम्प्लेट|</p>
 <p>और भी आएंगे, नए जोड़ने के लिए स्वतंत्र महसूस करें (उदा. Ray?)। आपको EFA और अनुशंसित पर्यावरण चर के लिए <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-cheatsheet.md">दस्तावेज़</a> भी मिलेंगे।</p>
 <h2>2. कस्टम अमेज़न मशीन इमेजेज़</h2>
 <p>AWS ParallelCluster, Amazon EKS और सामान्य EC2 के लिए <a href="www.packer.io">Packer</a> का उपयोग करके कस्टम मशीन इमेज बनाई जा सकती हैं। ये इमेज Ansible रोल्स और प्लेबुक्स पर आधारित हैं।</p>
@@ -243,71 +110,35 @@
 <li>प्रदर्शन निगरानी और सत्यापन उपकरण</li>
 </ul>
 <h2>4. सत्यापन स्क्रिप्ट</h2>
-<p>उपयोगिता स्क्रिप्ट और माइक्रो-बेंचमार्क उदाहरण <code>4.validation_scripts/</code> के अंतर्गत सेट हैं। EFA Prometheus एक्सपोर्टर इस <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter">निर्देशिका</a> में पाया जा सकता है। </p>
-<table>
-<thead>
-<tr>
-<th>नाम</th>
-<th>टिप्पणियां</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/1.pytorch-env-validation"><code>1.pytorch-env-validation</code></a></td>
-<td>आपके PyTorch पर्यावरण को मान्य करता है</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter"><code>3.efa-node-exporter</code></a></td>
-<td>Amazon EFA मॉनिटरिंग मॉड्यूल के साथ नोड एक्सपोर्टर</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/4.prometheus-grafana"><code>4.prometheus-grafana</code></a></td>
-<td>SageMaker Hyperpod क्लस्टर की निगरानी के लिए डिप्लॉयमेंट एसेट्स</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/5.nsight"><code>5.nsight</code></a></td>
-<td>आपका वर्कलोड प्रोफाइल करने के लिए Nvidia Nsight Systems चलाने का तरीका दिखाता है</td>
-</tr>
-<tr>
-<td><a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-versions.py"><code>efa-versions.py</code></a></td>
-<td>Nvidia लाइब्रेरी, ड्राइवर और EFA ड्राइवर के संस्करण प्राप्त करें</td>
-</tr>
-</tbody></table>
+<p>उपयोगिता स्क्रिप्ट और माइक्रो-बेंचमार्क उदाहरण <code>4.validation_scripts/</code> के अंतर्गत सेट हैं। EFA Prometheus एक्सपोर्टर इस <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter">निर्देशिका</a> में पाया जा सकता है।</p>
+<p>| नाम                                                                                    | टिप्पणियां                                                        |
+| --------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/1.pytorch-env-validation"><code>1.pytorch-env-validation</code></a> | आपके PyTorch पर्यावरण को मान्य करता है                              |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/3.efa-node-exporter"><code>3.efa-node-exporter</code></a>           | Amazon EFA मॉनिटरिंग मॉड्यूल के साथ नोड एक्सपोर्टर                |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/4.prometheus-grafana"><code>4.prometheus-grafana</code></a>         | SageMaker Hyperpod क्लस्टर की निगरानी के लिए डिप्लॉयमेंट एसेट्स        |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/4.validation_and_observability/5.nsight"><code>5.nsight</code></a>                                 | आपका वर्कलोड प्रोफाइल करने के लिए Nvidia Nsight Systems चलाने का तरीका दिखाता है |
+| <a href="https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/efa-versions.py"><code>efa-versions.py</code></a>                                  | Nvidia लाइब्रेरी, ड्राइवर और EFA ड्राइवर के संस्करण प्राप्त करें   |</p>
 <h2>5. CI</h2>
 <p>इंटीग्रेशन टेस्ट <a href="https://docs.pytest.org">pytest</a> में लिखे गए हैं। बस चलाएं:</p>
-<pre><code class="language-bash hljs">pytest .
+<pre><code class="language-bash">pytest .
 </code></pre>
 <p>वैकल्पिक रूप से आप stdout कैप्चर किए बिना और सभी डॉकर इमेज और अन्य आर्टिफैक्ट्स को रखते हुए परीक्षण चला सकते हैं।</p>
-<pre><code class="language-bash hljs">pytest -s --keep-artifacts=t
+<pre><code class="language-bash">pytest -s --keep-artifacts=t
 </code></pre>
 <h2>6. योगदानकर्ता</h2>
 <p>निर्माण, समीक्षा और परीक्षण के लिए सभी योगदानकर्ताओं का धन्यवाद।</p>
-<p><a href="https://github.com/aws-samples/awsome-distributed-training/graphs/contributors"><img src="https://contrib.rocks/image?repo=aws-samples/awsome-distributed-training" alt="Contributors"></a></p>
+<p><a href="https://github.com/aws-samples/awsome-distributed-training/graphs/contributors"><img src="https://contrib.rocks/image?repo=aws-samples/awsome-distributed-training" alt="Contributors" /></a></p>
 <h2>7. स्टार इतिहास</h2>
-<p><a href="https://star-history.com/#aws-samples/awsome-distributed-training&amp;Date"><img src="https://api.star-history.com/svg?repos=aws-samples/awsome-distributed-training&amp;type=Date" alt="Star History Chart"></a></p>
-<hr>
+<p><a href="https://star-history.com/#aws-samples/awsome-distributed-training&amp;Date"><img src="https://api.star-history.com/svg?repos=aws-samples/awsome-distributed-training&amp;type=Date" alt="Star History Chart" /></a></p>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

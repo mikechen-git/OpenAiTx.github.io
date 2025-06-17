@@ -1,143 +1,56 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Storm - asdine/storm</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Storm - asdine/storm">
-    <meta name="description" content="asdine/storm - GitHub repository ja documentation and information">
+    <title>storm - asdine/storm</title>
+    <meta name="title" content="storm - asdine/storm">
+    <meta name="description" content="asdine/storm - GitHub repository ja documentation and informationStorm Stormは、BoltDB のためのシンプルかつ強力なツールキットです。基本的に、Stormはインデックス、さまざまなデータ格納・取得メソッド、高度なクエリシステムなど、多くの機能を提供します。 以下の例に加えて、GoDocの例 も参照してください。 拡張クエリや Badger サポートについては Genji も参照してください 目次 はじめに Stormのインポート データベースを開く シンプルなCRUDシステム 構造体の宣言 オブジェクトの保存 自動インクリメント シンプルなクエリ 1件のオブジェクト取得 複数オブジェクトの取得 すべてのオブジェクト取得 インデックスでソートした全オブジェクト取得 範囲でオブジェクト取得 プレフィックスでオブジェクト取得 Skip, Limit, Reverse オブジェクトの削除 オブジェクトの更新 保存前にバケットとインデックスを初期化 バケットの削除 バケットの再インデックス 高度なクエリ トランザクション オプション BoltOptions MarshalUnmarshaler 提供されているコーデック 既存のBolt接続の利用 バッチモード ノードとネストされたバケット ノードのオプション シンプルなKey/Valueストア BoltDBについて ライセンス クレジット はじめに GO111MODULE=on go get -u github.com/asdine/storm/v3 Stormのインポート import &quot;github.com/asdine/storm/v3&quot; データベースを開く データベースを素早く開く方法 db, err := storm.Open(&quot;my.db&quot;) defer db.Close() Open は動作をカスタマイズするために複数のオプションを受け取ることができます。下記の オプション を参照してください。 シンプルなCRUDシステム 構造体の宣言 type User struct { ID int // 主キー Group string `storm:&quot;index&quot;` // このフィールドはインデックスされる Email string `storm:&quot;unique&quot;` // このフィールドはユニーク制約付きでインデックスされる Name string // このフィールドはインデックスされない Age int `storm:&quot;index&quot;` } 主キーはゼロ値でなければどんな型でも使用可能です。Stormは id タグを探し、なければ ID という名前のフィールドを探します。 type User struct { ThePrimaryKey string `storm:&quot;id&quot;`// 主キー Group string `storm:&quot;index&quot;` // このフィールドはインデックスされる Email string `storm:&quot;unique&quot;` // このフィールドはユニーク制約付きでインデックスされる Name string // このフィールドはインデックスされない } Stormは inline タグでネスト構造体のタグも扱えます。 type Base struct { Ident bson.ObjectId `storm:&quot;id&quot;` } type User struct { Base `storm:&quot;inline&quot;` Group string `storm:&quot;index&quot;` Email string `storm:&quot;unique&quot;` Name string CreatedAt...">
     <meta name="keywords" content="asdine, storm, GitHub, repository, ja documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/asdine/storm/README-ja.html">
-    <meta property="og:title" content="Storm - asdine/storm">
+    <meta property="og:title" content="storm - asdine/storm">
     <meta property="og:description" content="asdine/storm - GitHub repository ja documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/asdine/storm" id="githubRepoLink" target="_blank">asdine/storm</a>
+<br>
+<h1 style="display: none;">Storm Stormは、BoltDB のためのシンプルかつ強力なツールキットです。基本的に、Stormはインデックス、さまざまなデータ格納・取得メソッド、高度なクエリシステムなど、多くの機能を提供します。 以下の例に加えて、GoDocの例 も参照してください。 拡張クエリや Badger サポートについては Genji も参照してください 目次 はじめに Stormのインポート データベースを開く シンプルなCRUDシステム 構造体の宣言 オブジェクトの保存 自動インクリメント シンプルなクエリ 1件のオブジェクト取得 複数オブジェクトの取得 すべてのオブジェクト取得 インデックスでソートした全オブジェクト取得 範囲でオブジェクト取得 プレフィックスでオブジェクト取得 Skip, Limit, Reverse オブジェクトの削除 オブジェクトの更新 保存前にバケットとインデックスを初期化 バケットの削除 バケットの再インデックス 高度なクエリ トランザクション オプション BoltOptions MarshalUnmarshaler 提供されているコーデック 既存のBolt接続の利用 バッチモード ノードとネストされたバケット ノードのオプション シンプルなKey/Valueストア BoltDBについて ライセンス クレジット はじめに GO111MODULE=on go get -u github.com/asdine/storm/v3 Stormのインポート import &quot;github.com/asdine/storm/v3&quot; データベースを開く データベースを素早く開く方法 db, err := storm.Open(&quot;my.db&quot;) defer db.Close() Open は動作をカスタマイズするために複数のオプションを受け取ることができます。下記の オプション を参照してください。 シンプルなCRUDシステム 構造体の宣言 type User struct { ID int // 主キー Group string `storm:&quot;index&quot;` // このフィールドはインデックスされる Email string `storm:&quot;unique&quot;` // このフィールドはユニーク制約付きでインデックスされる Name string // このフィールドはインデックスされない Age int `storm:&quot;index&quot;` } 主キーはゼロ値でなければどんな型でも使用可能です。Stormは id タグを探し、なければ ID という名前のフィールドを探します。 type User struct { ThePrimaryKey string `storm:&quot;id&quot;`// 主キー Group string `storm:&quot;index&quot;` // このフィールドはインデックスされる Email string `storm:&quot;unique&quot;` // このフィールドはユニーク制約付きでインデックスされる Name string // このフィールドはインデックスされない } Stormは inline タグでネスト構造体のタグも扱えます。 type Base struct { Ident bson.ObjectId `storm:&quot;id&quot;` } type User struct { Base `storm:&quot;inline&quot;` Group string `storm:&quot;index&quot;` Email string `storm:&quot;unique&quot;` Name string CreatedAt...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=asdine&amp;project=storm&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>Storm</h1>
-<p><a href="https://travis-ci.org/asdine/storm"><img src="https://travis-ci.org/asdine/storm.svg" alt="Build Status"></a><br><a href="https://godoc.org/github.com/asdine/storm"><img src="https://godoc.org/github.com/asdine/storm?status.svg" alt="GoDoc"></a></p>
+        <div class="markdown-body" id="content">
+            <h1>Storm</h1>
+<p><a href="https://travis-ci.org/asdine/storm"><img src="https://travis-ci.org/asdine/storm.svg" alt="Build Status" /></a>
+<a href="https://godoc.org/github.com/asdine/storm"><img src="https://godoc.org/github.com/asdine/storm?status.svg" alt="GoDoc" /></a></p>
 <p>Stormは、<a href="https://github.com/coreos/bbolt">BoltDB</a> のためのシンプルかつ強力なツールキットです。基本的に、Stormはインデックス、さまざまなデータ格納・取得メソッド、高度なクエリシステムなど、多くの機能を提供します。</p>
 <p>以下の例に加えて、<a href="https://godoc.org/github.com/asdine/storm#pkg-examples">GoDocの例</a> も参照してください。</p>
 <p><em>拡張クエリや <a href="https://github.com/dgraph-io/badger">Badger</a> サポートについては <a href="https://github.com/asdine/genji">Genji</a> も参照してください</em></p>
@@ -146,13 +59,16 @@
 <li><a href="#getting-started">はじめに</a></li>
 <li><a href="#import-storm">Stormのインポート</a></li>
 <li><a href="#open-a-database">データベースを開く</a></li>
-<li><a href="#simple-crud-system">シンプルなCRUDシステム</a><ul>
+<li><a href="#simple-crud-system">シンプルなCRUDシステム</a>
+<ul>
 <li><a href="#declare-your-structures">構造体の宣言</a></li>
-<li><a href="#save-your-object">オブジェクトの保存</a><ul>
+<li><a href="#save-your-object">オブジェクトの保存</a>
+<ul>
 <li><a href="#auto-increment">自動インクリメント</a></li>
 </ul>
 </li>
-<li><a href="#simple-queries">シンプルなクエリ</a><ul>
+<li><a href="#simple-queries">シンプルなクエリ</a>
+<ul>
 <li><a href="#fetch-one-object">1件のオブジェクト取得</a></li>
 <li><a href="#fetch-multiple-objects">複数オブジェクトの取得</a></li>
 <li><a href="#fetch-all-objects">すべてのオブジェクト取得</a></li>
@@ -169,9 +85,11 @@
 </li>
 <li><a href="#advanced-queries">高度なクエリ</a></li>
 <li><a href="#transactions">トランザクション</a></li>
-<li><a href="#options">オプション</a><ul>
+<li><a href="#options">オプション</a>
+<ul>
 <li><a href="#boltoptions">BoltOptions</a></li>
-<li><a href="#marshalunmarshaler">MarshalUnmarshaler</a><ul>
+<li><a href="#marshalunmarshaler">MarshalUnmarshaler</a>
+<ul>
 <li><a href="#provided-codecs">提供されているコーデック</a></li>
 </ul>
 </li>
@@ -181,7 +99,8 @@
 </li>
 </ul>
 </li>
-<li><a href="#nodes-and-nested-buckets">ノードとネストされたバケット</a><ul>
+<li><a href="#nodes-and-nested-buckets">ノードとネストされたバケット</a>
+<ul>
 <li><a href="#node-options">ノードのオプション</a></li>
 </ul>
 </li>
@@ -191,89 +110,89 @@
 <li><a href="#credits">クレジット</a></li>
 </ul>
 <h2>はじめに</h2>
-<pre><code class="language-bash hljs">GO111MODULE=on go get -u github.com/asdine/storm/v3
+<pre><code class="language-bash">GO111MODULE=on go get -u github.com/asdine/storm/v3
 </code></pre>
 <h2>Stormのインポート</h2>
-<pre><code class="language-go hljs"><span class="hljs-keyword">import</span> <span class="hljs-string">"github.com/asdine/storm/v3"</span>
+<pre><code class="language-go">import &quot;github.com/asdine/storm/v3&quot;
 </code></pre>
 <h2>データベースを開く</h2>
 <p>データベースを素早く開く方法</p>
-<pre><code class="language-go hljs">db, err := storm.Open(<span class="hljs-string">"my.db"</span>)
+<pre><code class="language-go">db, err := storm.Open(&quot;my.db&quot;)
 
-<span class="hljs-keyword">defer</span> db.Close()
+defer db.Close()
 </code></pre>
 <p><code>Open</code> は動作をカスタマイズするために複数のオプションを受け取ることができます。下記の <a href="#options">オプション</a> を参照してください。</p>
 <h2>シンプルなCRUDシステム</h2>
 <h3>構造体の宣言</h3>
-<pre><code class="language-go hljs"><span class="hljs-keyword">type</span> User <span class="hljs-keyword">struct</span> {
-  ID <span class="hljs-type">int</span> <span class="hljs-comment">// 主キー</span>
-  Group <span class="hljs-type">string</span> <span class="hljs-string">`storm:"index"`</span> <span class="hljs-comment">// このフィールドはインデックスされる</span>
-  Email <span class="hljs-type">string</span> <span class="hljs-string">`storm:"unique"`</span> <span class="hljs-comment">// このフィールドはユニーク制約付きでインデックスされる</span>
-  Name <span class="hljs-type">string</span> <span class="hljs-comment">// このフィールドはインデックスされない</span>
-  Age <span class="hljs-type">int</span> <span class="hljs-string">`storm:"index"`</span>
+<pre><code class="language-go">type User struct {
+  ID int // 主キー
+  Group string `storm:&quot;index&quot;` // このフィールドはインデックスされる
+  Email string `storm:&quot;unique&quot;` // このフィールドはユニーク制約付きでインデックスされる
+  Name string // このフィールドはインデックスされない
+  Age int `storm:&quot;index&quot;`
 }
 </code></pre>
 <p>主キーはゼロ値でなければどんな型でも使用可能です。Stormは <code>id</code> タグを探し、なければ <code>ID</code> という名前のフィールドを探します。</p>
-<pre><code class="language-go hljs"><span class="hljs-keyword">type</span> User <span class="hljs-keyword">struct</span> {
-  ThePrimaryKey <span class="hljs-type">string</span> <span class="hljs-string">`storm:"id"`</span><span class="hljs-comment">// 主キー</span>
-  Group <span class="hljs-type">string</span> <span class="hljs-string">`storm:"index"`</span> <span class="hljs-comment">// このフィールドはインデックスされる</span>
-  Email <span class="hljs-type">string</span> <span class="hljs-string">`storm:"unique"`</span> <span class="hljs-comment">// このフィールドはユニーク制約付きでインデックスされる</span>
-  Name <span class="hljs-type">string</span> <span class="hljs-comment">// このフィールドはインデックスされない</span>
+<pre><code class="language-go">type User struct {
+  ThePrimaryKey string `storm:&quot;id&quot;`// 主キー
+  Group string `storm:&quot;index&quot;` // このフィールドはインデックスされる
+  Email string `storm:&quot;unique&quot;` // このフィールドはユニーク制約付きでインデックスされる
+  Name string // このフィールドはインデックスされない
 }
 </code></pre>
 <p>Stormは <code>inline</code> タグでネスト構造体のタグも扱えます。</p>
-<pre><code class="language-go hljs"><span class="hljs-keyword">type</span> Base <span class="hljs-keyword">struct</span> {
-  Ident bson.ObjectId <span class="hljs-string">`storm:"id"`</span>
+<pre><code class="language-go">type Base struct {
+  Ident bson.ObjectId `storm:&quot;id&quot;`
 }
 
-<span class="hljs-keyword">type</span> User <span class="hljs-keyword">struct</span> {
-  Base      <span class="hljs-string">`storm:"inline"`</span>
-  Group     <span class="hljs-type">string</span> <span class="hljs-string">`storm:"index"`</span>
-  Email     <span class="hljs-type">string</span> <span class="hljs-string">`storm:"unique"`</span>
-  Name      <span class="hljs-type">string</span>
-  CreatedAt time.Time <span class="hljs-string">`storm:"index"`</span>
+type User struct {
+  Base      `storm:&quot;inline&quot;`
+  Group     string `storm:&quot;index&quot;`
+  Email     string `storm:&quot;unique&quot;`
+  Name      string
+  CreatedAt time.Time `storm:&quot;index&quot;`
 }
 </code></pre>
 <h3>オブジェクトの保存</h3>
-<pre><code class="language-go hljs">user := User{
-  ID: <span class="hljs-number">10</span>,
-  Group: <span class="hljs-string">"staff"</span>,
-  Email: <span class="hljs-string">"john@provider.com"</span>,
-  Name: <span class="hljs-string">"John"</span>,
-  Age: <span class="hljs-number">21</span>,
+<pre><code class="language-go">user := User{
+  ID: 10,
+  Group: &quot;staff&quot;,
+  Email: &quot;john@provider.com&quot;,
+  Name: &quot;John&quot;,
+  Age: 21,
   CreatedAt: time.Now(),
 }
 
 err := db.Save(&amp;user)
-<span class="hljs-comment">// err == nil</span>
+// err == nil
 
 user.ID++
 err = db.Save(&amp;user)
-<span class="hljs-comment">// err == storm.ErrAlreadyExists</span>
+// err == storm.ErrAlreadyExists
 </code></pre>
 <p>以上です。</p>
 <p><code>Save</code> は必要なインデックスやバケットを自動作成・更新し、ユニーク制約もチェックして、オブジェクトをストアへ保存します。</p>
 <h4>自動インクリメント</h4>
 <p>Stormは整数値を自動インクリメントできるので、保存時にその点を気にする必要はありません。新しい値は自動的にフィールドへ設定されます。</p>
-<pre><code class="language-go hljs">
-<span class="hljs-keyword">type</span> Product <span class="hljs-keyword">struct</span> {
-  Pk                  <span class="hljs-type">int</span> <span class="hljs-string">`storm:"id,increment"`</span> <span class="hljs-comment">// 主キー（自動インクリメント）</span>
-  Name                <span class="hljs-type">string</span>
-  IntegerField        <span class="hljs-type">uint64</span> <span class="hljs-string">`storm:"increment"`</span>
-  IndexedIntegerField <span class="hljs-type">uint32</span> <span class="hljs-string">`storm:"index,increment"`</span>
-  UniqueIntegerField  <span class="hljs-type">int16</span>  <span class="hljs-string">`storm:"unique,increment=100"`</span> <span class="hljs-comment">// 開始値を指定可能</span>
+<pre><code class="language-go">
+type Product struct {
+  Pk                  int `storm:&quot;id,increment&quot;` // 主キー（自動インクリメント）
+  Name                string
+  IntegerField        uint64 `storm:&quot;increment&quot;`
+  IndexedIntegerField uint32 `storm:&quot;index,increment&quot;`
+  UniqueIntegerField  int16  `storm:&quot;unique,increment=100&quot;` // 開始値を指定可能
 }
 
-p := Product{Name: <span class="hljs-string">"Vaccum Cleaner"</span>}
+p := Product{Name: &quot;Vaccum Cleaner&quot;}
 
 fmt.Println(p.Pk)
 fmt.Println(p.IntegerField)
 fmt.Println(p.IndexedIntegerField)
 fmt.Println(p.UniqueIntegerField)
-<span class="hljs-comment">// 0</span>
-<span class="hljs-comment">// 0</span>
-<span class="hljs-comment">// 0</span>
-<span class="hljs-comment">// 0</span>
+// 0
+// 0
+// 0
+// 0
 
 _ = db.Save(&amp;p)
 
@@ -281,331 +200,337 @@ fmt.Println(p.Pk)
 fmt.Println(p.IntegerField)
 fmt.Println(p.IndexedIntegerField)
 fmt.Println(p.UniqueIntegerField)
-<span class="hljs-comment">// 1</span>
-<span class="hljs-comment">// 1</span>
-<span class="hljs-comment">// 1</span>
-<span class="hljs-comment">// 100</span>
+// 1
+// 1
+// 1
+// 100
+
 </code></pre>
 <h3>シンプルなクエリ</h3>
 <p>インデックス有無に関わらず、どんなオブジェクトも取得できます。Stormは利用可能な場合インデックスを使い、それ以外は<a href="#advanced-queries">クエリシステム</a>を利用します。</p>
 <h4>1件のオブジェクト取得</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> user User
-err := db.One(<span class="hljs-string">"Email"</span>, <span class="hljs-string">"john@provider.com"</span>, &amp;user)
-<span class="hljs-comment">// err == nil</span>
+<pre><code class="language-go">var user User
+err := db.One(&quot;Email&quot;, &quot;john@provider.com&quot;, &amp;user)
+// err == nil
 
-err = db.One(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"John"</span>, &amp;user)
-<span class="hljs-comment">// err == nil</span>
+err = db.One(&quot;Name&quot;, &quot;John&quot;, &amp;user)
+// err == nil
 
-err = db.One(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"Jack"</span>, &amp;user)
-<span class="hljs-comment">// err == storm.ErrNotFound</span>
+err = db.One(&quot;Name&quot;, &quot;Jack&quot;, &amp;user)
+// err == storm.ErrNotFound
 </code></pre>
 <h4>複数オブジェクトの取得</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
-err := db.Find(<span class="hljs-string">"Group"</span>, <span class="hljs-string">"staff"</span>, &amp;users)
+<pre><code class="language-go">var users []User
+err := db.Find(&quot;Group&quot;, &quot;staff&quot;, &amp;users)
 </code></pre>
 <h4>全オブジェクトの取得</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
+<pre><code class="language-go">var users []User
 err := db.All(&amp;users)
 </code></pre>
 <h4>インデックスでソートして全オブジェクトを取得</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
-err := db.AllByIndex(<span class="hljs-string">"CreatedAt"</span>, &amp;users)
+<pre><code class="language-go">var users []User
+err := db.AllByIndex(&quot;CreatedAt&quot;, &amp;users)
 </code></pre>
 <h4>オブジェクトの範囲取得</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
-err := db.Range(<span class="hljs-string">"Age"</span>, <span class="hljs-number">10</span>, <span class="hljs-number">21</span>, &amp;users)
+<pre><code class="language-go">var users []User
+err := db.Range(&quot;Age&quot;, 10, 21, &amp;users)
 </code></pre>
 <h4>プレフィックスによるオブジェクトの取得</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
-err := db.Prefix(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"Jo"</span>, &amp;users)
+<pre><code class="language-go">var users []User
+err := db.Prefix(&quot;Name&quot;, &quot;Jo&quot;, &amp;users)
 </code></pre>
 <h4>Skip, Limit, Reverse の使用</h4>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
-err := db.Find(<span class="hljs-string">"Group"</span>, <span class="hljs-string">"staff"</span>, &amp;users, storm.Skip(<span class="hljs-number">10</span>))
-err = db.Find(<span class="hljs-string">"Group"</span>, <span class="hljs-string">"staff"</span>, &amp;users, storm.Limit(<span class="hljs-number">10</span>))
-err = db.Find(<span class="hljs-string">"Group"</span>, <span class="hljs-string">"staff"</span>, &amp;users, storm.Reverse())
-err = db.Find(<span class="hljs-string">"Group"</span>, <span class="hljs-string">"staff"</span>, &amp;users, storm.Limit(<span class="hljs-number">10</span>), storm.Skip(<span class="hljs-number">10</span>), storm.Reverse())
+<pre><code class="language-go">var users []User
+err := db.Find(&quot;Group&quot;, &quot;staff&quot;, &amp;users, storm.Skip(10))
+err = db.Find(&quot;Group&quot;, &quot;staff&quot;, &amp;users, storm.Limit(10))
+err = db.Find(&quot;Group&quot;, &quot;staff&quot;, &amp;users, storm.Reverse())
+err = db.Find(&quot;Group&quot;, &quot;staff&quot;, &amp;users, storm.Limit(10), storm.Skip(10), storm.Reverse())
 
-err = db.All(&amp;users, storm.Limit(<span class="hljs-number">10</span>), storm.Skip(<span class="hljs-number">10</span>), storm.Reverse())
-err = db.AllByIndex(<span class="hljs-string">"CreatedAt"</span>, &amp;users, storm.Limit(<span class="hljs-number">10</span>), storm.Skip(<span class="hljs-number">10</span>), storm.Reverse())
-err = db.Range(<span class="hljs-string">"Age"</span>, <span class="hljs-number">10</span>, <span class="hljs-number">21</span>, &amp;users, storm.Limit(<span class="hljs-number">10</span>), storm.Skip(<span class="hljs-number">10</span>), storm.Reverse())
+err = db.All(&amp;users, storm.Limit(10), storm.Skip(10), storm.Reverse())
+err = db.AllByIndex(&quot;CreatedAt&quot;, &amp;users, storm.Limit(10), storm.Skip(10), storm.Reverse())
+err = db.Range(&quot;Age&quot;, 10, 21, &amp;users, storm.Limit(10), storm.Skip(10), storm.Reverse())
 </code></pre>
 <h4>オブジェクトの削除</h4>
-<pre><code class="language-go hljs">err := db.DeleteStruct(&amp;user)
+<pre><code class="language-go">err := db.DeleteStruct(&amp;user)
 </code></pre>
 <h4>オブジェクトの更新</h4>
-<pre><code class="language-go hljs"><span class="hljs-comment">// 複数フィールドの更新</span>
-<span class="hljs-comment">// ゼロ値以外のフィールドのみ有効（例: Nameは""不可、Ageは0不可）</span>
-err := db.Update(&amp;User{ID: <span class="hljs-number">10</span>, Name: <span class="hljs-string">"Jack"</span>, Age: <span class="hljs-number">45</span>})
+<pre><code class="language-go">// 複数フィールドの更新
+// ゼロ値以外のフィールドのみ有効（例: Nameは&quot;&quot;不可、Ageは0不可）
+err := db.Update(&amp;User{ID: 10, Name: &quot;Jack&quot;, Age: 45})
 
-<span class="hljs-comment">// 単一フィールドの更新</span>
-<span class="hljs-comment">// ゼロ値フィールド（0, false, ""等）にも対応</span>
-err := db.UpdateField(&amp;User{ID: <span class="hljs-number">10</span>}, <span class="hljs-string">"Age"</span>, <span class="hljs-number">0</span>)
+// 単一フィールドの更新
+// ゼロ値フィールド（0, false, &quot;&quot;等）にも対応
+err := db.UpdateField(&amp;User{ID: 10}, &quot;Age&quot;, 0)
 </code></pre>
 <h4>オブジェクト保存前のバケットとインデックスの初期化</h4>
-<pre><code class="language-go hljs">err := db.Init(&amp;User{})
+<pre><code class="language-go">err := db.Init(&amp;User{})
 </code></pre>
 <p>アプリケーション起動時などに便利です</p>
 <h4>バケットの削除</h4>
 <p>構造体を利用する場合</p>
-<pre><code class="language-go hljs">err := db.Drop(&amp;User)
+<pre><code class="language-go">err := db.Drop(&amp;User)
 </code></pre>
 <p>バケット名を利用する場合</p>
-<pre><code class="language-go hljs">err := db.Drop(<span class="hljs-string">"User"</span>)
+<pre><code class="language-go">err := db.Drop(&quot;User&quot;)
 </code></pre>
 <h4>バケットの再インデックス</h4>
-<pre><code class="language-go hljs">err := db.ReIndex(&amp;User{})
+<pre><code class="language-go">err := db.ReIndex(&amp;User{})
 </code></pre>
 <p>構造体の変更時などに便利です</p>
 <h3>高度なクエリ</h3>
-<p>より複雑なクエリには <code>Select</code> メソッドを使用できます。<br><code>Select</code> は <a href="https://godoc.org/github.com/asdine/storm/q"><code>q</code></a> パッケージの任意個数の <a href="https://godoc.org/github.com/asdine/storm/q#Matcher"><code>Matcher</code></a> を受け取ります。</p>
+<p>より複雑なクエリには <code>Select</code> メソッドを使用できます。
+<code>Select</code> は <a href="https://godoc.org/github.com/asdine/storm/q"><code>q</code></a> パッケージの任意個数の <a href="https://godoc.org/github.com/asdine/storm/q#Matcher"><code>Matcher</code></a> を受け取ります。</p>
 <p>よく使われる Matcher の例:</p>
-<pre><code class="language-go hljs"><span class="hljs-comment">// 等価</span>
-q.Eq(<span class="hljs-string">"Name"</span>, John)
+<pre><code class="language-go">// 等価
+q.Eq(&quot;Name&quot;, John)
 
-<span class="hljs-comment">// より大きい</span>
-q.Gt(<span class="hljs-string">"Age"</span>, <span class="hljs-number">7</span>)
+// より大きい
+q.Gt(&quot;Age&quot;, 7)
 
-<span class="hljs-comment">// 以下</span>
-q.Lte(<span class="hljs-string">"Age"</span>, <span class="hljs-number">77</span>)
+// 以下
+q.Lte(&quot;Age&quot;, 77)
 
-<span class="hljs-comment">// 名前がDで始まる正規表現</span>
-q.Re(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"^D"</span>)
+// 名前がDで始まる正規表現
+q.Re(&quot;Name&quot;, &quot;^D&quot;)
 
-<span class="hljs-comment">// 指定スライス内の値に一致</span>
-q.In(<span class="hljs-string">"Group"</span>, []<span class="hljs-type">string</span>{<span class="hljs-string">"Staff"</span>, <span class="hljs-string">"Admin"</span>})
+// 指定スライス内の値に一致
+q.In(&quot;Group&quot;, []string{&quot;Staff&quot;, &quot;Admin&quot;})
 
-<span class="hljs-comment">// フィールド同士の比較</span>
-q.EqF(<span class="hljs-string">"FieldName"</span>, <span class="hljs-string">"SecondFieldName"</span>)
-q.LtF(<span class="hljs-string">"FieldName"</span>, <span class="hljs-string">"SecondFieldName"</span>)
-q.GtF(<span class="hljs-string">"FieldName"</span>, <span class="hljs-string">"SecondFieldName"</span>)
-q.LteF(<span class="hljs-string">"FieldName"</span>, <span class="hljs-string">"SecondFieldName"</span>)
-q.GteF(<span class="hljs-string">"FieldName"</span>, <span class="hljs-string">"SecondFieldName"</span>)
+// フィールド同士の比較
+q.EqF(&quot;FieldName&quot;, &quot;SecondFieldName&quot;)
+q.LtF(&quot;FieldName&quot;, &quot;SecondFieldName&quot;)
+q.GtF(&quot;FieldName&quot;, &quot;SecondFieldName&quot;)
+q.LteF(&quot;FieldName&quot;, &quot;SecondFieldName&quot;)
+q.GteF(&quot;FieldName&quot;, &quot;SecondFieldName&quot;)
 </code></pre>
 <p>Matcher は <code>And</code>, <code>Or</code>, <code>Not</code> で組み合わせ可能です:</p>
-<pre><code class="language-go hljs">
-<span class="hljs-comment">// 全て一致する場合にマッチ</span>
+<pre><code class="language-go">
+// 全て一致する場合にマッチ
 q.And(
-  q.Gt(<span class="hljs-string">"Age"</span>, <span class="hljs-number">7</span>),
-  q.Re(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"^D"</span>)
+  q.Gt(&quot;Age&quot;, 7),
+  q.Re(&quot;Name&quot;, &quot;^D&quot;)
 )
 
-<span class="hljs-comment">// いずれか一致する場合にマッチ</span>
+// いずれか一致する場合にマッチ
 q.Or(
-  q.Re(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"^A"</span>),
+  q.Re(&quot;Name&quot;, &quot;^A&quot;),
   q.Not(
-    q.Re(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"^B"</span>)
+    q.Re(&quot;Name&quot;, &quot;^B&quot;)
   ),
-  q.Re(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"^C"</span>),
-  q.In(<span class="hljs-string">"Group"</span>, []<span class="hljs-type">string</span>{<span class="hljs-string">"Staff"</span>, <span class="hljs-string">"Admin"</span>}),
+  q.Re(&quot;Name&quot;, &quot;^C&quot;),
+  q.In(&quot;Group&quot;, []string{&quot;Staff&quot;, &quot;Admin&quot;}),
   q.And(
-    q.StrictEq(<span class="hljs-string">"Password"</span>, []<span class="hljs-type">byte</span>(password)),
-    q.Eq(<span class="hljs-string">"Registered"</span>, <span class="hljs-literal">true</span>)
+    q.StrictEq(&quot;Password&quot;, []byte(password)),
+    q.Eq(&quot;Registered&quot;, true)
   )
 )
 </code></pre>
 <p>完全なリストは<a href="https://godoc.org/github.com/asdine/storm/q#Matcher">ドキュメント</a>を参照してください。</p>
 <p><code>Select</code> は任意個数の matcher を受け取り、それらを <code>q.And()</code> でラップするので明示的に指定する必要はありません。返り値は <a href="https://godoc.org/github.com/asdine/storm#Query"><code>Query</code></a> 型です。</p>
-<pre><code class="language-go hljs">query := db.Select(q.Gte(<span class="hljs-string">"Age"</span>, <span class="hljs-number">7</span>), q.Lte(<span class="hljs-string">"Age"</span>, <span class="hljs-number">77</span>))
+<pre><code class="language-go">query := db.Select(q.Gte(&quot;Age&quot;, 7), q.Lte(&quot;Age&quot;, 77))
 </code></pre>
 <p><code>Query</code> 型にはレコードのフィルタやソートのためのメソッドがあります。</p>
-<pre><code class="language-go hljs"><span class="hljs-comment">// Limit</span>
-query = query.Limit(<span class="hljs-number">10</span>)
+<pre><code class="language-go">// Limit
+query = query.Limit(10)
 
-<span class="hljs-comment">// Skip</span>
-query = query.Skip(<span class="hljs-number">20</span>)
+// Skip
+query = query.Skip(20)
 
-<span class="hljs-comment">// チェーン呼び出しも可能</span>
-query = query.Limit(<span class="hljs-number">10</span>).Skip(<span class="hljs-number">20</span>).OrderBy(<span class="hljs-string">"Age"</span>).Reverse()
+// チェーン呼び出しも可能
+query = query.Limit(10).Skip(20).OrderBy(&quot;Age&quot;).Reverse()
 </code></pre>
 <p>また、取得方法も指定できます。</p>
-<pre><code class="language-go hljs"><span class="hljs-keyword">var</span> users []User
+<pre><code class="language-go">var users []User
 err = query.Find(&amp;users)
 
-<span class="hljs-keyword">var</span> user User
+var user User
 err = query.First(&amp;user)
 </code></pre>
 <p><code>Select</code> を使った例:</p>
-<pre><code class="language-go hljs"><span class="hljs-comment">// IDが10から100のユーザーを全件取得</span>
-err = db.Select(q.Gte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">10</span>), q.Lte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">100</span>)).Find(&amp;users)
+<pre><code class="language-go">// IDが10から100のユーザーを全件取得
+err = db.Select(q.Gte(&quot;ID&quot;, 10), q.Lte(&quot;ID&quot;, 100)).Find(&amp;users)
 
-<span class="hljs-comment">// ネストした matcher</span>
+// ネストした matcher
 err = db.Select(q.Or(
-  q.Gt(<span class="hljs-string">"ID"</span>, <span class="hljs-number">50</span>),
-  q.Lt(<span class="hljs-string">"Age"</span>, <span class="hljs-number">21</span>),
+  q.Gt(&quot;ID&quot;, 50),
+  q.Lt(&quot;Age&quot;, 21),
   q.And(
-    q.Eq(<span class="hljs-string">"Group"</span>, <span class="hljs-string">"admin"</span>),
-    q.Gte(<span class="hljs-string">"Age"</span>, <span class="hljs-number">21</span>),
+    q.Eq(&quot;Group&quot;, &quot;admin&quot;),
+    q.Gte(&quot;Age&quot;, 21),
   ),
 )).Find(&amp;users)
 
-query := db.Select(q.Gte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">10</span>), q.Lte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">100</span>)).Limit(<span class="hljs-number">10</span>).Skip(<span class="hljs-number">5</span>).Reverse().OrderBy(<span class="hljs-string">"Age"</span>, <span class="hljs-string">"Name"</span>)
+query := db.Select(q.Gte(&quot;ID&quot;, 10), q.Lte(&quot;ID&quot;, 100)).Limit(10).Skip(5).Reverse().OrderBy(&quot;Age&quot;, &quot;Name&quot;)
 
-<span class="hljs-comment">// 複数レコードの取得</span>
+// 複数レコードの取得
 err = query.Find(&amp;users)
-<span class="hljs-comment">// または</span>
-err = db.Select(q.Gte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">10</span>), q.Lte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">100</span>)).Limit(<span class="hljs-number">10</span>).Skip(<span class="hljs-number">5</span>).Reverse().OrderBy(<span class="hljs-string">"Age"</span>, <span class="hljs-string">"Name"</span>).Find(&amp;users)
+// または
+err = db.Select(q.Gte(&quot;ID&quot;, 10), q.Lte(&quot;ID&quot;, 100)).Limit(10).Skip(5).Reverse().OrderBy(&quot;Age&quot;, &quot;Name&quot;).Find(&amp;users)
 </code></pre>
-<pre><code class="language-go hljs"><span class="hljs-comment">// 最初のレコードを検索</span>
+<pre><code class="language-go">// 最初のレコードを検索
 err = query.First(&amp;user)
-<span class="hljs-comment">// または</span>
-err = db.Select(q.Gte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">10</span>), q.Lte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">100</span>)).Limit(<span class="hljs-number">10</span>).Skip(<span class="hljs-number">5</span>).Reverse().OrderBy(<span class="hljs-string">"Age"</span>, <span class="hljs-string">"Name"</span>).First(&amp;user)
+// または
+err = db.Select(q.Gte(&quot;ID&quot;, 10), q.Lte(&quot;ID&quot;, 100)).Limit(10).Skip(5).Reverse().OrderBy(&quot;Age&quot;, &quot;Name&quot;).First(&amp;user)
 
-<span class="hljs-comment">// 一致するすべてのレコードを削除</span>
-err = query.Delete(<span class="hljs-built_in">new</span>(User))
+// 一致するすべてのレコードを削除
+err = query.Delete(new(User))
 
-<span class="hljs-comment">// レコードを一つずつ取得（バケットに大量のレコードが含まれている場合に便利）</span>
-query = db.Select(q.Gte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">10</span>),q.Lte(<span class="hljs-string">"ID"</span>, <span class="hljs-number">100</span>)).OrderBy(<span class="hljs-string">"Age"</span>, <span class="hljs-string">"Name"</span>)
+// レコードを一つずつ取得（バケットに大量のレコードが含まれている場合に便利）
+query = db.Select(q.Gte(&quot;ID&quot;, 10),q.Lte(&quot;ID&quot;, 100)).OrderBy(&quot;Age&quot;, &quot;Name&quot;)
 
-err = query.Each(<span class="hljs-built_in">new</span>(User), <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(record <span class="hljs-keyword">interface</span>{})</span></span> <span class="hljs-type">error</span>) {
+err = query.Each(new(User), func(record interface{}) error) {
   u := record.(*User)
   ...
-  <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>
+  return nil
 }
 </code></pre>
 <p>完全なメソッド一覧については<a href="https://godoc.org/github.com/asdine/storm#Query">ドキュメント</a>を参照してください。</p>
 <h3>トランザクション</h3>
-<pre><code class="language-go hljs">tx, err := db.Begin(<span class="hljs-literal">true</span>)
-<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-  <span class="hljs-keyword">return</span> err
+<pre><code class="language-go">tx, err := db.Begin(true)
+if err != nil {
+  return err
 }
-<span class="hljs-keyword">defer</span> tx.Rollback()
+defer tx.Rollback()
 
-accountA.Amount -= <span class="hljs-number">100</span>
-accountB.Amount += <span class="hljs-number">100</span>
+accountA.Amount -= 100
+accountB.Amount += 100
 
 err = tx.Save(accountA)
-<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-  <span class="hljs-keyword">return</span> err
+if err != nil {
+  return err
 }
 
 err = tx.Save(accountB)
-<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-  <span class="hljs-keyword">return</span> err
+if err != nil {
+  return err
 }
 
-<span class="hljs-keyword">return</span> tx.Commit()
+return tx.Commit()
 </code></pre>
 <h3>オプション</h3>
 <p>Storm のオプションは、Storm インスタンスを構築する際に渡すことができる関数です。任意の数のオプションを渡すことができます。</p>
 <h4>BoltOptions</h4>
-<p>デフォルトでは、Storm はモード <code>0600</code> で 1 秒のタイムアウトでデータベースを開きます。<br>この動作は <code>BoltOptions</code> を使用して変更できます。</p>
-<pre><code class="language-go hljs">db, err := storm.Open(<span class="hljs-string">"my.db"</span>, storm.BoltOptions(<span class="hljs-number">0600</span>, &amp;bolt.Options{Timeout: <span class="hljs-number">1</span> * time.Second}))
+<p>デフォルトでは、Storm はモード <code>0600</code> で 1 秒のタイムアウトでデータベースを開きます。
+この動作は <code>BoltOptions</code> を使用して変更できます。</p>
+<pre><code class="language-go">db, err := storm.Open(&quot;my.db&quot;, storm.BoltOptions(0600, &amp;bolt.Options{Timeout: 1 * time.Second}))
 </code></pre>
 <h4>MarshalUnmarshaler</h4>
 <p>データを BoltDB に保存するために、Storm はデフォルトで JSON でマーシャルします。この動作を変更したい場合は、<a href="https://godoc.org/github.com/asdine/storm/codec#MarshalUnmarshaler"><code>codec.MarshalUnmarshaler</code></a> を実装したコーデックを <a href="https://godoc.org/github.com/asdine/storm#Codec"><code>storm.Codec</code></a> オプションで渡すことができます。</p>
-<pre><code class="language-go hljs">db := storm.Open(<span class="hljs-string">"my.db"</span>, storm.Codec(myCodec))
+<pre><code class="language-go">db := storm.Open(&quot;my.db&quot;, storm.Codec(myCodec))
 </code></pre>
 <h5>提供されているコーデック</h5>
 <p>独自の <code>MarshalUnmarshaler</code> を簡単に実装できますが、Storm には <a href="https://godoc.org/github.com/asdine/storm/codec/json">JSON</a>（デフォルト）、<a href="https://godoc.org/github.com/asdine/storm/codec/gob">GOB</a>、<a href="https://godoc.org/github.com/asdine/storm/codec/sereal">Sereal</a>、<a href="https://godoc.org/github.com/asdine/storm/codec/protobuf">Protocol Buffers</a>、<a href="https://godoc.org/github.com/asdine/storm/codec/msgpack">MessagePack</a> の組み込みサポートがあります。</p>
 <p>これらは該当するパッケージをインポートして、Storm の構成時にそのコーデックを使用することで利用できます。以下はすべてのバリエーションを示す例です（エラーハンドリングは省略）。</p>
-<pre><code class="language-go hljs"><span class="hljs-keyword">import</span> (
-  <span class="hljs-string">"github.com/asdine/storm/v3"</span>
-  <span class="hljs-string">"github.com/asdine/storm/v3/codec/gob"</span>
-  <span class="hljs-string">"github.com/asdine/storm/v3/codec/json"</span>
-  <span class="hljs-string">"github.com/asdine/storm/v3/codec/sereal"</span>
-  <span class="hljs-string">"github.com/asdine/storm/v3/codec/protobuf"</span>
-  <span class="hljs-string">"github.com/asdine/storm/v3/codec/msgpack"</span>
+<pre><code class="language-go">import (
+  &quot;github.com/asdine/storm/v3&quot;
+  &quot;github.com/asdine/storm/v3/codec/gob&quot;
+  &quot;github.com/asdine/storm/v3/codec/json&quot;
+  &quot;github.com/asdine/storm/v3/codec/sereal&quot;
+  &quot;github.com/asdine/storm/v3/codec/protobuf&quot;
+  &quot;github.com/asdine/storm/v3/codec/msgpack&quot;
 )
 
-<span class="hljs-keyword">var</span> gobDb, _ = storm.Open(<span class="hljs-string">"gob.db"</span>, storm.Codec(gob.Codec))
-<span class="hljs-keyword">var</span> jsonDb, _ = storm.Open(<span class="hljs-string">"json.db"</span>, storm.Codec(json.Codec))
-<span class="hljs-keyword">var</span> serealDb, _ = storm.Open(<span class="hljs-string">"sereal.db"</span>, storm.Codec(sereal.Codec))
-<span class="hljs-keyword">var</span> protobufDb, _ = storm.Open(<span class="hljs-string">"protobuf.db"</span>, storm.Codec(protobuf.Codec))
-<span class="hljs-keyword">var</span> msgpackDb, _ = storm.Open(<span class="hljs-string">"msgpack.db"</span>, storm.Codec(msgpack.Codec))
+var gobDb, _ = storm.Open(&quot;gob.db&quot;, storm.Codec(gob.Codec))
+var jsonDb, _ = storm.Open(&quot;json.db&quot;, storm.Codec(json.Codec))
+var serealDb, _ = storm.Open(&quot;sereal.db&quot;, storm.Codec(sereal.Codec))
+var protobufDb, _ = storm.Open(&quot;protobuf.db&quot;, storm.Codec(protobuf.Codec))
+var msgpackDb, _ = storm.Open(&quot;msgpack.db&quot;, storm.Codec(msgpack.Codec))
 </code></pre>
 <p><strong>ヒント</strong>: 生成された Protobuf ファイルに Storm タグを追加するのはやや難しい場合があります。コンパイル時にタグを挿入するには、<a href="https://github.com/favadi/protoc-go-inject-tag">このツール</a> を使うのが良い方法です。</p>
 <h4>既存の Bolt 接続を利用</h4>
 <p>既存の接続を利用し、それを Storm に渡すことができます。</p>
-<pre><code class="language-go hljs">bDB, _ := bolt.Open(filepath.Join(dir, <span class="hljs-string">"bolt.db"</span>), <span class="hljs-number">0600</span>, &amp;bolt.Options{Timeout: <span class="hljs-number">10</span> * time.Second})
-db := storm.Open(<span class="hljs-string">"my.db"</span>, storm.UseDB(bDB))
+<pre><code class="language-go">bDB, _ := bolt.Open(filepath.Join(dir, &quot;bolt.db&quot;), 0600, &amp;bolt.Options{Timeout: 10 * time.Second})
+db := storm.Open(&quot;my.db&quot;, storm.UseDB(bDB))
 </code></pre>
 <h4>バッチモード</h4>
 <p>バッチモードを有効化することで、同時書き込みの速度を向上させることができます（<a href="https://github.com/coreos/bbolt#batch-read-write-transactions">バッチ読み書きトランザクション</a>を参照）。</p>
-<pre><code class="language-go hljs">db := storm.Open(<span class="hljs-string">"my.db"</span>, storm.Batch())
+<pre><code class="language-go">db := storm.Open(&quot;my.db&quot;, storm.Batch())
 </code></pre>
 <h2>ノードとネストされたバケット</h2>
-<p>Storm は、<code>storm.Node</code> を利用して BoltDB のネストされたバケット機能を活用します。<br><code>storm.Node</code> は、バケットを操作するために <code>storm.DB</code> が内部で使用するオブジェクトです。<br>ネストされたバケットを作成し、<code>storm.DB</code> と同じ API を使用するには、<code>DB.From</code> メソッドを利用します。</p>
-<pre><code class="language-go hljs">repo := db.From(<span class="hljs-string">"repo"</span>)
+<p>Storm は、<code>storm.Node</code> を利用して BoltDB のネストされたバケット機能を活用します。
+<code>storm.Node</code> は、バケットを操作するために <code>storm.DB</code> が内部で使用するオブジェクトです。
+ネストされたバケットを作成し、<code>storm.DB</code> と同じ API を使用するには、<code>DB.From</code> メソッドを利用します。</p>
+<pre><code class="language-go">repo := db.From(&quot;repo&quot;)
 
 err := repo.Save(&amp;Issue{
-  Title: <span class="hljs-string">"I want more features"</span>,
+  Title: &quot;I want more features&quot;,
   Author: user.ID,
 })
 
-err = repo.Save(newRelease(<span class="hljs-string">"0.10"</span>))
+err = repo.Save(newRelease(&quot;0.10&quot;))
 
-<span class="hljs-keyword">var</span> issues []Issue
-err = repo.Find(<span class="hljs-string">"Author"</span>, user.ID, &amp;issues)
+var issues []Issue
+err = repo.Find(&quot;Author&quot;, user.ID, &amp;issues)
 
-<span class="hljs-keyword">var</span> release Release
-err = repo.One(<span class="hljs-string">"Tag"</span>, <span class="hljs-string">"0.10"</span>, &amp;release)
+var release Release
+err = repo.One(&quot;Tag&quot;, &quot;0.10&quot;, &amp;release)
 </code></pre>
 <p>ノードをチェーンして階層を作成することもできます。</p>
-<pre><code class="language-go hljs">chars := db.From(<span class="hljs-string">"characters"</span>)
-heroes := chars.From(<span class="hljs-string">"heroes"</span>)
-enemies := chars.From(<span class="hljs-string">"enemies"</span>)
+<pre><code class="language-go">chars := db.From(&quot;characters&quot;)
+heroes := chars.From(&quot;heroes&quot;)
+enemies := chars.From(&quot;enemies&quot;)
 
-items := db.From(<span class="hljs-string">"items"</span>)
-potions := items.From(<span class="hljs-string">"consumables"</span>).From(<span class="hljs-string">"medicine"</span>).From(<span class="hljs-string">"potions"</span>)
+items := db.From(&quot;items&quot;)
+potions := items.From(&quot;consumables&quot;).From(&quot;medicine&quot;).From(&quot;potions&quot;)
 </code></pre>
 <p><code>From</code> の引数として階層全体を渡すこともできます。</p>
-<pre><code class="language-go hljs">privateNotes := db.From(<span class="hljs-string">"notes"</span>, <span class="hljs-string">"private"</span>)
-workNotes :=  db.From(<span class="hljs-string">"notes"</span>, <span class="hljs-string">"work"</span>)
+<pre><code class="language-go">privateNotes := db.From(&quot;notes&quot;, &quot;private&quot;)
+workNotes :=  db.From(&quot;notes&quot;, &quot;work&quot;)
 </code></pre>
 <h3>ノードオプション</h3>
 <p>ノードも設定可能です。ノードでオプションを有効化するとコピーが生成されるため、ノードは常にスレッドセーフです。</p>
-<pre><code class="language-go hljs">n := db.From(<span class="hljs-string">"my-node"</span>)
+<pre><code class="language-go">n := db.From(&quot;my-node&quot;)
 </code></pre>
 <p>bolt.Tx トランザクションをノードに渡す</p>
-<pre><code class="language-go hljs">n = n.WithTransaction(tx)
+<pre><code class="language-go">n = n.WithTransaction(tx)
 </code></pre>
 <p>バッチモードを有効化</p>
-<pre><code class="language-go hljs">n = n.WithBatch(<span class="hljs-literal">true</span>)
+<pre><code class="language-go">n = n.WithBatch(true)
 </code></pre>
 <p>コーデックを利用</p>
-<pre><code class="language-go hljs">n = n.WithCodec(gob.Codec)
+<pre><code class="language-go">n = n.WithCodec(gob.Codec)
 </code></pre>
 <h2>シンプルなキー／バリュー・ストア</h2>
-<p>Storm は、シンプルで堅牢なキー／バリュー・ストアとして、あらゆるものを保存することができます。<br>キーと値は、キーがゼロ値でない限り任意の型にできます。</p>
+<p>Storm は、シンプルで堅牢なキー／バリュー・ストアとして、あらゆるものを保存することができます。
+キーと値は、キーがゼロ値でない限り任意の型にできます。</p>
 <p>データの保存：</p>
-<pre><code class="language-go hljs">db.Set(<span class="hljs-string">"logs"</span>, time.Now(), <span class="hljs-string">"I'm eating my breakfast man"</span>)
-db.Set(<span class="hljs-string">"sessions"</span>, bson.NewObjectId(), &amp;someUser)
-db.Set(<span class="hljs-string">"weird storage"</span>, <span class="hljs-string">"754-3010"</span>, <span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-keyword">interface</span>{}{
-  <span class="hljs-string">"hair"</span>: <span class="hljs-string">"blonde"</span>,
-  <span class="hljs-string">"likes"</span>: []<span class="hljs-type">string</span>{<span class="hljs-string">"cheese"</span>, <span class="hljs-string">"star wars"</span>},
+<pre><code class="language-go">db.Set(&quot;logs&quot;, time.Now(), &quot;I'm eating my breakfast man&quot;)
+db.Set(&quot;sessions&quot;, bson.NewObjectId(), &amp;someUser)
+db.Set(&quot;weird storage&quot;, &quot;754-3010&quot;, map[string]interface{}{
+  &quot;hair&quot;: &quot;blonde&quot;,
+  &quot;likes&quot;: []string{&quot;cheese&quot;, &quot;star wars&quot;},
 })
 </code></pre>
 <p>データの取得：</p>
-<pre><code class="language-go hljs">user := User{}
-db.Get(<span class="hljs-string">"sessions"</span>, someObjectId, &amp;user)
+<pre><code class="language-go">user := User{}
+db.Get(&quot;sessions&quot;, someObjectId, &amp;user)
 
-<span class="hljs-keyword">var</span> details <span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-keyword">interface</span>{}
-db.Get(<span class="hljs-string">"weird storage"</span>, <span class="hljs-string">"754-3010"</span>, &amp;details)
+var details map[string]interface{}
+db.Get(&quot;weird storage&quot;, &quot;754-3010&quot;, &amp;details)
 </code></pre>
-<pre><code class="hljs language-vbnet">db.<span class="hljs-keyword">Get</span>(<span class="hljs-string">"sessions"</span>, someObjectId, &amp;details)
+<pre><code>db.Get(&quot;sessions&quot;, someObjectId, &amp;details)
 </code></pre>
 <p>データの削除：</p>
-<pre><code class="language-go hljs">db.Delete(<span class="hljs-string">"sessions"</span>, someObjectId)
-db.Delete(<span class="hljs-string">"weird storage"</span>, <span class="hljs-string">"754-3010"</span>)
+<pre><code class="language-go">db.Delete(&quot;sessions&quot;, someObjectId)
+db.Delete(&quot;weird storage&quot;, &quot;754-3010&quot;)
 </code></pre>
 <p>その他の便利なメソッドについては、<a href="https://godoc.org/github.com/asdine/storm#KeyValueStore">ドキュメント</a>をご覧ください。</p>
 <h2>BoltDB</h2>
 <p>BoltDB も簡単にアクセスでき、通常通り使用できます。</p>
-<pre><code class="language-go hljs">db.Bolt.View(<span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(tx *bolt.Tx)</span></span> <span class="hljs-type">error</span> {
-  bucket := tx.Bucket([]<span class="hljs-type">byte</span>(<span class="hljs-string">"my bucket"</span>))
-  val := bucket.Get([]<span class="hljs-type">byte</span>(<span class="hljs-string">"any id"</span>))
-  fmt.Println(<span class="hljs-type">string</span>(val))
-  <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>
+<pre><code class="language-go">db.Bolt.View(func(tx *bolt.Tx) error {
+  bucket := tx.Bucket([]byte(&quot;my bucket&quot;))
+  val := bucket.Get([]byte(&quot;any id&quot;))
+  fmt.Println(string(val))
+  return nil
 })
 </code></pre>
 <p>Storm にトランザクションを渡すこともできます。</p>
-<pre><code class="language-go hljs">db.Bolt.Update(<span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(tx *bolt.Tx)</span></span> <span class="hljs-type">error</span> {
+<pre><code class="language-go">db.Bolt.Update(func(tx *bolt.Tx) error {
   ...
   dbx := db.WithTransaction(tx)
   err = dbx.Save(&amp;user)
   ...
-  <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>
+  return nil
 })
 </code></pre>
 <h2>ライセンス</h2>
@@ -615,30 +540,15 @@ db.Delete(<span class="hljs-string">"weird storage"</span>, <span class="hljs-st
 <li><a href="https://github.com/asdine">Asdine El Hrychy</a></li>
 <li><a href="https://github.com/bep">Bjørn Erik Pedersen</a></li>
 </ul>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

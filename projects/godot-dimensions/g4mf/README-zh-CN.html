@@ -1,142 +1,54 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Good 4D Model Format (G4MF) - godot-dimensions/g4mf</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Good 4D Model Format (G4MF) - godot-dimensions/g4mf">
-    <meta name="description" content="godot-dimensions/g4mf - GitHub repository zh-CN documentation and information">
+    <title>g4mf - godot-dimensions/g4mf</title>
+    <meta name="title" content="g4mf - godot-dimensions/g4mf">
+    <meta name="description" content="godot-dimensions/g4mf - GitHub repository zh-CN documentation and informationGood 4D Model Format (G4MF) Good 4D Model Format，简称 G4MF，是一种基于 JSON、聚焦于 4D 的多维模型格式，灵感来源于 Khronos 的 glTF™，允许在应用程序之间传输、交换和互操作更高维度的内容。 G4MF 文件有以下类型： .g4tf 代表“Good 4D model Text File（优良 4D 模型文本文件）”。它以纯文本 UTF-8 格式包含 JSON 数据，二进制数据块以 Base64 编码为字符串，或存储为外部文件。有效的 G4TF 文件不包含 BOM 或回车符。 .g4b 代表“Good 4D model Binary（优良 4D 模型二进制文件）”。它紧凑地打包二进制数据以提高尺寸效率，但因此在文本编辑器中难以检查。 请在此阅读规范：Good 4D Model Format (G4MF) Specification。 与 glTF™ 的区别 G4MF 受 glTF™ 启发，整体结构类似，但有许多不同之处。 主要区别： G4MF 是一种面向多维、以 4D 为中心的格式，而 glTF™ 是 3D 格式。（显然，但为清晰起见特别说明） glTF™ 设计为 GPU 就绪的最后一公里格式，数据以适合直接加载到 OpenGL™ 或 Vulkan™ 的方式存储。由于图形 API 不支持 4D、5D、6D 等模型，这一目标对 G4MF 并不适用。G4MF 主要被设计为一种可读性高的人机交换格式。 G4MF 网格顶点通常以去重方式存储，并由边和单元引用。glTF™ 将每个三角形存储为唯一顶点，这便于直接加载到 GPU，但会导致顶点重复的困惑。https://blender.stackexchange.com/questions/167372/gltf-export-has-twice-the-vertices-it-should/167383#167383 G4MF 每个文件只允许一个场景和一个根节点，而 glTF™ 允许多个场景和多个根节点。https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Vendor/GODOT_single_root G4MF 二进制使用 64 位无符号整数存储 .g4b 文件和块的大小，而 .glb 使用 32 位无符号整数，这允许文件大于 4 GiB。https://github.com/KhronosGroup/glTF/issues/2114 G4MF 是全新的格式，而 glTF™ 是成熟的行业标准格式。因此，我们建议 3D 模型使用 glTF™，而不是 3D 的 G4MF 文件。 此外，G4MF 和 glTF™ 之间还有许多细节上的不同： G4MF 在 &quot;asset&quot; 中新增了必需的整数键 &quot;dimension&quot;，必须定义，否则文件无效。这意味着 4D 模型的 JSON 数据中必须有 { &quot;asset&quot;: { &quot;dimension&quot;: 4 } }。 G4MF 资产头包含 &quot;extensionsUsed&quot; 和 &quot;extensionsRequired&quot; 数组。在 glTF™ 中，这些定义在顶层 JSON 对象中。 G4MF 节点变换采用 &quot;position&quot; 和 &quot;basis&quot; 或 &quot;rotor&quot;+&quot;scale&quot; 的组合，而 glTF™...">
     <meta name="keywords" content="godot-dimensions, g4mf, GitHub, repository, zh-CN documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/godot-dimensions/g4mf/README-zh-CN.html">
-    <meta property="og:title" content="Good 4D Model Format (G4MF) - godot-dimensions/g4mf">
+    <meta property="og:title" content="g4mf - godot-dimensions/g4mf">
     <meta property="og:description" content="godot-dimensions/g4mf - GitHub repository zh-CN documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/godot-dimensions/g4mf" id="githubRepoLink" target="_blank">godot-dimensions/g4mf</a>
+<br>
+<h1 style="display: none;">Good 4D Model Format (G4MF) Good 4D Model Format，简称 G4MF，是一种基于 JSON、聚焦于 4D 的多维模型格式，灵感来源于 Khronos 的 glTF™，允许在应用程序之间传输、交换和互操作更高维度的内容。 G4MF 文件有以下类型： .g4tf 代表“Good 4D model Text File（优良 4D 模型文本文件）”。它以纯文本 UTF-8 格式包含 JSON 数据，二进制数据块以 Base64 编码为字符串，或存储为外部文件。有效的 G4TF 文件不包含 BOM 或回车符。 .g4b 代表“Good 4D model Binary（优良 4D 模型二进制文件）”。它紧凑地打包二进制数据以提高尺寸效率，但因此在文本编辑器中难以检查。 请在此阅读规范：Good 4D Model Format (G4MF) Specification。 与 glTF™ 的区别 G4MF 受 glTF™ 启发，整体结构类似，但有许多不同之处。 主要区别： G4MF 是一种面向多维、以 4D 为中心的格式，而 glTF™ 是 3D 格式。（显然，但为清晰起见特别说明） glTF™ 设计为 GPU 就绪的最后一公里格式，数据以适合直接加载到 OpenGL™ 或 Vulkan™ 的方式存储。由于图形 API 不支持 4D、5D、6D 等模型，这一目标对 G4MF 并不适用。G4MF 主要被设计为一种可读性高的人机交换格式。 G4MF 网格顶点通常以去重方式存储，并由边和单元引用。glTF™ 将每个三角形存储为唯一顶点，这便于直接加载到 GPU，但会导致顶点重复的困惑。https://blender.stackexchange.com/questions/167372/gltf-export-has-twice-the-vertices-it-should/167383#167383 G4MF 每个文件只允许一个场景和一个根节点，而 glTF™ 允许多个场景和多个根节点。https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Vendor/GODOT_single_root G4MF 二进制使用 64 位无符号整数存储 .g4b 文件和块的大小，而 .glb 使用 32 位无符号整数，这允许文件大于 4 GiB。https://github.com/KhronosGroup/glTF/issues/2114 G4MF 是全新的格式，而 glTF™ 是成熟的行业标准格式。因此，我们建议 3D 模型使用 glTF™，而不是 3D 的 G4MF 文件。 此外，G4MF 和 glTF™ 之间还有许多细节上的不同： G4MF 在 &quot;asset&quot; 中新增了必需的整数键 &quot;dimension&quot;，必须定义，否则文件无效。这意味着 4D 模型的 JSON 数据中必须有 { &quot;asset&quot;: { &quot;dimension&quot;: 4 } }。 G4MF 资产头包含 &quot;extensionsUsed&quot; 和 &quot;extensionsRequired&quot; 数组。在 glTF™ 中，这些定义在顶层 JSON 对象中。 G4MF 节点变换采用 &quot;position&quot; 和 &quot;basis&quot; 或 &quot;rotor&quot;+&quot;scale&quot; 的组合，而 glTF™...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=godot-dimensions&amp;project=g4mf&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>Good 4D Model Format (G4MF)</h1>
+        <div class="markdown-body" id="content">
+            <h1>Good 4D Model Format (G4MF)</h1>
 <p>Good 4D Model Format，简称 G4MF，是一种基于 JSON、聚焦于 4D 的多维模型格式，灵感来源于 Khronos 的 <a href="https://github.com/KhronosGroup/glTF">glTF™</a>，允许在应用程序之间传输、交换和互操作更高维度的内容。</p>
 <p>G4MF 文件有以下类型：</p>
 <ul>
@@ -150,57 +62,42 @@
 <ul>
 <li>G4MF 是一种面向多维、以 4D 为中心的格式，而 glTF™ 是 3D 格式。（显然，但为清晰起见特别说明）</li>
 <li>glTF™ 设计为 GPU 就绪的最后一公里格式，数据以适合直接加载到 OpenGL™ 或 Vulkan™ 的方式存储。由于图形 API 不支持 4D、5D、6D 等模型，这一目标对 G4MF 并不适用。G4MF 主要被设计为一种可读性高的人机交换格式。</li>
-<li>G4MF 网格顶点通常以去重方式存储，并由边和单元引用。glTF™ 将每个三角形存储为唯一顶点，这便于直接加载到 GPU，但会导致顶点重复的困惑。<a href="https://blender.stackexchange.com/questions/167372/gltf-export-has-twice-the-vertices-it-should/167383#167383">https://blender.stackexchange.com/questions/167372/gltf-export-has-twice-the-vertices-it-should/167383#167383</a></li>
-<li>G4MF 每个文件只允许一个场景和一个根节点，而 glTF™ 允许多个场景和多个根节点。<a href="https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Vendor/GODOT_single_root">https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Vendor/GODOT_single_root</a></li>
-<li>G4MF 二进制使用 64 位无符号整数存储 <code>.g4b</code> 文件和块的大小，而 <code>.glb</code> 使用 32 位无符号整数，这允许文件大于 4 GiB。<a href="https://github.com/KhronosGroup/glTF/issues/2114">https://github.com/KhronosGroup/glTF/issues/2114</a></li>
+<li>G4MF 网格顶点通常以去重方式存储，并由边和单元引用。glTF™ 将每个三角形存储为唯一顶点，这便于直接加载到 GPU，但会导致顶点重复的困惑。https://blender.stackexchange.com/questions/167372/gltf-export-has-twice-the-vertices-it-should/167383#167383</li>
+<li>G4MF 每个文件只允许一个场景和一个根节点，而 glTF™ 允许多个场景和多个根节点。https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Vendor/GODOT_single_root</li>
+<li>G4MF 二进制使用 64 位无符号整数存储 <code>.g4b</code> 文件和块的大小，而 <code>.glb</code> 使用 32 位无符号整数，这允许文件大于 4 GiB。https://github.com/KhronosGroup/glTF/issues/2114</li>
 <li>G4MF 是全新的格式，而 glTF™ 是成熟的行业标准格式。因此，我们建议 3D 模型使用 glTF™，而不是 3D 的 G4MF 文件。</li>
 </ul>
 <p>此外，G4MF 和 glTF™ 之间还有许多细节上的不同：</p>
 <ul>
-<li>G4MF 在 <code>"asset"</code> 中新增了必需的整数键 <code>"dimension"</code>，必须定义，否则文件无效。这意味着 4D 模型的 JSON 数据中必须有 <code>{ "asset": { "dimension": 4 } }</code>。</li>
-<li>G4MF 资产头包含 <code>"extensionsUsed"</code> 和 <code>"extensionsRequired"</code> 数组。在 glTF™ 中，这些定义在顶层 JSON 对象中。</li>
-<li>G4MF 节点变换采用 <code>"position"</code> 和 <code>"basis"</code> 或 <code>"rotor"</code>+<code>"scale"</code> 的组合，而 glTF™ 使用 <code>"translation"</code>+<code>"rotation"</code>+<code>"scale"</code> 或 4x4 的 <code>"matrix"</code>。两种格式都只允许线性变换，这意味着 glTF™ 的 <code>"matrix"</code> 属性最后一行始终为 (0, 0, 0, 1)。这最后一行对 GPU 传输有用，但对交换来说无实际意义，因此在 G4MF 中不包含。</li>
-<li>G4MF 节点 <code>"scale"</code> 不允许负缩放，而 glTF™ 允许。G4MF 要求需要翻转/反射时使用 <code>"basis"</code>。</li>
-<li>G4MF 节点 <code>"scale"</code> 允许单一值，表示统一缩放，这在维度非常高时有助于紧凑。glTF™ 的 <code>"scale"</code> 始终是 3D 向量。</li>
-<li>G4MF 节点有 <code>"visible"</code> 布尔值，在基础规范中提供了 glTF™ 扩展 <code>KHR_node_visibility</code>。<a href="https://github.com/KhronosGroup/glTF/pull/2410">https://github.com/KhronosGroup/glTF/pull/2410</a></li>
-<li>G4MF 网格有 <code>"surfaces"</code>，这是更友好的命名。glTF™ 网格有 <code>"primitives"</code>，这是 OpenGL™ 的术语。<a href="https://www.khronos.org/opengl/wiki/primitive">https://www.khronos.org/opengl/wiki/primitive</a></li>
-<li>G4MF 网格表面明确定义表面上的顶点、边和单元。glTF™ 网格 primitive 在 <code>"attributes"</code> 和 <code>"mode"</code> 内定义这些。</li>
-<li>G4MF 网格表面可以有 <code>"polytopeCells"</code> 布尔值，在基础规范中提供了 glTF™ 扩展 <code>FB_ngon_encoding</code>。<a href="https://github.com/KhronosGroup/glTF/pull/1620">https://github.com/KhronosGroup/glTF/pull/1620</a></li>
-<li>G4MF 材质有通道，泛化了 glTF™ 拆分材质属性的概念。例如，glTF™ 的 base color 使用 <code>"baseColorFactor"</code> 和 <code>"baseColorTexture"</code>，后者有 textureInfo 定义纹理 <code>"index"</code> 和 <code>"texCoord"</code> 索引。G4MF 材质有如 <code>"baseColor"</code> 这样的通道，将这些属性统一在其下。</li>
+<li>G4MF 在 <code>&quot;asset&quot;</code> 中新增了必需的整数键 <code>&quot;dimension&quot;</code>，必须定义，否则文件无效。这意味着 4D 模型的 JSON 数据中必须有 <code>{ &quot;asset&quot;: { &quot;dimension&quot;: 4 } }</code>。</li>
+<li>G4MF 资产头包含 <code>&quot;extensionsUsed&quot;</code> 和 <code>&quot;extensionsRequired&quot;</code> 数组。在 glTF™ 中，这些定义在顶层 JSON 对象中。</li>
+<li>G4MF 节点变换采用 <code>&quot;position&quot;</code> 和 <code>&quot;basis&quot;</code> 或 <code>&quot;rotor&quot;</code>+<code>&quot;scale&quot;</code> 的组合，而 glTF™ 使用 <code>&quot;translation&quot;</code>+<code>&quot;rotation&quot;</code>+<code>&quot;scale&quot;</code> 或 4x4 的 <code>&quot;matrix&quot;</code>。两种格式都只允许线性变换，这意味着 glTF™ 的 <code>&quot;matrix&quot;</code> 属性最后一行始终为 (0, 0, 0, 1)。这最后一行对 GPU 传输有用，但对交换来说无实际意义，因此在 G4MF 中不包含。</li>
+<li>G4MF 节点 <code>&quot;scale&quot;</code> 不允许负缩放，而 glTF™ 允许。G4MF 要求需要翻转/反射时使用 <code>&quot;basis&quot;</code>。</li>
+<li>G4MF 节点 <code>&quot;scale&quot;</code> 允许单一值，表示统一缩放，这在维度非常高时有助于紧凑。glTF™ 的 <code>&quot;scale&quot;</code> 始终是 3D 向量。</li>
+<li>G4MF 节点有 <code>&quot;visible&quot;</code> 布尔值，在基础规范中提供了 glTF™ 扩展 <code>KHR_node_visibility</code>。https://github.com/KhronosGroup/glTF/pull/2410</li>
+<li>G4MF 网格有 <code>&quot;surfaces&quot;</code>，这是更友好的命名。glTF™ 网格有 <code>&quot;primitives&quot;</code>，这是 OpenGL™ 的术语。https://www.khronos.org/opengl/wiki/primitive</li>
+<li>G4MF 网格表面明确定义表面上的顶点、边和单元。glTF™ 网格 primitive 在 <code>&quot;attributes&quot;</code> 和 <code>&quot;mode&quot;</code> 内定义这些。</li>
+<li>G4MF 网格表面可以有 <code>&quot;polytopeCells&quot;</code> 布尔值，在基础规范中提供了 glTF™ 扩展 <code>FB_ngon_encoding</code>。https://github.com/KhronosGroup/glTF/pull/1620</li>
+<li>G4MF 材质有通道，泛化了 glTF™ 拆分材质属性的概念。例如，glTF™ 的 base color 使用 <code>&quot;baseColorFactor&quot;</code> 和 <code>&quot;baseColorTexture&quot;</code>，后者有 textureInfo 定义纹理 <code>&quot;index&quot;</code> 和 <code>&quot;texCoord&quot;</code> 索引。G4MF 材质有如 <code>&quot;baseColor&quot;</code> 这样的通道，将这些属性统一在其下。</li>
 <li>G4MF 灯光在基础规范中提供，而 glTF™ 灯光在 <code>KHR_lights_punctual</code> 扩展中。</li>
 <li>G4MF 灯光需要考虑其所附节点的缩放，而 glTF™ 灯光要求忽略其所附节点的缩放。</li>
-<li>G4MF accessor 有 <code>"primitiveType"</code> 字符串，值如 <code>"uint8"</code>、<code>"int16"</code>、<code>"float32"</code> 等。glTF™ accessor 有 <code>"componentType"</code>，其值是 OpenGL™ 专用枚举，如 <code>5121</code>、<code>5122</code>、<code>5126</code> 等。G4MF 方案更易读和可扩展，而 glTF™ 方案需查表才能理解。</li>
-<li>G4MF accessor 有 <code>"vectorSize"</code> 整数，将 glTF™ 的 <code>"SCALAR"</code>、<code>"VEC2"</code>、<code>"VEC3"</code> 和 <code>"VEC4"</code> 泛化为任意大小。</li>
-<li>G4MF accessor 没有 <code>"count"</code>，其数量由 buffer view 大小决定。</li>
-<li>G4MF accessor 没有 <code>"normalized"</code>、<code>"max"</code> 或 <code>"min"</code> 属性，因为这些对交换无意义。</li>
+<li>G4MF accessor 有 <code>&quot;primitiveType&quot;</code> 字符串，值如 <code>&quot;uint8&quot;</code>、<code>&quot;int16&quot;</code>、<code>&quot;float32&quot;</code> 等。glTF™ accessor 有 <code>&quot;componentType&quot;</code>，其值是 OpenGL™ 专用枚举，如 <code>5121</code>、<code>5122</code>、<code>5126</code> 等。G4MF 方案更易读和可扩展，而 glTF™ 方案需查表才能理解。</li>
+<li>G4MF accessor 有 <code>&quot;vectorSize&quot;</code> 整数，将 glTF™ 的 <code>&quot;SCALAR&quot;</code>、<code>&quot;VEC2&quot;</code>、<code>&quot;VEC3&quot;</code> 和 <code>&quot;VEC4&quot;</code> 泛化为任意大小。</li>
+<li>G4MF accessor 没有 <code>&quot;count&quot;</code>，其数量由 buffer view 大小决定。</li>
+<li>G4MF accessor 没有 <code>&quot;normalized&quot;</code>、<code>&quot;max&quot;</code> 或 <code>&quot;min&quot;</code> 属性，因为这些对交换无意义。</li>
 <li>G4MF accessor 是连续的，不支持稀疏，而 glTF™ accessor 可以是稀疏的。这对 GPU 优化有用，但对交换无意义。</li>
-<li>G4MF buffer view 没有 <code>"byteStride"</code> 或 <code>"target"</code> 属性，意味着 G4MF 不支持交错数据。这在 glTF™ 中对 GPU 优化有用，但对交换无意义。</li>
+<li>G4MF buffer view 没有 <code>&quot;byteStride&quot;</code> 或 <code>&quot;target&quot;</code> 属性，意味着 G4MF 不支持交错数据。这在 glTF™ 中对 GPU 优化有用，但对交换无意义。</li>
 <li>G4MF 二进制块有 4 字节压缩格式指示符，为将来支持压缩 G4MF 二进制文件做准备。</li>
 </ul>
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-09</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

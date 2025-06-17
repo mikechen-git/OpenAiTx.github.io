@@ -1,144 +1,56 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MemoryOS - BAI-LAB/MemoryOS</title>
-
-    <!-- Primary Meta Tags -->
     <meta name="title" content="MemoryOS - BAI-LAB/MemoryOS">
-    <meta name="description" content="BAI-LAB/MemoryOS - GitHub repository zh-TW documentation and information">
+    <meta name="description" content="BAI-LAB/MemoryOS - GitHub repository zh-TW documentation and informationMemoryOS 🎉 如果你喜歡我們的專案，請在 GitHub 上給我們一顆星 ⭐ 以獲取最新更新。 **MemoryOS** 旨在為個性化 AI 代理提供一個記憶作業系統，使互動更具連貫性、個人化和情境感知。該系統借鑑了作業系統中的記憶體管理原理，採用分層儲存架構，包含四個核心模組：儲存、更新、檢索與生成，實現全面且高效的記憶體管理。在 LoCoMo 基準測試中，模型在 F1 和 BLEU-1 指標上分別取得了 **49.11%** 和 **46.18%** 的平均提升。 📣 最新消息 [new] 🔥 [2025-06-15]:🛠️ MemoryOS-MCP 開源釋出！現可在代理端客戶端進行配置，實現無縫整合與自定義。👉 查看 [2025-05-30]: MemoryOS 首版正式上線！支持短期、中期及長期人格記憶，實現用戶檔案與知識的自動化更新。 Demo 系統架構 專案結構 memoryos/ ├── __init__.py # 初始化 MemoryOS 套件 ├── __pycache__/ # Python 快取目錄（自動生成） ├── long_term.py # 管理長期人格記憶（用戶檔案、知識） ├── memoryos.py # MemoryOS 主類，協調所有元件 ├── mid_term.py # 管理中期記憶，整合短期互動內容 ├── prompts.py # 包含 LLM 互動用的提示詞（如摘要、分析等） ├── retriever.py # 從所有記憶層檢索相關資訊 ├── short_term.py # 管理近期互動的短期記憶 ├── updater.py # 處理記憶更新，包括資訊在層級間的提升 └── utils.py # 整個庫通用的工具函式 運作原理 初始化： Memoryos 以用戶與助手 ID、API 金鑰、資料儲存路徑及多項容量/閾值設定進行初始化，並為每位用戶與助手建立專屬儲存空間。 新增記憶： 用戶輸入與代理回應以 QA 配對形式新增，最初儲存在短期記憶中。 短期到中期處理： 當短期記憶滿載時，Updater 模組會處理這些互動，將其整合為有意義的片段並存入中期記憶。 中期分析與 LPM 更新： 中期記憶片段根據訪問頻率、互動長度等因子累積「熱度」。當片段熱度超過閾值，將對內容進行分析： 萃取用戶檔案洞見，並更新至長期用戶檔案。 特定用戶事實加入用戶長期知識。 助手相關資訊則加入助手的長期知識庫。 回應生成： 當收到用戶查詢時： Retriever 模組會從短期歷史、中期記憶片段、用戶檔案與知識，以及助手知識庫中檢索相關上下文。 這些完整的上下文會與用戶查詢一同提供給 LLM，生成連貫且知情的回應。 MemoryOS_PYPI 快速上手 先決條件 Python &gt;= 3.10 pip install -i https://pypi.org/simple/ MemoryOS-BaiJia 安裝 conda create -n MemoryOS python=3.10 conda activate MemoryOS pip install -i https://pypi.org/simple/ MemoryOS-BaiJia 基本用法 import os from memoryos import Memoryos # --- 基本配置 --- USER_ID = &quot;demo_user&quot; ASSISTANT_ID = &quot;demo_assistant&quot;...">
     <meta name="keywords" content="BAI-LAB, MemoryOS, GitHub, repository, zh-TW documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://openaitx.github.io/projects/BAI-LAB/MemoryOS/README-zh-TW.html">
     <meta property="og:title" content="MemoryOS - BAI-LAB/MemoryOS">
     <meta property="og:description" content="BAI-LAB/MemoryOS - GitHub repository zh-TW documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/BAI-LAB/MemoryOS" id="githubRepoLink" target="_blank">BAI-LAB/MemoryOS</a>
+<br>
+<h1 style="display: none;">MemoryOS 🎉 如果你喜歡我們的專案，請在 GitHub 上給我們一顆星 ⭐ 以獲取最新更新。 **MemoryOS** 旨在為個性化 AI 代理提供一個記憶作業系統，使互動更具連貫性、個人化和情境感知。該系統借鑑了作業系統中的記憶體管理原理，採用分層儲存架構，包含四個核心模組：儲存、更新、檢索與生成，實現全面且高效的記憶體管理。在 LoCoMo 基準測試中，模型在 F1 和 BLEU-1 指標上分別取得了 **49.11%** 和 **46.18%** 的平均提升。 📣 最新消息 [new] 🔥 [2025-06-15]:🛠️ MemoryOS-MCP 開源釋出！現可在代理端客戶端進行配置，實現無縫整合與自定義。👉 查看 [2025-05-30]: MemoryOS 首版正式上線！支持短期、中期及長期人格記憶，實現用戶檔案與知識的自動化更新。 Demo 系統架構 專案結構 memoryos/ ├── __init__.py # 初始化 MemoryOS 套件 ├── __pycache__/ # Python 快取目錄（自動生成） ├── long_term.py # 管理長期人格記憶（用戶檔案、知識） ├── memoryos.py # MemoryOS 主類，協調所有元件 ├── mid_term.py # 管理中期記憶，整合短期互動內容 ├── prompts.py # 包含 LLM 互動用的提示詞（如摘要、分析等） ├── retriever.py # 從所有記憶層檢索相關資訊 ├── short_term.py # 管理近期互動的短期記憶 ├── updater.py # 處理記憶更新，包括資訊在層級間的提升 └── utils.py # 整個庫通用的工具函式 運作原理 初始化： Memoryos 以用戶與助手 ID、API 金鑰、資料儲存路徑及多項容量/閾值設定進行初始化，並為每位用戶與助手建立專屬儲存空間。 新增記憶： 用戶輸入與代理回應以 QA 配對形式新增，最初儲存在短期記憶中。 短期到中期處理： 當短期記憶滿載時，Updater 模組會處理這些互動，將其整合為有意義的片段並存入中期記憶。 中期分析與 LPM 更新： 中期記憶片段根據訪問頻率、互動長度等因子累積「熱度」。當片段熱度超過閾值，將對內容進行分析： 萃取用戶檔案洞見，並更新至長期用戶檔案。 特定用戶事實加入用戶長期知識。 助手相關資訊則加入助手的長期知識庫。 回應生成： 當收到用戶查詢時： Retriever 模組會從短期歷史、中期記憶片段、用戶檔案與知識，以及助手知識庫中檢索相關上下文。 這些完整的上下文會與用戶查詢一同提供給 LLM，生成連貫且知情的回應。 MemoryOS_PYPI 快速上手 先決條件 Python &gt;= 3.10 pip install -i https://pypi.org/simple/ MemoryOS-BaiJia 安裝 conda create -n MemoryOS python=3.10 conda activate MemoryOS pip install -i https://pypi.org/simple/ MemoryOS-BaiJia 基本用法 import os from memoryos import Memoryos # --- 基本配置 --- USER_ID = &quot;demo_user&quot; ASSISTANT_ID = &quot;demo_assistant&quot;...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=BAI-LAB&amp;project=MemoryOS&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
-        <div class="markdown-body" id="content"><h1>MemoryOS</h1>
+        <div class="markdown-body" id="content">
+            <h1>MemoryOS</h1>
 <div align="center">
-  <img src="https://raw.githubusercontent.com/BAI-LAB/MemoryOS/main/logo_1.png" alt="logo" width="400">
+  <img src="https://raw.githubusercontent.com/BAI-LAB/MemoryOS/main/logo_1.png" alt="logo" width="400"/>
 </div>
 <p align="center">
   <a href="https://arxiv.org/abs/2506.06326">
@@ -154,50 +66,44 @@
     <img src="https://img.shields.io/badge/License-Apache_2.0-blue" alt="License: Apache 2.0">
   </a>
 </p>
-
 <h5 align="center"> 🎉 如果你喜歡我們的專案，請在 GitHub 上給我們一顆星 ⭐ 以獲取最新更新。</h5>
 **MemoryOS** 旨在為個性化 AI 代理提供一個記憶作業系統，使互動更具連貫性、個人化和情境感知。該系統借鑑了作業系統中的記憶體管理原理，採用分層儲存架構，包含四個核心模組：儲存、更新、檢索與生成，實現全面且高效的記憶體管理。在 LoCoMo 基準測試中，模型在 F1 和 BLEU-1 指標上分別取得了 **49.11%** 和 **46.18%** 的平均提升。
-
-
-
-
-
-
-
 <h2>📣 最新消息</h2>
 <ul>
 <li><em><mark>[new]</mark></em> 🔥  <strong>[2025-06-15]</strong>:🛠️ <strong>MemoryOS-MCP</strong> 開源釋出！現可在代理端客戶端進行配置，實現無縫整合與自定義。<a href="#memoryos_mcp-getting-started">👉 查看</a></li>
 <li><strong>[2025-05-30]</strong>: <strong>MemoryOS</strong> 首版正式上線！支持短期、中期及長期人格記憶，實現用戶檔案與知識的自動化更新。</li>
 </ul>
 <h2>Demo</h2>
-<p><a href="https://youtu.be/y9Igs0FnX_M"><img src="https://img.youtube.com/vi/y9Igs0FnX_M/maxresdefault.jpg" alt="Watch the video"></a></p>
+<p><a href="https://youtu.be/y9Igs0FnX_M"><img src="https://img.youtube.com/vi/y9Igs0FnX_M/maxresdefault.jpg" alt="Watch the video" /></a></p>
 <h2>系統架構</h2>
-<p><img src="https://github.com/user-attachments/assets/09200494-03a9-4b7d-9ffa-ef646d9d51f0" alt="image"></p>
+<p><img src="https://github.com/user-attachments/assets/09200494-03a9-4b7d-9ffa-ef646d9d51f0" alt="image" /></p>
 <h2>專案結構</h2>
-<pre><code class="hljs language-bash">memoryos/
-├── __init__.py            <span class="hljs-comment"># 初始化 MemoryOS 套件</span>
-├── __pycache__/           <span class="hljs-comment"># Python 快取目錄（自動生成）</span>
-├── long_term.py           <span class="hljs-comment"># 管理長期人格記憶（用戶檔案、知識）</span>
-├── memoryos.py            <span class="hljs-comment"># MemoryOS 主類，協調所有元件</span>
-├── mid_term.py            <span class="hljs-comment"># 管理中期記憶，整合短期互動內容</span>
-├── prompts.py             <span class="hljs-comment"># 包含 LLM 互動用的提示詞（如摘要、分析等）</span>
-├── retriever.py           <span class="hljs-comment"># 從所有記憶層檢索相關資訊</span>
-├── short_term.py          <span class="hljs-comment"># 管理近期互動的短期記憶</span>
-├── updater.py             <span class="hljs-comment"># 處理記憶更新，包括資訊在層級間的提升</span>
-└── utils.py               <span class="hljs-comment"># 整個庫通用的工具函式</span>
+<pre><code>memoryos/
+├── __init__.py            # 初始化 MemoryOS 套件
+├── __pycache__/           # Python 快取目錄（自動生成）
+├── long_term.py           # 管理長期人格記憶（用戶檔案、知識）
+├── memoryos.py            # MemoryOS 主類，協調所有元件
+├── mid_term.py            # 管理中期記憶，整合短期互動內容
+├── prompts.py             # 包含 LLM 互動用的提示詞（如摘要、分析等）
+├── retriever.py           # 從所有記憶層檢索相關資訊
+├── short_term.py          # 管理近期互動的短期記憶
+├── updater.py             # 處理記憶更新，包括資訊在層級間的提升
+└── utils.py               # 整個庫通用的工具函式
 </code></pre>
 <h2>運作原理</h2>
 <ol>
 <li><strong>初始化：</strong> <code>Memoryos</code> 以用戶與助手 ID、API 金鑰、資料儲存路徑及多項容量/閾值設定進行初始化，並為每位用戶與助手建立專屬儲存空間。</li>
 <li><strong>新增記憶：</strong> 用戶輸入與代理回應以 QA 配對形式新增，最初儲存在短期記憶中。</li>
 <li><strong>短期到中期處理：</strong> 當短期記憶滿載時，<code>Updater</code> 模組會處理這些互動，將其整合為有意義的片段並存入中期記憶。</li>
-<li><strong>中期分析與 LPM 更新：</strong> 中期記憶片段根據訪問頻率、互動長度等因子累積「熱度」。當片段熱度超過閾值，將對內容進行分析：<ul>
+<li><strong>中期分析與 LPM 更新：</strong> 中期記憶片段根據訪問頻率、互動長度等因子累積「熱度」。當片段熱度超過閾值，將對內容進行分析：
+<ul>
 <li>萃取用戶檔案洞見，並更新至長期用戶檔案。</li>
 <li>特定用戶事實加入用戶長期知識。</li>
 <li>助手相關資訊則加入助手的長期知識庫。</li>
 </ul>
 </li>
-<li><strong>回應生成：</strong> 當收到用戶查詢時：<ul>
+<li><strong>回應生成：</strong> 當收到用戶查詢時：
+<ul>
 <li><code>Retriever</code> 模組會從短期歷史、中期記憶片段、用戶檔案與知識，以及助手知識庫中檢索相關上下文。</li>
 <li>這些完整的上下文會與用戶查詢一同提供給 LLM，生成連貫且知情的回應。</li>
 </ul>
@@ -207,32 +113,32 @@
 <h3>先決條件</h3>
 <ul>
 <li>Python &gt;= 3.10</li>
-<li>pip install -i <a href="https://pypi.org/simple/">https://pypi.org/simple/</a> MemoryOS-BaiJia</li>
+<li>pip install -i https://pypi.org/simple/ MemoryOS-BaiJia</li>
 </ul>
 <h3>安裝</h3>
-<pre><code class="language-bash hljs">conda create -n MemoryOS python=3.10
+<pre><code class="language-bash">conda create -n MemoryOS python=3.10
 conda activate MemoryOS
 pip install -i https://pypi.org/simple/ MemoryOS-BaiJia
 </code></pre>
 <h3>基本用法</h3>
-<pre><code class="language-python hljs">
-<span class="hljs-keyword">import</span> os
-<span class="hljs-keyword">from</span> memoryos <span class="hljs-keyword">import</span> Memoryos
+<pre><code class="language-python">
+import os
+from memoryos import Memoryos
 
-<span class="hljs-comment"># --- 基本配置 ---</span>
-USER_ID = <span class="hljs-string">"demo_user"</span>
-ASSISTANT_ID = <span class="hljs-string">"demo_assistant"</span>
-API_KEY = <span class="hljs-string">"YOUR_OPENAI_API_KEY"</span>  <span class="hljs-comment"># 請替換為你的金鑰</span>
-BASE_URL = <span class="hljs-string">""</span>  <span class="hljs-comment"># 可選：如使用自訂 OpenAI 端點</span>
-DATA_STORAGE_PATH = <span class="hljs-string">"./simple_demo_data"</span>
-LLM_MODEL = <span class="hljs-string">"gpt-4o-mini"</span>
+# --- 基本配置 ---
+USER_ID = &quot;demo_user&quot;
+ASSISTANT_ID = &quot;demo_assistant&quot;
+API_KEY = &quot;YOUR_OPENAI_API_KEY&quot;  # 請替換為你的金鑰
+BASE_URL = &quot;&quot;  # 可選：如使用自訂 OpenAI 端點
+DATA_STORAGE_PATH = &quot;./simple_demo_data&quot;
+LLM_MODEL = &quot;gpt-4o-mini&quot;
 
-<span class="hljs-keyword">def</span> <span class="hljs-title function_">simple_demo</span>():
-    <span class="hljs-built_in">print</span>(<span class="hljs-string">"MemoryOS 簡易演示"</span>)
+def simple_demo():
+    print(&quot;MemoryOS 簡易演示&quot;)
     
-    <span class="hljs-comment"># 1. 初始化 MemoryOS</span>
-    <span class="hljs-built_in">print</span>(<span class="hljs-string">"正在初始化 MemoryOS..."</span>)
-    <span class="hljs-keyword">try</span>:
+    # 1. 初始化 MemoryOS
+    print(&quot;正在初始化 MemoryOS...&quot;)
+    try:
         memo = Memoryos(
             user_id=USER_ID,
             openai_api_key=API_KEY,
@@ -240,34 +146,34 @@ LLM_MODEL = <span class="hljs-string">"gpt-4o-mini"</span>
             data_storage_path=DATA_STORAGE_PATH,
             llm_model=LLM_MODEL,
             assistant_id=ASSISTANT_ID,
-            short_term_capacity=<span class="hljs-number">7</span>,  
-            mid_term_heat_threshold=<span class="hljs-number">5</span>,  
-            retrieval_queue_capacity=<span class="hljs-number">7</span>,
-            long_term_knowledge_capacity=<span class="hljs-number">100</span>
+            short_term_capacity=7,  
+            mid_term_heat_threshold=5,  
+            retrieval_queue_capacity=7,
+            long_term_knowledge_capacity=100
         )
-        <span class="hljs-built_in">print</span>(<span class="hljs-string">"MemoryOS 初始化成功！\n"</span>)
-    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
-        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"錯誤：<span class="hljs-subst">{e}</span>"</span>)
-        <span class="hljs-keyword">return</span>
+        print(&quot;MemoryOS 初始化成功！\n&quot;)
+    except Exception as e:
+        print(f&quot;錯誤：{e}&quot;)
+        return
 
-    <span class="hljs-comment"># 2. 新增一些基本記憶</span>
-    <span class="hljs-built_in">print</span>(<span class="hljs-string">"新增一些記憶..."</span>)
+    # 2. 新增一些基本記憶
+    print(&quot;新增一些記憶...&quot;)
     
     memo.add_memory(
-        user_input=<span class="hljs-string">"Hi! I'm Tom, I work as a data scientist in San Francisco."</span>,
-        agent_response=<span class="hljs-string">"Hello Tom! Nice to meet you. Data science is such an exciting field. What kind of data do you work with?"</span>
+        user_input=&quot;Hi! I'm Tom, I work as a data scientist in San Francisco.&quot;,
+        agent_response=&quot;Hello Tom! Nice to meet you. Data science is such an exciting field. What kind of data do you work with?&quot;
     )
      
-    test_query = <span class="hljs-string">"What do you remember about my job?"</span>
-    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"用戶: <span class="hljs-subst">{test_query}</span>"</span>)
+    test_query = &quot;What do you remember about my job?&quot;
+    print(f&quot;用戶: {test_query}&quot;)
     
     response = memo.get_response(
         query=test_query,
     )
     
-    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"助手: <span class="hljs-subst">{response}</span>"</span>)
+    print(f&quot;助手: {response}&quot;)
 
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+if __name__ == &quot;__main__&quot;:
     simple_demo()
 </code></pre>
 <h2>MemoryOS-MCP 快速上手</h2>
@@ -279,31 +185,31 @@ LLM_MODEL = <span class="hljs-string">"gpt-4o-mini"</span>
 <h4>3. <code>get_user_profile</code></h4>
 <p>獲取根據歷史對話分析生成的用戶檔案，包括用戶個性特徵、興趣偏好及相關知識背景。</p>
 <h3>1. 安裝依賴</h3>
-<pre><code class="language-bash hljs"><span class="hljs-built_in">cd</span> memoryos-mcp
+<pre><code class="language-bash">cd memoryos-mcp
 pip install -r requirements.txt
 </code></pre>
 <h3>2. 配置</h3>
 <p>編輯 <code>config.json</code>：</p>
-<pre><code class="language-json hljs"><span class="hljs-punctuation">{</span>
-  <span class="hljs-attr">"user_id"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"你的用戶ID"</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">"openai_api_key"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"你的OpenAI API密鑰"</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">"openai_base_url"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"https://api.openai.com/v1"</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">"data_storage_path"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./memoryos_data"</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">"assistant_id"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"assistant_id"</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">"llm_model"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"gpt-4o-mini"</span>
-<span class="hljs-punctuation">}</span>
+<pre><code class="language-json">{
+  &quot;user_id&quot;: &quot;你的用戶ID&quot;,
+  &quot;openai_api_key&quot;: &quot;你的OpenAI API密鑰&quot;,
+  &quot;openai_base_url&quot;: &quot;https://api.openai.com/v1&quot;,
+  &quot;data_storage_path&quot;: &quot;./memoryos_data&quot;,
+  &quot;assistant_id&quot;: &quot;assistant_id&quot;,
+  &quot;llm_model&quot;: &quot;gpt-4o-mini&quot;
+}
 </code></pre>
 <h3>3. 啟動伺服器</h3>
-<pre><code class="language-bash hljs">python server_new.py --config config.json
+<pre><code class="language-bash">python server_new.py --config config.json
 </code></pre>
 <h3>4. 測試</h3>
-<pre><code class="language-bash hljs">python test_comprehensive.py
+<pre><code class="language-bash">python test_comprehensive.py
 </code></pre>
 <h3>5. 在 Cline 及其他客戶端配置</h3>
 <p>複製 mcp.json 文件，並確認檔案路徑正確。</p>
-<pre><code class="language-bash hljs"><span class="hljs-built_in">command</span><span class="hljs-string">": "</span>/root/miniconda3/envs/memos/bin/python<span class="hljs-string">"
+<pre><code class="language-bash">command&quot;: &quot;/root/miniconda3/envs/memos/bin/python&quot;
 #此處應更改為你虛擬環境的 Python 解譯器
-</span></code></pre>
+</code></pre>
 <h2>貢獻指南</h2>
 <p>歡迎貢獻！請隨時提交 issue 或 pull request。</p>
 <h2>引用</h2>
@@ -316,38 +222,23 @@ pip install -r requirements.txt
       eprint={2506.06326},
 </code></pre>
 <h2>聯絡我們</h2>
-<p>百家AI是北京郵電大學白婷副教授指導的研究小組，致力於為矽基人類打造情感飽滿、記憶超凡的大腦。<br><br>合作與建議：<a href="mailto:baiting@bupt.edu.cn">baiting@bupt.edu.cn</a><br><br>歡迎關注百家Agent公眾號和微信群，共同交流！</p>
+<p>百家AI是北京郵電大學白婷副教授指導的研究小組，致力於為矽基人類打造情感飽滿、記憶超凡的大腦。<br>
+合作與建議：baiting@bupt.edu.cn<br>
+歡迎關注百家Agent公眾號和微信群，共同交流！</p>
 <div style="display: flex; justify-content: center; gap: 20px;">
-  <img src="https://github.com/user-attachments/assets/42651f49-f1f7-444d-9455-718e13ed75e9" alt="百家Agent公眾號" width="250">
-  <img src="https://github.com/user-attachments/assets/6b15a873-9e9a-44ee-b0b3-64f488fbd5d8" alt="微信群二維碼" width="300">
+  <img src="https://github.com/user-attachments/assets/42651f49-f1f7-444d-9455-718e13ed75e9" alt="百家Agent公眾號" width="250"/>
+  <img src="https://github.com/user-attachments/assets/6b15a873-9e9a-44ee-b0b3-64f488fbd5d8" alt="微信群二維碼" width="300"/>
 </div>
 ```
-
-
-<hr>
+<hr />
 <p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-15</p>
-<hr>
-</div>
-    </div>
+<hr />
 
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

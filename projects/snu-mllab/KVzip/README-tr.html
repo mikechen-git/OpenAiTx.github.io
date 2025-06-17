@@ -1,173 +1,189 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
+    <title>KVzip - snu-mllab/KVzip</title>
+    <meta name="title" content="KVzip - snu-mllab/KVzip">
+    <meta name="description" content="snu-mllab/KVzip - GitHub repository tr documentation and informationKVzip: Bağlam Yeniden Yapılandırma ile Sorgudan Bağımsız KV Önbellek Sıkıştırması [Makale] [Blog] Yenilikler Neler? KVzip, çeşitli gelecekteki sorguları desteklemek için KV önbelleğini sıkıştırır. [Bağlama bağımlı] Minimal performans düşüşüyle KV önbellek boyutunda 3–4× azalma ve çözümleme gecikmesinde 2× düşüş sağlar. [Bağlamdan bağımsız] Yalnızca bir dakika içinde birkaç ileri geçiş kullanarak başlık seviyesinde önem skor optimizasyonu ile DuoAttention-tarzı başlık seviyesinde KV sıkıştırmasını geliştirir (100 kat daha hızlı). demo.py çalıştırın: Sorgudan Bağımsız Ayarda Kıyaslama Görevler: SQuAD, NIAH, SCBench, GSM8K. Model: Qwen2.5-7B-Instruct-1M Kurulum CUDA 12.1 ve Python 3.10 kullandık cd KVzip pip install -r requirements.txt pip install flash-attn==2.7.4.post1 --no-build-isolation make i QServe kuantizasyonunu kullanmak için lütfen ./model/quant_model dizinini takip edin. Veri Seti Ön işlenmiş SCBench veri setini Google Drive üzerinden indirin. Dosyaları açtıysanız, scbench klasörünü ilgili yere taşıyın. mv scbench.zip kvzip/data/ cd kvzip/data unzip scbench.zip Hızlı Başlangıç from model import ModelKVzip model = ModelKVzip(&quot;Qwen/Qwen2.5-7B-Instruct-1M&quot;) context = &quot;This is my basic profile. My name is...">
+    <meta name="keywords" content="snu-mllab, KVzip, GitHub, repository, tr documentation">
     <meta name="author" content="Open AI Tx">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
+    <meta property="og:url" content="https://openaitx.github.io/projects/snu-mllab/KVzip/README-tr.html">
+    <meta property="og:title" content="KVzip - snu-mllab/KVzip">
+    <meta property="og:description" content="snu-mllab/KVzip - GitHub repository tr documentation and information">
     <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="/icon.jpg">
     <link rel="apple-touch-icon" href="/icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script type="text/javascript" async="" src="https://www.statcounter.com/counter/recorder.js"></script><script src="/js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
+    <script src="/js/marked.min.js?v=20250613"></script>
     <link rel="stylesheet" href="/css/github.min.css?v=20250613">
     <script src="/js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/view.css?v=20250613">
     <style>
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 0 15px;
-            }
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            position: relative;
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #0366d6;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            background-color: #fff;
-        }
-
-        .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            color: #0366d6;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
-        }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
-            text-decoration: none;
-        }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
-        }
-        .language-badges a:hover img {
-            opacity: 0.8;
-        }
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
     </style>
 </head>
-
 <body>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="https://github.com/snu-mllab/KVzip" id="githubRepoLink" target="_blank">snu-mllab/KVzip</a>
+<br>
+<h1 style="display: none;">KVzip: Bağlam Yeniden Yapılandırma ile Sorgudan Bağımsız KV Önbellek Sıkıştırması [Makale] [Blog] Yenilikler Neler? KVzip, çeşitli gelecekteki sorguları desteklemek için KV önbelleğini sıkıştırır. [Bağlama bağımlı] Minimal performans düşüşüyle KV önbellek boyutunda 3–4× azalma ve çözümleme gecikmesinde 2× düşüş sağlar. [Bağlamdan bağımsız] Yalnızca bir dakika içinde birkaç ileri geçiş kullanarak başlık seviyesinde önem skor optimizasyonu ile DuoAttention-tarzı başlık seviyesinde KV sıkıştırmasını geliştirir (100 kat daha hızlı). demo.py çalıştırın: Sorgudan Bağımsız Ayarda Kıyaslama Görevler: SQuAD, NIAH, SCBench, GSM8K. Model: Qwen2.5-7B-Instruct-1M Kurulum CUDA 12.1 ve Python 3.10 kullandık cd KVzip pip install -r requirements.txt pip install flash-attn==2.7.4.post1 --no-build-isolation make i QServe kuantizasyonunu kullanmak için lütfen ./model/quant_model dizinini takip edin. Veri Seti Ön işlenmiş SCBench veri setini Google Drive üzerinden indirin. Dosyaları açtıysanız, scbench klasörünü ilgili yere taşıyın. mv scbench.zip kvzip/data/ cd kvzip/data unzip scbench.zip Hızlı Başlangıç from model import ModelKVzip model = ModelKVzip(&quot;Qwen/Qwen2.5-7B-Instruct-1M&quot;) context = &quot;This is my basic profile. My name is...</h1>
         </div>
-        <div class="language-badges" id="languageBadges"><a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=en"><img src="https://img.shields.io/badge/EN-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=zh-CN"><img src="https://img.shields.io/badge/简中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=zh-TW"><img src="https://img.shields.io/badge/繁中-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=ja"><img src="https://img.shields.io/badge/日本語-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=ko"><img src="https://img.shields.io/badge/한국어-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=th"><img src="https://img.shields.io/badge/ไทย-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=fr"><img src="https://img.shields.io/badge/Français-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=de"><img src="https://img.shields.io/badge/Deutsch-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=es"><img src="https://img.shields.io/badge/Español-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=it"><img src="https://img.shields.io/badge/Italiano-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=ru"><img src="https://img.shields.io/badge/Русский-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=pt"><img src="https://img.shields.io/badge/Português-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=nl"><img src="https://img.shields.io/badge/Nederlands-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=pl"><img src="https://img.shields.io/badge/Polski-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=ar"><img src="https://img.shields.io/badge/العربية-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=tr"><img src="https://img.shields.io/badge/Türkçe-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=vi"><img src="https://img.shields.io/badge/Tiếng Việt-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=hi"><img src="https://img.shields.io/badge/हिंदी-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=fa"><img src="https://img.shields.io/badge/فارسی-white" alt="version"></a> <a href="https://openaitx.github.io/view.html?user=snu-mllab&amp;project=KVzip&amp;lang=id"><img src="https://img.shields.io/badge/Bahasa Indonesia-white" alt="version"></a></div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
     </div>
-
     <div class="main-container">
         <div class="markdown-body" id="content">
-                <div class="error">
-                    <h2>İçerik yükleme hatası</h2>
-                    <p>Markdown içeriği yüklenemedi. Lütfen kontrol edin:</p>
-                    <ul>
-                        <li>URL parametreleri doğru</li>
-                        <li>Dosya belirtilen yolda mevcut</li>
-                        <li>Aktif internet bağlantınız var</li>
-                    </ul>
-                    <p>Hata detayları: Failed to fetch</p>
-                </div>
-            </div>
-    </div>
+            <h1>KVzip: Bağlam Yeniden Yapılandırma ile Sorgudan Bağımsız KV Önbellek Sıkıştırması</h1>
+<p>[<a href="https://arxiv.org/abs/2505.23416">Makale</a>] [<a href="https://janghyun1230.github.io/kvzip/">Blog</a>]</p>
+<img src="https://raw.githubusercontent.com/snu-mllab/KVzip/main/images/method.png" width="800">
+<h2>Yenilikler Neler?</h2>
+<ul>
+<li>KVzip, <strong>çeşitli gelecekteki sorguları</strong> desteklemek için KV önbelleğini sıkıştırır.</li>
+<li>[Bağlama bağımlı] Minimal performans düşüşüyle <strong>KV önbellek boyutunda 3–4× azalma</strong> ve <strong>çözümleme gecikmesinde 2× düşüş</strong> sağlar.</li>
+<li>[Bağlamdan bağımsız] Yalnızca <strong>bir dakika içinde birkaç ileri geçiş</strong> kullanarak başlık seviyesinde önem skor optimizasyonu ile <a href="https://github.com/mit-han-lab/duo-attention">DuoAttention</a>-tarzı başlık seviyesinde KV sıkıştırmasını geliştirir (100 kat daha hızlı).</li>
+<li>demo.py çalıştırın:
+<img src="https://raw.githubusercontent.com/snu-mllab/KVzip/main/images/demo.png" width="800"></li>
+</ul>
+<h3>Sorgudan Bağımsız Ayarda Kıyaslama</h3>
+<ul>
+<li>Görevler: <a href="https://huggingface.co/datasets/rajpurkar/squad">SQuAD</a>, <a href="https://github.com/gkamradt/LLMTest_NeedleInAHaystack">NIAH</a>, <a href="https://github.com/microsoft/MInference/tree/main/scbench">SCBench</a>, <a href="https://huggingface.co/datasets/openai/gsm8k/viewer/main/train?row=7294">GSM8K</a>.</li>
+<li>Model: <a href="https://huggingface.co/Qwen/Qwen2.5-7B-Instruct">Qwen2.5-7B-Instruct-1M</a></li>
+</ul>
+<img src="https://raw.githubusercontent.com/snu-mllab/KVzip/main/images/benchmark.png" width="800">
+<h2>Kurulum</h2>
+<p>CUDA 12.1 ve Python 3.10 kullandık</p>
+<pre><code class="language-bash">cd KVzip
+pip install -r requirements.txt
+pip install flash-attn==2.7.4.post1 --no-build-isolation
+make i
+</code></pre>
+<ul>
+<li><a href="https://github.com/mit-han-lab/omniserve">QServe</a> kuantizasyonunu kullanmak için lütfen <a href="https://github.com/snu-mllab/KVzip/tree/main/model/quant_model"><code>./model/quant_model</code></a> dizinini takip edin.</li>
+</ul>
+<h3>Veri Seti</h3>
+<ul>
+<li>Ön işlenmiş SCBench veri setini <a href="https://drive.google.com/file/d/1cqoR6pxxFcjFqvPZkuAmF-fBSAlAbjbN/view?usp=share_link">Google Drive</a> üzerinden indirin.</li>
+<li>Dosyaları açtıysanız, scbench klasörünü ilgili yere taşıyın.</li>
+</ul>
+<pre><code class="language-bash">mv scbench.zip kvzip/data/
+cd kvzip/data
+unzip scbench.zip  
+</code></pre>
+<h2>Hızlı Başlangıç</h2>
+<pre><code class="language-python">from model import ModelKVzip
 
+model = ModelKVzip(&quot;Qwen/Qwen2.5-7B-Instruct-1M&quot;)
+context = &quot;This is my basic profile. My name is Kim living in Seoul. My major is computer science.&quot;
+queries = [&quot;What is my name?&quot;, &quot;Do I live in Seoul?&quot;]
+
+kv = model.prefill(context, load_score=False)  # KV önbelleğini doldur + önem skoru hesapla
+kv.prune(ratio=0.3)  # sıkıştırma oranı, %70 KV çıkarılır
+
+for q in queries:
+    query_ids = model.apply_template(q)
+    output = model.generate(query_ids, kv=kv, update_cache=False)  # verimli çıkarım
+    print(q, output)
+</code></pre>
+<ul>
+<li>Desteklenen modeller <a href="https://github.com/snu-mllab/KVzip/blob/main/model/load.py"><code>model/load.py</code></a> dosyasında listelenmiştir, <strong>LLaMA3, Qwen2.5/3, Gemma3</strong> dahildir.</li>
+<li>Sıkıştırma yükünü ortadan kaldırmak için <code>load_score=True</code> ayarlayın. Bu, bağlamdan bağımsız KV çıkarımını etkinleştirir ve sıkıştırma oranı <code>ratio=0.6</code> ile bir denge sağlar.</li>
+<li>Üretim sonrası, sorgulara ve üretilen tokenlara karşılık gelen KV çiftleri önbellekten seçici olarak çıkarılır. Çoklu tur çıkarımı için <code>update_cache=True</code> ayarlayın; böylece çıkarım boyunca tam etkileşim geçmişi korunur.</li>
+</ul>
+<h2>Bellek ve Hesaplama Süresi Profilleme</h2>
+<h3>Bağlama Bağlı Çıkarma</h3>
+<pre><code class="language-bash">python -B test.py -m [model_name] -d [data_name] --kv_type evict --ratio 0.3
+</code></pre>
+<ul>
+<li>Yukarıdaki kod tam ve budanmış KV önbelleklerle üretilen çıktıları karşılaştırır.</li>
+<li>Hızlı test için <code>-d squad</code>, uzun bağlam testi için <code>-d scbench_kv</code> kullanın.
+<ul>
+<li>Mevcut veri isimleri: <a href="https://github.com/snu-mllab/KVzip/blob/main/data/load.py"><code>data/load.py</code></a>.</li>
+<li>Mevcut model isimleri: <a href="https://github.com/snu-mllab/KVzip/blob/main/model/load.py"><code>model/load.py</code></a>, örn. llama3.1-8b, qwen2.5-7b (veya Qwen/Qwen2.5-7B-Instruct-1M).</li>
+</ul>
+</li>
+<li>CUDA çekirdeğini <a href="https://github.com/FFY0/AdaKV/tree/main">AdaKV</a> projesinden uyarladık, başlık bütçesi tahsisine destek verir.
+<ul>
+<li>Şu anda, statik KV önbelleği kullanan Gemma3 için optimize edilmiş çekirdeğimiz yoktur; bu nedenle kod gerçek verimlilik kazancı sağlamaz. Ancak, model performansı KV alt örneklemeli azalan dikkat ile değerlendirilebilir (<code>--kv_type retain</code>).</li>
+</ul>
+</li>
+</ul>
+<h3>Bağlamdan Bağımsız Çıkarma (çalışma zamanı sıkıştırma yükü yok)</h3>
+<ul>
+<li><code>--level head</code> bayrağı ile <code>--ratio 0.6</code> (önerilen) kullanın.
+<ul>
+<li>Sistem istemi ve sorgu KV çiftleri korunurken belirli bir başlığa ait tüm bağlam KV çiftleri kaldırılır.</li>
+<li>Önceden hesaplanmış başlık skorları LLaMA3.1-8B ve Qwen2.5-7/14B için <code>./utils/head_score</code> dizininde mevcuttur.</li>
+</ul>
+</li>
+<li>Diğer modeller için başlık skorlarını hesaplamak üzere:
+<pre><code class="language-bash">python -B test.py -m [model_name] -d scbench_qa_eng --save_head_score
+</code></pre>
+<ul>
+<li>Sonuçlar <code>./utils/head_score</code> dizinine kaydedilecektir.</li>
+<li>Kodlama görevi hedefleniyorsa, ayrıca <code>-d scbench_repoqa</code> ile komutu çalıştırmanızı öneririz. Bu, modelin hem doğal hem de kodlama dillerinden en yüksek başlık skorlarını kullanmasını sağlar ve performansı artırır.</li>
+</ul>
+</li>
+<li>Bu skorlar <a href="https://github.com/mit-han-lab/duo-attention">DuoAttention</a> optimize edilmiş çıkarım motoruna sorunsuz şekilde entegre edilebilir; kendi başlık skoru verileriyle değiştirilebilir.</li>
+</ul>
+<h2>Değerlendirme</h2>
+<ul>
+<li>0.1 ila 1.0 arasında değişen KV sıkıştırma oranlarıyla model yanıtları üretmek için:
+<pre><code class="language-bash">python -B eval.py -m [model_name] -d [data_name] --kv_type retain --num 100
+</code></pre>
+<ul>
+<li>Sonuçlar <code>./results/[data_name]</code> dizinine kaydedilecektir.</li>
+<li>Desteklenen veri setleri <code>data/load.py</code> dosyasında listelenmiştir.</li>
+</ul>
+</li>
+<li>Üretilen sonuçlardan değerlendirme metriklerini hesaplamak için:
+<pre><code class="language-bash">python -B -m results.parse -m [model_name] -d [data_name]
+</code></pre>
+</li>
+</ul>
+<h2>Yeni Modeller İçin Uygulama</h2>
+<p>KVzip'i yeni bir modele entegre etmek için aşağıdaki dosyaları güncellemeniz gerekir:</p>
+<ul>
+<li><code>attention/attn.py</code><br />
+Gerekirse dikkat ileri geçiş mantığını değiştirin. Bazı durumlarda kvcache.py ve score.py dosyalarında da güncelleme gerekebilir.</li>
+<li><code>model/monkeypatch.py</code><br />
+Entegrasyon için model-spesifik monkey patch uygulayın.</li>
+<li><code>model/template.py</code><br />
+Modelin sistem istemi ve sohbet biçimlendirme şablonlarını tanımlayın.</li>
+</ul>
+<h2>Atıf</h2>
+<pre><code class="language-bibtex">@article{kim2025kvzip,
+        title={KVzip: Query-Agnostic KV Cache Compression with Context Reconstruction},
+        author={Kim, Jang-Hyun and Kim, Jinuk and Kwon, Sangwoo and Lee, Jae W and Yun, Sangdoo and Song, Hyun Oh},
+        journal={arXiv preprint arXiv:2505.23416},
+        year={2025}
+}
+</code></pre>
+<h2>Lisans</h2>
+<p>MIT Lisansı</p>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-11</p>
+<hr />
+
+        </div>
+    </div>
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async=""></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    
-
-
-</body></html>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>
