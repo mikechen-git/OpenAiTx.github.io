@@ -1,0 +1,427 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>go-deploy - cklwblove/go-deploy</title>
+    <meta name="title" content="go-deploy - cklwblove/go-deploy">
+    <meta name="description" content="cklwblove/go-deploy - GitHub repository en documentation and informationGo-Deploy Deployment Tool An automated deployment tool developed in Go, supporting uploading local build artifacts to remote servers via the SFTP protocol. Feat...">
+    <meta name="keywords" content="cklwblove, go-deploy, GitHub, repository, en documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/cklwblove/go-deploy/README-en.html">
+    <meta property="og:title" content="go-deploy - cklwblove/go-deploy">
+    <meta property="og:description" content="cklwblove/go-deploy - GitHub repository en documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/cklwblove/go-deploy" id="githubRepoLink" target="_blank">cklwblove/go-deploy</a>
+<h1 style="display: none;">Go-Deploy Deployment Tool An automated deployment tool developed in Go, supporting uploading local build artifacts to remote servers via the SFTP protocol. Feat...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Go-Deploy Deployment Tool</h1>
+<p>An automated deployment tool developed in Go, supporting uploading local build artifacts to remote servers via the SFTP protocol.</p>
+<h2>Features</h2>
+<ul>
+<li>✅ <strong>Secure Transfer</strong>: Uses SFTP protocol, encrypted transmission based on SSH</li>
+<li>✅ <strong>Directory Synchronization</strong>: Recursively uploads the entire directory structure, preserving file hierarchy</li>
+<li>✅ <strong>Intelligent Creation</strong>: Automatically creates remote directory structure</li>
+<li>✅ <strong>Path Adaptation</strong>: Automatically calculates the local path based on the executable location, no need to worry about the execution directory</li>
+<li>✅ <strong>Configuration File Support</strong>: Supports JSON configuration files, making it easy to manage configurations for different environments</li>
+<li>✅ <strong>File Exclusion</strong>: Supports wildcard patterns to exclude files that do not need to be uploaded</li>
+<li>✅ <strong>Automatic Backup</strong>: Can automatically back up remote files before uploading</li>
+<li>✅ <strong>Retry Mechanism</strong>: Automatically retries on upload failure to improve success rate</li>
+<li>✅ <strong>Detailed Statistics</strong>: Displays number of uploaded files, transfer size, duration, and speed</li>
+<li>✅ <strong>Progress Display</strong>: Real-time display of upload progress and file information</li>
+<li>✅ <strong>Error Handling</strong>: Comprehensive error handling and log output</li>
+</ul>
+<h2>System Requirements</h2>
+<ul>
+<li>Go 1.18 or higher</li>
+<li>Target server supports SSH/SFTP protocol</li>
+</ul>
+<h2>Installation Instructions</h2>
+<h3>1. Clone the Project</h3>
+<pre><code class="language-bash">git clone &lt;your-repo-url&gt;
+cd go-deploy
+</code></pre>
+<h3>2. Initialize Go Module</h3>
+<pre><code class="language-bash">go mod init go-deploy
+go mod tidy
+</code></pre>
+<h3>3. Install Dependencies</h3>
+<p>The program will automatically download the following dependencies:</p>
+<ul>
+<li><code>github.com/pkg/sftp</code> - SFTP client</li>
+<li><code>golang.org/x/crypto/ssh</code> - SSH client</li>
+</ul>
+<h2>Configuration Instructions</h2>
+<p>The program supports two configuration methods:</p>
+<h3>1. Using Configuration File (Recommended)</h3>
+<p>Copy <code>config.example.json</code> to <code>config.json</code> and modify the configuration:</p>
+<pre><code class="language-bash">cp config.example.json config.json
+</code></pre>
+<p>Then edit <code>config.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;server&quot;: {
+    &quot;host&quot;: &quot;your-server-ip&quot;,
+    &quot;port&quot;: 22,
+    &quot;username&quot;: &quot;your-username&quot;,
+    &quot;password&quot;: &quot;your-password&quot;,
+    &quot;timeout&quot;: 10
+  },
+  &quot;paths&quot;: {
+    &quot;local&quot;: &quot;../../unpackage/dist/build/web&quot;,
+    &quot;remote&quot;: &quot;/opt/your-path/dist&quot;
+  },
+  &quot;options&quot;: {
+    &quot;backup&quot;: true,
+    &quot;backup_suffix&quot;: &quot;.backup&quot;,
+    &quot;exclude_patterns&quot;: [
+      &quot;*.log&quot;,
+      &quot;*.map&quot;,
+      &quot;.DS_Store&quot;,
+      &quot;node_modules&quot;
+    ],
+    &quot;max_retries&quot;: 3,
+    &quot;chunk_size&quot;: 1048576
+  }
+}
+</code></pre>
+<h4>Configuration Item Descriptions</h4>
+<p><strong>server configuration</strong>:</p>
+<ul>
+<li><code>host</code>: SSH server address</li>
+<li><code>port</code>: SSH port, usually 22</li>
+<li><code>username</code>: SSH username</li>
+<li><code>password</code>: SSH password (for production, it is recommended to use key authentication)</li>
+<li><code>timeout</code>: Connection timeout (seconds)</li>
+</ul>
+<p><strong>paths configuration</strong>:</p>
+<ul>
+<li><code>local</code>: Local directory path, supports both relative and absolute paths</li>
+<li><code>remote</code>: Remote directory path, must be an absolute path</li>
+</ul>
+<p><strong>options configuration</strong>:</p>
+<ul>
+<li><code>backup</code>: Whether to create a backup of existing remote files before uploading</li>
+<li><code>backup_suffix</code>: Backup file suffix, can be customized; if the backup file does not exist, skip backup</li>
+<li><code>exclude_patterns</code>: File exclusion patterns, supports wildcards</li>
+<li><code>max_retries</code>: Maximum number of retries when upload fails</li>
+<li><code>chunk_size</code>: File transfer chunk size (bytes, not yet implemented)</li>
+</ul>
+<h3>2. Default Configuration (Compatibility Mode)</h3>
+<p>If there is no <code>config.json</code> file, the program will use the built-in default configuration to maintain backward compatibility.</p>
+<h4>Configuration File Priority</h4>
+<ol>
+<li><strong>Configuration file specified by command line</strong>: File specified with the <code>--config</code> parameter</li>
+<li><strong>Default configuration file</strong>: <code>config.json</code> in the current directory</li>
+<li><strong>Built-in default configuration</strong>: If neither exists, use the built-in configuration</li>
+</ol>
+<h4>Path Handling Rules</h4>
+<ul>
+<li><p><strong>Configuration file path</strong>:</p>
+<ul>
+<li>Relative path: Based on the executable's directory</li>
+<li>Absolute path: Use the specified path directly</li>
+</ul>
+</li>
+<li><p><strong>Local directory path</strong>:</p>
+<ul>
+<li>Relative path: Based on the executable's directory</li>
+<li>Absolute path: Use the specified path directly</li>
+</ul>
+</li>
+</ul>
+<h2>Usage Instructions</h2>
+<h3>Command Line Parameters</h3>
+<p>The program supports the following command line parameters:</p>
+<pre><code class="language-bash"># Display help information
+./deploy --help
+
+# Display version information  
+./deploy --version
+
+# Use the default configuration file config.json
+./deploy
+
+# Use a specified configuration file
+./deploy --config prod.json
+
+# Use an absolute path configuration file
+./deploy --config /path/to/config.json
+</code></pre>
+<h3>Running in Development Environment</h3>
+<pre><code class="language-bash"># Use default configuration
+go run main.go
+
+# Use specified configuration file
+go run main.go --config test.json
+
+# Display help
+go run main.go --help
+</code></pre>
+<h3>Running After Compilation</h3>
+<pre><code class="language-bash"># Compile
+go build -o deploy main.go
+
+# Run with default configuration
+./deploy
+
+# Run with specified configuration file
+./deploy --config prod.json
+</code></pre>
+<h2>Packaging Instructions</h2>
+<h3>1. Local Platform Packaging</h3>
+<pre><code class="language-bash"># Compile executable for the current platform
+go build -o deploy main.go
+</code></pre>
+<h3>2. Cross-Platform Packaging</h3>
+<h4>Linux 64-bit</h4>
+<pre><code class="language-bash">GOOS=linux GOARCH=amd64 go build -o deploy-linux-amd64 main.go
+</code></pre>
+<h4>Windows 64-bit</h4>
+<pre><code class="language-bash">GOOS=windows GOARCH=amd64 go build -o deploy-windows-amd64.exe main.go
+</code></pre>
+<h4>macOS 64-bit</h4>
+<pre><code class="language-bash">GOOS=darwin GOARCH=amd64 go build -o deploy-darwin-amd64 main.go
+</code></pre>
+<h4>macOS ARM64 (M1/M2)</h4>
+<pre><code class="language-bash">GOOS=darwin GOARCH=arm64 go build -o deploy-darwin-arm64 main.go
+</code></pre>
+<h3>3. Optimized Packaging (Reducing File Size)</h3>
+<pre><code class="language-bash"># Remove debug info and symbol table
+go build -ldflags=&quot;-s -w&quot; -o deploy main.go
+
+# Compress with UPX (need to install UPX first)
+upx --best deploy
+</code></pre>
+<h3>4. Batch Packaging Script</h3>
+<p>Create a <code>build.sh</code> script:</p>
+<pre><code class="language-bash">#!/bin/bash
+
+# Create build directory
+mkdir -p builds
+
+# Build versions for each platform
+echo &quot;Building Linux 64-bit version...&quot;
+GOOS=linux GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-linux-amd64 main.go
+
+echo &quot;Building Windows 64-bit version...&quot;
+GOOS=windows GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-windows-amd64.exe main.go
+
+echo &quot;Building macOS 64-bit version...&quot;
+GOOS=darwin GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-darwin-amd64 main.go
+
+echo &quot;Building macOS ARM64 version...&quot;
+GOOS=darwin GOARCH=arm64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-darwin-arm64 main.go
+
+echo &quot;Build completed!&quot;
+ls -la builds/
+</code></pre>
+<p>Run the script:</p>
+<pre><code class="language-bash">chmod +x build.sh
+./build.sh
+</code></pre>
+<h2>Usage Example</h2>
+<h3>Show Help Information</h3>
+<pre><code class="language-bash">$ ./deploy --help
+Go-Deploy Deployment Tool
+
+Usage: ./deploy [options]
+
+Options:
+  -config string
+        Path to config file (default &quot;config.json&quot;)
+  -help
+        Show help information
+  -version
+        Show version information
+
+Examples:
+  ./deploy                           # Use default config file config.json
+  ./deploy --config prod.json        # Use the specified config file
+  ./deploy --config /path/to/config.json  # Use absolute path to config file
+</code></pre>
+<h3>Use a Specific Config File</h3>
+<pre><code class="language-bash">$ ./deploy --config prod.json
+Starting deployment program...
+Trying to read config file: /path/to/go-deploy/prod.json
+Using config file...
+Local directory /path/to/project/dist exists
+Connecting to SSH server...
+SSH server connection successful
+...
+</code></pre>
+<h3>Using the Config File</h3>
+<pre><code class="language-bash">$ ./deploy
+Starting deployment program...
+Trying to read config file: /path/to/go-deploy/config.json
+Using config file...
+Local directory /path/to/project/unpackage/dist/build/web exists
+Connecting to SSH server...
+SSH server connection successful
+Creating SFTP client...
+SFTP client created successfully
+Preparing to upload to remote directory: /opt/xsoft/nginx/html/app/dist
+Starting directory upload...
+Traversing local directory: /path/to/project/unpackage/dist/build/web
+Creating directory: /opt/xsoft/nginx/html/app/dist
+File static/js/app.js.map excluded, skipping upload
+Creating backup: /opt/xsoft/nginx/html/app/dist/index.html -&gt; /opt/xsoft/nginx/html/app/dist/index.html.backup
+Uploading file: /path/to/project/unpackage/dist/build/web/index.html -&gt; /opt/xsoft/nginx/html/app/dist/index.html
+File .DS_Store excluded, skipping upload
+Uploading file: /path/to/project/unpackage/dist/build/web/static/css/app.css -&gt; /opt/xsoft/nginx/html/app/dist/static/css/app.css
+Upload failed (attempt 1/3): network error
+Retrying file upload (2/3): /path/to/project/unpackage/dist/build/web/static/js/app.js
+Uploading file: /path/to/project/unpackage/dist/build/web/static/js/app.js -&gt; /opt/xsoft/nginx/html/app/dist/static/js/app.js
+...
+Directory uploaded successfully!
+Statistics:
+  - Number of files uploaded: 485
+  - Number of directories created: 18
+  - Transfer size: 25.8 MB
+  - Upload time: 38.5s
+  - Total time: 39.2s
+  - Transfer speed: 0.67 MB/s
+</code></pre>
+<h2>Notes</h2>
+<ol>
+<li><p><strong>Security</strong>:</p>
+<ul>
+<li>For production environments, it is recommended to use SSH key authentication instead of password authentication</li>
+<li>Currently using <code>ssh.InsecureIgnoreHostKey()</code>, production should verify host keys</li>
+</ul>
+</li>
+<li><p><strong>Network</strong>:</p>
+<ul>
+<li>Ensure local machine can access port 22 of the target server</li>
+<li>Transfer speed depends on network bandwidth and server performance</li>
+</ul>
+</li>
+<li><p><strong>Permissions</strong>:</p>
+<ul>
+<li>Make sure the SSH user has write permissions to the target directory</li>
+<li>If needed, sudo permissions may be required</li>
+</ul>
+</li>
+<li><p><strong>Paths</strong>:</p>
+<ul>
+<li>Local paths are automatically calculated based on the executable location, no need to care about the execution directory</li>
+<li>Remote paths use absolute paths</li>
+</ul>
+</li>
+</ol>
+<h2>Troubleshooting</h2>
+<h3>Common Issues</h3>
+<ol>
+<li><p><strong>Connection Timeout</strong></p>
+<pre><code>Failed to connect to SSH server: dial tcp: i/o timeout
+</code></pre>
+<ul>
+<li>Check server address and port</li>
+<li>Verify network connectivity</li>
+<li>Check firewall settings</li>
+</ul>
+</li>
+<li><p><strong>Authentication Failure</strong></p>
+<pre><code>Login failed: ssh: handshake failed
+</code></pre>
+<ul>
+<li>Check username and password</li>
+<li>Verify SSH service is running</li>
+<li>Check SSH configuration</li>
+</ul>
+</li>
+<li><p><strong>Permission Error</strong></p>
+<pre><code>Failed to create directory: permission denied
+</code></pre>
+<ul>
+<li>Check if user has write permissions to the target directory</li>
+<li>May need to use sudo or change directory ownership</li>
+</ul>
+</li>
+<li><p><strong>Local Directory Does Not Exist</strong></p>
+<pre><code>Error: Local directory /path/to/unpackage/dist/build/web does not exist
+</code></pre>
+<ul>
+<li>Make sure local build is complete</li>
+<li>Check if project directory structure is correct</li>
+<li>The program automatically calculates the path, no need to manually change the working directory</li>
+</ul>
+</li>
+</ol>
+<h2>Development Notes</h2>
+<h3>Project Structure</h3>
+<pre><code>go-deploy/
+├── main.go                 # Main program file
+├── go.mod                  # Go module file  
+├── go.sum                  # Dependency checksum file
+</code></pre>
+<p>├── README.md               # Detailed documentation
+├── Makefile                # Build tool
+├── build.sh                # Batch packaging script
+├── install.sh              # One-click installation script
+└── config.example.json     # Example configuration file</p>
+<pre><code>
+### Main Functions
+
+- `main()` - Main function, handles connection and calls upload
+- `uploadDirectory()` - Recursively uploads directories
+- `uploadFile()` - Uploads a single file
+- `mkdirAll()` - Recursively creates remote directories
+
+## License
+
+MIT License
+
+## Contribution
+
+Issues and Pull Requests are welcome!
+
+
+---
+
+
+Tranlated By [Open Ai Tx](https://github.com/OpenAiTx/OpenAiTx) | Last indexed: 2025-06-19
+
+
+---
+</code></pre>
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

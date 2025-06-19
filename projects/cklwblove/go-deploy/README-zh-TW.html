@@ -1,0 +1,427 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>go-deploy - cklwblove/go-deploy</title>
+    <meta name="title" content="go-deploy - cklwblove/go-deploy">
+    <meta name="description" content="cklwblove/go-deploy - GitHub repository zh-TW documentation and informationGo-Deploy 部署工具 一個基於 Go 語言開發的自動化部署工具，支援通過 SFTP 協議將本地構建產物上傳到遠端伺服器。 功能特性 ✅ 安全傳輸：使用 SFTP 協議，基於 SSH 加密傳輸 ✅ 目錄同步：遞迴上傳整個目錄結構，保持檔案層級 ✅ 智慧建立：自動建立遠端目錄結構 ✅ 路徑自適應：自動根據可執行檔位...">
+    <meta name="keywords" content="cklwblove, go-deploy, GitHub, repository, zh-TW documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/cklwblove/go-deploy/README-zh-TW.html">
+    <meta property="og:title" content="go-deploy - cklwblove/go-deploy">
+    <meta property="og:description" content="cklwblove/go-deploy - GitHub repository zh-TW documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/cklwblove/go-deploy" id="githubRepoLink" target="_blank">cklwblove/go-deploy</a>
+<h1 style="display: none;">Go-Deploy 部署工具 一個基於 Go 語言開發的自動化部署工具，支援通過 SFTP 協議將本地構建產物上傳到遠端伺服器。 功能特性 ✅ 安全傳輸：使用 SFTP 協議，基於 SSH 加密傳輸 ✅ 目錄同步：遞迴上傳整個目錄結構，保持檔案層級 ✅ 智慧建立：自動建立遠端目錄結構 ✅ 路徑自適應：自動根據可執行檔位...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Go-Deploy 部署工具</h1>
+<p>一個基於 Go 語言開發的自動化部署工具，支援通過 SFTP 協議將本地構建產物上傳到遠端伺服器。</p>
+<h2>功能特性</h2>
+<ul>
+<li>✅ <strong>安全傳輸</strong>：使用 SFTP 協議，基於 SSH 加密傳輸</li>
+<li>✅ <strong>目錄同步</strong>：遞迴上傳整個目錄結構，保持檔案層級</li>
+<li>✅ <strong>智慧建立</strong>：自動建立遠端目錄結構</li>
+<li>✅ <strong>路徑自適應</strong>：自動根據可執行檔位置計算本地路徑，無需關心執行目錄</li>
+<li>✅ <strong>配置檔支援</strong>：支援 JSON 配置檔，方便管理不同環境的配置</li>
+<li>✅ <strong>檔案排除</strong>：支援萬用字元模式排除不需要上傳的檔案</li>
+<li>✅ <strong>自動備份</strong>：上傳前可自動備份遠端檔案</li>
+<li>✅ <strong>重試機制</strong>：上傳失敗時自動重試，提高成功率</li>
+<li>✅ <strong>詳細統計</strong>：顯示上傳檔案數、傳輸大小、耗時與速度</li>
+<li>✅ <strong>進度顯示</strong>：即時顯示上傳進度與檔案資訊</li>
+<li>✅ <strong>錯誤處理</strong>：完善的錯誤處理與日誌輸出</li>
+</ul>
+<h2>系統需求</h2>
+<ul>
+<li>Go 1.18 或更高版本</li>
+<li>目標伺服器支援 SSH/SFTP 協議</li>
+</ul>
+<h2>安裝說明</h2>
+<h3>1. 克隆專案</h3>
+<pre><code class="language-bash">git clone &lt;your-repo-url&gt;
+cd go-deploy
+</code></pre>
+<h3>2. 初始化 Go 模組</h3>
+<pre><code class="language-bash">go mod init go-deploy
+go mod tidy
+</code></pre>
+<h3>3. 安裝依賴</h3>
+<p>程式會自動下載以下依賴：</p>
+<ul>
+<li><code>github.com/pkg/sftp</code> - SFTP 客戶端</li>
+<li><code>golang.org/x/crypto/ssh</code> - SSH 客戶端</li>
+</ul>
+<h2>配置說明</h2>
+<p>程式支援兩種配置方式：</p>
+<h3>1. 使用配置檔（推薦）</h3>
+<p>將 <code>config.example.json</code> 複製為 <code>config.json</code> 並修改配置：</p>
+<pre><code class="language-bash">cp config.example.json config.json
+</code></pre>
+<p>然後編輯 <code>config.json</code>：</p>
+<pre><code class="language-json">{
+  &quot;server&quot;: {
+    &quot;host&quot;: &quot;your-server-ip&quot;,
+    &quot;port&quot;: 22,
+    &quot;username&quot;: &quot;your-username&quot;,
+    &quot;password&quot;: &quot;your-password&quot;,
+    &quot;timeout&quot;: 10
+  },
+  &quot;paths&quot;: {
+    &quot;local&quot;: &quot;../../unpackage/dist/build/web&quot;,
+    &quot;remote&quot;: &quot;/opt/your-path/dist&quot;
+  },
+  &quot;options&quot;: {
+    &quot;backup&quot;: true,
+    &quot;backup_suffix&quot;: &quot;.backup&quot;,
+    &quot;exclude_patterns&quot;: [
+      &quot;*.log&quot;,
+      &quot;*.map&quot;,
+      &quot;.DS_Store&quot;,
+      &quot;node_modules&quot;
+    ],
+    &quot;max_retries&quot;: 3,
+    &quot;chunk_size&quot;: 1048576
+  }
+}
+</code></pre>
+<h4>配置項說明</h4>
+<p><strong>server 配置</strong>：</p>
+<ul>
+<li><code>host</code>: SSH 伺服器位址</li>
+<li><code>port</code>: SSH 埠號，通常為 22</li>
+<li><code>username</code>: SSH 使用者名稱</li>
+<li><code>password</code>: SSH 密碼（生產環境建議使用金鑰認證）</li>
+<li><code>timeout</code>: 連線逾時時間（秒）</li>
+</ul>
+<p><strong>paths 配置</strong>：</p>
+<ul>
+<li><code>local</code>: 本地目錄路徑，支援相對路徑與絕對路徑</li>
+<li><code>remote</code>: 遠端目錄路徑，必須為絕對路徑</li>
+</ul>
+<p><strong>options 配置</strong>：</p>
+<ul>
+<li><code>backup</code>: 是否在上傳前建立備份遠端已存在的檔案</li>
+<li><code>backup_suffix</code>: 備份檔案的副檔名，可自訂備份檔案副檔名，如備份檔案不存在則略過備份</li>
+<li><code>exclude_patterns</code>: 檔案排除模式，支援萬用字元</li>
+<li><code>max_retries</code>: 上傳失敗時的最大重試次數</li>
+<li><code>chunk_size</code>: 檔案傳輸區塊大小（位元組，暫未實現）</li>
+</ul>
+<h3>2. 預設配置（相容模式）</h3>
+<p>如果沒有 <code>config.json</code> 檔案，程式會使用內建的預設配置，保持向後相容。</p>
+<h4>配置檔優先順序</h4>
+<ol>
+<li><strong>命令列指定的配置檔</strong>：<code>--config</code> 參數指定的檔案</li>
+<li><strong>預設配置檔</strong>：當前目錄下的 <code>config.json</code></li>
+<li><strong>內建預設配置</strong>：若以上皆不存在，使用程式內建的配置</li>
+</ol>
+<h4>路徑處理規則</h4>
+<ul>
+<li><p><strong>配置檔路徑</strong>：</p>
+<ul>
+<li>相對路徑：以可執行檔所在目錄為基準</li>
+<li>絕對路徑：直接使用指定路徑</li>
+</ul>
+</li>
+<li><p><strong>本地目錄路徑</strong>：</p>
+<ul>
+<li>相對路徑：以可執行檔所在目錄為基準</li>
+<li>絕對路徑：直接使用指定路徑</li>
+</ul>
+</li>
+</ul>
+<h2>執行說明</h2>
+<h3>命令列參數</h3>
+<p>程式支援以下命令列參數：</p>
+<pre><code class="language-bash"># 顯示說明資訊
+./deploy --help
+
+# 顯示版本資訊  
+./deploy --version
+
+# 使用預設配置檔 config.json
+./deploy
+
+# 使用指定配置檔
+./deploy --config prod.json
+
+# 使用絕對路徑配置檔
+./deploy --config /path/to/config.json
+</code></pre>
+<h3>開發環境執行</h3>
+<pre><code class="language-bash"># 使用預設配置
+go run main.go
+
+# 使用指定配置檔
+go run main.go --config test.json
+
+# 顯示說明
+go run main.go --help
+</code></pre>
+<h3>編譯後執行</h3>
+<pre><code class="language-bash"># 編譯
+go build -o deploy main.go
+
+# 使用預設配置執行
+./deploy
+
+# 使用指定配置檔執行
+./deploy --config prod.json
+</code></pre>
+<h2>打包說明</h2>
+<h3>1. 本地平台打包</h3>
+<pre><code class="language-bash"># 編譯當前平台可執行檔
+go build -o deploy main.go
+</code></pre>
+<h3>2. 跨平台打包</h3>
+<h4>Linux 64 位</h4>
+<pre><code class="language-bash">GOOS=linux GOARCH=amd64 go build -o deploy-linux-amd64 main.go
+</code></pre>
+<h4>Windows 64 位</h4>
+<pre><code class="language-bash">GOOS=windows GOARCH=amd64 go build -o deploy-windows-amd64.exe main.go
+</code></pre>
+<h4>macOS 64位</h4>
+<pre><code class="language-bash">GOOS=darwin GOARCH=amd64 go build -o deploy-darwin-amd64 main.go
+</code></pre>
+<h4>macOS ARM64 (M1/M2)</h4>
+<pre><code class="language-bash">GOOS=darwin GOARCH=arm64 go build -o deploy-darwin-arm64 main.go
+</code></pre>
+<h3>3. 優化打包（減小檔案大小）</h3>
+<pre><code class="language-bash"># 去除除錯資訊和符號表
+go build -ldflags=&quot;-s -w&quot; -o deploy main.go
+
+# 使用UPX壓縮（需先安裝UPX）
+upx --best deploy
+</code></pre>
+<h3>4. 批次打包腳本</h3>
+<p>建立 <code>build.sh</code> 腳本：</p>
+<pre><code class="language-bash">#!/bin/bash
+
+# 建立建構目錄
+mkdir -p builds
+
+# 建構各平台版本
+echo &quot;建構 Linux 64位版本...&quot;
+GOOS=linux GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-linux-amd64 main.go
+
+echo &quot;建構 Windows 64位版本...&quot;
+GOOS=windows GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-windows-amd64.exe main.go
+
+echo &quot;建構 macOS 64位版本...&quot;
+GOOS=darwin GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-darwin-amd64 main.go
+
+echo &quot;建構 macOS ARM64版本...&quot;
+GOOS=darwin GOARCH=arm64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-darwin-arm64 main.go
+
+echo &quot;建構完成！&quot;
+ls -la builds/
+</code></pre>
+<p>執行腳本：</p>
+<pre><code class="language-bash">chmod +x build.sh
+./build.sh
+</code></pre>
+<h2>使用範例</h2>
+<h3>顯示說明資訊</h3>
+<pre><code class="language-bash">$ ./deploy --help
+Go-Deploy 部署工具
+
+用法: ./deploy [選項]
+
+選項:
+  -config string
+        設定檔路徑 (default &quot;config.json&quot;)
+  -help
+        顯示說明資訊
+  -version
+        顯示版本資訊
+
+範例:
+  ./deploy                           # 使用預設設定檔 config.json
+  ./deploy --config prod.json        # 使用指定設定檔
+  ./deploy --config /path/to/config.json  # 使用絕對路徑設定檔
+</code></pre>
+<h3>使用指定設定檔</h3>
+<pre><code class="language-bash">$ ./deploy --config prod.json
+開始執行部署程式...
+嘗試讀取設定檔: /path/to/go-deploy/prod.json
+使用設定檔...
+本機目錄 /path/to/project/dist 存在
+正在連線SSH伺服器...
+SSH伺服器連線成功
+...
+</code></pre>
+<h3>使用設定檔</h3>
+<pre><code class="language-bash">$ ./deploy
+開始執行部署程式...
+嘗試讀取設定檔: /path/to/go-deploy/config.json
+使用設定檔...
+本機目錄 /path/to/project/unpackage/dist/build/web 存在
+正在連線SSH伺服器...
+SSH伺服器連線成功
+正在建立SFTP用戶端...
+SFTP用戶端建立成功
+準備上傳到遠端目錄: /opt/xsoft/nginx/html/app/dist
+開始上傳目錄...
+開始遍歷本機目錄: /path/to/project/unpackage/dist/build/web
+建立目錄: /opt/xsoft/nginx/html/app/dist
+檔案 static/js/app.js.map 被排除，跳過上傳
+建立備份: /opt/xsoft/nginx/html/app/dist/index.html -&gt; /opt/xsoft/nginx/html/app/dist/index.html.backup
+上傳檔案: /path/to/project/unpackage/dist/build/web/index.html -&gt; /opt/xsoft/nginx/html/app/dist/index.html
+檔案 .DS_Store 被排除，跳過上傳
+上傳檔案: /path/to/project/unpackage/dist/build/web/static/css/app.css -&gt; /opt/xsoft/nginx/html/app/dist/static/css/app.css
+上傳失敗 (嘗試 1/3): 網路錯誤
+重試上傳檔案 (2/3): /path/to/project/unpackage/dist/build/web/static/js/app.js
+上傳檔案: /path/to/project/unpackage/dist/build/web/static/js/app.js -&gt; /opt/xsoft/nginx/html/app/dist/static/js/app.js
+...
+目錄上傳成功!
+統計資訊:
+  - 上傳檔案數: 485
+  - 建立目錄數: 18
+  - 傳輸大小: 25.8 MB
+  - 上傳耗時: 38.5s
+  - 總耗時: 39.2s
+  - 傳輸速度: 0.67 MB/s
+</code></pre>
+<h2>注意事項</h2>
+<ol>
+<li><p><strong>安全性</strong>：</p>
+<ul>
+<li>生產環境建議使用SSH金鑰認證而非密碼認證</li>
+<li>目前使用 <code>ssh.InsecureIgnoreHostKey()</code>，生產環境應驗證主機金鑰</li>
+</ul>
+</li>
+<li><p><strong>網路</strong>：</p>
+<ul>
+<li>確保本機可以存取目標伺服器的22埠</li>
+<li>傳輸速度取決於網路頻寬和伺服器效能</li>
+</ul>
+</li>
+<li><p><strong>權限</strong>：</p>
+<ul>
+<li>確保SSH使用者對目標目錄有寫入權限</li>
+<li>如有需要，可能需使用sudo權限</li>
+</ul>
+</li>
+<li><p><strong>路徑</strong>：</p>
+<ul>
+<li>本機路徑會自動根據執行檔位置計算，無需在意執行目錄</li>
+<li>遠端路徑請使用絕對路徑</li>
+</ul>
+</li>
+</ol>
+<h2>疑難排解</h2>
+<h3>常見問題</h3>
+<ol>
+<li><p><strong>連線逾時</strong></p>
+<pre><code>連線SSH伺服器失敗: dial tcp: i/o timeout
+</code></pre>
+<ul>
+<li>檢查伺服器位址和埠號</li>
+<li>確認網路連通性</li>
+<li>檢查防火牆設定</li>
+</ul>
+</li>
+<li><p><strong>認證失敗</strong></p>
+<pre><code>登入失敗: ssh: handshake failed
+</code></pre>
+<ul>
+<li>檢查使用者名稱與密碼</li>
+<li>確認SSH服務已啟動</li>
+<li>檢查SSH設定</li>
+</ul>
+</li>
+<li><p><strong>權限錯誤</strong></p>
+<pre><code>建立目錄失敗: permission denied
+</code></pre>
+<ul>
+<li>檢查使用者對目標目錄的寫入權限</li>
+<li>可能需使用sudo或變更目錄擁有者</li>
+</ul>
+</li>
+<li><p><strong>本機目錄不存在</strong></p>
+<pre><code>錯誤: 本機目錄 /path/to/unpackage/dist/build/web 不存在
+</code></pre>
+<ul>
+<li>確認本地建構已完成</li>
+<li>檢查專案目錄結構是否正確</li>
+<li>程式會自動計算路徑，無需手動調整工作目錄</li>
+</ul>
+</li>
+</ol>
+<h2>開發說明</h2>
+<h3>專案結構</h3>
+<pre><code>go-deploy/
+├── main.go                 # 主程式檔案
+├── go.mod                  # Go模組檔案  
+├── go.sum                  # 依賴校驗檔案
+</code></pre>
+<p>├── README.md               # 詳細說明文件
+├── Makefile                # 構建工具
+├── build.sh                # 批量打包腳本
+├── install.sh              # 一鍵安裝腳本
+└── config.example.json     # 配置檔案範例</p>
+<pre><code>
+### 主要函式
+
+- `main()` - 主函式，處理連線和調用上傳
+- `uploadDirectory()` - 遞迴上傳目錄
+- `uploadFile()` - 上傳單一檔案
+- `mkdirAll()` - 遞迴建立遠端目錄
+
+## 授權條款
+
+MIT License
+
+## 貢獻
+
+歡迎提交 Issue 和 Pull Request！
+
+
+---
+
+
+Tranlated By [Open Ai Tx](https://github.com/OpenAiTx/OpenAiTx) | Last indexed: 2025-06-19
+
+
+---
+</code></pre>
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

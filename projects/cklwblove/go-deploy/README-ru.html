@@ -1,0 +1,427 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>go-deploy - cklwblove/go-deploy</title>
+    <meta name="title" content="go-deploy - cklwblove/go-deploy">
+    <meta name="description" content="cklwblove/go-deploy - GitHub repository ru documentation and informationGo-Deploy инструмент для деплоя Автоматизированный инструмент для деплоя, разработанный на языке Go, поддерживает загрузку локальных артефактов сборки на удалён...">
+    <meta name="keywords" content="cklwblove, go-deploy, GitHub, repository, ru documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/cklwblove/go-deploy/README-ru.html">
+    <meta property="og:title" content="go-deploy - cklwblove/go-deploy">
+    <meta property="og:description" content="cklwblove/go-deploy - GitHub repository ru documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/cklwblove/go-deploy" id="githubRepoLink" target="_blank">cklwblove/go-deploy</a>
+<h1 style="display: none;">Go-Deploy инструмент для деплоя Автоматизированный инструмент для деплоя, разработанный на языке Go, поддерживает загрузку локальных артефактов сборки на удалён...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Go-Deploy инструмент для деплоя</h1>
+<p>Автоматизированный инструмент для деплоя, разработанный на языке Go, поддерживает загрузку локальных артефактов сборки на удалённый сервер по протоколу SFTP.</p>
+<h2>Особенности</h2>
+<ul>
+<li>✅ <strong>Безопасная передача</strong>: Используется протокол SFTP, шифрование на базе SSH</li>
+<li>✅ <strong>Синхронизация директорий</strong>: Рекурсивная загрузка всей структуры каталогов с сохранением иерархии файлов</li>
+<li>✅ <strong>Интеллектуальное создание</strong>: Автоматическое создание структуры каталогов на удалённой стороне</li>
+<li>✅ <strong>Автоматическая адаптация путей</strong>: Автоматический расчёт локального пути на основании расположения исполняемого файла, не требуется учитывать рабочую директорию</li>
+<li>✅ <strong>Поддержка конфигурационного файла</strong>: Поддержка конфигурации в формате JSON, удобно для управления параметрами разных окружений</li>
+<li>✅ <strong>Исключение файлов</strong>: Поддержка масок для исключения файлов из загрузки</li>
+<li>✅ <strong>Автоматическое резервное копирование</strong>: Возможность создания резервных копий удалённых файлов перед загрузкой</li>
+<li>✅ <strong>Механизм повторных попыток</strong>: Автоматический повтор загрузки при неудаче для повышения вероятности успеха</li>
+<li>✅ <strong>Детальная статистика</strong>: Отображение количества загруженных файлов, объёма передачи, времени и скорости</li>
+<li>✅ <strong>Отображение прогресса</strong>: Реальное отображение прогресса загрузки и информации о файлах</li>
+<li>✅ <strong>Обработка ошибок</strong>: Продуманная обработка ошибок и вывод логов</li>
+</ul>
+<h2>Системные требования</h2>
+<ul>
+<li>Go 1.18 или выше</li>
+<li>Целевой сервер с поддержкой протоколов SSH/SFTP</li>
+</ul>
+<h2>Инструкция по установке</h2>
+<h3>1. Клонируйте проект</h3>
+<pre><code class="language-bash">git clone &lt;your-repo-url&gt;
+cd go-deploy
+</code></pre>
+<h3>2. Инициализация Go-модуля</h3>
+<pre><code class="language-bash">go mod init go-deploy
+go mod tidy
+</code></pre>
+<h3>3. Установка зависимостей</h3>
+<p>Программа автоматически загрузит следующие зависимости:</p>
+<ul>
+<li><code>github.com/pkg/sftp</code> — SFTP-клиент</li>
+<li><code>golang.org/x/crypto/ssh</code> — SSH-клиент</li>
+</ul>
+<h2>Инструкция по настройке</h2>
+<p>Программа поддерживает два способа конфигурации:</p>
+<h3>1. Использование конфигурационного файла (рекомендуется)</h3>
+<p>Скопируйте <code>config.example.json</code> в <code>config.json</code> и измените параметры:</p>
+<pre><code class="language-bash">cp config.example.json config.json
+</code></pre>
+<p>Затем отредактируйте <code>config.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;server&quot;: {
+    &quot;host&quot;: &quot;your-server-ip&quot;,
+    &quot;port&quot;: 22,
+    &quot;username&quot;: &quot;your-username&quot;,
+    &quot;password&quot;: &quot;your-password&quot;,
+    &quot;timeout&quot;: 10
+  },
+  &quot;paths&quot;: {
+    &quot;local&quot;: &quot;../../unpackage/dist/build/web&quot;,
+    &quot;remote&quot;: &quot;/opt/your-path/dist&quot;
+  },
+  &quot;options&quot;: {
+    &quot;backup&quot;: true,
+    &quot;backup_suffix&quot;: &quot;.backup&quot;,
+    &quot;exclude_patterns&quot;: [
+      &quot;*.log&quot;,
+      &quot;*.map&quot;,
+      &quot;.DS_Store&quot;,
+      &quot;node_modules&quot;
+    ],
+    &quot;max_retries&quot;: 3,
+    &quot;chunk_size&quot;: 1048576
+  }
+}
+</code></pre>
+<h4>Описание параметров</h4>
+<p><strong>server параметры</strong>:</p>
+<ul>
+<li><code>host</code>: адрес SSH-сервера</li>
+<li><code>port</code>: порт SSH, обычно 22</li>
+<li><code>username</code>: имя пользователя SSH</li>
+<li><code>password</code>: пароль SSH (для продакшн рекомендуется использовать аутентификацию по ключу)</li>
+<li><code>timeout</code>: таймаут соединения (в секундах)</li>
+</ul>
+<p><strong>paths параметры</strong>:</p>
+<ul>
+<li><code>local</code>: путь к локальному каталогу, поддерживаются относительные и абсолютные пути</li>
+<li><code>remote</code>: путь к удалённому каталогу, должен быть абсолютным</li>
+</ul>
+<p><strong>options параметры</strong>:</p>
+<ul>
+<li><code>backup</code>: создавать ли резервную копию существующих удалённых файлов перед загрузкой</li>
+<li><code>backup_suffix</code>: суффикс резервного файла, можно задать свой; если файла для резервирования нет, этап пропускается</li>
+<li><code>exclude_patterns</code>: шаблоны для исключения файлов, поддерживаются маски</li>
+<li><code>max_retries</code>: максимальное число попыток при неудачной загрузке</li>
+<li><code>chunk_size</code>: размер блока передачи файла (в байтах, пока не реализовано)</li>
+</ul>
+<h3>2. Конфигурация по умолчанию (режим совместимости)</h3>
+<p>Если файл <code>config.json</code> отсутствует, программа использует встроенные параметры по умолчанию для обратной совместимости.</p>
+<h4>Приоритет конфигурационных файлов</h4>
+<ol>
+<li><strong>Файл, указанный в командной строке</strong>: файл, указанный в параметре <code>--config</code></li>
+<li><strong>Файл по умолчанию</strong>: <code>config.json</code> в текущей директории</li>
+<li><strong>Встроенная конфигурация</strong>: если нет ни одного из вышеперечисленных, используются параметры внутри программы</li>
+</ol>
+<h4>Правила обработки путей</h4>
+<ul>
+<li><strong>Путь к конфигу</strong>:
+<ul>
+<li>Относительный путь: относительно директории исполняемого файла</li>
+<li>Абсолютный путь: используется напрямую</li>
+</ul>
+</li>
+<li><strong>Путь к локальному каталогу</strong>:
+<ul>
+<li>Относительный путь: относительно директории исполняемого файла</li>
+<li>Абсолютный путь: используется напрямую</li>
+</ul>
+</li>
+</ul>
+<h2>Инструкция по запуску</h2>
+<h3>Параметры командной строки</h3>
+<p>Программа поддерживает следующие параметры командной строки:</p>
+<pre><code class="language-bash"># Показать справку
+./deploy --help
+
+# Показать информацию о версии  
+./deploy --version
+
+# Использовать конфиг по умолчанию config.json
+./deploy
+
+# Использовать указанный конфиг
+./deploy --config prod.json
+
+# Использовать абсолютный путь к конфигу
+./deploy --config /path/to/config.json
+</code></pre>
+<h3>Запуск в режиме разработки</h3>
+<pre><code class="language-bash"># Использовать конфиг по умолчанию
+go run main.go
+
+# Использовать указанный конфиг
+go run main.go --config test.json
+
+# Показать справку
+go run main.go --help
+</code></pre>
+<h3>Запуск после компиляции</h3>
+<pre><code class="language-bash"># Компиляция
+go build -o deploy main.go
+
+# Запуск с конфигом по умолчанию
+./deploy
+
+# Запуск с указанным конфигом
+./deploy --config prod.json
+</code></pre>
+<h2>Инструкция по сборке</h2>
+<h3>1. Сборка для локальной платформы</h3>
+<pre><code class="language-bash"># Компиляция исполняемого файла для текущей платформы
+go build -o deploy main.go
+</code></pre>
+<h3>2. Кроссплатформенная сборка</h3>
+<h4>Linux 64-бит</h4>
+<pre><code class="language-bash">GOOS=linux GOARCH=amd64 go build -o deploy-linux-amd64 main.go
+</code></pre>
+<h4>Windows 64-бит</h4>
+<pre><code class="language-bash">GOOS=windows GOARCH=amd64 go build -o deploy-windows-amd64.exe main.go
+</code></pre>
+<h4>macOS 64-бит</h4>
+<pre><code class="language-bash">GOOS=darwin GOARCH=amd64 go build -o deploy-darwin-amd64 main.go
+</code></pre>
+<h4>macOS ARM64 (M1/M2)</h4>
+<pre><code class="language-bash">GOOS=darwin GOARCH=arm64 go build -o deploy-darwin-arm64 main.go
+</code></pre>
+<h3>3. Оптимизация сборки (уменьшение размера файла)</h3>
+<pre><code class="language-bash"># Удаление отладочной информации и таблицы символов
+go build -ldflags=&quot;-s -w&quot; -o deploy main.go
+
+# Сжатие с помощью UPX (требуется предварительная установка UPX)
+upx --best deploy
+</code></pre>
+<h3>4. Скрипт пакетной сборки</h3>
+<p>Создайте скрипт <code>build.sh</code>:</p>
+<pre><code class="language-bash">#!/bin/bash
+
+# Создать директорию для сборок
+mkdir -p builds
+
+# Сборка для разных платформ
+echo &quot;Сборка Linux 64-бит версии...&quot;
+GOOS=linux GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-linux-amd64 main.go
+
+echo &quot;Сборка Windows 64-бит версии...&quot;
+GOOS=windows GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-windows-amd64.exe main.go
+
+echo &quot;Сборка macOS 64-бит версии...&quot;
+GOOS=darwin GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-darwin-amd64 main.go
+
+echo &quot;Сборка macOS ARM64 версии...&quot;
+GOOS=darwin GOARCH=arm64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-darwin-arm64 main.go
+
+echo &quot;Сборка завершена!&quot;
+ls -la builds/
+</code></pre>
+<p>Запуск скрипта:</p>
+<pre><code class="language-bash">chmod +x build.sh
+./build.sh
+</code></pre>
+<h2>Примеры использования</h2>
+<h3>Отобразить справку</h3>
+<pre><code class="language-bash">$ ./deploy --help
+Go-Deploy инструмент для деплоя
+
+Использование: ./deploy [опции]
+
+Опции:
+  -config string
+        Путь к файлу конфигурации (по умолчанию &quot;config.json&quot;)
+  -help
+        Показать справку
+  -version
+        Показать информацию о версии
+
+Примеры:
+  ./deploy                           # Использовать файл конфигурации по умолчанию config.json
+  ./deploy --config prod.json        # Использовать указанный файл конфигурации
+  ./deploy --config /path/to/config.json  # Использовать абсолютный путь к файлу конфигурации
+</code></pre>
+<h3>Использование указанного файла конфигурации</h3>
+<pre><code class="language-bash">$ ./deploy --config prod.json
+Запуск программы деплоя...
+Пробуем прочитать файл конфигурации: /path/to/go-deploy/prod.json
+Используется файл конфигурации...
+Локальная директория /path/to/project/dist существует
+Подключение к SSH-серверу...
+Подключение к SSH-серверу успешно
+...
+</code></pre>
+<h3>Использование файла конфигурации</h3>
+<pre><code class="language-bash">$ ./deploy
+Запуск программы деплоя...
+Пробуем прочитать файл конфигурации: /path/to/go-deploy/config.json
+Используется файл конфигурации...
+Локальная директория /path/to/project/unpackage/dist/build/web существует
+Подключение к SSH-серверу...
+Подключение к SSH-серверу успешно
+Создание SFTP-клиента...
+SFTP-клиент успешно создан
+Подготовка к загрузке в удаленную директорию: /opt/xsoft/nginx/html/app/dist
+Начинается загрузка директории...
+Обход локальной директории: /path/to/project/unpackage/dist/build/web
+Создание директории: /opt/xsoft/nginx/html/app/dist
+Файл static/js/app.js.map исключён, пропуск загрузки
+Создание резервной копии: /opt/xsoft/nginx/html/app/dist/index.html -&gt; /opt/xsoft/nginx/html/app/dist/index.html.backup
+Загрузка файла: /path/to/project/unpackage/dist/build/web/index.html -&gt; /opt/xsoft/nginx/html/app/dist/index.html
+Файл .DS_Store исключён, пропуск загрузки
+Загрузка файла: /path/to/project/unpackage/dist/build/web/static/css/app.css -&gt; /opt/xsoft/nginx/html/app/dist/static/css/app.css
+Загрузка не удалась (попытка 1/3): ошибка сети
+Повторная попытка загрузки файла (2/3): /path/to/project/unpackage/dist/build/web/static/js/app.js
+Загрузка файла: /path/to/project/unpackage/dist/build/web/static/js/app.js -&gt; /opt/xsoft/nginx/html/app/dist/static/js/app.js
+...
+Директория успешно загружена!
+Статистика:
+  - Количество загруженных файлов: 485
+  - Количество созданных директорий: 18
+  - Объём переданных данных: 25.8 MB
+  - Время загрузки: 38.5s
+  - Общее время: 39.2s
+  - Скорость передачи: 0.67 MB/s
+</code></pre>
+<h2>Важные замечания</h2>
+<ol>
+<li><p><strong>Безопасность</strong>:</p>
+<ul>
+<li>В производственной среде рекомендуется использовать аутентификацию по SSH-ключу, а не по паролю</li>
+<li>В данный момент используется <code>ssh.InsecureIgnoreHostKey()</code>, в продакшене необходимо проверять ключи хоста</li>
+</ul>
+</li>
+<li><p><strong>Сеть</strong>:</p>
+<ul>
+<li>Убедитесь, что локальная машина может подключиться к серверу по порту 22</li>
+<li>Скорость передачи зависит от пропускной способности сети и производительности сервера</li>
+</ul>
+</li>
+<li><p><strong>Права</strong>:</p>
+<ul>
+<li>Убедитесь, что SSH-пользователь имеет права на запись в целевой директории</li>
+<li>При необходимости используйте sudo-права</li>
+</ul>
+</li>
+<li><p><strong>Пути</strong>:</p>
+<ul>
+<li>Локальный путь автоматически вычисляется относительно расположения исполняемого файла, не требуется заботиться о рабочей директории</li>
+<li>Удалённый путь задаётся как абсолютный</li>
+</ul>
+</li>
+</ol>
+<h2>Устранение неполадок</h2>
+<h3>Частые проблемы</h3>
+<ol>
+<li><p><strong>Таймаут подключения</strong></p>
+<pre><code>Не удалось подключиться к SSH-серверу: dial tcp: i/o timeout
+</code></pre>
+<ul>
+<li>Проверьте адрес и порт сервера</li>
+<li>Убедитесь в сетевой доступности</li>
+<li>Проверьте настройки файрвола</li>
+</ul>
+</li>
+<li><p><strong>Ошибка аутентификации</strong></p>
+<pre><code>Ошибка входа: ssh: handshake failed
+</code></pre>
+<ul>
+<li>Проверьте имя пользователя и пароль</li>
+<li>Убедитесь, что SSH-сервис запущен</li>
+<li>Проверьте конфигурацию SSH</li>
+</ul>
+</li>
+<li><p><strong>Ошибка прав доступа</strong></p>
+<pre><code>Не удалось создать директорию: permission denied
+</code></pre>
+<ul>
+<li>Проверьте права пользователя на запись в целевой директории</li>
+<li>Возможно, потребуется использовать sudo или изменить владельца директории</li>
+</ul>
+</li>
+<li><p><strong>Локальная директория не существует</strong></p>
+<pre><code>Ошибка: локальная директория /path/to/unpackage/dist/build/web не существует
+</code></pre>
+<ul>
+<li>Убедитесь, что локальная сборка завершена</li>
+<li>Проверьте структуру директорий проекта</li>
+<li>Путь вычисляется автоматически, не требуется вручную менять рабочую директорию</li>
+</ul>
+</li>
+</ol>
+<h2>Примечания по разработке</h2>
+<h3>Структура проекта</h3>
+<pre><code>go-deploy/
+├── main.go                 # Главный файл программы
+├── go.mod                  # Файл модуля Go  
+├── go.sum                  # Файл проверки зависимостей
+</code></pre>
+<p>├── README.md               # Подробная документация
+├── Makefile                # Инструмент сборки
+├── build.sh                # Скрипт для пакетной сборки
+├── install.sh              # Скрипт для установки в один клик
+└── config.example.json     # Пример конфигурационного файла</p>
+<pre><code>
+### Основные функции
+
+- `main()` - Главная функция, обрабатывает соединение и вызывает загрузку
+- `uploadDirectory()` - Рекурсивная загрузка каталога
+- `uploadFile()` - Загрузка отдельного файла
+- `mkdirAll()` - Рекурсивное создание удалённого каталога
+
+## Лицензия
+
+MIT License
+
+## Вклад
+
+Приветствуются Issue и Pull Request!
+
+
+---
+
+
+Tranlated By [Open Ai Tx](https://github.com/OpenAiTx/OpenAiTx) | Last indexed: 2025-06-19
+
+
+---
+</code></pre>
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

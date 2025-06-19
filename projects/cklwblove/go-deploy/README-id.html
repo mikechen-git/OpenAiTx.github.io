@@ -1,0 +1,427 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>go-deploy - cklwblove/go-deploy</title>
+    <meta name="title" content="go-deploy - cklwblove/go-deploy">
+    <meta name="description" content="cklwblove/go-deploy - GitHub repository id documentation and informationGo-Deploy Alat Deploy Sebuah alat otomatisasi deploy yang dikembangkan berbasis bahasa Go, mendukung upload hasil build lokal ke server remote melalui protokol ...">
+    <meta name="keywords" content="cklwblove, go-deploy, GitHub, repository, id documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/cklwblove/go-deploy/README-id.html">
+    <meta property="og:title" content="go-deploy - cklwblove/go-deploy">
+    <meta property="og:description" content="cklwblove/go-deploy - GitHub repository id documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/cklwblove/go-deploy" id="githubRepoLink" target="_blank">cklwblove/go-deploy</a>
+<h1 style="display: none;">Go-Deploy Alat Deploy Sebuah alat otomatisasi deploy yang dikembangkan berbasis bahasa Go, mendukung upload hasil build lokal ke server remote melalui protokol ...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Go-Deploy Alat Deploy</h1>
+<p>Sebuah alat otomatisasi deploy yang dikembangkan berbasis bahasa Go, mendukung upload hasil build lokal ke server remote melalui protokol SFTP.</p>
+<h2>Fitur Utama</h2>
+<ul>
+<li>✅ <strong>Transfer Aman</strong>: Menggunakan protokol SFTP, transmisi dienkripsi berbasis SSH</li>
+<li>✅ <strong>Sinkronisasi Direktori</strong>: Upload seluruh struktur direktori secara rekursif, menjaga hirarki file</li>
+<li>✅ <strong>Pembuatan Otomatis</strong>: Membuat struktur direktori remote secara otomatis</li>
+<li>✅ <strong>Penyesuaian Path Otomatis</strong>: Menghitung path lokal secara otomatis berdasarkan lokasi file executable, tidak perlu peduli direktori eksekusi</li>
+<li>✅ <strong>Dukungan File Konfigurasi</strong>: Mendukung file konfigurasi JSON, memudahkan pengelolaan konfigurasi berbagai environment</li>
+<li>✅ <strong>Pengecualian File</strong>: Mendukung pola wildcard untuk mengecualikan file yang tidak perlu di-upload</li>
+<li>✅ <strong>Backup Otomatis</strong>: Dapat melakukan backup file remote sebelum upload</li>
+<li>✅ <strong>Mekanisme Retry</strong>: Secara otomatis mencoba ulang saat upload gagal, meningkatkan tingkat keberhasilan</li>
+<li>✅ <strong>Statistik Detail</strong>: Menampilkan jumlah file yang di-upload, ukuran transfer, waktu yang dibutuhkan, dan kecepatan transfer</li>
+<li>✅ <strong>Tampilan Progres</strong>: Menampilkan progres upload dan informasi file secara real-time</li>
+<li>✅ <strong>Penanganan Error</strong>: Penanganan error yang lengkap dan output log</li>
+</ul>
+<h2>Persyaratan Sistem</h2>
+<ul>
+<li>Go 1.18 atau versi lebih tinggi</li>
+<li>Server target mendukung protokol SSH/SFTP</li>
+</ul>
+<h2>Petunjuk Instalasi</h2>
+<h3>1. Clone Proyek</h3>
+<pre><code class="language-bash">git clone &lt;your-repo-url&gt;
+cd go-deploy
+</code></pre>
+<h3>2. Inisialisasi Modul Go</h3>
+<pre><code class="language-bash">go mod init go-deploy
+go mod tidy
+</code></pre>
+<h3>3. Instalasi Dependensi</h3>
+<p>Program akan secara otomatis mengunduh dependensi berikut:</p>
+<ul>
+<li><code>github.com/pkg/sftp</code> - Klien SFTP</li>
+<li><code>golang.org/x/crypto/ssh</code> - Klien SSH</li>
+</ul>
+<h2>Penjelasan Konfigurasi</h2>
+<p>Program mendukung dua cara konfigurasi:</p>
+<h3>1. Menggunakan File Konfigurasi (Disarankan)</h3>
+<p>Salin <code>config.example.json</code> menjadi <code>config.json</code> lalu modifikasi konfigurasinya:</p>
+<pre><code class="language-bash">cp config.example.json config.json
+</code></pre>
+<p>Kemudian edit <code>config.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;server&quot;: {
+    &quot;host&quot;: &quot;your-server-ip&quot;,
+    &quot;port&quot;: 22,
+    &quot;username&quot;: &quot;your-username&quot;,
+    &quot;password&quot;: &quot;your-password&quot;,
+    &quot;timeout&quot;: 10
+  },
+  &quot;paths&quot;: {
+    &quot;local&quot;: &quot;../../unpackage/dist/build/web&quot;,
+    &quot;remote&quot;: &quot;/opt/your-path/dist&quot;
+  },
+  &quot;options&quot;: {
+    &quot;backup&quot;: true,
+    &quot;backup_suffix&quot;: &quot;.backup&quot;,
+    &quot;exclude_patterns&quot;: [
+      &quot;*.log&quot;,
+      &quot;*.map&quot;,
+      &quot;.DS_Store&quot;,
+      &quot;node_modules&quot;
+    ],
+    &quot;max_retries&quot;: 3,
+    &quot;chunk_size&quot;: 1048576
+  }
+}
+</code></pre>
+<h4>Penjelasan Konfigurasi</h4>
+<p><strong>Konfigurasi server</strong>:</p>
+<ul>
+<li><code>host</code>: Alamat server SSH</li>
+<li><code>port</code>: Port SSH, biasanya 22</li>
+<li><code>username</code>: Nama pengguna SSH</li>
+<li><code>password</code>: Password SSH (disarankan gunakan autentikasi key untuk production)</li>
+<li><code>timeout</code>: Waktu tunggu koneksi (detik)</li>
+</ul>
+<p><strong>Konfigurasi paths</strong>:</p>
+<ul>
+<li><code>local</code>: Path direktori lokal, mendukung path relatif maupun absolut</li>
+<li><code>remote</code>: Path direktori remote, harus path absolut</li>
+</ul>
+<p><strong>Konfigurasi options</strong>:</p>
+<ul>
+<li><code>backup</code>: Apakah melakukan backup file remote sebelum upload</li>
+<li><code>backup_suffix</code>: Sufiks file backup, dapat dikustomisasi; jika file backup tidak ada maka backup dilewati</li>
+<li><code>exclude_patterns</code>: Pola pengecualian file, mendukung wildcard</li>
+<li><code>max_retries</code>: Jumlah maksimal retry saat upload gagal</li>
+<li><code>chunk_size</code>: Ukuran blok transfer file (byte, belum diimplementasikan)</li>
+</ul>
+<h3>2. Konfigurasi Default (Mode Kompatibilitas)</h3>
+<p>Jika tidak ada file <code>config.json</code>, program akan menggunakan konfigurasi default internal, memastikan kompatibilitas ke belakang.</p>
+<h4>Prioritas File Konfigurasi</h4>
+<ol>
+<li><strong>File konfigurasi yang ditentukan di command line</strong>: file yang ditentukan dengan parameter <code>--config</code></li>
+<li><strong>File konfigurasi default</strong>: <code>config.json</code> di direktori saat ini</li>
+<li><strong>Konfigurasi default internal</strong>: jika keduanya tidak ada, menggunakan konfigurasi bawaan program</li>
+</ol>
+<h4>Aturan Penanganan Path</h4>
+<ul>
+<li><p><strong>Path file konfigurasi</strong>:</p>
+<ul>
+<li>Path relatif: berbasis direktori file executable</li>
+<li>Path absolut: langsung menggunakan path yang ditentukan</li>
+</ul>
+</li>
+<li><p><strong>Path direktori lokal</strong>:</p>
+<ul>
+<li>Path relatif: berbasis direktori file executable</li>
+<li>Path absolut: langsung menggunakan path yang ditentukan</li>
+</ul>
+</li>
+</ul>
+<h2>Petunjuk Menjalankan</h2>
+<h3>Parameter Command Line</h3>
+<p>Program mendukung parameter command line berikut:</p>
+<pre><code class="language-bash"># Tampilkan bantuan
+./deploy --help
+
+# Tampilkan info versi  
+./deploy --version
+
+# Menggunakan file konfigurasi default config.json
+./deploy
+
+# Menggunakan file konfigurasi yang ditentukan
+./deploy --config prod.json
+
+# Menggunakan file konfigurasi dengan path absolut
+./deploy --config /path/to/config.json
+</code></pre>
+<h3>Menjalankan di Lingkungan Development</h3>
+<pre><code class="language-bash"># Menggunakan konfigurasi default
+go run main.go
+
+# Menggunakan file konfigurasi tertentu
+go run main.go --config test.json
+
+# Tampilkan bantuan
+go run main.go --help
+</code></pre>
+<h3>Menjalankan Setelah Kompilasi</h3>
+<pre><code class="language-bash"># Kompilasi
+go build -o deploy main.go
+
+# Jalankan dengan konfigurasi default
+./deploy
+
+# Jalankan dengan file konfigurasi tertentu
+./deploy --config prod.json
+</code></pre>
+<h2>Petunjuk Packaging</h2>
+<h3>1. Packaging di Platform Lokal</h3>
+<pre><code class="language-bash"># Kompilasi file executable untuk platform saat ini
+go build -o deploy main.go
+</code></pre>
+<h3>2. Packaging Cross-Platform</h3>
+<h4>Linux 64-bit</h4>
+<pre><code class="language-bash">GOOS=linux GOARCH=amd64 go build -o deploy-linux-amd64 main.go
+</code></pre>
+<h4>Windows 64-bit</h4>
+<pre><code class="language-bash">GOOS=windows GOARCH=amd64 go build -o deploy-windows-amd64.exe main.go
+</code></pre>
+<h4>macOS 64-bit</h4>
+<pre><code class="language-bash">GOOS=darwin GOARCH=amd64 go build -o deploy-darwin-amd64 main.go
+</code></pre>
+<h4>macOS ARM64 (M1/M2)</h4>
+<pre><code class="language-bash">GOOS=darwin GOARCH=arm64 go build -o deploy-darwin-arm64 main.go
+</code></pre>
+<h3>3. Optimasi Paket (Memperkecil Ukuran File)</h3>
+<pre><code class="language-bash"># Menghapus informasi debug dan simbol
+go build -ldflags=&quot;-s -w&quot; -o deploy main.go
+
+# Kompresi menggunakan UPX (harus instal UPX terlebih dahulu)
+upx --best deploy
+</code></pre>
+<h3>4. Script Paket Massal</h3>
+<p>Buat skrip <code>build.sh</code>:</p>
+<pre><code class="language-bash">#!/bin/bash
+
+# Membuat direktori build
+mkdir -p builds
+
+# Build untuk setiap platform
+echo &quot;Membangun versi Linux 64-bit...&quot;
+GOOS=linux GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-linux-amd64 main.go
+
+echo &quot;Membangun versi Windows 64-bit...&quot;
+GOOS=windows GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-windows-amd64.exe main.go
+
+echo &quot;Membangun versi macOS 64-bit...&quot;
+GOOS=darwin GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-darwin-amd64 main.go
+
+echo &quot;Membangun versi macOS ARM64...&quot;
+GOOS=darwin GOARCH=arm64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-darwin-arm64 main.go
+
+echo &quot;Build selesai!&quot;
+ls -la builds/
+</code></pre>
+<p>Jalankan skrip:</p>
+<pre><code class="language-bash">chmod +x build.sh
+./build.sh
+</code></pre>
+<h2>Contoh Penggunaan</h2>
+<h3>Menampilkan Informasi Bantuan</h3>
+<pre><code class="language-bash">$ ./deploy --help
+Go-Deploy Alat Deploy
+
+Penggunaan: ./deploy [opsi]
+
+Opsi:
+  -config string
+        Jalur file konfigurasi (default &quot;config.json&quot;)
+  -help
+        Tampilkan informasi bantuan
+  -version
+        Tampilkan informasi versi
+
+Contoh:
+  ./deploy                           # Menggunakan file konfigurasi default config.json
+  ./deploy --config prod.json        # Menggunakan file konfigurasi yang ditentukan
+  ./deploy --config /path/to/config.json  # Menggunakan file konfigurasi dengan jalur absolut
+</code></pre>
+<h3>Menggunakan File Konfigurasi Tertentu</h3>
+<pre><code class="language-bash">$ ./deploy --config prod.json
+Memulai eksekusi program deploy...
+Mencoba membaca file konfigurasi: /path/to/go-deploy/prod.json
+Menggunakan file konfigurasi...
+Direktori lokal /path/to/project/dist ditemukan
+Menghubungkan ke server SSH...
+Koneksi server SSH berhasil
+...
+</code></pre>
+<h3>Menggunakan File Konfigurasi</h3>
+<pre><code class="language-bash">$ ./deploy
+Memulai eksekusi program deploy...
+Mencoba membaca file konfigurasi: /path/to/go-deploy/config.json
+Menggunakan file konfigurasi...
+Direktori lokal /path/to/project/unpackage/dist/build/web ditemukan
+Menghubungkan ke server SSH...
+Koneksi server SSH berhasil
+Membuat klien SFTP...
+Klien SFTP berhasil dibuat
+Siap mengunggah ke direktori remote: /opt/xsoft/nginx/html/app/dist
+Mulai mengunggah direktori...
+Mulai menelusuri direktori lokal: /path/to/project/unpackage/dist/build/web
+Membuat direktori: /opt/xsoft/nginx/html/app/dist
+File static/js/app.js.map dikecualikan, melewati upload
+Membuat backup: /opt/xsoft/nginx/html/app/dist/index.html -&gt; /opt/xsoft/nginx/html/app/dist/index.html.backup
+Mengunggah file: /path/to/project/unpackage/dist/build/web/index.html -&gt; /opt/xsoft/nginx/html/app/dist/index.html
+File .DS_Store dikecualikan, melewati upload
+Mengunggah file: /path/to/project/unpackage/dist/build/web/static/css/app.css -&gt; /opt/xsoft/nginx/html/app/dist/static/css/app.css
+Gagal upload (coba 1/3): Kesalahan jaringan
+Mengulang upload file (2/3): /path/to/project/unpackage/dist/build/web/static/js/app.js
+Mengunggah file: /path/to/project/unpackage/dist/build/web/static/js/app.js -&gt; /opt/xsoft/nginx/html/app/dist/static/js/app.js
+...
+Direktori berhasil diupload!
+Statistik:
+  - Jumlah file diupload: 485
+  - Jumlah direktori dibuat: 18
+  - Total ukuran transfer: 25.8 MB
+  - Waktu upload: 38.5s
+  - Total waktu: 39.2s
+  - Kecepatan transfer: 0.67 MB/s
+</code></pre>
+<h2>Catatan Penting</h2>
+<ol>
+<li><p><strong>Keamanan</strong>:</p>
+<ul>
+<li>Lingkungan produksi disarankan menggunakan otentikasi kunci SSH daripada password</li>
+<li>Saat ini menggunakan <code>ssh.InsecureIgnoreHostKey()</code>, di produksi sebaiknya verifikasi host key</li>
+</ul>
+</li>
+<li><p><strong>Jaringan</strong>:</p>
+<ul>
+<li>Pastikan lokal dapat mengakses port 22 server tujuan</li>
+<li>Kecepatan transfer tergantung bandwidth jaringan dan performa server</li>
+</ul>
+</li>
+<li><p><strong>Hak Akses</strong>:</p>
+<ul>
+<li>Pastikan user SSH memiliki hak tulis ke direktori tujuan</li>
+<li>Jika perlu, gunakan sudo</li>
+</ul>
+</li>
+<li><p><strong>Path</strong>:</p>
+<ul>
+<li>Path lokal otomatis dihitung berdasarkan lokasi file eksekusi, tidak perlu khawatir tentang direktori kerja</li>
+<li>Path remote menggunakan path absolut</li>
+</ul>
+</li>
+</ol>
+<h2>Pemecahan Masalah</h2>
+<h3>Masalah Umum</h3>
+<ol>
+<li><p><strong>Timeout Koneksi</strong></p>
+<pre><code>Gagal menghubungkan server SSH: dial tcp: i/o timeout
+</code></pre>
+<ul>
+<li>Periksa alamat dan port server</li>
+<li>Pastikan koneksi jaringan</li>
+<li>Periksa pengaturan firewall</li>
+</ul>
+</li>
+<li><p><strong>Otentikasi Gagal</strong></p>
+<pre><code>Gagal login: ssh: handshake failed
+</code></pre>
+<ul>
+<li>Periksa username dan password</li>
+<li>Pastikan layanan SSH aktif</li>
+<li>Periksa konfigurasi SSH</li>
+</ul>
+</li>
+<li><p><strong>Kesalahan Hak Akses</strong></p>
+<pre><code>Gagal membuat direktori: permission denied
+</code></pre>
+<ul>
+<li>Periksa hak tulis user ke direktori tujuan</li>
+<li>Mungkin perlu menggunakan sudo atau mengubah owner direktori</li>
+</ul>
+</li>
+<li><p><strong>Direktori Lokal Tidak Ada</strong></p>
+<pre><code>Error: Direktori lokal /path/to/unpackage/dist/build/web tidak ditemukan
+</code></pre>
+<ul>
+<li>Pastikan build lokal sudah selesai</li>
+<li>Periksa struktur direktori proyek</li>
+<li>Program akan menghitung path otomatis, tidak perlu ubah direktori kerja secara manual</li>
+</ul>
+</li>
+</ol>
+<h2>Penjelasan Pengembangan</h2>
+<h3>Struktur Proyek</h3>
+<pre><code>go-deploy/
+├── main.go                 # File program utama
+├── go.mod                  # File modul Go  
+├── go.sum                  # File verifikasi dependensi  
+</code></pre>
+<p>├── README.md               # Dokumentasi penjelasan detail<br />
+├── Makefile                # Alat build<br />
+├── build.sh                # Skrip paket batch<br />
+├── install.sh              # Skrip instalasi satu klik<br />
+└── config.example.json     # Contoh file konfigurasi</p>
+<pre><code>
+### Fungsi Utama
+
+- `main()` - Fungsi utama, menangani koneksi dan pemanggilan upload
+- `uploadDirectory()` - Upload direktori secara rekursif
+- `uploadFile()` - Upload file tunggal
+- `mkdirAll()` - Membuat direktori remote secara rekursif
+
+## Lisensi
+
+MIT License
+
+## Kontribusi
+
+Silakan ajukan Issue dan Pull Request!
+
+
+---
+
+
+Tranlated By [Open Ai Tx](https://github.com/OpenAiTx/OpenAiTx) | Last indexed: 2025-06-19
+
+
+---
+</code></pre>
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

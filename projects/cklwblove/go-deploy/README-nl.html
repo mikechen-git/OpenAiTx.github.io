@@ -1,0 +1,427 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>go-deploy - cklwblove/go-deploy</title>
+    <meta name="title" content="go-deploy - cklwblove/go-deploy">
+    <meta name="description" content="cklwblove/go-deploy - GitHub repository nl documentation and informationGo-Deploy Deploy Tool Een op Go gebaseerde geautomatiseerde deployment tool die ondersteunt dat lokale build-artifacten via het SFTP-protocol naar een externe s...">
+    <meta name="keywords" content="cklwblove, go-deploy, GitHub, repository, nl documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/cklwblove/go-deploy/README-nl.html">
+    <meta property="og:title" content="go-deploy - cklwblove/go-deploy">
+    <meta property="og:description" content="cklwblove/go-deploy - GitHub repository nl documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/cklwblove/go-deploy" id="githubRepoLink" target="_blank">cklwblove/go-deploy</a>
+<h1 style="display: none;">Go-Deploy Deploy Tool Een op Go gebaseerde geautomatiseerde deployment tool die ondersteunt dat lokale build-artifacten via het SFTP-protocol naar een externe s...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Go-Deploy Deploy Tool</h1>
+<p>Een op Go gebaseerde geautomatiseerde deployment tool die ondersteunt dat lokale build-artifacten via het SFTP-protocol naar een externe server worden geüpload.</p>
+<h2>Functies en Eigenschappen</h2>
+<ul>
+<li>✅ <strong>Veilige overdracht</strong>: gebruikt SFTP-protocol, gebaseerd op SSH-encryptie</li>
+<li>✅ <strong>Directory-synchronisatie</strong>: recursief uploaden van volledige directorystructuren, behoudt de bestandsstructuur</li>
+<li>✅ <strong>Intelligent aanmaken</strong>: maakt automatisch de remote directorystructuur aan</li>
+<li>✅ <strong>Padaanpassing</strong>: berekent automatisch het lokale pad op basis van de locatie van het uitvoerbare bestand, geen zorg om werkdirectory</li>
+<li>✅ <strong>Configuratiebestand ondersteuning</strong>: ondersteunt JSON-configuratiebestanden, handig voor beheer van verschillende omgevingen</li>
+<li>✅ <strong>Bestandsexclusie</strong>: ondersteunt wildcard-patronen om niet-gewenste bestanden uit te sluiten van upload</li>
+<li>✅ <strong>Automatische back-up</strong>: kan automatisch remote bestanden back-uppen vóór upload</li>
+<li>✅ <strong>Retry-mechanisme</strong>: automatische herpoging bij upload-falen, verhoogt succeskans</li>
+<li>✅ <strong>Gedetailleerde statistieken</strong>: toont aantal geüploade bestanden, overdrachtsgrootte, tijd en snelheid</li>
+<li>✅ <strong>Voortgangsweergave</strong>: realtime weergave van uploadvoortgang en bestandsinformatie</li>
+<li>✅ <strong>Foutafhandeling</strong>: uitgebreide foutafhandeling en log-output</li>
+</ul>
+<h2>Systeemeisen</h2>
+<ul>
+<li>Go 1.18 of hoger</li>
+<li>Doelserver ondersteunt SSH/SFTP-protocol</li>
+</ul>
+<h2>Installatie-instructies</h2>
+<h3>1. Project klonen</h3>
+<pre><code class="language-bash">git clone &lt;your-repo-url&gt;
+cd go-deploy
+</code></pre>
+<h3>2. Go-module initialiseren</h3>
+<pre><code class="language-bash">go mod init go-deploy
+go mod tidy
+</code></pre>
+<h3>3. Afhankelijkheden installeren</h3>
+<p>Het programma downloadt automatisch de volgende afhankelijkheden:</p>
+<ul>
+<li><code>github.com/pkg/sftp</code> - SFTP-client</li>
+<li><code>golang.org/x/crypto/ssh</code> - SSH-client</li>
+</ul>
+<h2>Configuratie-instructies</h2>
+<p>Het programma ondersteunt twee configuratiemethoden:</p>
+<h3>1. Gebruik van configuratiebestand (aanbevolen)</h3>
+<p>Kopieer <code>config.example.json</code> naar <code>config.json</code> en pas de configuratie aan:</p>
+<pre><code class="language-bash">cp config.example.json config.json
+</code></pre>
+<p>Bewerk daarna <code>config.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;server&quot;: {
+    &quot;host&quot;: &quot;your-server-ip&quot;,
+    &quot;port&quot;: 22,
+    &quot;username&quot;: &quot;your-username&quot;,
+    &quot;password&quot;: &quot;your-password&quot;,
+    &quot;timeout&quot;: 10
+  },
+  &quot;paths&quot;: {
+    &quot;local&quot;: &quot;../../unpackage/dist/build/web&quot;,
+    &quot;remote&quot;: &quot;/opt/your-path/dist&quot;
+  },
+  &quot;options&quot;: {
+    &quot;backup&quot;: true,
+    &quot;backup_suffix&quot;: &quot;.backup&quot;,
+    &quot;exclude_patterns&quot;: [
+      &quot;*.log&quot;,
+      &quot;*.map&quot;,
+      &quot;.DS_Store&quot;,
+      &quot;node_modules&quot;
+    ],
+    &quot;max_retries&quot;: 3,
+    &quot;chunk_size&quot;: 1048576
+  }
+}
+</code></pre>
+<h4>Uitleg van configuratieopties</h4>
+<p><strong>server-configuratie</strong>:</p>
+<ul>
+<li><code>host</code>: SSH-serveradres</li>
+<li><code>port</code>: SSH-poort, meestal 22</li>
+<li><code>username</code>: SSH-gebruikersnaam</li>
+<li><code>password</code>: SSH-wachtwoord (voor productie-omgevingen wordt sleutelauthenticatie aanbevolen)</li>
+<li><code>timeout</code>: Verbindings-timeout (seconden)</li>
+</ul>
+<p><strong>paths-configuratie</strong>:</p>
+<ul>
+<li><code>local</code>: Lokaal directorypad, ondersteunt relatieve en absolute paden</li>
+<li><code>remote</code>: Remote directorypad, moet een absoluut pad zijn</li>
+</ul>
+<p><strong>options-configuratie</strong>:</p>
+<ul>
+<li><code>backup</code>: Of er een back-up van bestaande remote bestanden gemaakt moet worden vóór upload</li>
+<li><code>backup_suffix</code>: Extensie van het back-upbestand, kan naar wens worden ingesteld; als het back-upbestand niet bestaat, wordt back-up overgeslagen</li>
+<li><code>exclude_patterns</code>: Uitsluitingspatronen voor bestanden, ondersteunt wildcards</li>
+<li><code>max_retries</code>: Maximaal aantal pogingen bij upload-falen</li>
+<li><code>chunk_size</code>: Grootte van het overdrachtsblok (bytes, nog niet geïmplementeerd)</li>
+</ul>
+<h3>2. Standaardconfiguratie (compatibiliteitsmodus)</h3>
+<p>Als er geen <code>config.json</code>-bestand is, gebruikt het programma de ingebouwde standaardconfiguratie voor achterwaartse compatibiliteit.</p>
+<h4>Prioriteit van configuratiebestanden</h4>
+<ol>
+<li><strong>Configuratiebestand opgegeven via commandline</strong>: Bestand gespecificeerd met de <code>--config</code> parameter</li>
+<li><strong>Standaardconfiguratiebestand</strong>: <code>config.json</code> in de huidige directory</li>
+<li><strong>Ingebouwde standaardconfiguratie</strong>: Als bovenstaande niet aanwezig zijn, wordt de ingebouwde configuratie gebruikt</li>
+</ol>
+<h4>Padverwerkingsregels</h4>
+<ul>
+<li><p><strong>Pad van configuratiebestand</strong>:</p>
+<ul>
+<li>Relatief pad: Gebaseerd op de directory van het uitvoerbare bestand</li>
+<li>Absoluut pad: Direct het opgegeven pad gebruiken</li>
+</ul>
+</li>
+<li><p><strong>Lokaal directorypad</strong>:</p>
+<ul>
+<li>Relatief pad: Gebaseerd op de directory van het uitvoerbare bestand</li>
+<li>Absoluut pad: Direct het opgegeven pad gebruiken</li>
+</ul>
+</li>
+</ul>
+<h2>Gebruiksinstructies</h2>
+<h3>Commandline-parameters</h3>
+<p>Het programma ondersteunt de volgende commandline-parameters:</p>
+<pre><code class="language-bash"># Toon helpinformatie
+./deploy --help
+
+# Toon versie-informatie  
+./deploy --version
+
+# Gebruik standaardconfiguratiebestand config.json
+./deploy
+
+# Gebruik opgegeven configuratiebestand
+./deploy --config prod.json
+
+# Gebruik absoluut pad naar configuratiebestand
+./deploy --config /path/to/config.json
+</code></pre>
+<h3>Uitvoeren in ontwikkelomgeving</h3>
+<pre><code class="language-bash"># Gebruik standaardconfiguratie
+go run main.go
+
+# Gebruik opgegeven configuratiebestand
+go run main.go --config test.json
+
+# Toon help
+go run main.go --help
+</code></pre>
+<h3>Uitvoeren na compilatie</h3>
+<pre><code class="language-bash"># Compileren
+go build -o deploy main.go
+
+# Gebruik standaardconfiguratie
+./deploy
+
+# Gebruik opgegeven configuratiebestand
+./deploy --config prod.json
+</code></pre>
+<h2>Inpak-instructies</h2>
+<h3>1. Lokale platform builden</h3>
+<pre><code class="language-bash"># Compileer uitvoerbaar bestand voor huidig platform
+go build -o deploy main.go
+</code></pre>
+<h3>2. Cross-platform builden</h3>
+<h4>Linux 64-bit</h4>
+<pre><code class="language-bash">GOOS=linux GOARCH=amd64 go build -o deploy-linux-amd64 main.go
+</code></pre>
+<h4>Windows 64-bit</h4>
+<pre><code class="language-bash">GOOS=windows GOARCH=amd64 go build -o deploy-windows-amd64.exe main.go
+</code></pre>
+<h4>macOS 64-bit</h4>
+<pre><code class="language-bash">GOOS=darwin GOARCH=amd64 go build -o deploy-darwin-amd64 main.go
+</code></pre>
+<h4>macOS ARM64 (M1/M2)</h4>
+<pre><code class="language-bash">GOOS=darwin GOARCH=arm64 go build -o deploy-darwin-arm64 main.go
+</code></pre>
+<h3>3. Optimaliseren van het pakketproces (bestandsgrootte verkleinen)</h3>
+<pre><code class="language-bash"># Verwijder debug-informatie en symbooltabellen
+go build -ldflags=&quot;-s -w&quot; -o deploy main.go
+
+# Comprimeer met UPX (eerst UPX installeren)
+upx --best deploy
+</code></pre>
+<h3>4. Batch build script</h3>
+<p>Maak het <code>build.sh</code> script aan:</p>
+<pre><code class="language-bash">#!/bin/bash
+
+# Maak build map aan
+mkdir -p builds
+
+# Build voor verschillende platforms
+echo &quot;Bouwen van Linux 64-bit versie...&quot;
+GOOS=linux GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-linux-amd64 main.go
+
+echo &quot;Bouwen van Windows 64-bit versie...&quot;
+GOOS=windows GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-windows-amd64.exe main.go
+
+echo &quot;Bouwen van macOS 64-bit versie...&quot;
+GOOS=darwin GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-darwin-amd64 main.go
+
+echo &quot;Bouwen van macOS ARM64 versie...&quot;
+GOOS=darwin GOARCH=arm64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-darwin-arm64 main.go
+
+echo &quot;Bouwen voltooid!&quot;
+ls -la builds/
+</code></pre>
+<p>Voer het script uit:</p>
+<pre><code class="language-bash">chmod +x build.sh
+./build.sh
+</code></pre>
+<h2>Gebruiksvoorbeeld</h2>
+<h3>Toon helpinformatie</h3>
+<pre><code class="language-bash">$ ./deploy --help
+Go-Deploy implementatie tool
+
+Gebruik: ./deploy [opties]
+
+Opties:
+  -config string
+        Pad naar configuratiebestand (standaard &quot;config.json&quot;)
+  -help
+        Toon helpinformatie
+  -version
+        Toon versie-informatie
+
+Voorbeelden:
+  ./deploy                           # Gebruik standaardconfiguratiebestand config.json
+  ./deploy --config prod.json        # Gebruik opgegeven configuratiebestand
+  ./deploy --config /path/to/config.json  # Gebruik absoluut pad naar configuratiebestand
+</code></pre>
+<h3>Gebruik opgegeven configuratiebestand</h3>
+<pre><code class="language-bash">$ ./deploy --config prod.json
+Starten van implementatieprogramma...
+Probeer configuratiebestand te lezen: /path/to/go-deploy/prod.json
+Configuratiebestand wordt gebruikt...
+Lokale map /path/to/project/dist bestaat
+Bezig met verbinden met SSH-server...
+SSH-serververbinding succesvol
+...
+</code></pre>
+<h3>Gebruik configuratiebestand</h3>
+<pre><code class="language-bash">$ ./deploy
+Starten van implementatieprogramma...
+Probeer configuratiebestand te lezen: /path/to/go-deploy/config.json
+Configuratiebestand wordt gebruikt...
+Lokale map /path/to/project/unpackage/dist/build/web bestaat
+Bezig met verbinden met SSH-server...
+SSH-serververbinding succesvol
+Bezig met maken van SFTP-client...
+SFTP-client succesvol aangemaakt
+Voorbereiden upload naar remote map: /opt/xsoft/nginx/html/app/dist
+Starten met uploaden van map...
+Lokale map wordt doorlopen: /path/to/project/unpackage/dist/build/web
+Map aanmaken: /opt/xsoft/nginx/html/app/dist
+Bestand static/js/app.js.map uitgesloten, upload overgeslagen
+Back-up aanmaken: /opt/xsoft/nginx/html/app/dist/index.html -&gt; /opt/xsoft/nginx/html/app/dist/index.html.backup
+Uploaden bestand: /path/to/project/unpackage/dist/build/web/index.html -&gt; /opt/xsoft/nginx/html/app/dist/index.html
+Bestand .DS_Store uitgesloten, upload overgeslagen
+Uploaden bestand: /path/to/project/unpackage/dist/build/web/static/css/app.css -&gt; /opt/xsoft/nginx/html/app/dist/static/css/app.css
+Upload mislukt (poging 1/3): Netwerkfout
+Opnieuw proberen upload bestand (2/3): /path/to/project/unpackage/dist/build/web/static/js/app.js
+Uploaden bestand: /path/to/project/unpackage/dist/build/web/static/js/app.js -&gt; /opt/xsoft/nginx/html/app/dist/static/js/app.js
+...
+Map succesvol geüpload!
+Statistieken:
+  - Aantal geüploade bestanden: 485
+  - Aantal aangemaakte mappen: 18
+  - Overgedragen grootte: 25.8 MB
+  - Uploadtijd: 38.5s
+  - Totale tijd: 39.2s
+  - Overdrachtsnelheid: 0.67 MB/s
+</code></pre>
+<h2>Opmerkingen</h2>
+<ol>
+<li><p><strong>Veiligheid</strong>:</p>
+<ul>
+<li>Gebruik in productieomgevingen SSH-sleutelauthenticatie in plaats van wachtwoordauthenticatie</li>
+<li>Momenteel wordt <code>ssh.InsecureIgnoreHostKey()</code> gebruikt, valideer in productie de hostkey</li>
+</ul>
+</li>
+<li><p><strong>Netwerk</strong>:</p>
+<ul>
+<li>Zorg dat lokaal poort 22 van de doelserver bereikbaar is</li>
+<li>Overdrachtsnelheid is afhankelijk van netwerkbandbreedte en serverprestaties</li>
+</ul>
+</li>
+<li><p><strong>Rechten</strong>:</p>
+<ul>
+<li>Zorg dat SSH-gebruiker schrijfrechten heeft op de doellocatie</li>
+<li>Indien nodig zijn sudo-rechten vereist</li>
+</ul>
+</li>
+<li><p><strong>Pad</strong>:</p>
+<ul>
+<li>Lokale paden worden automatisch berekend op basis van de uitvoerbare locatie, werklocatie is niet relevant</li>
+<li>Remote pad gebruikt absoluut pad</li>
+</ul>
+</li>
+</ol>
+<h2>Probleemoplossing</h2>
+<h3>Veelvoorkomende problemen</h3>
+<ol>
+<li><p><strong>Verbindingstime-out</strong></p>
+<pre><code>Verbinden met SSH-server mislukt: dial tcp: i/o timeout
+</code></pre>
+<ul>
+<li>Controleer serveradres en poort</li>
+<li>Controleer netwerkverbinding</li>
+<li>Controleer firewall-instellingen</li>
+</ul>
+</li>
+<li><p><strong>Authenticatie mislukt</strong></p>
+<pre><code>Inloggen mislukt: ssh: handshake failed
+</code></pre>
+<ul>
+<li>Controleer gebruikersnaam en wachtwoord</li>
+<li>Controleer of SSH-service actief is</li>
+<li>Controleer SSH-configuratie</li>
+</ul>
+</li>
+<li><p><strong>Rechtenfout</strong></p>
+<pre><code>Maken van map mislukt: permission denied
+</code></pre>
+<ul>
+<li>Controleer of gebruiker schrijfrechten heeft op het doeldirectory</li>
+<li>Mogelijk is sudo vereist of moet eigenaar worden aangepast</li>
+</ul>
+</li>
+<li><p><strong>Lokale map bestaat niet</strong></p>
+<pre><code>Fout: lokale map /path/to/unpackage/dist/build/web bestaat niet
+</code></pre>
+<ul>
+<li>Controleer of de lokale build is voltooid</li>
+<li>Controleer de structuur van het projectdirectory</li>
+<li>Het programma berekent het pad automatisch, handmatig wijzigen is niet nodig</li>
+</ul>
+</li>
+</ol>
+<h2>Ontwikkelaarsinformatie</h2>
+<h3>Projectstructuur</h3>
+<pre><code>go-deploy/
+├── main.go                 # Hoofdprogramma
+├── go.mod                  # Go modulebestand  
+├── go.sum                  # Afhankelijkheidscontrolebestand
+</code></pre>
+<p>├── README.md               # Gedetailleerde documentatie
+├── Makefile                # Build-tool
+├── build.sh                # Batch-packagescript
+├── install.sh              # One-click installatiescript
+└── config.example.json     # Voorbeeld van configuratiebestand</p>
+<pre><code>
+### Belangrijkste functies
+
+- `main()` - Hoofdfunctie, verwerkt verbindingen en roept upload aan
+- `uploadDirectory()` - Recursief uploaden van een map
+- `uploadFile()` - Uploaden van een enkel bestand
+- `mkdirAll()` - Recursief aanmaken van een externe map
+
+## Licentie
+
+MIT-licentie
+
+## Bijdragen
+
+Issues en Pull Requests zijn van harte welkom!
+
+
+---
+
+
+Tranlated By [Open Ai Tx](https://github.com/OpenAiTx/OpenAiTx) | Last indexed: 2025-06-19
+
+
+---
+</code></pre>
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>

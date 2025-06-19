@@ -1,0 +1,427 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>go-deploy - cklwblove/go-deploy</title>
+    <meta name="title" content="go-deploy - cklwblove/go-deploy">
+    <meta name="description" content="cklwblove/go-deploy - GitHub repository es documentation and informationGo-Deploy Herramienta de Despliegue Una herramienta de despliegue automatizado desarrollada en Go, que permite subir los artefactos construidos localmente al se...">
+    <meta name="keywords" content="cklwblove, go-deploy, GitHub, repository, es documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/cklwblove/go-deploy/README-es.html">
+    <meta property="og:title" content="go-deploy - cklwblove/go-deploy">
+    <meta property="og:description" content="cklwblove/go-deploy - GitHub repository es documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/cklwblove/go-deploy" id="githubRepoLink" target="_blank">cklwblove/go-deploy</a>
+<h1 style="display: none;">Go-Deploy Herramienta de Despliegue Una herramienta de despliegue automatizado desarrollada en Go, que permite subir los artefactos construidos localmente al se...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Go-Deploy Herramienta de Despliegue</h1>
+<p>Una herramienta de despliegue automatizado desarrollada en Go, que permite subir los artefactos construidos localmente al servidor remoto mediante el protocolo SFTP.</p>
+<h2>Características</h2>
+<ul>
+<li>✅ <strong>Transferencia segura</strong>: Usa el protocolo SFTP, basado en transferencia cifrada SSH</li>
+<li>✅ <strong>Sincronización de directorios</strong>: Sube recursivamente toda la estructura de directorios, manteniendo la jerarquía de archivos</li>
+<li>✅ <strong>Creación inteligente</strong>: Crea automáticamente la estructura de directorios remotos</li>
+<li>✅ <strong>Ruta auto-adaptativa</strong>: Calcula automáticamente la ruta local en base a la ubicación del ejecutable, sin preocuparse por el directorio de ejecución</li>
+<li>✅ <strong>Soporte de archivos de configuración</strong>: Soporta archivos de configuración JSON, facilitando la gestión de diferentes entornos</li>
+<li>✅ <strong>Exclusión de archivos</strong>: Soporta patrones comodín para excluir archivos que no se deben subir</li>
+<li>✅ <strong>Copia de seguridad automática</strong>: Puede realizar copias de seguridad automáticas de archivos remotos antes de subirlos</li>
+<li>✅ <strong>Mecanismo de reintentos</strong>: Reintenta automáticamente la subida en caso de fallo, aumentando la tasa de éxito</li>
+<li>✅ <strong>Estadísticas detalladas</strong>: Muestra el número de archivos subidos, tamaño transferido, tiempo empleado y velocidad</li>
+<li>✅ <strong>Visualización de progreso</strong>: Muestra en tiempo real el progreso de la subida y la información de los archivos</li>
+<li>✅ <strong>Gestión de errores</strong>: Manejo de errores completo y salida de logs</li>
+</ul>
+<h2>Requisitos del sistema</h2>
+<ul>
+<li>Go 1.18 o superior</li>
+<li>El servidor de destino debe soportar el protocolo SSH/SFTP</li>
+</ul>
+<h2>Instrucciones de instalación</h2>
+<h3>1. Clonar el proyecto</h3>
+<pre><code class="language-bash">git clone &lt;your-repo-url&gt;
+cd go-deploy
+</code></pre>
+<h3>2. Inicializar el módulo de Go</h3>
+<pre><code class="language-bash">go mod init go-deploy
+go mod tidy
+</code></pre>
+<h3>3. Instalar dependencias</h3>
+<p>El programa descargará automáticamente las siguientes dependencias:</p>
+<ul>
+<li><code>github.com/pkg/sftp</code> - Cliente SFTP</li>
+<li><code>golang.org/x/crypto/ssh</code> - Cliente SSH</li>
+</ul>
+<h2>Instrucciones de configuración</h2>
+<p>El programa soporta dos formas de configuración:</p>
+<h3>1. Usar archivo de configuración (recomendado)</h3>
+<p>Copia <code>config.example.json</code> como <code>config.json</code> y modifica la configuración:</p>
+<pre><code class="language-bash">cp config.example.json config.json
+</code></pre>
+<p>Luego edita <code>config.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;server&quot;: {
+    &quot;host&quot;: &quot;your-server-ip&quot;,
+    &quot;port&quot;: 22,
+    &quot;username&quot;: &quot;your-username&quot;,
+    &quot;password&quot;: &quot;your-password&quot;,
+    &quot;timeout&quot;: 10
+  },
+  &quot;paths&quot;: {
+    &quot;local&quot;: &quot;../../unpackage/dist/build/web&quot;,
+    &quot;remote&quot;: &quot;/opt/your-path/dist&quot;
+  },
+  &quot;options&quot;: {
+    &quot;backup&quot;: true,
+    &quot;backup_suffix&quot;: &quot;.backup&quot;,
+    &quot;exclude_patterns&quot;: [
+      &quot;*.log&quot;,
+      &quot;*.map&quot;,
+      &quot;.DS_Store&quot;,
+      &quot;node_modules&quot;
+    ],
+    &quot;max_retries&quot;: 3,
+    &quot;chunk_size&quot;: 1048576
+  }
+}
+</code></pre>
+<h4>Descripción de los parámetros de configuración</h4>
+<p><strong>Configuración de server</strong>:</p>
+<ul>
+<li><code>host</code>: Dirección del servidor SSH</li>
+<li><code>port</code>: Puerto SSH, normalmente 22</li>
+<li><code>username</code>: Nombre de usuario SSH</li>
+<li><code>password</code>: Contraseña SSH (se recomienda autenticación por clave en producción)</li>
+<li><code>timeout</code>: Tiempo de espera de conexión (segundos)</li>
+</ul>
+<p><strong>Configuración de paths</strong>:</p>
+<ul>
+<li><code>local</code>: Ruta del directorio local, soporta rutas relativas y absolutas</li>
+<li><code>remote</code>: Ruta del directorio remoto, debe ser una ruta absoluta</li>
+</ul>
+<p><strong>Configuración de options</strong>:</p>
+<ul>
+<li><code>backup</code>: Si se realiza una copia de seguridad de los archivos remotos existentes antes de subir</li>
+<li><code>backup_suffix</code>: Sufijo de los archivos de copia de seguridad, se puede personalizar; si el archivo de respaldo no existe, se omite la copia</li>
+<li><code>exclude_patterns</code>: Patrones de exclusión de archivos, soporta comodines</li>
+<li><code>max_retries</code>: Número máximo de reintentos en caso de fallo de subida</li>
+<li><code>chunk_size</code>: Tamaño del bloque de transferencia (bytes, aún no implementado)</li>
+</ul>
+<h3>2. Configuración predeterminada (modo compatible)</h3>
+<p>Si no existe el archivo <code>config.json</code>, el programa usará la configuración predeterminada incorporada, asegurando compatibilidad hacia atrás.</p>
+<h4>Prioridad de archivos de configuración</h4>
+<ol>
+<li><strong>Archivo de configuración especificado en línea de comandos</strong>: Archivo indicado con el parámetro <code>--config</code></li>
+<li><strong>Archivo de configuración predeterminado</strong>: <code>config.json</code> en el directorio actual</li>
+<li><strong>Configuración predeterminada interna</strong>: Si no existe ninguno de los anteriores, usa la configuración interna del programa</li>
+</ol>
+<h4>Reglas de manejo de rutas</h4>
+<ul>
+<li><p><strong>Ruta del archivo de configuración</strong>:</p>
+<ul>
+<li>Ruta relativa: Con base en el directorio donde está el ejecutable</li>
+<li>Ruta absoluta: Usa la ruta indicada directamente</li>
+</ul>
+</li>
+<li><p><strong>Ruta del directorio local</strong>:</p>
+<ul>
+<li>Ruta relativa: Con base en el directorio donde está el ejecutable</li>
+<li>Ruta absoluta: Usa la ruta indicada directamente</li>
+</ul>
+</li>
+</ul>
+<h2>Instrucciones de ejecución</h2>
+<h3>Parámetros de línea de comandos</h3>
+<p>El programa soporta los siguientes parámetros:</p>
+<pre><code class="language-bash"># Mostrar ayuda
+./deploy --help
+
+# Mostrar versión  
+./deploy --version
+
+# Usar archivo de configuración predeterminado config.json
+./deploy
+
+# Usar archivo de configuración especificado
+./deploy --config prod.json
+
+# Usar archivo de configuración con ruta absoluta
+./deploy --config /path/to/config.json
+</code></pre>
+<h3>Ejecución en entorno de desarrollo</h3>
+<pre><code class="language-bash"># Usar configuración predeterminada
+go run main.go
+
+# Usar archivo de configuración especificado
+go run main.go --config test.json
+
+# Mostrar ayuda
+go run main.go --help
+</code></pre>
+<h3>Ejecución tras compilar</h3>
+<pre><code class="language-bash"># Compilar
+go build -o deploy main.go
+
+# Ejecutar con configuración predeterminada
+./deploy
+
+# Ejecutar con archivo de configuración especificado
+./deploy --config prod.json
+</code></pre>
+<h2>Instrucciones de empaquetado</h2>
+<h3>1. Empaquetado para la plataforma local</h3>
+<pre><code class="language-bash"># Compilar ejecutable para la plataforma actual
+go build -o deploy main.go
+</code></pre>
+<h3>2. Empaquetado multiplataforma</h3>
+<h4>Linux 64 bits</h4>
+<pre><code class="language-bash">GOOS=linux GOARCH=amd64 go build -o deploy-linux-amd64 main.go
+</code></pre>
+<h4>Windows 64 bits</h4>
+<pre><code class="language-bash">GOOS=windows GOARCH=amd64 go build -o deploy-windows-amd64.exe main.go
+</code></pre>
+<h4>macOS 64 bits</h4>
+<pre><code class="language-bash">GOOS=darwin GOARCH=amd64 go build -o deploy-darwin-amd64 main.go
+</code></pre>
+<h4>macOS ARM64 (M1/M2)</h4>
+<pre><code class="language-bash">GOOS=darwin GOARCH=arm64 go build -o deploy-darwin-arm64 main.go
+</code></pre>
+<h3>3. Optimización del empaquetado (reducir el tamaño del archivo)</h3>
+<pre><code class="language-bash"># Eliminar información de depuración y tabla de símbolos
+go build -ldflags=&quot;-s -w&quot; -o deploy main.go
+
+# Comprimir con UPX (requiere tener UPX instalado)
+upx --best deploy
+</code></pre>
+<h3>4. Script de empaquetado por lotes</h3>
+<p>Crea el script <code>build.sh</code>:</p>
+<pre><code class="language-bash">#!/bin/bash
+
+# Crear directorio de compilación
+mkdir -p builds
+
+# Compilar versiones para cada plataforma
+echo &quot;Compilando versión Linux 64 bits...&quot;
+GOOS=linux GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-linux-amd64 main.go
+
+echo &quot;Compilando versión Windows 64 bits...&quot;
+GOOS=windows GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-windows-amd64.exe main.go
+
+echo &quot;Compilando versión macOS 64 bits...&quot;
+GOOS=darwin GOARCH=amd64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-darwin-amd64 main.go
+
+echo &quot;Compilando versión macOS ARM64...&quot;
+GOOS=darwin GOARCH=arm64 go build -ldflags=&quot;-s -w&quot; -o builds/deploy-darwin-arm64 main.go
+
+echo &quot;¡Compilación completada!&quot;
+ls -la builds/
+</code></pre>
+<p>Ejecutar el script:</p>
+<pre><code class="language-bash">chmod +x build.sh
+./build.sh
+</code></pre>
+<h2>Ejemplo de uso</h2>
+<h3>Mostrar información de ayuda</h3>
+<pre><code class="language-bash">$ ./deploy --help
+Herramienta de despliegue Go-Deploy
+
+Uso: ./deploy [opciones]
+
+Opciones:
+  -config string
+        Ruta al archivo de configuración (por defecto &quot;config.json&quot;)
+  -help
+        Muestra información de ayuda
+  -version
+        Muestra información de versión
+
+Ejemplos:
+  ./deploy                           # Usa el archivo de configuración por defecto config.json
+  ./deploy --config prod.json        # Usa un archivo de configuración especificado
+  ./deploy --config /path/to/config.json  # Usa un archivo de configuración con ruta absoluta
+</code></pre>
+<h3>Usar archivo de configuración especificado</h3>
+<pre><code class="language-bash">$ ./deploy --config prod.json
+Iniciando ejecución del programa de despliegue...
+Intentando leer el archivo de configuración: /path/to/go-deploy/prod.json
+Usando archivo de configuración...
+El directorio local /path/to/project/dist existe
+Conectando al servidor SSH...
+Conexión al servidor SSH exitosa
+...
+</code></pre>
+<h3>Usar archivo de configuración</h3>
+<pre><code class="language-bash">$ ./deploy
+Iniciando ejecución del programa de despliegue...
+Intentando leer el archivo de configuración: /path/to/go-deploy/config.json
+Usando archivo de configuración...
+El directorio local /path/to/project/unpackage/dist/build/web existe
+Conectando al servidor SSH...
+Conexión al servidor SSH exitosa
+Creando cliente SFTP...
+Cliente SFTP creado correctamente
+Preparando subida al directorio remoto: /opt/xsoft/nginx/html/app/dist
+Comenzando la subida del directorio...
+Recorriendo directorio local: /path/to/project/unpackage/dist/build/web
+Creando directorio: /opt/xsoft/nginx/html/app/dist
+Archivo static/js/app.js.map excluido, omitiendo subida
+Creando copia de seguridad: /opt/xsoft/nginx/html/app/dist/index.html -&gt; /opt/xsoft/nginx/html/app/dist/index.html.backup
+Subiendo archivo: /path/to/project/unpackage/dist/build/web/index.html -&gt; /opt/xsoft/nginx/html/app/dist/index.html
+Archivo .DS_Store excluido, omitiendo subida
+Subiendo archivo: /path/to/project/unpackage/dist/build/web/static/css/app.css -&gt; /opt/xsoft/nginx/html/app/dist/static/css/app.css
+Subida fallida (intento 1/3): error de red
+Reintentando subida de archivo (2/3): /path/to/project/unpackage/dist/build/web/static/js/app.js
+Subiendo archivo: /path/to/project/unpackage/dist/build/web/static/js/app.js -&gt; /opt/xsoft/nginx/html/app/dist/static/js/app.js
+...
+¡Directorio subido con éxito!
+Estadísticas:
+  - Archivos subidos: 485
+  - Directorios creados: 18
+  - Tamaño transferido: 25.8 MB
+  - Tiempo de subida: 38.5s
+  - Tiempo total: 39.2s
+  - Velocidad de transferencia: 0.67 MB/s
+</code></pre>
+<h2>Notas</h2>
+<ol>
+<li><p><strong>Seguridad</strong>:</p>
+<ul>
+<li>En entornos de producción se recomienda usar autenticación por clave SSH en lugar de contraseña</li>
+<li>Actualmente se utiliza <code>ssh.InsecureIgnoreHostKey()</code>, en producción se debe verificar la clave del host</li>
+</ul>
+</li>
+<li><p><strong>Red</strong>:</p>
+<ul>
+<li>Asegúrate de que se puede acceder al puerto 22 del servidor de destino desde el host local</li>
+<li>La velocidad de transferencia depende del ancho de banda y el rendimiento del servidor</li>
+</ul>
+</li>
+<li><p><strong>Permisos</strong>:</p>
+<ul>
+<li>Asegúrate de que el usuario SSH tenga permisos de escritura en el directorio de destino</li>
+<li>Si es necesario, puede requerirse permisos de sudo</li>
+</ul>
+</li>
+<li><p><strong>Rutas</strong>:</p>
+<ul>
+<li>La ruta local se calcula automáticamente en base a la ubicación del ejecutable, no es necesario preocuparse por el directorio de trabajo</li>
+<li>La ruta remota utiliza rutas absolutas</li>
+</ul>
+</li>
+</ol>
+<h2>Solución de problemas</h2>
+<h3>Problemas comunes</h3>
+<ol>
+<li><p><strong>Tiempo de espera de conexión</strong></p>
+<pre><code>Fallo al conectar al servidor SSH: dial tcp: i/o timeout
+</code></pre>
+<ul>
+<li>Verifica la dirección y el puerto del servidor</li>
+<li>Confirma la conectividad de red</li>
+<li>Revisa la configuración del firewall</li>
+</ul>
+</li>
+<li><p><strong>Fallo de autenticación</strong></p>
+<pre><code>Error de inicio de sesión: ssh: handshake failed
+</code></pre>
+<ul>
+<li>Revisa el nombre de usuario y contraseña</li>
+<li>Confirma que el servicio SSH está activo</li>
+<li>Revisa la configuración de SSH</li>
+</ul>
+</li>
+<li><p><strong>Error de permisos</strong></p>
+<pre><code>Error al crear directorio: permission denied
+</code></pre>
+<ul>
+<li>Verifica que el usuario tenga permisos de escritura en el directorio de destino</li>
+<li>Puede requerirse usar sudo o cambiar el propietario del directorio</li>
+</ul>
+</li>
+<li><p><strong>Directorio local no existe</strong></p>
+<pre><code>Error: El directorio local /path/to/unpackage/dist/build/web no existe
+</code></pre>
+<ul>
+<li>Confirma que la construcción local se ha completado</li>
+<li>Verifica que la estructura del proyecto sea correcta</li>
+<li>El programa calculará automáticamente la ruta, no es necesario cambiar el directorio de trabajo manualmente</li>
+</ul>
+</li>
+</ol>
+<h2>Notas de desarrollo</h2>
+<h3>Estructura del proyecto</h3>
+<pre><code>go-deploy/
+├── main.go                 # Archivo principal del programa
+├── go.mod                  # Archivo de módulo de Go  
+├── go.sum                  # Archivo de verificación de dependencias
+</code></pre>
+<p>├── README.md               # Documentación detallada
+├── Makefile                # Herramienta de construcción
+├── build.sh                # Script de empaquetado por lotes
+├── install.sh              # Script de instalación en un solo paso
+└── config.example.json     # Ejemplo de archivo de configuración</p>
+<pre><code>
+### Funciones principales
+
+- `main()` - Función principal, maneja la conexión y llama a la subida
+- `uploadDirectory()` - Sube directorios recursivamente
+- `uploadFile()` - Sube un solo archivo
+- `mkdirAll()` - Crea directorios remotos recursivamente
+
+## Licencia
+
+Licencia MIT
+
+## Contribuciones
+
+¡Bienvenidos los Issues y Pull Requests!
+
+
+---
+
+
+Tranlated By [Open Ai Tx](https://github.com/OpenAiTx/OpenAiTx) | Last indexed: 2025-06-19
+
+
+---
+</code></pre>
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Statcounter and other scripts can be added here -->
+</body>
+</html>
