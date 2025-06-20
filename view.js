@@ -600,23 +600,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 hljs.highlightBlock(block);
             });
 
-            
-            function stripMarkdownAndSymbols(md) {
-                let text = md
-                    .replace(/!\[.*?\]\(.*?\)/g, '') 
-                    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') 
-                    .replace(/[\`*_>#\-~]/g, '') 
-                    .replace(/[\[\]\(\)\{\}]/g, '') 
-                    .replace(/!\s*/g, '') 
-                    .replace(/^\s*[\d]+\.\s+/gm, '') 
-                    .replace(/^\s*[-*+]\s+/gm, '') 
-                    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()"'<>?\[\]]/g, '') 
-                    .replace(/\n|\r|\t/g, ' ') 
-                    .replace(/\s+/g, ' '); 
-                return text.replace(/\s+/g, '').slice(0, 100);
+            // --- SEO LOGIC ---
+            // Get the rendered content's first h1 or first 100 chars of text
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = content;
+            let mainText = '';
+            const firstH1 = tempDiv.querySelector('h1');
+            if (firstH1 && firstH1.innerText.trim()) {
+                mainText = firstH1.innerText.trim();
+            } else {
+                // Get all textContent, remove whitespace, take first 100 chars
+                mainText = tempDiv.innerText.replace(/\s+/g, '').slice(0, 100);
             }
-            const seoText = stripMarkdownAndSymbols(markdown);
-            if (seoText) {
+            const seoText = `${user}/${project} | ${mainText}`;
+            if (mainText) {
                 document.title = seoText;
                 const metaTitle = document.querySelector('meta[name="title"]');
                 if (metaTitle) metaTitle.setAttribute('content', seoText);
@@ -626,20 +623,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (ogTitle) ogTitle.setAttribute('content', seoText);
                 const ogDesc = document.querySelector('meta[property="og:description"]');
                 if (ogDesc) ogDesc.setAttribute('content', seoText);
-            }
-
-            // Update page title with the first h1 from the markdown if available
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = content;
-            const firstH1 = tempDiv.querySelector('h1');
-            if (firstH1) {
-                const markdownTitle = firstH1.textContent;
-                document.title = `${markdownTitle} - ${user}/${project}`;
-                // Update meta title as well
-                const metaTitle = document.querySelector('meta[name="title"]');
-                if (metaTitle) metaTitle.setAttribute('content', document.title);
-                const ogTitle = document.querySelector('meta[property="og:title"]');
-                if (ogTitle) ogTitle.setAttribute('content', document.title);
             }
         })
         .catch(error => {
