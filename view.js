@@ -543,7 +543,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Mark as submitted
                         localStorage.setItem(submissionKey, Date.now().toString());
                         
-                        const response = await fetch('https://openaitx.com/api/submit-project', {
+                        const response = await fetch('https://openaitxapi.azurewebsites.net/api/submit-project', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
