@@ -600,6 +600,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 hljs.highlightBlock(block);
             });
 
+            
+            function stripMarkdownAndSymbols(md) {
+                let text = md
+                    .replace(/!\[.*?\]\(.*?\)/g, '') 
+                    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') 
+                    .replace(/[\`*_>#\-~]/g, '') 
+                    .replace(/[\[\]\(\)\{\}]/g, '') 
+                    .replace(/!\s*/g, '') 
+                    .replace(/^\s*[\d]+\.\s+/gm, '') 
+                    .replace(/^\s*[-*+]\s+/gm, '') 
+                    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()"'<>?\[\]]/g, '') 
+                    .replace(/\n|\r|\t/g, ' ') 
+                    .replace(/\s+/g, ' '); 
+                return text.replace(/\s+/g, '').slice(0, 100);
+            }
+            const seoText = stripMarkdownAndSymbols(markdown);
+            if (seoText) {
+                document.title = seoText;
+                const metaTitle = document.querySelector('meta[name="title"]');
+                if (metaTitle) metaTitle.setAttribute('content', seoText);
+                const metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc) metaDesc.setAttribute('content', seoText);
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                if (ogTitle) ogTitle.setAttribute('content', seoText);
+                const ogDesc = document.querySelector('meta[property="og:description"]');
+                if (ogDesc) ogDesc.setAttribute('content', seoText);
+            }
+
             // Update page title with the first h1 from the markdown if available
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = content;
@@ -607,11 +635,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (firstH1) {
                 const markdownTitle = firstH1.textContent;
                 document.title = `${markdownTitle} - ${user}/${project}`;
-                
                 // Update meta title as well
                 const metaTitle = document.querySelector('meta[name="title"]');
                 if (metaTitle) metaTitle.setAttribute('content', document.title);
-                
                 const ogTitle = document.querySelector('meta[property="og:title"]');
                 if (ogTitle) ogTitle.setAttribute('content', document.title);
             }
