@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>puppeteer - puppeteer/puppeteer</title>
+    <meta name="title" content="puppeteer - puppeteer/puppeteer">
+    <meta name="description" content="puppeteer/puppeteer - GitHub repository ja documentation and informationPuppeteer Puppeteerは、DevTools Protocol または WebDriver BiDi を介して ChromeやFirefoxを制御するための高水準APIを提供するJavaScriptライブラリです。 Puppeteerはデフォルトでヘッドレス（UIなし）で動作します。 はじめに | API...">
+    <meta name="keywords" content="puppeteer, puppeteer, GitHub, repository, ja documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/puppeteer/puppeteer/README-ja.html">
+    <meta property="og:title" content="puppeteer - puppeteer/puppeteer">
+    <meta property="og:description" content="puppeteer/puppeteer - GitHub repository ja documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/puppeteer/puppeteer" id="githubRepoLink" target="_blank">puppeteer/puppeteer</a>
+<h1 style="display: none;">Puppeteer Puppeteerは、DevTools Protocol または WebDriver BiDi を介して ChromeやFirefoxを制御するための高水準APIを提供するJavaScriptライブラリです。 Puppeteerはデフォルトでヘッドレス（UIなし）で動作します。 はじめに | API...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Puppeteer</h1>
+<p><a href="https://github.com/puppeteer/puppeteer/actions/workflows/ci.yml"><img src="https://github.com/puppeteer/puppeteer/actions/workflows/ci.yml/badge.svg?branch=main" alt="build" /></a>
+<a href="https://npmjs.org/package/puppeteer"><img src="https://img.shields.io/npm/v/puppeteer.svg" alt="npm puppeteer package" /></a></p>
+<img src="https://user-images.githubusercontent.com/10379601/29446482-04f7036a-841f-11e7-9872-91d1fc2ea683.png" height="200" align="right"/>
+<blockquote>
+<p>Puppeteerは、<a href="https://chromedevtools.github.io/devtools-protocol/">DevTools Protocol</a> または <a href="https://pptr.dev/webdriver-bidi">WebDriver BiDi</a> を介して
+ChromeやFirefoxを制御するための高水準APIを提供するJavaScriptライブラリです。
+Puppeteerはデフォルトでヘッドレス（UIなし）で動作します。</p>
+</blockquote>
+<h2><a href="https://pptr.dev/docs">はじめに</a> | <a href="https://pptr.dev/api">API</a> | <a href="https://pptr.dev/faq">FAQ</a> | <a href="https://pptr.dev/contributing">コントリビュート方法</a> | <a href="https://pptr.dev/troubleshooting">トラブルシューティング</a></h2>
+<h2>インストール</h2>
+<pre><code class="language-bash">npm i puppeteer # インストール時に互換性のあるChromeをダウンロードします。
+npm i puppeteer-core # もしくは、Chromeをダウンロードせずライブラリとしてインストールします。
+</code></pre>
+<h2>サンプル</h2>
+<pre><code class="language-ts">import puppeteer from 'puppeteer';
+// または import puppeteer from 'puppeteer-core';
+
+// ブラウザを起動し、新しい空白ページを開く
+const browser = await puppeteer.launch();
+const page = await browser.newPage();
+
+// ページを指定したURLに遷移
+await page.goto('https://developer.chrome.com/');
+
+// 画面サイズを設定
+await page.setViewport({width: 1080, height: 1024});
+
+// アクセシブルな入力名を使って検索ボックスに入力
+await page.locator('aria/Search').fill('automate beyond recorder');
+
+// 最初の結果が表示されるまで待機し、クリック
+await page.locator('.devsite-result-item-link').click();
+
+// 一意な文字列で完全なタイトルを取得
+const textSelector = await page
+  .locator('text/Customize and automate')
+  .waitHandle();
+const fullTitle = await textSelector?.evaluate(el =&gt; el.textContent);
+
+// 完全なタイトルを出力
+console.log('このブログ記事のタイトルは「%s」です。', fullTitle);
+
+await browser.close();
+</code></pre>
+<hr />
+<p><a href="https://github.com/OpenAiTx/OpenAiTx">Powered By OpenAiTx</a></p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

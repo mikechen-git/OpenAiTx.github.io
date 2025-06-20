@@ -1,0 +1,330 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>expr_codegen - wukan1986/expr_codegen</title>
+    <meta name="title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta name="description" content="wukan1986/expr_codegen - GitHub repository zh-TW documentation and informationexpr_codegen 表達式轉譯器 項目背景 在本人新推出polars_ta這個庫後，再回頭反思expr_codegen是什麼。 expr_codegen本質是DSL，領域特定語言（Domain Specific Language）。但它沒有定義新的語法 它解決了兩個問題： polars_ta已經能很方便地寫出特徵...">
+    <meta name="keywords" content="wukan1986, expr_codegen, GitHub, repository, zh-TW documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/wukan1986/expr_codegen/README-zh-TW.html">
+    <meta property="og:title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta property="og:description" content="wukan1986/expr_codegen - GitHub repository zh-TW documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/wukan1986/expr_codegen" id="githubRepoLink" target="_blank">wukan1986/expr_codegen</a>
+<h1 style="display: none;">expr_codegen 表達式轉譯器 項目背景 在本人新推出polars_ta這個庫後，再回頭反思expr_codegen是什麼。 expr_codegen本質是DSL，領域特定語言（Domain Specific Language）。但它沒有定義新的語法 它解決了兩個問題： polars_ta已經能很方便地寫出特徵...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>expr_codegen 表達式轉譯器</h1>
+<h2>項目背景</h2>
+<p>在本人新推出<a href="https://github.com/wukan1986/polars_ta">polars_ta</a>這個庫後，再回頭反思<code>expr_codegen</code>是什麼。</p>
+<blockquote>
+<p><code>expr_codegen</code>本質是<code>DSL</code>，領域特定語言（Domain Specific Language）。但它沒有定義新的語法</p>
+</blockquote>
+<p>它解決了兩個問題：</p>
+<ol>
+<li><code>polars_ta</code>已經能很方便地寫出特徵計算表達式，但遇到<code>混用時序與截面</code>的表達式時，利用<code>expr_codegen</code>能自動分組，大大節省工作</li>
+<li><code>expr_codegen</code>利用了<code>Common Subexpression Elimination</code>公共子表達式消除，大量減少重複計算，提高效率</li>
+</ol>
+<p>就算在量化領域，初級研究員侷限於時序指標，只用<code>polars_ta</code>即可，中高級研究員使用截面指標，推薦用<code>expr_codegen</code></p>
+<p>雖然現在此項目與<code>polars_ta</code>依賴非常緊密，但也是支持轉譯成其它庫，如<code>pandas / cudf.pandas</code>，只是目前缺乏一個比較簡易的庫</p>
+<h2>線上演示</h2>
+<p>https://exprcodegen.streamlit.app</p>
+<p>初級用戶可以直接訪問此連結進行表達式轉譯，不需要另外安裝軟體。（此工具免費部署在國外，打開可能有些慢）</p>
+<p>更完整範例請參考<a href="https://github.com/wukan1986/alpha_examples">alpha_examples</a></p>
+<h2>使用範例</h2>
+<pre><code class="language-python">import sys
+from io import StringIO
+
+import polars as pl
+
+from expr_codegen import codegen_exec
+
+
+def _code_block_1():
+    # 因子編輯區，可利用IDE的智能提示在此區域編輯因子
+    LOG_MC_ZS = cs_mad_zscore(log1p(market_cap))
+
+
+def _code_block_2():
+    # 模板中已經預設導入了 from polars_ta.prefix 下大量的算子，但
+    # talib 在模板中沒有預設導入。這種寫法可實現在生成的代碼中導入
+    from polars_ta.prefix.talib import ts_LINEARREG_SLOPE  # noqa
+
+    # 還支持 def 和 class 的原樣導入
+    def cs_rank_if(condition, factor):
+        return cs_rank(if_else(condition, factor, None))
+
+    class Clazz:
+        pass
+
+    # 1. 底線開頭的變數只是中間變數，會被自動更名，最終輸出時會被剔除
+    # 2. 底線開頭的變數可以重複使用。多個複雜因子多行書寫時有重複中間變時不再衝突
+    _avg = ts_mean(corr, 20)
+    _std = ts_std_dev(corr, 20)
+    _beta = ts_LINEARREG_SLOPE(corr, 20)
+
+    # 3. 底線開頭的變數有環循環賦值。在除錯時可快速用註解進行切換
+    _avg = cs_mad_zscore_resid(_avg, LOG_MC_ZS, ONE)
+    _std = cs_mad_zscore_resid(_std, LOG_MC_ZS, ONE)
+    # _beta = cs_mad_zscore_resid(_beta, LOG_MC_ZS, ONE)
+
+    _corr = cs_zscore(_avg) + cs_zscore(_std)
+    CPV = cs_zscore(_corr) + cs_zscore(_beta)
+
+
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=sys.stdout)  # 列印代碼
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=&quot;output.py&quot;)  # 儲存到檔案
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by')  # 只執行，不儲存代碼
+
+code = StringIO()
+codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=code)  # 儲存到字串
+code.seek(0)
+code.read()  # 讀取代碼
+
+# TODO 替換成合適的資料
+df = pl.DataFrame()
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect()  # Lazy CPU
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect(engine=&quot;gpu&quot;)  # Lazy GPU
+
+</code></pre>
+<h2>目錄結構</h2>
+<pre><code class="language-commandline">│  requirements.txt # 透過 `pip install -r requirements.txt` 安裝依賴
+├─data
+│      prepare_date.py # 準備資料
+├─examples
+│      demo_express.py # 速成範例。演示如何將表達式轉換成代碼
+│      demo_exec_pl.py # 演示調用轉換後代碼並繪圖
+│      demo_transformer.py # 演示將第三方表達式轉成內部表達式
+│      output.py # 結果輸出。可不修改代碼，直接被其它項目導入
+│      show_tree.py # 畫表達式樹形圖。可用於分析比較優化結果
+│      sympy_define.py # 符號定義，由於太多地方重複使用到，所以統一提取到此處
+├─expr_codegen
+│   │  expr.py # 表達式處理基本函數
+│   │  tool.py # 核心工具代碼
+│   ├─polars
+│   │  │  code.py # 針對 polars 語法的代碼生成
+│   │  │  template.py.j2 # `Jinja2` 模板。用於生成對應 py 檔案，一般不需修改
+│   │  │  printer.py # 繼承於 `Sympy` 中的 `StrPrinter`，添加新函數時可能需修改此檔案
+</code></pre>
+<h2>工作原理</h2>
+<p>本項目依賴於 <code>sympy</code> 項目。所用到的主要函數如下：</p>
+<ol>
+<li><code>simplify</code>：對複雜表達式進行化簡</li>
+<li><code>cse</code>：<code>Common Subexpression Elimination</code> 公共子表達式消除</li>
+<li><code>StrPrinter</code>：根據不同的函數輸出不同字串。自訂此代碼可以支援其它語種或庫</li>
+</ol>
+<p>因為 <code>groupby</code>、<code>sort</code> 都比較耗時。如果提前將公式分類，不同的類別使用不同的 <code>groupby</code>，可以減少計算時間。</p>
+<ol>
+<li><code>ts_xxx(ts_xxx)</code>：可在同一 <code>groupby</code> 中進行計算</li>
+<li><code>cs_xxx(cs_xxx)</code>：可在同一 <code>groupby</code> 中進行計算</li>
+<li><code>ts_xxx(cs_xxx)</code>：需在不同 <code>groupby</code> 中進行計算</li>
+<li><code>cs_xxx(ts_xxx(cs_xxx))</code>：需三不同 <code>groupby</code> 中進行計算</li>
+<li><code>gp_xxx(aa, )+gp_xxx(bb, )</code>：因 <code>aa</code>、<code>bb</code> 不同，需在兩不同 <code>groupby</code> 中進行計算</li>
+</ol>
+<p>所以</p>
+<ol>
+<li>需要有一個函數能獲取當前表達式的類別（<code>get_current</code>）和子表達式的類別（<code>get_children</code>）</li>
+<li>如果當前類別與子類別不同就可以提取出短公式（<code>extract</code>）。不同層的同類別表達式有先後關係，不能放同一 <code>groupby</code></li>
+<li>利用 <code>cse</code> 的特點，將長表達式替換成前期提取出來的短表達式。然後輸入到有向無環圖（<code>DAG</code>）</li>
+<li>利用有向無環圖的流轉，進行分層。同一層的 <code>ts</code>、<code>cs</code>、<code>gp</code> 不區分先後</li>
+<li>同一層對 <code>ts</code>、<code>cs</code>、<code>gp</code> 分組，然後生成代碼（<code>codegen</code>）即可</li>
+</ol>
+<p>隱含資訊</p>
+<ol>
+<li><code>ts</code>：sort(by=[ASSET, DATE]).groupby(by=[ASSET], maintain_order=True)</li>
+<li><code>cs</code>：sort(by=[DATE]).groupby(by=[DATE], maintain_order=False)</li>
+<li><code>gp</code>：sort(by=[DATE, GROUP]).groupby(by=[DATE, GROUP], maintain_order=False)</li>
+</ol>
+<p>即</p>
+<ol>
+<li>時序函數隱藏了兩個欄位 <code>ASSET, DATE</code>，橫截面函數隱藏了一個欄位 <code>DATE</code></li>
+<li>分組函數轉入了一個欄位 <code>GROUP</code>，同時隱藏了一個欄位 <code>DATE</code></li>
+</ol>
+<p>兩種分類方法</p>
+<ol>
+<li>根據算子前綴分類（<code>get_current_by_prefix</code>），限制算子必須以 <code>ts_</code>、<code>cs_</code>、<code>gp_</code> 開頭</li>
+<li>根據算子全名分類（<code>get_current_by_name</code>），不再限制算子名。比如 <code>cs_rank</code> 可以叫 <code>rank</code></li>
+</ol>
+<h2>Null 處理</h2>
+<p><code>null</code> 是如何產生的？</p>
+<ol>
+<li>停牌導致。在計算前就直接過濾掉了，不會對後續計算產生影響。</li>
+<li>不同品種交易時段不同</li>
+<li>計算產生。<code>null</code> 在數列兩端不影響後續時序算子結果，但中間出現 <code>null</code> 會影響。例如： <code>if_else(close&lt;2, None, close)</code></li>
+</ol>
+<p>https://github.com/pola-rs/polars/issues/12925#issuecomment-2552764629</p>
+<p>非常棒的點子，總結下來有兩種實現方式：</p>
+<ol>
+<li>將 <code>null</code> 分成一組，<code>not_null</code> 分成另一組。要調用兩次</li>
+<li>僅一組，但複合排序，將 <code>null</code> 排在前面，<code>not_null</code> 排後面。只調用一次，略快一些</li>
+</ol>
+<pre><code class="language-python">X1 = (ts_returns(CLOSE, 3)).over(CLOSE.is_not_null(), _ASSET_, order_by=_DATE_),
+X2 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=[CLOSE.is_not_null(), _DATE_]),
+X3 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=_DATE_),
+</code></pre>
+<p>第2種開頭的 <code>null</code> 區域，是否影響結果由算子所決定，特別是多列輸入時 <code>null</code> 區域可能有數據</p>
+<ol>
+<li><code>over_null='partition_by'</code>。分到兩個區域</li>
+<li><code>over_null='order_by'</code>。分到一個區域，<code>null</code> 排在前面</li>
+<li><code>over_null=None</code>。不處理，直接調用，速度更快。如果確認不會中段產生 <code>null</code> 建議使用此參數</li>
+</ol>
+<p><code>codegen_exec(over_null='partition_by')</code> 為全域使用 <code>partition_by</code>。但遇到 <code>ts_count_nulls</code> 這類 <code>null</code>
+函數就得使用 <code>over_null=None</code>，所以本工具還新添了註解功能來指定單行表達式參數</p>
+<ol>
+<li><code># --over_null partition_by</code>。單行 <code>over_null='partition_by'</code></li>
+<li><code># --over_null=order_by</code>。單行 <code>over_null='order_by'</code></li>
+<li><code># --over_null</code>。單行 <code>over_null=None</code></li>
+<li><code># </code>。取 <code>codegen_exec</code> 參數傳入的 <code>over_null</code> 值</li>
+</ol>
+<p>注意：</p>
+<ol>
+<li><p><code># --over_null</code> 傳參註解只能寫在單行表達式的後面，不能獨立成一行，否則會被忽略</p>
+</li>
+<li><p><code># --over_null # --over_null=order_by</code> 多個 <code>#</code> 時，只取第一個有效</p>
+</li>
+<li><p>只對最外層 <code>ts</code> 函數有效。如果 <code>ts</code> 函數不在外層，需要人工提煉。例如：</p>
+<pre><code class="language-python">X1 = cs_rank(ts_mean(CLOSE, 3)) # --over_null=order_by # 應用在 cs_rank 上，沒有意義
+X2 = ts_rank(ts_mean(CLOSE, 3), 5) # --over_null=order_by # 本以為應用在 ts_rank(ts_mean) 上，但由於出現了公共 ts_mean，其實是應用在 ts_rank(_x_0) 上
+</code></pre>
+<p>需寫成</p>
+<pre><code class="language-python">_x_0 = ts_mean(CLOSE, 3)  # --over_null=order_by 
+X1 = cs_rank(_x_0)
+X2 = ts_rank(_x_0, 5)
+</code></pre>
+</li>
+<li><p>由於很容易搞錯，強烈建議生成 <code>output_file</code>，檢查生成的代碼是否正確。</p>
+</li>
+</ol>
+<h2><code>expr_codegen</code> 局限性</h2>
+<ol>
+<li><code>DAG</code> 只能增加欄位無法刪除。增加欄位時，遇到同名欄位會覆蓋</li>
+<li>不支援 <code>刪除列</code>，但可以新增刪除標記欄位，然後在外部進行刪除列。刪除列會影響所有欄位，不符合 <code>DAG</code></li>
+<li>不支援 <code>重採樣</code>，原理同不支援刪除列。需在外部進行</li>
+<li>可以將 <code>刪除列</code> 與 <code>重採樣</code> 作為分割線，一大段代碼分成多個 <code>DAG</code> 串接。複雜不易理解，所以最終沒有實現</li>
+</ol>
+<h2>特別語法</h2>
+<ol>
+<li>支援 <code>C?T:F</code> 三元表達式（僅可字串中使用），底層會先轉成 <code>C or True if( T )else F</code>，然後修正成 <code>T if C else F</code>
+，最後轉成 <code>if_else(C,T,F)</code>。支援與 <code>if else</code> 混用</li>
+<li><code>(A&lt;B)*-1</code>，底層將轉換成 <code>int_(A&lt;B)*-1</code></li>
+<li>為防止 <code>A==B</code> 被 <code>sympy</code> 替換成 <code>False</code>，底層會換成 <code>Eq(A,B)</code></li>
+<li><code>A^B</code> 的含義與 <code>convert_xor</code> 參數有關，<code>convert_xor=True</code> 底層會轉換成 <code>Pow(A,B)</code>，反之為 <code>Xor(A,B)</code>。預設為 <code>False</code>，用 <code>**</code> 表示乘方</li>
+<li>支援 <code>A&amp;B&amp;C</code>，但不支援 <code>A==B==C</code>。如果 C 是布林值，AB 是數值，可手動替換成 <code>(A==B)==C</code>。如果 ABC 是數值需手動替換成 <code>(A==B)&amp;(B==C)</code></li>
+<li>不支援 <code>A&lt;=B&lt;=C</code>，需手動替換成 <code>(A&lt;=B)&amp;(B&lt;=C)</code></li>
+<li>支援 <code>A[0]+B[1]+C[2]</code>，底層會轉成 <code>A+ts_delay(B,1)+ts_delay(C,2)</code></li>
+<li>支援 <code>~A</code>，底層會轉換成 <code>Not(A)</code></li>
+<li><code>gp_</code> 開頭的函數都會返回對應的 <code>cs_</code> 函數。如 <code>gp_func(A,B,C)</code> 會替換成 <code>cs_func(B,C)</code>，其中 <code>A</code> 用在了 <code>groupby([date, A])</code></li>
+<li>支援 <code>A,B,C=MACD()</code> 元組解包，在底層會替換成</li>
+</ol>
+<pre><code class="language-python">_x_0 = MACD()
+A = unpack(_x_0, 0)
+B = unpack(_x_0, 1)
+C = unpack(_x_0, 2)
+</code></pre>
+<ol start="11">
+<li>單行註解支援參數輸入，如：<code># --over_null</code>、<code># --over_null=order_by</code>、<code># --over_null=partition_by</code></li>
+<li>代碼區塊中，對 <code>import</code>、<code>def</code>、<code>class</code> 三種語法，自動原樣插入到生成的代碼中</li>
+</ol>
+<h2>底線開頭的變數</h2>
+<ol>
+<li>輸出的資料，所有以 <code>_</code> 開頭的欄位，最後會被自動刪除。所以需要保留的變數一定不要以 <code>_</code> 開頭</li>
+<li>為減少重複計算，自動添加了中間變數，以 <code>_x_</code> 開頭，如 <code>_x_0</code>、<code>_x_1</code> 等。最後會被自動刪除</li>
+<li>單行表達式過長，或有重複計算，可以通過中間變數，將單行表達式改成多行。如果中間變數使用 <code>_</code>
+開頭，將會自動添加數字後綴，形成不同的變數，如 <code>_A</code> 會替換成 <code>_A_0_</code>、<code>_A_1_</code> 等。使用場景如下：
+<ol>
+<li>同一變數名，重複使用。本質是不同的變數</li>
+<li>循環賦值，但 <code>DAG</code> 不支援有環。<code>=</code> 號左右的同名變數其實是不同變數</li>
+</ol>
+</li>
+</ol>
+<h2>轉譯結果範例</h2>
+<p>轉譯後的代碼片段，詳細代碼請參考 <a href="examples/output_polars.py">Polars 版</a></p>
+<pre><code class="language-python">def func_0_ts__asset(df: pl.DataFrame) -&gt; pl.DataFrame:
+    df = df.sort(by=[_DATE_])
+    # ========================================
+    df = df.with_columns(
+        _x_0=1 / ts_delay(OPEN, -1),
+        LABEL_CC_1=(-CLOSE + ts_delay(CLOSE, -1)) / CLOSE,
+    )
+    # ========================================
+    df = df.with_columns(
+        LABEL_OO_1=_x_0 * ts_delay(OPEN, -2) - 1,
+        LABEL_OO_2=_x_0 * ts_delay(OPEN, -3) - 1,
+    )
+    return df
+</code></pre>
+<p>轉譯後的代碼片段，詳細代碼請參考 <a href="examples/output_pandas.py">Pandas 版</a></p>
+<pre><code class="language-python">def func_2_cs__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_4 = cs_rank(x_7)
+    df[&quot;expr_4&quot;] = (df[&quot;x_7&quot;]).rank(pct=True)
+    return df
+
+
+def func_3_ts__asset__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_5 = -ts_corr(OPEN, CLOSE, 10)
+    df[&quot;expr_5&quot;] = -(df[&quot;OPEN&quot;]).rolling(10).corr(df[&quot;CLOSE&quot;])
+    # expr_6 = ts_delta(OPEN, 10)
+    df[&quot;expr_6&quot;] = df[&quot;OPEN&quot;].diff(10)
+    return df
+
+</code></pre>
+<h2>本地部署互動網頁</h2>
+<p>只需執行 <code>streamlit run streamlit_app.py</code></p>
+<hr />
+<p><a href="https://github.com/OpenAiTx/OpenAiTx">Powered By OpenAiTx</a> - 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

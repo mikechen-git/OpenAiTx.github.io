@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>helm-chartsnap - jlandowner/helm-chartsnap</title>
+    <meta name="title" content="helm-chartsnap - jlandowner/helm-chartsnap">
+    <meta name="description" content="jlandowner/helm-chartsnap - GitHub repository ja documentation and informationhelm-chartsnap 📸 Helmチャート用のスナップショットテストツール。 values.yamlファイル内だけの最小限の設定で、Helmチャートに強力なUIテスト機能をもたらします。 概要 特徴 🔑 なぜスナップショットテストか？ 📸 モチベーション インストール 🚀 使い方 動的値の扱い 💪 シ...">
+    <meta name="keywords" content="jlandowner, helm-chartsnap, GitHub, repository, ja documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/jlandowner/helm-chartsnap/README-ja.html">
+    <meta property="og:title" content="helm-chartsnap - jlandowner/helm-chartsnap">
+    <meta property="og:description" content="jlandowner/helm-chartsnap - GitHub repository ja documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/jlandowner/helm-chartsnap" id="githubRepoLink" target="_blank">jlandowner/helm-chartsnap</a>
+<h1 style="display: none;">helm-chartsnap 📸 Helmチャート用のスナップショットテストツール。 values.yamlファイル内だけの最小限の設定で、Helmチャートに強力なUIテスト機能をもたらします。 概要 特徴 🔑 なぜスナップショットテストか？ 📸 モチベーション インストール 🚀 使い方 動的値の扱い 💪 シ...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>helm-chartsnap 📸</h1>
+<p><a href="https://pkg.go.dev/github.com/jlandowner/helm-chartsnap"><img src="https://pkg.go.dev/badge/github.com/jlandowner/helm-chartsnap.svg" alt="Go Reference" /></a>
+<a href="https://goreportcard.com/report/github.com/jlandowner/helm-chartsnap"><img src="https://goreportcard.com/badge/github.com/jlandowner/helm-chartsnap" alt="Go Report Card" /></a>
+<a href="https://codecov.io/gh/jlandowner/helm-chartsnap"><img src="https://codecov.io/gh/jlandowner/helm-chartsnap/graph/badge.svg?token=8ARG53CRL7" alt="codecov" /></a>
+<a href="https://github.com/jlandowner/helm-chartsnap/actions/workflows/release.yaml"><img src="https://github.com/jlandowner/helm-chartsnap/actions/workflows/release.yaml/badge.svg" alt="Workflow Status" /></a>
+<a href="https://github.com/jlandowner/helm-chartsnap/actions/workflows/ci.yaml"><img src="https://github.com/jlandowner/helm-chartsnap/actions/workflows/ci.yaml/badge.svg" alt="CI" /></a>
+<a href="https://github.com/marketplace/actions/helm-chartsnap-action"><img src="https://img.shields.io/badge/Marketplace-Helm%20chartsnap%20action-blue.svg?colorA=24292e&amp;colorB=0366d6&amp;style=flat&amp;longCache=true&amp;logo=github" alt="GitHub Marketplace" /></a></p>
+<p>Helmチャート用のスナップショットテストツール。</p>
+<p><code>values.yaml</code>ファイル内だけの最小限の設定で、Helmチャートに強力なUIテスト機能をもたらします。</p>
+<p><img src="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/docs/screenshot.png" alt="screenshot" /></p>
+<h2>概要</h2>
+<ul>
+<li><a href="#%E7%89%B9%E5%BE%B4-">特徴 🔑</a></li>
+<li><a href="#%E3%81%AA%E3%81%9C%E3%82%B9%E3%83%8A%E3%83%83%E3%83%97%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%E3%83%86%E3%82%B9%E3%83%88%E3%81%8B-">なぜスナップショットテストか？ 📸</a>
+<ul>
+<li><a href="#%E3%83%A2%E3%83%81%E3%83%99%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3">モチベーション</a></li>
+</ul>
+</li>
+<li><a href="#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB-">インストール 🚀</a></li>
+<li><a href="#%E4%BD%BF%E3%81%84%E6%96%B9">使い方</a>
+<ul>
+<li><a href="#%E5%8B%95%E7%9A%84%E5%80%A4%E3%81%AE%E6%89%B1%E3%81%84-">動的値の扱い 💪</a></li>
+</ul>
+</li>
+<li><a href="#%E3%82%B7%E3%83%A7%E3%83%BC%E3%82%B1%E3%83%BC%E3%82%B9--%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC-">ショーケース &amp; ユーザー ✨</a></li>
+</ul>
+<h2>特徴 🔑</h2>
+<ul>
+<li><p><strong>Helm開発者のための簡単かつ直感的なスナップショットテスト</strong></p>
+<ul>
+<li><strong>ツール固有のTestSuiteファイル形式不要</strong>: 一部のツールでは独自のTestSuiteファイルの作成が必要ですが、本ツールでは追加ファイル形式は不要です。各テストケースごとに標準の<code>values.yaml</code>ファイルのバリエーションを用意するだけで済みます。新しい形式を学ぶ必要がなく、テストがシンプルになります。</li>
+</ul>
+</li>
+<li><p><strong>Helmチャートに最適化</strong></p>
+<ul>
+<li><strong>helm関数で生成される動的出力の対応</strong>: 各テストケースの<code>values.yaml</code>ファイル内で追加プロパティを指定でき、テスト動作を柔軟に調整できます。たとえば、<a href="https://helm.sh/docs/chart_template_guide/function_list/">randAlphaNum</a>のようなhelm関数で動的に生成される出力を制御できます。</li>
+</ul>
+</li>
+<li><p><strong>継続的なスナップショットテスト</strong></p>
+<ul>
+<li><strong><a href="https://github.com/jlandowner/helm-chartsnap-action">GitHub Action</a> 対応済み</strong>: ローカルやリモートのHelmチャートに対し、CIで継続的なスナップショットテストを可能にするGitHub Actionを用意しています🚀 -&gt; <a href="https://github.com/jlandowner/helm-chartsnap-action"><code>helm-chart-action</code></a></li>
+</ul>
+</li>
+</ul>
+<h2>なぜスナップショットテストか？ 📸</h2>
+<p>WebやUIテストで一般的なJestのようなスナップショットテストは、Helmチャートのテストにも最適と考えます。スナップショットテストには以下のメリットがあります。</p>
+<ul>
+<li><p><strong>視覚的な比較:</strong> スナップショットテストは基準となる出力を作成し、その後のテスト結果と比較します。これにより、Helmチャートのレンダリング結果の変化やリグレッションを容易に目視確認できます。</p>
+</li>
+<li><p><strong>保守性の向上:</strong> スナップショットテストはテストの準備を簡素化し、特に複雑なHelmチャートの場合にも扱いやすく、保守性が高まります。Helmチャートの入力は値（values）の組み合わせだけなので、仮定する入力パターン（=values.yaml）とそのスナップショットだけを管理すれば十分です。</p>
+</li>
+<li><p><strong>継続的テスト:</strong> CIプロセスでHelmチャートのスナップショットを継続的に取得することで、チャート全体の変化をすばやく把握し、リグレッションを防げます。</p>
+</li>
+</ul>
+<p>これらの利点は、自作チャートだけでなく、Kubernetes管理者として導入したサードパーティ製チャートにも有効です。クラスタのアップグレード時にも、自分の<em>values</em>から生成される出力マニフェストの変更を細かな点まで検出できます。</p>
+<h3>モチベーション</h3>
+<p>既存のHelmテストツールにもスナップショットテストをサポートするものがあります。</p>
+<ul>
+<li><a href="https://github.com/helm-unittest/helm-unittest">helm-unittest</a>: 人気のユニットテストツールで、<a href="https://github.com/helm-unittest/helm-unittest#snapshot-testing">スナップショットテスト</a>オプションがあります。</li>
+<li><a href="https://terratest.gruntwork.io/">terratest</a>: インフラコードの自動テストツール。Goコードでテストを書き、Helm出力のテストも可能です。 <a href="https://blog.gruntwork.io/automated-testing-for-kubernetes-and-helm-charts-using-terratest-a4ddc4e67344">ブログ記事</a></li>
+</ul>
+<blockquote>
+<p>公式のHelmテストツール <a href="https://github.com/helm/chart-testing"><code>ct</code></a> はユニットテストやスナップショットテスト用ではなく、lintや統合テスト用です。</p>
+</blockquote>
+<p>これらはHelmチャートのテストに有用ですが、スナップショットテストの観点ではいくつかの制約があります。</p>
+<ul>
+<li><p>スナップショットテストだけでもツール用のTest Suiteファイルの準備と習得が必要。</p>
+</li>
+<li><p>チャート全体をデフォルトでスナップショットするのではなく、チャート内の各ファイル単位で設計されている。</p>
+</li>
+<li><p>Helm関数の動的出力には未対応。</p>
+</li>
+</ul>
+<p>helm-unittestはチャート内の各ファイル単位でテストを実行する設計です。Helmチャートの値や条件により特定ファイルが条件付きで含まれたり除外されたりすると、重要なシナリオのテストが困難になる場合があります。</p>
+<p>以下はhelm-unittestのスナップショットテスト用のテスト仕様ファイル例です。</p>
+<blockquote>
+<p>https://github.com/helm-unittest/helm-unittest#snapshot-testing</p>
+<pre><code class="language-yaml">templates:
+  - templates/deployment.yaml
+tests:
+  - it: pod spec should match snapshot
+    asserts:
+      - matchSnapshot:
+          path: spec.template.spec
+  # or you can snapshot the whole manifest
+  - it: manifest should match snapshot
+    asserts:
+      - matchSnapshot: {}
+</code></pre>
+</blockquote>
+<p>例えば、TLSが有効かつcert-managerが有効な場合に<code>cert-manager</code>の<code>Certificate</code>リソースを生成し、cert-managerが無効な場合はhelm関数<a href="https://helm.sh/docs/chart_template_guide/function_list/#genselfsignedcert"><code>genSelfSignedCert</code></a>を使って自己署名TLS<code>Secret</code>を生成するシナリオを考えます。TLSの有効/無効はIngressのTLSプロパティやDeploymentのアプリ固有TLSオプションにも影響します。</p>
+<p>このような場合、helm-unittestでは条件付きファイルの出力が空になり、チャート全体の挙動を十分にテストできず、テストが不完全になることがあります。</p>
+<p>しかし、<code>helm-chartsnap</code>なら想定するパターンごとに<code>values.yaml</code>ファイルを用意するだけでOKです😊</p>
+<h2>インストール 🚀</h2>
+<p>Helmプラグインとしてインストール可能です。</p>
+<pre><code class="language-sh">helm plugin install https://github.com/jlandowner/helm-chartsnap
+</code></pre>
+<p>その他の方法:</p>
+<ul>
+<li><p>Go install</p>
+<pre><code class="language-sh">go install github.com/jlandowner/helm-chartsnap@latest
+</code></pre>
+</li>
+<li><p><a href="https://github.com/jlandowner/helm-chartsnap/releases">リリースバイナリをダウンロード</a></p>
+</li>
+</ul>
+<h2>使い方</h2>
+<p>チャートを指定してすぐに始められます。</p>
+<pre><code>helm chartsnap -c YOUR_CHART
+</code></pre>
+<p>チャートディレクトリ内に<code>__snapshot__</code>ディレクトリと<code>default.snap</code>が作成されます。</p>
+<p>また、チャートのValuesファイルのバリエーションとしてテストケースも作成できます。</p>
+<p>コマンドのフル使用例は下記です。</p>
+<pre><code class="language-sh">Usage:
+  chartsnap -c CHART [flags]
+
+Examples:
+
+  # デフォルト値でスナップショット:
+  chartsnap -c YOUR_CHART
+  
+  # スナップショットファイルを更新:
+  chartsnap -c YOUR_CHART -u
+
+  # テストケースの値でスナップショット:
+  chartsnap -c YOUR_CHART -f YOUR_TEST_VALUES_FILE
+  
+  # 複数テストケースをまとめてスナップショット:
+  chartsnap -c YOUR_CHART -f YOUR_TEST_VALUES_FILES_DIRECTOY
+  
+  # 'helm template'コマンド用の追加引数やフラグを指定:
+  chartsnap -c YOUR_CHART -f YOUR_TEST_VALUES_FILE -- --skip-tests
+
+  # Helmリポジトリ内のリモートチャートをスナップショット:
+  chartsnap -c CHART_NAME -f YOUR_VALUES_FILE -- --repo HELM_REPO_URL
+
+  # ingress-nginx（https://kubernetes.github.io/ingress-nginx/）の特定バージョンチャートを値ファイルでスナップショット:
+  chartsnap -c ingress-nginx -f YOUR_VALUES_FILE -- --repo https://kubernetes.github.io/ingress-nginx --namespace kube-system --version 4.8.3
+
+  # cilium（https://cilium.io）チャートをデフォルト値とフラグ指定でスナップショット:
+  chartsnap -c cilium -- --repo https://helm.cilium.io --namespace kube-system --set hubble.relay.enabled=true --set hubble.ui.enabled=true
+
+  # OCIレジストリ内のチャートをスナップショット
+  chartsnap -c oci://ghcr.io/nginxinc/charts/nginx-gateway-fabric -n nginx-gateway
+
+  # カラー出力なし:
+  NO_COLOR=1 chartsnap -c YOUR_CHART
+
+Flags:
+  -c, --chart string              チャートディレクトリのパス。'helm template RELEASE_NAME CHART --values VALUES'の'CHART'として渡されます
+      --config-file string        スナップショット動作（例: 動的フィールド）を定義する設定ファイル名またはパス（デフォルト: &quot;.chartsnap.yaml&quot;）
+  -N, --ctx-lines int             diff出力で表示する行数。0で全出力（デフォルト: 3）
+      --debug                     デバッグモード
+      --fail-helm-error           'helm template'コマンド失敗時にエラーで終了
+      --failfast                  いずれかのテストケース失敗時に即終了
+  -h, --help                      chartsnapのヘルプ
+  -n, --namespace string          namespace。'helm template RELEASE_NAME CHART --values VALUES --namespace NAMESPACE'の'NAMESPACE'として渡されます（デフォルト: &quot;default&quot;）
+  -o, --output-dir string         '__snapshot__'ディレクトリ作成先（デフォルト: --values指定時はそのディレクトリ、ローカルチャート時はチャートディレクトリ、その他はカレントディレクトリ）
+      --parallelism int           複数テスト値ファイルディレクトリ時の同時並列数。デフォルト無制限（デフォルト -1）
+      --release-name string       リリース名。'helm template RELEASE_NAME CHART --values VALUES'の'RELEASE_NAME'として渡されます（デフォルト: &quot;chartsnap&quot;）
+      --snapshot-version string   特定のスナップショットフォーマットバージョンを使用。v1, v2, v3がサポート（デフォルト: 最新）
+  -u, --update-snapshot           スナップショット更新モード
+  -f, --values string             テスト値ファイルまたはディレクトリのパス。ディレクトリ指定時は全ファイルをテスト。空ならデフォルト値使用。'helm template RELEASE_NAME CHART --values VALUES'の'VALUES'として渡されます
+  -v, --version                   chartsnapのバージョン表示
+
+</code></pre>
+<h3>動的値の扱い 💪</h3>
+<p>Helmには<a href="https://helm.sh/docs/chart_template_guide/function_list/#randalphanum-randalpha-randnumeric-and-randascii"><code>randAlphaNum</code></a>や<a href="https://helm.sh/docs/chart_template_guide/function_list/#cryptographic-and-security-functions"><code>genCA</code>, <code>genPrivateKey</code>, <code>genSelfSignedCert</code></a>のような、ランダム値や自己署名証明書を生成する&quot;Helm関数&quot;があります。</p>
+<p>これらの関数を使うと、Helm実行ごとに出力が異なります。
+この場合、chartsnapでは出力の該当部分を固定値<code>###DYNAMIC_FIELD###</code>に置換することでスナップショット差分を防ぐ機能があります。</p>
+<p>生成されたYAML内の動的値のパスは<a href="https://datatracker.ietf.org/doc/html/rfc6901">JSONPath</a>で指定します。</p>
+<pre><code class="language-yaml:.chartsnap.yaml">dynamicFields:
+  - apiVersion: v1
+    kind: Secret
+    name: cosmo-auth-env
+    jsonPath:
+      - /data/COOKIE_HASHKEY
+      - /data/COOKIE_BLOCKKEY
+      - /data/COOKIE_HASHKEY
+      - /data/COOKIE_SESSION_NAME
+    base64: true
+</code></pre>
+<blockquote>
+<p>補足:
+JSONPathでの/文字のエスケープは<a href="https://datatracker.ietf.org/doc/html/rfc6901#section-3">RFC6901, section 3</a>に記載されています。</p>
+<pre><code>   JSON Pointerでは'~'（%x7E）と'/'（%x2F）は特別な意味を持つため、
+   '~'は'~0'、'/'は'~1'としてトークン内でエンコードする必要があります。
+</code></pre>
+<p>例えば以下のようなマニフェストを扱う場合、json pathは<code>/metadata/annotaions/checksum~1values</code>と指定します。</p>
+<pre><code class="language-yaml">metadata:
+  annotations:
+    checksum/values: RANDOM_VALUES
+</code></pre>
+</blockquote>
+<p>テスト値ファイルディレクトリがある場合は、そのディレクトリ内に<code>.chartsnap.yaml</code>を配置してください。ディレクトリ内のすべてのスナップショットテストで共通設定として動作します。</p>
+<p>より多くの例は<a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/app1">example/app1</a>を参照してください。</p>
+<p>また、テスト値ファイル内に直接<code>testSpec</code>プロパティとして設定を書くことも可能です。
+この場合、<code>.chartsnap.yaml</code>の準備は不要です。リモートやサードパーティチャートの単一値ファイルスナップショット用です。</p>
+<p>値ファイル例:</p>
+<pre><code class="language-yaml"># このプロパティを追加
+testSpec:
+  dynamicFields:
+    - apiVersion: v1
+      kind: Secret
+      name: cilium-ca
+      jsonPath:
+        - /data/ca.crt
+        - /data/ca.key
+      base64: true
+    - apiVersion: v1
+      kind: Secret
+      name: hubble-server-certs
+      jsonPath:
+        - /data/ca.crt
+        - /data/tls.crt
+        - /data/tls.key
+      base64: true
+    - apiVersion: v1
+      kind: Secret
+      name: hubble-relay-client-certs
+      jsonPath:
+        - /data/ca.crt
+        - /data/tls.crt
+        - /data/tls.key
+      base64: true
+
+# その他は通常のチャート値
+# ...
+</code></pre>
+<p>より多くの例は<a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/remote">example/remote</a>を参照してください。</p>
+<h2>ショーケース &amp; ユーザー ✨</h2>
+<p>| ユーザー / プロジェクト | 説明 | URL |
+|:---|:---|:---|
+| Example | <code>helm create</code>コマンドで生成したサンプルチャート | <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/app1"><code>example/app1</code></a> |
+| Example | リモートHelmリポジトリのチャートをスナップショットする例 | <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/remote"><code>example/remote</code></a> |
+| <a href="https://github.com/jlandowner/helm-chartsnap-action">helm-chartsnap-action</a> | CIでhelm chartsnapを利用するGitHub Action | https://github.com/jlandowner/helm-chartsnap-action |
+| <a href="https://github.com/cosmo-workspace/cosmo">cosmo-workspace</a> | Kubernetes上のオープンソースWebIDE &amp; DevEnvironmentプラットフォーム | https://github.com/cosmo-workspace/cosmo/tree/main/charts/cosmo/test |
+| <a href="https://github.com/Kong/kong">Kong</a> | 🦍 クラウドネイティブAPIゲートウェイ &amp; AIゲートウェイ | https://github.com/Kong/charts |</p>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

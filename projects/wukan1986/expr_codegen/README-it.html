@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>expr_codegen - wukan1986/expr_codegen</title>
+    <meta name="title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta name="description" content="wukan1986/expr_codegen - GitHub repository it documentation and informationexpr_codegen Traduttore di Espressioni Contesto del Progetto Dopo aver rilasciato il mio nuovo pacchetto polars_ta, sono tornato a riflettere su cosa sia effett...">
+    <meta name="keywords" content="wukan1986, expr_codegen, GitHub, repository, it documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/wukan1986/expr_codegen/README-it.html">
+    <meta property="og:title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta property="og:description" content="wukan1986/expr_codegen - GitHub repository it documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/wukan1986/expr_codegen" id="githubRepoLink" target="_blank">wukan1986/expr_codegen</a>
+<h1 style="display: none;">expr_codegen Traduttore di Espressioni Contesto del Progetto Dopo aver rilasciato il mio nuovo pacchetto polars_ta, sono tornato a riflettere su cosa sia effett...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>expr_codegen Traduttore di Espressioni</h1>
+<h2>Contesto del Progetto</h2>
+<p>Dopo aver rilasciato il mio nuovo pacchetto <a href="https://github.com/wukan1986/polars_ta">polars_ta</a>, sono tornato a riflettere su cosa sia effettivamente <code>expr_codegen</code>.</p>
+<blockquote>
+<p><code>expr_codegen</code> è essenzialmente un <code>DSL</code>, linguaggio specifico di dominio (Domain Specific Language). Tuttavia, non definisce una nuova sintassi.</p>
+</blockquote>
+<p>Risolve due problemi:</p>
+<ol>
+<li><code>polars_ta</code> permette già di scrivere facilmente espressioni di calcolo di feature, ma quando si incontrano espressioni che mescolano <code>temporale e cross-sectionale</code>, con <code>expr_codegen</code> si può raggruppare automaticamente risparmiando molto lavoro.</li>
+<li><code>expr_codegen</code> sfrutta la <code>Common Subexpression Elimination</code> per eliminare sottosespressioni comuni, riducendo notevolmente i calcoli ripetuti e migliorando l'efficienza.</li>
+</ol>
+<p>Anche nel campo della quantistica, i ricercatori junior limitati agli indicatori temporali possono usare solo <code>polars_ta</code>; per quelli di livello medio-alto che usano indicatori cross-sectionali, si raccomanda di usare <code>expr_codegen</code>.</p>
+<p>Anche se attualmente questo progetto dipende molto da <code>polars_ta</code>, è possibile tradurlo per altri pacchetti, come <code>pandas / cudf.pandas</code>, manca solo una libreria semplice al momento.</p>
+<h2>Demo Online</h2>
+<p>https://exprcodegen.streamlit.app</p>
+<p>Gli utenti principianti possono accedere direttamente a questo link per tradurre espressioni senza installare software aggiuntivo. (Questo strumento è ospitato gratuitamente all'estero, potrebbe essere un po' lento all'apertura)</p>
+<p>Per esempi più completi visita <a href="https://github.com/wukan1986/alpha_examples">alpha_examples</a></p>
+<h2>Esempio d'Uso</h2>
+<pre><code class="language-python">import sys
+from io import StringIO
+
+import polars as pl
+
+from expr_codegen import codegen_exec
+
+
+def _code_block_1():
+    # Area di editing dei fattori; puoi modificarli qui con l'aiuto dell'IDE
+    LOG_MC_ZS = cs_mad_zscore(log1p(market_cap))
+
+
+def _code_block_2():
+    # Nel template sono già importati molti operatori da polars_ta.prefix, ma
+    # talib non è importato di default. In questo modo puoi importarlo nel codice generato
+    from polars_ta.prefix.talib import ts_LINEARREG_SLOPE  # noqa
+
+    # Supporta anche import, def e class come importazione diretta nel codice generato
+    def cs_rank_if(condition, factor):
+        return cs_rank(if_else(condition, factor, None))
+
+    class Clazz:
+        pass
+
+    # 1. Variabili che iniziano con underscore sono variabili intermedie, saranno rinominate automaticamente ed escluse dall'output finale
+    # 2. Variabili che iniziano con underscore possono essere riutilizzate. In caso di variabili intermedie ripetute in più righe non ci saranno conflitti
+    _avg = ts_mean(corr, 20)
+    _std = ts_std_dev(corr, 20)
+    _beta = ts_LINEARREG_SLOPE(corr, 20)
+
+    # 3. Le variabili che iniziano con underscore possono essere riassegnate in loop. Durante il debug puoi cambiare rapidamente con commenti
+    _avg = cs_mad_zscore_resid(_avg, LOG_MC_ZS, ONE)
+    _std = cs_mad_zscore_resid(_std, LOG_MC_ZS, ONE)
+    # _beta = cs_mad_zscore_resid(_beta, LOG_MC_ZS, ONE)
+
+    _corr = cs_zscore(_avg) + cs_zscore(_std)
+    CPV = cs_zscore(_corr) + cs_zscore(_beta)
+
+
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=sys.stdout)  # Stampa il codice
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=&quot;output.py&quot;)  # Salva su file
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by')  # Solo esegue, non salva il codice
+
+code = StringIO()
+codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=code)  # Salva su stringa
+code.seek(0)
+code.read()  # Legge il codice
+
+# TODO Sostituisci con dati appropriati
+df = pl.DataFrame()
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect()  # Lazy CPU
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect(engine=&quot;gpu&quot;)  # Lazy GPU
+
+</code></pre>
+<h2>Struttura delle Cartelle</h2>
+<pre><code class="language-commandline">│  requirements.txt # Installa le dipendenze con `pip install -r requirements.txt`
+├─data
+│      prepare_date.py # Prepara i dati
+├─examples
+│      demo_express.py # Esempio rapido. Mostra come convertire espressioni in codice
+│      demo_exec_pl.py # Mostra come chiamare il codice convertito e fare plot
+│      demo_transformer.py # Mostra come convertire espressioni di terze parti in espressioni interne
+│      output.py # Output dei risultati. Può essere importato direttamente da altri progetti senza modifiche
+│      show_tree.py # Disegna l'albero delle espressioni. Utile per analisi e confronto ottimizzazioni
+│      sympy_define.py # Definizioni simboliche, unificate qui perché usate ripetutamente in molti punti
+├─expr_codegen
+│   │  expr.py # Funzioni di base per la gestione delle espressioni
+│   │  tool.py # Codice degli strumenti principali
+│   ├─polars
+│   │  │  code.py # Generazione codice per sintassi polars
+│   │  │  template.py.j2 # Template `Jinja2` per generare i file py corrispondenti, generalmente non serve modificarlo
+│   │  │  printer.py # Estende `StrPrinter` di `Sympy`; potrebbe essere necessario modificare questo file aggiungendo nuove funzioni
+</code></pre>
+<h2>Principio di Funzionamento</h2>
+<p>Questo progetto si basa su <code>sympy</code>. Le funzioni principali utilizzate sono:</p>
+<ol>
+<li><code>simplify</code>: semplifica espressioni complesse</li>
+<li><code>cse</code>: <code>Common Subexpression Elimination</code>, elimina sottosespressioni comuni</li>
+<li><code>StrPrinter</code>: emette stringhe diverse a seconda delle funzioni. Personalizzando questo codice si può supportare altre lingue o librerie</li>
+</ol>
+<p>Poiché <code>groupby</code> e <code>sort</code> sono operazioni costose, se si classificano le formule in anticipo e si usano diversi <code>groupby</code> per categorie diverse, si può risparmiare tempo di calcolo.</p>
+<ol>
+<li><code>ts_xxx(ts_xxx)</code>: calcolabili nello stesso <code>groupby</code></li>
+<li><code>cs_xxx(cs_xxx)</code>: calcolabili nello stesso <code>groupby</code></li>
+<li><code>ts_xxx(cs_xxx)</code>: devono essere calcolati in diversi <code>groupby</code></li>
+<li><code>cs_xxx(ts_xxx(cs_xxx))</code>: devono essere calcolati in tre diversi <code>groupby</code></li>
+<li><code>gp_xxx(aa, )+gp_xxx(bb, )</code>: poiché <code>aa</code> e <code>bb</code> sono diversi, servono due diversi <code>groupby</code></li>
+</ol>
+<p>Quindi:</p>
+<ol>
+<li>Serve una funzione per ottenere la categoria dell'espressione corrente (<code>get_current</code>) e delle sotto-espressioni (<code>get_children</code>)</li>
+<li>Se la categoria attuale è diversa da quella dei figli, si può estrarre una formula breve (<code>extract</code>). Espressioni con stessa categoria ma su livelli diversi non possono essere nello stesso <code>groupby</code></li>
+<li>Usando le proprietà di <code>cse</code>, si sostituiscono le espressioni lunghe con quelle corte estratte in precedenza, poi si inseriscono in un grafo aciclico diretto (<code>DAG</code>)</li>
+<li>Con il flusso del grafo aciclico diretto, si fanno i livelli. Allo stesso livello, <code>ts</code>, <code>cs</code>, <code>gp</code> non hanno priorità</li>
+<li>Si raggruppano per <code>ts</code>, <code>cs</code>, <code>gp</code> allo stesso livello, poi si genera il codice (<code>codegen</code>)</li>
+</ol>
+<p>Informazioni implicite:</p>
+<ol>
+<li><code>ts</code>: sort(by=[ASSET, DATE]).groupby(by=[ASSET], maintain_order=True)</li>
+<li><code>cs</code>: sort(by=[DATE]).groupby(by=[DATE], maintain_order=False)</li>
+<li><code>gp</code>: sort(by=[DATE, GROUP]).groupby(by=[DATE, GROUP], maintain_order=False)</li>
+</ol>
+<p>Cioè:</p>
+<ol>
+<li>Le funzioni temporali nascondono due colonne <code>ASSET, DATE</code>, le funzioni cross-sectionali ne nascondono una <code>DATE</code></li>
+<li>La funzione di gruppo aggiunge una colonna <code>GROUP</code>, e nasconde una colonna <code>DATE</code></li>
+</ol>
+<p>Due metodi di classificazione:</p>
+<ol>
+<li>Classificazione per prefisso dell'operatore (<code>get_current_by_prefix</code>), richiede che gli operatori inizino con <code>ts_</code>, <code>cs_</code>, <code>gp_</code></li>
+<li>Classificazione per nome completo dell'operatore (<code>get_current_by_name</code>), non limita il nome dell'operatore. Ad esempio, <code>cs_rank</code> può chiamarsi anche <code>rank</code></li>
+</ol>
+<h2>Gestione dei Null</h2>
+<p>Come si generano i <code>null</code>?</p>
+<ol>
+<li>Sospensione delle contrattazioni. Filtrati in anticipo, non influenzano i calcoli successivi.</li>
+<li>Orari di negoziazione diversi per prodotti diversi</li>
+<li>Generazione nei calcoli. I <code>null</code> alle estremità di una serie non influenzano i risultati delle funzioni temporali, ma se appaiono in mezzo possono avere effetti. Ad esempio: <code>if_else(close&lt;2, None, close)</code></li>
+</ol>
+<p>https://github.com/pola-rs/polars/issues/12925#issuecomment-2552764629</p>
+<p>Ottima idea, in sintesi ci sono due modi per implementarlo:</p>
+<ol>
+<li>Mettere i <code>null</code> in un gruppo, i <code>not_null</code> in un altro. Serve chiamare due volte.</li>
+<li>Un solo gruppo, ma ordinamento composito: <code>null</code> davanti, <code>not_null</code> dietro. Si chiama una sola volta, leggermente più veloce.</li>
+</ol>
+<pre><code class="language-python">X1 = (ts_returns(CLOSE, 3)).over(CLOSE.is_not_null(), _ASSET_, order_by=_DATE_),
+X2 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=[CLOSE.is_not_null(), _DATE_]),
+X3 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=_DATE_),
+</code></pre>
+<p>Nel secondo caso, la zona iniziale di <code>null</code> può influenzare il risultato a seconda dell'operatore, soprattutto se ci sono più colonne in input e la zona <code>null</code> può avere dati.</p>
+<ol>
+<li><code>over_null='partition_by'</code>: divide in due aree</li>
+<li><code>over_null='order_by'</code>: una sola area, i <code>null</code> davanti</li>
+<li><code>over_null=None</code>: non gestisce, chiama direttamente, più veloce. Se sei sicuro che non verranno generati <code>null</code> a metà serie si consiglia questo parametro</li>
+</ol>
+<p><code>codegen_exec(over_null='partition_by')</code> usa globalmente <code>partition_by</code>. Ma per funzioni come <code>ts_count_nulls</code> che lavorano con i <code>null</code>, occorre usare <code>over_null=None</code>, quindi questo strumento ha anche aggiunto la possibilità di specificare parametri per singola riga tramite commenti.</p>
+<ol>
+<li><code># --over_null partition_by</code>: singola riga <code>over_null='partition_by'</code></li>
+<li><code># --over_null=order_by</code>: singola riga <code>over_null='order_by'</code></li>
+<li><code># --over_null</code>: singola riga <code>over_null=None</code></li>
+<li><code>#</code>: prende il valore di <code>over_null</code> passato come parametro a <code>codegen_exec</code></li>
+</ol>
+<p>Nota:</p>
+<ol>
+<li><p>Il commento <code># --over_null</code> può essere scritto solo in coda alla singola riga di espressione, non su una riga a parte, altrimenti sarà ignorato</p>
+</li>
+<li><p>Se ci sono più <code># --over_null # --over_null=order_by</code> sulla stessa riga, si prende solo il primo valido</p>
+</li>
+<li><p>Valido solo per la funzione <code>ts</code> più esterna. Se la funzione <code>ts</code> non è esterna, bisogna estrarla manualmente. Ad esempio:</p>
+<pre><code class="language-python">X1 = cs_rank(ts_mean(CLOSE, 3)) # --over_null=order_by # Applica a cs_rank, non ha senso
+X2 = ts_rank(ts_mean(CLOSE, 3), 5) # --over_null=order_by # Si pensa di applicarlo a ts_rank(ts_mean), ma con la cse diventa su ts_rank(_x_0)
+</code></pre>
+<p>Bisogna scrivere così:</p>
+<pre><code class="language-python">_x_0 = ts_mean(CLOSE, 3)  # --over_null=order_by 
+X1 = cs_rank(_x_0)
+X2 = ts_rank(_x_0, 5)
+</code></pre>
+</li>
+<li><p>Poiché è facile sbagliare, si consiglia vivamente di generare <code>output_file</code> e controllare se il codice generato è corretto.</p>
+</li>
+</ol>
+<h2>Limiti di <code>expr_codegen</code></h2>
+<ol>
+<li>Il <code>DAG</code> può solo aggiungere colonne, non eliminarle. Se aggiungi una colonna con lo stesso nome, viene sovrascritta.</li>
+<li>Non supporta la <code>cancellazione di righe</code>, ma puoi aggiungere una colonna di flag ed eliminarle esternamente. La cancellazione di righe influisce su tutte le colonne, non soddisfa il <code>DAG</code>.</li>
+<li>Non supporta il <code>resampling</code>, per lo stesso motivo della cancellazione di righe. Va gestito esternamente.</li>
+<li>Puoi usare la cancellazione di righe e il resampling come linea di demarcazione e concatenare più <code>DAG</code> in blocchi. È complesso e poco comprensibile, perciò non è stato implementato.</li>
+</ol>
+<h2>Sintassi Speciale</h2>
+<ol>
+<li>Supporta l'espressione ternaria <code>C?T:F</code> (solo nelle stringhe), che viene trasformata in <code>C or True if( T )else F</code>, poi in <code>T if C else F</code>, infine in <code>if_else(C,T,F)</code>. Supporta miscelazione con <code>if else</code>.</li>
+<li><code>(A&lt;B)*-1</code> viene trasformato in <code>int_(A&lt;B)*-1</code></li>
+<li>Per evitare che <code>A==B</code> venga sostituito da <code>False</code> in <code>sympy</code>, viene cambiato in <code>Eq(A,B)</code></li>
+<li>Il significato di <code>A^B</code> dipende dal parametro <code>convert_xor</code>, se <code>convert_xor=True</code> si trasforma in <code>Pow(A,B)</code>, altrimenti in <code>Xor(A,B)</code>. Di default è <code>False</code>, per la potenza si usa <code>**</code></li>
+<li>Supporta <code>A&amp;B&amp;C</code>, ma non <code>A==B==C</code>. Se C è booleano e AB sono numerici, sostituire manualmente con <code>(A==B)==C</code>. Se ABC sono numerici, sostituire manualmente con <code>(A==B)&amp;(B==C)</code></li>
+<li>Non supporta <code>A&lt;=B&lt;=C</code>, sostituire manualmente con <code>(A&lt;=B)&amp;(B&lt;=C)</code></li>
+<li>Supporta <code>A[0]+B[1]+C[2]</code>, trasformato in <code>A+ts_delay(B,1)+ts_delay(C,2)</code></li>
+<li>Supporta <code>~A</code>, trasformato in <code>Not(A)</code></li>
+<li>Le funzioni che iniziano con <code>gp_</code> restituiscono la funzione <code>cs_</code> corrispondente. Ad esempio, <code>gp_func(A,B,C)</code> viene sostituito con <code>cs_func(B,C)</code>, dove <code>A</code> è usato in <code>groupby([date, A])</code></li>
+<li>Supporta l'unpacking di tuple <code>A,B,C=MACD()</code>, che viene trasformato in</li>
+</ol>
+<pre><code class="language-python">_x_0 = MACD()
+A = unpack(_x_0, 0)
+B = unpack(_x_0, 1)
+C = unpack(_x_0, 2)
+</code></pre>
+<ol start="11">
+<li>I commenti su singola riga supportano l'input di parametri, come: <code># --over_null</code>, <code># --over_null=order_by</code>, <code># --over_null=partition_by</code></li>
+<li>Nei blocchi di codice, le istruzioni <code>import</code>, <code>def</code>, <code>class</code> sono inserite direttamente nel codice generato</li>
+</ol>
+<h2>Variabili con Underscore Iniziale</h2>
+<ol>
+<li>Nei dati in output, tutte le colonne che iniziano con <code>_</code> vengono automaticamente eliminate. Quindi le variabili che si vogliono mantenere non devono iniziare con <code>_</code></li>
+<li>Per ridurre i calcoli ripetuti, vengono aggiunte automaticamente variabili intermedie che iniziano con <code>_x_</code>, come <code>_x_0</code>, <code>_x_1</code>, ecc., che saranno eliminate alla fine</li>
+<li>Se un'espressione su una riga è troppo lunga, o ci sono calcoli ripetuti, puoi usare variabili intermedie. Se la variabile intermedia inizia con <code>_</code>, verrà rinominata con un suffisso numerico, come <code>_A</code> diventa <code>_A_0_</code>, <code>_A_1_</code> ecc. Gli scenari sono:
+<ol>
+<li>Stesso nome variabile usato più volte, ma in realtà sono variabili diverse</li>
+<li>Assegnazione ciclica, ma il <code>DAG</code> non supporta cicli. La variabile a sinistra e a destra del <code>=</code> sono in realtà diverse</li>
+</ol>
+</li>
+</ol>
+<h2>Esempio di Risultato della Traduzione</h2>
+<p>Esempio di codice tradotto, il codice completo si trova nella versione <a href="examples/output_polars.py">Polars</a></p>
+<pre><code class="language-python">def func_0_ts__asset(df: pl.DataFrame) -&gt; pl.DataFrame:
+    df = df.sort(by=[_DATE_])
+    # ========================================
+    df = df.with_columns(
+        _x_0=1 / ts_delay(OPEN, -1),
+        LABEL_CC_1=(-CLOSE + ts_delay(CLOSE, -1)) / CLOSE,
+    )
+    # ========================================
+    df = df.with_columns(
+        LABEL_OO_1=_x_0 * ts_delay(OPEN, -2) - 1,
+        LABEL_OO_2=_x_0 * ts_delay(OPEN, -3) - 1,
+    )
+    return df
+</code></pre>
+<p>Esempio di codice tradotto, il codice completo si trova nella versione <a href="examples/output_pandas.py">Pandas</a></p>
+<pre><code class="language-python">def func_2_cs__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_4 = cs_rank(x_7)
+    df[&quot;expr_4&quot;] = (df[&quot;x_7&quot;]).rank(pct=True)
+    return df
+
+
+def func_3_ts__asset__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_5 = -ts_corr(OPEN, CLOSE, 10)
+    df[&quot;expr_5&quot;] = -(df[&quot;OPEN&quot;]).rolling(10).corr(df[&quot;CLOSE&quot;])
+    # expr_6 = ts_delta(OPEN, 10)
+    df[&quot;expr_6&quot;] = df[&quot;OPEN&quot;].diff(10)
+    return df
+
+</code></pre>
+<h2>Pagina Web Interattiva Locale</h2>
+<p>È sufficiente eseguire <code>streamlit run streamlit_app.py</code></p>
+<hr />
+<p><a href="https://github.com/OpenAiTx/OpenAiTx">Powered By OpenAiTx</a> - 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

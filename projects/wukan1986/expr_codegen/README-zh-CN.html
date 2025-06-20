@@ -1,0 +1,330 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>expr_codegen - wukan1986/expr_codegen</title>
+    <meta name="title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta name="description" content="wukan1986/expr_codegen - GitHub repository zh-CN documentation and informationexpr_codegen 表达式转译器 项目背景 在我新推出的 polars_ta 这个库之后，再回头反思 expr_codegen 是什么。 expr_codegen 本质上是 DSL，领域特定语言（Domain Specific Language）。但它没有定义新的语法 它解决了两个问题： polars_ta 已经...">
+    <meta name="keywords" content="wukan1986, expr_codegen, GitHub, repository, zh-CN documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/wukan1986/expr_codegen/README-zh-CN.html">
+    <meta property="og:title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta property="og:description" content="wukan1986/expr_codegen - GitHub repository zh-CN documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/wukan1986/expr_codegen" id="githubRepoLink" target="_blank">wukan1986/expr_codegen</a>
+<h1 style="display: none;">expr_codegen 表达式转译器 项目背景 在我新推出的 polars_ta 这个库之后，再回头反思 expr_codegen 是什么。 expr_codegen 本质上是 DSL，领域特定语言（Domain Specific Language）。但它没有定义新的语法 它解决了两个问题： polars_ta 已经...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>expr_codegen 表达式转译器</h1>
+<h2>项目背景</h2>
+<p>在我新推出的 <a href="https://github.com/wukan1986/polars_ta">polars_ta</a> 这个库之后，再回头反思 <code>expr_codegen</code> 是什么。</p>
+<blockquote>
+<p><code>expr_codegen</code> 本质上是 <code>DSL</code>，领域特定语言（Domain Specific Language）。但它没有定义新的语法</p>
+</blockquote>
+<p>它解决了两个问题：</p>
+<ol>
+<li><code>polars_ta</code> 已经能很方便地写出特征计算表达式，但遇到“混用时序与截面”的表达式时，利用 <code>expr_codegen</code> 能自动分组，大大节省工作量</li>
+<li><code>expr_codegen</code> 利用了 <code>Common Subexpression Elimination</code> 公共子表达式消除，大量减少重复计算，提高效率</li>
+</ol>
+<p>即使在量化领域，初级研究员局限于时序指标，仅用 <code>polars_ta</code> 即可；中高级研究员使用截面指标，推荐用 <code>expr_codegen</code>。</p>
+<p>虽然现在此项目与 <code>polars_ta</code> 依赖非常紧密，但也支持翻译成其他库，如 <code>pandas / cudf.pandas</code>，只是目前缺乏一个比较简易的库。</p>
+<h2>在线演示</h2>
+<p>https://exprcodegen.streamlit.app</p>
+<p>初级用户可以直接访问此链接进行表达式转译，无需另外安装软件。（此工具免费部署在国外，打开可能稍慢）</p>
+<p>更完整示例请访问 <a href="https://github.com/wukan1986/alpha_examples">alpha_examples</a></p>
+<h2>使用示例</h2>
+<pre><code class="language-python">import sys
+from io import StringIO
+
+import polars as pl
+
+from expr_codegen import codegen_exec
+
+
+def _code_block_1():
+    # 因子编辑区，可利用IDE的智能提示在此区域编辑因子
+    LOG_MC_ZS = cs_mad_zscore(log1p(market_cap))
+
+
+def _code_block_2():
+    # 模板中已经默认导入了from polars_ta.prefix下大量的算子，但
+    # talib在模板中没有默认导入。这种写法可实现在生成的代码中导入
+    from polars_ta.prefix.talib import ts_LINEARREG_SLOPE  # noqa
+
+    # 还支持def和class的原样导入
+    def cs_rank_if(condition, factor):
+        return cs_rank(if_else(condition, factor, None))
+
+    class Clazz:
+        pass
+
+    # 1. 下划线开头的变量只是中间变量,会被自动更名，最终输出时会被剔除
+    # 2. 下划线开头的变量可以重复使用。多个复杂因子多行书写时有重复中间变时不再冲突
+    _avg = ts_mean(corr, 20)
+    _std = ts_std_dev(corr, 20)
+    _beta = ts_LINEARREG_SLOPE(corr, 20)
+
+    # 3. 下划线开头的变量有环循环赋值。在调试时可快速用注释进行切换
+    _avg = cs_mad_zscore_resid(_avg, LOG_MC_ZS, ONE)
+    _std = cs_mad_zscore_resid(_std, LOG_MC_ZS, ONE)
+    # _beta = cs_mad_zscore_resid(_beta, LOG_MC_ZS, ONE)
+
+    _corr = cs_zscore(_avg) + cs_zscore(_std)
+    CPV = cs_zscore(_corr) + cs_zscore(_beta)
+
+
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=sys.stdout)  # 打印代码
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=&quot;output.py&quot;)  # 保存到文件
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by')  # 只执行，不保存代码
+
+code = StringIO()
+codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=code)  # 保存到字符串
+code.seek(0)
+code.read()  # 读取代码
+
+# TODO 替换成合适的数据
+df = pl.DataFrame()
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect()  # Lazy CPU
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect(engine=&quot;gpu&quot;)  # Lazy GPU
+
+</code></pre>
+<h2>目录结构</h2>
+<pre><code class="language-commandline">│  requirements.txt # 通过`pip install -r requirements.txt`安装依赖
+├─data
+│      prepare_date.py # 准备数据
+├─examples
+│      demo_express.py # 速成示例。演示如何将表达式转换成代码
+│      demo_exec_pl.py # 演示调用转换后代码并绘图
+│      demo_transformer.py # 演示将第三方表达式转成内部表达式
+│      output.py # 结果输出。可不修改代码，直接被其它项目导入
+│      show_tree.py # 画表达式树形图。可用于分析对比优化结果
+│      sympy_define.py # 符号定义，由于太多地方重复使用到，所以统一提取到此处
+├─expr_codegen
+│   │  expr.py # 表达式处理基本函数
+│   │  tool.py # 核心工具代码
+│   ├─polars
+│   │  │  code.py # 针对polars语法的代码生成功能
+│   │  │  template.py.j2 # `Jinja2`模板。用于生成对应py文件，一般不需修改
+│   │  │  printer.py # 继承于`Sympy`中的`StrPrinter`，添加新函数时可能需修改此文件
+</code></pre>
+<h2>工作原理</h2>
+<p>本项目依赖于 <code>sympy</code> 项目。所用到的主要函数如下：</p>
+<ol>
+<li><code>simplify</code>：对复杂表达式进行化简</li>
+<li><code>cse</code>：<code>Common Subexpression Elimination</code> 公共子表达式消除</li>
+<li><code>StrPrinter</code>：根据不同的函数输出不同字符串。定制此代码可以支持其他语种或库</li>
+</ol>
+<p>因为 <code>groupby</code>、<code>sort</code> 都比较耗时。如果提前将公式分类，不同的类别使用不同的 <code>groupby</code>，可以减少计算时间。</p>
+<ol>
+<li><code>ts_xxx(ts_xxx)</code>：可在同一 <code>groupby</code> 中进行计算</li>
+<li><code>cs_xxx(cs_xxx)</code>：可在同一 <code>groupby</code> 中进行计算</li>
+<li><code>ts_xxx(cs_xxx)</code>：需在不同 <code>groupby</code> 中进行计算</li>
+<li><code>cs_xxx(ts_xxx(cs_xxx))</code>：需在三不同 <code>groupby</code> 中进行计算</li>
+<li><code>gp_xxx(aa, )+gp_xxx(bb, )</code>：因 <code>aa</code>、<code>bb</code> 不同，需在两个不同 <code>groupby</code> 中进行计算</li>
+</ol>
+<p>所以</p>
+<ol>
+<li>需要有一个函数能获取当前表达式的类别（<code>get_current</code>）和子表达式的类别（<code>get_children</code>）</li>
+<li>如果当前类别与子类别不同，就可以提取出短公式（<code>extract</code>）。不同层的同类别表达式有先后关系，不能放在同一个 <code>groupby</code></li>
+<li>利用 <code>cse</code> 的特点，将长表达式替换成前期提取出来的短表达式。然后输入到有向无环图（<code>DAG</code>）</li>
+<li>利用有向无环图的流转，进行分层。同一层的 <code>ts</code>、<code>cs</code>、<code>gp</code> 不区分先后</li>
+<li>同一层对 <code>ts</code>、<code>cs</code>、<code>gp</code> 分组，然后生成代码（<code>codegen</code>）即可</li>
+</ol>
+<p>隐含信息</p>
+<ol>
+<li><code>ts</code>：sort(by=[ASSET, DATE]).groupby(by=[ASSET], maintain_order=True)</li>
+<li><code>cs</code>：sort(by=[DATE]).groupby(by=[DATE], maintain_order=False)</li>
+<li><code>gp</code>：sort(by=[DATE, GROUP]).groupby(by=[DATE, GROUP], maintain_order=False)</li>
+</ol>
+<p>即</p>
+<ol>
+<li>时序函数隐藏了两个字段 <code>ASSET, DATE</code>，横截面函数隐藏了一个字段 <code>DATE</code></li>
+<li>分组函数转入了一个字段 <code>GROUP</code>，同时隐藏了一个字段 <code>DATE</code></li>
+</ol>
+<p>两种分类方法</p>
+<ol>
+<li>根据算子前缀分类（<code>get_current_by_prefix</code>），限制算子必须以 <code>ts_</code>、<code>cs_</code>、<code>gp_</code> 开头</li>
+<li>根据算子全名分类（<code>get_current_by_name</code>），不再限制算子名。比如 <code>cs_rank</code> 可以叫 <code>rank</code></li>
+</ol>
+<h2>Null 处理</h2>
+<p><code>null</code> 是如何产生的？</p>
+<ol>
+<li>停牌导致。在计算前就直接过滤掉了，不会对后续计算产生影响。</li>
+<li>不同品种交易时段不同</li>
+<li>计算产生。<code>null</code> 在数列两端不影响后续时序算子结果，但中间出现 <code>null</code> 会影响。例如： <code>if_else(close&lt;2, None, close)</code></li>
+</ol>
+<p>https://github.com/pola-rs/polars/issues/12925#issuecomment-2552764629</p>
+<p>非常棒的点子，总结下来有两种实现方式：</p>
+<ol>
+<li>将 <code>null</code> 分成一组，<code>not_null</code> 分成另一组。要调用两次</li>
+<li>仅一组，但复合排序，将 <code>null</code> 排在前面，<code>not_null</code> 排后面。只调用一次，略快一些</li>
+</ol>
+<pre><code class="language-python">X1 = (ts_returns(CLOSE, 3)).over(CLOSE.is_not_null(), _ASSET_, order_by=_DATE_),
+X2 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=[CLOSE.is_not_null(), _DATE_]),
+X3 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=_DATE_),
+</code></pre>
+<p>第2种开头的 <code>null</code> 区域，是否影响结果由算子所决定，特别是多列输入时 <code>null</code> 区域可能有数据</p>
+<ol>
+<li><code>over_null='partition_by'</code>。分到两个区域</li>
+<li><code>over_null='order_by'</code>。分到一个区域，<code>null</code> 排在前面</li>
+<li><code>over_null=None</code>。不处理，直接调用，速度更快。如果确信不会中段产生 <code>null</code> 建议使用此参数</li>
+</ol>
+<p><code>codegen_exec(over_null='partition_by')</code> 为全局使用 <code>partition_by</code>。但遇到 <code>ts_count_nulls</code> 这类 <code>null</code>
+函数就得使用 <code>over_null=None</code>，所以本工具还新添了注释功能来指定单行表达式参数</p>
+<ol>
+<li><code># --over_null partition_by</code>。单行 <code>over_null='partition_by'</code></li>
+<li><code># --over_null=order_by</code>。单行 <code>over_null='order_by'</code></li>
+<li><code># --over_null</code>。单行 <code>over_null=None</code></li>
+<li><code># </code>。取 <code>codegen_exec</code> 参数传入的 <code>over_null</code> 值</li>
+</ol>
+<p>注意：</p>
+<ol>
+<li><p><code># --over_null</code> 传参注释只能写在单行表达式的后面，不能独立成一行，否则会被忽略</p>
+</li>
+<li><p><code># --over_null # --over_null=order_by</code> 多个 <code>#</code> 时，只取第一个有效</p>
+</li>
+<li><p>只对最外层 <code>ts</code> 函数有效。如果 <code>ts</code> 函数不在外层，需要人工提炼。例如：</p>
+<pre><code class="language-python">X1 = cs_rank(ts_mean(CLOSE, 3)) # --over_null=order_by # 应用在cs_rank上，没有意义
+X2 = ts_rank(ts_mean(CLOSE, 3), 5) # --over_null=order_by # 本以为应用在ts_rank(ts_mean)上，但由于出现了公共ts_mean，其实是应用在ts_rank(_x_0)上
+</code></pre>
+<p>需写成</p>
+<pre><code class="language-python">_x_0 = ts_mean(CLOSE, 3)  # --over_null=order_by 
+X1 = cs_rank(_x_0)
+X2 = ts_rank(_x_0, 5)
+</code></pre>
+</li>
+<li><p>由于很容易搞错，强烈建议生成 <code>output_file</code>，检查生成的代码是否正确。</p>
+</li>
+</ol>
+<h2><code>expr_codegen</code> 局限性</h2>
+<ol>
+<li><code>DAG</code> 只能增加列无法删除。增加列时，遇到同名列会覆盖</li>
+<li>不支持“删除行”，但可以添加删除标记列，然后在外部进行删除行。删除行影响了所有列，不满足 <code>DAG</code></li>
+<li>不支持“重采样”，原理同不支持删除行。需在外部进行</li>
+<li>可以将“删除行”与“重采样”作为分割线，一大块代码分成多个 <code>DAG</code> 串联。复杂且不易理解，所以最终没有实现</li>
+</ol>
+<h2>特别语法</h2>
+<ol>
+<li>支持 <code>C?T:F</code> 三元表达式（仅可字符串中使用），底层会先转成 <code>C or True if( T )else F</code>，然后修正成 <code>T if C else F</code>
+，最后转成 <code>if_else(C,T,F)</code>。支持与 <code>if else</code> 混用</li>
+<li><code>(A&lt;B)*-1</code>，底层将转换成 <code>int_(A&lt;B)*-1</code></li>
+<li>为防止 <code>A==B</code> 被 <code>sympy</code> 替换成 <code>False</code>，底层会换成 <code>Eq(A,B)</code></li>
+<li><code>A^B</code> 的含义与 <code>convert_xor</code> 参数有关，<code>convert_xor=True</code> 底层会转换成 <code>Pow(A,B)</code>，反之为 <code>Xor(A,B)</code>。默认为 <code>False</code>，用 <code>**</code> 表示乘方</li>
+<li>支持 <code>A&amp;B&amp;C</code>，但不支持 <code>A==B==C</code>。如果 C 是布尔，AB 是数值，可手工替换成 <code>(A==B)==C</code>。如果 ABC 是数值需手工替换成 <code>(A==B)&amp;(B==C)</code></li>
+<li>不支持 <code>A&lt;=B&lt;=C</code>，需手工替换成 <code>(A&lt;=B)&amp;(B&lt;=C)</code></li>
+<li>支持 <code>A[0]+B[1]+C[2]</code>，底层会转成 <code>A+ts_delay(B,1)+ts_delay(C,2)</code></li>
+<li>支持 <code>~A</code>，底层会转换成 <code>Not(A)</code></li>
+<li><code>gp_</code> 开头的函数都会返回对应的 <code>cs_</code> 函数。如 <code>gp_func(A,B,C)</code> 会替换成 <code>cs_func(B,C)</code>，其中 <code>A</code> 用在了 <code>groupby([date, A])</code></li>
+<li>支持 <code>A,B,C=MACD()</code> 元组解包，在底层会替换成</li>
+</ol>
+<pre><code class="language-python">_x_0 = MACD()
+A = unpack(_x_0, 0)
+B = unpack(_x_0, 1)
+C = unpack(_x_0, 2)
+</code></pre>
+<ol start="11">
+<li>单行注释支持参数输入，如：<code># --over_null</code>、<code># --over_null=order_by</code>、<code># --over_null=partition_by</code></li>
+<li>代码块中，对 <code>import</code>、<code>def</code>、<code>class</code> 三种语法，自动原样插入到生成的代码中</li>
+</ol>
+<h2>下划线开头的变量</h2>
+<ol>
+<li>输出的数据，所有以 <code>_</code> 开头的列，最后会被自动删除。所以需要保留的变量一定不要以 <code>_</code> 开头</li>
+<li>为减少重复计算，自动添加了中间变量，以 <code>_x_</code> 开头，如 <code>_x_0</code>，<code>_x_1</code> 等。最后会被自动删除</li>
+<li>单行表达式过长，或有重复计算，可以通过中间变量，将单行表达式改成多行。如果中间变量使用 <code>_</code>
+开头，将会自动添加数字后缀，形成不同的变量，如 <code>_A</code> 会替换成 <code>_A_0_</code>、<code>_A_1_</code> 等。使用场景如下：
+<ol>
+<li>同一变量名，重复使用。本质是不同的变量</li>
+<li>循环赋值，但 <code>DAG</code> 不支持有环。<code>=</code> 号左右的同名变量其实是不同变量</li>
+</ol>
+</li>
+</ol>
+<h2>转译结果示例</h2>
+<p>转译后的代码片段，详细代码请参考 <a href="examples/output_polars.py">Polars版</a></p>
+<pre><code class="language-python">def func_0_ts__asset(df: pl.DataFrame) -&gt; pl.DataFrame:
+    df = df.sort(by=[_DATE_])
+    # ========================================
+    df = df.with_columns(
+        _x_0=1 / ts_delay(OPEN, -1),
+        LABEL_CC_1=(-CLOSE + ts_delay(CLOSE, -1)) / CLOSE,
+    )
+    # ========================================
+    df = df.with_columns(
+        LABEL_OO_1=_x_0 * ts_delay(OPEN, -2) - 1,
+        LABEL_OO_2=_x_0 * ts_delay(OPEN, -3) - 1,
+    )
+    return df
+</code></pre>
+<p>转译后的代码片段，详细代码请参考 <a href="examples/output_pandas.py">Pandas版</a></p>
+<pre><code class="language-python">def func_2_cs__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_4 = cs_rank(x_7)
+    df[&quot;expr_4&quot;] = (df[&quot;x_7&quot;]).rank(pct=True)
+    return df
+
+
+def func_3_ts__asset__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_5 = -ts_corr(OPEN, CLOSE, 10)
+    df[&quot;expr_5&quot;] = -(df[&quot;OPEN&quot;]).rolling(10).corr(df[&quot;CLOSE&quot;])
+    # expr_6 = ts_delta(OPEN, 10)
+    df[&quot;expr_6&quot;] = df[&quot;OPEN&quot;].diff(10)
+    return df
+
+</code></pre>
+<h2>本地部署交互网页</h2>
+<p>只需运行 <code>streamlit run streamlit_app.py</code></p>
+<hr />
+<p><a href="https://github.com/OpenAiTx/OpenAiTx">Powered By OpenAiTx</a> - 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

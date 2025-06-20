@@ -1,0 +1,968 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ax - ax-llm/ax</title>
+    <meta name="title" content="ax - ax-llm/ax">
+    <meta name="description" content="ax-llm/ax - GitHub repository it documentation and informationAx, DSPy per Typescript Lavorare con i LLM è complesso: non fanno sempre quello che vuoi. DSPy rende più semplice costruire soluzioni straordinarie con i LLM. B...">
+    <meta name="keywords" content="ax-llm, ax, GitHub, repository, it documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/ax-llm/ax/README-it.html">
+    <meta property="og:title" content="ax - ax-llm/ax">
+    <meta property="og:description" content="ax-llm/ax - GitHub repository it documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/ax-llm/ax" id="githubRepoLink" target="_blank">ax-llm/ax</a>
+<h1 style="display: none;">Ax, DSPy per Typescript Lavorare con i LLM è complesso: non fanno sempre quello che vuoi. DSPy rende più semplice costruire soluzioni straordinarie con i LLM. B...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Ax, DSPy per Typescript</h1>
+<p>Lavorare con i LLM è complesso: non fanno sempre quello che vuoi. DSPy rende più semplice costruire soluzioni straordinarie con i LLM. Basta definire i tuoi input e output (signature) e un prompt efficiente viene generato e utilizzato automaticamente. Collega tra loro diverse signature per costruire sistemi e workflow complessi usando i LLM.</p>
+<p>E per aiutarti davvero nell’uso in produzione, abbiamo tutto il necessario: osservabilità, streaming, supporto per altre modalità (immagini, audio, ecc.), correzione degli errori, chiamate di funzioni multi-step, MCP, RAG, ecc.</p>
+<p><a href="https://www.npmjs.com/package/@ax-llm/ax"><img src="https://img.shields.io/npm/v/@ax-llm/ax?style=for-the-badge&amp;color=green" alt="NPM Package" /></a>
+<a href="https://discord.gg/DSHg3dU7dW"><img src="https://dcbadge.vercel.app/api/server/DSHg3dU7dW?style=for-the-badge" alt="Discord Chat" /></a>
+<a href="https://twitter.com/dosco"><img src="https://img.shields.io/twitter/follow/dosco?style=for-the-badge&amp;color=red" alt="Twitter" /></a></p>
+<!-- header -->
+<h2>Perché usare Ax?</h2>
+<ul>
+<li>Interfaccia standard per tutti i migliori LLM</li>
+<li>Prompt compilati da signature semplici</li>
+<li>Streaming end-to-end nativo completo</li>
+<li>Supporto per budget di pensiero e token di ragionamento</li>
+<li>Costruisci Agenti che possono chiamare altri agenti</li>
+<li>Supporto integrato per MCP, Model Context Protocol</li>
+<li>Conversione di documenti di qualsiasi formato in testo</li>
+<li>RAG, smart chunking, embedding, interrogazione</li>
+<li>Funziona con Vercel AI SDK</li>
+<li>Validazione degli output durante lo streaming</li>
+<li>DSPy multi-modale supportato</li>
+<li>Ottimizzazione automatica dei prompt tramite optimizer</li>
+<li>Tracing/observabilità OpenTelemetry</li>
+<li>Codice Typescript pronto per la produzione</li>
+<li>Leggero, senza dipendenze</li>
+</ul>
+<h2>Pronto per la produzione</h2>
+<ul>
+<li>Nessun breaking change (versioni minori)</li>
+<li>Copertura di test estesa</li>
+<li>Supporto integrato per Open Telemetry <code>gen_ai</code></li>
+<li>Ampiamente usato da startup in produzione</li>
+</ul>
+<h2>Cos’è una prompt signature?</h2>
+<img width="860" alt="shapes at 24-03-31 00 05 55" src="https://github.com/dosco/llm-client/assets/832235/0f0306ea-1812-4a0a-9ed5-76cd908cd26b">
+<p>Prompt efficienti e type-safe sono auto-generati da una signature semplice. Una signature di prompt è composta da
+<code>&quot;descrizione del task&quot; campoInput:tipo &quot;descrizione campo&quot; -&gt; &quot;campoOutput:tipo</code>.
+L’idea delle signature di prompt si basa sul lavoro svolto nell’articolo &quot;Demonstrate-Search-Predict&quot;.</p>
+<p>Puoi avere più campi di input e output, e ogni campo può essere di tipo
+<code>string</code>, <code>number</code>, <code>boolean</code>, <code>date</code>, <code>datetime</code>, <code>class &quot;class1, class2&quot;</code>, <code>JSON</code>, o un array di uno qualsiasi di questi, ad esempio <code>string[]</code>.
+Se un tipo non è definito, il default è <code>string</code>. Il suffisso <code>?</code> rende il campo opzionale (obbligatorio di default) e <code>!</code> rende il campo interno, utile per attività come il ragionamento.</p>
+<h2>Tipi di campo Output</h2>
+<p>| Tipo                     | Descrizione                            | Uso                         | Esempio Output                                      |
+| ------------------------ | -------------------------------------- | --------------------------- | --------------------------------------------------- |
+| <code>string</code>                 | Sequenza di caratteri                  | <code>fullName:string</code>           | <code>&quot;example&quot;</code>                                         |
+| <code>number</code>                 | Un valore numerico                     | <code>price:number</code>              | <code>42</code>                                                |
+| <code>boolean</code>                | Valore vero o falso                    | <code>isEvent:boolean</code>           | <code>true</code>, <code>false</code>                                     |
+| <code>date</code>                   | Un valore data                         | <code>startDate:date</code>            | <code>&quot;2023-10-01&quot;</code>                                      |
+| <code>datetime</code>               | Data e ora                             | <code>createdAt:datetime</code>        | <code>&quot;2023-10-01T12:00:00Z&quot;</code>                            |
+| <code>class &quot;class1,class2&quot;</code>  | Classificazione di elementi            | <code>category:class</code>            | <code>[&quot;class1&quot;, &quot;class2&quot;, &quot;class3&quot;]</code>                    |
+| <code>string[]</code>               | Array di stringhe                      | <code>tags:string[]</code>             | <code>[&quot;example1&quot;, &quot;example2&quot;]</code>                          |
+| <code>number[]</code>               | Array di numeri                        | <code>scores:number[]</code>           | <code>[1, 2, 3]</code>                                         |
+| <code>boolean[]</code>              | Array di valori booleani               | <code>permissions:boolean[]</code>     | <code>[true, false, true]</code>                               |
+| <code>date[]</code>                 | Array di date                          | <code>holidayDates:date[]</code>       | <code>[&quot;2023-10-01&quot;, &quot;2023-10-02&quot;]</code>                      |
+| <code>datetime[]</code>             | Array di date e ora                    | <code>logTimestamps:datetime[]</code>  | <code>[&quot;2023-10-01T12:00:00Z&quot;, &quot;2023-10-02T12:00:00Z&quot;]</code>  |
+| <code>class[] &quot;class1,class2&quot;</code>| Più classi                             | <code>categories:class[]</code>        | <code>[&quot;class1&quot;, &quot;class2&quot;, &quot;class3&quot;]</code>                    |
+| <code>code &quot;language&quot;</code>        | Blocco di codice in un linguaggio      | <code>code:code &quot;python&quot;</code>        | <code>print('Hello, world!')</code>                            |</p>
+<h2>LLM supportati</h2>
+<p><code>Google Gemini</code>, <code>OpenAI</code>, <code>Azure OpenAI</code>, <code>Anthropic</code>, <code>X Grok</code>, <code>TogetherAI</code>, <code>Cohere</code>, <code>Mistral</code>, <code>Groq</code>, <code>DeepSeek</code>, <code>Ollama</code>, <code>Reka</code>, <code>Hugging Face</code></p>
+<h2>Installazione</h2>
+<pre><code class="language-bash">npm install @ax-llm/ax
+# oppure
+yarn add @ax-llm/ax
+</code></pre>
+<h2>Esempio: Usare chain-of-thought per riassumere testo</h2>
+<pre><code class="language-typescript">import { AxAI, AxChainOfThought } from '@ax-llm/ax'
+
+const textToSummarize = `
+The technological singularity—or simply the singularity[1]—is a hypothetical future point in time at which technological growth becomes uncontrollable and irreversible, resulting in unforeseeable changes to human civilization.[2][3] ...`
+
+const ai = new AxAI({
+  name: 'openai',
+  apiKey: process.env.OPENAI_APIKEY as string,
+})
+
+const gen = new AxChainOfThought(
+  `textToSummarize -&gt; textType:class &quot;note, email, reminder&quot;, shortSummary &quot;summarize in 5 to 10 words&quot;`
+)
+
+const res = await gen.forward(ai, { textToSummarize })
+
+console.log('&gt;', res)
+</code></pre>
+<h2>Esempio: Costruire un agente</h2>
+<p>Usa il prompt agent (framework) per costruire agenti che lavorano con altri agenti per completare task. Gli agenti sono facili da creare con le signature dei prompt. Prova l’esempio dell’agente.</p>
+<pre><code class="language-typescript"># npm run tsx ./src/examples/agent.ts
+
+const researcher = new AxAgent({
+  name: 'researcher',
+  description: 'Researcher agent',
+  signature: `physicsQuestion &quot;physics questions&quot; -&gt; answer &quot;reply in bullet points&quot;`
+});
+
+const summarizer = new AxAgent({
+  name: 'summarizer',
+  description: 'Summarizer agent',
+  signature: `text &quot;text so summarize&quot; -&gt; shortSummary &quot;summarize in 5 to 10 words&quot;`
+});
+
+const agent = new AxAgent({
+  name: 'agent',
+  description: 'A an agent to research complex topics',
+  signature: `question -&gt; answer`,
+  agents: [researcher, summarizer]
+});
+
+agent.forward(ai, { questions: &quot;How many atoms are there in the universe&quot; })
+</code></pre>
+<h2>Supporto per modelli di pensiero</h2>
+<p>Ax offre supporto nativo per modelli con capacità di ragionamento, permettendoti di controllare il budget di token di pensiero e accedere ai pensieri del modello. Questa funzionalità aiuta a comprendere il processo di ragionamento del modello e ottimizzare l’uso dei token.</p>
+<pre><code class="language-typescript">const ai = new AxAI({
+  name: 'google-gemini',
+  apiKey: process.env.GOOGLE_APIKEY as string,
+  config: {
+    model: AxAIGoogleGeminiModel.Gemini25Flash,
+    thinking: { includeThoughts: true },
+  },
+})
+
+// Oppure controlla il budget di pensiero per richiesta
+const gen = new AxChainOfThought(`question -&gt; answer`)
+const res = await gen.forward(
+  ai,
+  { question: 'What is quantum entanglement?' },
+  { thinkingTokenBudget: 'medium' } // 'minimal', 'low', 'medium', o 'high'
+)
+
+// Accedi ai pensieri nella risposta
+console.log(res.thoughts) // Mostra il processo di ragionamento del modello
+</code></pre>
+<h2>Vector DB supportati</h2>
+<p>I database vettoriali sono fondamentali per costruire workflow con LLM. Abbiamo astrazioni pulite su popolari database vettoriali e un nostro database vettoriale in memoria.</p>
+<p>| Provider    | Testato |
+| ----------- | ------- |
+| In Memory   | 🟢 100% |
+| Weaviate    | 🟢 100% |
+| Cloudflare  | 🟡 50%  |
+| Pinecone    | 🟡 50%  |</p>
+<pre><code class="language-typescript">// Crea embeddings da testo usando un LLM
+const ret = await this.ai.embed({ texts: 'hello world' })
+
+// Crea un vector db in memoria
+const db = new axDB('memory')
+
+// Inserisci nel vector db
+await this.db.upsert({
+  id: 'abc',
+  table: 'products',
+  values: ret.embeddings[0],
+})
+
+// Interroga per elementi simili usando embeddings
+const matches = await this.db.query({
+  table: 'products',
+  values: embeddings[0],
+})
+</code></pre>
+<p>In alternativa puoi usare <code>AxDBManager</code> che gestisce smart chunking, embedding e query tutto per te, rendendo il processo semplicissimo.</p>
+<pre><code class="language-typescript">const manager = new AxDBManager({ ai, db })
+await manager.insert(text)
+
+const matches = await manager.query(
+  'John von Neumann on human intelligence and singularity.'
+)
+console.log(matches)
+</code></pre>
+<h2>Documenti RAG</h2>
+<p>Utilizzare documenti come PDF, DOCX, PPT, XLS, ecc. con i LLM è molto complesso. Lo rendiamo facile con Apache Tika, un motore open-source di processamento documentale.</p>
+<p>Avvia Apache Tika</p>
+<pre><code class="language-shell">docker run -p 9998:9998 apache/tika
+</code></pre>
+<p>Converti documenti in testo e inseriscili per retrieval usando <code>AxDBManager</code>, che supporta anche reranker e query rewriter. Sono disponibili due implementazioni predefinite: <code>AxDefaultResultReranker</code> e <code>AxDefaultQueryRewriter</code>.</p>
+<pre><code class="language-typescript">const tika = new AxApacheTika()
+const text = await tika.convert('/path/to/document.pdf')
+
+const manager = new AxDBManager({ ai, db })
+await manager.insert(text)
+
+const matches = await manager.query('Find some text')
+console.log(matches)
+</code></pre>
+<h2>DSPy Multi-modale</h2>
+<p>Quando si usano modelli come <code>GPT-4o</code> e <code>Gemini</code> che supportano prompt multi-modali, supportiamo l’uso di campi immagine, e funziona con l’intera pipeline DSP.</p>
+<pre><code class="language-typescript">const image = fs
+  .readFileSync('./src/examples/assets/kitten.jpeg')
+  .toString('base64')
+
+const gen = new AxChainOfThought(`question, animalImage:image -&gt; answer`)
+
+const res = await gen.forward(ai, {
+  question: 'What family does this animal belong to?',
+  animalImage: { mimeType: 'image/jpeg', data: image },
+})
+</code></pre>
+<p>Quando si usano modelli come <code>gpt-4o-audio-preview</code> che supportano prompt multi-modali con audio, supportiamo l’uso di campi audio, e funziona con l’intera pipeline DSP.</p>
+<pre><code class="language-typescript">const audio = fs
+  .readFileSync('./src/examples/assets/comment.wav')
+  .toString('base64')
+
+const gen = new AxGen(`question, commentAudio:audio -&gt; answer`)
+
+const res = await gen.forward(ai, {
+  question: 'What family does this animal belong to?',
+  commentAudio: { format: 'wav', data: audio },
+})
+</code></pre>
+<h2>DSPy Chat API</h2>
+<p>Ispirato al demonstration weaving di DSPy, Ax offre <code>AxMessage</code> per una gestione fluida della cronologia conversazionale. Questo ti permette di costruire chatbot e agenti conversazionali che mantengono il contesto su più turni sfruttando tutta la potenza delle signature dei prompt. Vedi l’esempio per maggiori dettagli.</p>
+<pre><code class="language-shell">GOOGLE_APIKEY=api-key npm run tsx ./src/examples/chat.ts
+</code></pre>
+<pre><code class="language-typescript">const chatBot = new AxGen&lt;
+  { message: string } | ReadonlyArray&lt;ChatMessage&gt;,
+  { reply: string }
+&gt;(
+  `message:string &quot;A casual message from the user&quot; -&gt; reply:string &quot;A friendly, casual response&quot;`
+)
+
+await chatBot.forward(ai, [
+  {
+    role: 'user',
+    values: { message: 'Hi! How are you doing today?' },
+  },
+  {
+    role: 'assistant',
+    values: { reply: 'I am doing great! How about you?' },
+  },
+  {
+    role: 'user',
+    values: { message: 'Thats great!' },
+  },
+])
+</code></pre>
+<p>La cronologia della conversazione viene automaticamente intrecciata nel prompt, permettendo al modello di mantenere il contesto e fornire risposte coerenti. Questo funziona con tutte le funzionalità di Ax, incluso streaming, function calling e chain-of-thought reasoning.</p>
+<h2>Streaming</h2>
+<h3>Assert</h3>
+<p>Supportiamo il parsing dei campi di output e l’esecuzione di funzioni durante lo streaming. Questo consente fail-fast e correzione degli errori senza aspettare tutto l’output, risparmiando token e costi e riducendo la latenza. Gli assert sono un modo potente per garantire che l’output soddisfi i tuoi requisiti; funzionano anche in streaming.</p>
+<pre><code class="language-typescript">// setup del programma prompt
+const gen = new AxChainOfThought(
+  ai,
+  `startNumber:number -&gt; next10Numbers:number[]`
+)
+
+// aggiungi un assert per assicurarti che il numero 5 non sia in un campo di output
+gen.addAssert(({ next10Numbers }: Readonly&lt;{ next10Numbers: number[] }&gt;) =&gt; {
+  return next10Numbers ? !next10Numbers.includes(5) : undefined
+}, 'Numbers 5 is not allowed')
+
+// esegui il programma con streaming abilitato
+const res = await gen.forward({ startNumber: 1 }, { stream: true })
+
+// oppure esegui il programma con streaming end-to-end
+const generator = await gen.streamingForward(
+  { startNumber: 1 },
+  {
+    stream: true,
+  }
+)
+for await (const res of generator) {
+}
+</code></pre>
+<p>L’esempio sopra permette di validare interi campi di output mentre vengono trasmessi. Questa validazione funziona sia con che senza streaming e viene attivata quando l’intero valore del campo è disponibile. Per una vera validazione durante lo streaming, vedi l’esempio sotto. Questo migliorerà notevolmente le prestazioni e farà risparmiare token in produzione.</p>
+<pre><code class="language-typescript">// aggiungi un assert per assicurarti che tutte le righe inizino con un numero e un punto.
+gen.addStreamingAssert(
+  'answerInPoints',
+  (value: string) =&gt; {
+    const re = /^\d+\./
+
+    // suddividi il valore per righe, rimuovi spazi, filtra righe vuote e verifica che tutte rispettino la regex
+    return value
+      .split('\n')
+      .map((x) =&gt; x.trim())
+      .filter((x) =&gt; x.length &gt; 0)
+      .every((x) =&gt; re.test(x))
+  },
+  'Lines must start with a number and a dot. Eg: 1. This is a line.'
+)
+
+// esegui il programma con streaming abilitato
+const res = await gen.forward(
+  {
+    question: 'Provide a list of optimizations to speedup LLM inference.',
+  },
+  { stream: true, debug: true }
+)
+</code></pre>
+<h3>Field Processor</h3>
+<p>I field processor sono un modo potente per processare i campi in un prompt. Sono utilizzati per processare i campi di un prompt prima che venga inviato al LLM.</p>
+<pre><code class="language-typescript">const gen = new AxChainOfThought(
+  ai,
+  `startNumber:number -&gt; next10Numbers:number[]`
+)
+
+const streamValue = false
+
+const processorFunction = (value) =&gt; {
+  return value.map((x) =&gt; x + 1)
+}
+
+// Aggiungi un field processor al programma
+const processor = new AxFieldProcessor(
+  gen,
+  'next10Numbers',
+  processorFunction,
+  streamValue
+)
+
+const res = await gen.forward({ startNumber: 1 })
+</code></pre>
+<h2>Model Context Protocol (MCP)</h2>
+<p>Ax fornisce integrazione senza soluzione di continuità con il Model Context Protocol (MCP), permettendo ai tuoi agenti di accedere a tool e risorse esterne tramite un’interfaccia standardizzata.</p>
+<h3>Utilizzare AxMCPClient</h3>
+<p><code>AxMCPClient</code> ti permette di connetterti a qualsiasi server compatibile MCP e usare le sue capacità all’interno dei tuoi agenti Ax:</p>
+<pre><code class="language-typescript">import { AxMCPClient, AxMCPStdioTransport } from '@ax-llm/ax'
+
+// Inizializza un client MCP con un transport
+const transport = new AxMCPStdioTransport({
+  command: 'npx',
+  args: ['-y', '@modelcontextprotocol/server-memory'],
+})
+
+// Crea il client con modalità debug opzionale
+const client = new AxMCPClient(transport, { debug: true })
+
+// Inizializza la connessione
+await client.init()
+
+// Usa le funzioni del client in un agente
+const memoryAgent = new AxAgent({
+  name: 'MemoryAssistant',
+  description: 'An assistant with persistent memory',
+  signature: 'input, userId -&gt; response',
+  functions: [client], // Passa il client come provider di funzioni
+})
+
+// Oppure usa il client con AxGen
+const memoryGen = new AxGen('input, userId -&gt; response', {
+  functions: [client],
+})
+</code></pre>
+<h3>Usare AxMCPClient con un server remoto</h3>
+<p>Chiamare un server MCP remoto con Ax è semplice. Ad esempio, così puoi usare il server DeepWiki MCP per porre domande su quasi qualsiasi repository pubblico GitHub. Il server DeepWiki MCP è disponibile su <code>https://mcp.deepwiki.com/mcp</code>.</p>
+<pre><code class="language-typescript">import {
+  AxAgent,
+  AxAI,
+  AxAIOpenAIModel,
+  AxMCPClient,
+  AxMCPStreambleHTTPTransport,
+} from '@ax-llm/ax'
+
+// 1. Inizializza il transport MCP verso il server DeepWiki
+const transport = new AxMCPStreambleHTTPTransport(
+  'https://mcp.deepwiki.com/mcp'
+)
+
+// 2. Crea il client MCP
+const mcpClient = new AxMCPClient(transport, { debug: false })
+await mcpClient.init() // Inizializza la connessione
+
+// 3. Inizializza il tuo modello AI (es: OpenAI)
+// Assicurati che la variabile d’ambiente OPENAI_APIKEY sia impostata
+const ai = new AxAI({
+  name: 'openai',
+  apiKey: process.env.OPENAI_APIKEY as string,
+})
+
+// 4. Crea un AxAgent che usa il client MCP
+const deepwikiAgent = new AxAgent&lt;
+  {
+    // Definisci i tipi di input per chiarezza, in linea con una funzione DeepWiki
+    questionAboutRepo: string
+    githubRepositoryUrl: string
+  },
+  {
+    answer: string
+  }
+&gt;({
+  name: 'DeepWikiQueryAgent',
+  description: 'Agent to query public GitHub repositories via DeepWiki MCP.',
+  signature: 'questionAboutRepo, githubRepositoryUrl -&gt; answer',
+  functions: [mcpClient], // Fornisci il client MCP all’agente
+})
+
+// 5. Formula una domanda e chiama l’agente
+const result = await deepwikiAgent.forward(ai, {
+  questionAboutRepo: 'What is the main purpose of this library?',
+  githubRepositoryUrl: 'https://github.com/dosco/ax', // Esempio: la libreria Ax stessa
+})
+console.log('DeepWiki Answer:', result.answer)
+</code></pre>
+<p>Questo esempio mostra come connettersi a un server MCP pubblico e usarlo all’interno di un agente Ax. La signature dell’agente (<code>questionAboutRepo, githubRepositoryUrl -&gt; answer</code>) è un’ipotesi su come si potrebbe interagire con il servizio DeepWiki; normalmente scopriresti le funzioni disponibili e le loro signature dal server MCP stesso (ad esempio tramite una chiamata <code>mcp.getFunctions</code> se supportata, o dalla documentazione).</p>
+<p>Per un esempio più complesso che coinvolge autenticazione e header personalizzati con un server MCP remoto, consulta il file <code>src/examples/mcp-client-pipedream.ts</code> in questo repository.</p>
+<h2>AI Routing e Load Balancing</h2>
+<p>Ax offre due potenti modi per lavorare con più servizi AI: un load balancer per alta disponibilità e un router per routing specifico per modello.</p>
+<h3>Load Balancer</h3>
+<p>Il load balancer distribuisce automaticamente le richieste tra più servizi AI in base a prestazioni e disponibilità. Se un servizio fallisce, passa automaticamente al successivo disponibile.</p>
+<pre><code class="language-typescript">import { AxAI, AxBalancer } from '@ax-llm/ax'
+
+// Imposta più servizi AI
+const openai = new AxAI({
+  name: 'openai',
+  apiKey: process.env.OPENAI_APIKEY,
+})
+
+const ollama = new AxAI({
+  name: 'ollama',
+  config: { model: 'nous-hermes2' },
+})
+
+const gemini = new AxAI({
+  name: 'google-gemini',
+  apiKey: process.env.GOOGLE_APIKEY,
+})
+
+// Crea un load balancer con tutti i servizi
+const balancer = new AxBalancer([openai, ollama, gemini])
+
+// Usalo come un normale servizio AI - usa automaticamente il servizio migliore
+const response = await balancer.chat({
+  chatPrompt: [{ role: 'user', content: 'Hello!' }],
+})
+
+// Oppure usa il balancer con AxGen
+const gen = new AxGen(`question -&gt; answer`)
+const res = await gen.forward(balancer, { question: 'Hello!' })
+</code></pre>
+<h3>Multi-Service Router</h3>
+<p>Il router ti consente di usare più servizi AI attraverso un’unica interfaccia, instradando automaticamente le richieste al servizio giusto in base al modello specificato.</p>
+<pre><code class="language-typescript">import { AxAI, AxAIOpenAIModel, AxMultiServiceRouter } from '@ax-llm/ax'
+
+// Configura OpenAI con lista di modelli
+const openai = new AxAI({
+  name: 'openai',
+  apiKey: process.env.OPENAI_APIKEY,
+  models: [
+    {
+      key: 'basic',
+      model: AxAIOpenAIModel.GPT4OMini,
+      description:
+        'Model for very simple tasks such as answering quick short questions',
+    },
+    {
+      key: 'medium',
+      model: AxAIOpenAIModel.GPT4O,
+      description:
+        'Model for semi-complex tasks such as summarizing text, writing code, and more',
+    },
+  ],
+})
+
+// Configura Gemini con lista di modelli
+const gemini = new AxAI({
+  name: 'google-gemini',
+  apiKey: process.env.GOOGLE_APIKEY,
+  models: [
+    {
+      key: 'deep-thinker',
+      model: 'gemini-2.0-flash-thinking',
+      description:
+        'Model that can think deeply about a task, best for tasks that require planning',
+    },
+    {
+      key: 'expert',
+      model: 'gemini-2.0-pro',
+      description:
+        'Model that is the best for very complex tasks such as writing large essays, complex coding, and more',
+    },
+  ],
+})
+
+const ollama = new AxAI({
+  name: 'ollama',
+  config: { model: 'nous-hermes2' },
+})
+
+const secretService = {
+  key: 'sensitive-secret',
+  service: ollama,
+  description: 'Model for sensitive secrets tasks',
+}
+
+// Crea un router con tutti i servizi
+const router = new AxMultiServiceRouter([openai, gemini, secretService])
+
+// Instrada verso il modello expert di OpenAI
+const openaiResponse = await router.chat({
+  chatPrompt: [{ role: 'user', content: 'Hello!' }],
+  model: 'expert',
+})
+
+// Oppure usa il router con AxGen
+const gen = new AxGen(`question -&gt; answer`)
+const res = await gen.forward(router, { question: 'Hello!' })
+</code></pre>
+<p>Il load balancer è ideale per alta disponibilità, mentre il router è perfetto quando hai bisogno di modelli specifici per compiti specifici. Entrambi possono essere usati con tutte le funzionalità di Ax come streaming, function calling e chain-of-thought prompting.</p>
+<p>Puoi anche usare balancer e router insieme: più balancer possono essere usati col router o viceversa.</p>
+<h2>Supporto OpenTelemetry</h2>
+<p>La capacità di tracciare e osservare il tuo workflow LLM è fondamentale per costruire workflow di produzione. OpenTelemetry è uno standard di settore, e supportiamo il nuovo namespace di attributi <code>gen_ai</code>. Consulta <code>src/examples/telemetry.ts</code> per maggiori informazioni.</p>
+<pre><code class="language-typescript">import { trace } from '@opentelemetry/api'
+import {
+  BasicTracerProvider,
+  ConsoleSpanExporter,
+  SimpleSpanProcessor,
+} from '@opentelemetry/sdk-trace-base'
+
+const provider = new BasicTracerProvider()
+provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()))
+trace.setGlobalTracerProvider(provider)
+
+const tracer = trace.getTracer('test')
+
+const ai = new AxAI({
+  name: 'ollama',
+  config: { model: 'nous-hermes2' },
+  options: { tracer },
+})
+
+const gen = new AxChainOfThought(
+  ai,
+  `text -&gt; shortSummary &quot;summarize in 5 to 10 words&quot;`
+)
+
+const res = await gen.forward({ text })
+</code></pre>
+<pre><code class="language-json">{
+  &quot;traceId&quot;: &quot;ddc7405e9848c8c884e53b823e120845&quot;,
+  &quot;name&quot;: &quot;Chat Request&quot;,
+  &quot;id&quot;: &quot;d376daad21da7a3c&quot;,
+  &quot;kind&quot;: &quot;SERVER&quot;,
+  &quot;timestamp&quot;: 1716622997025000,
+  &quot;duration&quot;: 14190456.542,
+  &quot;attributes&quot;: {
+    &quot;gen_ai.system&quot;: &quot;Ollama&quot;,
+    &quot;gen_ai.request.model&quot;: &quot;nous-hermes2&quot;,
+    &quot;gen_ai.request.max_tokens&quot;: 500,
+    &quot;gen_ai.request.temperature&quot;: 0.1,
+    &quot;gen_ai.request.top_p&quot;: 0.9,
+    &quot;gen_ai.request.frequency_penalty&quot;: 0.5,
+    &quot;gen_ai.request.llm_is_streaming&quot;: false,
+    &quot;http.request.method&quot;: &quot;POST&quot;,
+    &quot;url.full&quot;: &quot;http://localhost:11434/v1/chat/completions&quot;,
+    &quot;gen_ai.usage.completion_tokens&quot;: 160,
+    &quot;gen_ai.usage.prompt_tokens&quot;: 290
+  }
+}
+</code></pre>
+<h2>Ottimizzare i prompt (Base)</h2>
+<p>Puoi ottimizzare i tuoi prompt usando un modello più grande per renderli più efficienti e ottenere risultati migliori. Questo si fa usando un optimizer come <code>AxBootstrapFewShot</code> con esempi dal popolare dataset <code>HotPotQA</code>. L’optimizer genera delle dimostrazioni (<code>demos</code>) che, usate con il prompt, ne migliorano l’efficienza.</p>
+<pre><code class="language-typescript">// Scarica il dataset HotPotQA da huggingface
+const hf = new AxHFDataLoader({
+  dataset: 'hotpot_qa',
+  split: 'train',
+})
+
+const examples = await hf.getData&lt;{ question: string; answer: string }&gt;({
+  count: 100,
+  fields: ['question', 'answer'],
+})
+
+const ai = new AxAI({
+  name: 'openai',
+  apiKey: process.env.OPENAI_APIKEY as string,
+})
+
+// Imposta il programma da ottimizzare
+const program = new AxChainOfThought&lt;{ question: string }, { answer: string }&gt;(
+  ai,
+  `question -&gt; answer &quot;in short 2 or 3 words&quot;`
+)
+
+// Imposta un optimizer Bootstrap Few Shot per ottimizzare il programma sopra
+const optimize = new AxBootstrapFewShot&lt;
+  { question: string },
+  { answer: string }
+&gt;({
+  program,
+  examples,
+})
+
+// Imposta una metrica di valutazione em, f1 score è un modo popolare di misurare la performance di retrieval.
+const metricFn: AxMetricFn = ({ prediction, example }) =&gt;
+  emScore(prediction.answer as string, example.answer as string)
+
+// Esegui l’optimizer e ricordati di salvare il risultato per uso futuro
+const result = await optimize.compile(metricFn);
+
+// Salva i demos generati su file
+// import fs from 'fs'; // Assicurati di importare fs nello script reale
+fs.writeFileSync('bootstrap-demos.json', JSON.stringify(result.demos, null, 2));
+console.log('Demos saved to bootstrap-demos.json');
+</code></pre>
+<img width="853" alt="tune-prompt" src="https://github.com/dosco/llm-client/assets/832235/f924baa7-8922-424c-9c2c-f8b2018d8d74">
+```
+<h2>Ottimizzare i prompt (Avanzato, Mipro v2)</h2>
+<p>MiPRO v2 è un framework avanzato di ottimizzazione dei prompt che usa l’ottimizzazione bayesiana per trovare automaticamente le migliori istruzioni, dimostrazioni ed esempi per i tuoi programmi LLM. Esplorando sistematicamente diverse configurazioni di prompt, MiPRO v2 aiuta a massimizzare le performance del modello senza tuning manuale.</p>
+<h3>Caratteristiche principali</h3>
+<ul>
+<li><strong>Ottimizzazione delle istruzioni</strong>: genera e testa automaticamente molteplici candidati di istruzioni</li>
+<li><strong>Selezione di esempi few-shot</strong>: trova le dimostrazioni ottimali dal tuo dataset</li>
+<li><strong>Ottimizzazione bayesiana intelligente</strong>: usa la strategia UCB (Upper Confidence Bound) per esplorare efficientemente le configurazioni</li>
+<li><strong>Early stopping</strong>: interrompe l’ottimizzazione quando i miglioramenti si stabilizzano, risparmiando risorse</li>
+<li><strong>Consapevole di programma e dati</strong>: considera la struttura del programma e le caratteristiche del dataset</li>
+</ul>
+<h3>Come funziona</h3>
+<ol>
+<li>Genera diversi candidati di istruzioni</li>
+<li>Bootstrap di esempi few-shot dai tuoi dati</li>
+<li>Seleziona esempi etichettati direttamente dal dataset</li>
+<li>Usa l’ottimizzazione bayesiana per trovare la combinazione ottimale</li>
+<li>Applica la miglior configurazione al tuo programma</li>
+</ol>
+<h3>Uso base</h3>
+<pre><code class="language-typescript">import { AxAI, AxChainOfThought, AxMiPRO } from '@ax-llm/ax'
+
+// 1. Imposta il tuo servizio AI
+const ai = new AxAI({
+  name: 'google-gemini',
+  apiKey: process.env.GOOGLE_APIKEY,
+})
+
+// 2. Crea il tuo programma
+const program = new AxChainOfThought(`input -&gt; output`)
+
+// 3. Configura l’optimizer
+const optimizer = new AxMiPRO({
+  ai,
+  program,
+  examples: trainingData, // I tuoi esempi di training
+  options: {
+    numTrials: 20, // Numero di configurazioni da provare
+    auto: 'medium', // Livello di ottimizzazione
+  },
+})
+
+// 4. Definisci la metrica di valutazione
+const metricFn = ({ prediction, example }) =&gt; {
+  return prediction.output === example.output
+}
+
+// 5. Esegui l’ottimizzazione
+const optimizedProgram = await optimizer.compile(metricFn, {
+  valset: validationData, // Set di validazione opzionale
+})
+
+// 6. Usa il programma ottimizzato
+const result = await optimizedProgram.forward(ai, { input: 'test input' })
+</code></pre>
+<h3>Opzioni di configurazione</h3>
+<p>MiPRO v2 offre opzioni di configurazione estese:</p>
+<p>| Opzione                  | Descrizione                                      | Default |
+| ------------------------ | ------------------------------------------------ | ------- |
+| <code>numCandidates</code>          | Numero di istruzioni candidate da generare       | 5       |
+| <code>numTrials</code>              | Numero di tentativi di ottimizzazione            | 30      |
+| <code>maxBootstrappedDemos</code>   | Numero massimo di dimostrazioni bootstrappate    | 3       |
+| <code>maxLabeledDemos</code>        | Numero massimo di esempi etichettati             | 4       |
+| <code>minibatch</code>              | Usa minibatch per valutazione più veloce         | true    |
+| <code>minibatchSize</code>          | Dimensione dei minibatch di valutazione          | 25      |
+| <code>earlyStoppingTrials</code>    | Stop se nessun miglioramento dopo N tentativi    | 5       |
+| <code>minImprovementThreshold</code>| Soglia minima di miglioramento                   | 0.01    |
+| <code>programAwareProposer</code>   | Usa la struttura del programma per proposte      | true    |
+| <code>dataAwareProposer</code>      | Considera le caratteristiche del dataset         | true    |
+| <code>verbose</code>                | Mostra avanzamento dettagliato                   | false   |
+| abort-patterns.ts | Esempio su come abortire richieste |</p>
+<h3>Livelli di ottimizzazione</h3>
+<p>Puoi configurare rapidamente l’intensità dell’ottimizzazione con il parametro <code>auto</code>:</p>
+<pre><code class="language-typescript">// Ottimizzazione leggera (più veloce, meno approfondita)
+const optimizedProgram = await optimizer.compile(metricFn, { auto: 'light' })
+
+// Ottimizzazione media (bilanciata)
+const optimizedProgram = await optimizer.compile(metricFn, { auto: 'medium' })
+
+// Ottimizzazione pesante (più lenta, più approfondita)
+const optimizedProgram = await optimizer.compile(metricFn, { auto: 'heavy' })
+</code></pre>
+<h3>Esempio avanzato: Sentiment Analysis</h3>
+<pre><code class="language-typescript">// Crea il programma di sentiment analysis
+const classifyProgram = new AxChainOfThought&lt;
+  { productReview: string },
+  { label: string }
+&gt;(`productReview -&gt; label:string &quot;positive&quot; or &quot;negative&quot;`)
+
+// Configura l’optimizer con impostazioni avanzate
+const optimizer = new AxMiPRO({
+  ai,
+  program: classifyProgram,
+  examples: trainingData,
+  options: {
+    numCandidates: 3,
+    numTrials: 10,
+    maxBootstrappedDemos: 2,
+    maxLabeledDemos: 3,
+    earlyStoppingTrials: 3,
+    programAwareProposer: true,
+    dataAwareProposer: true,
+    verbose: true,
+  },
+})
+
+// Esegui l’ottimizzazione e salva il risultato
+const optimizedProgram = await optimizer.compile(metricFn, {
+  valset: validationData,
+})
+
+// Salva la configurazione per uso futuro
+const programConfig = JSON.stringify(optimizedProgram, null, 2);
+await fs.promises.writeFile(&quot;./optimized-config.json&quot;, programConfig);
+console.log('&gt; Done. Optimized program config saved to optimized-config.json');
+</code></pre>
+<h2>Usare i prompt ottimizzati</h2>
+<p>Sia l’optimizer Bootstrap Few Shot che il più avanzato MiPRO v2 generano <strong>demos</strong> (dimostrazioni) che migliorano significativamente le performance del tuo programma. Questi demos sono esempi che mostrano al LLM come gestire correttamente task simili.</p>
+<h3>Cosa sono i Demos?</h3>
+<p>I demos sono esempi input-output che vengono automaticamente inclusi nei tuoi prompt per guidare il LLM. Agiscono come esempi few-shot, mostrando al modello il comportamento atteso per il tuo task specifico.</p>
+<h3>Caricamento e uso dei Demos</h3>
+<p>Che tu abbia usato Bootstrap Few Shot o MiPRO v2, il processo di utilizzo dei demos generati è lo stesso:</p>
+<pre><code class="language-typescript">import fs from 'fs'
+import { AxAI, AxGen, AxChainOfThought } from '@ax-llm/ax'
+
+// 1. Imposta il servizio AI
+const ai = new AxAI({
+  name: 'openai',
+  apiKey: process.env.OPENAI_APIKEY,
+})
+
+// 2. Crea il programma (stessa signature usata durante l’ottimizzazione)
+const program = new AxChainOfThought(`question -&gt; answer &quot;in short 2 or 3 words&quot;`)
+
+// 3. Carica i demos dal file salvato
+const demos = JSON.parse(fs.readFileSync('bootstrap-demos.json', 'utf8'))
+
+// 4. Applica i demos al programma
+program.setDemos(demos)
+
+// 5. Usa il programma potenziato
+const result = await program.forward(ai, {
+  question: 'What castle did David Gregory inherit?'
+})
+
+console.log(result) // Ora funziona meglio con gli esempi appresi
+</code></pre>
+<h3>Esempio semplice: Classificazione Testo</h3>
+<p>Ecco un esempio completo che mostra come i demos migliorano un task di classificazione:</p>
+<pre><code class="language-typescript">// Crea un programma di classificazione
+const classifier = new AxGen(`text -&gt; category:class &quot;positive, negative, neutral&quot;`)
+
+// Carica i demos generati da Bootstrap o MiPRO tuning
+const savedDemos = JSON.parse(fs.readFileSync('classification-demos.json', 'utf8'))
+classifier.setDemos(savedDemos)
+
+// Ora il classificatore ha imparato dagli esempi e funziona meglio
+const result = await classifier.forward(ai, {
+  text: &quot;This product exceeded my expectations!&quot;
+})
+
+console.log(result.category) // Classificazione più accurata
+</code></pre>
+<h3>Vantaggi principali dell’uso dei Demos</h3>
+<ul>
+<li><strong>Migliore accuratezza</strong>: i programmi funzionano molto meglio con esempi rilevanti</li>
+<li><strong>Output coerente</strong>: i demos aiutano a mantenere formati di risposta coerenti</li>
+<li><strong>Meno allucinazioni</strong>: gli esempi guidano il modello verso comportamenti attesi</li>
+<li><strong>Costi ridotti</strong>: risultati migliori senza bisogno di modelli più grandi/costosi</li>
+</ul>
+<h3>Best Practice</h3>
+<ol>
+<li><strong>Salva i tuoi demos</strong>: salva sempre i demos generati per riutilizzarli</li>
+<li><strong>Signature coerente</strong>: usa la stessa signature quando carichi i demos</li>
+<li><strong>Versiona i file</strong>: tieni i file demos sotto version control per riproducibilità</li>
+<li><strong>Aggiorna regolarmente</strong>: riottimizza periodicamente con dati nuovi per migliorare i demos</li>
+</ol>
+<p>Sia Bootstrap Few Shot che MiPRO v2 generano demos nello stesso formato, quindi puoi usare lo stesso schema di caricamento a prescindere dall’optimizer.</p>
+<h2>Funzioni integrate</h2>
+<p>| Funzione            | Nome                | Descrizione                                   |
+| ------------------- | ------------------- | --------------------------------------------- |
+| Interprete JS       | AxJSInterpreter     | Esegue codice JS in ambiente sandbox          |
+| Docker Sandbox      | AxDockerSession     | Esegue comandi in un ambiente docker          |
+| Embeddings Adapter  | AxEmbeddingAdapter  | Ottieni e passa embedding alla tua funzione   |</p>
+<h2>Guarda tutti gli esempi</h2>
+<p>Usa il comando <code>tsx</code> per eseguire gli esempi. Fa sì che node esegua codice typescript. Supporta anche l’uso di un file <code>.env</code> per passare le API Key AI invece di metterle in linea di comando.</p>
+<pre><code class="language-shell">OPENAI_APIKEY=api-key npm run tsx ./src/examples/marketing.ts
+</code></pre>
+<p>| Esempio                 | Descrizione                                             |
+| ----------------------- | ------------------------------------------------------- |
+| customer-support.ts     | Estrai dettagli preziosi dalle comunicazioni clienti    |
+| function.ts             | Esempio semplice di chiamata funzione singola           |
+| food-search.ts          | Esempio multi-step, multi-funzione                      |
+| marketing.ts            | Genera brevi messaggi sms di marketing efficaci         |
+| vectordb.ts             | Chunk, embed e ricerca testo                            |
+| fibonacci.ts            | Usa l’interprete JS per calcolare la serie di Fibonacci |
+| summarize.ts            | Genera un breve riassunto di un testo lungo             |
+| chain-of-thought.ts     | Usa chain-of-thought prompting per rispondere           |
+| rag.ts                  | Retrieval multi-hop per rispondere a domande            |
+| rag-docs.ts             | Converti PDF in testo e embeddalo per ricerca rag       |
+| react.ts                | Usa chiamata funzioni e ragionamento per rispondere     |
+| agent.ts                | Framework agenti, possono usare altri agenti e tool     |
+| streaming1.ts           | Validazione campi output durante lo streaming           |
+| streaming2.ts           | Validazione per campo output durante streaming          |
+| streaming3.ts           | Streaming end-to-end esempio <code>streamingForward()</code>       |
+| smart-hone.ts           | Agente cerca il cane in una smart home                  |
+| multi-modal.ts          | Usa un input immagine con altri input testuali          |
+| balancer.ts             | Bilancia tra vari llm in base a costi, ecc              |
+| docker.ts               | Usa la sandbox docker per trovare file per descrizione  |
+| prime.ts                | Usa field processor per processare campi in un prompt   |
+| simple-classify.ts      | Classificatore semplice                                 |
+| mcp-client-memory.ts    | Esempio di uso MCP server per memoria con Ax            |
+| mcp-client-blender.ts   | Esempio di uso MCP server per Blender con Ax            |
+| mcp-client-pipedream.ts | Esempio di integrazione MCP remoto                      |
+| tune-bootstrap.ts       | Usa bootstrap optimizer per migliorare l’efficacia      |
+| tune-mipro.ts           | Usa optimizer mipro v2 per migliorare prompt            |
+| tune-usage.ts           | Usa i prompt ottimizzati                                |
+| telemetry.ts            | Traccia e invia trace a un servizio Jaeger              |
+| openai-responses.ts     | Esempio uso OpenAI Responses API                        |
+| use-examples.ts         | Esempio di uso di 'examples' per guidare il llm         |</p>
+<h2>Il nostro obiettivo</h2>
+<p>I Large Language Model (LLM) stanno diventando molto potenti e hanno raggiunto un punto in cui possono essere il backend dell’intero prodotto. Tuttavia, resta molta complessità da gestire: prompt corretti, modelli, streaming, function call, correzione errori e molto altro. Il nostro obiettivo è incapsulare tutta questa complessità in una libreria ben mantenuta, facile da usare e compatibile con tutti i migliori LLM. Inoltre, usiamo la ricerca più avanzata per aggiungere nuove capacità come DSPy alla libreria.</p>
+<h2>Come usare questa libreria?</h2>
+<h3>1. Scegli un AI con cui lavorare</h3>
+<pre><code class="language-ts">// Scegli un LLM
+const ai = new AxOpenAI({ apiKey: process.env.OPENAI_APIKEY } as AxOpenAIArgs)
+</code></pre>
+<h3>2. Crea una prompt signature secondo il tuo caso d’uso</h3>
+<pre><code class="language-ts">// La signature definisce input e output del tuo programma prompt
+const cot = new ChainOfThought(ai, `question:string -&gt; answer:string`, { mem })
+</code></pre>
+<h3>3. Esegui il nuovo programma prompt</h3>
+<pre><code class="language-ts">// Passa i campi input definiti nella signature sopra
+const res = await cot.forward({ question: 'Are we in a simulation?' })
+</code></pre>
+<h3>4. Oppure se vuoi usare direttamente il LLM</h3>
+<pre><code class="language-ts">const res = await ai.chat([
+  { role: &quot;system&quot;, content: &quot;Help the customer with his questions&quot; }
+  { role: &quot;user&quot;, content: &quot;I'm looking for a Macbook Pro M2 With 96GB RAM?&quot; }
+]);
+</code></pre>
+<h2>Come si usa la function calling</h2>
+<h3>1. Definisci le funzioni</h3>
+<pre><code class="language-ts">// definisci una o più funzioni e un gestore di funzioni
+const functions = [
+  {
+    name: 'getCurrentWeather',
+    description: 'get the current weather for a location',
+    parameters: {
+      type: 'object',
+      properties: {
+        location: {
+          type: 'string',
+          description: 'location to get weather for',
+        },
+        units: {
+          type: 'string',
+          enum: ['imperial', 'metric'],
+          default: 'imperial',
+          description: 'units to use',
+        },
+      },
+      required: ['location'],
+    },
+    func: async (args: Readonly&lt;{ location: string; units: string }&gt;) =&gt; {
+      return `The weather in ${args.location} is 72 degrees`
+    },
+  },
+]
+</code></pre>
+<h3>2. Passa le funzioni a un prompt</h3>
+<pre><code class="language-ts">const cot = new AxGen(ai, `question:string -&gt; answer:string`, { functions })
+</code></pre>
+<h2>Abilita log di debug</h2>
+<pre><code class="language-ts">const ai = new AxAI({
+  name: 'openai',
+  apiKey: process.env.OPENAI_APIKEY,
+} as AxOpenAIArgs)
+ai.setOptions({ debug: true })
+</code></pre>
+<h2>Contattaci</h2>
+<p>Siamo felici di aiutare, contattaci se hai domande o unisciti al Discord<br />
+<a href="https://twitter.com/dosco">twitter/dosco</a></p>
+<h2>FAQ</h2>
+<h3>1. Il LLM non trova la funzione corretta da usare</h3>
+<p>Migliora il nome e la descrizione della funzione. Sii molto chiaro su cosa fa la funzione. Assicurati che i parametri abbiano buone descrizioni. Le descrizioni possono essere brevi ma devono essere precise.</p>
+<h3>2. Come cambio la configurazione del LLM che sto usando?</h3>
+<p>Puoi passare un oggetto di configurazione come secondo parametro quando crei un nuovo oggetto LLM.</p>
+<pre><code class="language-ts">const apiKey = process.env.OPENAI_APIKEY
+const conf = AxOpenAIBestConfig()
+const ai = new AxOpenAI({ apiKey, conf } as AxOpenAIArgs)
+</code></pre>
+<h2>3. Il mio prompt è troppo lungo / posso cambiare i max tokens?</h2>
+<pre><code class="language-ts">const conf = axOpenAIDefaultConfig() // o OpenAIBestOptions()
+conf.maxTokens = 2000
+</code></pre>
+<h2>4. Come cambio il modello? (es: voglio usare GPT4)</h2>
+<pre><code class="language-ts">const conf = axOpenAIDefaultConfig() // o OpenAIBestOptions()
+conf.model = OpenAIModel.GPT4Turbo
+</code></pre>
+<h2>Suggerimenti per Monorepo</h2>
+<p>È essenziale ricordare che bisogna eseguire <code>npm install</code> solo dalla directory root. Questo evita la creazione di file <code>package-lock.json</code> annidati e previene node_modules non deduplicati.</p>
+<p>Aggiungere nuove dipendenze nei pacchetti deve essere fatto con ad esempio<br />
+<code>npm install lodash --workspace=ax</code> (o semplicemente modifica il <code>package.json</code> appropriato ed esegui <code>npm install</code> da root).</p>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

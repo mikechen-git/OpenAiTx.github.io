@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>expr_codegen - wukan1986/expr_codegen</title>
+    <meta name="title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta name="description" content="wukan1986/expr_codegen - GitHub repository tr documentation and informationexpr_codegen İfade Derleyicisi Proje Arka Planı Kendi geliştirdiğim polars_ta kütüphanesini yayınladıktan sonra, tekrar dönüp expr_codegen’in ne olduğunu düşünd...">
+    <meta name="keywords" content="wukan1986, expr_codegen, GitHub, repository, tr documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/wukan1986/expr_codegen/README-tr.html">
+    <meta property="og:title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta property="og:description" content="wukan1986/expr_codegen - GitHub repository tr documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/wukan1986/expr_codegen" id="githubRepoLink" target="_blank">wukan1986/expr_codegen</a>
+<h1 style="display: none;">expr_codegen İfade Derleyicisi Proje Arka Planı Kendi geliştirdiğim polars_ta kütüphanesini yayınladıktan sonra, tekrar dönüp expr_codegen’in ne olduğunu düşünd...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>expr_codegen İfade Derleyicisi</h1>
+<h2>Proje Arka Planı</h2>
+<p>Kendi geliştirdiğim <a href="https://github.com/wukan1986/polars_ta">polars_ta</a> kütüphanesini yayınladıktan sonra, tekrar dönüp <code>expr_codegen</code>’in ne olduğunu düşündüm.</p>
+<blockquote>
+<p><code>expr_codegen</code> özünde bir <code>DSL</code>’dir (Domain Specific Language - Alan Özel Dili). Ancak yeni bir sözdizimi tanımlamaz.</p>
+</blockquote>
+<p>İki sorunu çözer:</p>
+<ol>
+<li><code>polars_ta</code> ile özellik hesaplama ifadeleri kolayca yazılabiliyor, fakat zaman serisi ile kesitsel ifadelerin karışık kullanıldığı durumlarda, <code>expr_codegen</code> ile otomatik gruplama büyük ölçüde iş yükünü azaltıyor.</li>
+<li><code>expr_codegen</code>, <code>Common Subexpression Elimination</code> (Ortak Alt İfade Eleme) yöntemini kullanarak tekrarlı hesaplamaları büyük oranda azaltır ve verimliliği artırır.</li>
+</ol>
+<p>Kuant alanında, başlangıç seviyesindeki araştırmacılar zaman serisi göstergelerine odaklanırsa sadece <code>polars_ta</code> yeterlidir; orta ve ileri düzeydeki araştırmacılar ise kesitsel göstergeler kullanır, onlara <code>expr_codegen</code> önerilir.</p>
+<p>Şu anda proje <code>polars_ta</code> ile çok sıkı bağlı olsa da, başka kütüphanelere de çevrilebilir (ör. <code>pandas / cudf.pandas</code>), fakat şimdilik kolay bir kütüphane eksikliği var.</p>
+<h2>Online Demo</h2>
+<p>https://exprcodegen.streamlit.app</p>
+<p>Başlangıç düzeyindeki kullanıcılar bu bağlantıya doğrudan gidip ifade derlemesi yapabilir, ek yazılım yüklemeye gerek yoktur. (Bu araç yurtdışında ücretsiz sunulmakta, açılması biraz yavaş olabilir.)</p>
+<p>Daha kapsamlı örnekler için <a href="https://github.com/wukan1986/alpha_examples">alpha_examples</a> adresine bakabilirsiniz.</p>
+<h2>Kullanım Örneği</h2>
+<pre><code class="language-python">import sys
+from io import StringIO
+
+import polars as pl
+
+from expr_codegen import codegen_exec
+
+
+def _code_block_1():
+    # Faktör düzenleme alanı, burada IDE'nin otomatik tamamlama özellikleriyle faktörleri düzenleyebilirsiniz
+    LOG_MC_ZS = cs_mad_zscore(log1p(market_cap))
+
+
+def _code_block_2():
+    # Şablonda, from polars_ta.prefix altında birçok operatör varsayılan olarak import edilmiştir,
+    # ancak talib şablonda varsayılan olarak import edilmemiştir. Bu şekilde, oluşturulan kodda import işlemi yapılabilir
+    from polars_ta.prefix.talib import ts_LINEARREG_SLOPE  # noqa
+
+    # Ayrıca def ve class ifadeleri de aynen içe aktarılır
+    def cs_rank_if(condition, factor):
+        return cs_rank(if_else(condition, factor, None))
+
+    class Clazz:
+        pass
+
+    # 1. Alt çizgiyle başlayan değişkenler sadece ara değişkendir, otomatik olarak yeniden adlandırılır ve çıktıda çıkarılır
+    # 2. Alt çizgiyle başlayan değişkenler tekrar tekrar kullanılabilir. Birden çok karmaşık faktörde, satır satır yazarken ara değişken çakışmaz
+    _avg = ts_mean(corr, 20)
+    _std = ts_std_dev(corr, 20)
+    _beta = ts_LINEARREG_SLOPE(corr, 20)
+
+    # 3. Alt çizgiyle başlayan değişkenlerde döngüsel atama vardır. Hata ayıklamada hızlıca yorum satırıyla değiştirilebilir
+    _avg = cs_mad_zscore_resid(_avg, LOG_MC_ZS, ONE)
+    _std = cs_mad_zscore_resid(_std, LOG_MC_ZS, ONE)
+    # _beta = cs_mad_zscore_resid(_beta, LOG_MC_ZS, ONE)
+
+    _corr = cs_zscore(_avg) + cs_zscore(_std)
+    CPV = cs_zscore(_corr) + cs_zscore(_beta)
+
+
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=sys.stdout)  # Kodu yazdır
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=&quot;output.py&quot;)  # Dosyaya kaydet
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by')  # Sadece çalıştır, kodu kaydetme
+
+code = StringIO()
+codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=code)  # String’e kaydet
+code.seek(0)
+code.read()  # Kodu oku
+
+# TODO Uygun veriyle değiştirin
+df = pl.DataFrame()
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect()  # Lazy CPU
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect(engine=&quot;gpu&quot;)  # Lazy GPU
+
+</code></pre>
+<h2>Dizin Yapısı</h2>
+<pre><code class="language-commandline">│  requirements.txt # `pip install -r requirements.txt` ile bağımlılıkları yükler
+├─data
+│      prepare_date.py # Veri hazırlama
+├─examples
+│      demo_express.py # Hızlı örnek. İfadeyi koda nasıl dönüştüreceğinizi gösterir
+│      demo_exec_pl.py # Dönüştürülen kodun çağrılması ve çizim örneği
+│      demo_transformer.py # Üçüncü parti ifadeleri iç formata çevirme örneği
+│      output.py # Sonuç çıktısı. Kodu değiştirmeden diğer projelere doğrudan import edilebilir
+│      show_tree.py # İfade ağaç şeması çizer. Optimizasyon sonuçlarını analiz/karşılaştırma için kullanılabilir
+│      sympy_define.py # Sembol tanımları, çok fazla yerde tekrarlandığı için buraya çıkarılmıştır
+├─expr_codegen
+│   │  expr.py # İfade işleme temel fonksiyonları
+│   │  tool.py # Çekirdek araç kodları
+│   ├─polars
+│   │  │  code.py # polars sözdizimine yönelik kod üretimi
+│   │  │  template.py.j2 # `Jinja2` şablonu. İlgili py dosyasını üretmek için kullanılır, genelde değiştirilmez
+│   │  │  printer.py # `Sympy`’deki `StrPrinter`’dan türetilmiştir, yeni fonksiyon eklerken bu dosyada değişiklik yapılabilir
+</code></pre>
+<h2>Çalışma Prensibi</h2>
+<p>Bu proje <code>sympy</code> projesine dayanmaktadır. Kullanılan başlıca fonksiyonlar:</p>
+<ol>
+<li><code>simplify</code>: Karmaşık ifadeleri sadeleştirir</li>
+<li><code>cse</code>: <code>Common Subexpression Elimination</code> (Ortak Alt İfade Eleme)</li>
+<li><code>StrPrinter</code>: Farklı fonksiyonlara göre farklı çıktılar üretir. Özelleştirerek farklı dilleri veya kütüphaneleri destekleyebilirsiniz</li>
+</ol>
+<p>Çünkü <code>groupby</code> ve <code>sort</code> işlemleri zaman alır. Eğer formülleri önceden sınıflandırır, her sınıfa farklı <code>groupby</code> uygularsanız, hesaplama süresini azaltabilirsiniz.</p>
+<ol>
+<li><code>ts_xxx(ts_xxx)</code>: Aynı <code>groupby</code> içinde hesaplanabilir</li>
+<li><code>cs_xxx(cs_xxx)</code>: Aynı <code>groupby</code> içinde hesaplanabilir</li>
+<li><code>ts_xxx(cs_xxx)</code>: Farklı <code>groupby</code>’larda hesaplanmalı</li>
+<li><code>cs_xxx(ts_xxx(cs_xxx))</code>: Üç farklı <code>groupby</code>’da hesaplanmalı</li>
+<li><code>gp_xxx(aa, )+gp_xxx(bb, )</code>: <code>aa</code> ve <code>bb</code> farklı olduğundan iki farklı <code>groupby</code>’da hesaplanmalı</li>
+</ol>
+<p>Bunun için:</p>
+<ol>
+<li>İfadelerin mevcut kategorisini (<code>get_current</code>) ve alt ifadelerin kategorisini (<code>get_children</code>) alabilen bir fonksiyona ihtiyaç var</li>
+<li>Mevcut kategori ile alt kategori farklıysa kısa formül çıkarılabilir (<code>extract</code>). Farklı katmanlardaki aynı kategori ifadeler arasında sıra vardır, aynı <code>groupby</code>’da olamazlar</li>
+<li><code>cse</code> özelliğini kullanarak, uzun ifadeleri önceden çıkarılan kısa ifadelerle değiştirin. Sonra bu, yönsüz çevrimsiz grafa (<code>DAG</code>) girer</li>
+<li>Yönsüz çevrimsiz graf üzerinden katmanlama yapılır. Aynı katmandaki <code>ts</code>, <code>cs</code>, <code>gp</code> sırası önemli değildir</li>
+<li>Aynı katmanda <code>ts</code>, <code>cs</code>, <code>gp</code> gruplandırılır ve kod üretimi (<code>codegen</code>) yapılır</li>
+</ol>
+<p>Gizli bilgiler:</p>
+<ol>
+<li><code>ts</code>: sort(by=[ASSET, DATE]).groupby(by=[ASSET], maintain_order=True)</li>
+<li><code>cs</code>: sort(by=[DATE]).groupby(by=[DATE], maintain_order=False)</li>
+<li><code>gp</code>: sort(by=[DATE, GROUP]).groupby(by=[DATE, GROUP], maintain_order=False)</li>
+</ol>
+<p>Yani</p>
+<ol>
+<li>Zaman serisi fonksiyonları gizlice iki alan (<code>ASSET</code>, <code>DATE</code>) saklar; kesitsel fonksiyonlar bir alan (<code>DATE</code>) saklar</li>
+<li>Grup fonksiyonları bir alan (<code>GROUP</code>) ekler, aynı zamanda bir alan (<code>DATE</code>) gizler</li>
+</ol>
+<p>İki sınıflandırma yöntemi:</p>
+<ol>
+<li>Operatör önekiyle sınıflandırma (<code>get_current_by_prefix</code>), operatör ismi <code>ts_</code>, <code>cs_</code>, <code>gp_</code> ile başlamalı</li>
+<li>Operatör tam adıyla sınıflandırma (<code>get_current_by_name</code>), isimde kısıtlama yok. Örneğin, <code>cs_rank</code> yerine <code>rank</code> denebilir</li>
+</ol>
+<h2>Null İşleme</h2>
+<p><code>null</code> nasıl oluşur?</p>
+<ol>
+<li>İşlem durdurma nedeniyle. Hesaplama öncesinde filtrelenir, sonrasını etkilemez.</li>
+<li>Farklı enstrümanların farklı işlem saatleri</li>
+<li>Hesaplamada oluşur. <code>null</code> dizinin başında veya sonunda ise zaman serisi operatörlerini etkilemez, ortada oluşursa etkiler. Örneğin: <code>if_else(close&lt;2, None, close)</code></li>
+</ol>
+<p>https://github.com/pola-rs/polars/issues/12925#issuecomment-2552764629</p>
+<p>Harika bir fikir, özetle iki uygulama yöntemi var:</p>
+<ol>
+<li><code>null</code> bir grup, <code>not_null</code> başka bir grup olur. İki kez çağrılır</li>
+<li>Tek grup olur, karma sıralamada <code>null</code> öne, <code>not_null</code> sona gelir. Tek çağrı, biraz daha hızlı</li>
+</ol>
+<pre><code class="language-python">X1 = (ts_returns(CLOSE, 3)).over(CLOSE.is_not_null(), _ASSET_, order_by=_DATE_),
+X2 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=[CLOSE.is_not_null(), _DATE_]),
+X3 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=_DATE_),
+</code></pre>
+<ol start="2">
+<li><p>yöntemde baştaki <code>null</code> bölgesi, sonucu operatöre göre etkiler, özellikle çoklu sütun girişinde <code>null</code> bölgesinde veri olabilir</p>
+</li>
+<li><p><code>over_null='partition_by'</code>: İki bölgeye ayrılır</p>
+</li>
+<li><p><code>over_null='order_by'</code>: Tek bölge, <code>null</code> önde</p>
+</li>
+<li><p><code>over_null=None</code>: Hiç işlem yapılmaz, doğrudan çağrılır, daha hızlı. Ortada <code>null</code> oluşmayacağından eminseniz bu parametreyi kullanın</p>
+</li>
+</ol>
+<p><code>codegen_exec(over_null='partition_by')</code> ile küresel olarak <code>partition_by</code> kullanılır. Ancak <code>ts_count_nulls</code> gibi <code>null</code> fonksiyonlarda <code>over_null=None</code> gerekir, bu nedenle araçta satır düzeyinde parametre belirten yorum satırı özelliği eklenmiştir.</p>
+<ol>
+<li><code># --over_null partition_by</code>: Satırda <code>over_null='partition_by'</code></li>
+<li><code># --over_null=order_by</code>: Satırda <code>over_null='order_by'</code></li>
+<li><code># --over_null</code>: Satırda <code>over_null=None</code></li>
+<li><code># </code>: <code>codegen_exec</code>’ten gelen <code>over_null</code> parametresini alır</li>
+</ol>
+<p>Notlar:</p>
+<ol>
+<li><p><code># --over_null</code> parametre yorumları sadece satır sonuna yazılır, tek satır olarak yazılırsa dikkate alınmaz</p>
+</li>
+<li><p><code># --over_null # --over_null=order_by</code> gibi çoklu <code>#</code> olursa, ilk geçerli olan alınır</p>
+</li>
+<li><p>Sadece en dıştaki <code>ts</code> fonksiyonunda geçerlidir. Eğer <code>ts</code> fonksiyonu dışta değilse elle çıkarmak gerekir. Örneğin:</p>
+<pre><code class="language-python">X1 = cs_rank(ts_mean(CLOSE, 3)) # --over_null=order_by # cs_rank’ta uygulanır, anlamı yok
+X2 = ts_rank(ts_mean(CLOSE, 3), 5) # --over_null=order_by # ts_rank(ts_mean)’de uygulanacağı sanılır, fakat ortak ts_mean oluşunca aslında ts_rank(_x_0)’da uygulanır
+</code></pre>
+<p>Şöyle yazılmalı:</p>
+<pre><code class="language-python">_x_0 = ts_mean(CLOSE, 3)  # --over_null=order_by 
+X1 = cs_rank(_x_0)
+X2 = ts_rank(_x_0, 5)
+</code></pre>
+</li>
+<li><p>Hata yapma riski yüksek olduğundan, mutlaka <code>output_file</code> oluşturup üretilen kodun doğruluğunu kontrol etmeniz önerilir.</p>
+</li>
+</ol>
+<h2><code>expr_codegen</code> Sınırlamaları</h2>
+<ol>
+<li><code>DAG</code> sadece sütun ekleyebilir, silemez. Aynı isimli sütun eklenirse üzerine yazar</li>
+<li>Satır silme desteklenmez, ancak silme işaretli sütun eklenip dışarıda satır silme yapılabilir. Satır silme tüm sütunları etkiler, <code>DAG</code> ilkesini bozuyor</li>
+<li>Yeniden örnekleme desteklenmez, sebep satır silmeyle aynıdır. Dışarıda yapılmalıdır</li>
+<li>Satır silme ve yeniden örnekleme birer ayraç olarak düşünülebilir, büyük kod blokları birden fazla <code>DAG</code>a bölünebilir. Karmaşık ve anlaşılması zor olduğundan uygulanmadı</li>
+</ol>
+<h2>Özel Sözdizimi</h2>
+<ol>
+<li><code>C?T:F</code> üçlü ifadesi desteklenir (sadece string içinde), altyapıda önce <code>C or True if( T )else F</code> olarak çevrilir, sonra <code>T if C else F</code> ve son olarak <code>if_else(C,T,F)</code> olur. <code>if else</code> ile birlikte kullanılabilir</li>
+<li><code>(A&lt;B)*-1</code>, altyapıda <code>int_(A&lt;B)*-1</code>’e dönüştürülür</li>
+<li><code>A==B</code> ifadesinin <code>sympy</code> tarafından <code>False</code>'a çevrilmesini önlemek için altyapıda <code>Eq(A,B)</code>’ye dönüştürülür</li>
+<li><code>A^B</code> anlamı <code>convert_xor</code> parametresine bağlıdır, <code>convert_xor=True</code> ise <code>Pow(A,B)</code>’ye, değilse <code>Xor(A,B)</code>’ye çevrilir. Varsayılan <code>False</code>, üs alma için <code>**</code> kullanılır</li>
+<li><code>A&amp;B&amp;C</code> desteklenir, ancak <code>A==B==C</code> desteklenmez. C boolean, A ve B sayısal ise elle <code>(A==B)==C</code> ile değiştirilebilir. Üçü de sayısal ise <code>(A==B)&amp;(B==C)</code> olarak değiştirilmeli</li>
+<li><code>A&lt;=B&lt;=C</code> desteklenmez, elle <code>(A&lt;=B)&amp;(B&lt;=C)</code> ile değiştirilmeli</li>
+<li><code>A[0]+B[1]+C[2]</code> desteklenir, altyapıda <code>A+ts_delay(B,1)+ts_delay(C,2)</code>’ye çevrilir</li>
+<li><code>~A</code>, altyapıda <code>Not(A)</code>’ya çevrilir</li>
+<li><code>gp_</code> ile başlayan fonksiyonlar ilgili <code>cs_</code> fonksiyonunu döndürür. Örn: <code>gp_func(A,B,C)</code> → <code>cs_func(B,C)</code>, burada <code>A</code>, <code>groupby([date, A])</code>'de kullanılır</li>
+<li><code>A,B,C=MACD()</code> tuple açma desteklenir, altyapıda şöyle çevrilir:</li>
+</ol>
+<pre><code class="language-python">_x_0 = MACD()
+A = unpack(_x_0, 0)
+B = unpack(_x_0, 1)
+C = unpack(_x_0, 2)
+</code></pre>
+<ol start="11">
+<li>Tek satırlık yorumlarda parametre girişi desteklenir: <code># --over_null</code>, <code># --over_null=order_by</code>, <code># --over_null=partition_by</code></li>
+<li>Kod bloklarında <code>import</code>, <code>def</code>, <code>class</code> gibi yapılar otomatik olarak üretilen koda aynen eklenir</li>
+</ol>
+<h2>Alt Çizgiyle Başlayan Değişkenler</h2>
+<ol>
+<li>Çıktı verisinde, <code>_</code> ile başlayan tüm sütunlar otomatik olarak silinir. Kalıcı olması gereken değişkenler <code>_</code> ile başlamamalı</li>
+<li>Tekrarlı hesaplamaları azaltmak için <code>_x_</code> ile başlayan ara değişkenler otomatik eklenir: <code>_x_0</code>, <code>_x_1</code> gibi. Sonunda otomatik silinirler</li>
+<li>Satırda ifade çok uzunsa veya tekrarlı hesaplama varsa, ara değişkenlerle satır çoklanabilir. Ara değişken adı <code>_</code> ile başlarsa, sonuna otomatik rakam eklenir: <code>_A</code> → <code>_A_0_</code>, <code>_A_1_</code> vb. Kullanım durumu:
+<ol>
+<li>Aynı değişken adı tekrar kullanılır, aslında farklı değişkenlerdir</li>
+<li>Döngüsel atama yapılır, fakat <code>DAG</code> döngüye izin vermez. Eşitliğin iki yanında aynı isim olsa da aslında farklı değişkenlerdir</li>
+</ol>
+</li>
+</ol>
+<h2>Derleme Sonucu Örneği</h2>
+<p>Derlenen kod örneği, ayrıntılar için <a href="examples/output_polars.py">Polars versiyonu</a> bakınız</p>
+<pre><code class="language-python">def func_0_ts__asset(df: pl.DataFrame) -&gt; pl.DataFrame:
+    df = df.sort(by=[_DATE_])
+    # ========================================
+    df = df.with_columns(
+        _x_0=1 / ts_delay(OPEN, -1),
+        LABEL_CC_1=(-CLOSE + ts_delay(CLOSE, -1)) / CLOSE,
+    )
+    # ========================================
+    df = df.with_columns(
+        LABEL_OO_1=_x_0 * ts_delay(OPEN, -2) - 1,
+        LABEL_OO_2=_x_0 * ts_delay(OPEN, -3) - 1,
+    )
+    return df
+</code></pre>
+<p>Derlenen kod örneği, ayrıntılar için <a href="examples/output_pandas.py">Pandas versiyonu</a> bakınız</p>
+<pre><code class="language-python">def func_2_cs__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_4 = cs_rank(x_7)
+    df[&quot;expr_4&quot;] = (df[&quot;x_7&quot;]).rank(pct=True)
+    return df
+
+
+def func_3_ts__asset__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_5 = -ts_corr(OPEN, CLOSE, 10)
+    df[&quot;expr_5&quot;] = -(df[&quot;OPEN&quot;]).rolling(10).corr(df[&quot;CLOSE&quot;])
+    # expr_6 = ts_delta(OPEN, 10)
+    df[&quot;expr_6&quot;] = df[&quot;OPEN&quot;].diff(10)
+    return df
+
+</code></pre>
+<h2>Yerel Dağıtımda Etkileşimli Web</h2>
+<p>Sadece <code>streamlit run streamlit_app.py</code> komutunu çalıştırmanız yeterlidir.</p>
+<hr />
+<p><a href="https://github.com/OpenAiTx/OpenAiTx">Powered By OpenAiTx</a> - 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

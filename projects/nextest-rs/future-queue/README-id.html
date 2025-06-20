@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>future-queue - nextest-rs/future-queue</title>
+    <meta name="title" content="future-queue - nextest-rs/future-queue">
+    <meta name="description" content="nextest-rs/future-queue - GitHub repository id documentation and informationfuture-queue future_queue menyediakan cara untuk menjalankan beberapa future: secara konkuren dalam urutan saat mereka dibuat dengan batas global dan dengan gru...">
+    <meta name="keywords" content="nextest-rs, future-queue, GitHub, repository, id documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/nextest-rs/future-queue/README-id.html">
+    <meta property="og:title" content="future-queue - nextest-rs/future-queue">
+    <meta property="og:description" content="nextest-rs/future-queue - GitHub repository id documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/nextest-rs/future-queue" id="githubRepoLink" target="_blank">nextest-rs/future-queue</a>
+<h1 style="display: none;">future-queue future_queue menyediakan cara untuk menjalankan beberapa future: secara konkuren dalam urutan saat mereka dibuat dengan batas global dan dengan gru...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>future-queue</h1>
+<p><a href="https://crates.io/crates/future-queue"><img src="https://img.shields.io/crates/v/future-queue" alt="future-queue on crates.io" /></a>
+<a href="https://docs.rs/future-queue/"><img src="https://img.shields.io/badge/docs-latest-brightgreen.svg" alt="Documentation (latest release)" /></a>
+<a href="https://nextest-rs.github.io/future-queue/rustdoc/future_queue"><img src="https://img.shields.io/badge/docs-main-purple" alt="Documentation (main)" /></a>
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/CHANGELOG.md"><img src="https://img.shields.io/badge/changelog-latest-blue" alt="Changelog" /></a>
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-APACHE"><img src="https://img.shields.io/badge/license-Apache-green.svg" alt="License" /></a>
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-MIT"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License" /></a></p>
+<p><code>future_queue</code> menyediakan cara untuk menjalankan beberapa future:</p>
+<ul>
+<li>secara konkuren</li>
+<li>dalam urutan saat mereka dibuat</li>
+<li>dengan batas global</li>
+<li>dan dengan grup opsional yang ditentukan untuk setiap future, masing-masing dengan batasnya sendiri.</li>
+</ul>
+<p>Crate ini merupakan bagian dari <a href="https://github.com/nextest-rs">organisasi nextest</a> di GitHub, dan
+dirancang untuk memenuhi kebutuhan <a href="https://nexte.st">cargo-nextest</a>.</p>
+<h2>Motivasi</h2>
+<p>Pemrograman async di Rust sering menggunakan adaptor yang disebut
+<a href="https://docs.rs/futures/latest/futures/stream/trait.StreamExt.html#method.buffer_unordered"><code>buffer_unordered</code></a>:
+adaptor ini mengambil stream dari future[^1], dan mengeksekusi semua future yang dibatasi oleh jumlah konkuren maksimum.</p>
+<ul>
+<li>Future dimulai dalam urutan saat stream mengembalikannya.</li>
+<li>Setelah dimulai, future akan di-poll secara bersamaan, dan output future yang selesai akan dikembalikan dalam
+urutan acak (oleh karena itu disebut <code>unordered</code>).</li>
+</ul>
+<p>Penggunaan umum untuk <code>buffer_unordered</code> meliputi:</p>
+<ul>
+<li>Mengirim permintaan jaringan secara konkuren, namun membatasi tingkat konkuren untuk menghindari
+membebani server jarak jauh.</li>
+<li>Menjalankan pengujian dengan alat seperti <a href="https://nexte.st">cargo-nextest</a>.</li>
+</ul>
+<p><code>buffer_unordered</code> bekerja dengan baik untuk banyak kasus penggunaan. Namun, satu masalahnya adalah memperlakukan
+semua future sebagai sama beratnya: tidak ada cara untuk menyatakan bahwa beberapa future mengonsumsi lebih banyak sumber daya
+daripada yang lain, atau bahwa beberapa subset future harus saling dikecualikan.</p>
+<p>Untuk nextest secara khusus, beberapa pengujian bisa jauh lebih berat daripada yang lain, dan lebih sedikit pengujian tersebut
+yang sebaiknya dijalankan secara bersamaan. Selain itu, beberapa pengujian perlu saling dikecualikan, atau
+batas konkuren lain diterapkan pada mereka.</p>
+<p>[^1]: Adaptor ini mengambil stream dari future untuk generalitas maksimum. Dalam praktiknya, ini seringkali
+berupa <em>iterator</em> dari future, diubah menggunakan
+<a href="https://docs.rs/futures/latest/futures/stream/fn.iter.html"><code>stream::iter</code></a>.</p>
+<h2>Tentang crate ini</h2>
+<p>Crate ini menyediakan dua adaptor pada stream.</p>
+<h3>1. Adaptor <code>future_queue</code></h3>
+<p>Adaptor <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/src/stream_ext.rs"><code>future_queue</code></a> dapat menjalankan beberapa future secara bersamaan,
+membatasi tingkat konkuren ke <em>bobot</em> maksimum.</p>
+<p>Alih-alih mengambil stream dari future, adaptor ini mengambil stream dari
+pasangan <code>(usize, F)</code>, di mana <code>usize</code> menunjukkan bobot dari setiap future,
+dan <code>F</code> adalah <code>FnOnce(FutureQueueContext) -&gt; impl Future</code>. Adaptor ini akan
+menjadwalkan dan menampung future untuk dijalankan hingga mengantrikan future berikutnya akan
+melebihi bobot maksimum.</p>
+<ul>
+<li>Bobot maksimum tidak pernah terlampaui saat future sedang dijalankan.</li>
+<li>Jika bobot sebuah future lebih besar dari bobot maksimum, bobotnya akan
+diatur ke bobot maksimum.</li>
+</ul>
+<p>Setelah semua future yang memungkinkan dijadwalkan, adaptor ini akan menunggu hingga beberapa future yang sedang berjalan selesai, dan bobot saat ini dari future yang berjalan turun di bawah bobot maksimum, sebelum menjadwalkan future baru.</p>
+<p>Bobot sebuah future dapat bernilai nol, dalam hal ini tidak dihitung terhadap bobot maksimum.</p>
+<p>Jika semua bobot adalah 1, maka <code>future_queue</code> sama persis dengan <code>buffer_unordered</code>.</p>
+<h4>Contoh</h4>
+<pre><code class="language-rust">use futures::{channel::oneshot, stream, StreamExt as _};
+use future_queue::{StreamExt as _};
+
+let (send_one, recv_one) = oneshot::channel();
+let (send_two, recv_two) = oneshot::channel();
+
+let stream_of_futures = stream::iter(
+    vec![(1, recv_one), (2, recv_two)],
+).map(|(weight, future)| {
+    (weight, move |_cx| future)
+});
+let mut queue = stream_of_futures.future_queue(10);
+
+send_two.send(&quot;hello&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;hello&quot;)));
+
+send_one.send(&quot;world&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;world&quot;)));
+
+assert_eq!(queue.next().await, None);
+</code></pre>
+<h3>2. Adaptor <code>future_queue_grouped</code></h3>
+<p>Adaptor <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/src/stream_ext.rs"><code>future_queue_grouped</code></a> mirip dengan <code>future_queue</code>,
+kecuali memungkinkan untuk menentukan <em>grup</em> opsional untuk setiap future. Setiap grup memiliki bobot maksimum,
+dan sebuah future hanya akan dijadwalkan jika baik bobot maksimum global maupun bobot grup tidak terlampaui.</p>
+<p>Adaptor ini seadil mungkin di bawah batasan yang ada: akan menjadwalkan future dalam
+urutan saat dikembalikan oleh stream, tanpa melakukan pengurutan ulang berdasarkan bobot. Ketika sebuah future dari grup selesai, future yang sudah mengantri dalam grup ini akan diutamakan
+sebelum future lain dari stream yang disediakan.</p>
+<p>Seperti pada <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/src/stream_ext.rs"><code>future_queue</code></a>:</p>
+<ul>
+<li>Bobot maksimum global dan grup tidak pernah terlampaui saat future sedang dijalankan.</li>
+<li>Dalam menghitung bobot global, jika bobot sebuah future lebih besar dari bobot maksimum, bobotnya akan diatur ke bobot maksimum.</li>
+<li><em>Jika sebuah future termasuk dalam grup:</em> Dalam menghitung bobot grup, jika bobotnya
+lebih besar dari bobot maksimum grup, bobotnya akan diatur ke bobot maksimum grup.</li>
+</ul>
+<h4>Contoh</h4>
+<pre><code class="language-rust">use futures::{channel::oneshot, stream, StreamExt as _};
+use future_queue::{FutureQueueContext, StreamExt as _};
+
+let (send_one, recv_one) = oneshot::channel();
+let (send_two, recv_two) = oneshot::channel();
+
+let stream_of_futures = stream::iter(
+    vec![
+        (1, Some(&quot;group1&quot;), recv_one),
+        (2, None, recv_two),
+    ],
+).map(|(weight, group, future)| {
+    (weight, group, move |_cx| future)
+});
+let mut queue = stream_of_futures.future_queue_grouped(10, [(&quot;group1&quot;, 5)]);
+
+send_two.send(&quot;hello&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;hello&quot;)));
+
+send_one.send(&quot;world&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;world&quot;)));
+
+assert_eq!(queue.next().await, None);
+</code></pre>
+<h2>Versi Minimum Rust yang Didukung (MSRV)</h2>
+<p>Versi minimum Rust yang didukung adalah <strong>Rust 1.70.</strong> Setiap saat, setidaknya enam bulan terakhir
+rilis Rust stabil didukung.</p>
+<p>Selama crate ini masih pra-rilis (0.x.x) MSRV-nya dapat dinaikkan pada rilis patch. Setelah
+crate ini mencapai versi 1.x, setiap kenaikan MSRV akan disertai dengan versi minor baru.</p>
+<h2>Catatan</h2>
+<p>Crate ini sebelumnya bernama <code>buffer-unordered-weighted</code>. Namanya diubah menjadi <code>future-queue</code> agar
+lebih deskriptif tentang apa yang dilakukan crate ini daripada bagaimana implementasinya.</p>
+<h2>Kontribusi</h2>
+<p>Lihat berkas <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/CONTRIBUTING.md">CONTRIBUTING</a> untuk cara berkontribusi.</p>
+<h2>Lisensi</h2>
+<p>Proyek ini tersedia di bawah ketentuan <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-APACHE">lisensi Apache 2.0</a> atau
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-MIT">lisensi MIT</a>.</p>
+<p>Kode ini diturunkan dari <a href="https://github.com/rust-lang/futures-rs">futures-rs</a>, dan digunakan di bawah
+lisensi Apache 2.0 dan MIT.</p>
+<!--
+README.md dihasilkan dari README.tpl oleh cargo readme. Untuk regenerasi, jalankan dari root repositori:
+
+./scripts/regenerate-readmes.sh
+-->
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

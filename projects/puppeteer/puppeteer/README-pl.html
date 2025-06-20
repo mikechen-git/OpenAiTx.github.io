@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>puppeteer - puppeteer/puppeteer</title>
+    <meta name="title" content="puppeteer - puppeteer/puppeteer">
+    <meta name="description" content="puppeteer/puppeteer - GitHub repository pl documentation and informationPuppeteer Puppeteer to biblioteka JavaScript, która udostępnia wysokopoziomowe API do sterowania Chrome lub Firefox za pomocą DevTools Protocol lub WebDriver Bi...">
+    <meta name="keywords" content="puppeteer, puppeteer, GitHub, repository, pl documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/puppeteer/puppeteer/README-pl.html">
+    <meta property="og:title" content="puppeteer - puppeteer/puppeteer">
+    <meta property="og:description" content="puppeteer/puppeteer - GitHub repository pl documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/puppeteer/puppeteer" id="githubRepoLink" target="_blank">puppeteer/puppeteer</a>
+<h1 style="display: none;">Puppeteer Puppeteer to biblioteka JavaScript, która udostępnia wysokopoziomowe API do sterowania Chrome lub Firefox za pomocą DevTools Protocol lub WebDriver Bi...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Puppeteer</h1>
+<p><a href="https://github.com/puppeteer/puppeteer/actions/workflows/ci.yml"><img src="https://github.com/puppeteer/puppeteer/actions/workflows/ci.yml/badge.svg?branch=main" alt="build" /></a>
+<a href="https://npmjs.org/package/puppeteer"><img src="https://img.shields.io/npm/v/puppeteer.svg" alt="npm puppeteer package" /></a></p>
+<img src="https://user-images.githubusercontent.com/10379601/29446482-04f7036a-841f-11e7-9872-91d1fc2ea683.png" height="200" align="right"/>
+<blockquote>
+<p>Puppeteer to biblioteka JavaScript, która udostępnia wysokopoziomowe API do sterowania
+Chrome lub Firefox za pomocą
+<a href="https://chromedevtools.github.io/devtools-protocol/">DevTools Protocol</a> lub <a href="https://pptr.dev/webdriver-bidi">WebDriver BiDi</a>.
+Domyślnie Puppeteer działa w trybie bezgłowym (bez widocznego interfejsu użytkownika)</p>
+</blockquote>
+<h2><a href="https://pptr.dev/docs">Rozpocznij</a> | <a href="https://pptr.dev/api">API</a> | <a href="https://pptr.dev/faq">FAQ</a> | <a href="https://pptr.dev/contributing">Współtworzenie</a> | <a href="https://pptr.dev/troubleshooting">Rozwiązywanie problemów</a></h2>
+<h2>Instalacja</h2>
+<pre><code class="language-bash">npm i puppeteer # Podczas instalacji pobierana jest kompatybilna wersja Chrome.
+npm i puppeteer-core # Alternatywnie, zainstaluj jako bibliotekę, bez pobierania Chrome.
+</code></pre>
+<h2>Przykład</h2>
+<pre><code class="language-ts">import puppeteer from 'puppeteer';
+// Lub import puppeteer from 'puppeteer-core';
+
+// Uruchom przeglądarkę i otwórz nową, pustą stronę
+const browser = await puppeteer.launch();
+const page = await browser.newPage();
+
+// Przejdź na wskazany adres URL.
+await page.goto('https://developer.chrome.com/');
+
+// Ustaw rozmiar ekranu.
+await page.setViewport({width: 1080, height: 1024});
+
+// Wpisz w polu wyszukiwania, korzystając z dostępnej nazwy input.
+await page.locator('aria/Search').fill('automate beyond recorder');
+
+// Zaczekaj i kliknij pierwszy wynik.
+await page.locator('.devsite-result-item-link').click();
+
+// Zlokalizuj pełny tytuł przy użyciu unikalnego ciągu znaków.
+const textSelector = await page
+  .locator('text/Customize and automate')
+  .waitHandle();
+const fullTitle = await textSelector?.evaluate(el =&gt; el.textContent);
+
+// Wyświetl pełny tytuł.
+console.log('Tytuł tego wpisu na blogu to &quot;%s&quot;.', fullTitle);
+
+await browser.close();
+</code></pre>
+<hr />
+<p><a href="https://github.com/OpenAiTx/OpenAiTx">Powered By OpenAiTx</a></p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

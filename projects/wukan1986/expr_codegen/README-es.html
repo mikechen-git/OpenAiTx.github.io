@@ -1,0 +1,326 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>expr_codegen - wukan1986/expr_codegen</title>
+    <meta name="title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta name="description" content="wukan1986/expr_codegen - GitHub repository es documentation and informationexpr_codegen Traductor de Expresiones Antecedentes del proyecto Después de lanzar mi nueva biblioteca polars_ta, reflexioné sobre qué es realmente expr_codegen....">
+    <meta name="keywords" content="wukan1986, expr_codegen, GitHub, repository, es documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/wukan1986/expr_codegen/README-es.html">
+    <meta property="og:title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta property="og:description" content="wukan1986/expr_codegen - GitHub repository es documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/wukan1986/expr_codegen" id="githubRepoLink" target="_blank">wukan1986/expr_codegen</a>
+<h1 style="display: none;">expr_codegen Traductor de Expresiones Antecedentes del proyecto Después de lanzar mi nueva biblioteca polars_ta, reflexioné sobre qué es realmente expr_codegen....</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>expr_codegen Traductor de Expresiones</h1>
+<h2>Antecedentes del proyecto</h2>
+<p>Después de lanzar mi nueva biblioteca <a href="https://github.com/wukan1986/polars_ta">polars_ta</a>, reflexioné sobre qué es realmente <code>expr_codegen</code>.</p>
+<blockquote>
+<p>En esencia, <code>expr_codegen</code> es un <code>DSL</code>, un Lenguaje Específico de Dominio (Domain Specific Language). Pero no define una nueva sintaxis.</p>
+</blockquote>
+<p>Resuelve dos problemas:</p>
+<ol>
+<li><code>polars_ta</code> ya permite escribir fácilmente expresiones para el cálculo de características, pero al encontrar expresiones que mezclan series temporales y transversales, el uso de <code>expr_codegen</code> permite agrupar automáticamente, ahorrando mucho trabajo.</li>
+<li><code>expr_codegen</code> utiliza la Eliminación de Subexpresiones Comunes (<code>Common Subexpression Elimination</code>), lo que reduce considerablemente los cálculos repetidos y mejora la eficiencia.</li>
+</ol>
+<p>Incluso en el campo cuantitativo, los investigadores principiantes limitados a indicadores temporales pueden usar solo <code>polars_ta</code>, mientras que los investigadores intermedios y avanzados que usan indicadores transversales deberían usar <code>expr_codegen</code>.</p>
+<p>Aunque actualmente este proyecto depende estrechamente de <code>polars_ta</code>, también es compatible para traducirse a otras bibliotecas como <code>pandas / cudf.pandas</code>, solo que por ahora falta una biblioteca sencilla para ello.</p>
+<h2>Demostración en línea</h2>
+<p>https://exprcodegen.streamlit.app</p>
+<p>Los usuarios principiantes pueden acceder directamente a este enlace para traducir expresiones sin necesidad de instalar software adicional. (Esta herramienta está alojada gratuitamente en el extranjero, por lo que puede abrirse algo lento)</p>
+<p>Para ejemplos más completos visita <a href="https://github.com/wukan1986/alpha_examples">alpha_examples</a></p>
+<h2>Ejemplo de uso</h2>
+<pre><code class="language-python">import sys
+from io import StringIO
+
+import polars as pl
+
+from expr_codegen import codegen_exec
+
+
+def _code_block_1():
+    # Zona de edición de factores, puedes editar factores aquí con la ayuda de la sugerencia inteligente del IDE
+    LOG_MC_ZS = cs_mad_zscore(log1p(market_cap))
+
+
+def _code_block_2():
+    # El template ya importa por defecto numerosos operadores desde polars_ta.prefix, pero
+    # talib no se importa por defecto. Esta forma permite importar en el código generado
+    from polars_ta.prefix.talib import ts_LINEARREG_SLOPE  # noqa
+
+    # También soporta importación literal de def y class
+    def cs_rank_if(condition, factor):
+        return cs_rank(if_else(condition, factor, None))
+
+    class Clazz:
+        pass
+
+    # 1. Las variables que comienzan con guion bajo son variables intermedias, se renombran automáticamente y se eliminan en la salida final
+    # 2. Las variables que comienzan con guion bajo se pueden reutilizar. Al escribir múltiples factores complejos en varias líneas, no hay conflictos si se repiten
+    _avg = ts_mean(corr, 20)
+    _std = ts_std_dev(corr, 20)
+    _beta = ts_LINEARREG_SLOPE(corr, 20)
+
+    # 3. Las variables que comienzan con guion bajo pueden reasignarse en bucles. Durante la depuración se puede cambiar rápidamente usando comentarios
+    _avg = cs_mad_zscore_resid(_avg, LOG_MC_ZS, ONE)
+    _std = cs_mad_zscore_resid(_std, LOG_MC_ZS, ONE)
+    # _beta = cs_mad_zscore_resid(_beta, LOG_MC_ZS, ONE)
+
+    _corr = cs_zscore(_avg) + cs_zscore(_std)
+    CPV = cs_zscore(_corr) + cs_zscore(_beta)
+
+
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=sys.stdout)  # Imprime el código
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=&quot;output.py&quot;)  # Guarda en archivo
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by')  # Solo ejecuta, no guarda código
+
+code = StringIO()
+codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=code)  # Guarda como string
+code.seek(0)
+code.read()  # Lee el código
+
+# TODO Reemplazar con los datos adecuados
+df = pl.DataFrame()
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect()  # Lazy CPU
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect(engine=&quot;gpu&quot;)  # Lazy GPU
+
+</code></pre>
+<h2>Estructura del directorio</h2>
+<pre><code class="language-commandline">│  requirements.txt # Instala dependencias con `pip install -r requirements.txt`
+├─data
+│      prepare_date.py # Preparar datos
+├─examples
+│      demo_express.py # Ejemplo rápido. Muestra cómo convertir expresiones en código
+│      demo_exec_pl.py # Muestra cómo llamar al código convertido y graficar
+│      demo_transformer.py # Muestra cómo convertir expresiones de terceros a expresiones internas
+│      output.py # Salida de resultados. Puede ser importado directamente por otros proyectos sin modificar
+│      show_tree.py # Dibuja el árbol de expresiones. Útil para analizar y comparar resultados de optimización
+│      sympy_define.py # Definiciones simbólicas, extraídas aquí por su uso repetido en muchas partes
+├─expr_codegen
+│   │  expr.py # Funciones básicas de manejo de expresiones
+│   │  tool.py # Código de herramientas núcleo
+│   ├─polars
+│   │  │  code.py # Función de generación de código para sintaxis polars
+│   │  │  template.py.j2 # Plantilla `Jinja2`. Para generar el archivo py correspondiente, generalmente no es necesario modificarla
+│   │  │  printer.py # Hereda de `StrPrinter` de `Sympy`, puede necesitar cambios al agregar nuevas funciones
+</code></pre>
+<h2>Principio de funcionamiento</h2>
+<p>Este proyecto depende del proyecto <code>sympy</code>. Las funciones principales utilizadas son:</p>
+<ol>
+<li><code>simplify</code>: simplifica expresiones complejas</li>
+<li><code>cse</code>: Eliminación de Subexpresiones Comunes (<code>Common Subexpression Elimination</code>)</li>
+<li><code>StrPrinter</code>: imprime diferentes cadenas según la función. Personalizando este código se pueden soportar otros lenguajes o bibliotecas</li>
+</ol>
+<p>Dado que <code>groupby</code> y <code>sort</code> consumen mucho tiempo, si se clasifican las fórmulas por adelantado y diferentes categorías usan diferentes <code>groupby</code>, se puede reducir el tiempo de cómputo.</p>
+<ol>
+<li><code>ts_xxx(ts_xxx)</code>: Puede calcularse en el mismo <code>groupby</code></li>
+<li><code>cs_xxx(cs_xxx)</code>: Puede calcularse en el mismo <code>groupby</code></li>
+<li><code>ts_xxx(cs_xxx)</code>: Debe calcularse en diferentes <code>groupby</code></li>
+<li><code>cs_xxx(ts_xxx(cs_xxx))</code>: Debe calcularse en tres <code>groupby</code> diferentes</li>
+<li><code>gp_xxx(aa, )+gp_xxx(bb, )</code>: Debido a que <code>aa</code> y <code>bb</code> son diferentes, deben calcularse en dos <code>groupby</code> diferentes</li>
+</ol>
+<p>Por lo tanto:</p>
+<ol>
+<li>Se necesita una función para obtener la categoría de la expresión actual (<code>get_current</code>) y la categoría de las subexpresiones (<code>get_children</code>)</li>
+<li>Si la categoría actual y la de los hijos son diferentes, se puede extraer una fórmula corta (<code>extract</code>). Expresiones del mismo tipo en diferentes niveles tienen relación de precedencia y no pueden colocarse en el mismo <code>groupby</code></li>
+<li>Aprovechando la característica de <code>cse</code>, las expresiones largas se reemplazan por las fórmulas cortas extraídas previamente. Luego se ingresan en un grafo acíclico dirigido (<code>DAG</code>)</li>
+<li>Utilizando el flujo del grafo acíclico dirigido, se realiza la estratificación. En la misma capa, <code>ts</code>, <code>cs</code>, <code>gp</code> no se distinguen por orden</li>
+<li>En la misma capa se agrupan <code>ts</code>, <code>cs</code>, <code>gp</code>, y luego se genera el código (<code>codegen</code>)</li>
+</ol>
+<p>Información implícita:</p>
+<ol>
+<li><code>ts</code>: sort(by=[ASSET, DATE]).groupby(by=[ASSET], maintain_order=True)</li>
+<li><code>cs</code>: sort(by=[DATE]).groupby(by=[DATE], maintain_order=False)</li>
+<li><code>gp</code>: sort(by=[DATE, GROUP]).groupby(by=[DATE, GROUP], maintain_order=False)</li>
+</ol>
+<p>Es decir:</p>
+<ol>
+<li>Las funciones temporales ocultan dos campos: <code>ASSET</code>, <code>DATE</code>; las funciones transversales ocultan uno: <code>DATE</code></li>
+<li>Las funciones de agrupación agregan el campo <code>GROUP</code> y ocultan el campo <code>DATE</code></li>
+</ol>
+<p>Dos métodos de clasificación:</p>
+<ol>
+<li>Clasificación por prefijo del operador (<code>get_current_by_prefix</code>), donde el operador debe comenzar con <code>ts_</code>, <code>cs_</code>, <code>gp_</code></li>
+<li>Clasificación por nombre completo del operador (<code>get_current_by_name</code>), sin restringir el nombre. Por ejemplo, <code>cs_rank</code> puede llamarse simplemente <code>rank</code></li>
+</ol>
+<h2>Manejo de Null</h2>
+<p>¿Cómo se produce <code>null</code>?</p>
+<ol>
+<li>Por suspensión de la cotización. Antes del cálculo se filtran directamente, no afectan los cálculos posteriores.</li>
+<li>Diferentes variedades tienen diferentes horarios de negociación</li>
+<li>Por el cálculo. <code>null</code> en los extremos de la serie no afecta los resultados de los operadores temporales, pero si aparece en medio sí afecta. Por ejemplo: <code>if_else(close&lt;2, None, close)</code></li>
+</ol>
+<p>https://github.com/pola-rs/polars/issues/12925#issuecomment-2552764629</p>
+<p>Excelente idea, en resumen hay dos formas de implementarlo:</p>
+<ol>
+<li>Dividir <code>null</code> en un grupo y <code>not_null</code> en otro. Requiere dos llamadas.</li>
+<li>Solo un grupo, pero con orden compuesto, colocando <code>null</code> al principio y <code>not_null</code> al final. Solo una llamada, un poco más rápido.</li>
+</ol>
+<pre><code class="language-python">X1 = (ts_returns(CLOSE, 3)).over(CLOSE.is_not_null(), _ASSET_, order_by=_DATE_),
+X2 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=[CLOSE.is_not_null(), _DATE_]),
+X3 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=_DATE_),
+</code></pre>
+<p>En el caso 2, si la región de <code>null</code> al principio afecta el resultado depende del operador, especialmente cuando hay múltiples columnas de entrada, la región de <code>null</code> puede contener datos</p>
+<ol>
+<li><code>over_null='partition_by'</code>: divide en dos regiones</li>
+<li><code>over_null='order_by'</code>: una sola región, <code>null</code> al principio</li>
+<li><code>over_null=None</code>: no se maneja, se llama directamente, más rápido. Se recomienda si se sabe que no habrá <code>null</code> intermedios</li>
+</ol>
+<p><code>codegen_exec(over_null='partition_by')</code> utiliza globalmente <code>partition_by</code>. Pero para funciones como <code>ts_count_nulls</code> que operan sobre <code>null</code>, se debe usar <code>over_null=None</code>. Por eso, la herramienta permite especificar parámetros por línea con comentarios:</p>
+<ol>
+<li><code># --over_null partition_by</code>: por línea, <code>over_null='partition_by'</code></li>
+<li><code># --over_null=order_by</code>: por línea, <code>over_null='order_by'</code></li>
+<li><code># --over_null</code>: por línea, <code>over_null=None</code></li>
+<li><code>#</code>: toma el valor de <code>over_null</code> pasado a <code>codegen_exec</code></li>
+</ol>
+<p>Notas:</p>
+<ol>
+<li><p>Los comentarios de parámetro <code># --over_null</code> solo pueden ir al final de la línea de expresión, no en línea separada, de lo contrario serán ignorados</p>
+</li>
+<li><p>Si hay varios <code># --over_null # --over_null=order_by</code>, solo se toma el primero válido</p>
+</li>
+<li><p>Solo es efectivo para la función <code>ts</code> del nivel más externo. Si la función <code>ts</code> no está en el exterior, debe extraerse manualmente. Por ejemplo:</p>
+<pre><code class="language-python">X1 = cs_rank(ts_mean(CLOSE, 3)) # --over_null=order_by # Se aplica a cs_rank, sin sentido
+X2 = ts_rank(ts_mean(CLOSE, 3), 5) # --over_null=order_by # Se piensa que se aplica a ts_rank(ts_mean), pero por la existencia de ts_mean común, en realidad es para ts_rank(_x_0)
+</code></pre>
+<p>Debe escribirse como</p>
+<pre><code class="language-python">_x_0 = ts_mean(CLOSE, 3)  # --over_null=order_by 
+X1 = cs_rank(_x_0)
+X2 = ts_rank(_x_0, 5)
+</code></pre>
+</li>
+<li><p>Debido a la facilidad de error, se recomienda encarecidamente generar el <code>output_file</code> para verificar si el código generado es correcto.</p>
+</li>
+</ol>
+<h2>Limitaciones de <code>expr_codegen</code></h2>
+<ol>
+<li><code>DAG</code> solo puede agregar columnas, no eliminarlas. Si se agrega una columna con el mismo nombre, se sobrescribe.</li>
+<li>No soporta <code>eliminar filas</code>, pero se puede agregar una columna de marcas de eliminación y luego eliminar filas externamente. Eliminar filas afecta a todas las columnas, lo que no cumple con el principio de <code>DAG</code></li>
+<li>No soporta <code>reesampleo</code>, por la misma razón que no soporta eliminar filas. Debe hacerse externamente</li>
+<li>Eliminar filas y reesampleo pueden usarse como divisores para dividir grandes bloques de código en varios <code>DAG</code> encadenados. Es complejo y difícil de entender, por lo que finalmente no se implementó</li>
+</ol>
+<h2>Sintaxis especial</h2>
+<ol>
+<li>Soporta la expresión ternaria <code>C?T:F</code> (solo en cadenas), que internamente se convierte primero en <code>C or True if( T )else F</code>, después en <code>T if C else F</code>, y finalmente en <code>if_else(C,T,F)</code>. Soporta mezcla con <code>if else</code></li>
+<li><code>(A&lt;B)*-1</code> se transforma internamente en <code>int_(A&lt;B)*-1</code></li>
+<li>Para evitar que <code>A==B</code> sea reemplazado por <code>False</code> por <code>sympy</code>, se convierte en <code>Eq(A,B)</code></li>
+<li>El significado de <code>A^B</code> depende del parámetro <code>convert_xor</code>: si <code>convert_xor=True</code>, se convierte en <code>Pow(A,B)</code>, de lo contrario en <code>Xor(A,B)</code>. Por defecto es <code>False</code>, se usa <code>**</code> para potencia</li>
+<li>Soporta <code>A&amp;B&amp;C</code>, pero no <code>A==B==C</code>. Si C es booleano y AB son valores, puede reemplazarse manualmente por <code>(A==B)==C</code>. Si ABC son valores, puede reemplazarse por <code>(A==B)&amp;(B==C)</code></li>
+<li>No soporta <code>A&lt;=B&lt;=C</code>, debe reemplazarse manualmente por <code>(A&lt;=B)&amp;(B&lt;=C)</code></li>
+<li>Soporta <code>A[0]+B[1]+C[2]</code>, que se traduce en <code>A+ts_delay(B,1)+ts_delay(C,2)</code></li>
+<li>Soporta <code>~A</code>, que se traduce en <code>Not(A)</code></li>
+<li>Las funciones que empiezan con <code>gp_</code> devuelven la función <code>cs_</code> correspondiente. Por ejemplo, <code>gp_func(A,B,C)</code> se reemplaza por <code>cs_func(B,C)</code>, donde <code>A</code> se usa en <code>groupby([date, A])</code></li>
+<li>Soporta desempaquetado de tuplas <code>A,B,C=MACD()</code>, que internamente se reemplaza por:
+<pre><code class="language-python">_x_0 = MACD()
+A = unpack(_x_0, 0)
+B = unpack(_x_0, 1)
+C = unpack(_x_0, 2)
+</code></pre>
+</li>
+<li>Los comentarios en línea soportan entrada de parámetros, como: <code># --over_null</code>, <code># --over_null=order_by</code>, <code># --over_null=partition_by</code></li>
+<li>En los bloques de código, las sentencias <code>import</code>, <code>def</code> y <code>class</code> se insertan automáticamente tal cual en el código generado</li>
+</ol>
+<h2>Variables con guion bajo inicial</h2>
+<ol>
+<li>En los datos de salida, todas las columnas que comienzan con <code>_</code> se eliminan automáticamente. Así que las variables que se quieran conservar no deben comenzar con <code>_</code></li>
+<li>Para reducir cálculos repetidos, se agregan automáticamente variables intermedias que comienzan con <code>_x_</code>, como <code>_x_0</code>, <code>_x_1</code>, etc. Al final se eliminan automáticamente</li>
+<li>Si una expresión de una sola línea es muy larga o hay cálculos repetidos, se puede dividir en varias líneas usando variables intermedias que comienzan con <code>_</code>. Estas recibirán automáticamente un sufijo numérico, formando variables diferentes como <code>_A_0_</code>, <code>_A_1_</code>, etc. Usos:
+<ol>
+<li>El mismo nombre de variable se usa varias veces, pero en realidad son variables diferentes</li>
+<li>Asignación en bucles, pero <code>DAG</code> no soporta ciclos. Las variables con el mismo nombre a ambos lados del <code>=</code> son realmente diferentes</li>
+</ol>
+</li>
+</ol>
+<h2>Ejemplo de resultado de traducción</h2>
+<p>Fragmento de código traducido, para ver el código completo consulta la <a href="examples/output_polars.py">versión Polars</a></p>
+<pre><code class="language-python">def func_0_ts__asset(df: pl.DataFrame) -&gt; pl.DataFrame:
+    df = df.sort(by=[_DATE_])
+    # ========================================
+    df = df.with_columns(
+        _x_0=1 / ts_delay(OPEN, -1),
+        LABEL_CC_1=(-CLOSE + ts_delay(CLOSE, -1)) / CLOSE,
+    )
+    # ========================================
+    df = df.with_columns(
+        LABEL_OO_1=_x_0 * ts_delay(OPEN, -2) - 1,
+        LABEL_OO_2=_x_0 * ts_delay(OPEN, -3) - 1,
+    )
+    return df
+</code></pre>
+<p>Fragmento de código traducido, para ver el código completo consulta la <a href="examples/output_pandas.py">versión Pandas</a></p>
+<pre><code class="language-python">def func_2_cs__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_4 = cs_rank(x_7)
+    df[&quot;expr_4&quot;] = (df[&quot;x_7&quot;]).rank(pct=True)
+    return df
+
+
+def func_3_ts__asset__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_5 = -ts_corr(OPEN, CLOSE, 10)
+    df[&quot;expr_5&quot;] = -(df[&quot;OPEN&quot;]).rolling(10).corr(df[&quot;CLOSE&quot;])
+    # expr_6 = ts_delta(OPEN, 10)
+    df[&quot;expr_6&quot;] = df[&quot;OPEN&quot;].diff(10)
+    return df
+
+</code></pre>
+<h2>Página web interactiva de despliegue local</h2>
+<p>Solo necesitas ejecutar <code>streamlit run streamlit_app.py</code></p>
+<hr />
+<p><a href="https://github.com/OpenAiTx/OpenAiTx">Powered By OpenAiTx</a> - 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>helm-chartsnap - jlandowner/helm-chartsnap</title>
+    <meta name="title" content="helm-chartsnap - jlandowner/helm-chartsnap">
+    <meta name="description" content="jlandowner/helm-chartsnap - GitHub repository pl documentation and informationhelm-chartsnap 📸 Narzędzie do testowania migawkowego (snapshot testing) wykresów Helm. Wprowadź zaawansowane możliwości testowania UI dla wykresów Helm przy mi...">
+    <meta name="keywords" content="jlandowner, helm-chartsnap, GitHub, repository, pl documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/jlandowner/helm-chartsnap/README-pl.html">
+    <meta property="og:title" content="helm-chartsnap - jlandowner/helm-chartsnap">
+    <meta property="og:description" content="jlandowner/helm-chartsnap - GitHub repository pl documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/jlandowner/helm-chartsnap" id="githubRepoLink" target="_blank">jlandowner/helm-chartsnap</a>
+<h1 style="display: none;">helm-chartsnap 📸 Narzędzie do testowania migawkowego (snapshot testing) wykresów Helm. Wprowadź zaawansowane możliwości testowania UI dla wykresów Helm przy mi...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>helm-chartsnap 📸</h1>
+<p><a href="https://pkg.go.dev/github.com/jlandowner/helm-chartsnap"><img src="https://pkg.go.dev/badge/github.com/jlandowner/helm-chartsnap.svg" alt="Go Reference" /></a>
+<a href="https://goreportcard.com/report/github.com/jlandowner/helm-chartsnap"><img src="https://goreportcard.com/badge/github.com/jlandowner/helm-chartsnap" alt="Go Report Card" /></a>
+<a href="https://codecov.io/gh/jlandowner/helm-chartsnap"><img src="https://codecov.io/gh/jlandowner/helm-chartsnap/graph/badge.svg?token=8ARG53CRL7" alt="codecov" /></a>
+<a href="https://github.com/jlandowner/helm-chartsnap/actions/workflows/release.yaml"><img src="https://github.com/jlandowner/helm-chartsnap/actions/workflows/release.yaml/badge.svg" alt="Workflow Status" /></a>
+<a href="https://github.com/jlandowner/helm-chartsnap/actions/workflows/ci.yaml"><img src="https://github.com/jlandowner/helm-chartsnap/actions/workflows/ci.yaml/badge.svg" alt="CI" /></a>
+<a href="https://github.com/marketplace/actions/helm-chartsnap-action"><img src="https://img.shields.io/badge/Marketplace-Helm%20chartsnap%20action-blue.svg?colorA=24292e&amp;colorB=0366d6&amp;style=flat&amp;longCache=true&amp;logo=github" alt="GitHub Marketplace" /></a></p>
+<p>Narzędzie do testowania migawkowego (snapshot testing) wykresów Helm.</p>
+<p>Wprowadź zaawansowane możliwości testowania UI dla wykresów Helm przy minimalnej konfiguracji — wystarczy plik <code>values.yaml</code>.</p>
+<p><img src="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/docs/screenshot.png" alt="screenshot" /></p>
+<h2>Przegląd</h2>
+<ul>
+<li><a href="#funkcje-">Funkcje 🔑</a></li>
+<li><a href="#dlaczego-testowanie-migawkowe-">Dlaczego testowanie migawkowe? 📸</a>
+<ul>
+<li><a href="#motywacja">Motywacja</a></li>
+</ul>
+</li>
+<li><a href="#instalacja-">Instalacja 🚀</a></li>
+<li><a href="#u%C5%BCycie">Użycie</a>
+<ul>
+<li><a href="#obsluga-wartosci-dynamicznych-">Obsługa wartości dynamicznych 💪</a></li>
+</ul>
+</li>
+<li><a href="#prezentacja--uzytkownicy-">Prezentacja &amp; Użytkownicy ✨</a></li>
+</ul>
+<h2>Funkcje 🔑</h2>
+<ul>
+<li><p><strong>Łatwe i intuicyjne testowanie migawkowe dla deweloperów Helm</strong></p>
+<ul>
+<li><strong>Brak plików TestSuite specyficznych dla narzędzia</strong>: W przeciwieństwie do niektórych narzędzi, które wymagają tworzenia osobnych zestawów testowych z własnymi formatami plików, to narzędzie nie wymaga żadnych dodatkowych formatów plików. Zamiast tego możesz przygotować różne wersje standardowego pliku <code>values.yaml</code> dla każdego przypadku testowego. Eliminuje to konieczność nauki nowych formatów i upraszcza testowanie.</li>
+</ul>
+</li>
+<li><p><strong>Optymalizacja pod wykresy Helm</strong></p>
+<ul>
+<li><strong>Obsługa dynamicznych wyników generowanych przez funkcje Helm</strong>: Możesz określić dodatkowe właściwości w pliku values.yaml dla każdego przypadku testowego, aby zapewnić elastyczność w dostosowywaniu zachowania testu. Na przykład możesz kontrolować wyniki dynamicznie generowane przez funkcje Helm, takie jak <a href="https://helm.sh/docs/chart_template_guide/function_list/">randAlphaNum</a>.</li>
+</ul>
+</li>
+<li><p><strong>Ciągłe testowanie migawkowe</strong></p>
+<ul>
+<li><strong><a href="https://github.com/jlandowner/helm-chartsnap-action">GitHub Action</a> jest gotowy</strong>: GitHub Action, który umożliwia ciągłe testowanie migawkowe lokalnych lub zdalnych wykresów Helm w Twoim CI jest gotowy 🚀 -&gt; <a href="https://github.com/jlandowner/helm-chartsnap-action"><code>helm-chart-action</code></a></li>
+</ul>
+</li>
+</ul>
+<h2>Dlaczego testowanie migawkowe? 📸</h2>
+<p>Uważam, że testowanie migawkowe, popularna metoda testowania w testach Web/UI z narzędziami takimi jak Jest, jest najlepszym sposobem testowania wykresów Helm. Testowanie migawkowe oferuje kilka korzyści:</p>
+<ul>
+<li><p><strong>Porównania wizualne:</strong> Testy migawkowe tworzą bazowy wynik, a następnie porównują go z kolejnymi wynikami testów. Umożliwia to łatwą wizualną inspekcję zmian i regresji w renderowaniu wykresów Helm.</p>
+</li>
+<li><p><strong>Zwiększona łatwość utrzymania:</strong> Testowanie migawkowe upraszcza proces konfiguracji testów, czyniąc go bardziej dostępnym i łatwiejszym w utrzymaniu, szczególnie przy skomplikowanych wykresach Helm. Wejściem do wykresu Helm jest kombinacja wartości. Wystarczy utrzymywać tylko zakładane kombinacje wejściowe (=values.yaml) oraz ich migawki.</p>
+</li>
+<li><p><strong>Ciągłe testowanie:</strong> Dzięki ciągłemu tworzeniu migawek wykresu Helm w procesie CI możesz szybko zauważyć zmiany w całym wykresie i unikać regresji.</p>
+</li>
+</ul>
+<p>Te zalety dotyczą nie tylko wykresów Helm, które samodzielnie tworzysz, ale również wykresów firm trzecich, które masz zainstalowane na swoim Kubernetesie jako administrator klastra. Podczas aktualizacji klastra możesz zauważyć wszelkie zmiany w wynikowych manifestach generowanych przez Twoje <em>values</em>, nawet te najmniejsze.</p>
+<h3>Motywacja</h3>
+<p>Istnieją narzędzia do testowania Helm, które obsługują testy migawkowe.</p>
+<ul>
+<li><a href="https://github.com/helm-unittest/helm-unittest">helm-unittest</a>, popularne narzędzie do testów jednostkowych, posiada opcję <a href="https://github.com/helm-unittest/helm-unittest#snapshot-testing">testowania migawkowego</a>.</li>
+<li><a href="https://terratest.gruntwork.io/">terratest</a>, Automatyczne testy kodu infrastruktury. Pozwala pisać testy w Go i umożliwia testowanie wyników Helm. <a href="https://blog.gruntwork.io/automated-testing-for-kubernetes-and-helm-charts-using-terratest-a4ddc4e67344">blog post</a></li>
+</ul>
+<blockquote>
+<p>Oficjalne narzędzie testowe Helm <a href="https://github.com/helm/chart-testing"><code>ct</code></a> nie służy do testów jednostkowych ani migawkowych, lecz do lintowania i testów integracyjnych</p>
+</blockquote>
+<p>Choć są to cenne narzędzia do testowania wykresów Helm, mają pewne ograniczenia w kontekście testowania migawkowego.</p>
+<ul>
+<li><p>Trzeba poznać i przygotować pliki Test Suite narzędzi nawet tylko dla testów migawkowych.</p>
+</li>
+<li><p>Domyślnie nie wykonują migawki całego wykresu, lecz są zaprojektowane do testowania poszczególnych plików w wykresie Helm.</p>
+</li>
+<li><p>Dynamiczne wyniki funkcji Helm nie są uwzględniane.</p>
+</li>
+</ul>
+<p>helm-unittest został zaprojektowany do testowania pojedynczych plików w wykresie Helm. Oznacza to, że ocenia każdy plik niezależnie, a gdy wartości lub warunki wykresu Helm powodują warunkowe włączenie lub wyłączenie całego pliku, może to prowadzić do sytuacji, w której testy nie obejmują ważnych scenariuszy.</p>
+<p>Przykład pliku specyfikacji testu dla testowania migawkowego w helm-unittest:</p>
+<blockquote>
+<p>https://github.com/helm-unittest/helm-unittest#snapshot-testing</p>
+<pre><code class="language-yaml">templates:
+  - templates/deployment.yaml
+tests:
+  - it: pod spec should match snapshot
+    asserts:
+      - matchSnapshot:
+          path: spec.template.spec
+  # or you can snapshot the whole manifest
+  - it: manifest should match snapshot
+    asserts:
+      - matchSnapshot: {}
+</code></pre>
+</blockquote>
+<p>Przykładowo, wyobraź sobie sytuację, w której wykres Helm tworzy zasób <code>Certificate</code> dla <code>cert-manager</code>, gdy zarówno TLS, jak i cert-manager są włączone, ale tworzy własny zasób <code>Secret</code> TLS z użyciem funkcji Helm <a href="https://helm.sh/docs/chart_template_guide/function_list/#genselfsignedcert"><code>genSelfSignedCert</code></a>, gdy cert-manager nie jest włączony. Ponadto, to czy TLS jest włączony, wpływa na właściwości TLS Ingress, opcje TLS specyficzne dla aplikacji w Deployment itd.</p>
+<p>W takich przypadkach helm-unittest może nie być w stanie adekwatnie przetestować zachowania całego wykresu, gdyż wyjście tych warunkowych plików może być puste, co prowadzi do niepełnych testów.</p>
+<p>Natomiast wszystko, co musisz zrobić z <code>helm-chartsnap</code>, to przygotować kilka plików <code>values.yaml</code> dla spodziewanych wariantów 😊</p>
+<h2>Instalacja 🚀</h2>
+<p>Możesz zainstalować jako plugin Helm.</p>
+<pre><code class="language-sh">helm plugin install https://github.com/jlandowner/helm-chartsnap
+</code></pre>
+<p>Inne opcje:</p>
+<ul>
+<li><p>Instalacja przez Go</p>
+<pre><code class="language-sh">go install github.com/jlandowner/helm-chartsnap@latest
+</code></pre>
+</li>
+<li><p><a href="https://github.com/jlandowner/helm-chartsnap/releases">Pobierz gotową binarkę</a></p>
+</li>
+</ul>
+<h2>Użycie</h2>
+<p>Po prostu podaj swój wykres, aby szybko rozpocząć.</p>
+<pre><code>helm chartsnap -c YOUR_CHART
+</code></pre>
+<p>W katalogu wykresu zostanie utworzony katalog <code>__snapshot__</code> oraz plik <code>default.snap</code>.</p>
+<p>Możesz także tworzyć przypadki testowe jako wariacje plików Values twojego wykresu.</p>
+<p>Pełne użycie polecenia:</p>
+<pre><code class="language-sh">Usage:
+  chartsnap -c CHART [flags]
+
+Examples:
+
+  # Migawka z domyślnymi wartościami:
+  chartsnap -c YOUR_CHART
+  
+  # Aktualizacja plików migawkowych:
+  chartsnap -c YOUR_CHART -u
+
+  # Migawka z wartościami przypadku testowego:
+  chartsnap -c YOUR_CHART -f YOUR_TEST_VALUES_FILE
+  
+  # Migawka wszystkich przypadków testowych:
+  chartsnap -c YOUR_CHART -f YOUR_TEST_VALUES_FILES_DIRECTOY
+  
+  # Ustaw dodatkowe argumenty lub flagi dla polecenia 'helm template':
+  chartsnap -c YOUR_CHART -f YOUR_TEST_VALUES_FILE -- --skip-tests
+
+  # Migawka zdalnego wykresu w repozytorium Helm:
+  chartsnap -c CHART_NAME -f YOUR_VALUES_FILE -- --repo HELM_REPO_URL
+
+  # Migawka wykresu ingress-nginx (https://kubernetes.github.io/ingress-nginx/) dla konkretnej wersji z twoim plikiem wartości:
+  chartsnap -c ingress-nginx -f YOUR_VALUES_FILE -- --repo https://kubernetes.github.io/ingress-nginx --namespace kube-system --version 4.8.3
+
+  # Migawka wykresu cilium (https://cilium.io) z domyślną wartością i ustawionymi flagami:
+  chartsnap -c cilium -- --repo https://helm.cilium.io --namespace kube-system --set hubble.relay.enabled=true --set hubble.ui.enabled=true
+
+  # Migawka wykresów z rejestru OCI
+  chartsnap -c oci://ghcr.io/nginxinc/charts/nginx-gateway-fabric -n nginx-gateway
+
+  # Wyjście bez kolorów:
+  NO_COLOR=1 chartsnap -c YOUR_CHART
+
+Flags:
+  -c, --chart string              ścieżka do katalogu wykresu. Ta flaga jest przekazywana do 'helm template RELEASE_NAME CHART --values VALUES' jako 'CHART'
+      --config-file string        nazwa lub ścieżka pliku konfiguracyjnego, definiującego zachowanie migawki, np. pola dynamiczne (domyślnie &quot;.chartsnap.yaml&quot;)
+  -N, --ctx-lines int             liczba linii wyświetlanych w różnicy. 0 dla pełnego wyjścia (domyślnie 3)
+      --debug                     tryb debugowania
+      --fail-helm-error           błąd, jeśli polecenie 'helm template' się nie powiedzie
+      --failfast                  przerwij przy pierwszym nieudanym przypadku testowym
+  -h, --help                      pomoc dla chartsnap
+  -n, --namespace string          namespace. Ta flaga jest przekazywana do 'helm template RELEASE_NAME CHART --values VALUES --namespace NAMESPACE' jako 'NAMESPACE' (domyślnie &quot;default&quot;)
+  -o, --output-dir string         katalog, w którym zostanie utworzony katalog __snapshot__. (domyślnie: katalog pliku values, jeśli --values jest ustawione; katalog wykresu, jeśli wykres jest lokalny; w przeciwnym razie katalog bieżący)
+      --parallelism int           współbieżność testów, jeśli robione są migawki dla wielu plików wartości testowych. domyślnie bez limitu (domyślnie -1)
+      --release-name string       nazwa wydania. Ta flaga jest przekazywana do 'helm template RELEASE_NAME CHART --values VALUES' jako 'RELEASE_NAME' (domyślnie &quot;chartsnap&quot;)
+      --snapshot-version string   użyj określonej wersji formatu migawki. Obsługiwane: v1, v2, v3. (domyślnie: najnowsza)
+  -u, --update-snapshot           tryb aktualizacji migawki
+  -f, --values string             ścieżka do pliku wartości testowych lub katalogu. Jeśli katalog, wszystkie pliki testowe są testowane. Jeśli puste, używane są wartości domyślne. Ta flaga jest przekazywana do 'helm template RELEASE_NAME CHART --values VALUES' jako 'VALUES'
+  -v, --version                   wersja chartsnap
+
+</code></pre>
+<h3>Obsługa wartości dynamicznych 💪</h3>
+<p>Helm posiada funkcje &quot;Helm functions&quot;, które generują losowe wartości lub certyfikaty samopodpisane, takie jak <a href="https://helm.sh/docs/chart_template_guide/function_list/#randalphanum-randalpha-randnumeric-and-randascii"><code>randAlphaNum</code></a> oraz <a href="https://helm.sh/docs/chart_template_guide/function_list/#cryptographic-and-security-functions"><code>genCA</code>, <code>genPrivateKey</code>, <code>genSelfSignedCert</code></a></p>
+<p>Podczas używania tych funkcji wynik będzie się różnić przy każdym uruchomieniu Helm.
+W tym przypadku chartsnap posiada funkcję zapobiegającą niedopasowaniu migawek, zastępując je stałą wartością <code>###DYNAMIC_FIELD###</code>.</p>
+<p>Możesz określić ścieżki do dynamicznych wartości w generowanym YAML za pomocą <a href="https://datatracker.ietf.org/doc/html/rfc6901">JSONPath</a>.</p>
+<pre><code class="language-yaml:.chartsnap.yaml">dynamicFields:
+  - apiVersion: v1
+    kind: Secret
+    name: cosmo-auth-env
+    jsonPath:
+      - /data/COOKIE_HASHKEY
+      - /data/COOKIE_BLOCKKEY
+      - /data/COOKIE_HASHKEY
+      - /data/COOKIE_SESSION_NAME
+    base64: true
+</code></pre>
+<blockquote>
+<p>UWAGA:
+W JSONPath znak / należy maskować zgodnie z <a href="https://datatracker.ietf.org/doc/html/rfc6901#section-3">RFC6901, sekcja 3</a></p>
+<pre><code>   Ponieważ znaki '~' (%x7E) i '/' (%x2F) mają specjalne znaczenie w JSON Pointer,
+   '~' należy zakodować jako '~0', a '/' jako '~1', gdy te znaki pojawiają się w tokenie odwołania.
+</code></pre>
+<p>Jeśli więc obsługujesz manifest taki jak poniżej, musisz określić ścieżkę json jako <code>/metadata/annotaions/checksum~1values</code>.</p>
+<pre><code class="language-yaml">metadata:
+  annotations:
+    checksum/values: RANDOM_VALUES
+</code></pre>
+</blockquote>
+<p>Jeśli masz katalog plików wartości testowych, umieść w nim plik <code>.chartsnap.yaml</code>. Jest to zachowanie wspólne dla wszystkich testów migawkowych w katalogu.</p>
+<p>Więcej przykładów znajdziesz w <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/app1">example/app1</a>.</p>
+<p>Alternatywnie, możesz dodać konfigurację bezpośrednio w pliku wartości testowych jako właściwość <code>testSpec</code>.
+W takim przypadku nie musisz przygotowywać <code>.chartsnap.yaml</code>. Jest to przydatne do wykonywania migawek zdalnych lub wykresów firm trzecich z własnym pojedynczym plikiem wartości.</p>
+<p>Twój plik values może wyglądać tak:</p>
+<pre><code class="language-yaml"># Dodaj tę właściwość do swoich wartości.
+testSpec:
+  dynamicFields:
+    - apiVersion: v1
+      kind: Secret
+      name: cilium-ca
+      jsonPath:
+        - /data/ca.crt
+        - /data/ca.key
+      base64: true
+    - apiVersion: v1
+      kind: Secret
+      name: hubble-server-certs
+      jsonPath:
+        - /data/ca.crt
+        - /data/tls.crt
+        - /data/tls.key
+      base64: true
+    - apiVersion: v1
+      kind: Secret
+      name: hubble-relay-client-certs
+      jsonPath:
+        - /data/ca.crt
+        - /data/tls.crt
+        - /data/tls.key
+      base64: true
+
+# Pozostałe mogą być dowolnymi wartościami twojego wykresu.
+# ...
+</code></pre>
+<p>Więcej przykładów znajdziesz w <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/remote">example/remote</a>.</p>
+<h2>Prezentacja &amp; Użytkownicy ✨</h2>
+<p>| Użytkownicy / Projekty | Opis | URL |
+|:---|:---|:---|
+| Przykład | Przykładowy wykres wygenerowany przez polecenie <code>helm create</code> | <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/app1"><code>example/app1</code></a> |
+| Przykład | Przykład tworzenia migawek wykresów ze zdalnych repozytoriów Helm | <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/remote"><code>example/remote</code></a> |
+| <a href="https://github.com/jlandowner/helm-chartsnap-action">helm-chartsnap-action</a> | GitHub Action do użycia helm chartsnap w CI | https://github.com/jlandowner/helm-chartsnap-action |
+| <a href="https://github.com/cosmo-workspace/cosmo">cosmo-workspace</a> | Otwarta platforma WebIDE &amp; DevEnvironment na Kubernetes | https://github.com/cosmo-workspace/cosmo/tree/main/charts/cosmo/test |
+| <a href="https://github.com/Kong/kong">Kong</a> | 🦍 Cloud-Native API Gateway i AI Gateway. | https://github.com/Kong/charts |</p>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

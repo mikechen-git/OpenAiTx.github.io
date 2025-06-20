@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>future-queue - nextest-rs/future-queue</title>
+    <meta name="title" content="future-queue - nextest-rs/future-queue">
+    <meta name="description" content="nextest-rs/future-queue - GitHub repository ko documentation and informationfuture-queue future_queue는 여러 future를 실행하는 방법을 제공합니다: 동시에(concurrently) 생성된 순서대로(in the order they're spawned) 전역 제한(global limits)과 함께 그리고 각 future마다 지정할 수 있는 ...">
+    <meta name="keywords" content="nextest-rs, future-queue, GitHub, repository, ko documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/nextest-rs/future-queue/README-ko.html">
+    <meta property="og:title" content="future-queue - nextest-rs/future-queue">
+    <meta property="og:description" content="nextest-rs/future-queue - GitHub repository ko documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/nextest-rs/future-queue" id="githubRepoLink" target="_blank">nextest-rs/future-queue</a>
+<h1 style="display: none;">future-queue future_queue는 여러 future를 실행하는 방법을 제공합니다: 동시에(concurrently) 생성된 순서대로(in the order they're spawned) 전역 제한(global limits)과 함께 그리고 각 future마다 지정할 수 있는 ...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>future-queue</h1>
+<p><a href="https://crates.io/crates/future-queue"><img src="https://img.shields.io/crates/v/future-queue" alt="future-queue on crates.io" /></a>
+<a href="https://docs.rs/future-queue/"><img src="https://img.shields.io/badge/docs-latest-brightgreen.svg" alt="Documentation (latest release)" /></a>
+<a href="https://nextest-rs.github.io/future-queue/rustdoc/future_queue"><img src="https://img.shields.io/badge/docs-main-purple" alt="Documentation (main)" /></a>
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/CHANGELOG.md"><img src="https://img.shields.io/badge/changelog-latest-blue" alt="Changelog" /></a>
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-APACHE"><img src="https://img.shields.io/badge/license-Apache-green.svg" alt="License" /></a>
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-MIT"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License" /></a></p>
+<p><code>future_queue</code>는 여러 future를 실행하는 방법을 제공합니다:</p>
+<ul>
+<li>동시에(concurrently)</li>
+<li>생성된 순서대로(in the order they're spawned)</li>
+<li>전역 제한(global limits)과 함께</li>
+<li>그리고 각 future마다 지정할 수 있는 선택적 그룹(group) 및 해당 그룹별 제한(group limits)과 함께</li>
+</ul>
+<p>이 크레이트는 GitHub의 <a href="https://github.com/nextest-rs">nextest organization</a> 소속이며,
+<a href="https://nexte.st">cargo-nextest</a>의 요구를 충족하도록 설계되었습니다.</p>
+<h2>동기</h2>
+<p>Rust의 비동기 프로그래밍에서는 종종
+<a href="https://docs.rs/futures/latest/futures/stream/trait.StreamExt.html#method.buffer_unordered"><code>buffer_unordered</code></a>라는 어댑터를 사용합니다.
+이 어댑터는 future의 스트림[^1]을 받아서, 최대 동시 실행 개수로 제한하여 모든 future를 실행합니다.</p>
+<ul>
+<li>future는 스트림이 반환하는 순서대로 시작됩니다.</li>
+<li>시작된 future는 동시에 폴링되며, 완료된 future의 결과는 임의의 순서로 반환됩니다(<code>unordered</code>의 의미).</li>
+</ul>
+<p><code>buffer_unordered</code>의 일반적인 사용 예시는 다음과 같습니다:</p>
+<ul>
+<li>네트워크 요청을 동시에 보내되, 원격 서버에 과부하를 주지 않기 위해 동시성 개수를 제한하는 경우</li>
+<li><a href="https://nexte.st">cargo-nextest</a>와 같은 도구로 테스트를 실행하는 경우</li>
+</ul>
+<p><code>buffer_unordered</code>는 많은 경우에 잘 동작합니다. 하지만 한 가지 문제는 모든 future를 동일하게 취급한다는 점입니다.
+어떤 future가 다른 future보다 더 많은 자원을 소모하거나, future의 일부 집합이 서로 배타적으로 동작해야 한다는 것을 지정할 방법이 없습니다.</p>
+<p>특히 nextest에서는 일부 테스트가 다른 테스트보다 훨씬 무거울 수 있으며, 이런 테스트는 동시에 더 적게 실행되어야 합니다.
+또한, 일부 테스트는 서로 배타적으로 실행되어야 하거나, 추가적인 동시성 제한이 필요할 수 있습니다.</p>
+<p>[^1]: 이 어댑터는 최대 범용성을 위해 future의 스트림을 받습니다. 실제로는 종종 future의 <em>이터레이터</em>를
+<a href="https://docs.rs/futures/latest/futures/stream/fn.iter.html"><code>stream::iter</code></a>로 변환해서 사용합니다.</p>
+<h2>이 크레이트에 대하여</h2>
+<p>이 크레이트는 스트림(stream)에 두 가지 어댑터를 제공합니다.</p>
+<h3>1. <code>future_queue</code> 어댑터</h3>
+<p><a href="StreamExt::future_queue"><code>future_queue</code></a> 어댑터는 여러 future를 동시에 실행할 수 있으며,
+동시 실행의 최대 *가중치(weight)*를 제한합니다.</p>
+<p>이 어댑터는 future의 스트림 대신, <code>(usize, F)</code> 쌍의 스트림을 받습니다.
+여기서 <code>usize</code>는 각 future의 가중치를, <code>F</code>는 <code>FnOnce(FutureQueueContext) -&gt; impl Future</code> 타입을 의미합니다.
+이 어댑터는 다음 future를 큐에 추가할 때 최대 가중치를 초과하지 않는 한 future를 예약 및 버퍼링합니다.</p>
+<ul>
+<li>실행 중인 future의 가중치 총합이 최대 가중치를 초과하는 일은 없습니다.</li>
+<li>개별 future의 가중치가 최대 가중치보다 크면, 해당 future의 가중치는 최대 가중치로 설정됩니다.</li>
+</ul>
+<p>가능한 모든 future가 예약되면, 현재 실행 중인 future 중 일부가 완료되어
+실행 중인 future의 가중치 합이 최대 가중치보다 낮아질 때까지 대기한 후 새로운 future를 예약합니다.</p>
+<p>future의 가중치는 0이 될 수 있으며, 이 경우 최대 가중치에 포함되지 않습니다.</p>
+<p>모든 가중치가 1이라면, <code>future_queue</code>는 <code>buffer_unordered</code>와 정확히 동일하게 동작합니다.</p>
+<h4>예제</h4>
+<pre><code class="language-rust">use futures::{channel::oneshot, stream, StreamExt as _};
+use future_queue::{StreamExt as _};
+
+let (send_one, recv_one) = oneshot::channel();
+let (send_two, recv_two) = oneshot::channel();
+
+let stream_of_futures = stream::iter(
+    vec![(1, recv_one), (2, recv_two)],
+).map(|(weight, future)| {
+    (weight, move |_cx| future)
+});
+let mut queue = stream_of_futures.future_queue(10);
+
+send_two.send(&quot;hello&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;hello&quot;)));
+
+send_one.send(&quot;world&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;world&quot;)));
+
+assert_eq!(queue.next().await, None);
+</code></pre>
+<h3>2. <code>future_queue_grouped</code> 어댑터</h3>
+<p><a href="StreamExt::future_queue_grouped"><code>future_queue_grouped</code></a> 어댑터는 <code>future_queue</code>와 유사하지만,
+각 future마다 선택적으로 *그룹(group)*을 지정할 수 있습니다.
+각 그룹은 최대 가중치를 갖고 있으며, future는 전역(maximum weight) 및 그룹별(group weight) 가중치가 모두 초과되지 않을 때만 예약됩니다.</p>
+<p>이 어댑터는 주어진 제약조건 내에서 최대한 공정하게 동작합니다:
+future는 스트림이 반환하는 순서대로 예약되며, 가중치에 따라 재정렬되지 않습니다.
+그룹의 future가 완료되면, 이 그룹의 큐에 대기 중인 future가 제공된 스트림의 다른 future보다 우선적으로 예약됩니다.</p>
+<p><a href="StreamExt::future_queue"><code>future_queue</code></a>와 마찬가지로:</p>
+<ul>
+<li>실행 중인 future의 전역 및 그룹별 최대 가중치를 초과하지 않습니다.</li>
+<li>전역 가중치를 계산할 때, 개별 future의 가중치가 최대 가중치보다 크면 해당 future의 가중치는 최대 가중치로 설정됩니다.</li>
+<li><em>future가 그룹에 속하는 경우:</em> 그룹 가중치를 계산할 때, 가중치가 최대 그룹 가중치보다 크면, 해당 future의 가중치는 최대 그룹 가중치로 설정됩니다.</li>
+</ul>
+<h4>예제</h4>
+<pre><code class="language-rust">use futures::{channel::oneshot, stream, StreamExt as _};
+use future_queue::{FutureQueueContext, StreamExt as _};
+
+let (send_one, recv_one) = oneshot::channel();
+let (send_two, recv_two) = oneshot::channel();
+
+let stream_of_futures = stream::iter(
+    vec![
+        (1, Some(&quot;group1&quot;), recv_one),
+        (2, None, recv_two),
+    ],
+).map(|(weight, group, future)| {
+    (weight, group, move |_cx| future)
+});
+let mut queue = stream_of_futures.future_queue_grouped(10, [(&quot;group1&quot;, 5)]);
+
+send_two.send(&quot;hello&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;hello&quot;)));
+
+send_one.send(&quot;world&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;world&quot;)));
+
+assert_eq!(queue.next().await, None);
+</code></pre>
+<h2>최소 지원 Rust 버전 (MSRV)</h2>
+<p>최소 지원 Rust 버전은 <strong>Rust 1.70.</strong> 입니다. 언제든 최소 6개월 이내의 Rust 안정 릴리스를 지원합니다.</p>
+<p>이 크레이트가 프리릴리즈(0.x.x) 버전인 동안에는 패치 릴리즈에서 MSRV가 상향될 수 있습니다.
+1.x 버전에 도달하면, MSRV 상향은 새로운 마이너 버전에서만 이루어집니다.</p>
+<h2>참고</h2>
+<p>이 크레이트는 과거에 <code>buffer-unordered-weighted</code>라는 이름이었으나,
+이름이 설명하는 기능에 더 충실하도록 <code>future-queue</code>로 변경되었습니다.</p>
+<h2>기여</h2>
+<p>기여 방법은 <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/CONTRIBUTING.md">CONTRIBUTING</a> 파일을 참고하세요.</p>
+<h2>라이선스</h2>
+<p>이 프로젝트는 <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-APACHE">Apache 2.0 라이선스</a> 또는
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-MIT">MIT 라이선스</a> 조건 중 하나를 선택하여 사용할 수 있습니다.</p>
+<p>코드는 <a href="https://github.com/rust-lang/futures-rs">futures-rs</a>에서 파생되었으며, Apache 2.0 및 MIT 라이선스 하에 사용됩니다.</p>
+<!--
+README.md는 cargo readme로 README.tpl에서 생성됩니다. 다시 생성하려면 저장소 루트에서 다음을 실행하세요:
+
+./scripts/regenerate-readmes.sh
+-->
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

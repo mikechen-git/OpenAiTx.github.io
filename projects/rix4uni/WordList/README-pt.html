@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordList - rix4uni/WordList</title>
+    <meta name="title" content="WordList - rix4uni/WordList">
+    <meta name="description" content="rix4uni/WordList - GitHub repository pt documentation and informationWordList lista personalizada de fuzzing fuzzing_list.txt cat urls.txt | sed 's|\(.*\)/[^/]*$|\1|' | cut -d&quot;/&quot; -f4,5,6,7,8,9,10,11 | tr &quot;/&quot; &...">
+    <meta name="keywords" content="rix4uni, WordList, GitHub, repository, pt documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/rix4uni/WordList/README-pt.html">
+    <meta property="og:title" content="WordList - rix4uni/WordList">
+    <meta property="og:description" content="rix4uni/WordList - GitHub repository pt documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/rix4uni/WordList" id="githubRepoLink" target="_blank">rix4uni/WordList</a>
+<h1 style="display: none;">WordList lista personalizada de fuzzing fuzzing_list.txt cat urls.txt | sed 's|\(.*\)/[^/]*$|\1|' | cut -d&quot;/&quot; -f4,5,6,7,8,9,10,11 | tr &quot;/&quot; &...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>WordList</h1>
+<p>lista personalizada de fuzzing <code>fuzzing_list.txt</code></p>
+<pre><code>cat urls.txt | sed 's|\(.*\)/[^/]*$|\1|' | cut -d&quot;/&quot; -f4,5,6,7,8,9,10,11 | tr &quot;/&quot; &quot;\n&quot; | sed '/^$/d' | anew fuzzing_list.txt
+</code></pre>
+<p>lista personalizada de DNS <code>dns-wordlist.txt</code></p>
+<pre><code>cat alltargets.txt | sed 's/\.[^.]*$//' | tr &quot;.&quot; &quot;\n&quot; | egrep -v '^[0-9]*$' | anew dns-wordlist.txt
+</code></pre>
+<p>escaneie essas URLs para núcleos de má configuração <code>urls-for-nuclei.txt</code></p>
+<pre><code>cat urls.txt | grep -E &quot;^https?://[^/]+/.+&quot; | cut -d&quot;/&quot; -f1-4 | anew -q urls-for-nuclei.txt ;cat urls.txt | grep -E &quot;^https?://[^/]+/.+&quot; | cut -d&quot;/&quot; -f1-5 | anew -q urls-for-nuclei.txt ;cat urls.txt | grep -E &quot;^https?://[^/]+/.+&quot; | cut -d&quot;/&quot; -f1-6 | anew -q urls-for-nuclei.txt
+</code></pre>
+<p><code>default-username-password.txt</code></p>
+<pre><code>curl -s &quot;https://raw.githubusercontent.com/rix4uni/WordList/main/default-username-password.txt&quot;|cut -d&quot;:&quot; -f1 | tee -a username.txt &amp;&amp; curl -s &quot;https://raw.githubusercontent.com/rix4uni/WordList/main/default-username-password.txt&quot;|cut -d&quot;:&quot; -f2 | tee -a password.txt
+</code></pre>
+<p>lista personalizada de parâmetros <code>params.txt</code></p>
+<pre><code>cat urls.txt | grep &quot;\.php?&quot; | uro | grep &quot;?&quot; | cut -f2 -d&quot;?&quot; | cut -f1 -d&quot;=&quot; | sed '/^\s*$/d'| anew params.txt
+</code></pre>
+<p>lista personalizada de fuzzing <code>onelistforall.txt</code></p>
+<pre><code>curl -s &quot;https://raw.githubusercontent.com/maurosoria/dirsearch/master/db/dicc.txt&quot; | anew -q onelistforall.txt &amp;&amp; curl -s &quot;https://raw.githubusercontent.com/six2dez/OneListForAll/main/onelistforallmicro.txt&quot; | anew -q onelistforall.txt &amp;&amp; curl -s &quot;https://raw.githubusercontent.com/six2dez/OneListForAll/main/onelistforallshort.txt&quot; | anew -q onelistforall.txt &amp;&amp; curl -s &quot;https://raw.githubusercontent.com/ayoubfathi/leaky-paths/main/leaky-paths.txt&quot; | anew -q onelistforall.txt &amp;&amp; curl -s &quot;https://raw.githubusercontent.com/Bo0oM/fuzz.txt/master/fuzz.txt&quot; | anew -q onelistforall.txt &amp;&amp; curl -s &quot;https://raw.githubusercontent.com/abdallaabdalrhman/Wordlist-for-Bug-Bounty/main/great_wordlist_for_bug_bounty.txt&quot; | anew -q onelistforall.txt &amp;&amp; curl -s &quot;https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/raft-large-directories.txt&quot; | anew -q onelistforall.txt &amp;&amp; curl -s &quot;https://wordlists-cdn.assetnote.io/data/automated/httparchive_php_2020_11_18.txt&quot; | anew -q onelistforall.txt &amp;&amp; curl -s &quot;https://wordlists-cdn.assetnote.io/data/automated/httparchive_aspx_asp_cfm_svc_ashx_asmx_2020_11_18.txt&quot; | anew -q onelistforall.txt &amp;&amp; curl -s &quot;https://wordlists-cdn.assetnote.io/data/automated/httparchive_jsp_jspa_do_action_2022_08_28.txt&quot; | anew -q onelistforall.txt
+</code></pre>
+<h2>payloads</h2>
+<ul>
+<li>até top 50 =&gt; <code>*-small.txt</code></li>
+<li>até top 500 =&gt; <code>*-medium.txt</code></li>
+<li>todos os payloads sem limite =&gt; <code>*-large.txt</code>, se for maior que 50mb então <code>*-large-1.txt</code>, <code>*-large-2.txt</code></li>
+</ul>
+<h2>tecnologias</h2>
+<ul>
+<li>todas as tecnologias sem limite =&gt; <code>techname/techname.txt</code>, se for maior que 50mb então <code>techname/techname-1.txt</code>, <code>techname/techname-2.txt</code></li>
+</ul>
+<h2>nuclei-technologies</h2>
+<p>Utilizando: <a href="https://github.com/rix4uni/WordList/blob/main/wordlist-generator-tools/nuclei-wordlist-generator.go">nuclei-wordlist-generator.go</a></p>
+<ul>
+<li><code>techname/techname-unknown.txt</code></li>
+<li><code>techname/techname-info.txt</code></li>
+<li><code>techname/techname-low.txt</code></li>
+<li><code>techname/techname-medium.txt</code></li>
+<li><code>techname/techname-high.txt</code></li>
+<li><code>techname/techname-critical.txt</code></li>
+<li><code>techname/techname-all.txt</code></li>
+</ul>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

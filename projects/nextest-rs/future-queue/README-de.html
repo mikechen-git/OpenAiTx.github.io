@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>future-queue - nextest-rs/future-queue</title>
+    <meta name="title" content="future-queue - nextest-rs/future-queue">
+    <meta name="description" content="nextest-rs/future-queue - GitHub repository de documentation and informationfuture-queue future_queue bietet Möglichkeiten, mehrere Futures auszuführen: gleichzeitig in der Reihenfolge, in der sie gestartet werden mit globalen Begrenzun...">
+    <meta name="keywords" content="nextest-rs, future-queue, GitHub, repository, de documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/nextest-rs/future-queue/README-de.html">
+    <meta property="og:title" content="future-queue - nextest-rs/future-queue">
+    <meta property="og:description" content="nextest-rs/future-queue - GitHub repository de documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/nextest-rs/future-queue" id="githubRepoLink" target="_blank">nextest-rs/future-queue</a>
+<h1 style="display: none;">future-queue future_queue bietet Möglichkeiten, mehrere Futures auszuführen: gleichzeitig in der Reihenfolge, in der sie gestartet werden mit globalen Begrenzun...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>future-queue</h1>
+<p><a href="https://crates.io/crates/future-queue"><img src="https://img.shields.io/crates/v/future-queue" alt="future-queue auf crates.io" /></a>
+<a href="https://docs.rs/future-queue/"><img src="https://img.shields.io/badge/docs-latest-brightgreen.svg" alt="Dokumentation (letztes Release)" /></a>
+<a href="https://nextest-rs.github.io/future-queue/rustdoc/future_queue"><img src="https://img.shields.io/badge/docs-main-purple" alt="Dokumentation (main)" /></a>
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/CHANGELOG.md"><img src="https://img.shields.io/badge/changelog-latest-blue" alt="Changelog" /></a>
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-APACHE"><img src="https://img.shields.io/badge/license-Apache-green.svg" alt="Lizenz" /></a>
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-MIT"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="Lizenz" /></a></p>
+<p><code>future_queue</code> bietet Möglichkeiten, mehrere Futures auszuführen:</p>
+<ul>
+<li>gleichzeitig</li>
+<li>in der Reihenfolge, in der sie gestartet werden</li>
+<li>mit globalen Begrenzungen</li>
+<li>und mit einer optionalen Gruppe, die für jede Future angegeben werden kann und ihre eigenen Begrenzungen hat.</li>
+</ul>
+<p>Dieses Crate ist Teil der <a href="https://github.com/nextest-rs">nextest-Organisation</a> auf GitHub und
+wurde entwickelt, um die Anforderungen von <a href="https://nexte.st">cargo-nextest</a> zu erfüllen.</p>
+<h2>Motivation</h2>
+<p>Asynchrone Programmierung in Rust verwendet häufig einen Adapter namens
+<a href="https://docs.rs/futures/latest/futures/stream/trait.StreamExt.html#method.buffer_unordered"><code>buffer_unordered</code></a>:
+Dieser Adapter nimmt einen Stream von Futures[^1] und führt alle Futures mit einer maximalen
+Gleichzeitigkeit aus.</p>
+<ul>
+<li>Futures werden in der Reihenfolge gestartet, in der sie vom Stream zurückgegeben werden.</li>
+<li>Einmal gestartet, werden Futures gleichzeitig abgefragt, und die Ausgaben der abgeschlossenen Futures werden in
+beliebiger Reihenfolge zurückgegeben (daher das <code>unordered</code>).</li>
+</ul>
+<p>Häufige Anwendungsfälle für <code>buffer_unordered</code> sind:</p>
+<ul>
+<li>Gleichzeitiges Senden von Netzwerkanfragen, aber Begrenzung der Anzahl, um den Remote-Server nicht zu überlasten.</li>
+<li>Ausführen von Tests mit einem Tool wie <a href="https://nexte.st">cargo-nextest</a>.</li>
+</ul>
+<p><code>buffer_unordered</code> funktioniert in vielen Anwendungsfällen gut. Ein Problem dabei ist jedoch, dass alle Futures als gleich aufwendig behandelt werden: Es gibt keine Möglichkeit anzugeben, dass einige Futures mehr Ressourcen verbrauchen als andere, oder dass einige Teilmengen von Futures gegenseitig ausgeschlossen werden sollen.</p>
+<p>Gerade bei nextest können einige Tests deutlich ressourcenintensiver sein als andere, und von diesen sollten weniger gleichzeitig ausgeführt werden. Außerdem müssen einige Tests gegenseitig ausgeschlossen werden, oder es sollten andere Begrenzungen der Gleichzeitigkeit auf sie angewendet werden.</p>
+<p>[^1]: Dieser Adapter nimmt einen Stream von Futures für maximale Allgemeingültigkeit. In der Praxis ist dies oft ein <em>Iterator</em> von Futures, der mit
+<a href="https://docs.rs/futures/latest/futures/stream/fn.iter.html"><code>stream::iter</code></a> umgewandelt wird.</p>
+<h2>Über dieses Crate</h2>
+<p>Dieses Crate stellt zwei Adapter für Streams bereit.</p>
+<h3>1. Der <code>future_queue</code>-Adapter</h3>
+<p>Der <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/src/stream_ext.rs#L41"><code>future_queue</code></a>-Adapter kann mehrere Futures gleichzeitig ausführen und die Gleichzeitigkeit auf ein maximales <em>Gewicht</em> begrenzen.</p>
+<p>Anstatt einen Stream von Futures zu nehmen, erwartet dieser Adapter einen Stream von
+<code>(usize, F)</code>-Tupeln, wobei das <code>usize</code> das Gewicht jeder Future angibt
+und <code>F</code> ist <code>FnOnce(FutureQueueContext) -&gt; impl Future</code>. Dieser Adapter plant und puffert Futures so, dass das Planen der nächsten Future das maximale Gewicht nicht überschreitet.</p>
+<ul>
+<li>Das maximale Gewicht wird beim Ausführen der Futures nie überschritten.</li>
+<li>Wenn das Gewicht einer einzelnen Future größer als das maximale Gewicht ist, wird ihr Gewicht
+auf das maximale Gewicht gesetzt.</li>
+</ul>
+<p>Sobald alle möglichen Futures geplant sind, wartet dieser Adapter, bis einige der aktuell ausgeführten Futures abgeschlossen sind und das aktuelle Gewicht der laufenden Futures unter das maximale Gewicht fällt, bevor neue Futures eingeplant werden.</p>
+<p>Das Gewicht einer Future kann null sein, in diesem Fall zählt sie nicht zum maximalen Gewicht.</p>
+<p>Sind alle Gewichte 1, ist <code>future_queue</code> exakt das gleiche wie <code>buffer_unordered</code>.</p>
+<h4>Beispiele</h4>
+<pre><code class="language-rust">use futures::{channel::oneshot, stream, StreamExt as _};
+use future_queue::{StreamExt as _};
+
+let (send_one, recv_one) = oneshot::channel();
+let (send_two, recv_two) = oneshot::channel();
+
+let stream_of_futures = stream::iter(
+    vec![(1, recv_one), (2, recv_two)],
+).map(|(weight, future)| {
+    (weight, move |_cx| future)
+});
+let mut queue = stream_of_futures.future_queue(10);
+
+send_two.send(&quot;hello&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;hello&quot;)));
+
+send_one.send(&quot;world&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;world&quot;)));
+
+assert_eq!(queue.next().await, None);
+</code></pre>
+<h3>2. Der <code>future_queue_grouped</code>-Adapter</h3>
+<p>Der <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/src/stream_ext.rs#L110"><code>future_queue_grouped</code></a>-Adapter ist wie <code>future_queue</code>,
+allerdings kann für jede Future optional eine <em>Gruppe</em> angegeben werden. Jede Gruppe hat ein maximales Gewicht und eine Future wird nur dann eingeplant, wenn sowohl das maximale Gesamtgewicht als auch das Gruppen-Gewicht nicht überschritten werden.</p>
+<p>Der Adapter ist unter den gegebenen Bedingungen so fair wie möglich: Er plant Futures in der Reihenfolge ein, in der sie vom Stream zurückgegeben werden, ohne Umsortierung nach Gewicht. Wenn eine Future einer Gruppe abgeschlossen ist, werden wartende Futures dieser Gruppe bevorzugt eingeplant, bevor andere Futures aus dem bereitgestellten Stream eingeplant werden.</p>
+<p>Wie bei <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/src/stream_ext.rs#L41"><code>future_queue</code></a>:</p>
+<ul>
+<li>Die maximalen globalen und Gruppen-Gewichte werden beim Ausführen der Futures nie überschritten.</li>
+<li>Bei der Berücksichtigung des globalen Gewichts wird, wenn das Gewicht einer einzelnen Future größer als das maximale Gewicht ist, ihr Gewicht auf das maximale Gewicht gesetzt.</li>
+<li><em>Wenn eine Future zu einer Gruppe gehört:</em> Bei der Berücksichtigung des Gruppen-Gewichts wird, wenn ihr Gewicht größer als das maximale Gruppen-Gewicht ist, ihr Gewicht auf das maximale Gruppen-Gewicht gesetzt.</li>
+</ul>
+<h4>Beispiele</h4>
+<pre><code class="language-rust">use futures::{channel::oneshot, stream, StreamExt as _};
+use future_queue::{FutureQueueContext, StreamExt as _};
+
+let (send_one, recv_one) = oneshot::channel();
+let (send_two, recv_two) = oneshot::channel();
+
+let stream_of_futures = stream::iter(
+    vec![
+        (1, Some(&quot;group1&quot;), recv_one),
+        (2, None, recv_two),
+    ],
+).map(|(weight, group, future)| {
+    (weight, group, move |_cx| future)
+});
+let mut queue = stream_of_futures.future_queue_grouped(10, [(&quot;group1&quot;, 5)]);
+
+send_two.send(&quot;hello&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;hello&quot;)));
+
+send_one.send(&quot;world&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;world&quot;)));
+
+assert_eq!(queue.next().await, None);
+</code></pre>
+<h2>Minimale unterstützte Rust-Version (MSRV)</h2>
+<p>Die minimal unterstützte Rust-Version ist <strong>Rust 1.70.</strong> Es werden immer mindestens die letzten sechs Monate der Rust-Stable-Releases unterstützt.</p>
+<p>Solange dieses Crate eine Vorabversion (0.x.x) ist, kann die MSRV auch in einem Patch-Release angehoben werden. Sobald dieses Crate 1.x erreicht hat, wird jede Anhebung der MSRV mit einer neuen Minor-Version veröffentlicht.</p>
+<h2>Hinweise</h2>
+<p>Dieses Crate hieß früher <code>buffer-unordered-weighted</code>. Es wurde in <code>future-queue</code> umbenannt, um besser zu beschreiben, was das Crate tut, und nicht wie es implementiert ist.</p>
+<h2>Mitwirken</h2>
+<p>Siehe die <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/CONTRIBUTING.md">CONTRIBUTING</a>-Datei für Hinweise zur Mitarbeit.</p>
+<h2>Lizenz</h2>
+<p>Dieses Projekt ist unter den Bedingungen der <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-APACHE">Apache 2.0 Lizenz</a> oder
+der <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-MIT">MIT-Lizenz</a> verfügbar.</p>
+<p>Der Code basiert auf <a href="https://github.com/rust-lang/futures-rs">futures-rs</a> und wird unter den Apache 2.0- und MIT-Lizenzen verwendet.</p>
+<!--
+README.md wird aus README.tpl durch cargo readme generiert. Um es zu regenerieren, führe im Repository-Stammverzeichnis aus:
+
+./scripts/regenerate-readmes.sh
+-->
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

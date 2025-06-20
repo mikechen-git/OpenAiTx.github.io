@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ch32fun - cnlohr/ch32fun</title>
+    <meta name="title" content="ch32fun - cnlohr/ch32fun">
+    <meta name="description" content="cnlohr/ch32fun - GitHub repository ar documentation and information# ch32fun بيئة تطوير مفتوحة المصدر (أدوات، رؤوس، أمثلة) لمعالج [CH32V003](http://www.wch-ic.com/products/CH32V003.html) (وعدد كبير من الشرائح الأخرى ضمن عائلة C...">
+    <meta name="keywords" content="cnlohr, ch32fun, GitHub, repository, ar documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/cnlohr/ch32fun/README-ar.html">
+    <meta property="og:title" content="ch32fun - cnlohr/ch32fun">
+    <meta property="og:description" content="cnlohr/ch32fun - GitHub repository ar documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/cnlohr/ch32fun" id="githubRepoLink" target="_blank">cnlohr/ch32fun</a>
+<h1 style="display: none;"># ch32fun بيئة تطوير مفتوحة المصدر (أدوات، رؤوس، أمثلة) لمعالج [CH32V003](http://www.wch-ic.com/products/CH32V003.html) (وعدد كبير من الشرائح الأخرى ضمن عائلة C...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <pre><code class="language-markdown"># ch32fun
+
+بيئة تطوير مفتوحة المصدر (أدوات، رؤوس، أمثلة) لمعالج [CH32V003](http://www.wch-ic.com/products/CH32V003.html) (وعدد كبير من الشرائح الأخرى ضمن عائلة CH32V) باستخدام gcc-riscv64، والتي يمكن استخدامها في أنظمة ويندوز (أصلي)، لينكس و/أو WSL. CH32V003 هو معالج بتكلفة 10 سنتات يحتوي على نواة RISC-V EC بسرعة 48 ميجاهرتز، و16 كيلوبايت من الفلاش و2 كيلوبايت من الذاكرة العشوائية RAM، بالإضافة إلى مجموعة من الوحدات الطرفية. يأتي أيضاً في حزم SOP-8 وQFN-20 وSOIC. يمكنك الحصول على ورقة البيانات من [هنا](http://www.wch-ic.com/downloads/CH32V003DS0_PDF.html).
+
+هدف هذا المشروع هو تطوير الأدوات والبيئة لاستخدام فعال لمعالج CH32V003. تجنب استعمال واجهات HAL المعقدة، واستفد من العتاد بشكل مباشر! بيئة EVT الحالية ضخمة وبيئة التطوير ثقيلة. هذا المشروع يتجنب استخدام HAL ويتيح لك استخدام [TRM](http://www.wch-ic.com/downloads/CH32V003RM_PDF.html) مباشرة. على النقيض من ذلك، برنامج blinky لا يتجاوز 500 بايت مع ch32fun، ويعمل بسرعة أكبر وبشكل أبسط بكثير.
+
+ch32fun يحتوي على:
+1. أمثلة باستخدام ch32fun، لكنها ليست بعدد أمثلة HAL. معظمها يتركز حول ch32v003، لكن كثير منها متوافق مع معالجات أخرى.
+2. &quot;minichlink&quot; والذي يستخدم WCH CH-Link مع libusb، للاستخدام عبر الأنظمة.
+   * مبرمج STM32F042، [NHC-Link042](https://github.com/NgoHungCuong/NHC-Link042)
+   * مبرمج ESP32S2، [esp32s2-funprog](https://github.com/cnlohr/esp32s2-cookbook/tree/master/ch32v003programmer)
+   * مبرمج WCH Link-E الرسمي.
+   * واجهة مبنية على أردوينو، [Ardulink](https://gitlab.com/BlueSyncLine/arduino-ch32v003-swio).
+   * يدعم تصحيح الأخطاء بأسلوب gdbserver للاستخدام مع Visual Studio.
+   * يدعم printf عبر سلك واحد. (بسرعة تقارب 400kBaud)
+3. نسخة إضافية من libgcc لتتمكن من استخدام سلاسل بناء RISC-V غير اعتيادية، موجودة في `misc/libgcc.a`.
+4. مجلد باسم &quot;ch32fun&quot; يحتوي على ملف مصدر وملف رأس مستقل لتجميع التطبيقات لمعالج ch32v003.
+5. في بعض الأنظمة إمكانية &quot;printf&quot; عبر
+6. محمل إقلاع تجريبي.
+
+## دعم عائلات أخرى
+
+حالياً، هناك دعم تجريبي لـ ch32v103، ch32v203، ch32v208، ch32v303، ch32v305 و ch32v307. تم اختبار GDB بشكل رئيسي على 003، لكنه يعمل بدرجة محدودة على معالجات أخرى.
+
+## البدء السريع
+
+لتعليمات التثبيت/الإعداد، راجع [صفحة الويكي هنا](https://github.com/cnlohr/ch32fun/wiki/Installation)
+
+## الميزات!
+
+### printf سريع للغاية للتصحيح عبر واجهة البرمجة
+
+وسريع هنا تعني سريع جداً. عادة حوالي 36 كيلوبايت/ثانية.
+
+</code></pre>
+<p>./minichlink -T | pv &gt; /dev/null
+Found ESP32S2 Programmer
+536KiB 0:00:15 [36.7KiB/s] [        &lt;=&gt;                     ]</p>
+<pre><code>
+يمكنك تجربة مشروع debugprintf، أو استدعاء SetupDebugPrintf(); وابدأ باستخدام printf() مباشرة.
+
+### دعم التصحيح!
+
+عن طريق gdbserver المدمج في minichlink! يعمل مع `gdb-multiarch` وأيضاً داخل Visual Studio Code.
+
+## البناء والبرمجة
+
+</code></pre>
+<p>cd examples/blink
+make</p>
+<pre><code>
+text = كود البرنامج، data = القيم الثابتة وقيم التهيئة، bss = القيم غير المهيأة.  
+dec هو مجموع الثلاثة ويعكس عدد البايتات في الفلاش التي سيشغلها البرنامج.
+
+الملف .bin الناتج يستخدم بواسطة minichlink وملف .hex متوافق مع أداة WCH الرسمية للبرمجة.
+
+## VSCode +/- PlatformIO
+
+ملاحظة: PlatformIO يُستخدم عادةً في CI لهذا المستودع. بالرغم من أنه يمكن استخدام PlatformIO لكتابة وتصحيح مشاريع ch32fun داخل VSCode، يمكنك أيضاً القيام بذلك بدون PlatformIO: راجع [مشروع القالب](https://github.com/cnlohr/ch32fun/tree/master/examples/template/.vscode).
+
+يمكن بناء، رفع، وتصحيح هذا المشروع باستخدام VSCode وامتداد PlatformIO. فقط قم باستنساخ وفتح المشروع في VSCode وتأكد من تثبيت الامتداد. استخدم [مبدّل بيئة المشروع](https://docs.platformio.org/en/latest/integration/ide/vscode.html#project-tasks) لاختيار مثال معين، مثل &quot;blink&quot;.
+
+لإنشاء مشروع firmware جديد في PlatformIO يعتمد على ch32fun، استخدم معالج &quot;مشروع جديد&quot; في [الصفحة الرئيسية لـ PlatformIO](https://docs.platformio.org/en/latest/home/index.html) واجعل &quot;الإطار&quot; هو &quot;ch32v003fun&quot;. هناك [أمثلة متنوعة](https://github.com/Community-PIO-CH32V/platform-ch32v/tree/develop/examples/blinky-ch32v003fun).
+
+![pio_proj](.github/pio_project_creation.png)
+
+الأمر المكافئ في [منصة PlatformIO Core CLI](https://docs.platformio.org/en/latest/integration/ide/vscode.html#platformio-core-cli) هو:
+```sh
+pio init -b genericCH32V003F4P6 -O &quot;framework = ch32v003fun&quot;
+</code></pre>
+<p>إذا كنت ترغب بإضافة كودك مباشرة إلى مشروع ch32fun، يرجى توسيع البيئات المتاحة في <code>platformio.ini</code> كما هو <a href="https://github.com/cnlohr/ch32fun/blob/49640fbccf231191aa83c6a2bbe9d385535b2d1e/platformio.ini#L48-L53">موضح هنا</a>.</p>
+<p>يرجى أيضاً ملاحظة أنه عند فتح المشروع داخل PlatformIO، يمكنك استخدام <a href="https://docs.platformio.org/en/latest/integration/ide/vscode.html#project-tasks">مبدّل بيئة المشروع</a> في أسفل شريط مهام VSCode لاختيار مجلد مثال معين. وإلا، فإن &quot;Build&quot; سيقوم بشكل افتراضي ببناء <strong>جميع</strong> الأمثلة.</p>
+<p>راجع <a href="https://github.com/Community-PIO-CH32V/platform-ch32v">platform-ch32v</a> لمزيد من التفاصيل وطريقة تثبيت المنصة.</p>
+<h2>clangd</h2>
+<p>إذا لم يتمكن خادم لغة C/C++ (clangd) من العثور على <code>ch32fun.h</code>، يجب تنظيف المثال باستخدام <code>make clean</code> ثم بناؤه مرة واحدة مع <code>bear -- make build</code>، ما سينتج ملف <code>compile_commands.json</code>، والذي يستخدمه clangd للعثور على مسارات التضمين المحددة في ملفات make.<br />
+<code>make clangd</code> يقوم بذلك في خطوة واحدة.<br />
+<code>build_all_clangd.sh</code> الموجود في <code>build scripts</code> يقوم بذلك لجميع الأمثلة.</p>
+<h2>مرجع سريع</h2>
+<ul>
+<li><strong>مطلوب</strong> للبرمجة/التصحيح: <code>SWIO</code> على المنفذ <code>PD1</code>. لا تعيد استخدام PD1 لأكثر من وظيفة.</li>
+<li><strong>اختياري</strong> <code>NRST</code> على المنفذ <code>PD7</code>. ليس ضرورياً، ويعمل كـ GPIO افتراضياً في بعض الإعدادات.</li>
+<li><strong>اختياري</strong> UART <code>TX</code> على: <code>PD5</code>. نوصي باستخدام SWIO لتصحيح printf.</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Tengo10/pinout-overview/main/pinouts/CH32v003/ch32v003a4m6.svg" alt="ch32v003a4m6" />
+<img src="https://raw.githubusercontent.com/Tengo10/pinout-overview/main/pinouts/CH32v003/ch32v003f4p6.svg" alt="ch32v003f4p6" />
+<img src="https://raw.githubusercontent.com/Tengo10/pinout-overview/main/pinouts/CH32v003/ch32v003f4u6.svg" alt="ch32v003f4u6" />
+<img src="https://raw.githubusercontent.com/Tengo10/pinout-overview/main/pinouts/CH32v003/ch32v003j4m6.svg" alt="ch32v003j4m6" /></p>
+<h2>المزيد من الأمثلة / المشاريع؟</h2>
+<p>هناك أدوات أخرى من أطراف ثالثة تضيف العديد من الأمثلة وغيرها. راجع المستودعات التالية لمكتبات إضافية وغيرها.</p>
+<ul>
+<li><a href="https://github.com/recallmenot/ch32v003fun_wildwest">ch32v003fun_wildwest</a></li>
+<li><a href="https://github.com/hexeguitar/ch32v003fun_libs">ch32v003fun_libs</a></li>
+<li><a href="https://github.com/ADBeta/CH32V003_lib_uart">CH32V003_lib_uart</a></li>
+<li><a href="https://github.com/ADBeta/CH32Vxxx_lib_i2c">CH32Vxxx_lib_i2c</a></li>
+<li><a href="https://github.com/ADBeta/CH32Vxxx_lib_swi2c">CH32Vxxx_lib_swi2c</a></li>
+<li><a href="https://github.com/DeadBugEngineering/ch32v003fun_shenanigans">ch32v003fun_shenanigans</a></li>
+<li><a href="https://github.com/pabloestrado/ch32fun-bmp280-driver">ch32fun-bmp280-driver</a></li>
+<li><a href="https://github.com/pabloestrado/ch32fun-aht20-driver">ch32fun-aht20-driver</a></li>
+</ul>
+<h2>الدعم</h2>
+<p>يمكنك فتح تذكرة على github أو الانضمام إلى خادم Discord الخاص بي في قناة #ch32fun. حالياً الدعوات خاصة، فقط أرسل لي @cnlohr للحصول على رابط الدعوة. الرسائل الخاصة مفتوحة.</p>
+<h3>الحواشي/الروابط</h3>
+<ul>
+<li>https://raw.githubusercontent.com/openwch/ch32v003/main/RISC-V%20QingKeV2%20Microprocessor%20Debug%20Manual.pdf دليل التصحيح</li>
+<li>http://www.wch-ic.com/downloads/QingKeV2_Processor_Manual_PDF.html دليل المعالج</li>
+<li>http://www.wch-ic.com/downloads/CH32V003RM_PDF.html الدليل المرجعي الفني</li>
+<li>http://www.wch-ic.com/downloads/CH32V003DS0_PDF.html ورقة البيانات</li>
+<li>https://github.com/CaiB/CH32V003-Architecture-Exploration/blob/main/InstructionTypes.md تفاصيل ISA المضغوطة على هذه الشريحة.</li>
+<li>يحتوي CH32V003 على امتدادات xv، يمكنك استخدام هذا الإصدار المخصص من rvcodec.js للعمل مع تعليماته البرمجية: https://xw.macyler.moe/</li>
+</ul>
+<pre><code>
+
+---
+
+
+Tranlated By [Open Ai Tx](https://github.com/OpenAiTx/OpenAiTx) | Last indexed: 2025-06-07
+
+
+---
+</code></pre>
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

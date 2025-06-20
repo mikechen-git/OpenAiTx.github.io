@@ -1,0 +1,314 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>helm-chartsnap - jlandowner/helm-chartsnap</title>
+    <meta name="title" content="helm-chartsnap - jlandowner/helm-chartsnap">
+    <meta name="description" content="jlandowner/helm-chartsnap - GitHub repository en documentation and informationhelm-chartsnap 📸 Snapshot testing tool for Helm charts. Bring powerful UI testing capabilities for Helm chart with minimal configuration just within the values...">
+    <meta name="keywords" content="jlandowner, helm-chartsnap, GitHub, repository, en documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/jlandowner/helm-chartsnap/README-en.html">
+    <meta property="og:title" content="helm-chartsnap - jlandowner/helm-chartsnap">
+    <meta property="og:description" content="jlandowner/helm-chartsnap - GitHub repository en documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/jlandowner/helm-chartsnap" id="githubRepoLink" target="_blank">jlandowner/helm-chartsnap</a>
+<h1 style="display: none;">helm-chartsnap 📸 Snapshot testing tool for Helm charts. Bring powerful UI testing capabilities for Helm chart with minimal configuration just within the values...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>helm-chartsnap 📸</h1>
+<p><a href="https://pkg.go.dev/github.com/jlandowner/helm-chartsnap"><img src="https://pkg.go.dev/badge/github.com/jlandowner/helm-chartsnap.svg" alt="Go Reference" /></a>
+<a href="https://goreportcard.com/report/github.com/jlandowner/helm-chartsnap"><img src="https://goreportcard.com/badge/github.com/jlandowner/helm-chartsnap" alt="Go Report Card" /></a>
+<a href="https://codecov.io/gh/jlandowner/helm-chartsnap"><img src="https://codecov.io/gh/jlandowner/helm-chartsnap/graph/badge.svg?token=8ARG53CRL7" alt="codecov" /></a>
+<a href="https://github.com/jlandowner/helm-chartsnap/actions/workflows/release.yaml"><img src="https://github.com/jlandowner/helm-chartsnap/actions/workflows/release.yaml/badge.svg" alt="Workflow Status" /></a>
+<a href="https://github.com/jlandowner/helm-chartsnap/actions/workflows/ci.yaml"><img src="https://github.com/jlandowner/helm-chartsnap/actions/workflows/ci.yaml/badge.svg" alt="CI" /></a>
+<a href="https://github.com/marketplace/actions/helm-chartsnap-action"><img src="https://img.shields.io/badge/Marketplace-Helm%20chartsnap%20action-blue.svg?colorA=24292e&amp;colorB=0366d6&amp;style=flat&amp;longCache=true&amp;logo=github" alt="GitHub Marketplace" /></a></p>
+<p>Snapshot testing tool for Helm charts.</p>
+<p>Bring powerful UI testing capabilities for Helm chart with minimal configuration just within the <code>values.yaml</code> file.</p>
+<p><img src="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/docs/screenshot.png" alt="screenshot" /></p>
+<h2>Overview</h2>
+<ul>
+<li><a href="#features-">Features 🔑</a></li>
+<li><a href="#why-snapshot-testing-">Why Snapshot Testing? 📸</a>
+<ul>
+<li><a href="#motivation">Motivation</a></li>
+</ul>
+</li>
+<li><a href="#installation-">Installation 🚀</a></li>
+<li><a href="#usage">Usage</a>
+<ul>
+<li><a href="#handling-dynamic-values-">Handling dynamic values 💪</a></li>
+</ul>
+</li>
+<li><a href="#showcase--users-">Showcase &amp; Users ✨</a></li>
+</ul>
+<h2>Features 🔑</h2>
+<ul>
+<li><p><strong>Easy &amp; Intuitive Snapshot testing for Helm developers</strong></p>
+<ul>
+<li><strong>No tool-specific TestSuite file format</strong>: Unlike some tools that require the creation of separate TestSuites with custom file formats, this tool doesn't require any additional file formats. Instead, you can prepare variations of the standard <code>values.yaml</code> file for each test case. This eliminates the need to learn new formats and simplifies testing.</li>
+</ul>
+</li>
+<li><p><strong>Optimized for Helm chart</strong></p>
+<ul>
+<li><strong>Handling dynamic output generated by helm functions</strong>: You can specify additional properties within the values.yaml file for each test case to provide flexibility in adjusting test behavior. For example, you can control the output dynamically generated by helm functions like <a href="https://helm.sh/docs/chart_template_guide/function_list/">randAlphaNum</a>.</li>
+</ul>
+</li>
+<li><p><strong>Continuous Snapshot testing</strong></p>
+<ul>
+<li><strong><a href="https://github.com/jlandowner/helm-chartsnap-action">GitHub Action</a> is ready</strong>: GitHub action which enables to do continuous snapshot testing for local or remote Helm charts in your CI is ready 🚀 -&gt; <a href="https://github.com/jlandowner/helm-chartsnap-action"><code>helm-chart-action</code></a></li>
+</ul>
+</li>
+</ul>
+<h2>Why Snapshot Testing? 📸</h2>
+<p>I believe that snapshot testing, a popular testing approach in Web or UI testing with tools like Jest, is the best way to test Helm charts. Snapshot testing provides several benefits:</p>
+<ul>
+<li><p><strong>Visual comparisons:</strong> Snapshot tests create a baseline output and then compare it to subsequent test results. This allows for easy visual inspection of changes and regressions in Helm chart rendering.</p>
+</li>
+<li><p><strong>Enhanced maintainability:</strong> Snapshot testing simplifies the test setup process, making it more accessible and maintainable, especially when dealing with complex Helm charts. The input for the Helm chart is a combination of values. We need only maintain the assumed input combinations(=values.yaml), and their snapshots.</p>
+</li>
+<li><p><strong>Continuous testing:</strong> By continuously taking snapshots of the Helm chart in your CI process, you can quickly notice the changes in your whole chart and avoid regressions.</p>
+</li>
+</ul>
+<p>These advantages are not limited to the Helm chart you created, but also the third-party charts you have installed on your Kubernetes if you are a Kubernetes administrator. When upgrading a cluster, you can notice any changes in the output manifests produced by your <em>values</em>, no matter how minor.</p>
+<h3>Motivation</h3>
+<p>There are existing Helm testing tools that support snapshot tests.</p>
+<ul>
+<li><a href="https://github.com/helm-unittest/helm-unittest">helm-unittest</a>, a popular unit test tool, it has an option to do <a href="https://github.com/helm-unittest/helm-unittest#snapshot-testing">snapshot testing</a>.</li>
+<li><a href="https://terratest.gruntwork.io/">terratest</a>, Automated tests for your infrastructure code. It can write tests as Go codes and it has the feature to test the output of Helm. <a href="https://blog.gruntwork.io/automated-testing-for-kubernetes-and-helm-charts-using-terratest-a4ddc4e67344">blog post</a></li>
+</ul>
+<blockquote>
+<p>The official Helm test tool <a href="https://github.com/helm/chart-testing"><code>ct</code></a> is not for unit tests or snapshot tests but for lint and integration test</p>
+</blockquote>
+<p>While they are valuable tools for testing Helm charts, it has certain limitations for snapshot testing.</p>
+<ul>
+<li><p>You need to learn and prepare the Test Suite files of the tools even if only for snapshot testing.</p>
+</li>
+<li><p>Not snapshot the whole chart by default, but designed to test on a per-file basis within the Helm chart.</p>
+</li>
+<li><p>Helm function's dynamic outputs are not considered.</p>
+</li>
+</ul>
+<p>helm-unittest is designed that conducts tests on a per-file basis within the Helm chart. This means that it evaluates each file independently, and when Helm chart values or conditions lead to an entire file being conditionally included or excluded, it can result in tests being unable to cover important scenarios.</p>
+<p>Here is an example of a test spec file for snapshot testing in helm-unittest.</p>
+<blockquote>
+<p>https://github.com/helm-unittest/helm-unittest#snapshot-testing</p>
+<pre><code class="language-yaml">templates:
+  - templates/deployment.yaml
+tests:
+  - it: pod spec should match snapshot
+    asserts:
+      - matchSnapshot:
+          path: spec.template.spec
+  # or you can snapshot the whole manifest
+  - it: manifest should match snapshot
+    asserts:
+      - matchSnapshot: {}
+</code></pre>
+</blockquote>
+<p>For instance, consider a scenario where the Helm chart may create a <code>Certificate</code> resource of <code>cert-manager</code> when both TLS is enabled and cert-manager is enabled, but create a self-signed TLS <code>Secret</code> resource using helm function <a href="https://helm.sh/docs/chart_template_guide/function_list/#genselfsignedcert"><code>genSelfSignedCert</code></a> when cert-manager is not enabled. Furthermore, whether TLS is enabled or not affects Ingress's TLS properties, Deployment's app-specific TLS options, etc.</p>
+<p>In such cases, helm-unittest may not be able to adequately test the entire chart's behavior, as the output of these conditional files may be empty, leading to incomplete tests.</p>
+<p>However, all you have to do with <code>helm-chartsnap</code> is just to prepare some <code>values.yaml</code> files of the patterns you expect 😊</p>
+<h2>Installation 🚀</h2>
+<p>You can install as Helm plugin.</p>
+<pre><code class="language-sh">helm plugin install https://github.com/jlandowner/helm-chartsnap
+</code></pre>
+<p>Other options:</p>
+<ul>
+<li><p>Go install</p>
+<pre><code class="language-sh">go install github.com/jlandowner/helm-chartsnap@latest
+</code></pre>
+</li>
+<li><p><a href="https://github.com/jlandowner/helm-chartsnap/releases">Download release binary</a></p>
+</li>
+</ul>
+<h2>Usage</h2>
+<p>Just pass your chart for a quick start.</p>
+<pre><code>helm chartsnap -c YOUR_CHART
+</code></pre>
+<p><code>__snapshot__</code> directory is created in the chart directory and <code>default.snap</code> is created.</p>
+<p>Also, you can create test cases as a variation of the Values files of your chart.</p>
+<p>Here is the full usage of the command.</p>
+<pre><code class="language-sh">Usage:
+  chartsnap -c CHART [flags]
+
+Examples:
+
+  # Snapshot with default values:
+  chartsnap -c YOUR_CHART
+  
+  # Update snapshot files:
+  chartsnap -c YOUR_CHART -u
+
+  # Snapshot with test case values:
+  chartsnap -c YOUR_CHART -f YOUR_TEST_VALUES_FILE
+  
+  # Snapshot all test cases:
+  chartsnap -c YOUR_CHART -f YOUR_TEST_VALUES_FILES_DIRECTOY
+  
+  # Set additional args or flags for the 'helm template' command:
+  chartsnap -c YOUR_CHART -f YOUR_TEST_VALUES_FILE -- --skip-tests
+
+  # Snapshot remote chart in Helm repository:
+  chartsnap -c CHART_NAME -f YOUR_VALUES_FILE -- --repo HELM_REPO_URL
+
+  # Snapshot ingress-nginx (https://kubernetes.github.io/ingress-nginx/) helm chart for a specific version with your value file:
+  chartsnap -c ingress-nginx -f YOUR_VALUES_FILE -- --repo https://kubernetes.github.io/ingress-nginx --namespace kube-system --version 4.8.3
+
+  # Snapshot cilium (https://cilium.io) helm chart with default value and set flags:
+  chartsnap -c cilium -- --repo https://helm.cilium.io --namespace kube-system --set hubble.relay.enabled=true --set hubble.ui.enabled=true
+
+  # Snapshot charts in OCI registry
+  chartsnap -c oci://ghcr.io/nginxinc/charts/nginx-gateway-fabric -n nginx-gateway
+
+  # Output with no colors:
+  NO_COLOR=1 chartsnap -c YOUR_CHART
+
+Flags:
+  -c, --chart string              path to the chart directory. this flag is passed to 'helm template RELEASE_NAME CHART --values VALUES' as 'CHART'
+      --config-file string        config file name or path, which defines snapshot behavior e.g. dynamic fields (default &quot;.chartsnap.yaml&quot;)
+  -N, --ctx-lines int             number of lines to show in diff output. 0 for full output (default 3)
+      --debug                     debug mode
+      --fail-helm-error           fail if 'helm template' command failed
+      --failfast                  fail once any test case failed
+  -h, --help                      help for chartsnap
+  -n, --namespace string          namespace. this flag is passed to 'helm template RELEASE_NAME CHART --values VALUES --namespace NAMESPACE' as 'NAMESPACE' (default &quot;default&quot;)
+  -o, --output-dir string         directory which is __snapshot__ directory is created. (default: values file directory if --values is set; chart directory if chart is local; else current directory)
+      --parallelism int           test concurrency if taking multiple snapshots for a test value file directory. default is unlimited (default -1)
+      --release-name string       release name. this flag is passed to 'helm template RELEASE_NAME CHART --values VALUES' as 'RELEASE_NAME' (default &quot;chartsnap&quot;)
+      --snapshot-version string   use a specific snapshot format version. v1, v2, v3 are supported. (default: latest)
+  -u, --update-snapshot           update snapshot mode
+  -f, --values string             path to a test values file or directory. if the directory is set, all test files are tested. if empty, default values are used. this flag is passed to 'helm template RELEASE_NAME CHART --values VALUES' as 'VALUES'
+  -v, --version                   version for chartsnap
+
+</code></pre>
+<h3>Handling dynamic values 💪</h3>
+<p>Helm has a feature called &quot;Helm functions&quot; that generates random values or self-signed certificates like <a href="https://helm.sh/docs/chart_template_guide/function_list/#randalphanum-randalpha-randnumeric-and-randascii"><code>randAlphaNum</code></a> and <a href="https://helm.sh/docs/chart_template_guide/function_list/#cryptographic-and-security-functions"><code>genCA</code>, <code>genPrivateKey</code>, <code>genSelfSignedCert</code></a></p>
+<p>When using these functions, the output will vary each time Helm is executed.
+For this case, chartsnap has a feature that prevents mismatched snapshots by substituting them with a fixed value, <code>###DYNAMIC_FIELD###</code>.</p>
+<p>You can specify the paths of dynamic values in the generated YAML using <a href="https://datatracker.ietf.org/doc/html/rfc6901">JSONPath</a>.</p>
+<pre><code class="language-yaml:.chartsnap.yaml">dynamicFields:
+  - apiVersion: v1
+    kind: Secret
+    name: cosmo-auth-env
+    jsonPath:
+      - /data/COOKIE_HASHKEY
+      - /data/COOKIE_BLOCKKEY
+      - /data/COOKIE_HASHKEY
+      - /data/COOKIE_SESSION_NAME
+    base64: true
+</code></pre>
+<blockquote>
+<p>NOTE:
+In JSONPath, escaping the / character is documented in <a href="https://datatracker.ietf.org/doc/html/rfc6901#section-3">RFC6901, section 3</a></p>
+<pre><code>   Because the characters '~' (%x7E) and '/' (%x2F) have special
+   meanings in JSON Pointer, '~' needs to be encoded as '~0' and '/'
+   needs to be encoded as '~1' when these characters appear in a
+   reference token.
+</code></pre>
+<p>So if you handle a manifest like the following, you need to specify the json path as <code>/metadata/annotaions/checksum~1values</code>.</p>
+<pre><code class="language-yaml">metadata:
+  annotations:
+    checksum/values: RANDOM_VALUES
+</code></pre>
+</blockquote>
+<p>If you have a test values file directory, place it as a <code>.chartsnap.yaml</code> file within that directory. It is a common behavior in all snapshot tests in the directory.</p>
+<p>For more examples, see <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/app1">example/app1</a>.</p>
+<p>Alternatively, you can directly add the config in the test values file as a <code>testSpec</code> property.
+In this case, you don't need to prepare <code>.chartsnap.yaml</code>. It is for taking snapshots of remote or third-party charts with your single values file.</p>
+<p>Your values file can be like this:</p>
+<pre><code class="language-yaml"># Add this property to your values.
+testSpec:
+  dynamicFields:
+    - apiVersion: v1
+      kind: Secret
+      name: cilium-ca
+      jsonPath:
+        - /data/ca.crt
+        - /data/ca.key
+      base64: true
+    - apiVersion: v1
+      kind: Secret
+      name: hubble-server-certs
+      jsonPath:
+        - /data/ca.crt
+        - /data/tls.crt
+        - /data/tls.key
+      base64: true
+    - apiVersion: v1
+      kind: Secret
+      name: hubble-relay-client-certs
+      jsonPath:
+        - /data/ca.crt
+        - /data/tls.crt
+        - /data/tls.key
+      base64: true
+
+# Others can be any of your chart values.
+# ...
+</code></pre>
+<p>For more examples, see <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/remote">example/remote</a>.</p>
+<h2>Showcase &amp; Users ✨</h2>
+<p>| Users / Projects | Description | URL |
+|:---|:---|:---|
+| Example | Example chart generated by <code>helm create</code> command | <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/app1"><code>example/app1</code></a> |
+| Example | Example of snapshotting charts in remote Helm repositories | <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/remote"><code>example/remote</code></a> |
+| <a href="https://github.com/jlandowner/helm-chartsnap-action">helm-chartsnap-action</a> | GitHub action to use helm chartsnap in CI | https://github.com/jlandowner/helm-chartsnap-action |
+| <a href="https://github.com/cosmo-workspace/cosmo">cosmo-workspace</a> | Open source WebIDE &amp; DevEnvironment Platform on Kubernetes | https://github.com/cosmo-workspace/cosmo/tree/main/charts/cosmo/test |
+| <a href="https://github.com/Kong/kong">Kong</a> | 🦍 The Cloud-Native API Gateway and AI Gateway. | https://github.com/Kong/charts |</p>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

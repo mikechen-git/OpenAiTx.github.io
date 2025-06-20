@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>expr_codegen - wukan1986/expr_codegen</title>
+    <meta name="title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta name="description" content="wukan1986/expr_codegen - GitHub repository ja documentation and informationexpr_codegen 式変換エンジン プロジェクト背景 私が新たにリリースしたpolars_taというライブラリの後で、改めてexpr_codegenとは何かを考えました。 expr_codegenの本質はDSL（ドメイン特化言語: Domain Specific Language）ですが、新しい構文は定義していま...">
+    <meta name="keywords" content="wukan1986, expr_codegen, GitHub, repository, ja documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/wukan1986/expr_codegen/README-ja.html">
+    <meta property="og:title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta property="og:description" content="wukan1986/expr_codegen - GitHub repository ja documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/wukan1986/expr_codegen" id="githubRepoLink" target="_blank">wukan1986/expr_codegen</a>
+<h1 style="display: none;">expr_codegen 式変換エンジン プロジェクト背景 私が新たにリリースしたpolars_taというライブラリの後で、改めてexpr_codegenとは何かを考えました。 expr_codegenの本質はDSL（ドメイン特化言語: Domain Specific Language）ですが、新しい構文は定義していま...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>expr_codegen 式変換エンジン</h1>
+<h2>プロジェクト背景</h2>
+<p>私が新たにリリースした<a href="https://github.com/wukan1986/polars_ta">polars_ta</a>というライブラリの後で、改めて<code>expr_codegen</code>とは何かを考えました。</p>
+<blockquote>
+<p><code>expr_codegen</code>の本質は<code>DSL</code>（ドメイン特化言語: Domain Specific Language）ですが、新しい構文は定義していません。</p>
+</blockquote>
+<p>このツールは2つの問題を解決します:</p>
+<ol>
+<li><code>polars_ta</code>で特徴量計算式を書くのは非常に簡単ですが、<code>時系列とクロスセクションの混用</code>式に出会うとき、<code>expr_codegen</code>を使えば自動グルーピングにより作業量を大幅に削減できます。</li>
+<li><code>expr_codegen</code>は<code>Common Subexpression Elimination</code>（共通部分式削除）を利用し、重複計算を大幅に減らして効率を向上させます。</li>
+</ol>
+<p>量的トレーディング分野では、初級研究者が時系列指標しか使わない場合は<code>polars_ta</code>だけで十分です。中上級研究者がクロスセクション指標を使う場合は<code>expr_codegen</code>の利用を推奨します。</p>
+<p>現在このプロジェクトは<code>polars_ta</code>と密接に依存していますが、他のライブラリ（例: <code>pandas</code> / <code>cudf.pandas</code>）への変換もサポート可能です。ただし現時点では簡易なライブラリが不足しています。</p>
+<h2>オンラインデモ</h2>
+<p>https://exprcodegen.streamlit.app</p>
+<p>初級ユーザーはこのリンクから直接式変換を体験できます。別途ソフトウェアのインストールは不要です（このツールは海外で無料デプロイしているため、開くのが少し遅い場合があります）。</p>
+<p>より完全なサンプルは<a href="https://github.com/wukan1986/alpha_examples">alpha_examples</a>をご覧ください。</p>
+<h2>使用例</h2>
+<pre><code class="language-python">import sys
+from io import StringIO
+
+import polars as pl
+
+from expr_codegen import codegen_exec
+
+
+def _code_block_1():
+    # ファクター編集エリア。IDEの補完機能を利用してここでファクターを編集できます
+    LOG_MC_ZS = cs_mad_zscore(log1p(market_cap))
+
+
+def _code_block_2():
+    # テンプレートではすでにfrom polars_ta.prefix以下の多くの演算子がインポートされていますが、
+    # talibはテンプレートにデフォルトでインポートされていません。このような書き方で生成されるコードにインポートできます
+    from polars_ta.prefix.talib import ts_LINEARREG_SLOPE  # noqa
+
+    # また、defやclassのそのままのインポートもサポートしています
+    def cs_rank_if(condition, factor):
+        return cs_rank(if_else(condition, factor, None))
+
+    class Clazz:
+        pass
+
+    # 1. アンダースコアで始まる変数は中間変数で、自動的にリネームされ最終出力時に削除されます
+    # 2. アンダースコアで始まる変数は再利用できます。複数の複雑なファクターを複数行で書くときに中間変数の重複が衝突しなくなります
+    _avg = ts_mean(corr, 20)
+    _std = ts_std_dev(corr, 20)
+    _beta = ts_LINEARREG_SLOPE(corr, 20)
+
+    # 3. アンダースコアで始まる変数は循環代入が可能です。デバッグ時にコメントアウトで素早く切り替えられます
+    _avg = cs_mad_zscore_resid(_avg, LOG_MC_ZS, ONE)
+    _std = cs_mad_zscore_resid(_std, LOG_MC_ZS, ONE)
+    # _beta = cs_mad_zscore_resid(_beta, LOG_MC_ZS, ONE)
+
+    _corr = cs_zscore(_avg) + cs_zscore(_std)
+    CPV = cs_zscore(_corr) + cs_zscore(_beta)
+
+
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=sys.stdout)  # コードを出力
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=&quot;output.py&quot;)  # ファイル保存
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by')  # 実行のみ、コード保存なし
+
+code = StringIO()
+codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=code)  # 文字列保存
+code.seek(0)
+code.read()  # コードを読む
+
+# TODO 適切なデータに置き換える
+df = pl.DataFrame()
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect()  # Lazy CPU
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect(engine=&quot;gpu&quot;)  # Lazy GPU
+
+</code></pre>
+<h2>ディレクトリ構成</h2>
+<pre><code class="language-commandline">│  requirements.txt # `pip install -r requirements.txt`で依存関係をインストール
+├─data
+│      prepare_date.py # データ準備
+├─examples
+│      demo_express.py # クイックサンプル。式をコードに変換する方法をデモ
+│      demo_exec_pl.py # 変換後のコードを呼び出して描画するデモ
+│      demo_transformer.py # サードパーティ式を内部式に変換するデモ
+│      output.py # 結果出力。他プロジェクトに直接インポートできる
+│      show_tree.py # 式ツリー図を描画。最適化結果の分析比較用
+│      sympy_define.py # シンボル定義。多用されるのでここにまとめて抽出
+├─expr_codegen
+│   │  expr.py # 式処理の基本関数
+│   │  tool.py # コアツールコード
+│   ├─polars
+│   │  │  code.py # polars構文用のコード生成
+│   │  │  template.py.j2 # `Jinja2`テンプレート。pyファイル生成用。通常修正不要
+│   │  │  printer.py # `Sympy`の`StrPrinter`継承。新関数追加時はこのファイルを修正する場合あり
+</code></pre>
+<h2>動作原理</h2>
+<p>本プロジェクトは<code>sympy</code>に依存しています。主に使われる関数は以下の通り：</p>
+<ol>
+<li><code>simplify</code>: 複雑な式を簡略化する</li>
+<li><code>cse</code>: <code>Common Subexpression Elimination</code>（共通部分式の削除）</li>
+<li><code>StrPrinter</code>: 関数ごとに異なる文字列を出力。このコードをカスタマイズすることで他言語や他ライブラリにも対応可能</li>
+</ol>
+<p><code>groupby</code>や<code>sort</code>は時間がかかるため、事前に式を分類し、異なるカテゴリには異なる<code>groupby</code>を使うことで計算時間を短縮できます。</p>
+<ol>
+<li><code>ts_xxx(ts_xxx)</code>: 同じ<code>groupby</code>で計算可能</li>
+<li><code>cs_xxx(cs_xxx)</code>: 同じ<code>groupby</code>で計算可能</li>
+<li><code>ts_xxx(cs_xxx)</code>: 異なる<code>groupby</code>で計算が必要</li>
+<li><code>cs_xxx(ts_xxx(cs_xxx))</code>: 3つの異なる<code>groupby</code>で計算が必要</li>
+<li><code>gp_xxx(aa, )+gp_xxx(bb, )</code>: <code>aa</code>と<code>bb</code>が異なるため、2つの異なる<code>groupby</code>で計算が必要</li>
+</ol>
+<p>したがって、</p>
+<ol>
+<li>現在の式のカテゴリ（<code>get_current</code>）とサブ式のカテゴリ（<code>get_children</code>）を取得する関数が必要</li>
+<li>現在のカテゴリと子カテゴリが異なれば、短い式（<code>extract</code>）として抽出可能。同階層の同カテゴリ式には順序があり、同じ<code>groupby</code>にはできない</li>
+<li><code>cse</code>の特性を利用し、長い式を前段で抽出した短い式で置換。その後、有向非巡回グラフ（<code>DAG</code>）に入力</li>
+<li>有向非巡回グラフによる層分けを実施。同じ階層の<code>ts</code>,<code>cs</code>,<code>gp</code>間の順序は区別しない</li>
+<li>同じ階層で<code>ts</code>,<code>cs</code>,<code>gp</code>ごとにグループ化し、コード生成（<code>codegen</code>）を実行</li>
+</ol>
+<p>暗黙の情報</p>
+<ol>
+<li><code>ts</code>: sort(by=[ASSET, DATE]).groupby(by=[ASSET], maintain_order=True)</li>
+<li><code>cs</code>: sort(by=[DATE]).groupby(by=[DATE], maintain_order=False)</li>
+<li><code>gp</code>: sort(by=[DATE, GROUP]).groupby(by=[DATE, GROUP], maintain_order=False)</li>
+</ol>
+<p>つまり</p>
+<ol>
+<li>時系列関数は隠しフィールド<code>ASSET, DATE</code>を持ち、横断関数は<code>DATE</code>を隠し持つ</li>
+<li>グループ関数は<code>GROUP</code>を渡しつつ、<code>DATE</code>を隠し持つ</li>
+</ol>
+<p>2種類の分類方法</p>
+<ol>
+<li>演算子プレフィックスによる分類（<code>get_current_by_prefix</code>）。演算子が必ず<code>ts_</code>、<code>cs_</code>、<code>gp_</code>で始まることを要求</li>
+<li>演算子の完全名による分類（<code>get_current_by_name</code>）。演算子名の制限をなくす。例：<code>cs_rank</code>を<code>rank</code>とも呼べる</li>
+</ol>
+<h2>Null処理</h2>
+<p><code>null</code>はどのように発生するか？</p>
+<ol>
+<li>取引停止による。計算前にフィルタリングされるので以降に影響しない</li>
+<li>銘柄ごとに取引時間帯が異なる場合</li>
+<li>計算由来。<code>null</code>が数列の両端なら時系列演算子の結果に影響しないが、中間に現れると影響する。例: <code>if_else(close&lt;2, None, close)</code></li>
+</ol>
+<p>https://github.com/pola-rs/polars/issues/12925#issuecomment-2552764629</p>
+<p>素晴らしいアイデアで、実装方法は2通りまとめられます：</p>
+<ol>
+<li><code>null</code>を一つのグループ、<code>not_null</code>を別グループに分けて2回計算</li>
+<li>1グループだが複合ソートで、<code>null</code>を前、<code>not_null</code>を後ろに並べて1回だけ計算（少し高速）</li>
+</ol>
+<pre><code class="language-python">X1 = (ts_returns(CLOSE, 3)).over(CLOSE.is_not_null(), _ASSET_, order_by=_DATE_),
+X2 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=[CLOSE.is_not_null(), _DATE_]),
+X3 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=_DATE_),
+</code></pre>
+<p>2つ目の方式の<code>null</code>領域が冒頭に出る場合、演算子によって結果への影響が決まります。特に複数列入力時には<code>null</code>領域にもデータが入ることがあります。</p>
+<ol>
+<li><code>over_null='partition_by'</code>：2つの領域に分割</li>
+<li><code>over_null='order_by'</code>：1つの領域で、<code>null</code>が前に並ぶ</li>
+<li><code>over_null=None</code>：何も処理せず直接呼び出す。より高速。途中で<code>null</code>が発生しないと確信できる場合はこのパラメータを推奨</li>
+</ol>
+<p><code>codegen_exec(over_null='partition_by')</code>でグローバルに<code>partition_by</code>を使用。ただし<code>ts_count_nulls</code>のような<code>null</code>
+関数では<code>over_null=None</code>が必要なので、単一行式のパラメータをコメントで指定する機能を追加しています。</p>
+<ol>
+<li><code># --over_null partition_by</code>：1行だけ<code>over_null='partition_by'</code></li>
+<li><code># --over_null=order_by</code>：1行だけ<code>over_null='order_by'</code></li>
+<li><code># --over_null</code>：1行だけ<code>over_null=None</code></li>
+<li><code># </code>：<code>codegen_exec</code>で渡した<code>over_null</code>値を利用</li>
+</ol>
+<p>注意事項：</p>
+<ol>
+<li><p><code># --over_null</code>のコメントは式の行末のみ有効で、単独行では無視されます</p>
+</li>
+<li><p><code># --over_null # --over_null=order_by</code>のように複数<code>#</code>がある場合は最初の有効なもののみ採用</p>
+</li>
+<li><p>最外層の<code>ts</code>関数のみに有効。<code>ts</code>が最外層でない場合は手動で分離が必要。例：</p>
+<pre><code class="language-python">X1 = cs_rank(ts_mean(CLOSE, 3)) # --over_null=order_by # cs_rankに適用されるが意味なし
+X2 = ts_rank(ts_mean(CLOSE, 3), 5) # --over_null=order_by # ts_rank(ts_mean)に適用されると思いきや、共通ts_meanが出現したため実際はts_rank(_x_0)に適用される
+</code></pre>
+<p>このように書き換える必要あり</p>
+<pre><code class="language-python">_x_0 = ts_mean(CLOSE, 3)  # --over_null=order_by 
+X1 = cs_rank(_x_0)
+X2 = ts_rank(_x_0, 5)
+</code></pre>
+</li>
+<li><p>ミスしやすいため、<code>output_file</code>を生成し、生成されたコードが正しいか必ず確認してください。</p>
+</li>
+</ol>
+<h2><code>expr_codegen</code>の制限事項</h2>
+<ol>
+<li><code>DAG</code>は列の追加のみサポートし、削除は不可。同名列は上書きされます</li>
+<li>行削除は非対応。ただし削除フラグ列の追加は可能。行削除は全列に影響するため<code>DAG</code>に適さない</li>
+<li>リサンプリング非対応。理由は行削除と同様。外部で処理してください</li>
+<li>行削除やリサンプリングを分割線とし、コードを複数の<code>DAG</code>に分割して連結することは可能ですが、複雑で理解しづらいため未実装</li>
+</ol>
+<h2>特殊構文</h2>
+<ol>
+<li><code>C?T:F</code>の三項演算子をサポート（文字列内のみ）。内部的には<code>C or True if( T )else F</code>に変換、さらに<code>T if C else F</code>、最終的には<code>if_else(C,T,F)</code>に変換。<code>if else</code>との混在も可能</li>
+<li><code>(A&lt;B)*-1</code>は内部的に<code>int_(A&lt;B)*-1</code>に変換</li>
+<li><code>A==B</code>が<code>sympy</code>で<code>False</code>に置換されるのを防ぐため、内部的に<code>Eq(A,B)</code>に変換</li>
+<li><code>A^B</code>の意味は<code>convert_xor</code>パラメータに依存し、<code>convert_xor=True</code>なら<code>Pow(A,B)</code>、そうでなければ<code>Xor(A,B)</code>に変換。デフォルトは<code>False</code>で、べき乗は<code>**</code>を使用</li>
+<li><code>A&amp;B&amp;C</code>はサポート。ただし<code>A==B==C</code>はサポートしない。Cがブール、A/Bが数値なら<code>(A==B)==C</code>に手動変換。A/B/Cが数値なら<code>(A==B)&amp;(B==C)</code>に手動変換</li>
+<li><code>A&lt;=B&lt;=C</code>はサポートせず、手動で<code>(A&lt;=B)&amp;(B&lt;=C)</code>に変換</li>
+<li><code>A[0]+B[1]+C[2]</code>をサポート。内部的に<code>A+ts_delay(B,1)+ts_delay(C,2)</code>に変換</li>
+<li><code>~A</code>は内部的に<code>Not(A)</code>に変換</li>
+<li><code>gp_</code>で始まる関数は対応する<code>cs_</code>関数を返します。例: <code>gp_func(A,B,C)</code>は<code>cs_func(B,C)</code>に置換。<code>A</code>は<code>groupby([date, A])</code>で使用</li>
+<li><code>A,B,C=MACD()</code>のタプルアンパックをサポート。内部的に</li>
+</ol>
+<pre><code class="language-python">_x_0 = MACD()
+A = unpack(_x_0, 0)
+B = unpack(_x_0, 1)
+C = unpack(_x_0, 2)
+</code></pre>
+<p>に変換
+11. 行末コメントによるパラメータ入力をサポート：<code># --over_null</code>、<code># --over_null=order_by</code>、<code># --over_null=partition_by</code>
+12. コードブロック内で<code>import</code>、<code>def</code>、<code>class</code>の3つの構文は生成されるコードに自動でそのまま挿入される</p>
+<h2>アンダースコアで始まる変数</h2>
+<ol>
+<li>出力データでは、アンダースコアで始まる全列は最後に自動削除されます。必要な変数名にはアンダースコアを使わないでください</li>
+<li>重複計算を減らすために自動的に中間変数（<code>_x_0</code>、<code>_x_1</code>など）が追加され、これも自動で削除されます</li>
+<li>1行式が長い場合や重複計算がある場合は、中間変数を利用して1行式を複数行に分けられます。中間変数がアンダースコアで始まる場合、末尾に数字サフィックスを自動追加し、異なる変数にします。例：
+<ol>
+<li>同じ変数名を複数回使用（実質的には異なる変数）</li>
+<li>循環代入。ただし<code>DAG</code>はループ不可。<code>=</code>の左右で同名変数でも実質的には異なる変数</li>
+</ol>
+</li>
+</ol>
+<h2>変換結果例</h2>
+<p>変換後コードの一部。詳細コードは<a href="examples/output_polars.py">Polars版</a>を参照してください。</p>
+<pre><code class="language-python">def func_0_ts__asset(df: pl.DataFrame) -&gt; pl.DataFrame:
+    df = df.sort(by=[_DATE_])
+    # ========================================
+    df = df.with_columns(
+        _x_0=1 / ts_delay(OPEN, -1),
+        LABEL_CC_1=(-CLOSE + ts_delay(CLOSE, -1)) / CLOSE,
+    )
+    # ========================================
+    df = df.with_columns(
+        LABEL_OO_1=_x_0 * ts_delay(OPEN, -2) - 1,
+        LABEL_OO_2=_x_0 * ts_delay(OPEN, -3) - 1,
+    )
+    return df
+</code></pre>
+<p>変換後コードの一部。詳細コードは<a href="examples/output_pandas.py">Pandas版</a>を参照してください。</p>
+<pre><code class="language-python">def func_2_cs__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_4 = cs_rank(x_7)
+    df[&quot;expr_4&quot;] = (df[&quot;x_7&quot;]).rank(pct=True)
+    return df
+
+
+def func_3_ts__asset__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_5 = -ts_corr(OPEN, CLOSE, 10)
+    df[&quot;expr_5&quot;] = -(df[&quot;OPEN&quot;]).rolling(10).corr(df[&quot;CLOSE&quot;])
+    # expr_6 = ts_delta(OPEN, 10)
+    df[&quot;expr_6&quot;] = df[&quot;OPEN&quot;].diff(10)
+    return df
+
+</code></pre>
+<h2>ローカルデプロイによるインタラクティブWebページ</h2>
+<p><code>streamlit run streamlit_app.py</code>を実行するだけです。</p>
+<hr />
+<p><a href="https://github.com/OpenAiTx/OpenAiTx">Powered By OpenAiTx</a> - 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zip2 - zip-rs/zip2</title>
+    <meta name="title" content="zip2 - zip-rs/zip2">
+    <meta name="description" content="zip-rs/zip2 - GitHub repository zh-CN documentation and informationzip 文档 信息 这是一个用于 Rust 的 zip 库，支持读取和写入简单的 ZIP 文件。此前托管于 https://github.com/zip-rs/zip2。 支持的压缩格式： stored（即无压缩） deflate deflate64（仅支持解压缩） bzip2 zstd lzma（仅支持解压缩） xz...">
+    <meta name="keywords" content="zip-rs, zip2, GitHub, repository, zh-CN documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/zip-rs/zip2/README-zh-CN.html">
+    <meta property="og:title" content="zip2 - zip-rs/zip2">
+    <meta property="og:description" content="zip-rs/zip2 - GitHub repository zh-CN documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/zip-rs/zip2" id="githubRepoLink" target="_blank">zip-rs/zip2</a>
+<h1 style="display: none;">zip 文档 信息 这是一个用于 Rust 的 zip 库，支持读取和写入简单的 ZIP 文件。此前托管于 https://github.com/zip-rs/zip2。 支持的压缩格式： stored（即无压缩） deflate deflate64（仅支持解压缩） bzip2 zstd lzma（仅支持解压缩） xz...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>zip</h1>
+<p><a href="https://github.com/Pr0methean/zip/actions?query=branch%3Amaster+workflow%3ACI"><img src="https://github.com/zip-rs/zip2/actions/workflows/ci.yaml/badge.svg" alt="Build Status" /></a>
+<a href="https://crates.io/crates/zip"><img src="https://img.shields.io/crates/v/zip.svg" alt="Crates.io version" /></a></p>
+<p><a href="https://docs.rs/zip/latest/zip/">文档</a></p>
+<h2>信息</h2>
+<p>这是一个用于 Rust 的 zip 库，支持读取和写入简单的 ZIP 文件。此前托管于 https://github.com/zip-rs/zip2。</p>
+<p>支持的压缩格式：</p>
+<ul>
+<li>stored（即无压缩）</li>
+<li>deflate</li>
+<li>deflate64（仅支持解压缩）</li>
+<li>bzip2</li>
+<li>zstd</li>
+<li>lzma（仅支持解压缩）</li>
+<li>xz（仅支持解压缩）</li>
+</ul>
+<p>当前不支持的 zip 扩展：</p>
+<ul>
+<li>多磁盘（Multi-disk）</li>
+</ul>
+<h2>特性</h2>
+<p>可用的特性有：</p>
+<ul>
+<li><code>aes-crypto</code>：启用对使用 AES 加密的文件进行解密。支持 AE-1 和 AE-2 方法。</li>
+<li><code>deflate</code>：启用对 deflate 压缩算法的压缩和解压缩（实现未指定，未来版本可能更改），这是 zip 文件的默认算法。支持压缩质量 1..=264。</li>
+<li><code>deflate-flate2</code>：与任何启用了后端的 <code>flate2</code> 特性标志结合使用，以支持 1..=9 级的 deflate 压缩。</li>
+<li><code>deflate-zopfli</code>：启用使用 <code>zopfli</code> 库对文件进行 deflate 压缩（用于压缩质量为 10..=264 时）。这是目前最有效的 <code>deflate</code> 实现，但也是最慢的之一。</li>
+<li><code>deflate64</code>：启用 deflate64 压缩算法。仅支持解压缩。</li>
+<li><code>lzma</code>：启用 LZMA 压缩算法。仅支持解压缩。</li>
+<li><code>bzip2</code>：启用 BZip2 压缩算法。</li>
+<li><code>time</code>：启用基于 <a href="https://github.com/rust-lang-deprecated/time">time</a> crate 的功能。</li>
+<li><code>chrono</code>：启用将最后修改的 <code>zip::DateTime</code> 与 <code>chrono::NaiveDateTime</code> 之间的转换。</li>
+<li><code>jiff-02</code>：启用将最后修改的 <code>zip::DateTime</code> 与 <code>jiff::civil::DateTime</code> 之间的转换。</li>
+<li><code>nt-time</code>：启用将存储在 NTFS 扩展字段中的时间戳作为 <code>nt_time::FileTime</code> 返回。</li>
+<li><code>zstd</code>：启用 Zstandard 压缩算法。</li>
+</ul>
+<p>默认启用的特性有：<code>aes-crypto</code>、<code>bzip2</code>、<code>deflate</code>、<code>deflate64</code>、<code>lzma</code>、<code>time</code> 和 <code>zstd</code>。</p>
+<h2>MSRV（最低支持 Rust 版本）</h2>
+<p>我们当前的最低支持 Rust 版本是 <strong>1.75</strong>。在添加特性时，我们遵循以下准则：</p>
+<ul>
+<li>我们始终支持已经稳定至少 6 个月的小版本 Rust 版本。</li>
+<li>任何 MSRV 的变更都会伴随一次<strong>小版本</strong>的升级。</li>
+</ul>
+<h2>示例</h2>
+<p>请参见 <a href="https://raw.githubusercontent.com/zip-rs/zip2/master/examples">示例目录</a> 以了解：</p>
+<ul>
+<li>如何写入一个文件到 zip。</li>
+<li>如何将一个目录中的文件写入 zip（使用 <a href="https://github.com/BurntSushi/walkdir">walkdir</a>）。</li>
+<li>如何解压 zip 文件。</li>
+<li>如何从 zip 中解压单个文件。</li>
+<li>如何从标准输入读取 zip。</li>
+<li>如何向已有归档追加一个目录。</li>
+</ul>
+<h2>模糊测试（Fuzzing）</h2>
+<p>模糊测试支持通过 <a href="https://rust-fuzz.github.io/book/afl.html">cargo afl</a> 实现。安装 cargo afl：</p>
+<pre><code class="language-bash">cargo install cargo-afl
+</code></pre>
+<p>开始对 zip 解压进行模糊测试：</p>
+<pre><code class="language-bash">cargo +nightly afl build --all-features --manifest-path fuzz_read/Cargo.toml
+cargo +nightly afl run fuzz_read/target/debug/fuzz_read
+</code></pre>
+<p>开始对 zip 创建进行模糊测试：</p>
+<pre><code class="language-bash">cargo +nightly afl build --all-features --manifest-path fuzz_write/Cargo.toml
+cargo +nightly afl run fuzz_write/target/debug/fuzz_write
+</code></pre>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

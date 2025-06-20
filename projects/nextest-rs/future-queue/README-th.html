@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>future-queue - nextest-rs/future-queue</title>
+    <meta name="title" content="future-queue - nextest-rs/future-queue">
+    <meta name="description" content="nextest-rs/future-queue - GitHub repository th documentation and informationfuture-queue future_queue มีวิธีการสำหรับรัน future หลายตัว: แบบขนาน (concurrently) ตามลำดับที่ถูกสร้างขึ้น ด้วยการจำกัดแบบ global และสามารถกำหนดกลุ่ม (group) ใ...">
+    <meta name="keywords" content="nextest-rs, future-queue, GitHub, repository, th documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/nextest-rs/future-queue/README-th.html">
+    <meta property="og:title" content="future-queue - nextest-rs/future-queue">
+    <meta property="og:description" content="nextest-rs/future-queue - GitHub repository th documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/nextest-rs/future-queue" id="githubRepoLink" target="_blank">nextest-rs/future-queue</a>
+<h1 style="display: none;">future-queue future_queue มีวิธีการสำหรับรัน future หลายตัว: แบบขนาน (concurrently) ตามลำดับที่ถูกสร้างขึ้น ด้วยการจำกัดแบบ global และสามารถกำหนดกลุ่ม (group) ใ...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>future-queue</h1>
+<p><a href="https://crates.io/crates/future-queue"><img src="https://img.shields.io/crates/v/future-queue" alt="future-queue on crates.io" /></a>
+<a href="https://docs.rs/future-queue/"><img src="https://img.shields.io/badge/docs-latest-brightgreen.svg" alt="Documentation (latest release)" /></a>
+<a href="https://nextest-rs.github.io/future-queue/rustdoc/future_queue"><img src="https://img.shields.io/badge/docs-main-purple" alt="Documentation (main)" /></a>
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/CHANGELOG.md"><img src="https://img.shields.io/badge/changelog-latest-blue" alt="Changelog" /></a>
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-APACHE"><img src="https://img.shields.io/badge/license-Apache-green.svg" alt="License" /></a>
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-MIT"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License" /></a></p>
+<p><code>future_queue</code> มีวิธีการสำหรับรัน future หลายตัว:</p>
+<ul>
+<li>แบบขนาน (concurrently)</li>
+<li>ตามลำดับที่ถูกสร้างขึ้น</li>
+<li>ด้วยการจำกัดแบบ global</li>
+<li>และสามารถกำหนดกลุ่ม (group) ให้กับแต่ละ future พร้อมกำหนดขีดจำกัดสำหรับแต่ละกลุ่มได้</li>
+</ul>
+<p>crate นี้เป็นส่วนหนึ่งของ <a href="https://github.com/nextest-rs">องค์กร nextest</a> บน GitHub และ
+ถูกออกแบบมาเพื่อตอบสนองความต้องการของ <a href="https://nexte.st">cargo-nextest</a></p>
+<h2>แรงจูงใจ</h2>
+<p>การเขียนโปรแกรมแบบ async ใน Rust มักใช้ตัวแปลงที่เรียกว่า
+<a href="https://docs.rs/futures/latest/futures/stream/trait.StreamExt.html#method.buffer_unordered"><code>buffer_unordered</code></a>:
+ตัวแปลงนี้รับ stream ของ futures[^1] และรัน futures เหล่านั้นโดยจำกัดจำนวนขนานสูงสุด</p>
+<ul>
+<li>futures จะเริ่มรันตามลำดับที่ stream คืนค่า</li>
+<li>เมื่อเริ่มรัน futures แล้ว futures เหล่านั้นจะถูก poll พร้อมกัน และค่าที่ได้จะถูกคืนค่าแบบไม่เรียงลำดับ (unordered)</li>
+</ul>
+<p>ตัวอย่างการใช้งาน <code>buffer_unordered</code> ที่พบบ่อย ได้แก่:</p>
+<ul>
+<li>ส่งคำขอเครือข่ายแบบขนาน แต่จำกัดจำนวนขนานเพื่อไม่ให้เซิร์ฟเวอร์ปลายทางรับภาระมากเกินไป</li>
+<li>รันทดสอบด้วยเครื่องมืออย่าง <a href="https://nexte.st">cargo-nextest</a></li>
+</ul>
+<p><code>buffer_unordered</code> ใช้งานได้ดีกับหลายกรณี อย่างไรก็ตาม ข้อจำกัดหนึ่งคือมันปฏิบัติต่อ futures ทุกตัวเสมือนว่าใช้ทรัพยากรเท่ากัน: ไม่สามารถระบุได้ว่า futures บางตัวใช้ทรัพยากรมากกว่าตัวอื่น หรือ futures บางกลุ่มต้องถูกแยกจากกันโดยสิ้นเชิง</p>
+<p>สำหรับ nextest โดยเฉพาะ การทดสอบบางอย่างอาจหนักกว่าแบบอื่น และควรรันพร้อมกันให้น้อยลง นอกจากนี้ การทดสอบบางอย่างอาจต้องถูกแยกจากการทดสอบอื่น หรืออาจต้องมีการจำกัดขนานเพิ่มเติม</p>
+<p>[^1]: ตัวแปลงนี้รับ stream ของ futures เพื่อความยืดหยุ่นสูงสุด ในทางปฏิบัติมักจะเป็น <em>iterator</em> ของ futures ซึ่งแปลงได้ด้วย
+<a href="https://docs.rs/futures/latest/futures/stream/fn.iter.html"><code>stream::iter</code></a></p>
+<h2>เกี่ยวกับ crate นี้</h2>
+<p>crate นี้มีตัวแปลง (adaptor) สองแบบสำหรับ stream</p>
+<h3>1. ตัวแปลง <code>future_queue</code></h3>
+<p>ตัวแปลง <a href="StreamExt::future_queue"><code>future_queue</code></a> สามารถรัน future หลายตัวพร้อมกัน
+โดยจำกัดจำนวนขนานสูงสุดเป็น <em>น้ำหนัก</em> (weight)</p>
+<p>แทนที่จะรับ stream ของ futures เพียงอย่างเดียว ตัวแปลงนี้รับ stream ของ
+<code>(usize, F)</code> ซึ่ง <code>usize</code> คือค่าน้ำหนักของแต่ละ future
+และ <code>F</code> คือ <code>FnOnce(FutureQueueContext) -&gt; impl Future</code> ตัวแปลงนี้จะ
+จัดคิวและ buffer futures เพื่อรันจนกว่าการรันตัวถัดไปจะทำให้น้ำหนักรวมเกินขีดจำกัด</p>
+<ul>
+<li>น้ำหนักสูงสุดจะไม่ถูกเกินขณะรัน futures</li>
+<li>หากน้ำหนักของ future ตัวใดเกินขีดจำกัด น้ำหนักจะถูกตั้งให้เท่ากับขีดจำกัด</li>
+</ul>
+<p>เมื่อ future ทั้งหมดที่สามารถรันได้ถูกจัดตารางแล้ว ตัวแปลงนี้จะรอให้ future ที่กำลังรันเสร็จบางส่วนก่อน จนน้ำหนักรวมของ futures ที่กำลังรันต่ำกว่าขีดจำกัด จากนั้นจึงจัดคิว future ใหม่</p>
+<p>น้ำหนักของ future สามารถเป็นศูนย์ได้ ในกรณีนั้นจะไม่นับถ่วงน้ำหนักรวม</p>
+<p>หากน้ำหนักทุกตัวเป็น 1 แล้ว <code>future_queue</code> จะทำงานเหมือนกับ <code>buffer_unordered</code></p>
+<h4>ตัวอย่าง</h4>
+<pre><code class="language-rust">use futures::{channel::oneshot, stream, StreamExt as _};
+use future_queue::{StreamExt as _};
+
+let (send_one, recv_one) = oneshot::channel();
+let (send_two, recv_two) = oneshot::channel();
+
+let stream_of_futures = stream::iter(
+    vec![(1, recv_one), (2, recv_two)],
+).map(|(weight, future)| {
+    (weight, move |_cx| future)
+});
+let mut queue = stream_of_futures.future_queue(10);
+
+send_two.send(&quot;hello&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;hello&quot;)));
+
+send_one.send(&quot;world&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;world&quot;)));
+
+assert_eq!(queue.next().await, None);
+</code></pre>
+<h3>2. ตัวแปลง <code>future_queue_grouped</code></h3>
+<p>ตัวแปลง <a href="StreamExt::future_queue_grouped"><code>future_queue_grouped</code></a> คล้ายกับ <code>future_queue</code>
+แต่สามารถระบุกลุ่ม (group) เพิ่มเติมให้กับแต่ละ future ได้ กลุ่มแต่ละกลุ่มจะมีขีดจำกัดน้ำหนักสูงสุด และ future จะถูกจัดคิวก็ต่อเมื่อไม่เกินทั้งขีดจำกัด global และขีดจำกัดกลุ่ม</p>
+<p>ตัวแปลงนี้จะพยายามจัดคิวอย่างเป็นธรรมภายใต้ข้อจำกัด: จะจัดคิวตามลำดับที่ stream คืนค่า โดยไม่จัดลำดับใหม่ตามน้ำหนัก เมื่อ future จากกลุ่มใดเสร็จ Future ที่ถูกคิวไว้ในกลุ่มนั้นจะได้คิวก่อน future อื่นใน stream</p>
+<p>เหมือนกับ <a href="StreamExt::future_queue"><code>future_queue</code></a>:</p>
+<ul>
+<li>ขีดจำกัด global และ group จะไม่มีวันถูกเกินขณะรัน futures</li>
+<li>ขณะคำนวณกับน้ำหนัก global หากน้ำหนักของ future ตัวใดเกินขีดจำกัด น้ำหนักจะถูกตั้งให้เท่ากับขีดจำกัด</li>
+<li><em>ถ้า future สังกัดกลุ่ม:</em> ขณะคำนวณกับน้ำหนักกลุ่ม หากน้ำหนักเกินขีดจำกัดกลุ่ม น้ำหนักจะถูกตั้งให้เท่ากับขีดจำกัดกลุ่ม</li>
+</ul>
+<h4>ตัวอย่าง</h4>
+<pre><code class="language-rust">use futures::{channel::oneshot, stream, StreamExt as _};
+use future_queue::{FutureQueueContext, StreamExt as _};
+
+let (send_one, recv_one) = oneshot::channel();
+let (send_two, recv_two) = oneshot::channel();
+
+let stream_of_futures = stream::iter(
+    vec![
+        (1, Some(&quot;group1&quot;), recv_one),
+        (2, None, recv_two),
+    ],
+).map(|(weight, group, future)| {
+    (weight, group, move |_cx| future)
+});
+let mut queue = stream_of_futures.future_queue_grouped(10, [(&quot;group1&quot;, 5)]);
+
+send_two.send(&quot;hello&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;hello&quot;)));
+
+send_one.send(&quot;world&quot;)?;
+assert_eq!(queue.next().await, Some(Ok(&quot;world&quot;)));
+
+assert_eq!(queue.next().await, None);
+</code></pre>
+<h2>Rust เวอร์ชันต่ำสุดที่รองรับ (MSRV)</h2>
+<p>Rust เวอร์ชันต่ำสุดที่รองรับคือ <strong>Rust 1.70</strong> ตลอดเวลา จะรองรับอย่างน้อยรุ่น stable ของ Rust ในช่วงหกเดือนล่าสุด</p>
+<p>ตราบใดที่ crate นี้ยังเป็น pre-release (0.x.x) อาจมีการอัปเดต MSRV ใน patch release ได้ เมื่อ crate ถึงรุ่น 1.x แล้ว การอัปเดต MSRV จะต้องมาพร้อม minor version ใหม่</p>
+<h2>หมายเหตุ</h2>
+<p>crate นี้เคยชื่อ <code>buffer-unordered-weighted</code> มาก่อน ต่อมาถูกเปลี่ยนชื่อเป็น <code>future-queue</code> เพื่อให้บรรยายการทำงานของ crate ได้ชัดเจนกว่าการบอกวิธีการ implement</p>
+<h2>การมีส่วนร่วม</h2>
+<p>ดูไฟล์ <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/CONTRIBUTING.md">CONTRIBUTING</a> สำหรับวิธีช่วยเหลือและร่วมพัฒนา</p>
+<h2>ใบอนุญาต</h2>
+<p>โปรเจกต์นี้มีให้ใช้งานภายใต้ <a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-APACHE">สัญญาอนุญาต Apache 2.0</a> หรือ
+<a href="https://raw.githubusercontent.com/nextest-rs/future-queue/main/LICENSE-MIT">สัญญาอนุญาต MIT</a></p>
+<p>โค้ดนี้มีต้นกำเนิดจาก <a href="https://github.com/rust-lang/futures-rs">futures-rs</a> และใช้งานภายใต้สัญญาอนุญาต Apache 2.0 และ MIT</p>
+<!--
+README.md ถูกสร้างจาก README.tpl โดยใช้ cargo readme หากต้องการสร้างใหม่ ให้รันจาก root ของ repository:
+
+./scripts/regenerate-readmes.sh
+-->
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

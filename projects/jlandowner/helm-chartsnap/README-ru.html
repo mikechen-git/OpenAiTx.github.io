@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>helm-chartsnap - jlandowner/helm-chartsnap</title>
+    <meta name="title" content="helm-chartsnap - jlandowner/helm-chartsnap">
+    <meta name="description" content="jlandowner/helm-chartsnap - GitHub repository ru documentation and informationhelm-chartsnap 📸 Инструмент для создания снимков (snapshot testing) Helm-чартов. Применяйте мощные возможности UI-тестирования для Helm-чартов с минимальной на...">
+    <meta name="keywords" content="jlandowner, helm-chartsnap, GitHub, repository, ru documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/jlandowner/helm-chartsnap/README-ru.html">
+    <meta property="og:title" content="helm-chartsnap - jlandowner/helm-chartsnap">
+    <meta property="og:description" content="jlandowner/helm-chartsnap - GitHub repository ru documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/jlandowner/helm-chartsnap" id="githubRepoLink" target="_blank">jlandowner/helm-chartsnap</a>
+<h1 style="display: none;">helm-chartsnap 📸 Инструмент для создания снимков (snapshot testing) Helm-чартов. Применяйте мощные возможности UI-тестирования для Helm-чартов с минимальной на...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>helm-chartsnap 📸</h1>
+<p><a href="https://pkg.go.dev/github.com/jlandowner/helm-chartsnap"><img src="https://pkg.go.dev/badge/github.com/jlandowner/helm-chartsnap.svg" alt="Go Reference" /></a>
+<a href="https://goreportcard.com/report/github.com/jlandowner/helm-chartsnap"><img src="https://goreportcard.com/badge/github.com/jlandowner/helm-chartsnap" alt="Go Report Card" /></a>
+<a href="https://codecov.io/gh/jlandowner/helm-chartsnap"><img src="https://codecov.io/gh/jlandowner/helm-chartsnap/graph/badge.svg?token=8ARG53CRL7" alt="codecov" /></a>
+<a href="https://github.com/jlandowner/helm-chartsnap/actions/workflows/release.yaml"><img src="https://github.com/jlandowner/helm-chartsnap/actions/workflows/release.yaml/badge.svg" alt="Workflow Status" /></a>
+<a href="https://github.com/jlandowner/helm-chartsnap/actions/workflows/ci.yaml"><img src="https://github.com/jlandowner/helm-chartsnap/actions/workflows/ci.yaml/badge.svg" alt="CI" /></a>
+<a href="https://github.com/marketplace/actions/helm-chartsnap-action"><img src="https://img.shields.io/badge/Marketplace-Helm%20chartsnap%20action-blue.svg?colorA=24292e&amp;colorB=0366d6&amp;style=flat&amp;longCache=true&amp;logo=github" alt="GitHub Marketplace" /></a></p>
+<p>Инструмент для создания снимков (snapshot testing) Helm-чартов.</p>
+<p>Применяйте мощные возможности UI-тестирования для Helm-чартов с минимальной настройкой — прямо в файле <code>values.yaml</code>.</p>
+<p><img src="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/docs/screenshot.png" alt="screenshot" /></p>
+<h2>Обзор</h2>
+<ul>
+<li><a href="#%D0%B2%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D0%B8-">Возможности 🔑</a></li>
+<li><a href="#%D0%B7%D0%B0%D1%87%D0%B5%D0%BC-%D0%BD%D1%83%D0%B6%D0%BD%D0%BE-snapshot-%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-">Зачем нужно Snapshot-тестирование? 📸</a>
+<ul>
+<li><a href="#%D0%BC%D0%BE%D1%82%D0%B8%D0%B2%D0%B0%D1%86%D0%B8%D1%8F">Мотивация</a></li>
+</ul>
+</li>
+<li><a href="#%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-">Установка 🚀</a></li>
+<li><a href="#%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5">Использование</a>
+<ul>
+<li><a href="#%D0%BE%D0%B1%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0-%D0%B4%D0%B8%D0%BD%D0%B0%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D1%85-%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B9-">Обработка динамических значений 💪</a></li>
+</ul>
+</li>
+<li><a href="#%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-%D0%B8-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B8-">Примеры и пользователи ✨</a></li>
+</ul>
+<h2>Возможности 🔑</h2>
+<ul>
+<li><p><strong>Простое и интуитивное Snapshot-тестирование для разработчиков Helm</strong></p>
+<ul>
+<li><strong>Нет необходимости в специфическом формате файлов TestSuite</strong>: В отличие от некоторых инструментов, которые требуют создания отдельных TestSuite с пользовательским форматом файлов, этот инструмент не требует дополнительных форматов. Вместо этого вы можете подготовить различные варианты стандартного файла <code>values.yaml</code> для каждого тестового случая. Это упрощает тестирование и избавляет от необходимости изучать новые форматы.</li>
+</ul>
+</li>
+<li><p><strong>Оптимизировано для Helm-чартов</strong></p>
+<ul>
+<li><strong>Обработка динамического вывода, генерируемого функциями Helm</strong>: Вы можете указывать дополнительные свойства в файле values.yaml для каждого теста, чтобы гибко настраивать поведение теста. Например, можно контролировать вывод, динамически генерируемый функциями Helm, такими как <a href="https://helm.sh/docs/chart_template_guide/function_list/">randAlphaNum</a>.</li>
+</ul>
+</li>
+<li><p><strong>Непрерывное Snapshot-тестирование</strong></p>
+<ul>
+<li><strong><a href="https://github.com/jlandowner/helm-chartsnap-action">GitHub Action</a> готов к использованию</strong>: GitHub Action, который позволяет выполнять непрерывное snapshot-тестирование локальных или удалённых Helm-чартов в вашем CI, готов 🚀 -&gt; <a href="https://github.com/jlandowner/helm-chartsnap-action"><code>helm-chart-action</code></a></li>
+</ul>
+</li>
+</ul>
+<h2>Зачем нужно Snapshot-тестирование? 📸</h2>
+<p>Я считаю, что snapshot-тестирование — популярный подход в Web или UI тестировании с такими инструментами, как Jest — это лучший способ тестирования Helm-чартов. Snapshot-тестирование даёт несколько преимуществ:</p>
+<ul>
+<li><p><strong>Визуальное сравнение:</strong> Snapshot-тесты создают базовый вывод, а затем сравнивают его с последующими результатами тестов. Это позволяет легко визуально отслеживать изменения и регрессии в рендеринге Helm-чарта.</p>
+</li>
+<li><p><strong>Улучшенная поддерживаемость:</strong> Snapshot-тестирование упрощает процесс настройки тестов, делая его более доступным и поддерживаемым, особенно при работе со сложными Helm-чартами. Входными данными для Helm-чарта служит комбинация значений. Нужно поддерживать только предполагаемые комбинации входных данных (=values.yaml) и соответствующие им снимки.</p>
+</li>
+<li><p><strong>Непрерывное тестирование:</strong> Постоянно снимая снимки Helm-чарта в процессе CI, вы быстро замечаете любые изменения во всём чарте и избегаете регрессий.</p>
+</li>
+</ul>
+<p>Эти преимущества полезны не только для чарта, который вы создали, но и для сторонних чартов, установленных в вашем Kubernetes (если вы администратор). При обновлении кластера вы сможете заметить любые изменения в выходных манифестах, созданных с вашими <em>values</em>, даже самые незначительные.</p>
+<h3>Мотивация</h3>
+<p>Существуют инструменты тестирования Helm, поддерживающие snapshot-тесты:</p>
+<ul>
+<li><a href="https://github.com/helm-unittest/helm-unittest">helm-unittest</a>, популярный инструмент модульного тестирования, поддерживает <a href="https://github.com/helm-unittest/helm-unittest#snapshot-testing">snapshot-тестирование</a>.</li>
+<li><a href="https://terratest.gruntwork.io/">terratest</a>, автоматизированные тесты для инфраструктурного кода. Позволяет писать тесты на Go и тестировать вывод Helm. <a href="https://blog.gruntwork.io/automated-testing-for-kubernetes-and-helm-charts-using-terratest-a4ddc4e67344">Блог-пост</a></li>
+</ul>
+<blockquote>
+<p>Официальный инструмент тестирования Helm <a href="https://github.com/helm/chart-testing"><code>ct</code></a> не предназначен для unit- или snapshot-тестов, а только для lint и интеграционных тестов.</p>
+</blockquote>
+<p>Хотя это ценные инструменты для тестирования Helm-чартов, у них есть ограничения для snapshot-тестирования:</p>
+<ul>
+<li><p>Необходимо изучать и готовить Test Suite файлы инструментов, даже если требуется только snapshot-тестирование.</p>
+</li>
+<li><p>По умолчанию не делают снимок всего чарта, а рассчитаны на тестирование по отдельным файлам в составе Helm-чарта.</p>
+</li>
+<li><p>Динамический вывод функций Helm не учитывается.</p>
+</li>
+</ul>
+<p>helm-unittest устроен так, что тестирование проводится по отдельным файлам в чарте. Это значит, что каждый файл оценивается независимо. Если значения Helm-чарта или условия приводят к тому, что файл целиком включается или исключается, важные сценарии могут быть не покрыты тестами.</p>
+<p>Пример файла спецификации теста для snapshot-тестирования в helm-unittest:</p>
+<blockquote>
+<p>https://github.com/helm-unittest/helm-unittest#snapshot-testing</p>
+<pre><code class="language-yaml">templates:
+  - templates/deployment.yaml
+tests:
+  - it: pod spec should match snapshot
+    asserts:
+      - matchSnapshot:
+          path: spec.template.spec
+  # или можно сделать снимок всего манифеста
+  - it: manifest should match snapshot
+    asserts:
+      - matchSnapshot: {}
+</code></pre>
+</blockquote>
+<p>Например, рассмотрим ситуацию, когда Helm-чарт может создать ресурс <code>Certificate</code> из <code>cert-manager</code>, если включены TLS и cert-manager, но создать самоподписанный TLS-секрет с помощью функции Helm <a href="https://helm.sh/docs/chart_template_guide/function_list/#genselfsignedcert"><code>genSelfSignedCert</code></a>, если cert-manager не включён. Кроме того, включение TLS влияет на свойства TLS в Ingress, опции TLS в Deployment и т.д.</p>
+<p>В таких случаях helm-unittest может быть неспособен адекватно протестировать поведение всего чарта, поскольку вывод условных файлов может быть пустым, и тесты будут неполными.</p>
+<p>Однако всё, что нужно сделать с помощью <code>helm-chartsnap</code>, — это просто подготовить несколько файлов <code>values.yaml</code> с ожидаемыми вариантами 😊</p>
+<h2>Установка 🚀</h2>
+<p>Вы можете установить как плагин Helm.</p>
+<pre><code class="language-sh">helm plugin install https://github.com/jlandowner/helm-chartsnap
+</code></pre>
+<p>Другие способы:</p>
+<ul>
+<li><p>Установка через Go</p>
+<pre><code class="language-sh">go install github.com/jlandowner/helm-chartsnap@latest
+</code></pre>
+</li>
+<li><p><a href="https://github.com/jlandowner/helm-chartsnap/releases">Скачать бинарник релиза</a></p>
+</li>
+</ul>
+<h2>Использование</h2>
+<p>Для быстрого старта просто передайте ваш чарт.</p>
+<pre><code>helm chartsnap -c YOUR_CHART
+</code></pre>
+<p>В директории чарта создаётся папка <code>__snapshot__</code> и файл <code>default.snap</code>.</p>
+<p>Также можно создавать тестовые кейсы в виде вариаций файлов Values вашего чарта.</p>
+<p>Полное описание команды:</p>
+<pre><code class="language-sh">Usage:
+  chartsnap -c CHART [flags]
+
+Examples:
+
+  # Снимок с дефолтными значениями:
+  chartsnap -c YOUR_CHART
+  
+  # Обновление файлов снимков:
+  chartsnap -c YOUR_CHART -u
+
+  # Снимок с тестовыми значениями:
+  chartsnap -c YOUR_CHART -f YOUR_TEST_VALUES_FILE
+  
+  # Снимок всех тестовых кейсов:
+  chartsnap -c YOUR_CHART -f YOUR_TEST_VALUES_FILES_DIRECTOY
+  
+  # Задание дополнительных аргументов/флагов для команды 'helm template':
+  chartsnap -c YOUR_CHART -f YOUR_TEST_VALUES_FILE -- --skip-tests
+
+  # Снимок удалённого чарта из Helm-репозитория:
+  chartsnap -c CHART_NAME -f YOUR_VALUES_FILE -- --repo HELM_REPO_URL
+
+  # Снимок helm-чарта ingress-nginx (https://kubernetes.github.io/ingress-nginx/) для конкретной версии с вашим файлом значений:
+  chartsnap -c ingress-nginx -f YOUR_VALUES_FILE -- --repo https://kubernetes.github.io/ingress-nginx --namespace kube-system --version 4.8.3
+
+  # Снимок helm-чарта cilium (https://cilium.io) с дефолтными значениями и доп. флагами:
+  chartsnap -c cilium -- --repo https://helm.cilium.io --namespace kube-system --set hubble.relay.enabled=true --set hubble.ui.enabled=true
+
+  # Снимок чартов из OCI-реестра:
+  chartsnap -c oci://ghcr.io/nginxinc/charts/nginx-gateway-fabric -n nginx-gateway
+
+  # Вывод без цветов:
+  NO_COLOR=1 chartsnap -c YOUR_CHART
+
+Flags:
+  -c, --chart string              путь к директории чарта. этот флаг передаётся в 'helm template RELEASE_NAME CHART --values VALUES' как 'CHART'
+      --config-file string        имя или путь к конфиг-файлу, который определяет поведение snapshot (например, динамические поля) (по умолчанию &quot;.chartsnap.yaml&quot;)
+  -N, --ctx-lines int             количество строк для показа в diff-выводе. 0 — полный вывод (по умолчанию 3)
+      --debug                     режим отладки
+      --fail-helm-error           завершить с ошибкой, если команда 'helm template' завершилась неудачно
+      --failfast                  завершить при первом неудачном тесте
+  -h, --help                      помощь по chartsnap
+  -n, --namespace string          namespace. этот флаг передаётся в 'helm template RELEASE_NAME CHART --values VALUES --namespace NAMESPACE' как 'NAMESPACE' (по умолчанию &quot;default&quot;)
+  -o, --output-dir string         директория, куда будет создана папка __snapshot__ (по умолчанию: директория файла значений при --values; директория чарта, если чарт локальный; иначе текущая директория)
+      --parallelism int           параллелизм тестов при множественных snapshot для директории тестовых файлов. по умолчанию не ограничено (по умолчанию -1)
+      --release-name string       имя релиза. этот флаг передаётся в 'helm template RELEASE_NAME CHART --values VALUES' как 'RELEASE_NAME' (по умолчанию &quot;chartsnap&quot;)
+      --snapshot-version string   использовать определённую версию формата snapshot. Поддерживаются v1, v2, v3. (по умолчанию: latest)
+  -u, --update-snapshot           режим обновления снимков
+  -f, --values string             путь к тестовому файлу values или директории. если указана директория, тестируются все файлы. если не указано — используются дефолтные значения. этот флаг передаётся в 'helm template RELEASE_NAME CHART --values VALUES' как 'VALUES'
+  -v, --version                   версия chartsnap
+
+</code></pre>
+<h3>Обработка динамических значений 💪</h3>
+<p>Helm поддерживает функции (&quot;Helm functions&quot;), которые генерируют случайные значения или самоподписанные сертификаты, например <a href="https://helm.sh/docs/chart_template_guide/function_list/#randalphanum-randalpha-randnumeric-and-randascii"><code>randAlphaNum</code></a> и <a href="https://helm.sh/docs/chart_template_guide/function_list/#cryptographic-and-security-functions"><code>genCA</code>, <code>genPrivateKey</code>, <code>genSelfSignedCert</code></a></p>
+<p>При использовании этих функций вывод будет различаться при каждом запуске Helm.
+Для этого случая chartsnap имеет функцию, предотвращающую несовпадения снимков, подставляя фиксированное значение <code>###DYNAMIC_FIELD###</code>.</p>
+<p>Вы можете указать пути динамических значений в сгенерированном YAML, используя <a href="https://datatracker.ietf.org/doc/html/rfc6901">JSONPath</a>.</p>
+<pre><code class="language-yaml:.chartsnap.yaml">dynamicFields:
+  - apiVersion: v1
+    kind: Secret
+    name: cosmo-auth-env
+    jsonPath:
+      - /data/COOKIE_HASHKEY
+      - /data/COOKIE_BLOCKKEY
+      - /data/COOKIE_HASHKEY
+      - /data/COOKIE_SESSION_NAME
+    base64: true
+</code></pre>
+<blockquote>
+<p>ПРИМЕЧАНИЕ:
+В JSONPath экранирование символа / описано в <a href="https://datatracker.ietf.org/doc/html/rfc6901#section-3">RFC6901, секция 3</a></p>
+<pre><code>   Так как символы '~' (%x7E) и '/' (%x2F) имеют специальное значение в JSON Pointer, '~' кодируется как '~0', а '/' — как '~1', когда эти символы встречаются в токене.
+</code></pre>
+<p>Поэтому, если вы работаете с манифестом, как показано ниже, путь должен быть <code>/metadata/annotaions/checksum~1values</code>.</p>
+<pre><code class="language-yaml">metadata:
+  annotations:
+    checksum/values: RANDOM_VALUES
+</code></pre>
+</blockquote>
+<p>Если у вас есть директория с тестовыми файлами values, поместите туда файл <code>.chartsnap.yaml</code>. Это общее поведение для всех snapshot-тестов в директории.</p>
+<p>Больше примеров: <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/app1">example/app1</a>.</p>
+<p>Также можно прямо добавить конфиг в тестовый файл values через свойство <code>testSpec</code>.
+В этом случае не нужно готовить <code>.chartsnap.yaml</code>. Это удобно для snapshot-тестов удалённых или сторонних чартов с одним файлом values.</p>
+<p>Ваш values-файл может выглядеть так:</p>
+<pre><code class="language-yaml"># Добавьте это свойство в ваши values.
+testSpec:
+  dynamicFields:
+    - apiVersion: v1
+      kind: Secret
+      name: cilium-ca
+      jsonPath:
+        - /data/ca.crt
+        - /data/ca.key
+      base64: true
+    - apiVersion: v1
+      kind: Secret
+      name: hubble-server-certs
+      jsonPath:
+        - /data/ca.crt
+        - /data/tls.crt
+        - /data/tls.key
+      base64: true
+    - apiVersion: v1
+      kind: Secret
+      name: hubble-relay-client-certs
+      jsonPath:
+        - /data/ca.crt
+        - /data/tls.crt
+        - /data/tls.key
+      base64: true
+
+# Остальные параметры — любые значения вашего чарта.
+# ...
+</code></pre>
+<p>Больше примеров: <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/remote">example/remote</a>.</p>
+<h2>Примеры и пользователи ✨</h2>
+<p>| Пользователь / Проект | Описание | URL |
+|:---|:---|:---|
+| Example | Пример чарта, сгенерированного командой <code>helm create</code> | <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/app1"><code>example/app1</code></a> |
+| Example | Пример snapshot-тестирования чартов из удалённых Helm-репозиториев | <a href="https://raw.githubusercontent.com/jlandowner/helm-chartsnap/main/example/remote"><code>example/remote</code></a> |
+| <a href="https://github.com/jlandowner/helm-chartsnap-action">helm-chartsnap-action</a> | GitHub Action для использования helm chartsnap в CI | https://github.com/jlandowner/helm-chartsnap-action |
+| <a href="https://github.com/cosmo-workspace/cosmo">cosmo-workspace</a> | Open source WebIDE &amp; DevEnvironment Platform на Kubernetes | https://github.com/cosmo-workspace/cosmo/tree/main/charts/cosmo/test |
+| <a href="https://github.com/Kong/kong">Kong</a> | 🦍 Облачный API Gateway и AI Gateway. | https://github.com/Kong/charts |</p>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

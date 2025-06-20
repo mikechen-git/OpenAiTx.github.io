@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>expr_codegen - wukan1986/expr_codegen</title>
+    <meta name="title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta name="description" content="wukan1986/expr_codegen - GitHub repository vi documentation and informationexpr_codegen Trình biên dịch biểu thức Bối cảnh dự án Sau khi tôi ra mắt thư viện polars_ta mới, tôi đã quay lại suy ngẫm về expr_codegen là gì. expr_codegen về...">
+    <meta name="keywords" content="wukan1986, expr_codegen, GitHub, repository, vi documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/wukan1986/expr_codegen/README-vi.html">
+    <meta property="og:title" content="expr_codegen - wukan1986/expr_codegen">
+    <meta property="og:description" content="wukan1986/expr_codegen - GitHub repository vi documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/wukan1986/expr_codegen" id="githubRepoLink" target="_blank">wukan1986/expr_codegen</a>
+<h1 style="display: none;">expr_codegen Trình biên dịch biểu thức Bối cảnh dự án Sau khi tôi ra mắt thư viện polars_ta mới, tôi đã quay lại suy ngẫm về expr_codegen là gì. expr_codegen về...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>expr_codegen Trình biên dịch biểu thức</h1>
+<h2>Bối cảnh dự án</h2>
+<p>Sau khi tôi ra mắt thư viện <a href="https://github.com/wukan1986/polars_ta">polars_ta</a> mới, tôi đã quay lại suy ngẫm về <code>expr_codegen</code> là gì.</p>
+<blockquote>
+<p><code>expr_codegen</code> về bản chất là một <code>DSL</code> (Ngôn ngữ Đặc thù Lĩnh vực - Domain Specific Language). Nhưng nó không định nghĩa cú pháp mới</p>
+</blockquote>
+<p>Nó giải quyết hai vấn đề:</p>
+<ol>
+<li><code>polars_ta</code> đã có thể dễ dàng viết các biểu thức tính đặc trưng, nhưng khi gặp các biểu thức <code>kết hợp thời gian và mặt cắt</code>, sử dụng <code>expr_codegen</code> có thể tự động nhóm, tiết kiệm rất nhiều công sức.</li>
+<li><code>expr_codegen</code> sử dụng phương pháp <code>Common Subexpression Elimination</code> (loại bỏ các biểu thức con chung), giảm thiểu tính toán lặp lại, nâng cao hiệu suất.</li>
+</ol>
+<p>Ngay cả trong lĩnh vực định lượng, các nghiên cứu viên sơ cấp chỉ giới hạn ở chỉ báo chuỗi thời gian thì chỉ cần dùng <code>polars_ta</code>, còn nghiên cứu viên trung/cao cấp sử dụng chỉ báo mặt cắt thì nên dùng <code>expr_codegen</code>.</p>
+<p>Mặc dù hiện tại dự án này phụ thuộc rất chặt vào <code>polars_ta</code>, nhưng cũng có thể dịch sang các thư viện khác như <code>pandas / cudf.pandas</code>, chỉ là hiện tại thiếu một thư viện đơn giản hơn.</p>
+<h2>Demo trực tuyến</h2>
+<p>https://exprcodegen.streamlit.app</p>
+<p>Người dùng sơ cấp có thể truy cập trực tiếp liên kết này để chuyển đổi biểu thức mà không cần cài đặt phần mềm bổ sung. (Công cụ này được triển khai miễn phí ở nước ngoài nên có thể mở hơi chậm)</p>
+<p>Xem ví dụ đầy đủ hơn tại <a href="https://github.com/wukan1986/alpha_examples">alpha_examples</a></p>
+<h2>Ví dụ sử dụng</h2>
+<pre><code class="language-python">import sys
+from io import StringIO
+
+import polars as pl
+
+from expr_codegen import codegen_exec
+
+
+def _code_block_1():
+    # Khu vực chỉnh sửa nhân tố, có thể sử dụng gợi ý thông minh của IDE để chỉnh sửa nhân tố tại đây
+    LOG_MC_ZS = cs_mad_zscore(log1p(market_cap))
+
+
+def _code_block_2():
+    # Trong mẫu đã mặc định import nhiều toán tử từ from polars_ta.prefix, nhưng
+    # talib không được import mặc định trong mẫu. Cách viết này có thể import vào mã sinh ra
+    from polars_ta.prefix.talib import ts_LINEARREG_SLOPE  # noqa
+
+    # Cũng hỗ trợ import nguyên bản def và class
+    def cs_rank_if(condition, factor):
+        return cs_rank(if_else(condition, factor, None))
+
+    class Clazz:
+        pass
+
+    # 1. Biến bắt đầu bằng dấu gạch dưới chỉ là biến trung gian, sẽ tự động đổi tên, khi xuất cuối cùng sẽ bị loại bỏ
+    # 2. Biến bắt đầu bằng dấu gạch dưới có thể sử dụng lặp lại. Khi nhiều nhân tố phức tạp được viết nhiều dòng mà có biến trung gian trùng thì không còn xung đột
+    _avg = ts_mean(corr, 20)
+    _std = ts_std_dev(corr, 20)
+    _beta = ts_LINEARREG_SLOPE(corr, 20)
+
+    # 3. Biến bắt đầu bằng dấu gạch dưới có phép gán vòng lặp. Khi debug có thể nhanh chóng chuyển đổi bằng chú thích
+    _avg = cs_mad_zscore_resid(_avg, LOG_MC_ZS, ONE)
+    _std = cs_mad_zscore_resid(_std, LOG_MC_ZS, ONE)
+    # _beta = cs_mad_zscore_resid(_beta, LOG_MC_ZS, ONE)
+
+    _corr = cs_zscore(_avg) + cs_zscore(_std)
+    CPV = cs_zscore(_corr) + cs_zscore(_beta)
+
+
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=sys.stdout)  # In ra mã
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=&quot;output.py&quot;)  # Lưu vào file
+code = codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by')  # Chỉ thực thi, không lưu mã
+
+code = StringIO()
+codegen_exec(None, _code_block_1, _code_block_2, over_null='partition_by', output_file=code)  # Lưu vào chuỗi
+code.seek(0)
+code.read()  # Đọc mã
+
+# TODO Thay bằng dữ liệu phù hợp
+df = pl.DataFrame()
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect()  # Lazy CPU
+df = codegen_exec(df.lazy(), _code_block_1, _code_block_2, over_null='partition_by').collect(engine=&quot;gpu&quot;)  # Lazy GPU
+
+</code></pre>
+<h2>Cấu trúc thư mục</h2>
+<pre><code class="language-commandline">│  requirements.txt # Cài đặt phụ thuộc bằng `pip install -r requirements.txt`
+├─data
+│      prepare_date.py # Chuẩn bị dữ liệu
+├─examples
+│      demo_express.py # Ví dụ nhanh. Trình diễn cách chuyển biểu thức thành mã
+│      demo_exec_pl.py # Trình diễn gọi mã đã chuyển đổi và vẽ đồ thị
+│      demo_transformer.py # Trình diễn chuyển đổi biểu thức bên thứ ba thành biểu thức nội bộ
+│      output.py # Đầu ra kết quả. Có thể nhập trực tiếp vào dự án khác mà không cần sửa mã
+│      show_tree.py # Vẽ biểu đồ cây biểu thức. Dùng để phân tích, so sánh kết quả tối ưu hóa
+│      sympy_define.py # Định nghĩa ký hiệu, do quá nhiều nơi dùng lặp lại nên được tách riêng ở đây
+├─expr_codegen
+│   │  expr.py # Hàm xử lý biểu thức cơ bản
+│   │  tool.py # Mã công cụ lõi
+│   ├─polars
+│   │  │  code.py # Chức năng sinh mã theo cú pháp polars
+│   │  │  template.py.j2 # Mẫu `Jinja2`. Dùng để sinh file py tương ứng, thường không cần chỉnh sửa
+│   │  │  printer.py # Kế thừa từ `StrPrinter` của `Sympy`, khi thêm hàm mới có thể cần chỉnh file này
+</code></pre>
+<h2>Nguyên lý hoạt động</h2>
+<p>Dự án này phụ thuộc vào dự án <code>sympy</code>. Các hàm chính sử dụng như sau:</p>
+<ol>
+<li><code>simplify</code>: Rút gọn biểu thức phức tạp</li>
+<li><code>cse</code>: <code>Common Subexpression Elimination</code> (loại bỏ các biểu thức con chung)</li>
+<li><code>StrPrinter</code>: Xuất chuỗi khác nhau tùy theo hàm. Tùy biến mã này có thể hỗ trợ ngôn ngữ hoặc thư viện khác</li>
+</ol>
+<p>Do <code>groupby</code>, <code>sort</code> tốn nhiều thời gian. Nếu phân loại công thức trước, các loại khác nhau dùng <code>groupby</code> khác nhau, có thể giảm thời gian tính toán.</p>
+<ol>
+<li><code>ts_xxx(ts_xxx)</code>: Có thể tính trong cùng một <code>groupby</code></li>
+<li><code>cs_xxx(cs_xxx)</code>: Có thể tính trong cùng một <code>groupby</code></li>
+<li><code>ts_xxx(cs_xxx)</code>: Cần tính trong các <code>groupby</code> khác nhau</li>
+<li><code>cs_xxx(ts_xxx(cs_xxx))</code>: Cần tính trong ba <code>groupby</code> khác nhau</li>
+<li><code>gp_xxx(aa, )+gp_xxx(bb, )</code>: Do <code>aa</code>, <code>bb</code> khác nhau, cần tính trong hai <code>groupby</code> khác nhau</li>
+</ol>
+<p>Do đó</p>
+<ol>
+<li>Cần có hàm lấy loại biểu thức hiện tại (<code>get_current</code>) và loại của biểu thức con (<code>get_children</code>)</li>
+<li>Nếu loại hiện tại và loại con khác nhau thì có thể tách ra công thức ngắn (<code>extract</code>). Biểu thức cùng loại ở các lớp khác nhau có quan hệ trước sau, không thể đặt trong cùng một <code>groupby</code></li>
+<li>Sử dụng đặc điểm của <code>cse</code>, thay thế biểu thức dài bằng biểu thức ngắn đã tách ra trước đó. Sau đó nhập vào đồ thị có hướng không chu trình (<code>DAG</code>)</li>
+<li>Sử dụng luồng của đồ thị có hướng không chu trình để phân lớp. Trong cùng một lớp, <code>ts</code>, <code>cs</code>, <code>gp</code> không phân biệt thứ tự</li>
+<li>Trong cùng một lớp, nhóm theo <code>ts</code>, <code>cs</code>, <code>gp</code>, sau đó sinh mã (<code>codegen</code>)</li>
+</ol>
+<p>Thông tin ẩn</p>
+<ol>
+<li><code>ts</code>: sort(by=[ASSET, DATE]).groupby(by=[ASSET], maintain_order=True)</li>
+<li><code>cs</code>: sort(by=[DATE]).groupby(by=[DATE], maintain_order=False)</li>
+<li><code>gp</code>: sort(by=[DATE, GROUP]).groupby(by=[DATE, GROUP], maintain_order=False)</li>
+</ol>
+<p>Tức là</p>
+<ol>
+<li>Hàm chuỗi thời gian ẩn hai trường <code>ASSET, DATE</code>, hàm mặt cắt ẩn một trường <code>DATE</code></li>
+<li>Hàm nhóm chuyển vào một trường <code>GROUP</code>, đồng thời ẩn một trường <code>DATE</code></li>
+</ol>
+<p>Hai phương pháp phân loại</p>
+<ol>
+<li>Phân loại theo tiền tố toán tử (<code>get_current_by_prefix</code>), bắt buộc toán tử phải bắt đầu bằng <code>ts_</code>, <code>cs_</code>, <code>gp_</code></li>
+<li>Phân loại theo tên đầy đủ toán tử (<code>get_current_by_name</code>), không còn giới hạn tên toán tử. Ví dụ <code>cs_rank</code> có thể đặt tên là <code>rank</code></li>
+</ol>
+<h2>Xử lý Null</h2>
+<p><code>null</code> sinh ra như thế nào?</p>
+<ol>
+<li>Do tạm ngừng giao dịch. Đã được lọc bỏ trước khi tính toán, không ảnh hưởng đến các bước sau.</li>
+<li>Các loại tài sản có phiên giao dịch khác nhau</li>
+<li>Do tính toán sinh ra. <code>null</code> ở hai đầu chuỗi không ảnh hưởng tới kết quả hàm chuỗi thời gian, nhưng nếu xuất hiện ở giữa sẽ ảnh hưởng. Ví dụ: <code>if_else(close&lt;2, None, close)</code></li>
+</ol>
+<p>https://github.com/pola-rs/polars/issues/12925#issuecomment-2552764629</p>
+<p>Ý tưởng rất hay, tổng kết có hai cách thực hiện:</p>
+<ol>
+<li>Chia <code>null</code> thành một nhóm, <code>not_null</code> thành nhóm khác. Phải gọi hai lần</li>
+<li>Chỉ một nhóm, nhưng sắp xếp phức hợp, <code>null</code> xếp đầu, <code>not_null</code> xếp sau. Chỉ gọi một lần, nhanh hơn một chút</li>
+</ol>
+<pre><code class="language-python">X1 = (ts_returns(CLOSE, 3)).over(CLOSE.is_not_null(), _ASSET_, order_by=_DATE_),
+X2 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=[CLOSE.is_not_null(), _DATE_]),
+X3 = (ts_returns(CLOSE, 3)).over(_ASSET_, order_by=_DATE_),
+</code></pre>
+<p>Vùng <code>null</code> ở đầu theo cách 2 có ảnh hưởng đến kết quả hay không là do toán tử quyết định, đặc biệt khi có nhiều cột đầu vào, vùng <code>null</code> có thể có dữ liệu.</p>
+<ol>
+<li><code>over_null='partition_by'</code>: Chia thành hai vùng</li>
+<li><code>over_null='order_by'</code>: Chia thành một vùng, <code>null</code> xếp đầu</li>
+<li><code>over_null=None</code>: Không xử lý, gọi trực tiếp, nhanh hơn. Nếu chắc chắn không phát sinh <code>null</code> giữa chừng thì nên dùng tham số này</li>
+</ol>
+<p><code>codegen_exec(over_null='partition_by')</code> là sử dụng <code>partition_by</code> toàn cục. Nhưng khi gặp hàm <code>null</code> như <code>ts_count_nulls</code> thì phải dùng <code>over_null=None</code>, do đó công cụ này còn thêm chức năng chú thích để chỉ định tham số biểu thức từng dòng</p>
+<ol>
+<li><code># --over_null partition_by</code>: Dòng đơn <code>over_null='partition_by'</code></li>
+<li><code># --over_null=order_by</code>: Dòng đơn <code>over_null='order_by'</code></li>
+<li><code># --over_null</code>: Dòng đơn <code>over_null=None</code></li>
+<li><code># </code>: Lấy giá trị <code>over_null</code> từ tham số truyền vào <code>codegen_exec</code></li>
+</ol>
+<p>Lưu ý:</p>
+<ol>
+<li><p>Chú thích truyền tham số <code># --over_null</code> chỉ được viết ở cuối dòng biểu thức, không được viết riêng một dòng, nếu không sẽ bị bỏ qua</p>
+</li>
+<li><p>Khi có nhiều <code># --over_null # --over_null=order_by</code>, chỉ lấy cái hợp lệ đầu tiên</p>
+</li>
+<li><p>Chỉ có hiệu lực với hàm <code>ts</code> lớp ngoài cùng. Nếu hàm <code>ts</code> không ở ngoài cùng, cần tách ra thủ công. Ví dụ:</p>
+<pre><code class="language-python">X1 = cs_rank(ts_mean(CLOSE, 3)) # --over_null=order_by # Ứng dụng trên cs_rank, không có ý nghĩa
+X2 = ts_rank(ts_mean(CLOSE, 3), 5) # --over_null=order_by # Nghĩ là ứng dụng lên ts_rank(ts_mean), nhưng do xuất hiện ts_mean chung nên thực tế là ứng dụng trên ts_rank(_x_0)
+</code></pre>
+<p>Cần viết thành</p>
+<pre><code class="language-python">_x_0 = ts_mean(CLOSE, 3)  # --over_null=order_by 
+X1 = cs_rank(_x_0)
+X2 = ts_rank(_x_0, 5)
+</code></pre>
+</li>
+<li><p>Do rất dễ nhầm lẫn, cực kỳ khuyến nghị sinh ra <code>output_file</code>, kiểm tra mã sinh ra có đúng không.</p>
+</li>
+</ol>
+<h2>Hạn chế của <code>expr_codegen</code></h2>
+<ol>
+<li><code>DAG</code> chỉ có thể thêm cột, không thể xóa cột. Khi thêm cột mà gặp cột cùng tên thì sẽ bị ghi đè</li>
+<li>Không hỗ trợ <code>xóa dòng</code>, nhưng có thể thêm cột đánh dấu xóa, sau đó xóa dòng ở ngoài. Xóa dòng ảnh hưởng đến tất cả cột, không phù hợp với <code>DAG</code></li>
+<li>Không hỗ trợ <code>lấy mẫu lại</code> (resample), lý do tương tự như không hỗ trợ xóa dòng. Cần thực hiện bên ngoài</li>
+<li>Có thể coi <code>xóa dòng</code> và <code>lấy mẫu lại</code> là ranh giới, chia thành nhiều <code>DAG</code> nối tiếp nhau. Quá phức tạp, khó hiểu nên cuối cùng không thực hiện</li>
+</ol>
+<h2>Cú pháp đặc biệt</h2>
+<ol>
+<li>Hỗ trợ biểu thức ba ngôi <code>C?T:F</code> (chỉ dùng trong chuỗi), bên dưới sẽ chuyển thành <code>C or True if( T )else F</code>, rồi sửa thành <code>T if C else F</code>, cuối cùng chuyển thành <code>if_else(C,T,F)</code>. Hỗ trợ dùng chung với <code>if else</code></li>
+<li><code>(A&lt;B)*-1</code>, bên dưới sẽ chuyển thành <code>int_(A&lt;B)*-1</code></li>
+<li>Để tránh <code>A==B</code> bị <code>sympy</code> thay bằng <code>False</code>, bên dưới sẽ đổi thành <code>Eq(A,B)</code></li>
+<li>Ý nghĩa của <code>A^B</code> phụ thuộc tham số <code>convert_xor</code>, <code>convert_xor=True</code> thì chuyển thành <code>Pow(A,B)</code>, ngược lại là <code>Xor(A,B)</code>. Mặc định là <code>False</code>, dùng <code>**</code> cho lũy thừa</li>
+<li>Hỗ trợ <code>A&amp;B&amp;C</code>, nhưng không hỗ trợ <code>A==B==C</code>. Nếu C là boolean, AB là số, có thể thay thủ công thành <code>(A==B)==C</code>. Nếu ABC là số, cần thay thành <code>(A==B)&amp;(B==C)</code></li>
+<li>Không hỗ trợ <code>A&lt;=B&lt;=C</code>, cần thay thủ công thành <code>(A&lt;=B)&amp;(B&lt;=C)</code></li>
+<li>Hỗ trợ <code>A[0]+B[1]+C[2]</code>, bên dưới sẽ chuyển thành <code>A+ts_delay(B,1)+ts_delay(C,2)</code></li>
+<li>Hỗ trợ <code>~A</code>, bên dưới sẽ chuyển thành <code>Not(A)</code></li>
+<li>Các hàm bắt đầu bằng <code>gp_</code> sẽ trả về hàm <code>cs_</code> tương ứng. Như <code>gp_func(A,B,C)</code> sẽ thay thành <code>cs_func(B,C)</code>, trong đó <code>A</code> dùng trong <code>groupby([date, A])</code></li>
+<li>Hỗ trợ giải nén tuple <code>A,B,C=MACD()</code>, bên dưới sẽ thay thành</li>
+</ol>
+<pre><code class="language-python">_x_0 = MACD()
+A = unpack(_x_0, 0)
+B = unpack(_x_0, 1)
+C = unpack(_x_0, 2)
+</code></pre>
+<ol start="11">
+<li>Hỗ trợ truyền tham số bằng chú thích dòng đơn, như: <code># --over_null</code>, <code># --over_null=order_by</code>, <code># --over_null=partition_by</code></li>
+<li>Trong khối mã, các câu lệnh <code>import</code>, <code>def</code>, <code>class</code> sẽ được tự động chèn nguyên bản vào mã sinh ra</li>
+</ol>
+<h2>Biến bắt đầu bằng dấu gạch dưới</h2>
+<ol>
+<li>Dữ liệu xuất ra, tất cả các cột bắt đầu bằng <code>_</code> sẽ tự động bị xóa cuối cùng. Do đó, các biến cần giữ lại tuyệt đối không được bắt đầu bằng <code>_</code></li>
+<li>Để giảm tính toán lặp lại, tự động thêm biến trung gian bắt đầu bằng <code>_x_</code>, như <code>_x_0</code>, <code>_x_1</code>... Cuối cùng cũng tự động bị xóa</li>
+<li>Biểu thức một dòng quá dài, hoặc có tính toán lặp lại, có thể dùng biến trung gian để tách thành nhiều dòng. Nếu biến trung gian bắt đầu bằng <code>_</code>, sẽ tự động thêm hậu tố số, tạo thành các biến khác nhau, như <code>_A</code> sẽ thay thành <code>_A_0_</code>, <code>_A_1_</code>... Các trường hợp sử dụng:
+<ol>
+<li>Cùng một tên biến, dùng lặp lại. Bản chất là các biến khác nhau</li>
+<li>Phép gán vòng lặp, nhưng <code>DAG</code> không hỗ trợ chu trình. Biến cùng tên hai bên dấu <code>=</code> thực chất là biến khác nhau</li>
+</ol>
+</li>
+</ol>
+<h2>Ví dụ kết quả chuyển đổi</h2>
+<p>Đoạn mã sau khi chuyển đổi, xem mã chi tiết ở <a href="examples/output_polars.py">Polars</a></p>
+<pre><code class="language-python">def func_0_ts__asset(df: pl.DataFrame) -&gt; pl.DataFrame:
+    df = df.sort(by=[_DATE_])
+    # ========================================
+    df = df.with_columns(
+        _x_0=1 / ts_delay(OPEN, -1),
+        LABEL_CC_1=(-CLOSE + ts_delay(CLOSE, -1)) / CLOSE,
+    )
+    # ========================================
+    df = df.with_columns(
+        LABEL_OO_1=_x_0 * ts_delay(OPEN, -2) - 1,
+        LABEL_OO_2=_x_0 * ts_delay(OPEN, -3) - 1,
+    )
+    return df
+</code></pre>
+<p>Đoạn mã sau khi chuyển đổi, xem mã chi tiết ở <a href="examples/output_pandas.py">Pandas</a></p>
+<pre><code class="language-python">def func_2_cs__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_4 = cs_rank(x_7)
+    df[&quot;expr_4&quot;] = (df[&quot;x_7&quot;]).rank(pct=True)
+    return df
+
+
+def func_3_ts__asset__date(df: pd.DataFrame) -&gt; pd.DataFrame:
+    # expr_5 = -ts_corr(OPEN, CLOSE, 10)
+    df[&quot;expr_5&quot;] = -(df[&quot;OPEN&quot;]).rolling(10).corr(df[&quot;CLOSE&quot;])
+    # expr_6 = ts_delta(OPEN, 10)
+    df[&quot;expr_6&quot;] = df[&quot;OPEN&quot;].diff(10)
+    return df
+
+</code></pre>
+<h2>Trang web tương tác triển khai cục bộ</h2>
+<p>Chỉ cần chạy <code>streamlit run streamlit_app.py</code></p>
+<hr />
+<p><a href="https://github.com/OpenAiTx/OpenAiTx">Powered By OpenAiTx</a> - 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

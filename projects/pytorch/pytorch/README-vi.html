@@ -1,0 +1,499 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pytorch - pytorch/pytorch</title>
+    <meta name="title" content="pytorch - pytorch/pytorch">
+    <meta name="description" content="pytorch/pytorch - GitHub repository vi documentation and informationPyTorch là một gói Python cung cấp hai tính năng cấp cao: Tính toán Tensor (giống như NumPy) với khả năng tăng tốc GPU mạnh mẽ Mạng nơ-ron sâu được xây dựng trê...">
+    <meta name="keywords" content="pytorch, pytorch, GitHub, repository, vi documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/pytorch/pytorch/README-vi.html">
+    <meta property="og:title" content="pytorch - pytorch/pytorch">
+    <meta property="og:description" content="pytorch/pytorch - GitHub repository vi documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/pytorch/pytorch" id="githubRepoLink" target="_blank">pytorch/pytorch</a>
+<h1 style="display: none;">PyTorch là một gói Python cung cấp hai tính năng cấp cao: Tính toán Tensor (giống như NumPy) với khả năng tăng tốc GPU mạnh mẽ Mạng nơ-ron sâu được xây dựng trê...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <p><img src="https://github.com/pytorch/pytorch/raw/main/docs/source/_static/img/pytorch-logo-dark.png" alt="Logo PyTorch" /></p>
+<hr />
+<p>PyTorch là một gói Python cung cấp hai tính năng cấp cao:</p>
+<ul>
+<li>Tính toán Tensor (giống như NumPy) với khả năng tăng tốc GPU mạnh mẽ</li>
+<li>Mạng nơ-ron sâu được xây dựng trên hệ thống autograd dựa trên băng ghi (tape-based)</li>
+</ul>
+<p>Bạn có thể tái sử dụng các gói Python yêu thích như NumPy, SciPy và Cython để mở rộng PyTorch khi cần.</p>
+<p>Tình trạng nhánh chính (tín hiệu Kiểm tra Liên tục - Continuous Integration) có thể được tìm thấy tại <a href="https://hud.pytorch.org/ci/pytorch/pytorch/main">hud.pytorch.org</a>.</p>
+<!-- toc -->
+<ul>
+<li><a href="#more-about-pytorch">Tìm hiểu thêm về PyTorch</a>
+<ul>
+<li><a href="#a-gpu-ready-tensor-library">Thư viện Tensor sẵn sàng cho GPU</a></li>
+<li><a href="#dynamic-neural-networks-tape-based-autograd">Mạng nơ-ron động: Autograd dựa trên băng ghi</a></li>
+<li><a href="#python-first">Ưu tiên Python</a></li>
+<li><a href="#imperative-experiences">Trải nghiệm trực tiếp</a></li>
+<li><a href="#fast-and-lean">Nhanh và tiết kiệm tài nguyên</a></li>
+<li><a href="#extensions-without-pain">Mở rộng dễ dàng</a></li>
+</ul>
+</li>
+<li><a href="#installation">Cài đặt</a>
+<ul>
+<li><a href="#binaries">Các gói nhị phân</a>
+<ul>
+<li><a href="#nvidia-jetson-platforms">Nền tảng NVIDIA Jetson</a></li>
+</ul>
+</li>
+<li><a href="#from-source">Cài đặt từ mã nguồn</a>
+<ul>
+<li><a href="#prerequisites">Yêu cầu</a>
+<ul>
+<li><a href="#nvidia-cuda-support">Hỗ trợ NVIDIA CUDA</a></li>
+<li><a href="#amd-rocm-support">Hỗ trợ AMD ROCm</a></li>
+<li><a href="#intel-gpu-support">Hỗ trợ GPU Intel</a></li>
+</ul>
+</li>
+<li><a href="#get-the-pytorch-source">Lấy mã nguồn PyTorch</a></li>
+<li><a href="#install-dependencies">Cài đặt các phụ thuộc</a></li>
+<li><a href="#install-pytorch">Cài đặt PyTorch</a>
+<ul>
+<li><a href="#adjust-build-options-optional">Điều chỉnh tuỳ chọn biên dịch (Tùy chọn)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#docker-image">Docker Image</a>
+<ul>
+<li><a href="#using-pre-built-images">Sử dụng image dựng sẵn</a></li>
+<li><a href="#building-the-image-yourself">Tự dựng image</a></li>
+</ul>
+</li>
+<li><a href="#building-the-documentation">Biên dịch tài liệu</a>
+<ul>
+<li><a href="#building-a-pdf">Biên dịch PDF</a></li>
+</ul>
+</li>
+<li><a href="#previous-versions">Các phiên bản trước đây</a></li>
+</ul>
+</li>
+<li><a href="#getting-started">Bắt đầu sử dụng</a></li>
+<li><a href="#resources">Tài nguyên</a></li>
+<li><a href="#communication">Trao đổi</a></li>
+<li><a href="#releases-and-contributing">Phát hành và đóng góp</a></li>
+<li><a href="#the-team">Nhóm phát triển</a></li>
+<li><a href="#license">Giấy phép</a></li>
+</ul>
+<!-- tocstop -->
+<h2>Tìm hiểu thêm về PyTorch</h2>
+<p><a href="https://pytorch.org/tutorials/beginner/basics/intro.html">Học những kiến thức cơ bản về PyTorch</a></p>
+<p>Ở mức chi tiết, PyTorch là một thư viện bao gồm các thành phần sau:</p>
+<p>| Thành phần | Mô tả |
+| ---- | --- |
+| <a href="https://pytorch.org/docs/stable/torch.html"><strong>torch</strong></a> | Thư viện Tensor giống như NumPy, với hỗ trợ GPU mạnh mẽ |
+| <a href="https://pytorch.org/docs/stable/autograd.html"><strong>torch.autograd</strong></a> | Thư viện phân biệt tự động dựa trên băng ghi, hỗ trợ tất cả các phép toán Tensor khả vi trong torch |
+| <a href="https://pytorch.org/docs/stable/jit.html"><strong>torch.jit</strong></a> | Chuỗi biên dịch (TorchScript) để tạo mô hình có thể tuần tự hóa và tối ưu hóa từ mã PyTorch |
+| <a href="https://pytorch.org/docs/stable/nn.html"><strong>torch.nn</strong></a> | Thư viện mạng nơ-ron tích hợp sâu với autograd, thiết kế để tối đa hóa tính linh hoạt |
+| <a href="https://pytorch.org/docs/stable/multiprocessing.html"><strong>torch.multiprocessing</strong></a> | Đa tiến trình Python, nhưng với khả năng chia sẻ bộ nhớ kỳ diệu của Tensor torch giữa các tiến trình. Hữu ích cho việc nạp dữ liệu và huấn luyện Hogwild |
+| <a href="https://pytorch.org/docs/stable/data.html"><strong>torch.utils</strong></a> | DataLoader và các hàm tiện ích khác |</p>
+<p>Thông thường, PyTorch được sử dụng như:</p>
+<ul>
+<li>Một sự thay thế cho NumPy để tận dụng sức mạnh GPU.</li>
+<li>Nền tảng nghiên cứu học sâu cung cấp tính linh hoạt và tốc độ tối đa.</li>
+</ul>
+<p>Chi tiết hơn:</p>
+<h3>Thư viện Tensor sẵn sàng cho GPU</h3>
+<p>Nếu bạn sử dụng NumPy, bạn đã từng dùng Tensor (hay còn gọi là ndarray).</p>
+<p><img src="./docs/source/_static/img/tensor_illustration.png" alt="Minh họa Tensor" /></p>
+<p>PyTorch cung cấp các Tensor có thể tồn tại trên CPU hoặc GPU và tăng tốc tính toán lên rất nhiều.</p>
+<p>Chúng tôi cung cấp nhiều hàm xử lý tensor để đáp ứng nhu cầu tính toán khoa học của bạn như cắt, đánh chỉ số, phép toán toán học, đại số tuyến tính, phép giảm, v.v.
+Và chúng rất nhanh!</p>
+<h3>Mạng nơ-ron động: Autograd dựa trên băng ghi</h3>
+<p>PyTorch có một cách xây dựng mạng nơ-ron độc đáo: sử dụng và phát lại một máy ghi băng (tape recorder).</p>
+<p>Phần lớn các framework như TensorFlow, Theano, Caffe, CNTK có cách nhìn tĩnh về thế giới.
+Bạn phải xây dựng mạng nơ-ron và sử dụng lại cùng một cấu trúc nhiều lần.
+Thay đổi cách hoạt động của mạng nghĩa là phải bắt đầu lại từ đầu.</p>
+<p>Với PyTorch, chúng tôi sử dụng kỹ thuật gọi là phân biệt tự động chế độ ngược (reverse-mode auto-differentiation), cho phép bạn thay đổi cách mạng hoạt động một cách tuỳ ý mà không có độ trễ hay chi phí nào. Chúng tôi lấy cảm hứng từ nhiều bài báo nghiên cứu về chủ đề này, cũng như các dự án hiện tại và trước đây như
+<a href="https://github.com/twitter/torch-autograd">torch-autograd</a>,
+<a href="https://github.com/HIPS/autograd">autograd</a>,
+<a href="https://chainer.org">Chainer</a>, v.v.</p>
+<p>Dù kỹ thuật này không phải riêng của PyTorch, nhưng đây là một trong những hiện thực hóa nhanh nhất hiện nay.
+Bạn sẽ có được tốc độ và tính linh hoạt tối ưu cho các nghiên cứu táo bạo của mình.</p>
+<p><img src="https://github.com/pytorch/pytorch/raw/main/docs/source/_static/img/dynamic_graph.gif" alt="Biểu đồ động" /></p>
+<h3>Ưu tiên Python</h3>
+<p>PyTorch không phải là một liên kết Python vào một framework C++ nguyên khối.
+Nó được xây dựng để tích hợp sâu vào Python.
+Bạn có thể sử dụng nó tự nhiên như với <a href="https://www.numpy.org/">NumPy</a> / <a href="https://www.scipy.org/">SciPy</a> / <a href="https://scikit-learn.org">scikit-learn</a> v.v.
+Bạn có thể viết các lớp mạng nơ-ron mới bằng chính Python, sử dụng các thư viện yêu thích và các gói như <a href="https://cython.org/">Cython</a> và <a href="http://numba.pydata.org/">Numba</a>.
+Mục tiêu của chúng tôi là không phát minh lại bánh xe khi không cần thiết.</p>
+<h3>Trải nghiệm trực tiếp</h3>
+<p>PyTorch được thiết kế để trực quan, tuyến tính trong suy nghĩ và dễ sử dụng.
+Khi bạn thực thi một dòng mã, nó sẽ được thực thi ngay lập tức. Không có cái nhìn bất đồng bộ về thế giới.
+Khi bạn sử dụng trình gỡ lỗi hoặc nhận thông báo lỗi và các trace stack, việc hiểu chúng rất đơn giản.
+Trace stack chỉ rõ vị trí mã của bạn được định nghĩa.
+Chúng tôi hy vọng bạn không phải mất hàng giờ để gỡ lỗi do trace stack tệ hoặc các engine thực thi bất đồng bộ, khó hiểu.</p>
+<h3>Nhanh và tiết kiệm tài nguyên</h3>
+<p>PyTorch có chi phí framework tối thiểu. Chúng tôi tích hợp các thư viện tăng tốc như
+<a href="https://software.intel.com/mkl">Intel MKL</a> và NVIDIA (<a href="https://developer.nvidia.com/cudnn">cuDNN</a>, <a href="https://developer.nvidia.com/nccl">NCCL</a>) để tối đa hóa tốc độ.
+Ở lõi, backend Tensor và mạng nơ-ron cho CPU và GPU đã trưởng thành và được kiểm thử nhiều năm.</p>
+<p>Do đó, PyTorch rất nhanh — dù bạn chạy mạng nơ-ron nhỏ hay lớn.</p>
+<p>Việc sử dụng bộ nhớ trong PyTorch cực kỳ hiệu quả so với Torch hoặc một số lựa chọn thay thế.
+Chúng tôi đã viết bộ cấp phát bộ nhớ tùy chỉnh cho GPU để đảm bảo mô hình học sâu của bạn sử dụng bộ nhớ tối ưu nhất.
+Điều này cho phép bạn huấn luyện các mô hình học sâu lớn hơn trước.</p>
+<h3>Mở rộng dễ dàng</h3>
+<p>Viết module mạng nơ-ron mới, hoặc giao tiếp với API Tensor của PyTorch được thiết kế đơn giản và với mức trừu tượng tối thiểu.</p>
+<p>Bạn có thể viết các lớp mạng nơ-ron mới bằng Python sử dụng API torch
+<a href="https://pytorch.org/tutorials/advanced/numpy_extensions_tutorial.html">hoặc các thư viện dựa trên NumPy yêu thích như SciPy</a>.</p>
+<p>Nếu bạn muốn viết lớp của mình bằng C/C++, chúng tôi cung cấp API mở rộng tiện lợi, hiệu quả và không cần mã bọc phức tạp.
+Bạn có thể xem <a href="https://pytorch.org/tutorials/advanced/cpp_extension.html">hướng dẫn tại đây</a> và <a href="https://github.com/pytorch/extension-cpp">ví dụ tại đây</a>.</p>
+<h2>Cài đặt</h2>
+<h3>Các gói nhị phân</h3>
+<p>Lệnh cài đặt các gói nhị phân qua Conda hoặc pip wheels có trên website: <a href="https://pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a></p>
+<h4>Nền tảng NVIDIA Jetson</h4>
+<p>Python wheels cho NVIDIA Jetson Nano, Jetson TX1/TX2, Jetson Xavier NX/AGX, và Jetson AGX Orin được cung cấp <a href="https://forums.developer.nvidia.com/t/pytorch-for-jetson-version-1-10-now-available/72048">tại đây</a> và L4T container được phát hành <a href="https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-pytorch">tại đây</a></p>
+<p>Chúng yêu cầu JetPack 4.2 trở lên, và <a href="https://github.com/dusty-nv">@dusty-nv</a> cùng <a href="https://github.com/ptrblck">@ptrblck</a> đang duy trì chúng.</p>
+<h3>Cài đặt từ mã nguồn</h3>
+<h4>Yêu cầu</h4>
+<p>Nếu bạn cài đặt từ mã nguồn, bạn sẽ cần:</p>
+<ul>
+<li>Python 3.9 trở lên</li>
+<li>Trình biên dịch hỗ trợ đầy đủ C++17, như clang hoặc gcc (gcc 9.4.0 hoặc mới hơn trên Linux)</li>
+<li>Visual Studio hoặc Visual Studio Build Tool (chỉ dành cho Windows)</li>
+</ul>
+<p>* PyTorch CI sử dụng Visual C++ BuildTools, đi kèm với Visual Studio Enterprise,
+Professional hoặc Community Editions. Bạn cũng có thể cài build tools từ
+https://visualstudio.microsoft.com/visual-cpp-build-tools/. Build tools <em>không</em> đi kèm với Visual Studio Code theo mặc định.</p>
+<p>Ví dụ thiết lập môi trường như sau:</p>
+<ul>
+<li>Linux:</li>
+</ul>
+<pre><code class="language-bash">$ source &lt;CONDA_INSTALL_DIR&gt;/bin/activate
+$ conda create -y -n &lt;CONDA_NAME&gt;
+$ conda activate &lt;CONDA_NAME&gt;
+</code></pre>
+<ul>
+<li>Windows:</li>
+</ul>
+<pre><code class="language-bash">$ source &lt;CONDA_INSTALL_DIR&gt;\Scripts\activate.bat
+$ conda create -y -n &lt;CONDA_NAME&gt;
+$ conda activate &lt;CONDA_NAME&gt;
+$ call &quot;C:\Program Files\Microsoft Visual Studio\&lt;VERSION&gt;\Community\VC\Auxiliary\Build\vcvarsall.bat&quot; x64
+</code></pre>
+<h5>Hỗ trợ NVIDIA CUDA</h5>
+<p>Nếu bạn muốn biên dịch với hỗ trợ CUDA, <a href="https://pytorch.org/get-started/locally/">chọn phiên bản CUDA được hỗ trợ từ ma trận hỗ trợ của chúng tôi</a>, sau đó cài đặt:</p>
+<ul>
+<li><a href="https://developer.nvidia.com/cuda-downloads">NVIDIA CUDA</a></li>
+<li><a href="https://developer.nvidia.com/cudnn">NVIDIA cuDNN</a> v8.5 trở lên</li>
+<li><a href="https://gist.github.com/ax3l/9489132">Trình biên dịch</a> tương thích với CUDA</li>
+</ul>
+<p>Lưu ý: Bạn có thể tham khảo <a href="https://docs.nvidia.com/deeplearning/cudnn/backend/latest/reference/support-matrix.html">cuDNN Support Matrix</a> để biết các phiên bản cuDNN tương thích với các phiên bản CUDA, driver CUDA và phần cứng NVIDIA khác nhau</p>
+<p>Nếu muốn tắt hỗ trợ CUDA, xuất biến môi trường <code>USE_CUDA=0</code>.
+Các biến môi trường hữu ích khác có thể được tìm thấy trong <code>setup.py</code>.</p>
+<p>Nếu bạn đang biên dịch cho nền tảng Jetson của NVIDIA (Jetson Nano, TX1, TX2, AGX Xavier), hướng dẫn cài đặt PyTorch cho Jetson Nano có <a href="https://devtalk.nvidia.com/default/topic/1049071/jetson-nano/pytorch-for-jetson-nano/">tại đây</a></p>
+<h5>Hỗ trợ AMD ROCm</h5>
+<p>Nếu muốn biên dịch với hỗ trợ ROCm, hãy cài đặt</p>
+<ul>
+<li><a href="https://rocm.docs.amd.com/en/latest/deploy/linux/quick_start.html">AMD ROCm</a> 4.0 trở lên</li>
+<li>ROCm hiện chỉ hỗ trợ hệ thống Linux.</li>
+</ul>
+<p>Mặc định, hệ thống build mong đợi ROCm được cài tại <code>/opt/rocm</code>. Nếu ROCm được cài ở thư mục khác, biến môi trường <code>ROCM_PATH</code> phải được đặt về thư mục cài đặt ROCm. Hệ thống build tự động nhận diện kiến trúc GPU AMD. Tuỳ chọn, kiến trúc GPU AMD có thể được đặt rõ ràng bằng biến môi trường <code>PYTORCH_ROCM_ARCH</code> <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html#supported-gpus">Kiến trúc GPU AMD</a></p>
+<p>Nếu muốn tắt hỗ trợ ROCm, xuất biến môi trường <code>USE_ROCM=0</code>.
+Các biến môi trường hữu ích khác có thể được tìm thấy trong <code>setup.py</code>.</p>
+<h5>Hỗ trợ GPU Intel</h5>
+<p>Nếu muốn biên dịch với hỗ trợ GPU Intel, thực hiện các bước sau</p>
+<ul>
+<li><a href="https://www.intel.com/content/www/us/en/developer/articles/tool/pytorch-prerequisites-for-intel-gpus.html">Yêu cầu PyTorch cho GPU Intel</a>.</li>
+<li>GPU Intel được hỗ trợ trên Linux và Windows.</li>
+</ul>
+<p>Nếu muốn tắt hỗ trợ GPU Intel, xuất biến môi trường <code>USE_XPU=0</code>.
+Các biến môi trường hữu ích khác có thể được tìm thấy trong <code>setup.py</code>.</p>
+<h4>Lấy mã nguồn PyTorch</h4>
+<pre><code class="language-bash">git clone https://github.com/pytorch/pytorch
+cd pytorch
+# nếu bạn đang cập nhật một bản checkout đã có
+git submodule sync
+git submodule update --init --recursive
+</code></pre>
+<h4>Cài đặt các phụ thuộc</h4>
+<p><strong>Chung</strong></p>
+<pre><code class="language-bash">conda install cmake ninja
+# Chạy lệnh này trong thư mục PyTorch sau khi clone mã nguồn theo mục “Lấy mã nguồn PyTorch” phía trên
+pip install -r requirements.txt
+</code></pre>
+<p><strong>Trên Linux</strong></p>
+<pre><code class="language-bash">pip install mkl-static mkl-include
+# Chỉ CUDA: Thêm hỗ trợ LAPACK cho GPU nếu cần
+# cài đặt magma: chạy với môi trường conda đang hoạt động. chỉ định phiên bản CUDA để cài
+.ci/docker/common/install_magma_conda.sh 12.4
+
+# (tùy chọn) Nếu sử dụng torch.compile với inductor/triton, cài phiên bản triton tương ứng
+# Chạy từ thư mục pytorch sau khi clone
+# Đối với GPU Intel, hãy xuất rõ ràng `export USE_XPU=1` trước khi chạy lệnh.
+make triton
+</code></pre>
+<p><strong>Trên MacOS</strong></p>
+<pre><code class="language-bash"># Chỉ thêm gói này trên máy x86 Intel
+pip install mkl-static mkl-include
+# Thêm các gói này nếu cần torch.distributed
+conda install pkg-config libuv
+</code></pre>
+<p><strong>Trên Windows</strong></p>
+<pre><code class="language-bash">pip install mkl-static mkl-include
+# Thêm các gói này nếu cần torch.distributed.
+# Hỗ trợ package distributed trên Windows là tính năng thử nghiệm và có thể thay đổi.
+conda install -c conda-forge libuv=1.39
+</code></pre>
+<h4>Cài đặt PyTorch</h4>
+<p><strong>Trên Linux</strong></p>
+<p>Nếu bạn biên dịch cho AMD ROCm, hãy chạy lệnh này trước:</p>
+<pre><code class="language-bash"># Chỉ chạy nếu biên dịch cho ROCm
+python tools/amd_build/build_amd.py
+</code></pre>
+<p>Cài đặt PyTorch</p>
+<pre><code class="language-bash">export CMAKE_PREFIX_PATH=&quot;${CONDA_PREFIX:-'$(dirname $(which conda))/../'}:${CMAKE_PREFIX_PATH}&quot;
+python setup.py develop
+</code></pre>
+<p><strong>Trên macOS</strong></p>
+<pre><code class="language-bash">python3 setup.py develop
+</code></pre>
+<p><strong>Trên Windows</strong></p>
+<p>Nếu bạn muốn build mã Python cũ, vui lòng xem <a href="https://github.com/pytorch/pytorch/blob/main/CONTRIBUTING.md#building-on-legacy-code-and-cuda">Xây dựng trên mã cũ và CUDA</a></p>
+<p><strong>Chỉ build CPU</strong></p>
+<p>Ở chế độ này, các phép tính PyTorch sẽ chạy trên CPU của bạn, không sử dụng GPU.</p>
+<pre><code class="language-cmd">python setup.py develop
+</code></pre>
+<p>Lưu ý về OpenMP: Phiên bản OpenMP mong muốn là Intel OpenMP (iomp). Để liên kết với iomp, bạn cần tự tải thư viện về và thiết lập môi trường build bằng cách chỉnh <code>CMAKE_INCLUDE_PATH</code> và <code>LIB</code>. Hướng dẫn <a href="https://github.com/pytorch/pytorch/blob/main/docs/source/notes/windows.rst#building-from-source">tại đây</a> là ví dụ để thiết lập cả MKL và Intel OpenMP. Nếu không cấu hình cho CMake, runtime OpenMP của Microsoft Visual C (vcomp) sẽ được sử dụng.</p>
+<p><strong>Build dựa trên CUDA</strong></p>
+<p>Ở chế độ này, các phép tính PyTorch sẽ tận dụng GPU thông qua CUDA để tính toán nhanh hơn</p>
+<p><a href="https://docs.nvidia.com/gameworks/content/gameworkslibrary/nvtx/nvidia_tools_extension_library_nvtx.htm">NVTX</a> cần thiết để build PyTorch với CUDA.
+NVTX là một phần của bộ CUDA, có tên &quot;Nsight Compute&quot;. Để cài đặt nó vào CUDA đã cài, hãy chạy cài đặt CUDA một lần nữa và chọn checkbox tương ứng.
+Đảm bảo CUDA với Nsight Compute được cài sau Visual Studio.</p>
+<p>Hiện tại, VS 2017 / 2019, và Ninja được hỗ trợ làm generator của CMake. Nếu tìm thấy <code>ninja.exe</code> trong <code>PATH</code>, Ninja sẽ được dùng mặc định, nếu không sẽ dùng VS 2017 / 2019.
+<br/> Nếu Ninja được chọn làm generator, MSVC mới nhất sẽ được chọn làm toolchain.</p>
+<p>Các thư viện bổ sung như
+<a href="https://developer.nvidia.com/magma">Magma</a>, <a href="https://github.com/oneapi-src/oneDNN">oneDNN, còn gọi là MKLDNN hoặc DNNL</a>, và <a href="https://github.com/mozilla/sccache">Sccache</a> thường cần thiết. Tham khảo <a href="https://github.com/pytorch/pytorch/tree/main/.ci/pytorch/win-test-helpers/installation-helpers">installation-helper</a> để cài đặt chúng.</p>
+<p>Bạn có thể tham khảo script <a href="https://github.com/pytorch/pytorch/blob/main/.ci/pytorch/win-test-helpers/build_pytorch.bat">build_pytorch.bat</a> để biết các cấu hình biến môi trường khác</p>
+<pre><code class="language-cmd">cmd
+
+:: Đặt biến môi trường sau khi đã tải và giải nén gói mkl,
+:: nếu không CMake sẽ báo lỗi `Could NOT find OpenMP`.
+set CMAKE_INCLUDE_PATH={Your directory}\mkl\include
+set LIB={Your directory}\mkl\lib;%LIB%
+
+:: Đọc kỹ nội dung phần trước khi tiếp tục.
+:: [Tùy chọn] Nếu bạn muốn ghi đè toolset sử dụng bởi Ninja và Visual Studio với CUDA, hãy chạy khối lệnh sau.
+:: &quot;Visual Studio 2019 Developer Command Prompt&quot; sẽ được chạy tự động.
+:: Đảm bảo bạn có CMake &gt;= 3.12 khi sử dụng Visual Studio generator.
+set CMAKE_GENERATOR_TOOLSET_VERSION=14.27
+set DISTUTILS_USE_SDK=1
+for /f &quot;usebackq tokens=*&quot; %i in (`&quot;%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe&quot; -version [15^,17^) -products * -latest -property installationPath`) do call &quot;%i\VC\Auxiliary\Build\vcvarsall.bat&quot; x64 -vcvars_ver=%CMAKE_GENERATOR_TOOLSET_VERSION%
+
+:: [Tùy chọn] Nếu muốn ghi đè CUDA host compiler
+set CUDAHOSTCXX=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\bin\HostX64\x64\cl.exe
+
+python setup.py develop
+
+</code></pre>
+<p><strong>Build GPU Intel</strong></p>
+<p>Ở chế độ này PyTorch sẽ được build với hỗ trợ GPU Intel.</p>
+<p>Đảm bảo <a href="#prerequisites">các yêu cầu chung</a> cũng như <a href="#intel-gpu-support">yêu cầu cho GPU Intel</a> đã được cài đặt và cấu hình biến môi trường trước khi bắt đầu build. Đối với công cụ build, yêu cầu <code>Visual Studio 2022</code>.</p>
+<p>Sau đó có thể build PyTorch với lệnh:</p>
+<pre><code class="language-cmd">:: Lệnh CMD:
+:: Đặt CMAKE_PREFIX_PATH để giúp tìm các package tương ứng
+:: %CONDA_PREFIX% chỉ hoạt động sau khi `conda activate custom_env`
+
+if defined CMAKE_PREFIX_PATH (
+    set &quot;CMAKE_PREFIX_PATH=%CONDA_PREFIX%\Library;%CMAKE_PREFIX_PATH%&quot;
+) else (
+    set &quot;CMAKE_PREFIX_PATH=%CONDA_PREFIX%\Library&quot;
+)
+
+python setup.py develop
+</code></pre>
+<h5>Điều chỉnh tuỳ chọn biên dịch (Tùy chọn)</h5>
+<p>Bạn có thể điều chỉnh cấu hình các biến cmake (mà không cần build trước), ví dụ, chỉnh lại đường dẫn phát hiện cho CuDNN hoặc BLAS.</p>
+<p>Trên Linux</p>
+<pre><code class="language-bash">export CMAKE_PREFIX_PATH=&quot;${CONDA_PREFIX:-'$(dirname $(which conda))/../'}:${CMAKE_PREFIX_PATH}&quot;
+python setup.py build --cmake-only
+ccmake build  # hoặc cmake-gui build
+</code></pre>
+<p>Trên macOS</p>
+<pre><code class="language-bash">export CMAKE_PREFIX_PATH=&quot;${CONDA_PREFIX:-'$(dirname $(which conda))/../'}:${CMAKE_PREFIX_PATH}&quot;
+MACOSX_DEPLOYMENT_TARGET=10.9 CC=clang CXX=clang++ python setup.py build --cmake-only
+ccmake build  # hoặc cmake-gui build
+</code></pre>
+<h3>Docker Image</h3>
+<h4>Sử dụng image dựng sẵn</h4>
+<p>Bạn cũng có thể tải image docker dựng sẵn từ Docker Hub và chạy với docker v19.03+</p>
+<pre><code class="language-bash">docker run --gpus all --rm -ti --ipc=host pytorch/pytorch:latest
+</code></pre>
+<p>Lưu ý rằng PyTorch sử dụng shared memory để chia sẻ dữ liệu giữa các tiến trình, nên nếu sử dụng torch multiprocessing (ví dụ cho data loader đa luồng) thì shared memory mặc định container chạy không đủ, bạn nên tăng kích thước shared memory với tuỳ chọn dòng lệnh <code>--ipc=host</code> hoặc <code>--shm-size</code> cho <code>nvidia-docker run</code>.</p>
+<h4>Tự dựng image</h4>
+<p><strong>LƯU Ý:</strong> Phải được dựng với phiên bản docker &gt; 18.06</p>
+<p><code>Dockerfile</code> được cung cấp để build image với hỗ trợ CUDA 11.1 và cuDNN v8.
+Bạn có thể truyền biến make <code>PYTHON_VERSION=x.y</code> để chỉ định phiên bản Python dùng cho Miniconda, hoặc để mặc định.</p>
+<pre><code class="language-bash">make -f docker.Makefile
+# các image sẽ được tag là docker.io/${your_docker_username}/pytorch
+</code></pre>
+<p>Bạn cũng có thể truyền biến môi trường <code>CMAKE_VARS=&quot;...&quot;</code> để chỉ định các biến CMake bổ sung khi build.
+Xem <a href="./setup.py">setup.py</a> để biết danh sách các biến khả dụng.</p>
+<pre><code class="language-bash">make -f docker.Makefile
+</code></pre>
+<h3>Biên dịch tài liệu</h3>
+<p>Để biên dịch tài liệu ở nhiều định dạng, bạn cần <a href="http://www.sphinx-doc.org">Sphinx</a>
+và pytorch_sphinx_theme2.</p>
+<p>Trước khi biên dịch tài liệu cục bộ, đảm bảo <code>torch</code> đã được
+cài vào môi trường của bạn. Với các sửa lỗi nhỏ, bạn có thể cài
+bản nightly như mô tả ở <a href="https://pytorch.org/get-started/locally/">Bắt đầu sử dụng</a>.</p>
+<p>Với các sửa lớn, như thêm module mới và docstrings cho module đó, bạn có thể cần cài torch <a href="#from-source">từ mã nguồn</a>.
+Xem <a href="https://github.com/pytorch/pytorch/wiki/Docstring-Guidelines">Hướng dẫn Docstring</a>
+cho quy tắc docstring.</p>
+<pre><code class="language-bash">cd docs/
+pip install -r requirements.txt
+make html
+make serve
+</code></pre>
+<p>Chạy <code>make</code> để xem tất cả các định dạng đầu ra khả dụng.</p>
+<p>Nếu gặp lỗi katex, chạy <code>npm install katex</code>.  Nếu vẫn còn, thử
+<code>npm install -g katex</code></p>
+<blockquote>
+<p>[!LƯU Ý]
+Nếu bạn cài <code>nodejs</code> qua một trình quản lý gói khác (ví dụ,
+<code>conda</code>) thì <code>npm</code> có thể cài một phiên bản <code>katex</code> không tương thích với phiên bản <code>nodejs</code> của bạn khiến biên dịch tài liệu bị lỗi.
+Một tổ hợp phiên bản hoạt động là <code>node@6.13.1</code> và
+<code>katex@0.13.18</code>. Để cài bản này với <code>npm</code> chạy
+<code>npm install -g katex@0.13.18</code></p>
+</blockquote>
+<blockquote>
+<p>[!LƯU Ý]
+Nếu gặp lỗi không tương thích numpy, chạy:</p>
+<pre><code>pip install 'numpy&lt;2'
+</code></pre>
+</blockquote>
+<p>Khi bạn thay đổi các phụ thuộc được CI chạy, hãy chỉnh file
+<code>.ci/docker/requirements-docs.txt</code>.</p>
+<h4>Biên dịch PDF</h4>
+<p>Để biên dịch PDF của toàn bộ tài liệu PyTorch, đảm bảo bạn đã cài
+<code>texlive</code> và LaTeX. Trên macOS, bạn có thể cài bằng:</p>
+<pre><code>brew install --cask mactex
+</code></pre>
+<p>Để tạo PDF:</p>
+<ol>
+<li><p>Chạy:</p>
+<pre><code>make latexpdf
+</code></pre>
+<p>Lệnh này sẽ sinh các file cần thiết trong thư mục <code>build/latex</code>.</p>
+</li>
+<li><p>Chuyển đến thư mục này và thực thi:</p>
+<pre><code>make LATEXOPTS=&quot;-interaction=nonstopmode&quot;
+</code></pre>
+<p>Lệnh này sẽ tạo <code>pytorch.pdf</code> với nội dung mong muốn. Chạy lại
+lệnh này một lần nữa để tạo bảng mục lục và chỉ mục chính xác.</p>
+</li>
+</ol>
+<blockquote>
+<p>[!LƯU Ý]
+Để xem bảng mục lục, chuyển sang chế độ <strong>Table of Contents</strong>
+trên trình xem PDF của bạn.</p>
+</blockquote>
+<h3>Các phiên bản trước đây</h3>
+<p>Hướng dẫn cài đặt và các gói nhị phân cho các phiên bản PyTorch trước đây có thể tìm thấy
+trên <a href="https://pytorch.org/get-started/previous-versions">website của chúng tôi</a>.</p>
+<h2>Bắt đầu sử dụng</h2>
+<p>Ba mục tiêu giúp bạn bắt đầu:</p>
+<ul>
+<li><a href="https://pytorch.org/tutorials/">Hướng dẫn: giúp bạn hiểu và sử dụng PyTorch</a></li>
+<li><a href="https://github.com/pytorch/examples">Ví dụ: mã PyTorch dễ hiểu ở mọi lĩnh vực</a></li>
+<li><a href="https://pytorch.org/docs/">Tham khảo API</a></li>
+<li><a href="https://github.com/pytorch/pytorch/blob/main/GLOSSARY.md">Thuật ngữ</a></li>
+</ul>
+<h2>Tài nguyên</h2>
+<ul>
+<li><a href="https://pytorch.org/">PyTorch.org</a></li>
+<li><a href="https://pytorch.org/tutorials/">Hướng dẫn PyTorch</a></li>
+<li><a href="https://github.com/pytorch/examples">Ví dụ PyTorch</a></li>
+<li><a href="https://pytorch.org/hub/">Các mô hình PyTorch</a></li>
+<li><a href="https://www.udacity.com/course/deep-learning-pytorch--ud188">Giới thiệu về Deep Learning với PyTorch từ Udacity</a></li>
+<li><a href="https://www.udacity.com/course/intro-to-machine-learning-nanodegree--nd229">Giới thiệu về Machine Learning với PyTorch từ Udacity</a></li>
+<li><a href="https://www.coursera.org/learn/deep-neural-networks-with-pytorch">Deep Neural Networks with PyTorch từ Coursera</a></li>
+<li><a href="https://twitter.com/PyTorch">PyTorch Twitter</a></li>
+<li><a href="https://pytorch.org/blog/">PyTorch Blog</a></li>
+<li><a href="https://www.youtube.com/channel/UCWXI5YeOsh03QvJ59PMaXFw">PyTorch YouTube</a></li>
+</ul>
+<h2>Trao đổi</h2>
+<ul>
+<li>Diễn đàn: Thảo luận về triển khai, nghiên cứu, v.v. https://discuss.pytorch.org</li>
+<li>GitHub Issues: Báo lỗi, yêu cầu tính năng, vấn đề cài đặt, RFC, ý kiến, v.v.</li>
+<li>Slack: <a href="https://pytorch.slack.com/">PyTorch Slack</a> dành cho người dùng và nhà phát triển PyTorch trung cấp đến cao cấp cho trò chuyện, thảo luận online, cộng tác, v.v. Nếu bạn là người mới cần trợ giúp, nên dùng <a href="https://discuss.pytorch.org">Diễn đàn PyTorch</a>. Nếu bạn cần thư mời Slack, vui lòng điền vào form: https://goo.gl/forms/PP1AGvNHpSaJP8to1</li>
+<li>Bản tin: Email một chiều với thông báo quan trọng về PyTorch. Đăng ký tại đây: https://eepurl.com/cbG0rv</li>
+<li>Facebook Page: Thông báo quan trọng về PyTorch. https://www.facebook.com/pytorch</li>
+<li>Để biết hướng dẫn thương hiệu, vui lòng truy cập website tại <a href="https://pytorch.org/">pytorch.org</a></li>
+</ul>
+<h2>Phát hành và đóng góp</h2>
+<p>Thông thường, PyTorch có ba bản phát hành nhỏ mỗi năm. Vui lòng thông báo cho chúng tôi nếu bạn gặp lỗi bằng cách <a href="https://github.com/pytorch/pytorch/issues">tạo issue</a>.</p>
+<p>Chúng tôi trân trọng mọi đóng góp. Nếu bạn định đóng góp bản sửa lỗi, hãy thực hiện mà không cần thảo luận thêm.</p>
+<p>Nếu bạn định đóng góp tính năng mới, hàm tiện ích hoặc mở rộng lõi, vui lòng mở issue trước và thảo luận với chúng tôi.
+Gửi PR mà không thảo luận có thể bị từ chối nếu chúng tôi đang phát triển theo hướng khác mà bạn chưa biết.</p>
+<p>Để tìm hiểu thêm về đóng góp cho PyTorch, vui lòng xem <a href="CONTRIBUTING.md">Trang đóng góp</a>. Để biết thêm thông tin về các bản phát hành PyTorch, xem <a href="RELEASE.md">Trang phát hành</a>.</p>
+<h2>Nhóm phát triển</h2>
+<p>PyTorch là dự án cộng đồng với nhiều kỹ sư và nhà nghiên cứu tài năng đóng góp.</p>
+<p>Hiện tại PyTorch được duy trì bởi <a href="http://soumith.ch">Soumith Chintala</a>, <a href="https://github.com/gchanan">Gregory Chanan</a>, <a href="https://github.com/dzhulgakov">Dmytro Dzhulgakov</a>, <a href="https://github.com/ezyang">Edward Yang</a>, và <a href="https://github.com/malfet">Nikita Shulga</a> cùng sự đóng góp lớn từ hàng trăm cá nhân xuất sắc với nhiều hình thức khác nhau.
+Danh sách dưới đây không đầy đủ nhưng đang mở rộng, gồm: <a href="https://github.com/killeent">Trevor Killeen</a>, <a href="https://github.com/chsasank">Sasank Chilamkurthy</a>, <a href="https://github.com/szagoruyko">Sergey Zagoruyko</a>, <a href="https://github.com/adamlerer">Adam Lerer</a>, <a href="https://github.com/fmassa">Francisco Massa</a>, <a href="https://github.com/alykhantejani">Alykhan Tejani</a>, <a href="https://github.com/lantiga">Luca Antiga</a>, <a href="https://github.com/albanD">Alban Desmaison</a>, <a href="https://github.com/andreaskoepf">Andreas Koepf</a>, <a href="https://github.com/jekbradbury">James Bradbury</a>, <a href="https://github.com/ebetica">Zeming Lin</a>, <a href="https://github.com/yuandong-tian">Yuandong Tian</a>, <a href="https://github.com/glample">Guillaume Lample</a>, <a href="https://github.com/Maratyszcza">Marat Dukhan</a>, <a href="https://github.com/ngimel">Natalia Gimelshein</a>, <a href="https://github.com/csarofeen">Christian Sarofeen</a>, <a href="https://github.com/martinraison">Martin Raison</a>, <a href="https://github.com/ezyang">Edward Yang</a>, <a href="https://github.com/zdevito">Zachary Devito</a>.</p>
+<p>Lưu ý: Dự án này không liên quan đến <a href="https://github.com/hughperkins/pytorch">hughperkins/pytorch</a> cùng tên. Hugh là cộng tác viên giá trị cho cộng đồng Torch và đã giúp đỡ nhiều việc liên quan Torch và PyTorch.</p>
+<h2>Giấy phép</h2>
+<p>PyTorch sử dụng giấy phép kiểu BSD, chi tiết trong file <a href="LICENSE">LICENSE</a>.</p>
+<hr />
+<p><a href="https://github.com/OpenAiTx/OpenAiTx">Powered By OpenAiTx</a></p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

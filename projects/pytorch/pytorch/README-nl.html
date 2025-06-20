@@ -1,0 +1,509 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pytorch - pytorch/pytorch</title>
+    <meta name="title" content="pytorch - pytorch/pytorch">
+    <meta name="description" content="pytorch/pytorch - GitHub repository nl documentation and informationPyTorch is een Python-pakket dat twee belangrijke kenmerken biedt: Tensor-berekeningen (zoals NumPy) met krachtige GPU-versnelling Diepe neurale netwerken gebou...">
+    <meta name="keywords" content="pytorch, pytorch, GitHub, repository, nl documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/pytorch/pytorch/README-nl.html">
+    <meta property="og:title" content="pytorch - pytorch/pytorch">
+    <meta property="og:description" content="pytorch/pytorch - GitHub repository nl documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/pytorch/pytorch" id="githubRepoLink" target="_blank">pytorch/pytorch</a>
+<h1 style="display: none;">PyTorch is een Python-pakket dat twee belangrijke kenmerken biedt: Tensor-berekeningen (zoals NumPy) met krachtige GPU-versnelling Diepe neurale netwerken gebou...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <p><img src="https://github.com/pytorch/pytorch/raw/main/docs/source/_static/img/pytorch-logo-dark.png" alt="PyTorch Logo" /></p>
+<hr />
+<p>PyTorch is een Python-pakket dat twee belangrijke kenmerken biedt:</p>
+<ul>
+<li>Tensor-berekeningen (zoals NumPy) met krachtige GPU-versnelling</li>
+<li>Diepe neurale netwerken gebouwd op een tape-gebaseerd autograd-systeem</li>
+</ul>
+<p>Je kunt je favoriete Python-pakketten zoals NumPy, SciPy en Cython hergebruiken om PyTorch uit te breiden wanneer nodig.</p>
+<p>Onze trunk health (Continuous Integration-signalen) zijn te vinden op <a href="https://hud.pytorch.org/ci/pytorch/pytorch/main">hud.pytorch.org</a>.</p>
+<!-- toc -->
+<ul>
+<li><a href="#meer-over-pytorch">Meer Over PyTorch</a>
+<ul>
+<li><a href="#een-gpu-klare-tensorbibliotheek">Een GPU-Klare Tensorbibliotheek</a></li>
+<li><a href="#dynamische-neurale-netwerken-tape-based-autograd">Dynamische Neurale Netwerken: Tape-Based Autograd</a></li>
+<li><a href="#python-eerst">Python Eerst</a></li>
+<li><a href="#imperatieve-ervaringen">Imperatieve Ervaringen</a></li>
+<li><a href="#snel-en-lichtgewicht">Snel en Lichtgewicht</a></li>
+<li><a href="#uitbreidingen-zonder-pijn">Uitbreidingen Zonder Pijn</a></li>
+</ul>
+</li>
+<li><a href="#installatie">Installatie</a>
+<ul>
+<li><a href="#binaries">Binaries</a>
+<ul>
+<li><a href="#nvidia-jetson-platformen">NVIDIA Jetson Platformen</a></li>
+</ul>
+</li>
+<li><a href="#vanuit-broncode">Vanuit Broncode</a>
+<ul>
+<li><a href="#vereisten">Vereisten</a>
+<ul>
+<li><a href="#nvidia-cuda-ondersteuning">NVIDIA CUDA Ondersteuning</a></li>
+<li><a href="#amd-rocm-ondersteuning">AMD ROCm Ondersteuning</a></li>
+<li><a href="#intel-gpu-ondersteuning">Intel GPU Ondersteuning</a></li>
+</ul>
+</li>
+<li><a href="#download-de-pytorch-broncode">Download de PyTorch Broncode</a></li>
+<li><a href="#installeer-afhankelijkheden">Installeer Afhankelijkheden</a></li>
+<li><a href="#installeer-pytorch">Installeer PyTorch</a>
+<ul>
+<li><a href="#aanpassen-van-build-opties-optioneel">Aanpassen van Build Opties (Optioneel)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#docker-image">Docker Image</a>
+<ul>
+<li><a href="#gebruik-van-vooraf-gebouwde-images">Gebruik van vooraf gebouwde images</a></li>
+<li><a href="#image-zelf-bouwen">Image zelf bouwen</a></li>
+</ul>
+</li>
+<li><a href="#documentatie-bouwen">Documentatie Bouwen</a>
+<ul>
+<li><a href="#pdf-bouwen">PDF Bouwen</a></li>
+</ul>
+</li>
+<li><a href="#vorige-versies">Vorige Versies</a></li>
+</ul>
+</li>
+<li><a href="#aan-de-slag">Aan de slag</a></li>
+<li><a href="#bronnen">Bronnen</a></li>
+<li><a href="#communicatie">Communicatie</a></li>
+<li><a href="#releases-en-bijdragen">Releases en Bijdragen</a></li>
+<li><a href="#het-team">Het Team</a></li>
+<li><a href="#licentie">Licentie</a></li>
+</ul>
+<!-- tocstop -->
+<h2>Meer Over PyTorch</h2>
+<p><a href="https://pytorch.org/tutorials/beginner/basics/intro.html">Leer de basis van PyTorch</a></p>
+<p>Op gedetailleerd niveau is PyTorch een bibliotheek die bestaat uit de volgende componenten:</p>
+<p>| Component | Beschrijving |
+| ---- | --- |
+| <a href="https://pytorch.org/docs/stable/torch.html"><strong>torch</strong></a> | Een Tensor-bibliotheek zoals NumPy, met sterke GPU-ondersteuning |
+| <a href="https://pytorch.org/docs/stable/autograd.html"><strong>torch.autograd</strong></a> | Een tape-gebaseerde automatische differentiatiebibliotheek die alle differentieerbare Tensor-operaties in torch ondersteunt |
+| <a href="https://pytorch.org/docs/stable/jit.html"><strong>torch.jit</strong></a> | Een compilatiestack (TorchScript) om seraliseerbare en optimaliseerbare modellen te creëren vanuit PyTorch-code  |
+| <a href="https://pytorch.org/docs/stable/nn.html"><strong>torch.nn</strong></a> | Een neurale netwerken-bibliotheek diep geïntegreerd met autograd, ontworpen voor maximale flexibiliteit |
+| <a href="https://pytorch.org/docs/stable/multiprocessing.html"><strong>torch.multiprocessing</strong></a> | Python multiprocessing, maar met magisch geheugen delen van torch Tensors tussen processen. Handig voor dataloading en Hogwild training |
+| <a href="https://pytorch.org/docs/stable/data.html"><strong>torch.utils</strong></a> | DataLoader en andere handige hulpfuncties |</p>
+<p>Meestal wordt PyTorch gebruikt als:</p>
+<ul>
+<li>Een vervanging voor NumPy om de kracht van GPU's te benutten.</li>
+<li>Een deep learning onderzoeksplatform dat maximale flexibiliteit en snelheid biedt.</li>
+</ul>
+<p>Uitgebreidere uitleg:</p>
+<h3>Een GPU-Klare Tensorbibliotheek</h3>
+<p>Als je NumPy gebruikt, heb je Tensors (ook wel ndarray genoemd) gebruikt.</p>
+<p><img src="./docs/source/_static/img/tensor_illustration.png" alt="Tensor illustratie" /></p>
+<p>PyTorch biedt Tensors die zowel op de CPU als op de GPU kunnen draaien en versnelt
+de berekening aanzienlijk.</p>
+<p>We bieden een breed scala aan tensor-routines om je wetenschappelijke berekeningsbehoeften te versnellen en te ondersteunen, zoals slicing, indexering, wiskundige operaties, lineaire algebra, reducties.
+En ze zijn snel!</p>
+<h3>Dynamische Neurale Netwerken: Tape-Based Autograd</h3>
+<p>PyTorch heeft een unieke manier om neurale netwerken te bouwen: door het gebruik van en het afspelen van een bandrecorder.</p>
+<p>De meeste frameworks zoals TensorFlow, Theano, Caffe en CNTK hebben een statische kijk op de wereld.
+Je moet een neuraal netwerk bouwen en steeds dezelfde structuur opnieuw gebruiken.
+Als je het gedrag van het netwerk wilt veranderen, moet je helemaal opnieuw beginnen.</p>
+<p>Met PyTorch gebruiken we een techniek die reverse-mode auto-differentiation heet, waarmee je het gedrag van je netwerk willekeurig kunt aanpassen zonder vertraging of overhead. Onze inspiratie komt
+van verschillende onderzoeksartikelen over dit onderwerp, evenals huidig en vorig werk zoals
+<a href="https://github.com/twitter/torch-autograd">torch-autograd</a>,
+<a href="https://github.com/HIPS/autograd">autograd</a>,
+<a href="https://chainer.org">Chainer</a>, enz.</p>
+<p>Hoewel deze techniek niet uniek is voor PyTorch, is het een van de snelste implementaties tot nu toe.
+Je krijgt het beste van snelheid en flexibiliteit voor je wilde onderzoeksdoelen.</p>
+<p><img src="https://github.com/pytorch/pytorch/raw/main/docs/source/_static/img/dynamic_graph.gif" alt="Dynamisch graaf" /></p>
+<h3>Python Eerst</h3>
+<p>PyTorch is geen Python-binding voor een monolithisch C++-framework.
+Het is gebouwd om diep geïntegreerd te zijn in Python.
+Je kunt het op een natuurlijke manier gebruiken, zoals je <a href="https://www.numpy.org/">NumPy</a> / <a href="https://www.scipy.org/">SciPy</a> / <a href="https://scikit-learn.org">scikit-learn</a> zou gebruiken.
+Je kunt je nieuwe neurale netwerk-lagen direct in Python schrijven, met je favoriete bibliotheken
+en pakketten zoals <a href="https://cython.org/">Cython</a> en <a href="http://numba.pydata.org/">Numba</a>.
+Ons doel is om het wiel niet opnieuw uit te vinden waar dat niet nodig is.</p>
+<h3>Imperatieve Ervaringen</h3>
+<p>PyTorch is ontworpen om intuïtief, lineair in denken en eenvoudig in gebruik te zijn.
+Wanneer je een regel code uitvoert, wordt deze uitgevoerd. Er is geen asynchroon wereldbeeld.
+Wanneer je een debugger gebruikt of foutmeldingen en stacktraces ontvangt, zijn deze gemakkelijk te begrijpen.
+De stacktrace wijst precies naar waar je code is gedefinieerd.
+We hopen dat je nooit uren hoeft te besteden aan het debuggen van je code door slechte stacktraces of asynchrone en ondoorzichtige uitvoering-engines.</p>
+<h3>Snel en Lichtgewicht</h3>
+<p>PyTorch heeft minimale framework overhead. We integreren versnellingsbibliotheken
+zoals <a href="https://software.intel.com/mkl">Intel MKL</a> en NVIDIA (<a href="https://developer.nvidia.com/cudnn">cuDNN</a>, <a href="https://developer.nvidia.com/nccl">NCCL</a>) om snelheid te maximaliseren.
+In de kern zijn de CPU- en GPU-Tensor- en neurale netwerkbackends
+volwassen en al jarenlang getest.</p>
+<p>PyTorch is dus erg snel — of je nu kleine of grote neurale netwerken draait.</p>
+<p>Het geheugengebruik in PyTorch is extreem efficiënt in vergelijking met Torch of sommige alternatieven.
+We hebben aangepaste geheugenallocators voor de GPU geschreven om ervoor te zorgen dat
+je deep learning modellen maximaal geheugenefficiënt zijn.
+Hierdoor kun je grotere deep learning modellen trainen dan voorheen.</p>
+<h3>Uitbreidingen Zonder Pijn</h3>
+<p>Het schrijven van nieuwe neurale netwerkmodules, of het koppelen aan de Tensor-API van PyTorch, is ontworpen om eenvoudig en met minimale abstracties te zijn.</p>
+<p>Je kunt nieuwe neurale netwerk-lagen schrijven in Python met behulp van de torch API
+<a href="https://pytorch.org/tutorials/advanced/numpy_extensions_tutorial.html">of je favoriete op NumPy gebaseerde bibliotheken zoals SciPy</a>.</p>
+<p>Als je je lagen in C/C++ wilt schrijven, bieden we een handige extension API die efficiënt is en minimale boilerplate vereist.
+Er hoeft geen wrapper-code te worden geschreven. Zie <a href="https://pytorch.org/tutorials/advanced/cpp_extension.html">een tutorial hier</a> en <a href="https://github.com/pytorch/extension-cpp">een voorbeeld hier</a>.</p>
+<h2>Installatie</h2>
+<h3>Binaries</h3>
+<p>Commando’s om binaries te installeren via Conda of pip wheels staan op onze website: <a href="https://pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a></p>
+<h4>NVIDIA Jetson Platformen</h4>
+<p>Python wheels voor NVIDIA's Jetson Nano, Jetson TX1/TX2, Jetson Xavier NX/AGX, en Jetson AGX Orin zijn <a href="https://forums.developer.nvidia.com/t/pytorch-for-jetson-version-1-10-now-available/72048">hier</a> beschikbaar en de L4T-container wordt gepubliceerd <a href="https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-pytorch">hier</a></p>
+<p>Ze vereisen JetPack 4.2 en hoger, en <a href="https://github.com/dusty-nv">@dusty-nv</a> en <a href="https://github.com/ptrblck">@ptrblck</a> onderhouden deze.</p>
+<h3>Vanuit Broncode</h3>
+<h4>Vereisten</h4>
+<p>Als je vanuit broncode installeert, heb je nodig:</p>
+<ul>
+<li>Python 3.9 of hoger</li>
+<li>Een compiler die volledig C++17 ondersteunt, zoals clang of gcc (gcc 9.4.0 of nieuwer is vereist op Linux)</li>
+<li>Visual Studio of Visual Studio Build Tool (alleen Windows)</li>
+</ul>
+<p>* PyTorch CI gebruikt Visual C++ BuildTools, die bij Visual Studio Enterprise,
+Professional, of Community Editions worden geleverd. Je kunt de build tools ook installeren via
+https://visualstudio.microsoft.com/visual-cpp-build-tools/. De build tools worden <em>niet</em>
+standaard meegeleverd met Visual Studio Code.</p>
+<p>Een voorbeeld van een omgevingssetup wordt hieronder getoond:</p>
+<ul>
+<li>Linux:</li>
+</ul>
+<pre><code class="language-bash">$ source &lt;CONDA_INSTALL_DIR&gt;/bin/activate
+$ conda create -y -n &lt;CONDA_NAME&gt;
+$ conda activate &lt;CONDA_NAME&gt;
+</code></pre>
+<ul>
+<li>Windows:</li>
+</ul>
+<pre><code class="language-bash">$ source &lt;CONDA_INSTALL_DIR&gt;\Scripts\activate.bat
+$ conda create -y -n &lt;CONDA_NAME&gt;
+$ conda activate &lt;CONDA_NAME&gt;
+$ call &quot;C:\Program Files\Microsoft Visual Studio\&lt;VERSION&gt;\Community\VC\Auxiliary\Build\vcvarsall.bat&quot; x64
+</code></pre>
+<h5>NVIDIA CUDA Ondersteuning</h5>
+<p>Als je wilt compileren met CUDA-ondersteuning, <a href="https://pytorch.org/get-started/locally/">selecteer een ondersteunde versie van CUDA uit onze supportmatrix</a>, en installeer dan het volgende:</p>
+<ul>
+<li><a href="https://developer.nvidia.com/cuda-downloads">NVIDIA CUDA</a></li>
+<li><a href="https://developer.nvidia.com/cudnn">NVIDIA cuDNN</a> v8.5 of hoger</li>
+<li><a href="https://gist.github.com/ax3l/9489132">Compiler</a> compatibel met CUDA</li>
+</ul>
+<p>Opmerking: Je kunt verwijzen naar de <a href="https://docs.nvidia.com/deeplearning/cudnn/backend/latest/reference/support-matrix.html">cuDNN Support Matrix</a> voor cuDNN-versies met de verschillende ondersteunde CUDA, CUDA-driver en NVIDIA-hardware</p>
+<p>Als je CUDA-ondersteuning wilt uitschakelen, exporteer dan de omgevingsvariabele <code>USE_CUDA=0</code>.
+Andere mogelijk nuttige omgevingsvariabelen zijn te vinden in <code>setup.py</code>.</p>
+<p>Als je bouwt voor NVIDIA's Jetson-platformen (Jetson Nano, TX1, TX2, AGX Xavier), zijn de instructies om PyTorch te installeren voor Jetson Nano <a href="https://devtalk.nvidia.com/default/topic/1049071/jetson-nano/pytorch-for-jetson-nano/">hier beschikbaar</a></p>
+<h5>AMD ROCm Ondersteuning</h5>
+<p>Als je wilt compileren met ROCm-ondersteuning, installeer dan</p>
+<ul>
+<li><a href="https://rocm.docs.amd.com/en/latest/deploy/linux/quick_start.html">AMD ROCm</a> 4.0 of hoger</li>
+<li>ROCm wordt momenteel alleen ondersteund voor Linux-systemen.</li>
+</ul>
+<p>Standaard verwacht het buildsysteem dat ROCm is geïnstalleerd in <code>/opt/rocm</code>. Als ROCm in een andere map is geïnstalleerd, moet de omgevingsvariabele <code>ROCM_PATH</code> worden ingesteld op de ROCm-installatiemap. Het buildsysteem detecteert de AMD GPU-architectuur automatisch. Optioneel kan de AMD GPU-architectuur expliciet worden ingesteld met de omgevingsvariabele <code>PYTORCH_ROCM_ARCH</code> <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html#supported-gpus">AMD GPU architectuur</a></p>
+<p>Als je ROCm-ondersteuning wilt uitschakelen, exporteer dan de omgevingsvariabele <code>USE_ROCM=0</code>.
+Andere mogelijk nuttige omgevingsvariabelen zijn te vinden in <code>setup.py</code>.</p>
+<h5>Intel GPU Ondersteuning</h5>
+<p>Als je wilt compileren met Intel GPU-ondersteuning, volg dan deze</p>
+<ul>
+<li><a href="https://www.intel.com/content/www/us/en/developer/articles/tool/pytorch-prerequisites-for-intel-gpus.html">PyTorch Vereisten voor Intel GPU's</a> instructies.</li>
+<li>Intel GPU wordt ondersteund voor Linux en Windows.</li>
+</ul>
+<p>Als je Intel GPU-ondersteuning wilt uitschakelen, exporteer dan de omgevingsvariabele <code>USE_XPU=0</code>.
+Andere mogelijk nuttige omgevingsvariabelen zijn te vinden in <code>setup.py</code>.</p>
+<h4>Download de PyTorch Broncode</h4>
+<pre><code class="language-bash">git clone https://github.com/pytorch/pytorch
+cd pytorch
+# als je een bestaande checkout bijwerkt
+git submodule sync
+git submodule update --init --recursive
+</code></pre>
+<h4>Installeer Afhankelijkheden</h4>
+<p><strong>Algemeen</strong></p>
+<pre><code class="language-bash">conda install cmake ninja
+# Voer dit commando uit in de PyTorch-map nadat je de broncode hebt gekloond met het gedeelte “Download de PyTorch Broncode” hierboven
+pip install -r requirements.txt
+</code></pre>
+<p><strong>Op Linux</strong></p>
+<pre><code class="language-bash">pip install mkl-static mkl-include
+# Alleen CUDA: Voeg LAPACK-ondersteuning voor de GPU toe indien nodig
+# magma installatie: voer uit met actieve conda-omgeving. Specificeer CUDA-versie om te installeren
+.ci/docker/common/install_magma_conda.sh 12.4
+
+# (optioneel) Als je torch.compile gebruikt met inductor/triton, installeer de bijpassende versie van triton
+# Voer uit vanuit de pytorch-map na het klonen
+# Voor Intel GPU-ondersteuning, graag expliciet `export USE_XPU=1` uitvoeren voor dit commando.
+make triton
+</code></pre>
+<p><strong>Op MacOS</strong></p>
+<pre><code class="language-bash"># Voeg dit pakket toe op Intel x86-processormachines
+pip install mkl-static mkl-include
+# Voeg deze pakketten toe als torch.distributed nodig is
+conda install pkg-config libuv
+</code></pre>
+<p><strong>Op Windows</strong></p>
+<pre><code class="language-bash">pip install mkl-static mkl-include
+# Voeg deze pakketten toe als torch.distributed nodig is.
+# Distributed package support op Windows is een prototypefunctie en kan veranderen.
+conda install -c conda-forge libuv=1.39
+</code></pre>
+<h4>Installeer PyTorch</h4>
+<p><strong>Op Linux</strong></p>
+<p>Als je compileert voor AMD ROCm voer dan eerst dit commando uit:</p>
+<pre><code class="language-bash"># Alleen uitvoeren als je compileert voor ROCm
+python tools/amd_build/build_amd.py
+</code></pre>
+<p>Installeer PyTorch</p>
+<pre><code class="language-bash">export CMAKE_PREFIX_PATH=&quot;${CONDA_PREFIX:-'$(dirname $(which conda))/../'}:${CMAKE_PREFIX_PATH}&quot;
+python setup.py develop
+</code></pre>
+<p><strong>Op macOS</strong></p>
+<pre><code class="language-bash">python3 setup.py develop
+</code></pre>
+<p><strong>Op Windows</strong></p>
+<p>Als je legacy python-code wilt bouwen, raadpleeg dan <a href="https://github.com/pytorch/pytorch/blob/main/CONTRIBUTING.md#building-on-legacy-code-and-cuda">Building on legacy code and CUDA</a></p>
+<p><strong>Alleen CPU-builds</strong></p>
+<p>In deze modus draaien PyTorch-berekeningen op je CPU, niet op je GPU.</p>
+<pre><code class="language-cmd">python setup.py develop
+</code></pre>
+<p>Opmerking over OpenMP: De gewenste OpenMP-implementatie is Intel OpenMP (iomp). Om te linken tegen iomp, moet je de bibliotheek handmatig downloaden en de buildomgeving instellen door <code>CMAKE_INCLUDE_PATH</code> en <code>LIB</code> aan te passen. De instructie <a href="https://github.com/pytorch/pytorch/blob/main/docs/source/notes/windows.rst#building-from-source">hier</a> is een voorbeeld voor het instellen van zowel MKL als Intel OpenMP. Zonder deze CMake-configuraties wordt Microsoft Visual C OpenMP-runtime (vcomp) gebruikt.</p>
+<p><strong>CUDA-gebaseerde build</strong></p>
+<p>In deze modus maken PyTorch-berekeningen gebruik van je GPU via CUDA voor snellere nummerverwerking</p>
+<p><a href="https://docs.nvidia.com/gameworks/content/gameworkslibrary/nvtx/nvidia_tools_extension_library_nvtx.htm">NVTX</a> is nodig om Pytorch met CUDA te bouwen.
+NVTX is onderdeel van de CUDA-distributie, waar het &quot;Nsight Compute&quot; heet. Om het te installeren op een reeds geïnstalleerde CUDA, voer de CUDA-installatie opnieuw uit en vink het juiste selectievakje aan.
+Zorg dat CUDA met Nsight Compute is geïnstalleerd na Visual Studio.</p>
+<p>Momenteel worden VS 2017 / 2019, en Ninja ondersteund als generator voor CMake. Als <code>ninja.exe</code> wordt gedetecteerd in <code>PATH</code>, wordt Ninja gebruikt als standaardgenerator, anders wordt VS 2017 / 2019 gebruikt.
+<br/> Als Ninja is geselecteerd als generator, wordt de nieuwste MSVC geselecteerd als de onderliggende toolchain.</p>
+<p>Aanvullende bibliotheken zoals
+<a href="https://developer.nvidia.com/magma">Magma</a>, <a href="https://github.com/oneapi-src/oneDNN">oneDNN, ook bekend als MKLDNN of DNNL</a>, en <a href="https://github.com/mozilla/sccache">Sccache</a> zijn vaak nodig. Raadpleeg de <a href="https://github.com/pytorch/pytorch/tree/main/.ci/pytorch/win-test-helpers/installation-helpers">installation-helper</a> om ze te installeren.</p>
+<p>Je kunt verwijzen naar het <a href="https://github.com/pytorch/pytorch/blob/main/.ci/pytorch/win-test-helpers/build_pytorch.bat">build_pytorch.bat</a> script voor andere omgevingsvariabelenconfiguraties.</p>
+<pre><code class="language-cmd">cmd
+
+:: Stel de omgevingsvariabelen in nadat je het mkl-pakket hebt gedownload en uitgepakt,
+:: anders geeft CMake een fout als `Could NOT find OpenMP`.
+set CMAKE_INCLUDE_PATH={Je map}\mkl\include
+set LIB={Je map}\mkl\lib;%LIB%
+
+:: Lees de inhoud in het vorige gedeelte zorgvuldig voordat je doorgaat.
+:: [Optioneel] Als je de onderliggende toolset voor Ninja en Visual Studio met CUDA wilt overschrijven, voer dan het volgende scriptblok uit.
+:: &quot;Visual Studio 2019 Developer Command Prompt&quot; wordt automatisch uitgevoerd.
+:: Zorg dat je CMake &gt;= 3.12 hebt voordat je dit doet als je de Visual Studio-generator gebruikt.
+set CMAKE_GENERATOR_TOOLSET_VERSION=14.27
+set DISTUTILS_USE_SDK=1
+for /f &quot;usebackq tokens=*&quot; %i in (`&quot;%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe&quot; -version [15^,17^) -products * -latest -property installationPath`) do call &quot;%i\VC\Auxiliary\Build\vcvarsall.bat&quot; x64 -vcvars_ver=%CMAKE_GENERATOR_TOOLSET_VERSION%
+
+:: [Optioneel] Als je de CUDA host compiler wilt overschrijven
+set CUDAHOSTCXX=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\bin\HostX64\x64\cl.exe
+
+python setup.py develop
+
+</code></pre>
+<p><strong>Intel GPU builds</strong></p>
+<p>In deze modus wordt PyTorch met Intel GPU-ondersteuning gebouwd.</p>
+<p>Zorg dat <a href="#vereisten">de algemene vereisten</a> evenals <a href="#intel-gpu-ondersteuning">de vereisten voor Intel GPU</a> correct zijn geïnstalleerd en de omgevingsvariabelen zijn geconfigureerd voordat je begint met bouwen. Voor ondersteuning van build tools is <code>Visual Studio 2022</code> vereist.</p>
+<p>Daarna kan PyTorch worden gebouwd met het commando:</p>
+<pre><code class="language-cmd">:: CMD Commando's:
+:: Stel de CMAKE_PREFIX_PATH in om de juiste pakketten te vinden
+:: %CONDA_PREFIX% werkt alleen na `conda activate custom_env`
+
+if defined CMAKE_PREFIX_PATH (
+    set &quot;CMAKE_PREFIX_PATH=%CONDA_PREFIX%\Library;%CMAKE_PREFIX_PATH%&quot;
+) else (
+    set &quot;CMAKE_PREFIX_PATH=%CONDA_PREFIX%\Library&quot;
+)
+
+python setup.py develop
+</code></pre>
+<h5>Aanpassen van Build Opties (Optioneel)</h5>
+<p>Je kunt de configuratie van CMake-variabelen optioneel aanpassen (zonder eerst te bouwen) door het volgende te doen. Bijvoorbeeld het aanpassen van de vooraf gedetecteerde mappen voor CuDNN of BLAS kan zo worden gedaan.</p>
+<p>Op Linux</p>
+<pre><code class="language-bash">export CMAKE_PREFIX_PATH=&quot;${CONDA_PREFIX:-'$(dirname $(which conda))/../'}:${CMAKE_PREFIX_PATH}&quot;
+python setup.py build --cmake-only
+ccmake build  # of cmake-gui build
+</code></pre>
+<p>Op macOS</p>
+<pre><code class="language-bash">export CMAKE_PREFIX_PATH=&quot;${CONDA_PREFIX:-'$(dirname $(which conda))/../'}:${CMAKE_PREFIX_PATH}&quot;
+MACOSX_DEPLOYMENT_TARGET=10.9 CC=clang CXX=clang++ python setup.py build --cmake-only
+ccmake build  # of cmake-gui build
+</code></pre>
+<h3>Docker Image</h3>
+<h4>Gebruik van vooraf gebouwde images</h4>
+<p>Je kunt ook een vooraf gebouwde docker image van Docker Hub halen en draaien met docker v19.03+</p>
+<pre><code class="language-bash">docker run --gpus all --rm -ti --ipc=host pytorch/pytorch:latest
+</code></pre>
+<p>Let op: PyTorch gebruikt gedeeld geheugen om data tussen processen te delen, dus als torch multiprocessing wordt gebruikt (bijv.
+voor multithreaded data loaders) is het standaardgedeelde geheugensegment dat de container gebruikt niet groot genoeg, en moet je de grootte van het gedeelde geheugen verhogen met de <code>--ipc=host</code> of <code>--shm-size</code> commandoregelopties voor <code>nvidia-docker run</code>.</p>
+<h4>Image zelf bouwen</h4>
+<p><strong>OPMERKING:</strong> Moet worden gebouwd met een docker-versie &gt; 18.06</p>
+<p>Het <code>Dockerfile</code> wordt meegeleverd om images te bouwen met CUDA 11.1-ondersteuning en cuDNN v8.
+Je kunt de <code>PYTHON_VERSION=x.y</code> make-variabele meegeven om de gewenste Python-versie te specificeren voor Miniconda, of deze leeg laten om de standaard te gebruiken.</p>
+<pre><code class="language-bash">make -f docker.Makefile
+# images worden getagd als docker.io/${your_docker_username}/pytorch
+</code></pre>
+<p>Je kunt ook de omgevingsvariabele <code>CMAKE_VARS=&quot;...&quot;</code> doorgeven om extra CMake-variabelen te specificeren die aan CMake worden doorgegeven tijdens het bouwen.
+Zie <a href="./setup.py">setup.py</a> voor de lijst met beschikbare variabelen.</p>
+<pre><code class="language-bash">make -f docker.Makefile
+</code></pre>
+<h3>Documentatie Bouwen</h3>
+<p>Om documentatie in verschillende formaten te bouwen, heb je <a href="http://www.sphinx-doc.org">Sphinx</a>
+en het pytorch_sphinx_theme2 nodig.</p>
+<p>Voordat je de documentatie lokaal bouwt, zorg dat <code>torch</code> is
+geïnstalleerd in je omgeving. Voor kleine aanpassingen kun je de
+nightly versie installeren zoals beschreven in <a href="https://pytorch.org/get-started/locally/">Aan de slag</a>.</p>
+<p>Voor meer complexe aanpassingen, zoals het toevoegen van een nieuw module en docstrings voor
+de nieuwe module, moet je mogelijk torch <a href="#vanuit-broncode">vanuit broncode installeren</a>.
+Zie <a href="https://github.com/pytorch/pytorch/wiki/Docstring-Guidelines">Docstring Guidelines</a>
+voor docstring conventies.</p>
+<pre><code class="language-bash">cd docs/
+pip install -r requirements.txt
+make html
+make serve
+</code></pre>
+<p>Voer <code>make</code> uit om een lijst te krijgen van alle beschikbare uitvoerformaten.</p>
+<p>Als je een katex-fout krijgt, voer dan <code>npm install katex</code> uit.  Als het blijft aanhouden, probeer dan
+<code>npm install -g katex</code></p>
+<blockquote>
+<p>[!OPMERKING]
+Als je <code>nodejs</code> met een andere pakketmanager hebt geïnstalleerd (bijv.
+<code>conda</code>) dan zal <code>npm</code> waarschijnlijk een versie van <code>katex</code> installeren die niet
+compatibel is met je versie van <code>nodejs</code> en zullen doc builds mislukken.
+Een combinatie van versies die werkt is <code>node@6.13.1</code> en
+<code>katex@0.13.18</code>. Om laatstgenoemde met <code>npm</code> te installeren kun je uitvoeren
+<code>npm install -g katex@0.13.18</code></p>
+</blockquote>
+<blockquote>
+<p>[!OPMERKING]
+Als je een numpy-incompatibiliteitsfout ziet, voer uit:</p>
+<pre><code>pip install 'numpy&lt;2'
+</code></pre>
+</blockquote>
+<p>Als je wijzigingen aanbrengt in de afhankelijkheden die door CI worden uitgevoerd, bewerk dan het bestand
+<code>.ci/docker/requirements-docs.txt</code>.</p>
+<h4>PDF Bouwen</h4>
+<p>Om een PDF van alle PyTorch-documentatie te compileren, zorg dat je
+<code>texlive</code> en LaTeX hebt geïnstalleerd. Op macOS kun je deze installeren met:</p>
+<pre><code>brew install --cask mactex
+</code></pre>
+<p>Om de PDF te maken:</p>
+<ol>
+<li><p>Voer uit:</p>
+<pre><code>make latexpdf
+</code></pre>
+<p>Dit genereert de benodigde bestanden in de map <code>build/latex</code>.</p>
+</li>
+<li><p>Navigeer naar deze map en voer uit:</p>
+<pre><code>make LATEXOPTS=&quot;-interaction=nonstopmode&quot;
+</code></pre>
+<p>Dit produceert een <code>pytorch.pdf</code> met de gewenste inhoud. Voer dit
+commando nogmaals uit zodat de juiste inhoudsopgave
+en index worden gegenereerd.</p>
+</li>
+</ol>
+<blockquote>
+<p>[!OPMERKING]
+Om de inhoudsopgave te bekijken, schakel over naar de <strong>Inhoudsopgave</strong>
+weergave in je PDF-lezer.</p>
+</blockquote>
+<h3>Vorige Versies</h3>
+<p>Installatie-instructies en binaries voor eerdere PyTorch-versies zijn te vinden
+op <a href="https://pytorch.org/get-started/previous-versions">onze website</a>.</p>
+<h2>Aan de slag</h2>
+<p>Drie startpunten om je op weg te helpen:</p>
+<ul>
+<li><a href="https://pytorch.org/tutorials/">Tutorials: helpen je op weg met het begrijpen en gebruiken van PyTorch</a></li>
+<li><a href="https://github.com/pytorch/examples">Voorbeelden: gemakkelijk te begrijpen PyTorch-code in alle domeinen</a></li>
+<li><a href="https://pytorch.org/docs/">De API Referentie</a></li>
+<li><a href="https://github.com/pytorch/pytorch/blob/main/GLOSSARY.md">Woordenlijst</a></li>
+</ul>
+<h2>Bronnen</h2>
+<ul>
+<li><a href="https://pytorch.org/">PyTorch.org</a></li>
+<li><a href="https://pytorch.org/tutorials/">PyTorch Tutorials</a></li>
+<li><a href="https://github.com/pytorch/examples">PyTorch Voorbeelden</a></li>
+<li><a href="https://pytorch.org/hub/">PyTorch Modellen</a></li>
+<li><a href="https://www.udacity.com/course/deep-learning-pytorch--ud188">Intro tot Deep Learning met PyTorch van Udacity</a></li>
+<li><a href="https://www.udacity.com/course/intro-to-machine-learning-nanodegree--nd229">Intro tot Machine Learning met PyTorch van Udacity</a></li>
+<li><a href="https://www.coursera.org/learn/deep-neural-networks-with-pytorch">Diepe Neurale Netwerken met PyTorch van Coursera</a></li>
+<li><a href="https://twitter.com/PyTorch">PyTorch Twitter</a></li>
+<li><a href="https://pytorch.org/blog/">PyTorch Blog</a></li>
+<li><a href="https://www.youtube.com/channel/UCWXI5YeOsh03QvJ59PMaXFw">PyTorch YouTube</a></li>
+</ul>
+<h2>Communicatie</h2>
+<ul>
+<li>Forums: Bespreek implementaties, onderzoek, enz. https://discuss.pytorch.org</li>
+<li>GitHub Issues: Bugrapporten, feature requests, installatieproblemen, RFC's, ideeën, enz.</li>
+<li>Slack: De <a href="https://pytorch.slack.com/">PyTorch Slack</a> is vooral voor gevorderde PyTorch-gebruikers en ontwikkelaars voor algemene chat, online discussies, samenwerking, enz. Als je een beginner bent die hulp zoekt, is het primaire medium <a href="https://discuss.pytorch.org">PyTorch Forums</a>. Als je een slack-uitnodiging nodig hebt, vul dan dit formulier in: https://goo.gl/forms/PP1AGvNHpSaJP8to1</li>
+<li>Nieuwsbrief: Geen spam, een eenzijdige e-mailnieuwsbrief met belangrijke aankondigingen over PyTorch. Je kunt je hier aanmelden: https://eepurl.com/cbG0rv</li>
+<li>Facebook-pagina: Belangrijke aankondigingen over PyTorch. https://www.facebook.com/pytorch</li>
+<li>Voor merkrichtlijnen, bezoek onze website op <a href="https://pytorch.org/">pytorch.org</a></li>
+</ul>
+<h2>Releases en Bijdragen</h2>
+<p>Typisch heeft PyTorch drie kleine releases per jaar. Laat het ons weten als je een bug tegenkomt door <a href="https://github.com/pytorch/pytorch/issues">een issue in te dienen</a>.</p>
+<p>We waarderen alle bijdragen. Als je van plan bent om bugfixes bij te dragen, doe dit dan zonder verdere discussie.</p>
+<p>Als je van plan bent om nieuwe functies, hulpfuncties of extensies aan de kern toe te voegen, open dan eerst een issue en bespreek de functie met ons.
+Een PR sturen zonder discussie kan resulteren in een afgewezen PR omdat we de kern mogelijk in een andere richting sturen dan je verwacht.</p>
+<p>Meer leren over bijdragen aan Pytorch? Zie onze <a href="CONTRIBUTING.md">Bijdragepagina</a>. Meer informatie over PyTorch-releases vind je op de <a href="RELEASE.md">Releasepagina</a>.</p>
+<h2>Het Team</h2>
+<p>PyTorch is een community-gedreven project met verschillende bekwame ingenieurs en onderzoekers die bijdragen.</p>
+<p>PyTorch wordt momenteel onderhouden door <a href="http://soumith.ch">Soumith Chintala</a>, <a href="https://github.com/gchanan">Gregory Chanan</a>, <a href="https://github.com/dzhulgakov">Dmytro Dzhulgakov</a>, <a href="https://github.com/ezyang">Edward Yang</a>, en <a href="https://github.com/malfet">Nikita Shulga</a> met grote bijdragen van honderden getalenteerde individuen in diverse vormen en middelen.
+Een niet-uitputtende maar groeiende lijst noemt: <a href="https://github.com/killeent">Trevor Killeen</a>, <a href="https://github.com/chsasank">Sasank Chilamkurthy</a>, <a href="https://github.com/szagoruyko">Sergey Zagoruyko</a>, <a href="https://github.com/adamlerer">Adam Lerer</a>, <a href="https://github.com/fmassa">Francisco Massa</a>, <a href="https://github.com/alykhantejani">Alykhan Tejani</a>, <a href="https://github.com/lantiga">Luca Antiga</a>, <a href="https://github.com/albanD">Alban Desmaison</a>, <a href="https://github.com/andreaskoepf">Andreas Koepf</a>, <a href="https://github.com/jekbradbury">James Bradbury</a>, <a href="https://github.com/ebetica">Zeming Lin</a>, <a href="https://github.com/yuandong-tian">Yuandong Tian</a>, <a href="https://github.com/glample">Guillaume Lample</a>, <a href="https://github.com/Maratyszcza">Marat Dukhan</a>, <a href="https://github.com/ngimel">Natalia Gimelshein</a>, <a href="https://github.com/csarofeen">Christian Sarofeen</a>, <a href="https://github.com/martinraison">Martin Raison</a>, <a href="https://github.com/ezyang">Edward Yang</a>, <a href="https://github.com/zdevito">Zachary Devito</a>.</p>
+<p>Opmerking: Dit project is niet gerelateerd aan <a href="https://github.com/hughperkins/pytorch">hughperkins/pytorch</a> met dezelfde naam. Hugh is een waardevolle bijdrager aan de Torch-community en heeft veel bijgedragen aan Torch en PyTorch.</p>
+<h2>Licentie</h2>
+<p>PyTorch heeft een BSD-achtige licentie, zoals te vinden in het <a href="LICENSE">LICENSE</a> bestand.</p>
+<hr />
+<p><a href="https://github.com/OpenAiTx/OpenAiTx">Powered By OpenAiTx</a></p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

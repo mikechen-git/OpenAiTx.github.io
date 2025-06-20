@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ch32fun - cnlohr/ch32fun</title>
+    <meta name="title" content="ch32fun - cnlohr/ch32fun">
+    <meta name="description" content="cnlohr/ch32fun - GitHub repository zh-TW documentation and informationch32fun 一個開源的開發環境（工具、標頭、範例），適用於 CH32V003（以及 CH32V 系列中的許多其他晶片），可配合 gcc-riscv64 在 Windows（原生）、Linux 及/或 WSL 上使用。CH32V003 是一顆僅 10 美分的 RISC-V EC 核心晶片，運作時脈為 48MHz，擁有...">
+    <meta name="keywords" content="cnlohr, ch32fun, GitHub, repository, zh-TW documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/cnlohr/ch32fun/README-zh-TW.html">
+    <meta property="og:title" content="ch32fun - cnlohr/ch32fun">
+    <meta property="og:description" content="cnlohr/ch32fun - GitHub repository zh-TW documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/cnlohr/ch32fun" id="githubRepoLink" target="_blank">cnlohr/ch32fun</a>
+<h1 style="display: none;">ch32fun 一個開源的開發環境（工具、標頭、範例），適用於 CH32V003（以及 CH32V 系列中的許多其他晶片），可配合 gcc-riscv64 在 Windows（原生）、Linux 及/或 WSL 上使用。CH32V003 是一顆僅 10 美分的 RISC-V EC 核心晶片，運作時脈為 48MHz，擁有...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>ch32fun</h1>
+<p>一個開源的開發環境（工具、標頭、範例），適用於 <a href="http://www.wch-ic.com/products/CH32V003.html">CH32V003</a>（以及 CH32V 系列中的許多其他晶片），可配合 gcc-riscv64 在 Windows（原生）、Linux 及/或 WSL 上使用。CH32V003 是一顆僅 10 美分的 RISC-V EC 核心晶片，運作時脈為 48MHz，擁有 16kB 的快閃記憶體和 2kB 的 RAM，以及多種周邊。它提供 SOP-8、QFN-20 和 SOIC 封裝。你可以在<a href="http://www.wch-ic.com/downloads/CH32V003DS0_PDF.html">這裡取得資料手冊</a>。</p>
+<p>本專案的目標是開發一套高效使用 CH32V003 的工具和環境。避免複雜的 HAL，充分發揮硬體效能！現有的 EVT 龐大，開發環境也很沉重。本專案特別避免使用 HAL，讓你可以直接參考 <a href="http://www.wch-ic.com/downloads/CH32V003RM_PDF.html">TRM</a>。相比之下，使用 ch32fun 的 blinky 僅 500 bytes，啟動更快，整體更簡單。</p>
+<p>ch32fun 包含：</p>
+<ol>
+<li>使用 ch32fun 的範例，但數量不如 HAL 多。大多以 ch32v003 為主，但其中許多也相容於其他處理器。</li>
+<li>「minichlink」，使用 WCH CH-Link 與 libusb，跨平台支援。
+<ul>
+<li>STM32F042 燒錄器 <a href="https://github.com/NgoHungCuong/NHC-Link042">NHC-Link042</a></li>
+<li>ESP32S2 燒錄器 <a href="https://github.com/cnlohr/esp32s2-cookbook/tree/master/ch32v003programmer">esp32s2-funprog</a></li>
+<li>官方 WCH Link-E 燒錄器</li>
+<li>Arduino 介面 <a href="https://gitlab.com/BlueSyncLine/arduino-ch32v003-swio">Ardulink</a></li>
+<li>支援 gdbserver 風格的除錯，可用於 Visual Studio</li>
+<li>支援單線 printf 輸出（約 400kBaud）</li>
+</ul>
+</li>
+<li>額外提供一份 libgcc，可支援非常規 risc-v 編譯鏈，位於 <code>misc/libgcc.a</code>。</li>
+<li>一個名為「ch32fun」的資料夾，包含單一自足的原始碼檔與標頭檔，用於編譯 ch32v003 應用程式。</li>
+<li>在某些系統上可「printf」回傳</li>
+<li>一個示範用的 bootloader。</li>
+</ol>
+<h2>其他系列支援</h2>
+<p>目前已實驗性支援 ch32v103、ch32v203、ch32v208、ch32v303、ch32v305 及 ch32v307。GDB 主要在 003 上測試，但在其他處理器上也可有限度運作。</p>
+<h2>開始使用</h2>
+<p>安裝/設定說明請參閱 <a href="https://github.com/cnlohr/ch32fun/wiki/Installation">wiki 頁面</a></p>
+<h2>功能特色！</h2>
+<h3>透過燒錄介面快速「printf」除錯</h3>
+<p>這裡的快，是真的很快。通常約 36kBytes/sec。</p>
+<pre><code>./minichlink -T | pv &gt; /dev/null
+Found ESP32S2 Programmer
+ 536KiB 0:00:15 [36.7KiB/s] [        &lt;=&gt;                     ]
+</code></pre>
+<p>你可以直接試用 debugprintf 專案，或呼叫 SetupDebugPrintf(); 然後隨意 printf()。</p>
+<h3>除錯支援！</h3>
+<p>透過 minichlink 內建的 gdbserver！可搭配 <code>gdb-multiarch</code> 及 Visual Studio Code 使用。</p>
+<h2>編譯與燒錄</h2>
+<pre><code>cd examples/blink
+make
+</code></pre>
+<p>text = 程式碼，data = 常數和初始化值，bss = 未初始化值。<br />
+dec 是三者總和，反映程式佔用快閃記憶體的位元組數。</p>
+<p>產生的 .bin 檔可由 minichlink 使用，.hex 檔則相容於官方 WCH 燒錄工具。</p>
+<h2>VSCode +/- PlatformIO</h2>
+<p>注意：PlatformIO 主要用於本倉庫的 CI。雖然 PlatformIO 可在 VSCode 內撰寫與除錯 ch32fun 專案，你也可以完全不使用 PlatformIO：詳見 <a href="https://github.com/cnlohr/ch32fun/tree/master/examples/template/.vscode">template project</a>。</p>
+<p>本專案可配合 VSCode 與 PlatformIO 擴充套件進行建置、上傳和除錯。只需將本專案 clone 並在 VSCode 開啟，安裝 PlatformIO 擴充套件。使用 <a href="https://docs.platformio.org/en/latest/integration/ide/vscode.html#project-tasks">專案環境切換器</a> 選擇特定範例，如 &quot;blink&quot;。</p>
+<p>若要建立以 ch32fun 為基礎的新 PlatformIO 韌體專案，只需使用 <a href="https://docs.platformio.org/en/latest/home/index.html">PlatformIO Home</a> 的「新專案」精靈，並將「Framework」設為「ch32v003fun」。有<a href="https://github.com/Community-PIO-CH32V/platform-ch32v/tree/develop/examples/blinky-ch32v003fun">各種範例</a>。</p>
+<p><img src="https://raw.githubusercontent.com/cnlohr/ch32fun/master/.github/pio_project_creation.png" alt="pio_proj" /></p>
+<p>相等的 <a href="https://docs.platformio.org/en/latest/integration/ide/vscode.html#platformio-core-cli">PlatformIO Core CLI</a> 指令如下：</p>
+<pre><code class="language-sh">pio init -b genericCH32V003F4P6 -O &quot;framework = ch32v003fun&quot;
+</code></pre>
+<p>若要直接將你的程式碼加入 ch32fun 專案，請依照<a href="https://github.com/cnlohr/ch32fun/blob/49640fbccf231191aa83c6a2bbe9d385535b2d1e/platformio.ini#L48-L53">說明</a>擴展 <code>platformio.ini</code> 中的環境。</p>
+<p>也請注意，當你在 PlatformIO 中開啟本專案時，可於 VSCode 工作列底部使用 <a href="https://docs.platformio.org/en/latest/integration/ide/vscode.html#project-tasks">專案環境切換器</a> 選擇特定範例資料夾。否則，「Build」預設會編譯<strong>所有</strong>範例。</p>
+<p>詳細資訊與平台安裝，請見 <a href="https://github.com/Community-PIO-CH32V/platform-ch32v">platform-ch32v</a>。</p>
+<h2>clangd</h2>
+<p>若 C/C++ 語言伺服器 clangd 找不到 <code>ch32fun.h</code>，請先 <code>make clean</code> 清除範例，並使用 <code>bear -- make build</code> 進行一次建置，這將生成 clangd 用於尋找 makefile 指定 include 路徑的 <code>compile_commands.json</code>。<br />
+<code>make clangd</code> 可一步完成。
+<code>build_all_clangd.sh</code>（於 build scripts）可為所有範例自動處理。</p>
+<h2>快速參考</h2>
+<ul>
+<li><strong>必需</strong>：程式燒錄/除錯用 <code>SWIO</code> 位於 <code>PD1</code>。請勿讓 PD1 同時用於多種功能。</li>
+<li><strong>選用</strong>：<code>NRST</code> 位於 <code>PD7</code>。非必要，在某些設定下預設為 GPIO。</li>
+<li><strong>選用</strong>：UART <code>TX</code> 位於 <code>PD5</code>。建議使用 SWIO 進行 <code>printf</code> 除錯。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Tengo10/pinout-overview/main/pinouts/CH32v003/ch32v003a4m6.svg" alt="ch32v003a4m6" />
+<img src="https://raw.githubusercontent.com/Tengo10/pinout-overview/main/pinouts/CH32v003/ch32v003f4p6.svg" alt="ch32v003f4p6" />
+<img src="https://raw.githubusercontent.com/Tengo10/pinout-overview/main/pinouts/CH32v003/ch32v003f4u6.svg" alt="ch32v003f4u6" />
+<img src="https://raw.githubusercontent.com/Tengo10/pinout-overview/main/pinouts/CH32v003/ch32v003j4m6.svg" alt="ch32v003j4m6" /></p>
+<h2>更多範例/專案？</h2>
+<p>其他第三方工具正加入大量範例等資源。更多函式庫等請參閱以下倉庫：</p>
+<ul>
+<li><a href="https://github.com/recallmenot/ch32v003fun_wildwest">ch32v003fun_wildwest</a></li>
+<li><a href="https://github.com/hexeguitar/ch32v003fun_libs">ch32v003fun_libs</a></li>
+<li><a href="https://github.com/ADBeta/CH32V003_lib_uart">CH32V003_lib_uart</a></li>
+<li><a href="https://github.com/ADBeta/CH32Vxxx_lib_i2c">CH32Vxxx_lib_i2c</a></li>
+<li><a href="https://github.com/ADBeta/CH32Vxxx_lib_swi2c">CH32Vxxx_lib_swi2c</a></li>
+<li><a href="https://github.com/DeadBugEngineering/ch32v003fun_shenanigans">ch32v003fun_shenanigans</a></li>
+<li><a href="https://github.com/pabloestrado/ch32fun-bmp280-driver">ch32fun-bmp280-driver</a></li>
+<li><a href="https://github.com/pabloestrado/ch32fun-aht20-driver">ch32fun-aht20-driver</a></li>
+</ul>
+<h2>支援</h2>
+<p>你可以在 github 提交 issue，或加入我的 Discord 伺服器 #ch32fun 頻道。目前邀請僅限私訊，請直接 @cnlohr 索取邀請連結。我的私訊開放。</p>
+<h3>附註/連結</h3>
+<ul>
+<li>https://raw.githubusercontent.com/openwch/ch32v003/main/RISC-V%20QingKeV2%20Microprocessor%20Debug%20Manual.pdf 除錯手冊</li>
+<li>http://www.wch-ic.com/downloads/QingKeV2_Processor_Manual_PDF.html 處理器手冊</li>
+<li>http://www.wch-ic.com/downloads/CH32V003RM_PDF.html 技術參考手冊</li>
+<li>http://www.wch-ic.com/downloads/CH32V003DS0_PDF.html 資料手冊</li>
+<li>https://github.com/CaiB/CH32V003-Architecture-Exploration/blob/main/InstructionTypes.md 關於本晶片壓縮指令集的細節</li>
+<li>CH32V003 有 xv 擴展，你可以用此客製化的 rvcodec.js 處理其指令碼：https://xw.macyler.moe/</li>
+</ul>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

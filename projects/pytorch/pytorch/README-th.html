@@ -1,0 +1,494 @@
+﻿<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pytorch - pytorch/pytorch</title>
+    <meta name="title" content="pytorch - pytorch/pytorch">
+    <meta name="description" content="pytorch/pytorch - GitHub repository th documentation and informationPyTorch คือแพ็คเกจ Python ที่ให้ฟีเจอร์ระดับสูงสองอย่าง: การคำนวณเทนเซอร์ (เหมือน NumPy) พร้อมการเร่งความเร็วโดย GPU อย่างมีประสิทธิภาพ เครือข่ายประสาทเทียมเชิง...">
+    <meta name="keywords" content="pytorch, pytorch, GitHub, repository, th documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/pytorch/pytorch/README-th.html">
+    <meta property="og:title" content="pytorch - pytorch/pytorch">
+    <meta property="og:description" content="pytorch/pytorch - GitHub repository th documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/pytorch/pytorch" id="githubRepoLink" target="_blank">pytorch/pytorch</a>
+<h1 style="display: none;">PyTorch คือแพ็คเกจ Python ที่ให้ฟีเจอร์ระดับสูงสองอย่าง: การคำนวณเทนเซอร์ (เหมือน NumPy) พร้อมการเร่งความเร็วโดย GPU อย่างมีประสิทธิภาพ เครือข่ายประสาทเทียมเชิง...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <p><img src="https://github.com/pytorch/pytorch/raw/main/docs/source/_static/img/pytorch-logo-dark.png" alt="PyTorch Logo" /></p>
+<hr />
+<p>PyTorch คือแพ็คเกจ Python ที่ให้ฟีเจอร์ระดับสูงสองอย่าง:</p>
+<ul>
+<li>การคำนวณเทนเซอร์ (เหมือน NumPy) พร้อมการเร่งความเร็วโดย GPU อย่างมีประสิทธิภาพ</li>
+<li>เครือข่ายประสาทเทียมเชิงลึกที่สร้างบนระบบ autograd แบบเทป</li>
+</ul>
+<p>คุณสามารถนำแพ็คเกจ Python ที่คุณชื่นชอบ เช่น NumPy, SciPy และ Cython มาใช้ขยาย PyTorch ได้เมื่อต้องการ</p>
+<p>สุขภาพของ trunk (สัญญาณ Continuous Integration) สามารถดูได้ที่ <a href="https://hud.pytorch.org/ci/pytorch/pytorch/main">hud.pytorch.org</a>.</p>
+<!-- toc -->
+<ul>
+<li><a href="#more-about-pytorch">ข้อมูลเพิ่มเติมเกี่ยวกับ PyTorch</a>
+<ul>
+<li><a href="#a-gpu-ready-tensor-library">ไลบรารีเทนเซอร์ที่พร้อมใช้งานกับ GPU</a></li>
+<li><a href="#dynamic-neural-networks-tape-based-autograd">เครือข่ายประสาทเทียมแบบไดนามิก: Tape-Based Autograd</a></li>
+<li><a href="#python-first">Python มาก่อน</a></li>
+<li><a href="#imperative-experiences">ประสบการณ์แบบ Imperative</a></li>
+<li><a href="#fast-and-lean">รวดเร็วและประหยัด</a></li>
+<li><a href="#extensions-without-pain">ขยายต่อได้ง่ายดาย</a></li>
+</ul>
+</li>
+<li><a href="#installation">การติดตั้ง</a>
+<ul>
+<li><a href="#binaries">ไบนารี</a>
+<ul>
+<li><a href="#nvidia-jetson-platforms">แพลตฟอร์ม NVIDIA Jetson</a></li>
+</ul>
+</li>
+<li><a href="#from-source">จากซอร์สโค้ด</a>
+<ul>
+<li><a href="#prerequisites">ข้อกำหนดเบื้องต้น</a>
+<ul>
+<li><a href="#nvidia-cuda-support">รองรับ NVIDIA CUDA</a></li>
+<li><a href="#amd-rocm-support">รองรับ AMD ROCm</a></li>
+<li><a href="#intel-gpu-support">รองรับ Intel GPU</a></li>
+</ul>
+</li>
+<li><a href="#get-the-pytorch-source">รับซอร์สของ PyTorch</a></li>
+<li><a href="#install-dependencies">ติดตั้ง dependencies</a></li>
+<li><a href="#install-pytorch">ติดตั้ง PyTorch</a>
+<ul>
+<li><a href="#adjust-build-options-optional">ปรับตัวเลือกการ build (ไม่บังคับ)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#docker-image">Docker Image</a>
+<ul>
+<li><a href="#using-pre-built-images">ใช้งานอิมเมจที่ build ไว้แล้ว</a></li>
+<li><a href="#building-the-image-yourself">สร้างอิมเมจด้วยตนเอง</a></li>
+</ul>
+</li>
+<li><a href="#building-the-documentation">สร้างเอกสารประกอบ</a>
+<ul>
+<li><a href="#building-a-pdf">สร้าง PDF</a></li>
+</ul>
+</li>
+<li><a href="#previous-versions">เวอร์ชันก่อนหน้า</a></li>
+</ul>
+</li>
+<li><a href="#getting-started">เริ่มต้นใช้งาน</a></li>
+<li><a href="#resources">แหล่งข้อมูล</a></li>
+<li><a href="#communication">การสื่อสาร</a></li>
+<li><a href="#releases-and-contributing">การออกเวอร์ชันและการมีส่วนร่วม</a></li>
+<li><a href="#the-team">ทีมงาน</a></li>
+<li><a href="#license">สัญญาอนุญาต</a></li>
+</ul>
+<!-- tocstop -->
+<h2>ข้อมูลเพิ่มเติมเกี่ยวกับ PyTorch</h2>
+<p><a href="https://pytorch.org/tutorials/beginner/basics/intro.html">เรียนรู้พื้นฐานของ PyTorch</a></p>
+<p>ในรายละเอียด PyTorch คือไลบรารีที่ประกอบด้วยส่วนประกอบต่อไปนี้:</p>
+<p>| ส่วนประกอบ | คำอธิบาย |
+| ---- | --- |
+| <a href="https://pytorch.org/docs/stable/torch.html"><strong>torch</strong></a> | ไลบรารีเทนเซอร์เหมือน NumPy พร้อมรองรับ GPU อย่างมีประสิทธิภาพ |
+| <a href="https://pytorch.org/docs/stable/autograd.html"><strong>torch.autograd</strong></a> | ไลบรารี differentiation อัตโนมัติแบบเทปที่รองรับทุก operation ของ Tensor ที่สามารถ differentiable ใน torch |
+| <a href="https://pytorch.org/docs/stable/jit.html"><strong>torch.jit</strong></a> | สแตกการ compile (TorchScript) เพื่อสร้างโมเดลที่ serialize และ optimize ได้จากโค้ด PyTorch  |
+| <a href="https://pytorch.org/docs/stable/nn.html"><strong>torch.nn</strong></a> | ไลบรารี neural network ที่ผสานกับ autograd อย่างลึกซึ้ง ออกแบบมาเพื่อความยืดหยุ่นสูงสุด |
+| <a href="https://pytorch.org/docs/stable/multiprocessing.html"><strong>torch.multiprocessing</strong></a> | multiprocessing ของ Python แต่สามารถแชร์หน่วยความจำของ torch Tensor ระหว่าง process ได้ เหมาะสำหรับ data loading และการฝึก Hogwild |
+| <a href="https://pytorch.org/docs/stable/data.html"><strong>torch.utils</strong></a> | DataLoader และฟังก์ชันอำนวยความสะดวกอื่น ๆ |</p>
+<p>โดยปกติแล้ว PyTorch จะถูกใช้งานเป็น:</p>
+<ul>
+<li>ตัวแทน NumPy เพื่อใช้ประโยชน์จากพลังของ GPU</li>
+<li>แพลตฟอร์มวิจัย deep learning ที่ให้ความยืดหยุ่นและความเร็วสูงสุด</li>
+</ul>
+<p>รายละเอียดเพิ่มเติม:</p>
+<h3>ไลบรารีเทนเซอร์ที่พร้อมใช้งานกับ GPU</h3>
+<p>ถ้าคุณเคยใช้ NumPy แสดงว่าคุณเคยใช้ Tensor (หรือ ndarray) มาแล้ว</p>
+<p><img src="./docs/source/_static/img/tensor_illustration.png" alt="Tensor illustration" /></p>
+<p>PyTorch มี Tensor ที่สามารถอยู่ทั้งใน CPU หรือ GPU และช่วยเร่งการคำนวณได้อย่างมาก</p>
+<p>เรามีฟังก์ชัน tensor หลากหลายสำหรับการคำนวณทางวิทยาศาสตร์ของคุณ เช่น slicing, indexing, การคำนวณทางคณิตศาสตร์, พีชคณิตเชิงเส้น, การลดค่า ฯลฯ และรวดเร็วมาก!</p>
+<h3>เครือข่ายประสาทเทียมแบบไดนามิก: Tape-Based Autograd</h3>
+<p>PyTorch มีวิธีสร้าง neural network ที่ไม่เหมือนใคร: โดยใช้และเล่นซ้ำเหมือนเทปบันทึกเสียง</p>
+<p>เฟรมเวิร์กส่วนใหญ่ เช่น TensorFlow, Theano, Caffe และ CNTK จะมีมุมมองแบบ static คุณต้องสร้างโครงสร้าง neural network และใช้ซ้ำแบบเดิมไปเรื่อย ๆ การเปลี่ยนแปลงพฤติกรรมของ network หมายถึงการเริ่มใหม่ตั้งแต่ต้น</p>
+<p>ใน PyTorch เราใช้เทคนิคที่เรียกว่า reverse-mode auto-differentiation ซึ่งช่วยให้คุณเปลี่ยนพฤติกรรมของ network ได้อย่างอิสระโดยไม่มีความล่าช้าหรือ overhead แรงบันดาลใจมาจากงานวิจัยหลายฉบับ รวมถึงงานในอดีตและปัจจุบัน เช่น
+<a href="https://github.com/twitter/torch-autograd">torch-autograd</a>,
+<a href="https://github.com/HIPS/autograd">autograd</a>,
+<a href="https://chainer.org">Chainer</a> ฯลฯ</p>
+<p>แม้เทคนิคนี้จะไม่ใช่เอกลักษณ์ของ PyTorch แต่ก็เป็นหนึ่งใน implementation ที่เร็วที่สุดในปัจจุบัน คุณจะได้ทั้งความเร็วและความยืดหยุ่นสำหรับงานวิจัยที่ซับซ้อนของคุณ</p>
+<p><img src="https://github.com/pytorch/pytorch/raw/main/docs/source/_static/img/dynamic_graph.gif" alt="Dynamic graph" /></p>
+<h3>Python มาก่อน</h3>
+<p>PyTorch ไม่ใช่ Python binding สำหรับ C++ framework ขนาดใหญ่
+แต่มันถูกสร้างขึ้นมาเพื่อผสานกับ Python อย่างลึกซึ้ง
+คุณสามารถใช้งานได้เหมือน <a href="https://www.numpy.org/">NumPy</a> / <a href="https://www.scipy.org/">SciPy</a> / <a href="https://scikit-learn.org">scikit-learn</a> ฯลฯ
+คุณสามารถเขียนเลเยอร์ใหม่ของ neural network ใน Python ได้เอง ใช้ไลบรารีโปรดของคุณ
+และใช้แพ็คเกจอย่าง <a href="https://cython.org/">Cython</a> และ <a href="http://numba.pydata.org/">Numba</a>
+เป้าหมายของเราคือไม่ reinvent the wheel เมื่อไม่จำเป็น</p>
+<h3>ประสบการณ์แบบ Imperative</h3>
+<p>PyTorch ถูกออกแบบมาให้ใช้งานง่าย เข้าใจตรงไปตรงมา และใช้งานสะดวก
+เมื่อคุณรันโค้ด 1 บรรทัด มันจะถูกรันทันที ไม่มีการ asynchronous
+เมื่อคุณ debug หรือเจอ error/stack trace คุณจะเข้าใจได้ง่าย
+Stack trace จะชี้ไปยังที่มาของโค้ดโดยตรง
+เราหวังว่าคุณจะไม่ต้องเสียเวลานานในการ debug เพราะ stack trace ที่เข้าใจยากหรือ execution engine ที่ซับซ้อน</p>
+<h3>รวดเร็วและประหยัด</h3>
+<p>PyTorch มี overhead ของ framework น้อยมาก เราได้ผสาน acceleration libraries
+เช่น <a href="https://software.intel.com/mkl">Intel MKL</a> และ NVIDIA (<a href="https://developer.nvidia.com/cudnn">cuDNN</a>, <a href="https://developer.nvidia.com/nccl">NCCL</a>) เพื่อความเร็วสูงสุด
+แกนหลักของมัน ทั้ง Tensor และ neural network backend ของ CPU/GPU
+มีความสมบูรณ์และผ่านการทดสอบมาหลายปี</p>
+<p>ดังนั้น PyTorch จึงเร็วมาก ไม่ว่าคุณจะรัน neural network ขนาดเล็กหรือใหญ่</p>
+<p>การใช้หน่วยความจำของ PyTorch มีประสิทธิภาพสูงมาก เมื่อเทียบกับ Torch หรือทางเลือกอื่น ๆ
+เราได้เขียน memory allocator สำหรับ GPU ขึ้นมาเองเพื่อให้แน่ใจว่า
+โมเดล deep learning ของคุณใช้หน่วยความจำอย่างคุ้มค่าสูงสุด
+สิ่งนี้ทำให้คุณสามารถฝึกโมเดล deep learning ขนาดใหญ่กว่าเดิมได้</p>
+<h3>ขยายต่อได้ง่ายดาย</h3>
+<p>การเขียนโมดูล neural network ใหม่ หรือเชื่อมต่อกับ Tensor API ของ PyTorch ถูกออกแบบมาให้ตรงไปตรงมา
+และมี abstraction น้อยที่สุด</p>
+<p>คุณสามารถเขียนเลเยอร์ neural network ใหม่ใน Python โดยใช้ torch API
+<a href="https://pytorch.org/tutorials/advanced/numpy_extensions_tutorial.html">หรือไลบรารีที่ใช้ NumPy อย่าง SciPy</a> ได้</p>
+<p>หากคุณอยากเขียนเลเยอร์ใน C/C++ เราก็มี extension API ที่สะดวกและมี boilerplate น้อยมาก
+ไม่จำเป็นต้องเขียนโค้ด wrapper ดู <a href="https://pytorch.org/tutorials/advanced/cpp_extension.html">ตัวอย่างการใช้งาน</a> และ <a href="https://github.com/pytorch/extension-cpp">โค้ดตัวอย่าง</a></p>
+<h2>การติดตั้ง</h2>
+<h3>ไบนารี</h3>
+<p>คำสั่งสำหรับติดตั้งไบนารีผ่าน Conda หรือ pip wheels อยู่ในเว็บไซต์ของเรา: <a href="https://pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a></p>
+<h4>แพลตฟอร์ม NVIDIA Jetson</h4>
+<p>Python wheels สำหรับ Jetson Nano, Jetson TX1/TX2, Jetson Xavier NX/AGX และ Jetson AGX Orin มีให้ที่ <a href="https://forums.developer.nvidia.com/t/pytorch-for-jetson-version-1-10-now-available/72048">ที่นี่</a> และ L4T container เผยแพร่ที่ <a href="https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-pytorch">ที่นี่</a></p>
+<p>ต้องการ JetPack 4.2 ขึ้นไป และ <a href="https://github.com/dusty-nv">@dusty-nv</a> กับ <a href="https://github.com/ptrblck">@ptrblck</a> เป็นผู้ดูแล</p>
+<h3>จากซอร์สโค้ด</h3>
+<h4>ข้อกำหนดเบื้องต้น</h4>
+<p>ถ้าคุณจะติดตั้งจากซอร์สโค้ด คุณจะต้องมี:</p>
+<ul>
+<li>Python 3.9 หรือใหม่กว่า</li>
+<li>คอมไพเลอร์ที่รองรับ C++17 อย่างสมบูรณ์ เช่น clang หรือ gcc (ต้องการ gcc 9.4.0 หรือใหม่กว่า บน Linux)</li>
+<li>Visual Studio หรือ Visual Studio Build Tool (Windows เท่านั้น)</li>
+</ul>
+<p>* PyTorch CI ใช้ Visual C++ BuildTools ซึ่งมาพร้อมกับ Visual Studio Enterprise,
+Professional, หรือ Community Editions หรือดาวน์โหลดได้จาก
+https://visualstudio.microsoft.com/visual-cpp-build-tools/ Build tools <em>ไม่มี</em> ใน Visual Studio Code โดยปริยาย</p>
+<p>ตัวอย่างการตั้งค่าสภาพแวดล้อมด้านล่าง:</p>
+<ul>
+<li>Linux:</li>
+</ul>
+<pre><code class="language-bash">$ source &lt;CONDA_INSTALL_DIR&gt;/bin/activate
+$ conda create -y -n &lt;CONDA_NAME&gt;
+$ conda activate &lt;CONDA_NAME&gt;
+</code></pre>
+<ul>
+<li>Windows:</li>
+</ul>
+<pre><code class="language-bash">$ source &lt;CONDA_INSTALL_DIR&gt;\Scripts\activate.bat
+$ conda create -y -n &lt;CONDA_NAME&gt;
+$ conda activate &lt;CONDA_NAME&gt;
+$ call &quot;C:\Program Files\Microsoft Visual Studio\&lt;VERSION&gt;\Community\VC\Auxiliary\Build\vcvarsall.bat&quot; x64
+</code></pre>
+<h5>รองรับ NVIDIA CUDA</h5>
+<p>หากต้องการ compile ให้รองรับ CUDA <a href="https://pytorch.org/get-started/locally/">เลือกเวอร์ชัน CUDA ที่รองรับจาก matrix ของเรา</a> แล้วติดตั้ง:</p>
+<ul>
+<li><a href="https://developer.nvidia.com/cuda-downloads">NVIDIA CUDA</a></li>
+<li><a href="https://developer.nvidia.com/cudnn">NVIDIA cuDNN</a> v8.5 ขึ้นไป</li>
+<li><a href="https://gist.github.com/ax3l/9489132">Compiler</a> ที่รองรับ CUDA</li>
+</ul>
+<p>หมายเหตุ: สามารถดู <a href="https://docs.nvidia.com/deeplearning/cudnn/backend/latest/reference/support-matrix.html">cuDNN Support Matrix</a> สำหรับเวอร์ชัน cuDNN ที่รองรับ CUDA, CUDA driver และฮาร์ดแวร์ NVIDIA ได้</p>
+<p>หากต้องการปิดการรองรับ CUDA ให้ export ตัวแปรแวดล้อม <code>USE_CUDA=0</code>
+ตัวแปรแวดล้อมอื่น ๆ ดูได้ใน <code>setup.py</code></p>
+<p>หาก build สำหรับ NVIDIA Jetson (Jetson Nano, TX1, TX2, AGX Xavier) อ่านวิธีติดตั้ง PyTorch สำหรับ Jetson Nano ได้ที่ <a href="https://devtalk.nvidia.com/default/topic/1049071/jetson-nano/pytorch-for-jetson-nano/">ที่นี่</a></p>
+<h5>รองรับ AMD ROCm</h5>
+<p>หากต้องการ compile ให้รองรับ ROCm ให้ติดตั้ง</p>
+<ul>
+<li><a href="https://rocm.docs.amd.com/en/latest/deploy/linux/quick_start.html">AMD ROCm</a> 4.0 ขึ้นไป</li>
+<li>ROCm รองรับเฉพาะระบบ Linux</li>
+</ul>
+<p>โดยปกติระบบ build จะมองว่า ROCm อยู่ที่ <code>/opt/rocm</code> หากอยู่ที่อื่นให้ตั้งค่า <code>ROCM_PATH</code> ชี้ไปยังที่ติดตั้ง ROCm ระบบจะตรวจสอบสถาปัตยกรรม GPU อัตโนมัติ หรือจะตั้งค่า <code>PYTORCH_ROCM_ARCH</code> เพื่อเลือกสถาปัตยกรรม GPU เองได้ <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html#supported-gpus">ดูข้อมูล</a></p>
+<p>หากต้องการปิดการรองรับ ROCm ให้ export ตัวแปรแวดล้อม <code>USE_ROCM=0</code>
+ตัวแปรแวดล้อมอื่น ๆ ดูได้ใน <code>setup.py</code></p>
+<h5>รองรับ Intel GPU</h5>
+<p>หากต้องการ compile ให้รองรับ Intel GPU ให้ทำตาม</p>
+<ul>
+<li><a href="https://www.intel.com/content/www/us/en/developer/articles/tool/pytorch-prerequisites-for-intel-gpus.html">PyTorch Prerequisites for Intel GPUs</a></li>
+<li>Intel GPU รองรับทั้ง Linux และ Windows</li>
+</ul>
+<p>หากต้องการปิดการรองรับ Intel GPU ให้ export ตัวแปรแวดล้อม <code>USE_XPU=0</code>
+ตัวแปรแวดล้อมอื่น ๆ ดูได้ใน <code>setup.py</code></p>
+<h4>รับซอร์สของ PyTorch</h4>
+<pre><code class="language-bash">git clone https://github.com/pytorch/pytorch
+cd pytorch
+# หากอัปเดต checkout ที่มีอยู่แล้ว
+git submodule sync
+git submodule update --init --recursive
+</code></pre>
+<h4>ติดตั้ง dependencies</h4>
+<p><strong>ทั่วไป</strong></p>
+<pre><code class="language-bash">conda install cmake ninja
+# รันคำสั่งนี้จากไดเรกทอรี PyTorch หลังจาก clone ซอร์สโค้ดตามหัวข้อ “Get the PyTorch Source” ข้างบน
+pip install -r requirements.txt
+</code></pre>
+<p><strong>บน Linux</strong></p>
+<pre><code class="language-bash">pip install mkl-static mkl-include
+# CUDA เท่านั้น: เพิ่ม LAPACK สำหรับ GPU หากจำเป็น
+# การติดตั้ง magma: รันใน conda environment ที่ activate แล้ว ระบุเวอร์ชัน CUDA ที่จะติดตั้ง
+.ci/docker/common/install_magma_conda.sh 12.4
+
+# (เลือกได้) ถ้าใช้ torch.compile กับ inductor/triton ติดตั้ง triton เวอร์ชันที่ตรงกัน
+# รันจากไดเรกทอรี pytorch หลังจาก clone แล้ว
+# หากรองรับ Intel GPU กรุณา `export USE_XPU=1` ก่อนรันคำสั่งนี้
+make triton
+</code></pre>
+<p><strong>บน MacOS</strong></p>
+<pre><code class="language-bash"># ติดตั้งแพ็คเกจนี้บนเครื่องที่ใช้ intel x86 processor เท่านั้น
+pip install mkl-static mkl-include
+# ติดตั้งแพ็คเกจเหล่านี้หากต้องการใช้ torch.distributed
+conda install pkg-config libuv
+</code></pre>
+<p><strong>บน Windows</strong></p>
+<pre><code class="language-bash">pip install mkl-static mkl-include
+# ติดตั้งแพ็คเกจเหล่านี้หากต้องการใช้ torch.distributed
+# Distributed package บน Windows เป็นฟีเจอร์ทดลองและอาจเปลี่ยนแปลงได้
+conda install -c conda-forge libuv=1.39
+</code></pre>
+<h4>ติดตั้ง PyTorch</h4>
+<p><strong>บน Linux</strong></p>
+<p>หาก compile สำหรับ AMD ROCm ให้รันคำสั่งนี้ก่อน:</p>
+<pre><code class="language-bash"># รันเฉพาะกรณี compile สำหรับ ROCm เท่านั้น
+python tools/amd_build/build_amd.py
+</code></pre>
+<p>ติดตั้ง PyTorch</p>
+<pre><code class="language-bash">export CMAKE_PREFIX_PATH=&quot;${CONDA_PREFIX:-'$(dirname $(which conda))/../'}:${CMAKE_PREFIX_PATH}&quot;
+python setup.py develop
+</code></pre>
+<p><strong>บน macOS</strong></p>
+<pre><code class="language-bash">python3 setup.py develop
+</code></pre>
+<p><strong>บน Windows</strong></p>
+<p>ถ้าต้องการ build legacy python code โปรดดู <a href="https://github.com/pytorch/pytorch/blob/main/CONTRIBUTING.md#building-on-legacy-code-and-cuda">Building on legacy code and CUDA</a></p>
+<p><strong>Build แบบ CPU เท่านั้น</strong></p>
+<p>โหมดนี้ PyTorch จะคำนวณโดยใช้ CPU ไม่ใช่ GPU</p>
+<pre><code class="language-cmd">python setup.py develop
+</code></pre>
+<p>หมายเหตุเกี่ยวกับ OpenMP: Implementation ที่ต้องการคือ Intel OpenMP (iomp) หากต้องการ link กับ iomp คุณต้องดาวน์โหลด library เองและตั้งค่าสภาพแวดล้อมโดยปรับ <code>CMAKE_INCLUDE_PATH</code> และ <code>LIB</code> ดูตัวอย่างการตั้งค่าทั้ง MKL และ Intel OpenMP <a href="https://github.com/pytorch/pytorch/blob/main/docs/source/notes/windows.rst#building-from-source">ได้ที่นี่</a> หากไม่ตั้งค่า CMake จะใช้ Microsoft Visual C OpenMP runtime (vcomp)</p>
+<p><strong>Build แบบใช้ CUDA</strong></p>
+<p>โหมดนี้ PyTorch จะคำนวณบน GPU ผ่าน CUDA เพื่อความเร็ว</p>
+<p><a href="https://docs.nvidia.com/gameworks/content/gameworkslibrary/nvtx/nvidia_tools_extension_library_nvtx.htm">NVTX</a> จำเป็นสำหรับ build PyTorch กับ CUDA
+NVTX เป็นส่วนหนึ่งของ CUDA ที่เรียกว่า &quot;Nsight Compute&quot; ติดตั้งโดยรันตัวติดตั้ง CUDA อีกครั้งแล้วเลือก checkbox ที่เกี่ยวข้อง
+ตรวจสอบให้แน่ใจว่า CUDA กับ Nsight Compute ถูกติดตั้งหลัง Visual Studio</p>
+<p>ขณะนี้ VS 2017 / 2019 และ Ninja รองรับเป็น generator ของ CMake หากพบ <code>ninja.exe</code> ใน <code>PATH</code> จะใช้ Ninja เป็น generator โดยอัตโนมัติ มิฉะนั้นจะใช้ VS 2017 / 2019
+<br/> หากเลือก Ninja เป็น generator จะใช้ MSVC ล่าสุดเป็น toolchain ด้านล่าง</p>
+<p>ต้องติดตั้งไลบรารีเพิ่มเติมเช่น
+<a href="https://developer.nvidia.com/magma">Magma</a>, <a href="https://github.com/oneapi-src/oneDNN">oneDNN หรือ MKLDNN/DNNL</a>, และ <a href="https://github.com/mozilla/sccache">Sccache</a> ดู <a href="https://github.com/pytorch/pytorch/tree/main/.ci/pytorch/win-test-helpers/installation-helpers">installation-helper</a> เพื่อดูวิธีติดตั้ง</p>
+<p>ดูตัวอย่างการตั้งค่าตัวแปรแวดล้อมใน <a href="https://github.com/pytorch/pytorch/blob/main/.ci/pytorch/win-test-helpers/build_pytorch.bat">build_pytorch.bat</a></p>
+<pre><code class="language-cmd">cmd
+
+:: ตั้งค่าตัวแปรหลังจากดาวน์โหลดและแตกไฟล์ mkl แล้ว
+:: ไม่เช่นนั้น CMake จะ error ว่า `Could NOT find OpenMP`
+set CMAKE_INCLUDE_PATH={Your directory}\mkl\include
+set LIB={Your directory}\mkl\lib;%LIB%
+
+:: อ่านรายละเอียดข้างบนให้ดีก่อนดำเนินการ
+:: [ไม่บังคับ] หากต้องการ override toolset ของ Ninja และ Visual Studio กับ CUDA ให้รันบล็อกนี้
+:: จะรัน &quot;Visual Studio 2019 Developer Command Prompt&quot; ให้อัตโนมัติ
+:: ตรวจสอบให้แน่ใจว่า CMake &gt;= 3.12 เมื่อใช้ Visual Studio generator
+set CMAKE_GENERATOR_TOOLSET_VERSION=14.27
+set DISTUTILS_USE_SDK=1
+for /f &quot;usebackq tokens=*&quot; %i in (`&quot;%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe&quot; -version [15^,17^) -products * -latest -property installationPath`) do call &quot;%i\VC\Auxiliary\Build\vcvarsall.bat&quot; x64 -vcvars_ver=%CMAKE_GENERATOR_TOOLSET_VERSION%
+
+:: [ไม่บังคับ] หากต้องการ override CUDA host compiler
+set CUDAHOSTCXX=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\bin\HostX64\x64\cl.exe
+
+python setup.py develop
+
+</code></pre>
+<p><strong>Build Intel GPU</strong></p>
+<p>โหมดนี้จะ build PyTorch พร้อมรองรับ Intel GPU</p>
+<p>โปรดตรวจสอบให้แน่ใจว่า <a href="#prerequisites">ข้อกำหนดทั่วไป</a> และ <a href="#intel-gpu-support">ข้อกำหนดสำหรับ Intel GPU</a> ได้รับการติดตั้งและตั้งค่าสภาพแวดล้อมแล้วก่อนเริ่ม build สำหรับ build tool ต้องใช้ <code>Visual Studio 2022</code></p>
+<p>จากนั้นสามารถ build PyTorch ด้วยคำสั่ง:</p>
+<pre><code class="language-cmd">:: คำสั่ง CMD:
+:: ตั้งค่า CMAKE_PREFIX_PATH เพื่อค้นหาแพ็คเกจที่เกี่ยวข้อง
+:: %CONDA_PREFIX% ใช้งานได้หลัง `conda activate custom_env`
+
+if defined CMAKE_PREFIX_PATH (
+    set &quot;CMAKE_PREFIX_PATH=%CONDA_PREFIX%\Library;%CMAKE_PREFIX_PATH%&quot;
+) else (
+    set &quot;CMAKE_PREFIX_PATH=%CONDA_PREFIX%\Library&quot;
+)
+
+python setup.py develop
+</code></pre>
+<h5>ปรับตัวเลือกการ build (ไม่บังคับ)</h5>
+<p>คุณสามารถปรับค่า cmake variables ได้ (โดยไม่ต้อง build ก่อน) เช่น ปรับ directory ของ CuDNN หรือ BLAS</p>
+<p>บน Linux</p>
+<pre><code class="language-bash">export CMAKE_PREFIX_PATH=&quot;${CONDA_PREFIX:-'$(dirname $(which conda))/../'}:${CMAKE_PREFIX_PATH}&quot;
+python setup.py build --cmake-only
+ccmake build  # หรือ cmake-gui build
+</code></pre>
+<p>บน macOS</p>
+<pre><code class="language-bash">export CMAKE_PREFIX_PATH=&quot;${CONDA_PREFIX:-'$(dirname $(which conda))/../'}:${CMAKE_PREFIX_PATH}&quot;
+MACOSX_DEPLOYMENT_TARGET=10.9 CC=clang CXX=clang++ python setup.py build --cmake-only
+ccmake build  # หรือ cmake-gui build
+</code></pre>
+<h3>Docker Image</h3>
+<h4>ใช้งานอิมเมจที่ build ไว้แล้ว</h4>
+<p>คุณสามารถดึง docker image ที่ build ไว้แล้วจาก Docker Hub และรันกับ docker v19.03+</p>
+<pre><code class="language-bash">docker run --gpus all --rm -ti --ipc=host pytorch/pytorch:latest
+</code></pre>
+<p>โปรดทราบว่า PyTorch ใช้ shared memory เพื่อแชร์ข้อมูลระหว่าง process ดังนั้นถ้าใช้ torch multiprocessing (เช่น data loader แบบ multithreaded) ขนาด shared memory ปริยายใน container จะไม่พอ ควรเพิ่มขนาด shared memory ด้วย <code>--ipc=host</code> หรือ <code>--shm-size</code> ในคำสั่ง <code>nvidia-docker run</code></p>
+<h4>สร้างอิมเมจด้วยตนเอง</h4>
+<p><strong>หมายเหตุ:</strong> ต้องใช้ docker เวอร์ชัน &gt; 18.06</p>
+<p><code>Dockerfile</code> ที่ให้มาสำหรับ build image ที่รองรับ CUDA 11.1 และ cuDNN v8
+คุณสามารถส่งตัวแปร <code>PYTHON_VERSION=x.y</code> ให้ make เพื่อกำหนดเวอร์ชัน Python หรือไม่ระบุก็จะใช้ค่าเริ่มต้น</p>
+<pre><code class="language-bash">make -f docker.Makefile
+# images จะถูก tag เป็น docker.io/${your_docker_username}/pytorch
+</code></pre>
+<p>สามารถระบุตัวแปร CMake เพิ่มเติมโดยใช้ <code>CMAKE_VARS=&quot;...&quot;</code> เพื่อส่งค่าไปยัง CMake ระหว่าง build
+ดู <a href="./setup.py">setup.py</a> สำหรับตัวแปรที่มี</p>
+<pre><code class="language-bash">make -f docker.Makefile
+</code></pre>
+<h3>สร้างเอกสารประกอบ</h3>
+<p>เพื่อ build เอกสารในหลายรูปแบบ คุณจะต้องมี <a href="http://www.sphinx-doc.org">Sphinx</a>
+และ pytorch_sphinx_theme2</p>
+<p>ก่อน build เอกสารในเครื่อง ให้แน่ใจว่า <code>torch</code> ถูกติดตั้งใน environment แล้ว สำหรับการแก้ไขเล็ก ๆ สามารถติดตั้ง nightly version ตาม <a href="https://pytorch.org/get-started/locally/">Getting Started</a></p>
+<p>สำหรับการแก้ไขที่ซับซ้อน เช่น การเพิ่มโมดูลใหม่และ docstring อาจต้องติดตั้ง torch <a href="#from-source">จากซอร์ส</a>
+ดู <a href="https://github.com/pytorch/pytorch/wiki/Docstring-Guidelines">Docstring Guidelines</a> สำหรับแนวทาง docstring</p>
+<pre><code class="language-bash">cd docs/
+pip install -r requirements.txt
+make html
+make serve
+</code></pre>
+<p>รัน <code>make</code> เพื่อดูรายการรูปแบบ output ทั้งหมด</p>
+<p>ถ้าเจอ katex error ให้รัน <code>npm install katex</code> ถ้ายังไม่หาย ให้ลอง
+<code>npm install -g katex</code></p>
+<blockquote>
+<p>[!หมายเหตุ]
+หากติดตั้ง <code>nodejs</code> ด้วย package manager อื่น (เช่น
+<code>conda</code>) <code>npm</code> อาจติดตั้งเวอร์ชัน <code>katex</code> ที่ไม่ compatible กับ <code>nodejs</code> และ build เอกสารจะล้มเหลว
+เวอร์ชันที่ยืนยันว่าใช้ได้คือ <code>node@6.13.1</code> และ
+<code>katex@0.13.18</code> ติดตั้ง katex ด้วย <code>npm</code> โดยรัน
+<code>npm install -g katex@0.13.18</code></p>
+</blockquote>
+<blockquote>
+<p>[!หมายเหตุ]
+หากเจอ numpy incompatibility error ให้รัน:</p>
+<pre><code>pip install 'numpy&lt;2'
+</code></pre>
+</blockquote>
+<p>เมื่อแก้ไข dependencies ที่ CI ใช้งาน ให้แก้ไขไฟล์
+<code>.ci/docker/requirements-docs.txt</code></p>
+<h4>สร้าง PDF</h4>
+<p>เพื่อ compile PDF ของเอกสาร PyTorch ทั้งหมด ต้องติดตั้ง
+<code>texlive</code> และ LaTeX บน macOS ติดตั้งได้ด้วย:</p>
+<pre><code>brew install --cask mactex
+</code></pre>
+<p>เพื่อสร้าง PDF:</p>
+<ol>
+<li><p>รัน:</p>
+<pre><code>make latexpdf
+</code></pre>
+<p>ไฟล์จะถูกสร้างในไดเรกทอรี <code>build/latex</code></p>
+</li>
+<li><p>เข้าไปที่ไดเรกทอรีนี้แล้วรัน:</p>
+<pre><code>make LATEXOPTS=&quot;-interaction=nonstopmode&quot;
+</code></pre>
+<p>จะได้ไฟล์ <code>pytorch.pdf</code> พร้อมเนื้อหาที่ต้องการ รันคำสั่งนี้ซ้ำอีกครั้งเพื่อให้สร้างสารบัญและดัชนีที่ถูกต้อง</p>
+</li>
+</ol>
+<blockquote>
+<p>[!หมายเหตุ]
+หากต้องการดูสารบัญ ให้เปลี่ยนไปใช้ <strong>Table of Contents</strong>
+ในโปรแกรมอ่าน PDF ของคุณ</p>
+</blockquote>
+<h3>เวอร์ชันก่อนหน้า</h3>
+<p>คำแนะนำการติดตั้งและไบนารีของ PyTorch เวอร์ชันก่อนหน้าสามารถดูได้ที่
+<a href="https://pytorch.org/get-started/previous-versions">เว็บไซต์ของเรา</a></p>
+<h2>เริ่มต้นใช้งาน</h2>
+<p>สามแหล่งข้อมูลสำหรับการเริ่มต้น:</p>
+<ul>
+<li><a href="https://pytorch.org/tutorials/">บทเรียน: เริ่มต้นเรียนรู้และใช้งาน PyTorch</a></li>
+<li><a href="https://github.com/pytorch/examples">ตัวอย่าง: โค้ด PyTorch เข้าใจง่ายสำหรับทุกโดเมน</a></li>
+<li><a href="https://pytorch.org/docs/">เอกสาร API</a></li>
+<li><a href="https://github.com/pytorch/pytorch/blob/main/GLOSSARY.md">Glossary</a></li>
+</ul>
+<h2>แหล่งข้อมูล</h2>
+<ul>
+<li><a href="https://pytorch.org/">PyTorch.org</a></li>
+<li><a href="https://pytorch.org/tutorials/">PyTorch Tutorials</a></li>
+<li><a href="https://github.com/pytorch/examples">PyTorch Examples</a></li>
+<li><a href="https://pytorch.org/hub/">PyTorch Models</a></li>
+<li><a href="https://www.udacity.com/course/deep-learning-pytorch--ud188">Intro to Deep Learning with PyTorch จาก Udacity</a></li>
+<li><a href="https://www.udacity.com/course/intro-to-machine-learning-nanodegree--nd229">Intro to Machine Learning with PyTorch จาก Udacity</a></li>
+<li><a href="https://www.coursera.org/learn/deep-neural-networks-with-pytorch">Deep Neural Networks with PyTorch จาก Coursera</a></li>
+<li><a href="https://twitter.com/PyTorch">PyTorch Twitter</a></li>
+<li><a href="https://pytorch.org/blog/">PyTorch Blog</a></li>
+<li><a href="https://www.youtube.com/channel/UCWXI5YeOsh03QvJ59PMaXFw">PyTorch YouTube</a></li>
+</ul>
+<h2>การสื่อสาร</h2>
+<ul>
+<li>ฟอรัม: พูดคุยเกี่ยวกับการ implement, งานวิจัย ฯลฯ https://discuss.pytorch.org</li>
+<li>GitHub Issues: รายงานบั๊ก, ขอฟีเจอร์, ปัญหาการติดตั้ง, RFC, ความคิดเห็น ฯลฯ</li>
+<li>Slack: <a href="https://pytorch.slack.com/">PyTorch Slack</a> มีผู้ใช้และนักพัฒนา PyTorch ระดับกลางถึงสูง สำหรับแชท, ถกปัญหา, ทำงานร่วมกัน ฯลฯ หากคุณเป็นมือใหม่ให้ใช้ <a href="https://discuss.pytorch.org">PyTorch Forums</a> หากต้องการ invite Slack กรุณากรอกแบบฟอร์มนี้: https://goo.gl/forms/PP1AGvNHpSaJP8to1</li>
+<li>จดหมายข่าว: อีเมลประกาศสำคัญเกี่ยวกับ PyTorch สมัครได้ที่: https://eepurl.com/cbG0rv</li>
+<li>Facebook Page: ข่าวสารสำคัญเกี่ยวกับ PyTorch https://www.facebook.com/pytorch</li>
+<li>สำหรับแนวทางการใช้แบรนด์ กรุณาดูที่ <a href="https://pytorch.org/">pytorch.org</a></li>
+</ul>
+<h2>การออกเวอร์ชันและการมีส่วนร่วม</h2>
+<p>โดยปกติ PyTorch จะมี minor release ปีละ 3 ครั้ง หากคุณพบข้อผิดพลาดโปรด <a href="https://github.com/pytorch/pytorch/issues">แจ้ง issue</a></p>
+<p>เราขอขอบคุณทุกการมีส่วนร่วม หากคุณจะช่วยแก้บั๊กสามารถส่ง pull request ได้เลยโดยไม่ต้องพูดคุยเพิ่มเติม</p>
+<p>หากคุณจะเพิ่มฟีเจอร์ใหม่, utility function, หรือ extension ให้กับ core กรุณาเปิด issue และพูดคุยกับทีมเราก่อน ส่ง PR มาโดยไม่พูดคุยอาจถูกปฏิเสธ เพราะเราอาจมีทิศทางของ core ที่ต่างจากที่คุณคิด</p>
+<p>ศึกษาวิธีมีส่วนร่วมกับ Pytorch เพิ่มเติมได้ที่ <a href="CONTRIBUTING.md">หน้า Contribution</a> ข้อมูลเกี่ยวกับ release ดูที่ <a href="RELEASE.md">Release page</a></p>
+<h2>ทีมงาน</h2>
+<p>PyTorch เป็นโครงการที่ขับเคลื่อนโดยชุมชน มีวิศวกรและนักวิจัยที่มีความสามารถจำนวนมากร่วมพัฒนา</p>
+<p>ปัจจุบัน PyTorch ดูแลโดย <a href="http://soumith.ch">Soumith Chintala</a>, <a href="https://github.com/gchanan">Gregory Chanan</a>, <a href="https://github.com/dzhulgakov">Dmytro Dzhulgakov</a>, <a href="https://github.com/ezyang">Edward Yang</a>, และ <a href="https://github.com/malfet">Nikita Shulga</a> โดยมีผู้ร่วมสมทบหลักจากบุคคลมากมายในหลากหลายรูปแบบ
+รายชื่อที่ไม่ครบถ้วนแต่เพิ่มขึ้นเรื่อย ๆ ได้แก่: <a href="https://github.com/killeent">Trevor Killeen</a>, <a href="https://github.com/chsasank">Sasank Chilamkurthy</a>, <a href="https://github.com/szagoruyko">Sergey Zagoruyko</a>, <a href="https://github.com/adamlerer">Adam Lerer</a>, <a href="https://github.com/fmassa">Francisco Massa</a>, <a href="https://github.com/alykhantejani">Alykhan Tejani</a>, <a href="https://github.com/lantiga">Luca Antiga</a>, <a href="https://github.com/albanD">Alban Desmaison</a>, <a href="https://github.com/andreaskoepf">Andreas Koepf</a>, <a href="https://github.com/jekbradbury">James Bradbury</a>, <a href="https://github.com/ebetica">Zeming Lin</a>, <a href="https://github.com/yuandong-tian">Yuandong Tian</a>, <a href="https://github.com/glample">Guillaume Lample</a>, <a href="https://github.com/Maratyszcza">Marat Dukhan</a>, <a href="https://github.com/ngimel">Natalia Gimelshein</a>, <a href="https://github.com/csarofeen">Christian Sarofeen</a>, <a href="https://github.com/martinraison">Martin Raison</a>, <a href="https://github.com/ezyang">Edward Yang</a>, <a href="https://github.com/zdevito">Zachary Devito</a>.</p>
+<p>หมายเหตุ: โปรเจกต์นี้ไม่เกี่ยวข้องกับ <a href="https://github.com/hughperkins/pytorch">hughperkins/pytorch</a> ที่ชื่อเหมือนกัน Hugh เป็นผู้ร่วมสมทบที่มีคุณค่าของชุมชน Torch และช่วยเหลือ Torch และ PyTorch ในหลายส่วน</p>
+<h2>สัญญาอนุญาต</h2>
+<p>PyTorch ใช้สัญญาอนุญาตแบบ BSD ตามที่พบในไฟล์ <a href="LICENSE">LICENSE</a></p>
+<hr />
+<p><a href="https://github.com/OpenAiTx/OpenAiTx">Powered By OpenAiTx</a></p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

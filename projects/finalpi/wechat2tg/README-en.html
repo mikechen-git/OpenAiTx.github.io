@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wechat2tg - finalpi/wechat2tg</title>
+    <meta name="title" content="wechat2tg - finalpi/wechat2tg">
+    <meta name="description" content="finalpi/wechat2tg - GitHub repository en documentation and informationwechat2tg-mac Send and receive WeChat messages on Telegram based on the WeChat Mac protocol. The wx2tg-server backend is not open source for security reasons. T...">
+    <meta name="keywords" content="finalpi, wechat2tg, GitHub, repository, en documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/finalpi/wechat2tg/README-en.html">
+    <meta property="og:title" content="wechat2tg - finalpi/wechat2tg">
+    <meta property="og:description" content="finalpi/wechat2tg - GitHub repository en documentation and information">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/finalpi/wechat2tg" id="githubRepoLink" target="_blank">finalpi/wechat2tg</a>
+<h1 style="display: none;">wechat2tg-mac Send and receive WeChat messages on Telegram based on the WeChat Mac protocol. The wx2tg-server backend is not open source for security reasons. T...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>wechat2tg-mac</h1>
+<p>Send and receive WeChat messages on Telegram based on the WeChat Mac protocol. The wx2tg-server backend is not open source for security reasons.</p>
+<h2>TG Group: <a href="https://t.me/+AD02MEZa-og3ZGY1">@Wx2TgUserGroup</a></h2>
+<h2>Main Features</h2>
+<ol>
+<li>Receive private WeChat messages, group chat messages, official account messages, and WeCom (Enterprise WeChat) messages</li>
+<li>Send messages from Telegram to specified WeChat users, groups, or official accounts</li>
+<li>Block messages from specified groups</li>
+</ol>
+<h2>Supported Message Types</h2>
+<h3>Supported WeChat Message Types</h3>
+<ul>
+<li>[x] Text messages</li>
+<li>[x] WeCom (Enterprise WeChat) messages</li>
+<li>[x] WeChat sticker packs</li>
+<li>[x] Image messages</li>
+<li>[x] Video messages</li>
+<li>[x] Audio/Video call (notification only)</li>
+<li>[x] File messages</li>
+<li>[x] Link messages</li>
+<li>[x] Group chat messages</li>
+<li>[x] Group chat @ messages (@everyone and @you will be converted to Telegram @you)</li>
+<li>[x] Official account messages</li>
+<li>[x] emoji</li>
+<li>[x] Location messages</li>
+<li>[x] Message recall</li>
+<li>[x] Voice messages</li>
+<li>[ ] Red packet messages (notification only, content cannot be obtained)</li>
+<li>[ ] Mini program messages</li>
+</ul>
+<h3>Supported Telegram Message Types</h3>
+<ul>
+<li>[x] Text messages</li>
+<li>[x] Sticker emojis</li>
+<li>[x] Image messages</li>
+<li>[x] Video messages</li>
+<li>[x] File messages</li>
+<li>[x] Voice messages</li>
+</ul>
+<h2>Notes</h2>
+<ol>
+<li>This project is for technical research and study only. Do not use for illegal purposes.</li>
+<li>No matter what problem you encounter, feel free to submit an issue.</li>
+</ol>
+<h2>Deployment and Installation</h2>
+<p>First, copy <code>.env.example</code> to <code>.env</code>, then configure the environment variables in the <code>.env</code> file.</p>
+<p>Copy <code>app.conf.example</code> from the project to <code>app.conf</code> in the <code>conf</code> directory, and set the Redis address to the address of your deployed Redis.</p>
+<h3>docker-compose</h3>
+<p>Create a <code>docker-compose.yml</code> file:</p>
+<pre><code class="language-yaml">version: '3'
+
+services:
+  wx2tg-mac:
+    image: finalpi/wechat2tg-mac:latest
+    container_name: wx2tg-mac
+    volumes:
+      - ./config:/app/storage
+      - ./save-files:/app/save-files # After mounting the save folder, sticker files do not need to be reconverted
+    env_file: &quot;.env&quot;
+    restart: unless-stopped
+
+  wx2tg-server:
+    image: finalpi/wx2tg-server:latest # Pull the image
+    container_name: wx2tg-server
+    ports:
+      - &quot;8058:8058&quot;
+    volumes:
+      - ./conf:/usr/wic-go/conf
+    restart: unless-stopped
+
+  wx2tg-redis:
+    image: redis:7.2
+    container_name: wx2tg-redis
+    ports:
+      - &quot;16379:6379&quot;
+    volumes:
+      - ./redis-data:/data
+    command: [&quot;redis-server&quot;, &quot;--appendonly&quot;, &quot;yes&quot;]
+    restart: unless-stopped
+</code></pre>
+<h4>Run</h4>
+<pre><code class="language-shell">docker-compose up -d
+</code></pre>
+<h4>Disable bot privacy mode</h4>
+<p>Disable the bot's privacy mode. Open BotFather, enter <code>/mybots</code>, select your bot. Click <code>Bot Settings</code> - <code>Group Privacy</code> - <code>Turn off</code>. If you see <code>Privacy mode is disabled for xxx</code>, it means it was successfully disabled.</p>
+<h2>Usage Instructions</h2>
+<h3>BOT Commands</h3>
+<ul>
+<li><p><code>/login</code>: Get login QR code; when deployed for the first time, the first user to send <code>/login</code> will become the owner of the <code>BOT</code>.</p>
+</li>
+<li><p><code>/flogin</code>: Get the File Transfer Assistant login QR code, supports receiving videos and files</p>
+</li>
+<li><p><code>/update</code>: Update group avatars and nickname information</p>
+</li>
+<li><p><code>/message</code>: Toggle group message reception</p>
+</li>
+<li><p><code>/forward</code>: Toggle forwarding of messages from others or bots in the group</p>
+</li>
+<li><p><code>/user</code>: Get WeChat user list; after clicking the button you can create a new group or bind a user (you can search by name or remark, for example: <code>/user Zhang</code> to find WeChat users containing &quot;Zhang&quot;)</p>
+</li>
+<li><p><code>/room</code>: Get WeChat group list; after clicking the button you can create a new group or bind a WeChat group (you can search by name or remark, for example: <code>/room Takeout</code> to find WeChat groups containing &quot;Takeout&quot;)</p>
+</li>
+<li><p><code>/settings</code>: Program settings</p>
+</li>
+<li><p><code>/unbind</code>: Unbind WeChat group or user (only supported in groups)</p>
+</li>
+</ul>
+<h3>Environment Variable Description</h3>
+<p>| Name | Required | Description |
+|--|------|----------------------------------------------------------------|
+|<code>BOT_TOKEN</code>| Yes | Telegram Bot token, created via <a href="https://t.me/BotFather">BotFather</a> |
+|<code>API_ID</code>| Yes | Telegram API's API ID |
+|<code>API_HASH</code>| Yes | Telegram API's API HASH |
+|<code>BASE_API</code>| Yes | API request address of wx2tg-server container, must be a complete path |
+|<code>PROXY_PROTOCOL</code>| No | Proxy type, optional values (socks5, http, https) |
+|<code>PROXY_HOST</code>| No | Proxy URL |
+|<code>PROXY_PORT</code>| No | Proxy port |
+|<code>PROXY_USERNAME</code>| No | Proxy username |
+|<code>PROXY_PASSWORD</code>| No | Proxy password |
+|<code>ROOM_MESSAGE</code>| No | Display format of WeChat group messages in BOT |
+|<code>OFFICIAL_MESSAGE</code>| No | Display format of official account messages in BOT |
+|<code>CONTACT_MESSAGE</code>| No | Display format of WeChat user messages in BOT |
+|<code>ROOM_MESSAGE_GROUP</code>| No | Display format of WeChat group messages in group |
+|<code>CONTACT_MESSAGE_GROUP</code>| No | Display format of WeChat user messages in group |
+|<code>OFFICIAL_MESSAGE_GROUP</code>| No | Display format of official account messages in group |
+|<code>CREATE_ROOM_NAME</code>| No | Format of group name when automatically creating a WeChat group |
+|<code>CREATE_CONTACT_NAME</code>| No | Format of group name when automatically creating a WeChat contact group |
+|<code>MESSAGE_DISPLAY</code>| No | Display format for text messages |</p>
+<hr />
+<h3><code>/settings</code> Command Description</h3>
+<ol>
+<li><p>Whether to display WeChat emoji as image links: When enabled, yellow face emojis sent by friends will be displayed as image links</p>
+</li>
+<li><p>Sync group info on startup: When enabled, the information of all users will be synchronized at program startup, and group avatars and names will be updated</p>
+</li>
+</ol>
+<hr />
+<h3>Speech-to-Text</h3>
+<ol>
+<li>Configure <code>TENCENT_SECRET_ID</code> and <code>TENCENT_SECRET_KEY</code>, which can be obtained from Tencent's <a href="https://console.cloud.tencent.com/asr">Speech Recognition Console</a>. There are free usage quotas.</li>
+<li>Enable the automatic speech-to-text feature in <code>/settings</code>.</li>
+</ol>
+<hr />
+<h3>Get <code>API_ID</code> and <code>API_HASH</code></h3>
+<ol>
+<li><p>Log in to <a href="https://my.telegram.org/">telegram account</a></p>
+</li>
+<li><p>Click &quot;API development tools&quot; and fill in application details (only the app title and short name are needed)</p>
+</li>
+<li><p>Finally, click &quot;Create application&quot;</p>
+</li>
+</ol>
+<hr />
+<h3>Custom Message Templates</h3>
+<p>If you want to modify the sender's message format, you can modify the environment variables in Docker or in the <code>.env</code> file.</p>
+<p>Custom message template placeholders:</p>
+<p><code>#[alias]</code>: Contact remark</p>
+<p><code>#[name]</code>: Contact nickname</p>
+<p><code>#[topic]</code>: Group chat nickname</p>
+<p><code>#[alias_first]</code>: Remark first, if no remark, display contact nickname</p>
+<p><code>#[identity]</code>: Identity information text</p>
+<p><code>#[body]</code>: Message body text</p>
+<p><code>#[br]</code>: New line</p>
+<h3>How to @everyone</h3>
+<p>Send a message starting with <code>@all</code> to @everyone. Only text messages support @everyone.</p>
+<hr />
+<h2>FAQ</h2>
+<h2>Contributing</h2>
+<ol>
+<li>Fork the project, switch to the <code>wx2tg-mac-dev</code> branch, or create a new branch. Please do not submit code directly to the main branch.</li>
+<li>Submit a Pull Request to the <code>wx2tg-mac-dev</code> branch.</li>
+</ol>
+<h2>License</h2>
+<p><a href="LICENSE">MIT</a></p>
+<h2>Thanks</h2>
+<p>Thanks to Jetbrains for supporting this project</p>
+<p><a href="https://www.jetbrains.com"><img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.png" width="200"></a></p>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-07</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>
