@@ -829,19 +829,17 @@ https://openaitx.github.io/ -->
             if (userOrOrg) document.getElementById('userOrOrg').value = userOrOrg;
             if (project) document.getElementById('project').value = project;
 
-            // 新增：如果 userOrOrg 为空，隐藏 style-option 区块，显示 Project URL 提交区块
+            // Added: If userOrOrg is empty, hide style-option blocks and show Project URL submission block
             if (!userOrOrg) {
                 document.querySelectorAll('.style-option').forEach(el => el.style.display = 'none');
                 document.getElementById('projectUrlSubmitContainer').style.display = 'block';
-            } else {
+            } else if (userOrOrg && project) {
                 // Generate badges on page load if URL parameters exist
-                if (userOrOrg && project) {
-                    updateBadges();
-                }
+                updateBadges();
             }
         });
 
-        // 新增：Project URL 提交逻辑
+        // Added: Project URL submission logic
         document.addEventListener('DOMContentLoaded', function () {
             const submitBtn = document.getElementById('projectUrlSubmitBtn');
             if (submitBtn) {
@@ -872,6 +870,33 @@ https://openaitx.github.io/ -->
                         msgDiv.style.color = '#2ea44f';
                         msgDiv.textContent = t.projectUrlSuccess;
                         submitBtn.textContent = t.projectUrlSubmitted;
+                        // Parse userOrOrg and project
+                        const match = url.match(/^https:\/\/github\.com\/([\w.-]+)\/([\w.-]+)$/);
+                        if (match) {
+                            const userOrOrg = match[1];
+                            const project = match[2];
+                            
+                            // Set userOrOrg and project values
+                            document.getElementById('userOrOrg').value = userOrOrg;
+                            document.getElementById('project').value = project;
+                            
+                            // Hide Project URL submission block
+                            document.getElementById('projectUrlSubmitContainer').style.display = 'none';
+                            
+                            // Show style blocks
+                            document.querySelectorAll('.style-option').forEach(el => el.style.display = 'block');
+                            
+                            // Generate badges with updated userOrOrg and project values
+                            const style1Html = generateStyle1(userOrOrg, project);
+                            document.getElementById('style1Preview').innerHTML = style1Html;
+                            document.getElementById('style1Html').value = style1Html;
+
+                            const style2Markdown = generateStyle2(userOrOrg, project);
+                            document.getElementById('style2Preview').textContent = style2Markdown;
+                            document.getElementById('style2Markdown').value = style2Markdown;
+
+                            // Skip project status check for URL submissions to avoid showing "documentation not found" message
+                        }
                     } catch (error) {
                         msgDiv.style.color = 'red';
                         msgDiv.textContent = t.projectUrlFailed + error.message;
