@@ -1,0 +1,361 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gitleaks - gitleaks/gitleaks tr</title>
+    <meta name="title" content="gitleaks - gitleaks/gitleaks tr | Dir dir (takma adları arasında files, directory bulunur) komutu, dizinleri ve dosyaları taramanıza olanak tanır. Örnek: gitleaks dir -v path_to_directory_or_fil...">
+    <meta name="description" content="gitleaks/gitleaks - GitHub repository tr documentation and information | Dir dir (takma adları arasında files, directory bulunur) komutu, dizinleri ve dosyaları taramanıza olanak tanır. Örnek: gitleaks dir -v path_to_directory_or_fil...">
+    <meta name="keywords" content="gitleaks, gitleaks, GitHub, repository, tr documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/gitleaks/gitleaks/README-tr.html">
+    <meta property="og:title" content="gitleaks - gitleaks/gitleaks tr | Dir dir (takma adları arasında files, directory bulunur) komutu, dizinleri ve dosyaları taramanıza olanak tanır. Örnek: gitleaks dir -v path_to_directory_or_fil...">
+    <meta property="og:description" content="gitleaks/gitleaks - GitHub repository tr documentation and information | Dir dir (takma adları arasında files, directory bulunur) komutu, dizinleri ve dosyaları taramanıza olanak tanır. Örnek: gitleaks dir -v path_to_directory_or_fil...">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div style="position: fixed; top: 2px; left: 2px; z-index: 2000; background: rgba(255,255,255,0.95); border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 4px 14px; font-size: 15px; color: #222; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 500; letter-spacing: 0.5px;">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank" style="color: #0366d6; text-decoration: none; font-weight: 600;">Open AI Tx</a>
+    </div>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/gitleaks/gitleaks" id="githubRepoLink" target="_blank">gitleaks/gitleaks</a>
+<h1 style="display: none;">Dir dir (takma adları arasında files, directory bulunur) komutu, dizinleri ve dosyaları taramanıza olanak tanır. Örnek: gitleaks dir -v path_to_directory_or_fil...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h4>Dir</h4>
+<p><code>dir</code> (takma adları arasında <code>files</code>, <code>directory</code> bulunur) komutu, dizinleri ve dosyaları taramanıza olanak tanır. Örnek: <code>gitleaks dir -v path_to_directory_or_file</code>.
+Eğer pozisyonel argüman olarak bir hedef belirtilmezse, gitleaks geçerli çalışma dizinini tarar.</p>
+<h4>Stdin</h4>
+<p>Verileri <code>stdin</code> komutu ile gitleaks'e aktarabilirsiniz. Örnek: <code>cat some_file | gitleaks -v stdin</code></p>
+<h3>Temel (Baseline) Oluşturma</h3>
+<p>Büyük depoları veya uzun geçmişi olan depoları tararken, bir temel (baseline) kullanmak uygun olabilir. Temel kullanıldığında,
+gitleaks, temelde bulunan eski bulguları yoksayar. Bir temel, herhangi bir gitleaks raporu olabilir. Bir gitleaks raporu oluşturmak için, gitleaks'i <code>--report-path</code> parametresiyle çalıştırın.</p>
+<pre><code>gitleaks git --report-path gitleaks-report.json # Bu raporu gitleaks-report.json adlı bir dosyada kaydeder
+</code></pre>
+<p>Bir temel oluşturulduktan sonra, detect komutu tekrar çalıştırıldığında uygulanabilir:</p>
+<pre><code>gitleaks git --baseline-path gitleaks-report.json --report-path findings.json
+</code></pre>
+<p>Detect komutunu --baseline-path parametresi ile çalıştırdıktan sonra, rapor çıktısı (findings.json) yalnızca yeni sorunları içerecektir.</p>
+<h2>Pre-Commit Hook</h2>
+<p>Gitleaks'i bir pre-commit hook'u olarak çalıştırmak için örnek <code>pre-commit.py</code> betiğini
+<code>.git/hooks/</code> dizininize kopyalayabilirsiniz.</p>
+<h2>Konfigürasyon Yükleme</h2>
+<p>Öncelik sırası şöyledir:</p>
+<ol>
+<li><code>--config/-c</code> seçeneği:
+<pre><code class="language-bash">gitleaks git --config /home/dev/customgitleaks.toml .
+</code></pre>
+</li>
+<li>Dosya yolu ile ortam değişkeni <code>GITLEAKS_CONFIG</code>:
+<pre><code class="language-bash">export GITLEAKS_CONFIG=&quot;/home/dev/customgitleaks.toml&quot;
+gitleaks git .
+</code></pre>
+</li>
+<li>Dosya içeriği ile ortam değişkeni <code>GITLEAKS_CONFIG_TOML</code>:
+<pre><code class="language-bash">export GITLEAKS_CONFIG_TOML=`cat customgitleaks.toml`
+gitleaks git .
+</code></pre>
+</li>
+<li>Hedef yolun içinde <code>.gitleaks.toml</code> dosyası:
+<pre><code class="language-bash">gitleaks git .
+</code></pre>
+</li>
+</ol>
+<p>Bu dört seçeneğin hiçbiri kullanılmazsa, gitleaks varsayılan konfigürasyonu kullanır.</p>
+<h2>Konfigürasyon</h2>
+<p>Gitleaks, kendi gizli bilgi tespit kurallarınızı yazmanız için takip edebileceğiniz bir konfigürasyon formatı sunar:</p>
+<pre><code class="language-toml"># Gitleaks konfigürasyon dosyası için başlık.
+title = &quot;Özel Gitleaks konfigürasyonu&quot;
+
+# Temelde iki seçeneğiniz var:
+#
+# 1. Kendi konfigürasyonunuzu tanımlayın, varsayılan kurallar uygulanmaz
+#
+#    Başlangıç noktası olarak varsayılan konfigürasyonu kullanabilirsiniz:
+#    https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml
+#
+# 2. Bir konfigürasyonu genişletin, kurallar üzerine yazılır veya genişletilir
+#
+#    Bir konfigürasyonu genişlettiğinizde, genişletilmiş kurallar varsayılan kuralların önüne geçer.
+#    Yani, hem genişletilmiş konfigürasyonda hem de varsayılan konfigürasyonda aynı kurallar varsa,
+#    genişletilmiş kurallar veya onların öznitelikleri varsayılan kuralları geçersiz kılar.
+#    Konfigürasyonları genişletirken bilmeniz gereken bir diğer şey ise,
+#    birden fazla konfigürasyon dosyasını 2 derinliğe kadar zincirleyebilirsiniz.
+#    Allowlist dizileri eklenir ve kopya içerebilir.
+
+# useDefault ve path AYNI ANDA kullanılamaz. Birini seçin.
+[extend]
+# useDefault, ikili dosyada yerleşik olan varsayılan gitleaks konfigürasyonunu genişletir.
+# En son sürüm şurada bulunur:
+# https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml
+useDefault = true
+# veya genişletmek için bir konfigürasyon yolu belirtebilirsiniz.
+# Yol, gitleaks'in çalıştırıldığı yere göre görecelidir,
+# temel konfigürasyonun bulunduğu yere göre değil.
+# path = &quot;common_config.toml&quot;
+# Miras almak istemediğiniz kuralları burada belirtebilirsiniz.
+disabledRules = [ &quot;generic-api-key&quot;]
+
+# Gizli bilgi tespiti talimatlarını tanımlayan bilgileri içeren tablo dizisi
+[[rules]]
+# Bu kural için benzersiz tanımlayıcı
+id = &quot;awesome-rule-1&quot;
+
+# Kuralın kısa ve insan tarafından okunabilir açıklaması.
+description = &quot;awesome rule 1&quot;
+
+# Gizlileri tespit etmek için kullanılan Golang regular expression (regex). Golang'in regex motorunun
+# lookahead desteği yoktur.
+regex = '''one-go-style-regex-for-this-rule'''
+
+# Regex eşleşmesinden gizli bilgiyi çıkarmak için kullanılan tamsayı ve `entropy` ayarlanmışsa
+# entropisi kontrol edilecek grup.
+secretGroup = 3
+
+# Bir regex grubunun gizli kabul edilmesi için sahip olması gereken minimum shannon entropisini gösteren ondalık sayı.
+entropy = 3.5
+
+# Yol eşleştirmek için kullanılan Golang regular expression. Bu, bağımsız bir kural olarak kullanılabilir veya
+# geçerli bir `regex` girdisi ile birlikte kullanılabilir.
+path = '''a-file-path-regex'''
+
+# Anahtar kelimeler ön-regex kontrolü için filtreleme amacıyla kullanılır. Anahtar kelime içeren kurallar
+# hızlı bir dize karşılaştırma kontrolü yapar ve anahtar kelimenin taranan içerikte olduğundan emin olur.
+# İdeal olarak bu değerler, ya tanımlayıcının bir parçası ya da kurala özgü regex'e özgü benzersiz dizeler olmalıdır
+# (v8.6.0 ile eklendi)
+keywords = [
+  &quot;auth&quot;,
+  &quot;password&quot;,
+  &quot;token&quot;,
+]
+
+# Meta veri ve raporlama amaçları için kullanılan string dizisi.
+tags = [&quot;tag&quot;,&quot;another tag&quot;]
+
+    # ⚠️ v8.21.0'da `[rules.allowlist]`, `[[rules.allowlists]]` ile değiştirildi.
+    # Bu değişiklik geriye dönük uyumludur: `[rules.allowlist]` örnekleri hala çalışır.
+    #
+    # Yanlış pozitifleri azaltmak için bir kural için birden fazla allowlist tanımlayabilirsiniz.
+    # _HERHANGİ BİR_ `[[rules.allowlists]]` eşleşirse, bulgu yok sayılır.
+    [[rules.allowlists]]
+    description = &quot;commit A'yı yoksay&quot;
+    # Birden fazla kriter tanımlandığında, varsayılan koşul &quot;OR&quot;dur.
+    # Örneğin, bu |commits| VEYA |paths| VEYA |stopwords| üzerinde eşleşebilir.
+    condition = &quot;OR&quot;
+    commits = [ &quot;commit-A&quot;, &quot;commit-B&quot;]
+    paths = [
+      '''go\.mod''',
+      '''go\.sum'''
+    ]
+    # not: stopwords, regex eşleşmesinin tamamı değil, çıkarılan gizli bilgiyi hedefler.
+    # 'regexes' gibi. (stopwords 8.8.0'da eklendi)
+    stopwords = [
+      '''client''',
+      '''endpoint''',
+    ]
+
+    [[rules.allowlists]]
+    # &quot;AND&quot; koşulu, tüm kriterlerin eşleşmesini sağlamak için kullanılabilir.
+    # Örneğin, bu, |regexes| VE |paths| sağlanırsa eşleşir.
+    condition = &quot;AND&quot;
+    # not: |regexes| varsayılan olarak bulgudaki _Secret_'ı kontrol eder.
+    # Kabul edilebilir |regexTarget| değerleri &quot;secret&quot; (varsayılan), &quot;match&quot; ve &quot;line&quot;dır.
+    regexTarget = &quot;match&quot;
+    regexes = [ '''(?i)parseur[il]''' ]
+    paths = [ '''package-lock\.json''' ]
+
+# Varsayılan konfigürasyondan belirli bir kuralı genişletebilirsiniz. Örneğin, gitlab-pat
+# kendi GitLab örneğinizde özel bir token ön eki tanımladıysanız
+[[rules]]
+id = &quot;gitlab-pat&quot;
+# Varsayılan kuraldan tüm diğer öznitelikler miras alınır
+
+    [[rules.allowlists]]
+    regexTarget = &quot;line&quot;
+    regexes = [ '''MY-glpat-''' ]
+
+
+# ⚠️ v8.25.0'da `[allowlist]`, `[[allowlists]]` ile değiştirildi.
+#
+# Global allowlist'ler, kural bazlı allowlist'lerden daha yüksek önceliğe sahiptir.
+# Aşağıdaki `commits` alanında listelenen bir commit ile karşılaşılırsa, o commit atlanır ve
+# o committe gizli bilgi tespit edilmez. Aynı mantık regex ve path'ler için de geçerlidir.
+[[allowlists]]
+description = &quot;global allow list&quot;
+commits = [ &quot;commit-A&quot;, &quot;commit-B&quot;, &quot;commit-C&quot;]
+paths = [
+  '''gitleaks\.toml''',
+  '''(.*?)(jpg|gif|doc)'''
+]
+# not: (global) regexTarget varsayılan olarak bulgudaki _Secret_'ı kontrol eder.
+# Kabul edilebilir regexTarget değerleri &quot;match&quot; ve &quot;line&quot;dır
+regexTarget = &quot;match&quot;
+regexes = [
+  '''219-09-9999''',
+  '''078-05-1120''',
+  '''(9[0-9]{2}|666)-\d{2}-\d{4}''',
+]
+# not: stopwords, regex eşleşmesinin tamamı değil, çıkarılan gizli bilgiyi hedefler.
+# 'regexes' gibi. (stopwords 8.8.0'da eklendi)
+stopwords = [
+  '''client''',
+  '''endpoint''',
+]
+
+# ⚠️ v8.25.0 sürümünde, `[[allowlists]]` için |targetRules| adlı yeni bir alan eklendi.
+#
+# Ortak allowlist'ler bir kez tanımlanıp birden fazla kurala |targetRules| ile atanabilir.
+# Bu allowlist'ler sadece belirtilen kurallar üzerinde çalışır, küresel olarak değil.
+[[allowlists]]
+targetRules = [&quot;awesome-rule-1&quot;, &quot;awesome-rule-2&quot;]
+description = &quot;Test varlıklarımız bazı kurallarda yanlış pozitif tetikliyor.&quot;
+paths = ['''tests/expected/._\.json$''']
+</code></pre>
+<p>Örnekler için varsayılan <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/config/gitleaks.toml">gitleaks konfigürasyonuna</a> bakabilir veya varsayılan konfigürasyona katkıda bulunmak isterseniz <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/CONTRIBUTING.md">katkı yönergelerini</a> takip edebilirsiniz. Ayrıca, gelişmiş konfigürasyon kurulumlarını ele alan <a href="https://blog.gitleaks.io/stop-leaking-secrets-configuration-2-3-aeed293b1fbf">bu gitleaks blog yazısını</a> da inceleyebilirsiniz.</p>
+<h3>Ek Konfigürasyon</h3>
+<h4>gitleaks:allow</h4>
+<p>Bilerek test amaçlı bir gizli anahtar (secret) ekliyorsanız ve gitleaks bunu yakalayacaksa, o satıra <code>gitleaks:allow</code> yorumunu ekleyebilirsiniz. Böylece gitleaks bu secret'ı yok sayar. Örnek:</p>
+<pre><code>class CustomClass:
+    discord_client_secret = '8dyfuiRyq=vVc3RRr_edRk-fK__JItpZ'  #gitleaks:allow
+
+</code></pre>
+<h4>.gitleaksignore</h4>
+<p>Belirli bulguları yok saymak için repozitorinizin köküne bir <code>.gitleaksignore</code> dosyası oluşturabilirsiniz. v8.10.0 sürümünde Gitleaks, raporuna bir <code>Fingerprint</code> değeri ekledi. Her sızıntı veya bulgu, bir secret'ı benzersiz olarak tanımlayan bir Fingerprint'e sahiptir. Bu fingerprint'i <code>.gitleaksignore</code> dosyasına ekleyerek o belirli secret'ı yok sayabilirsiniz. Örnek için Gitleaks'in <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/.gitleaksignore">.gitleaksignore</a> dosyasına bakabilirsiniz. Not: Bu özellik deneyseldir ve ileride değişebilir.</p>
+<h4>Kod Çözme (Decoding)</h4>
+<p>Bazen gizli anahtarlar öyle bir şekilde kodlanır ki, yalnızca regex ile bulmak zorlaşır.
+Artık gitleaks'e kodlanmış metni otomatik olarak bulup çözmesini söyleyebilirsiniz.
+<code>--max-decode-depth</code> bayrağı bu özelliği etkinleştirir (varsayılan değer &quot;0&quot;, yani bu özellik varsayılan olarak kapalıdır).</p>
+<p>Özyinelemeli (recursive) kod çözme desteklenmektedir, çünkü çözülen metin de kodlanmış metin içerebilir. <code>--max-decode-depth</code> bayrağı yineleme sınırını belirler. Yineleme, çözülecek yeni kodlanmış metin kalmadığında durur, bu yüzden çok yüksek bir maksimum derinlik değeri vermek çok fazla geçiş yapılacağı anlamına gelmez. Sadece gereken kadar geçiş yapılır. Genel olarak, kod çözme tarama sürelerini çok az artırır.</p>
+<p>Kodlanmış metin bulguları, normal bulgulardan şu şekillerde farklılık gösterir:</p>
+<ul>
+<li>Konum, kodlanmış metnin sınırlarını gösterir
+<ul>
+<li>Eğer kural kodlanmış metnin dışında eşleşirse, sınırlar bunu da kapsayacak şekilde ayarlanır</li>
+</ul>
+</li>
+<li>Eşleşen değer ve secret, kodu çözülmüş değeri içerir</li>
+<li>İki etiket eklenir: <code>decoded:&lt;encoding&gt;</code> ve <code>decode-depth:&lt;depth&gt;</code></li>
+</ul>
+<p>Şu anda desteklenen kodlamalar:</p>
+<ul>
+<li><strong>percent</strong> - Herhangi bir yazdırılabilir ASCII yüzde kodlu değer</li>
+<li><strong>hex</strong> - 32 karakter veya daha fazla olan herhangi bir yazdırılabilir ASCII hex kodlu değer</li>
+<li><strong>base64</strong> - 16 karakter veya daha fazla olan herhangi bir yazdırılabilir ASCII base64 kodlu değer</li>
+</ul>
+<h4>Arşiv Taraması</h4>
+<p>Bazen gizli anahtarlar zip dosyaları ya da tarball gibi arşiv dosyalarının içine paketlenmiş olur ve bulunması zorlaşır. Artık gitleaks'e arşivlerin içeriğini otomatik olarak çıkartıp taramasını söyleyebilirsiniz. <code>--max-archive-depth</code> bayrağı, hem <code>dir</code> hem de <code>git</code> tarama türlerinde bu özelliği etkinleştirir. Varsayılan değer &quot;0&quot; olduğundan, bu özellik varsayılan olarak kapalıdır.</p>
+<p>Özyinelemeli tarama desteklenir çünkü arşivler başka arşivler de içerebilir. <code>--max-archive-depth</code> bayrağı yineleme sınırını belirler. Yineleme, çıkarılacak yeni arşiv kalmadığında durur, bu yüzden çok yüksek bir maksimum derinlik değeri vermek, sadece o kadar derine inebilme potansiyelini belirtir. Gerçekte ihtiyaç kadar derine iner.</p>
+<p>Bir arşiv içindeki gizli anahtarın bulguları, arşiv içindeki dosyanın yolunu da içerir. İç yollar <code>!</code> ile ayrılır.</p>
+<p>Örnek bulgu (kısaltılmıştır):</p>
+<pre><code>Finding:     DB_PASSWORD=8ae31cacf141669ddfb5da
+...
+File:        testdata/archives/nested.tar.gz!archives/files.tar!files/.env.prod
+Line:        4
+Commit:      6e6ee6596d337bb656496425fb98644eb62b4a82
+...
+Fingerprint: 6e6ee6596d337bb656496425fb98644eb62b4a82:testdata/archives/nested.tar.gz!archives/files.tar!files/.env.prod:generic-api-key:4
+Link:        https://github.com/leaktk/gitleaks/blob/6e6ee6596d337bb656496425fb98644eb62b4a82/testdata/archives/nested.tar.gz
+</code></pre>
+<p>Bu, <code>files/.env.prod.</code> dosyasının 4. satırında bir secret tespit edildiği anlamına gelir. Bu dosya, <code>archives/files.tar</code> içinde; o da <code>testdata/archives/nested.tar.gz</code> içinde yer almaktadır.</p>
+<p>Şu anda desteklenen formatlar:</p>
+<p><a href="https://github.com/mholt/archives">mholt'un archives paketinin</a> desteklediği <a href="https://github.com/mholt/archives?tab=readme-ov-file#supported-compression-formats">sıkıştırma</a> ve <a href="https://github.com/mholt/archives?tab=readme-ov-file#supported-archive-formats">arşiv</a> formatları desteklenmektedir.</p>
+<h4>Raporlama</h4>
+<p>Gitleaks, çeşitli rapor formatlarını yerleşik olarak destekler: <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/testdata/expected/report/json_simple.json"><code>json</code></a>, <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/testdata/expected/report/csv_simple.csv?plain=1"><code>csv</code></a>, <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/testdata/expected/report/junit_simple.xml"><code>junit</code></a> ve <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/testdata/expected/report/sarif_simple.sarif"><code>sarif</code></a>.</p>
+<p>Bu formatlardan hiçbiri ihtiyacınızı karşılamıyorsa, <a href="https://www.digitalocean.com/community/tutorials/how-to-use-templates-in-go#step-4-writing-a-template">Go <code>text/template</code> .tmpl dosyası</a> ile kendi rapor formatınızı oluşturabilir ve <code>--report-template</code> bayrağını kullanabilirsiniz. Şablon, <a href="https://masterminds.github.io/sprig/"><code>Masterminds/sprig</code> şablon kitaplığından</a> genişletilmiş işlevsellik de kullanabilir.</p>
+<p>Örneğin, aşağıdaki şablon özel bir JSON çıktısı sağlar:</p>
+<pre><code class="language-gotemplate"># jsonextra.tmpl
+[{{ $lastFinding := (sub (len . ) 1) }}
+{{- range $i, $finding := . }}{{with $finding}}
+    {
+        &quot;Description&quot;: {{ quote .Description }},
+        &quot;StartLine&quot;: {{ .StartLine }},
+        &quot;EndLine&quot;: {{ .EndLine }},
+        &quot;StartColumn&quot;: {{ .StartColumn }},
+        &quot;EndColumn&quot;: {{ .EndColumn }},
+        &quot;Line&quot;: {{ quote .Line }},
+        &quot;Match&quot;: {{ quote .Match }},
+        &quot;Secret&quot;: {{ quote .Secret }},
+        &quot;File&quot;: &quot;{{ .File }}&quot;,
+        &quot;SymlinkFile&quot;: {{ quote .SymlinkFile }},
+        &quot;Commit&quot;: {{ quote .Commit }},
+        &quot;Entropy&quot;: {{ .Entropy }},
+        &quot;Author&quot;: {{ quote .Author }},
+        &quot;Email&quot;: {{ quote .Email }},
+        &quot;Date&quot;: {{ quote .Date }},
+        &quot;Message&quot;: {{ quote .Message }},
+        &quot;Tags&quot;: [{{ $lastTag := (sub (len .Tags ) 1) }}{{ range $j, $tag := .Tags }}{{ quote . }}{{ if ne $j $lastTag }},{{ end }}{{ end }}],
+        &quot;RuleID&quot;: {{ quote .RuleID }},
+        &quot;Fingerprint&quot;: {{ quote .Fingerprint }}
+    }{{ if ne $i $lastFinding }},{{ end }}
+{{- end}}{{ end }}
+]
+</code></pre>
+<p>Kullanımı:</p>
+<pre><code class="language-sh">$ gitleaks dir ~/leaky-repo/ --report-path &quot;report.json&quot; --report-format template --report-template testdata/report/jsonextra.tmpl
+</code></pre>
+<h2>Sponsorluklar</h2>
+<p align="left">
+	<h3><a href="https://coderabbit.ai/?utm_source=oss&utm_medium=sponsorship&utm_campaign=gitleaks">coderabbit.ai</h3>
+	  <a href="https://coderabbit.ai/?utm_source=oss&utm_medium=sponsorship&utm_campaign=gitleaks">
+		  <img alt="CodeRabbit.ai Sponsorluk" src="https://github.com/gitleaks/gitleaks/assets/15034943/76c30a85-887b-47ca-9956-17a8e55c6c41" width=200>
+	  </a>
+</p>
+<h2>Çıkış Kodları</h2>
+<p>Sızıntı tespit edildiğinde çıkış kodunu her zaman --exit-code bayrağı ile ayarlayabilirsiniz. Varsayılan çıkış kodları aşağıdadır:</p>
+<pre><code>0 - sızıntı yok
+1 - sızıntı veya hata ile karşılaşıldı
+126 - bilinmeyen bayrak
+</code></pre>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-27</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

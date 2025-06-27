@@ -1,0 +1,387 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gitleaks - gitleaks/gitleaks es</title>
+    <meta name="title" content="gitleaks - gitleaks/gitleaks es | Dir El comando dir (alias incluyen files, directory) te permite escanear directorios y archivos. Ejemplo: gitleaks dir -v path_to_directory_or_file. Si no se es...">
+    <meta name="description" content="gitleaks/gitleaks - GitHub repository es documentation and information | Dir El comando dir (alias incluyen files, directory) te permite escanear directorios y archivos. Ejemplo: gitleaks dir -v path_to_directory_or_file. Si no se es...">
+    <meta name="keywords" content="gitleaks, gitleaks, GitHub, repository, es documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/gitleaks/gitleaks/README-es.html">
+    <meta property="og:title" content="gitleaks - gitleaks/gitleaks es | Dir El comando dir (alias incluyen files, directory) te permite escanear directorios y archivos. Ejemplo: gitleaks dir -v path_to_directory_or_file. Si no se es...">
+    <meta property="og:description" content="gitleaks/gitleaks - GitHub repository es documentation and information | Dir El comando dir (alias incluyen files, directory) te permite escanear directorios y archivos. Ejemplo: gitleaks dir -v path_to_directory_or_file. Si no se es...">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div style="position: fixed; top: 2px; left: 2px; z-index: 2000; background: rgba(255,255,255,0.95); border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 4px 14px; font-size: 15px; color: #222; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 500; letter-spacing: 0.5px;">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank" style="color: #0366d6; text-decoration: none; font-weight: 600;">Open AI Tx</a>
+    </div>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/gitleaks/gitleaks" id="githubRepoLink" target="_blank">gitleaks/gitleaks</a>
+<h1 style="display: none;">Dir El comando dir (alias incluyen files, directory) te permite escanear directorios y archivos. Ejemplo: gitleaks dir -v path_to_directory_or_file. Si no se es...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h4>Dir</h4>
+<p>El comando <code>dir</code> (alias incluyen <code>files</code>, <code>directory</code>) te permite escanear directorios y archivos. Ejemplo: <code>gitleaks dir -v path_to_directory_or_file</code>.
+Si no se especifica ningún objetivo como argumento posicional, entonces gitleaks escaneará el directorio de trabajo actual.</p>
+<h4>Stdin</h4>
+<p>También puedes transmitir datos a gitleaks con el comando <code>stdin</code>. Ejemplo: <code>cat some_file | gitleaks -v stdin</code></p>
+<h3>Creando una línea base</h3>
+<p>Al escanear repositorios grandes o repositorios con una larga historia, puede ser conveniente usar una línea base. Al usar una línea base,
+gitleaks ignorará cualquier hallazgo antiguo que esté presente en la línea base. Una línea base puede ser cualquier informe de gitleaks. Para crear un informe de gitleaks, ejecuta gitleaks con el parámetro <code>--report-path</code>.</p>
+<pre><code>gitleaks git --report-path gitleaks-report.json # Esto guardará el informe en un archivo llamado gitleaks-report.json
+</code></pre>
+<p>Una vez que se crea una línea base, se puede aplicar al ejecutar nuevamente el comando detect:</p>
+<pre><code>gitleaks git --baseline-path gitleaks-report.json --report-path findings.json
+</code></pre>
+<p>Después de ejecutar el comando detect con el parámetro --baseline-path, la salida del informe (findings.json) solo contendrá problemas nuevos.</p>
+<h2>Pre-Commit hook</h2>
+<p>Puedes ejecutar Gitleaks como un hook pre-commit copiando el script de ejemplo <code>pre-commit.py</code> en
+tu directorio <code>.git/hooks/</code>.</p>
+<h2>Cargar Configuración</h2>
+<p>El orden de precedencia es:</p>
+<ol>
+<li>Opción <code>--config/-c</code>:
+<pre><code class="language-bash">gitleaks git --config /home/dev/customgitleaks.toml .
+</code></pre>
+</li>
+<li>Variable de entorno <code>GITLEAKS_CONFIG</code> con la ruta del archivo:
+<pre><code class="language-bash">export GITLEAKS_CONFIG=&quot;/home/dev/customgitleaks.toml&quot;
+gitleaks git .
+</code></pre>
+</li>
+<li>Variable de entorno <code>GITLEAKS_CONFIG_TOML</code> con el contenido del archivo:
+<pre><code class="language-bash">export GITLEAKS_CONFIG_TOML=`cat customgitleaks.toml`
+gitleaks git .
+</code></pre>
+</li>
+<li>Un archivo <code>.gitleaks.toml</code> dentro de la ruta objetivo:
+<pre><code class="language-bash">gitleaks git .
+</code></pre>
+</li>
+</ol>
+<p>Si no se utiliza ninguna de las cuatro opciones, entonces gitleaks usará la configuración predeterminada.</p>
+<h2>Configuración</h2>
+<p>Gitleaks ofrece un formato de configuración que puedes seguir para escribir tus propias reglas de detección de secretos:</p>
+<pre><code class="language-toml"># Título para el archivo de configuración de gitleaks.
+title = &quot;Configuración personalizada de Gitleaks&quot;
+
+# Básicamente tienes dos opciones para tu configuración personalizada:
+#
+# 1. definir tu propia configuración, las reglas predeterminadas no aplican
+#
+#    utiliza, por ejemplo, la configuración predeterminada como punto de partida:
+#    https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml
+#
+# 2. extender una configuración, las reglas se sobrescriben o se amplían
+#
+#    Cuando extiendes una configuración, las reglas extendidas tienen prioridad sobre las
+#    reglas predeterminadas. Es decir, si hay reglas duplicadas tanto en la configuración extendida
+#    como en la configuración predeterminada, las reglas extendidas o
+#    sus atributos sobrescribirán las reglas predeterminadas.
+#    Otra cosa a tener en cuenta al extender configuraciones es que puedes encadenar
+#    múltiples archivos de configuración hasta una profundidad de 2. Los arrays allowlist se
+#    agregan y pueden contener duplicados.
+
+# useDefault y path NO pueden ser usados al mismo tiempo. Elige uno.
+[extend]
+# useDefault extenderá la configuración predeterminada de gitleaks incorporada en el binario
+# la última versión se encuentra en:
+# https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml
+useDefault = true
+# o puedes proporcionar una ruta a una configuración desde la cual extender.
+# La ruta es relativa a donde se invocó gitleaks,
+# no a la ubicación de la configuración base.
+# path = &quot;common_config.toml&quot;
+# Si hay alguna regla que no quieras heredar, puede ser especificada aquí.
+disabledRules = [ &quot;generic-api-key&quot;]
+
+# Un array de tablas que contienen información que define instrucciones
+# sobre cómo detectar secretos
+[[rules]]
+# Identificador único para esta regla
+id = &quot;awesome-rule-1&quot;
+
+# Descripción corta y legible para humanos de la regla.
+description = &quot;regla asombrosa 1&quot;
+
+# Expresión regular de Golang utilizada para detectar secretos. Nota: el motor regex de Golang
+# no soporta lookaheads.
+regex = '''one-go-style-regex-for-this-rule'''
+
+# Entero usado para extraer el secreto de la coincidencia de la regex y usado como el grupo que tendrá
+# su entropía verificada si `entropy` está establecido.
+secretGroup = 3
+
+# Flotante que representa la entropía mínima de Shannon que un grupo de regex debe tener para ser considerado un secreto.
+entropy = 3.5
+
+# Expresión regular de Golang usada para hacer coincidir rutas. Esto puede ser usado como una regla independiente o puede ser usado
+# en conjunto con una entrada `regex` válida.
+path = '''a-file-path-regex'''
+
+# Las palabras clave se utilizan para el filtrado previo a la comprobación de la regex. Las reglas que contienen
+# palabras clave realizarán una comprobación rápida de comparación de cadenas para asegurarse de que la(s)
+# palabra(s) clave estén en el contenido que se está escaneando. Idealmente estos valores deben
+# ser parte del identificador o cadenas únicas específicas para la regex de la regla
+# (introducido en v8.6.0)
+keywords = [
+  &quot;auth&quot;,
+  &quot;password&quot;,
+  &quot;token&quot;,
+]
+
+# Array de cadenas usado para propósitos de metadatos y reportes.
+tags = [&quot;etiqueta&quot;,&quot;otra etiqueta&quot;]
+
+    # ⚠️ En la versión v8.21.0 `[rules.allowlist]` fue reemplazado por `[[rules.allowlists]]`.
+    # Este cambio fue compatible con versiones anteriores: las instancias de `[rules.allowlist]` aún funcionan.
+    #
+    # Puedes definir múltiples allowlists para una regla para reducir falsos positivos.
+    # Un hallazgo será ignorado si _CUALQUIERA_ de los `[[rules.allowlists]]` coincide.
+    [[rules.allowlists]]
+    description = &quot;ignorar commit A&quot;
+    # Cuando se definen múltiples criterios, la condición por defecto es &quot;OR&quot;.
+    # por ejemplo, esto puede coincidir con |commits| O |paths| O |stopwords|.
+    condition = &quot;OR&quot;
+    commits = [ &quot;commit-A&quot;, &quot;commit-B&quot;]
+    paths = [
+      '''go\.mod''',
+      '''go\.sum'''
+    ]
+    # nota: stopwords apunta al secreto extraído, no a toda la coincidencia de la regex
+    # como 'regexes' lo hace. (stopwords introducido en 8.8.0)
+    stopwords = [
+      '''client''',
+      '''endpoint''',
+    ]
+
+    [[rules.allowlists]]
+    # La condición &quot;AND&quot; puede ser usada para asegurarse de que todos los criterios coincidan.
+    # por ejemplo, esto coincide si |regexes| Y |paths| se cumplen.
+    condition = &quot;AND&quot;
+    # nota: |regexes| por defecto verifica el _Secreto_ en el hallazgo.
+    # Los valores aceptables para |regexTarget| son &quot;secret&quot; (por defecto), &quot;match&quot; y &quot;line&quot;.
+    regexTarget = &quot;match&quot;
+    regexes = [ '''(?i)parseur[il]''' ]
+    paths = [ '''package-lock\.json''' ]
+
+# Puedes extender una regla particular de la configuración predeterminada. por ejemplo, gitlab-pat
+# si has definido un prefijo de token personalizado en tu instancia de GitLab
+[[rules]]
+id = &quot;gitlab-pat&quot;
+# todos los otros atributos de la regla predeterminada son heredados
+
+    [[rules.allowlists]]
+    regexTarget = &quot;line&quot;
+    regexes = [ '''MY-glpat-''' ]
+
+
+# ⚠️ En la versión v8.25.0 `[allowlist]` fue reemplazado por `[[allowlists]]`.
+#
+# Los allowlists globales tienen un orden de precedencia mayor que los allowlists específicos de reglas.
+# Si un commit listado en el campo `commits` a continuación es encontrado, entonces ese commit será omitido y no
+# se detectarán secretos para dicho commit. La misma lógica aplica para regexes y paths.
+[[allowlists]]
+description = &quot;lista global de permitidos&quot;
+commits = [ &quot;commit-A&quot;, &quot;commit-B&quot;, &quot;commit-C&quot;]
+paths = [
+  '''gitleaks\.toml''',
+  '''(.*?)(jpg|gif|doc)'''
+]
+# nota: (global) regexTarget por defecto verifica el _Secreto_ en el hallazgo.
+# Los valores aceptables para regexTarget son &quot;match&quot; y &quot;line&quot;
+regexTarget = &quot;match&quot;
+regexes = [
+  '''219-09-9999''',
+  '''078-05-1120''',
+  '''(9[0-9]{2}|666)-\d{2}-\d{4}''',
+]
+# nota: stopwords apunta al secreto extraído, no a toda la coincidencia de la regex
+# como 'regexes' lo hace. (stopwords introducido en 8.8.0)
+stopwords = [
+  '''client''',
+```markdown
+  '''endpoint''',
+]
+
+# ⚠️ En la versión v8.25.0, `[[allowlists]]` tiene un nuevo campo llamado |targetRules|.
+#
+# Las listas de permitidos comunes pueden definirse una vez y asignarse a varias reglas usando |targetRules|.
+# Esto solo se ejecutará en las reglas especificadas, no globalmente.
+[[allowlists]]
+targetRules = [&quot;awesome-rule-1&quot;, &quot;awesome-rule-2&quot;]
+description = &quot;Nuestros activos de prueba generan falsos positivos en un par de reglas.&quot;
+paths = ['''tests/expected/._\.json$''']
+</code></pre>
+<p>Consulta la <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/config/gitleaks.toml">configuración predeterminada de gitleaks</a> para ver ejemplos o sigue las <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/CONTRIBUTING.md">directrices de contribución</a> si deseas contribuir con la configuración predeterminada. Además, puedes consultar <a href="https://blog.gitleaks.io/stop-leaking-secrets-configuration-2-3-aeed293b1fbf">esta publicación en el blog de gitleaks</a> que cubre configuraciones avanzadas.</p>
+<h3>Configuración Adicional</h3>
+<h4>gitleaks:allow</h4>
+<p>Si conscientemente vas a confirmar un secreto de prueba que gitleaks detectará, puedes agregar un comentario <code>gitleaks:allow</code> en esa línea, lo que indicará a gitleaks
+que ignore ese secreto. Ejemplo:</p>
+<pre><code>class CustomClass:
+    discord_client_secret = '8dyfuiRyq=vVc3RRr_edRk-fK__JItpZ'  #gitleaks:allow
+
+</code></pre>
+<h4>.gitleaksignore</h4>
+<p>Puedes ignorar hallazgos específicos creando un archivo <code>.gitleaksignore</code> en la raíz de tu repositorio. En la versión v8.10.0, Gitleaks agregó un valor <code>Fingerprint</code> al informe de Gitleaks. Cada filtración o hallazgo tiene una huella digital que identifica de manera única un secreto. Agrega esta huella digital al archivo <code>.gitleaksignore</code> para ignorar ese secreto específico. Consulta el <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/.gitleaksignore">.gitleaksignore de Gitleaks</a> como ejemplo. Nota: esta función es experimental y puede cambiar en el futuro.</p>
+<h4>Decodificación</h4>
+<p>A veces los secretos están codificados de una manera que dificulta su detección
+solo con expresiones regulares. Ahora puedes indicar a gitleaks que busque y decodifique
+automáticamente el texto codificado. La bandera <code>--max-decode-depth</code> habilita esta función (el valor
+predeterminado &quot;0&quot; significa que la función está deshabilitada por defecto).</p>
+<p>La decodificación recursiva está soportada, ya que el texto decodificado también puede contener texto codificado.
+La bandera <code>--max-decode-depth</code> establece el límite de recursión. La recursión se detiene
+cuando no hay nuevos segmentos de texto codificado por decodificar, por lo que establecer una profundidad máxima muy alta no significa que hará tantas pasadas. Solo hará las necesarias para decodificar el texto. En general, la decodificación solo aumenta mínimamente los tiempos de escaneo.</p>
+<p>Los hallazgos para texto codificado difieren de los hallazgos normales en los siguientes aspectos:</p>
+<ul>
+<li>La ubicación señala los límites del texto codificado
+<ul>
+<li>Si la regla coincide fuera del texto codificado, los límites se ajustan para
+incluir eso también</li>
+</ul>
+</li>
+<li>La coincidencia y el secreto contienen el valor decodificado</li>
+<li>Se agregan dos etiquetas: <code>decoded:&lt;encoding&gt;</code> y <code>decode-depth:&lt;depth&gt;</code></li>
+</ul>
+<p>Codificaciones soportadas actualmente:</p>
+<ul>
+<li><strong>percent</strong> - Cualquier valor ASCII imprimible codificado en porcentaje</li>
+<li><strong>hex</strong> - Cualquier valor ASCII imprimible codificado en hexadecimal &gt;= 32 caracteres</li>
+<li><strong>base64</strong> - Cualquier valor ASCII imprimible codificado en base64 &gt;= 16 caracteres</li>
+</ul>
+<h4>Escaneo de Archivos Comprimidos</h4>
+<p>A veces los secretos están empaquetados dentro de archivos comprimidos como archivos zip o tarballs,
+lo que dificulta su descubrimiento. Ahora puedes indicar a gitleaks que extraiga y escanee automáticamente el contenido de los archivos comprimidos. La bandera <code>--max-archive-depth</code>
+habilita esta función tanto para los tipos de escaneo <code>dir</code> como <code>git</code>. El valor predeterminado de
+&quot;0&quot; significa que esta función está deshabilitada por defecto.</p>
+<p>El escaneo recursivo está soportado ya que los archivos comprimidos también pueden contener otros archivos comprimidos.
+La bandera <code>--max-archive-depth</code> establece el límite de recursión. La recursión se detiene
+cuando no hay nuevos archivos comprimidos por extraer, por lo que establecer una profundidad máxima muy alta solo establece el potencial para llegar tan profundo. Solo irá tan profundo como sea necesario.</p>
+<p>Los hallazgos para secretos ubicados dentro de un archivo comprimido incluirán la ruta al
+archivo dentro del archivo comprimido. Las rutas internas se separan con <code>!</code>.</p>
+<p>Ejemplo de hallazgo (acortado por brevedad):</p>
+<pre><code>Finding:     DB_PASSWORD=8ae31cacf141669ddfb5da
+...
+File:        testdata/archives/nested.tar.gz!archives/files.tar!files/.env.prod
+Line:        4
+Commit:      6e6ee6596d337bb656496425fb98644eb62b4a82
+...
+Fingerprint: 6e6ee6596d337bb656496425fb98644eb62b4a82:testdata/archives/nested.tar.gz!archives/files.tar!files/.env.prod:generic-api-key:4
+Link:        https://github.com/leaktk/gitleaks/blob/6e6ee6596d337bb656496425fb98644eb62b4a82/testdata/archives/nested.tar.gz
+</code></pre>
+<p>Esto significa que se detectó un secreto en la línea 4 de <code>files/.env.prod.</code>, que está en
+<code>archives/files.tar</code> que está en <code>testdata/archives/nested.tar.gz</code>.</p>
+<p>Formatos soportados actualmente:</p>
+<p>Los <a href="https://github.com/mholt/archives?tab=readme-ov-file#supported-compression-formats">formatos de compresión</a>
+y <a href="https://github.com/mholt/archives?tab=readme-ov-file#supported-archive-formats">formatos de archivo</a>
+soportados por el paquete <a href="https://github.com/mholt/archives">archives de mholt</a>
+son compatibles.</p>
+<h4>Reportes</h4>
+<p>Gitleaks tiene soporte integrado para varios formatos de informe: <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/testdata/expected/report/json_simple.json"><code>json</code></a>, <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/testdata/expected/report/csv_simple.csv?plain=1"><code>csv</code></a>, <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/testdata/expected/report/junit_simple.xml"><code>junit</code></a>, y <a href="https://raw.githubusercontent.com/gitleaks/gitleaks/master/testdata/expected/report/sarif_simple.sarif"><code>sarif</code></a>.</p>
+<p>Si ninguno de estos formatos se ajusta a tus necesidades, puedes crear tu propio formato de informe con un archivo <a href="https://www.digitalocean.com/community/tutorials/how-to-use-templates-in-go#step-4-writing-a-template">Go <code>text/template</code> .tmpl</a> y la bandera <code>--report-template</code>. La plantilla puede utilizar <a href="https://masterminds.github.io/sprig/">funcionalidades extendidas de la librería de plantillas <code>Masterminds/sprig</code></a>.</p>
+<p>Por ejemplo, la siguiente plantilla proporciona una salida JSON personalizada:</p>
+<pre><code class="language-gotemplate"># jsonextra.tmpl
+[{{ $lastFinding := (sub (len . ) 1) }}
+{{- range $i, $finding := . }}{{with $finding}}
+    {
+        &quot;Description&quot;: {{ quote .Description }},
+        &quot;StartLine&quot;: {{ .StartLine }},
+        &quot;EndLine&quot;: {{ .EndLine }},
+        &quot;StartColumn&quot;: {{ .StartColumn }},
+        &quot;EndColumn&quot;: {{ .EndColumn }},
+        &quot;Line&quot;: {{ quote .Line }},
+        &quot;Match&quot;: {{ quote .Match }},
+        &quot;Secret&quot;: {{ quote .Secret }},
+        &quot;File&quot;: &quot;{{ .File }}&quot;,
+        &quot;SymlinkFile&quot;: {{ quote .SymlinkFile }},
+        &quot;Commit&quot;: {{ quote .Commit }},
+        &quot;Entropy&quot;: {{ .Entropy }},
+        &quot;Author&quot;: {{ quote .Author }},
+        &quot;Email&quot;: {{ quote .Email }},
+        &quot;Date&quot;: {{ quote .Date }},
+        &quot;Message&quot;: {{ quote .Message }},
+        &quot;Tags&quot;: [{{ $lastTag := (sub (len .Tags ) 1) }}{{ range $j, $tag := .Tags }}{{ quote . }}{{ if ne $j $lastTag }},{{ end }}{{ end }}],
+        &quot;RuleID&quot;: {{ quote .RuleID }},
+        &quot;Fingerprint&quot;: {{ quote .Fingerprint }}
+    }{{ if ne $i $lastFinding }},{{ end }}
+{{- end}}{{ end }}
+]
+</code></pre>
+<p>Uso:</p>
+<pre><code class="language-sh">$ gitleaks dir ~/leaky-repo/ --report-path &quot;report.json&quot; --report-format template --report-template testdata/report/jsonextra.tmpl
+</code></pre>
+<h2>Patrocinios</h2>
+<p align="left">
+	<h3><a href="https://coderabbit.ai/?utm_source=oss&utm_medium=sponsorship&utm_campaign=gitleaks">coderabbit.ai</h3>
+	  <a href="https://coderabbit.ai/?utm_source=oss&utm_medium=sponsorship&utm_campaign=gitleaks">
+		  <img alt="Patrocinio de CodeRabbit.ai" src="https://github.com/gitleaks/gitleaks/assets/15034943/76c30a85-887b-47ca-9956-17a8e55c6c41" width=200>
+	  </a>
+</p>
+<h2>Códigos de Salida</h2>
+<p>Siempre puedes establecer el código de salida cuando se encuentren filtraciones utilizando la bandera --exit-code. Códigos de salida predeterminados a continuación:</p>
+<pre><code>0 - no hay filtraciones presentes
+1 - filtraciones o error encontrado
+126 - bandera desconocida
+</code></pre>
+<pre><code>
+
+---
+
+
+Tranlated By [Open Ai Tx](https://github.com/OpenAiTx/OpenAiTx) | Last indexed: 2025-06-27
+
+
+---
+</code></pre>
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>
