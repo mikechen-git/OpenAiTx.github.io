@@ -255,6 +255,13 @@
         <textarea id="style2Markdown" style="display: none;"></textarea>
     </div>
 
+    <div class="style-option">
+        <h2>Style Option 3 (Dropdown Menu)</h2>
+        <div class="preview markdown-container" id="style3Preview"></div>
+        <button onclick="copyToClipboard('style3Html')" class="copy-button">Copy HTML</button>
+        <textarea id="style3Html" style="display: none;"></textarea>
+    </div>
+
     <footer class="footer">
         Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
     </footer>
@@ -288,6 +295,7 @@ https://openaitx.github.io/ -->
                 'enterBoth': 'Please enter both User/Organization and Project name',
                 'style1Title': 'Style Option 1 (HTML Badges)',
                 'style2Title': 'Style Option 2 (HTML Links)',
+                'style3Title': 'Style Option 3 (Dropdown Menu)',
                 'poweredBy': 'Powered by',
                 'projectUrlTitle': 'Submit GitHub Project URL',
                 'projectUrlPlaceholder': 'e.g. https://github.com/google-gemini/gemini-cli',
@@ -311,6 +319,7 @@ https://openaitx.github.io/ -->
                 'enterBoth': '请输入用户/组织名称和项目名称',
                 'style1Title': '样式选项 1（HTML 徽章）',
                 'style2Title': '样式选项 2（HTML 链接）',
+                'style3Title': '样式选项 3（下拉菜单）',
                 'poweredBy': '技术支持',
                 'projectUrlTitle': '提交 GitHub 项目 URL',
                 'projectUrlPlaceholder': '例如 https://github.com/google-gemini/gemini-cli',
@@ -334,6 +343,7 @@ https://openaitx.github.io/ -->
                 'enterBoth': '請輸入用戶/組織名稱和項目名稱',
                 'style1Title': '樣式選項 1（HTML 徽章）',
                 'style2Title': '樣式選項 2（HTML 鏈接）',
+                'style3Title': '樣式選項 3（下拉菜單）',
                 'poweredBy': '技術支持',
                 'projectUrlTitle': '提交 GitHub 项目 URL',
                 'projectUrlPlaceholder': '例如 https://github.com/google-gemini/gemini-cli',
@@ -357,6 +367,7 @@ https://openaitx.github.io/ -->
                 'enterBoth': 'ユーザー/組織名とプロジェクト名を入力してください',
                 'style1Title': 'スタイルオプション 1（HTML バッジ）',
                 'style2Title': 'スタイルオプション 2（HTML リンク）',
+                'style3Title': 'スタイルオプション 3（ドロップダウンメニュー）',
                 'poweredBy': '提供',
                 'projectUrlTitle': 'Submit GitHub Project URL',
                 'projectUrlPlaceholder': 'e.g. https://github.com/google-gemini/gemini-cli',
@@ -380,6 +391,7 @@ https://openaitx.github.io/ -->
                 'enterBoth': '사용자/조직 이름과 프로젝트 이름을 입력하세요',
                 'style1Title': '스타일 옵션 1 (HTML 배지)',
                 'style2Title': '스타일 옵션 2 (HTML 링크)',
+                'style3Title': '스타일 옵션 3 (드롭다운 메뉴)',
                 'poweredBy': '제공',
                 'projectUrlTitle': 'Submit GitHub Project URL',
                 'projectUrlPlaceholder': 'e.g. https://github.com/google-gemini/gemini-cli',
@@ -403,6 +415,7 @@ https://openaitx.github.io/ -->
                 'enterBoth': 'กรุณาป้อนชื่อผู้ใช้/องค์กรและชื่อโครงการ',
                 'style1Title': 'ตัวเลือกสไตล์ 1 (ป้าย HTML)',
                 'style2Title': 'ตัวเลือกสไตล์ 2 (ลิงก์ HTML)',
+                'style3Title': 'Style Option 3 (Dropdown Menu)',
                 'poweredBy': 'ขับเคลื่อนโดย',
                 'projectUrlTitle': 'Submit GitHub Project URL',
                 'projectUrlPlaceholder': 'e.g. https://github.com/google-gemini/gemini-cli',
@@ -771,7 +784,13 @@ https://openaitx.github.io/ -->
             // Update headings and text content
             document.querySelector('h1').textContent = t.title;
             document.querySelectorAll('.style-option h2').forEach((h2, index) => {
-                h2.textContent = index === 0 ? t.style1Title : t.style2Title;
+                if (index === 0) {
+                    h2.textContent = t.style1Title;
+                } else if (index === 1) {
+                    h2.textContent = t.style2Title;
+                } else if (index === 2) {
+                    h2.textContent = t.style3Title;
+                }
             });
 
             // Update footer
@@ -894,6 +913,10 @@ https://openaitx.github.io/ -->
                             document.getElementById('style2Preview').innerHTML = style2Markdown;
                             document.getElementById('style2Markdown').value = style2Markdown;
 
+                            const style3Html = generateStyle3(userOrOrg, project);
+                            document.getElementById('style3Preview').innerHTML = style3Html;
+                            document.getElementById('style3Html').value = style3Html;
+
                             // Skip project status check for URL submissions to avoid showing "documentation not found" message
                         }
                     } catch (error) {
@@ -925,6 +948,10 @@ https://openaitx.github.io/ -->
             const style2Markdown = generateStyle2(userOrOrg, project);
             document.getElementById('style2Preview').innerHTML = style2Markdown;
             document.getElementById('style2Markdown').value = style2Markdown;
+
+            const style3Html = generateStyle3(userOrOrg, project);
+            document.getElementById('style3Preview').innerHTML = style3Html;
+            document.getElementById('style3Html').value = style3Html;
 
             checkProjectStatus(userOrOrg, project);
         }
@@ -1084,6 +1111,46 @@ https://openaitx.github.io/ -->
             ).join(' | ');
 
             return `<p align="center">${links}</p>`;
+        }
+
+        function generateStyle3(userOrOrg, project) {
+            const languages = [
+                { code: 'en', name: 'English' },
+                { code: 'zh-CN', name: '简体中文' },
+                { code: 'zh-TW', name: '繁體中文' },
+                { code: 'ja', name: '日本語' },
+                { code: 'ko', name: '한국어' },
+                { code: 'hi', name: 'हिन्दी' },
+                { code: 'th', name: 'ไทย' },
+                { code: 'fr', name: 'Français' },
+                { code: 'de', name: 'Deutsch' },
+                { code: 'es', name: 'Español' },
+                { code: 'it', name: 'Italiano' },
+                { code: 'ru', name: 'Русский' },
+                { code: 'pt', name: 'Português' },
+                { code: 'nl', name: 'Nederlands' },
+                { code: 'pl', name: 'Polski' },
+                { code: 'ar', name: 'العربية' },
+                { code: 'fa', name: 'فارسی' },
+                { code: 'tr', name: 'Türkçe' },
+                { code: 'vi', name: 'Tiếng Việt' },
+                { code: 'id', name: 'Bahasa Indonesia' }
+            ];
+
+            const links = languages.map(lang =>
+                `        <p><a href="https://openaitx.github.io/view.html?user=${userOrOrg}&project=${project}&lang=${lang.code}">${lang.name}</a></p>`
+            ).join('\n');
+
+            return `<div align="right">
+  <details>
+    <summary>🌐 Language</summary>
+    <div>
+      <div align="right">
+${links}
+      </div>
+    </div>
+  </details>
+</div>`;
         }
 
         // Add a flag to track if copy has been used
