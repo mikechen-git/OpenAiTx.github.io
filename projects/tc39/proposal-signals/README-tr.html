@@ -1,0 +1,792 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>proposal-signals - tc39/proposal-signals tr</title>
+    <meta name="title" content="proposal-signals - tc39/proposal-signals tr | 🚦 JavaScript Signals standart teklifi 🚦 Aşama 1 (açıklama) TC39 teklif şampiyonları: Daniel Ehrenberg, Yehuda Katz, Jatin Ramanathan, Shay Lewis, Kristen Hewe...">
+    <meta name="description" content="tc39/proposal-signals - GitHub repository tr documentation and information | 🚦 JavaScript Signals standart teklifi 🚦 Aşama 1 (açıklama) TC39 teklif şampiyonları: Daniel Ehrenberg, Yehuda Katz, Jatin Ramanathan, Shay Lewis, Kristen Hewe...">
+    <meta name="keywords" content="tc39, proposal-signals, GitHub, repository, tr documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/tc39/proposal-signals/README-tr.html">
+    <meta property="og:title" content="proposal-signals - tc39/proposal-signals tr | 🚦 JavaScript Signals standart teklifi 🚦 Aşama 1 (açıklama) TC39 teklif şampiyonları: Daniel Ehrenberg, Yehuda Katz, Jatin Ramanathan, Shay Lewis, Kristen Hewe...">
+    <meta property="og:description" content="tc39/proposal-signals - GitHub repository tr documentation and information | 🚦 JavaScript Signals standart teklifi 🚦 Aşama 1 (açıklama) TC39 teklif şampiyonları: Daniel Ehrenberg, Yehuda Katz, Jatin Ramanathan, Shay Lewis, Kristen Hewe...">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div style="position: fixed; top: 2px; left: 2px; z-index: 2000; background: rgba(255,255,255,0.95); border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 4px 14px; font-size: 15px; color: #222; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 500; letter-spacing: 0.5px;">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank" style="color: #0366d6; text-decoration: none; font-weight: 600;">Open AI Tx</a>
+    </div>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/tc39/proposal-signals" id="githubRepoLink" target="_blank">tc39/proposal-signals</a>
+<h1 style="display: none;">🚦 JavaScript Signals standart teklifi 🚦 Aşama 1 (açıklama) TC39 teklif şampiyonları: Daniel Ehrenberg, Yehuda Katz, Jatin Ramanathan, Shay Lewis, Kristen Hewe...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>🚦 JavaScript Signals standart teklifi 🚦</h1>
+<img align=right src="https://raw.githubusercontent.com/tc39/proposal-signals/main/Signals.svg" alt="Signals logo" width=100>
+<p>Aşama 1 (<a href="https://tc39.es/process-document/">açıklama</a>)</p>
+<p>TC39 teklif şampiyonları: Daniel Ehrenberg, Yehuda Katz, Jatin Ramanathan, Shay Lewis, Kristen Hewell Garrett, Dominic Gannaway, Preston Sego, Milo M, Rob Eisenberg</p>
+<p>Orijinal yazarlar: Rob Eisenberg ve Daniel Ehrenberg</p>
+<p>Bu belge, JavaScript'te sinyaller için Promises/A+ çabasına benzer şekilde, ES2015'te TC39 tarafından standartlaştırılan Promises'tan önceki erken ortak bir yönü açıklamaktadır. <a href="https://github.com/proposal-signals/signal-polyfill">Bir polyfill</a> kullanarak kendiniz deneyin.</p>
+<p>Promises/A+'ya benzer şekilde, bu çaba JavaScript ekosistemini hizalamaya odaklanıyor. Bu hizalama başarılı olursa, o deneyime dayalı olarak bir standart ortaya çıkabilir. Birkaç framework yazarı burada reaktivite çekirdeklerini destekleyebilecek ortak bir model üzerinde iş birliği yapıyor. Mevcut taslak, <a href="https://angular.io/">Angular</a>, <a href="https://bubble.io/">Bubble</a>, <a href="https://emberjs.com/">Ember</a>, <a href="https://www.fast.design/">FAST</a>, <a href="https://mobx.js.org/">MobX</a>, <a href="https://preactjs.com/">Preact</a>, <a href="https://qwik.dev/">Qwik</a>, <a href="https://rxjs.dev/">RxJS</a>, <a href="https://www.solidjs.com/">Solid</a>, <a href="https://www.starbeamjs.com/">Starbeam</a>, <a href="https://svelte.dev/">Svelte</a>, <a href="https://vuejs.org/">Vue</a>, <a href="https://blog.angular.io/angular-and-wiz-are-better-together-91e633d8cd5a">Wiz</a> ve daha fazlasının yazarlarının/koruyucularının tasarım girdilerine dayanmaktadır…</p>
+<p>Promises/A+'dan farklı olarak, ortak bir geliştiriciye yönelik yüzey API'si çözmeye çalışmıyoruz, bunun yerine temel sinyal grafiğinin kesin çekirdek semantiğini hedefliyoruz. Bu teklif, tamamen somut bir API de içermektedir, ancak API çoğu uygulama geliştiricisine yönelik değildir. Bunun yerine, buradaki sinyal API'si, frameworklerin üzerine inşa edebileceği, ortak sinyal grafiği ve otomatik izleme mekanizması yoluyla birlikte çalışabilirlik sağlayan bir yapıdır.</p>
+<p>Bu teklifin planı, Aşama 1'in ötesine geçmeden önce önemli erken prototipleme yapmak, birkaç framework'e entegrasyon dahil etmektir. Sinyallerin, birden çok framework'te pratikte kullanıma uygun olmaları ve frameworklerin sağladığı sinyallere göre gerçek faydalar sağlamaları durumunda standartlaştırılmasıyla ilgileniyoruz. Erken prototiplemenin bize bu bilgiyi vereceğini umuyoruz. Daha fazla ayrıntı için aşağıdaki &quot;Durum ve geliştirme planı&quot; bölümüne bakınız.</p>
+<h2>Arka Plan: Neden Sinyaller?</h2>
+<p>Karmaşık bir kullanıcı arayüzü (UI) geliştirmek için, JavaScript uygulama geliştiricilerinin uygulamanın görünüm katmanına durumu verimli bir şekilde depolaması, hesaplaması, geçersiz kılması, senkronize etmesi ve aktarması gerekir. UI'ler genellikle yalnızca basit değerleri yönetmekle kalmaz, aynı zamanda başka değerler veya kendi başına hesaplanan karmaşık bir ağaçtan türetilen durumları da işleyerek hesaplanmış durumların işlenmesini gerektirir. Sinyallerin hedefi, bu tür uygulama durumlarını yönetmek için altyapı sağlamaktır, böylece geliştiriciler bu tekrarlayan ayrıntılar yerine iş mantığına odaklanabilirler.</p>
+<p>Sinyal benzeri yapılar, özellikle gereksiz yeniden derlemeleri önlemek için, UI dışı bağlamlarda da bağımsız olarak faydalı bulunmuştur.</p>
+<p>Sinyaller, uygulamalarda güncellemeyi yönetme ihtiyacını ortadan kaldırmak için reaktif programlamada kullanılır.</p>
+<blockquote>
+<p>Durum değişikliklerine dayalı olarak güncelleme için deklaratif bir programlama modeli.</p>
+</blockquote>
+<p><em><a href="https://www.pzuraq.com/blog/what-is-reactivity">Reactivity Nedir?</a></em>'den.</p>
+<h4>Örnek - VanillaJS Sayaç</h4>
+<p>Bir <code>counter</code> değişkeniniz olduğunu ve sayacın çift mi tek mi olduğunu DOM'da göstermek istediğinizi düşünelim. <code>counter</code> her değiştiğinde, DOM'u en son tek/çiftlik ile güncellemek istiyorsunuz. Vanilla JS'de şöyle bir şeyiniz olabilir:</p>
+<pre><code class="language-js">let counter = 0;
+const setCounter = (value) =&gt; {
+  counter = value;
+  render();
+};
+
+const isEven = () =&gt; (counter &amp; 1) == 0;
+const parity = () =&gt; isEven() ? &quot;even&quot; : &quot;odd&quot;;
+const render = () =&gt; element.innerText = parity();
+
+// Simulate external updates to counter...
+setInterval(() =&gt; setCounter(counter + 1), 1000);
+</code></pre>
+<blockquote>
+<p>[!NOTE]<br />
+Global değişkenler yalnızca gösterim amacıyla kullanılmıştır. Uygun durum yönetimi için birçok çözüm vardır ve bu teklifteki örneklerin mümkün olduğunca minimal olması amaçlanmıştır. Bu teklif global değişkenleri teşvik etmez.</p>
+</blockquote>
+<p>Bunun birkaç sorunu var...</p>
+<ul>
+<li><code>counter</code> kurulumu gereksiz yere gürültülü ve şablon kodu ağır.</li>
+<li><code>counter</code> durumu, render sistemiyle sıkı bir şekilde bağlı.</li>
+<li><code>counter</code> değiştiğinde ancak <code>parity</code> değişmediğinde (örneğin sayaç 2'den 4'e çıktığında), gereksiz yere parity hesaplaması ve render işlemi yapıyoruz.</li>
+<li>Ya UI'nın başka bir kısmı yalnızca <code>counter</code> güncellendiğinde render yapmak isterse?</li>
+<li>Ya UI'nın başka bir kısmı yalnızca <code>isEven</code> veya <code>parity</code>'ye bağlıysa?</li>
+</ul>
+<p>Bu nispeten basit senaryoda bile, hızla bir dizi sorun ortaya çıkıyor. Bunların etrafından dolaşmak için <code>counter</code> için bir pub/sub (yayınla/abone ol) sistemi ekleyebiliriz. Bu, <code>counter</code>'ın ek tüketicilerinin kendi tepkilerini durum değişikliklerine eklemek için abone olmasına izin verir.</p>
+<p>Ancak, hâlâ şu sorunlarla karşı karşıyayız:</p>
+<ul>
+<li>Yalnızca <code>parity</code>'ye bağlı olan render fonksiyonu, aslında <code>counter</code>'a abone olması gerektiğini &quot;bilmek&quot; zorunda.</li>
+<li>Sadece <code>isEven</code> veya <code>parity</code>'ye dayalı olarak UI'yı güncellemek mümkün değildir, doğrudan <code>counter</code> ile etkileşim olmadan.</li>
+<li>Şablon kodumuz arttı. Bir şeyi kullandığınız her seferinde, sadece bir fonksiyon çağırmak veya bir değişken okumak değil, ayrıca abone olmak ve orada güncelleme yapmak gerekiyor. Abonelikten çıkmayı yönetmek de özellikle karmaşık.</li>
+</ul>
+<p>Şimdi, sadece <code>counter</code>'a değil, aynı zamanda <code>isEven</code> ve <code>parity</code>'ye de pub/sub ekleyerek birkaç sorunu çözebiliriz. O zaman <code>isEven</code>'ı <code>counter</code>'a, <code>parity</code>'yi <code>isEven</code>'a ve <code>render</code>'ı <code>parity</code>'ye abone etmemiz gerekir. Ne yazık ki, şablon kodumuz yalnızca patlamakla kalmadı, aynı zamanda bir sürü abonelik takibiyle uğraşıyoruz ve her şeyi doğru şekilde temizlemezsek potansiyel bir bellek sızıntısı felaketiyle karşı karşıyayız. Yani, bazı sorunları çözdük ama yepyeni bir sorun kategorisi ve çok fazla kod oluşturduk. Dahası, sistemimizdeki her bir durum parçası için bu sürecin tamamından geçmemiz gerekiyor.</p>
+<h3>Sinyallerle Tanışın</h3>
+<p>Model ve görünüm için veri bağlama soyutlamaları, JavaScript veya web platformunda böyle bir mekanizma olmasa da, birden fazla programlama dili arasında UI frameworklerinin temelini uzun süredir oluşturuyor. JS frameworkleri ve kütüphanelerinde, bu bağlamayı temsil etmenin farklı yolları üzerinde çok sayıda deneme yapıldı ve deneyimler, birinci sınıf bir veri tipinin diğer verilerden türetilen bir durum veya hesaplama hücresini temsil etmesiyle birlikte tek yönlü veri akışının gücünü gösterdi; bu türe artık sıklıkla &quot;Sinyal&quot; deniyor.
+Bu birinci sınıf reaktif değer yaklaşımı, açık kaynak JavaScript web frameworklerinde <a href="https://knockoutjs.com/">Knockout</a> ile <a href="https://blog.stevensanderson.com/2010/07/05/introducing-knockout-a-ui-library-for-javascript/">2010 yılında</a> popülerliğini ilk kez kazanmış gibi görünüyor. O zamandan bu yana birçok varyasyon ve uygulama oluşturuldu. Son 3-4 yıl içinde, Signal temel tipi ve ilgili yaklaşımlar daha da yaygınlaştı; neredeyse her modern JavaScript kütüphanesi veya frameworkü, bir şekilde buna benzer bir şeye sahip.</p>
+<p>Sinyalleri anlamak için, yukarıdaki örneğe, aşağıda daha ayrıntılı olarak açıklanan bir Signal API'si ile yeniden bakalım.</p>
+<h4>Örnek - Sinyallerle Sayaç</h4>
+<pre><code class="language-js">const counter = new Signal.State(0);
+const isEven = new Signal.Computed(() =&gt; (counter.get() &amp; 1) == 0);
+const parity = new Signal.Computed(() =&gt; isEven.get() ? &quot;even&quot; : &quot;odd&quot;);
+
+// Bir kütüphane veya framework, diğer Signal primitiflerine dayalı etkiler tanımlar
+declare function effect(cb: () =&gt; void): (() =&gt; void);
+
+effect(() =&gt; element.innerText = parity.get());
+
+// Sayaçta harici güncellemeleri simüle edin...
+setInterval(() =&gt; counter.set(counter.get() + 1), 1000);
+</code></pre>
+<p>Hemen görebileceğimiz birkaç şey var:</p>
+<ul>
+<li>Önceki örneğimizdeki <code>counter</code> değişkeninin etrafındaki gürültülü şablon kodunu ortadan kaldırdık.</li>
+<li>Değerleri, hesaplamaları ve yan etkileri yönetmek için birleşik bir API var.</li>
+<li><code>counter</code> ve <code>render</code> arasında dairesel referans sorunu veya tersine bağımlılıklar yok.</li>
+<li>Hiçbir manuel abonelik veya takip etme ihtiyacı yok.</li>
+<li>Yan etkilerin zamanlamasını/planlanmasını kontrol etmenin bir yolu var.</li>
+</ul>
+<p>Sinyaller, API'nin yüzeyinde görülebilenden çok daha fazlasını sunar:</p>
+<ul>
+<li><strong>Otomatik Bağımlılık Takibi</strong> - Hesaplanmış bir Signal, ister basit değerler ister başka hesaplamalar olsun, bağımlı olduğu diğer Signal’leri otomatik olarak keşfeder.</li>
+<li><strong>Tembel Değerlendirme</strong> - Hesaplamalar, tanımlandıklarında hemen değerlendirilmez, ayrıca bağımlılıkları değiştiğinde de anında değerlendirilmez. Yalnızca değerleri açıkça talep edildiğinde değerlendirilirler.</li>
+<li><strong>Önbellekleme (Memoization)</strong> - Hesaplanmış Signal’ler son değerlerini önbelleğe alır, böylece bağımlılıklarında bir değişiklik yoksa, kaç kez erişilirse erişilsin tekrar değerlendirmeye gerek olmaz.</li>
+</ul>
+<h2>Signal’lerin Standardize Edilmesi İçin Motivasyon</h2>
+<h4>Birlikte Çalışabilirlik</h4>
+<p>Her Signal implementasyonu, hesaplanmış bir Signal değerlendirilirken karşılaşılan kaynakların takibini yapmak için kendi otomatik takip mekanizmasına sahiptir. Bu durum, modellerin, bileşenlerin ve kütüphanelerin farklı framework’ler arasında paylaşılmasını zorlaştırır—genellikle görünüm motorlarına yanlış bir şekilde bağlı hale gelirler (Signal’ler genellikle JS framework’lerinin bir parçası olarak uygulandığından).</p>
+<p>Bu teklifin bir amacı, reaktif modeli tamamen görünümlerden ayırmak, geliştiricilerin yeni render teknolojilerine geçiş yaparken UI dışı kodlarını yeniden yazmak zorunda kalmadan taşımalarını sağlamak veya farklı ortamlarda kullanılacak paylaşımlı reaktif modeller geliştirmelerine olanak tanımaktır. Ne yazık ki, sürümleme ve çoğaltma nedeniyle, JS seviyesindeki kütüphaneler yoluyla güçlü bir paylaşım düzeyine ulaşmak pratik değildir—yerleşik (built-in) özellikler daha güçlü bir paylaşım garantisi sunar.</p>
+<h4>Performans/Bellek Kullanımı</h4>
+<p>Yaygın kullanılan kütüphanelerin yerleşik olması nedeniyle daha az kod göndermek küçük bir performans artışı sağlayabilir, ancak Signal implementasyonları genellikle oldukça küçüktür, bu nedenle bu etkinin çok büyük olmasını beklemiyoruz.</p>
+<p>Signal ile ilgili veri yapılarının ve algoritmalarının yerel C++ uygulamalarının, JS’de elde edilebilecek olandan sabit bir katsayıyla biraz daha verimli olabileceğini düşünüyoruz. Bununla birlikte, algoritmik olarak bir polyfill’de olacak olanlara göre herhangi bir değişiklik beklenmemektedir; motorlardan burada sihirli bir şey beklenmiyor ve reaktivite algoritmalarının kendisi iyi tanımlanmış ve kesin olacak.</p>
+<p>Şampiyon grup, çeşitli Signal implementasyonları geliştirmeyi ve bu performans olanaklarını araştırmak için kullanmayı planlamaktadır.</p>
+<h4>Geliştirici Araçları (DevTools)</h4>
+<p>Mevcut JS dilindeki Signal kütüphaneleriyle aşağıdaki gibi şeyleri izlemek zor olabilir:</p>
+<ul>
+<li>Hesaplanmış Signal’ler zinciri boyunca çağrı yığını, bir hatanın nedensel zincirini gösterir</li>
+<li>Bir Signal’in diğerine bağımlı olduğu durumlarda Signal’ler arasındaki referans grafiği -- bellek kullanımı hata ayıklama sırasında önemlidir</li>
+</ul>
+<p>Yerleşik Signal’ler, JS çalışma zamanlarının ve Geliştirici Araçlarının Signal’leri incelemeye yönelik daha iyi destek sunmasına olanak tanır, özellikle hata ayıklama veya performans analizi için; bu ister tarayıcıda yerleşik olsun ister ortak bir uzantı yoluyla olsun. Mevcut araçlar, örneğin element denetleyici, performans anlık görüntüsü ve bellek profilleri, sunumlarında Signal’leri özellikle vurgulayacak şekilde güncellenebilir.</p>
+<h4>İkincil Faydalara Dair</h4>
+<h5>Standart Kütüphanenin Faydaları</h5>
+<p>Genel olarak, JavaScript oldukça minimal bir standart kütüphaneye sahipti, ancak TC39’da JS’i daha fazla “pilli” (batteries-included) bir dil haline getirme eğilimi var, yani yüksek kaliteli, yerleşik işlevsellik sunma yönünde. Örneğin, Temporal moment.js’in yerini alıyor ve bir dizi küçük özellik, ör. <code>Array.prototype.flat</code> ve <code>Object.groupBy</code>, birçok lodash kullanım senaryosunun yerini alıyor. Avantajlar arasında daha küçük paket boyutları, artırılmış istikrar ve kalite, yeni bir projeye katılırken öğrenilecek daha az şey ve JS geliştiricileri arasında genel olarak ortak bir sözlük yer alıyor.</p>
+<h5>HTML/DOM Entegrasyonu (ileride bir olasılık)</h5>
+<p>W3C’deki ve tarayıcı geliştiricilerinin mevcut çalışmaları, HTML’ye yerel şablonlama getirmeye çalışıyor (<a href="https://github.com/WICG/webcomponents/pull/1023">DOM Parts</a> ve <a href="https://github.com/WICG/webcomponents/blob/gh-pages/proposals/Template-Instantiation.md">Template Instantiation</a>). Ayrıca, W3C Web Components CG, Web Components’i tam deklaratif bir HTML API’si sunacak şekilde genişletme olasılığını araştırıyor. Her iki hedefi de başarmak için, sonunda HTML’nin reaktif bir primitive ihtiyacı olacak. Ayrıca, topluluk tarafından istenen ve Signal’lerin DOM ile entegrasyonu yoluyla hayal edilebilecek birçok ergonomik iyileştirme de mevcut.</p>
+<blockquote>
+<p>Not: Bu entegrasyon, bu teklifin bir parçası olmayan, daha sonra yapılacak ayrı bir çalışma olacaktır.</p>
+</blockquote>
+<h5>Ekosistem Bilgi Alışverişi (<em>yayınlama nedeni değildir</em>)</h5>
+<p>Standardizasyon çabaları, tarayıcılarda bir değişiklik olmasa bile, sadece “topluluk” düzeyinde bile yardımcı olabilir. Signal’ler üzerindeki çalışma, reaktivitenin doğası, algoritmalar ve birlikte çalışabilirlik hakkında derinlemesine bir tartışma için birçok farklı framework yazarını bir araya getiriyor. Bu zaten faydalı oldu ve JS motorlarına ve tarayıcılara eklemeyi gerekçelendirmez; Signal’ler yalnızca ekosistem bilgi alışverişi dışında <em>önemli</em> faydalar sağlıyorsa JavaScript standardına eklenmelidir.</p>
+<h2>Signal’ler İçin Tasarım Hedefleri</h2>
+<p>Mevcut Signal kütüphanelerinin temelde birbirinden çok da farklı olmadığı ortaya çıktı. Bu teklif, pek çoğunda bulunan önemli nitelikleri uygulayarak bu başarıdan yararlanmayı amaçlamaktadır.</p>
+<h3>Temel Özellikler</h3>
+<ul>
+<li>Durumu temsil eden bir Signal türü, yani yazılabilir Signal. Bu, başkalarının okuyabileceği bir değerdir.</li>
+<li>Diğerlerine bağlı, tembel olarak hesaplanan ve önbelleğe alınan bir hesaplanmış/memo/ türetilmiş Signal türü.
+<ul>
+<li>Hesaplama tembeldir, yani hesaplanmış Signal’ler varsayılan olarak bağımlılıklarından biri değiştiğinde tekrar hesaplanmaz, yalnızca biri onları gerçekten okursa çalışır.</li>
+<li>Hesaplama “<a href="https://en.wikipedia.org/wiki/Reactive_programming#Glitches">glitch</a>-free”dir, yani asla gereksiz hesaplama yapılmaz. Bu, bir uygulama bir hesaplanmış Signal’i okuduğunda, çalıştırılacak potansiyel olarak bozuk (dirty) grafik parçalarının topolojik olarak sıralandığı anlamına gelir; böylece herhangi bir tekrar ortadan kaldırılır.</li>
+<li>Hesaplama önbelleklidir, yani son bağımlılık değişikliğinden sonra başka bir bağımlılık değişmemişse, hesaplanmış Signal erişildiğinde <em>yeniden</em> hesaplanmaz.</li>
+<li>Hesaplanmış Signal’ler ve durum Signal’leri için özel karşılaştırmalar mümkündür; böylece onlara bağımlı olan diğer hesaplanmış Signal’lerin ne zaman güncellenmesi gerektiği belirlenebilir.</li>
+</ul>
+</li>
+<li>Bir hesaplanmış Signal’in bağımlılıklarından birinin (veya iç içe geçmiş bağımlılıklarından birinin) “bozuk” (dirty) hale gelmesi ve değişmesi durumuna tepkiler; yani Signal’in değeri güncel olmayabilir.
+<ul>
+<li>Bu tepki, daha sonra yapılacak önemli bir işin planlanmasını amaçlar.</li>
+<li>Efektler bu tepkiler ve framework düzeyinde zamanlayıcılar ile uygulanır.</li>
+<li>Hesaplanmış Signal’lerin, bu tepkilerden birinin (iç içe) bağımlılığı olarak kaydedilip kaydedilmediğine tepki verebilme yeteneği olması gerekir.</li>
+</ul>
+</li>
+<li>JS framework’lerinin kendi zamanlayıcılarını yapabilmesini sağlamak. Zorunlu Promise-tarzı yerleşik bir zamanlama yok.
+<ul>
+<li>Senkron tepkiler, framework mantığına göre daha sonraki işleri zamanlamak için gereklidir.</li>
+<li>Yazmalar senkron ve hemen etkilidir (yazmaları topluca işlemek isteyen bir framework, bunu kendi üzerinde inşa edebilir).</li>
+<li>Bir efektin “bozuk” olup olmadığını kontrol etmek ile gerçekten çalıştırmak ayrılabilir (bu da iki aşamalı bir efekt zamanlayıcı sağlar).</li>
+</ul>
+</li>
+<li>Bağımlılıkların kaydedilmesini tetiklemeden Signal’leri okuyabilme (<code>untrack</code>)</li>
+<li>Signal’leri/reactivity kullanan farklı kod tabanlarının bileşimini mümkün kılmak, örn.,
+<ul>
+<li>Takip/reaktivite açısından birden fazla framework’ü birlikte kullanmak (aşağıdaki eksiklikler hariç)</li>
+<li>Framework’ten bağımsız reaktif veri yapıları (örn., özyinelemeli reaktif store proxy’si, reaktif Map ve Set ve Array, vb.)</li>
+</ul>
+</li>
+</ul>
+<h3>Tutarlılık</h3>
+<ul>
+<li>Senkron tepkilerin naif şekilde yanlış kullanımını caydırmak/yasaklamak.
+<ul>
+<li>Tutarlılık riski: yanlış kullanılırsa “<a href="https://en.wikipedia.org/wiki/Reactive_programming#Glitches">glitch</a>” ortaya çıkabilir: Eğer Signal ayarlandığında render işlemi hemen yapılırsa, uygulamanın tamamlanmamış durumu kullanıcıya gösterilebilir. Bu nedenle, bu özellik yalnızca daha sonra yapılacak işleri akıllıca planlamak için kullanılmalıdır.</li>
+<li>Çözüm: Senkron tepki geri çağrısı (callback) içinden herhangi bir Signal’i okumak ve yazmak yasaklanır</li>
+</ul>
+</li>
+<li><code>untrack</code> kullanımını caydırmak ve güvenli olmayan doğasını belirtmek
+<ul>
+<li>Tutarlılık riski: değeri diğer Signal’lere bağlı olan ama bu Signal’ler değiştiğinde güncellenmeyen hesaplanmış Signal’ler oluşturulmasına izin verir. Untracked erişimlerin, hesaplamanın sonucunu değiştirmeyeceği durumlarda kullanılmalıdır.</li>
+<li>Çözüm: API adında “unsafe” (güvensiz) olarak işaretlenir.</li>
+</ul>
+</li>
+<li>Not: Bu teklif, sinyallerin hesaplanmış ve efekt sinyallerinden hem okunmasına hem de yazılmasına izin verir, okumalardan sonra yapılan yazmalara herhangi bir kısıtlama getirmez, tutarlılık riskine rağmen. Bu karar, framework entegrasyonunda esneklik ve uyumluluğu korumak için alınmıştır.</li>
+</ul>
+<h3>Yüzeysel API</h3>
+<ul>
+<li>Birden fazla framework’ün Signal/reaktivite mekanizmalarını uygulayabilmesi için sağlam bir temel olmalı.
+<ul>
+<li>Özyinelemeli store proxy’leri, dekoratör tabanlı sınıf alanı reaktivitesi ve hem <code>.value</code> hem de <code>[state, setState]</code>-stili API’ler için iyi bir temel olmalı.</li>
+<li>Anlamlar, farklı framework’ler tarafından mümkün kılınan geçerli desenleri ifade edebilmelidir. Örneğin, bu Signal’lerin ya anında yansıtılan yazmaların ya da topluca daha sonra uygulanan yazmaların temeli olması mümkün olmalı.</li>
+</ul>
+</li>
+<li>Bu API’nin doğrudan JavaScript geliştiricileri tarafından kullanılabilir olması güzel olurdu.
+<ul>
+<li>Bir özellik ekosistem kavramıyla örtüşüyorsa, ortak bir terim kullanmak iyidir.
+<ul>
+<li>Ancak, tam olarak aynı isimlerin gölgelenmemesi önemlidir!</li>
+</ul>
+</li>
+<li>“JS geliştiricileri tarafından kullanılabilirlik” ile “framework’lere tüm kancaları sağlamak” arasında bir gerilim var
+<ul>
+<li>Fikir: Tüm kancaları sağla, ancak yanlış kullanıldığında hata ver.</li>
+<li>Fikir: İnce API’leri <a href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto/subtle"><code>crypto.subtle</code></a> gibi bir <code>subtle</code> ad alanına koy, böylece framework veya dev araçları geliştirmek gibi daha ileri düzey kullanımlar için gerekli API’ler ile gündelik uygulama geliştirmede framework ile Signal örneklemek gibi kullanımlar arasındaki çizgi belirlenmiş olur.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>İyi performansla uygulanabilir ve kullanılabilir olmalı -- yüzeysel API çok fazla ek yük getirmemeli
+<ul>
+<li>Alt sınıflamaya olanak tanımalı, böylece framework’ler kendi metotlarını ve alanlarını, özel alanlar dahil ekleyebilsin. Bu, framework düzeyinde ek tahsis ihtiyacını önlemek için önemlidir. Aşağıda “Bellek yönetimi” bölümüne bakınız.</li>
+</ul>
+</li>
+</ul>
+<h3>Bellek yönetimi</h3>
+<ul>
+<li>Mümkünse: Eğer gelecekte okunmak üzere hiçbir canlı referans yoksa, bir hesaplanmış Signal, daha geniş bir grafiğe bağlı kalsa bile (örn., canlı kalan bir durumu okuduğu için), çöp toplayıcı tarafından kaldırılabilmelidir.</li>
+<li>Bugün çoğu framework'ün, başka bir Signal grafiğine referans veren veya ondan referans alan hesaplanmış Signal’ların açıkça yok edilmesini gerektirdiğini unutmayın; bu grafik hala yaşıyorsa.</li>
+<li>Bu durum, yaşam ömürleri bir UI bileşeninin yaşam ömrüne bağlı olduğunda o kadar da kötü olmaz, ayrıca efektlerin de zaten yok edilmesi gerekir.</li>
+<li>Eğer bu anlamlarla çalıştırmak çok maliyetliyse, aşağıdaki API'ye hesaplanmış Signal’ların açıkça yok edilmesi (veya &quot;bağlantısının kesilmesi&quot;) eklenmelidir; şu anda bu API'de bu eksik.</li>
+<li>İlgili ayrı bir hedef: Ayırma (allocation) sayısını en aza indirmek, örneğin,
+<ul>
+<li>yazılabilir bir Signal oluşturmak için (iki ayrı closure + dizi kullanımını önlemek)</li>
+<li>efektleri uygulamak için (her tepki için bir closure oluşturulmasını önlemek)</li>
+<li>Signal değişikliklerini gözlemleme API'sinde, ek geçici veri yapıları oluşturmaktan kaçınmak</li>
+<li>Çözüm: Alt sınıflarda tanımlanan metot ve alanların yeniden kullanılmasını sağlayan sınıf tabanlı API</li>
+</ul>
+</li>
+</ul>
+<h2>API taslağı</h2>
+<p>Aşağıda bir Signal API’sinin ilk fikri yer almakta. Bunun sadece erken bir taslak olduğunu ve zamanla değişiklikler beklediğimizi unutmayın. Genel yapıyı kavramak için tam <code>.d.ts</code> ile başlayalım, ardından tüm bunların ne anlama geldiğini tartışacağız.</p>
+<pre><code class="language-ts">interface Signal&lt;T&gt; {
+    // Signal’ın değerini al
+    get(): T;
+}
+
+namespace Signal {
+    // Okunabilir-yazılabilir bir Signal
+    class State&lt;T&gt; implements Signal&lt;T&gt; {
+        // t değeriyle başlayan bir state Signal’ı oluştur
+        constructor(t: T, options?: SignalOptions&lt;T&gt;);
+
+        // Signal’ın değerini al
+        get(): T;
+
+        // State Signal değerini t olarak ayarla
+        set(t: T): void;
+    }
+
+    // Diğer Signal’lara dayalı bir formül olan bir Signal
+    class Computed&lt;T = unknown&gt; implements Signal&lt;T&gt; {
+        // Callback tarafından döndürülen değere sahip bir Signal oluşturur.
+        // Callback, this signal’ı this değeri olarak alır.
+        constructor(cb: (this: Computed&lt;T&gt;) =&gt; T, options?: SignalOptions&lt;T&gt;);
+
+        // Signal’ın değerini al
+        get(): T;
+    }
+
+    // Bu namespace, uygulama geliştiricilerinden çok framework yazarları için uygun olan
+    // “ileri düzey” özellikleri içerir.
+    // `crypto.subtle` ile benzer
+    namespace subtle {
+        // Tüm izleme devre dışı bırakılarak bir callback çalıştır
+        function untrack&lt;T&gt;(cb: () =&gt; T): T;
+
+        // Herhangi bir signal okumasını izleyen mevcut hesaplanmış signal’ı al, varsa
+        function currentComputed(): Computed | null;
+
+        // Bu signal’ın en son değerlendirildiği sırada referans verdiği
+        // tüm signal’ların sıralı listesini döndürür.
+        // Bir Watcher için, izlediği signal kümesini listeler.
+        function introspectSources(s: Computed | Watcher): (State | Computed)[];
+
+        // Bu signal’ın dahil olduğu Watcher’ları ve
+        // en son değerlendirildiğinde bu signal’ı okuyan Computed signal’ları döndürür,
+        // eğer o hesaplanmış signal (yinelemeli olarak) izleniyorsa.
+        function introspectSinks(s: State | Computed): (Computed | Watcher)[];
+
+        // Bu signal &quot;canlı&quot; ise true döndürür, yani bir Watcher tarafından izleniyor
+        // veya (yinelemeli olarak) canlı bir Computed signal tarafından okunuyor.
+        function hasSinks(s: State | Computed): boolean;
+
+        // Bu öğe &quot;reaktif&quot; ise true döndürür, yani başka bir signal’a bağımlı.
+        // hasSources false ise bir Computed her zaman aynı sabiti döndürür.
+        function hasSources(s: Computed | Watcher): boolean;
+
+        class Watcher {
+            // Watcher’ın (yinelemeli olarak) kaynağı yazıldığında, bu callback’i çağır,
+            // eğer son `watch` çağrısından beri zaten çağrılmadıysa.
+            // Bildirim sırasında hiçbir signal okunamaz veya yazılamaz.
+            constructor(notify: (this: Watcher) =&gt; void);
+
+            // Bu signal’ları Watcher’ın kümesine ekle ve izleyiciyi,
+            // kümedeki herhangi bir signal (veya bağımlılıklarından biri) değiştiğinde
+            // bir sonraki sefer notify callback’ini çalıştıracak şekilde ayarla.
+            // Sadece &quot;bildirildi&quot; durumunu sıfırlamak için argümansız da çağrılabilir,
+            // böylece notify callback’i tekrar çağrılacaktır.
+            watch(...s: Signal[]): void;
+
+            // Bu signal’ları izlenen kümeden çıkar (ör. yok edilen bir efekt için)
+            unwatch(...s: Signal[]): void;
+
+            // Watcher’ın kümesindeki hala kirli olan kaynakların kümesini döndürür,
+            // veya kaynağı kirli ya da beklemede olan ve henüz yeniden değerlendirilmemiş bir computed signal’ı döndürür
+            getPending(): Signal[];
+        }
+
+        // İzlenmeye başlandığında veya artık izlenmediğinde gözlemlemek için hook’lar
+        var watched: Symbol;
+        var unwatched: Symbol;
+    }
+
+    interface SignalOptions&lt;T&gt; {
+        // Eski ve yeni değer arasında özel karşılaştırma fonksiyonu. Varsayılan: Object.is.
+        // Bağlam için signal this olarak iletilir.
+        equals?: (this: Signal&lt;T&gt;, t: T, t2: T) =&gt; boolean;
+</code></pre>
+<pre><code class="language-ts">// isWatched true olduğunda, eğer önceden false ise çağrılan geri çağırma fonksiyonu
+[Signal.subtle.watched]?: (this: Signal&lt;T&gt;) =&gt; void;
+
+// isWatched false olduğunda, eğer önceden true ise çağrılan geri çağırma fonksiyonu
+[Signal.subtle.unwatched]?: (this: Signal&lt;T&gt;) =&gt; void;
+}
+}
+</code></pre>
+<h3>Sinyaller Nasıl Çalışır</h3>
+<p>Bir Signal (Sinyal), zaman içinde değişebilen bir veri hücresini temsil eder. Sinyaller ya &quot;durum&quot; (manuel olarak ayarlanan bir değer) ya da &quot;hesaplanmış&quot; (diğer Sinyallere dayalı bir formül) olabilir.</p>
+<p>Hesaplanmış Sinyaller, değerlendirmeleri sırasında hangi diğer Sinyallerin okunduğunu otomatik olarak takip ederek çalışır. Bir hesaplanmış Sinyal okunduğunda, daha önce kaydedilmiş bağımlılıklarından herhangi birinin değişip değişmediğini kontrol eder ve eğer değişmişse kendini yeniden değerlendirir. Birden fazla hesaplanmış Sinyal iç içe olduğunda, tüm izleme işleminin atfedilmesi en içteki Sinyale gider.</p>
+<p>Hesaplanmış Sinyaller tembel, yani çekme tabanlıdır: Yalnızca erişildiklerinde yeniden değerlendirilirler, bir bağımlılıkları daha önce değişmiş olsa bile.</p>
+<p>Hesaplanmış Sinyallere geçirilen geri çağırma fonksiyonu genellikle, eriştiği diğer Sinyallerin deterministik, yan etkisiz bir fonksiyonu anlamında &quot;saf&quot; olmalıdır. Aynı zamanda, geri çağırma fonksiyonunun ne zaman çağrılacağı deterministiktir ve bu da yan etkilerin dikkatlice kullanılmasına olanak tanır.</p>
+<p>Sinyaller belirgin bir önbellekleme/memoizasyon özelliğine sahiptir: Hem durum hem de hesaplanmış Sinyaller mevcut değerlerini hatırlar ve yalnızca gerçekten değiştiklerinde kendilerine referans veren hesaplanmış Sinyallerin yeniden hesaplanmasını tetikler. Eski ve yeni değerlerin tekrar tekrar karşılaştırılmasına bile gerek yoktur—karşılaştırma, kaynak Sinyal sıfırlandığında/yeniden değerlendirildiğinde bir kez yapılır ve Sinyal mekanizması, o Sinyali referans alan hangi şeylerin yeni değere göre henüz güncellenmediğini takip eder. Dahili olarak, bu genellikle (Milo'nun blog yazısında) açıklandığı gibi &quot;grafik renklendirme&quot; ile temsil edilir.</p>
+<p>Hesaplanmış Sinyaller, bağımlılıklarını dinamik olarak takip eder—her çalıştırıldıklarında, farklı şeylere bağımlı hale gelebilirler ve bu kesin bağımlılık kümesi Sinyal grafiğinde güncel tutulur. Bu, yalnızca bir dalda ihtiyaç duyulan bir bağımlılığınız varsa ve önceki hesaplama diğer dalı aldıysa, geçici olarak kullanılmayan bu değerdeki bir değişikliğin, çekildiğinde bile hesaplanmış Sinyalin yeniden hesaplanmasına neden olmayacağı anlamına gelir.</p>
+<p>JavaScript Promiselerinin aksine, Sinyallerdeki her şey senkron olarak çalışır:</p>
+<ul>
+<li>Bir Sinyali yeni bir değere ayarlamak senkroniktir ve bu, sonrasında ona bağımlı olan herhangi bir hesaplanmış Sinyal okunduğunda hemen yansır. Bu mutasyonun yerleşik bir toplu işleme (batching) özelliği yoktur.</li>
+<li>Hesaplanmış Sinyalleri okumak senkroniktir—değerleri her zaman kullanılabilir durumdadır.</li>
+<li>Aşağıda açıklanan Watcher'lardaki <code>notify</code> geri çağırma fonksiyonu, onu tetikleyen <code>.set()</code> çağrısı sırasında senkron olarak çalışır (ancak grafik renklendirme tamamlandıktan sonra).</li>
+</ul>
+<p>Promiseler gibi, Sinyaller bir hata durumunu temsil edebilir: Bir hesaplanmış Sinyalin geri çağırma fonksiyonu hata fırlatırsa, bu hata başka bir değer gibi önbelleğe alınır ve Sinyal her okunduğunda tekrar fırlatılır.</p>
+<h3>Signal Sınıfını Anlamak</h3>
+<p>Bir <code>Signal</code> örneği, güncellemeleri zaman içinde takip edilen dinamik olarak değişen bir değeri okuma yeteneğini temsil eder. Ayrıca, başka bir hesaplanmış Sinyal tarafından izlenen bir erişim yoluyla dolaylı olarak Sinyale abone olma yeteneğini de içerir.</p>
+<p>Buradaki API, Signal kütüphanelerinin büyük bir kısmında &quot;signal&quot;, &quot;computed&quot; ve &quot;state&quot; gibi isimlerin kullanımı konusunda ortaya çıkan kabaca ekosistem uzlaşısına uyacak şekilde tasarlanmıştır. Ancak, Hesaplanmış ve Durum Sinyallerine erişim <code>.get()</code> yöntemiyle sağlanır; bu, popüler Signal API'lerinin tümüyle çelişir, çünkü onlar ya <code>.value</code> tarzı bir erişici ya da <code>signal()</code> çağrı sözdizimi kullanır.</p>
+<p>API, tahsisat (allocation) sayısını azaltacak şekilde tasarlanmıştır, böylece Sinyaller, JavaScript framework'lerine gömülmeye uygun olur ve mevcut framework-özelleştirilmiş Sinyallerden aynı veya daha iyi performansa ulaşır. Bu şunları gerektirir:</p>
+<ul>
+<li>Durum Sinyalleri, aynı referanstan hem erişilebilen hem de ayarlanabilen tek bir yazılabilir nesnedir. (Aşağıdaki &quot;Yetenek ayrımı&quot; bölümünde sonuçlarına bakınız.)</li>
+<li>Hem Durum hem de Hesaplanmış Sinyaller, framework'lerin hem public hem de private sınıf alanlarıyla (ve o durumu kullanmak için yöntemlerle) ek özellikler eklemesini kolaylaştırmak için alt sınıf (subclass) oluşturulabilir şekilde tasarlanmıştır.</li>
+<li>Çeşitli geri çağırma fonksiyonları (ör. <code>equals</code>, hesaplanmış geri çağırma), bağlam için ilgili Sinyal'i <code>this</code> değeri olarak alır, böylece her Sinyal için yeni bir closure oluşturmak gerekmez. Bunun yerine, bağlam sinyalin kendisinde ek özelliklerde saklanabilir.</li>
+</ul>
+<p>Bu API tarafından zorunlu kılınan bazı hata durumları:</p>
+<ul>
+<li>Bir hesaplanmış Sinyali özyinelemeli (recursive) olarak okumak hatadır.</li>
+<li>Bir Watcher'ın <code>notify</code> geri çağırma fonksiyonu hiçbir sinyali okuyamaz veya yazamaz.</li>
+<li>Bir hesaplanmış Sinyalin geri çağırma fonksiyonu hata fırlatırsa, Sinyalin sonraki erişimlerinde bu önbelleğe alınmış hata tekrar fırlatılır; ta ki bağımlılıklardan biri değişip yeniden hesaplanana kadar.</li>
+</ul>
+<p>Zorunlu <em>olmayan</em> bazı koşullar:</p>
+<ul>
+<li>Hesaplanmış Sinyaller, geri çağırma fonksiyonları içinde senkron olarak diğer Sinyallere yazabilir.</li>
+<li>Bir Watcher'ın <code>notify</code> geri çağırma fonksiyonu tarafından kuyruğa alınan işler sinyalleri okuyabilir veya yazabilir, bu da Sinyaller bağlamında <a href="https://react.dev/learn/you-might-not-need-an-effect">klasik React antipatternlerinin</a> çoğaltılmasını mümkün kılar!</li>
+</ul>
+<h3>Etkilerin (Effect) Uygulanması</h3>
+<p>Yukarıda tanımlanan <code>Watcher</code> arayüzü, tipik JS efekt API'lerinin uygulanması için temel sağlar: Diğer Sinyaller değiştiğinde yalnızca yan etkileri için tekrar çalışan geri çağırma fonksiyonları. Başlangıç örneğinde kullanılan <code>effect</code> fonksiyonu aşağıdaki gibi tanımlanabilir:</p>
+<pre><code class="language-ts">// Bu fonksiyon genellikle bir kütüphane/framework'te yer alır, uygulama kodunda değil
+// NOT: Bu zamanlama mantığı faydalı olacak kadar gelişmiş değildir. Kopyalayıp yapıştırmayın.
+let pending = false;
+
+let w = new Signal.subtle.Watcher(() =&gt; {
+    if (!pending) {
+        pending = true;
+        queueMicrotask(() =&gt; {
+            pending = false;
+            for (let s of w.getPending()) s.get();
+            w.watch();
+        });
+    }
+});
+
+// Bir efekt Signal'i—cb'ye değerlendirilir, bağımlılıklarından biri değiştiğinde
+// kendisini mikro görev kuyruğunda tekrar okuma işlemini zamanlar
+export function effect(cb) {
+    let destructor;
+    let c = new Signal.Computed(() =&gt; { destructor?.(); destructor = cb(); });
+    w.watch(c);
+    c.get();
+    return () =&gt; { destructor?.(); w.unwatch(c) };
+}
+</code></pre>
+<p>Signal API'si, yerleşik olarak <code>effect</code> gibi bir fonksiyon içermez. Bunun nedeni, efekt zamanlamasının hassas olması ve genellikle framework'lerin render döngüleri ve JS'nin erişimi olmayan yüksek seviyeli framework'e özgü durum veya stratejilerle bağlantılı olmasıdır.</p>
+<p>Burada kullanılan farklı işlemleri inceleyelim: <code>Watcher</code> yapıcısına geçirilen <code>notify</code> geri çağırma fonksiyonu, Sinyal &quot;temiz&quot; bir durumdan (önbelleğin başlatıldığının ve geçerli olduğunun bilindiği yer) &quot;kontrol edilmiş&quot; veya &quot;kirli&quot; bir duruma geçtiğinde (bu Sinyalin özyinelemeli olarak bağlı olduğu en az bir durum değiştiği için önbelleğin geçerli olup olmadığının bilinmediği yer) çağrılan fonksiyondur.</p>
+<p><code>notify</code> çağrıları nihayetinde bir durum Sinyali üzerinde <code>.set()</code> çağrısı ile tetiklenir. Bu çağrı senkroniktir: <code>.set</code> döndürülmeden önce gerçekleşir. Ancak bu geri çağırmanın Signal grafiğini yarım işlenmiş bir durumda gözlemlemesinden endişe etmeye gerek yoktur, çünkü bir <code>notify</code> geri çağırma sırasında, hatta bir <code>untrack</code> çağrısında bile hiçbir Sinyal okunamaz veya yazılamaz. Çünkü <code>notify</code>, <code>.set()</code> sırasında çağrıldığından, başka bir mantık akışını kesintiye uğratır ve bu akış tamamlanmamış olabilir. <code>notify</code>'dan Sinyalleri okumak veya yazmak için işi daha sonra çalışacak şekilde zamanlayın; örneğin, Sinyali daha sonra erişilecek bir listeye yazarak veya yukarıdaki gibi <code>queueMicrotask</code> ile.</p>
+<p>Sinyalleri etkili bir şekilde kullanmak için <code>Signal.subtle.Watcher</code> kullanmak şart değildir; Glimmer'ın yaptığı gibi hesaplanmış Sinyallerin yoklanmasını zamanlamak mümkündür. Ancak, birçok framework bu zamanlama mantığını senkron olarak çalıştırmanın çoğu zaman faydalı olduğunu bulmuştur, bu nedenle Sinyal API'si bunu içerir.</p>
+<p>Hem hesaplanmış hem de durum Sinyalleri, diğer JS değerleri gibi çöp toplayıcı (garbage collector) tarafından toplanır. Ancak Watcher'ların özel bir şekilde nesneleri canlı tutma yöntemi vardır: Bir Watcher tarafından izlenen herhangi bir Sinyal, temel durumların herhangi biri erişilebilir olduğu sürece canlı tutulur, çünkü bunlar gelecekte bir <code>notify</code> çağrısını (ve ardından bir <code>.get()</code>) tetikleyebilir. Bu nedenle, efektleri temizlemek için <code>Watcher.prototype.unwatch</code> çağırmayı unutmayın.</p>
+<h3>Güvensiz Bir Kaçış Kapısı</h3>
+<p><code>Signal.subtle.untrack</code>, Sinyalleri <em>takip etmeden</em> okumaya izin veren bir kaçış kapısıdır. Bu yetenek güvensizdir çünkü diğer Sinyallere bağlı olan, ancak bu Sinyaller değiştiğinde güncellenmeyen hesaplanmış Sinyallerin oluşturulmasına olanak tanır. Takipsiz erişimlerin hesaplamanın sonucunu değiştirmeyeceği durumlarda kullanılmalıdır.</p>
+<!--
+TODO: untrack kullanımının iyi bir fikir olduğu bir örnek göster
+
+### watched/unwatched Kullanımı
+TODO: Bir Observable'ın, yalnızca bir etki tarafından kullanıldığında abone olunan, hesaplanan bir signale dönüştürülmesi örneğini gösterin
+
+TODO: Bir duruma yönlendirilen bir fetch'in sonucunu temsil eden ve iptal edilen bir hesaplanan signal örneğini gösterin
+
+### SSR için İçgörü
+
+TODO: Signal grafiğinin serileştirilmesinin nasıl çalıştığını gösterin
+
+TODO: Birkaç signal kullanarak bir signal'in daha sonra duruma ya da hesaplanana "hidrate" edilebileceğini gösterin.
+-->
+<h3>Şimdilik Atlananlar</h3>
+<p>Bu özellikler daha sonra eklenebilir, ancak mevcut taslakta yer almamaktadır. Atlanmalarının nedeni, tasarım alanında frameworkler arasında yerleşik bir uzlaşmanın olmaması ve ayrıca bu belgede açıklanan Signal kavramının üzerine inşa edilen mekanizmalarla yokluklarının etrafından dolaşılabilmesidir. Ancak ne yazık ki, bu eksiklik frameworkler arası birlikte çalışabilirliğin potansiyelini sınırlar. Bu belgede tanımlanan Signal prototipleri üretildikçe, bu atlamaların uygun bir karar olup olmadığını yeniden değerlendirme çabası olacaktır.</p>
+<ul>
+<li><strong>Async</strong>: Bu modelde, signal'lar her zaman eşzamanlı olarak değerlendirmeye hazırdır. Ancak, bir signal'in ayarlanmasına yol açan belirli eşzamansız süreçlere sahip olmak ve bir signal'in hâlâ &quot;yükleniyor&quot; olup olmadığını anlamak genellikle faydalıdır. Yüklenme durumunu modellemenin basit bir yolu istisnalarla çalışmaktır ve hesaplanan signal'lerin istisna önbellekleme davranışı bu teknikle bir ölçüde makul şekilde birleşir. Geliştirilmiş teknikler <a href="https://github.com/proposal-signals/proposal-signals/issues/30">Issue #30</a> adresinde tartışılmıştır.</li>
+<li><strong>Transactions</strong>: Görünümler arasında geçişler için, hem &quot;from&quot; hem de &quot;to&quot; durumlarının canlı durumunu korumak çoğu zaman faydalıdır. &quot;To&quot; durumu arka planda işlenir, takas edilene (işlemi tamamlayana) kadar, bu sırada &quot;from&quot; durumu etkileşimli olarak kalır. Her iki durumu aynı anda korumak, signal grafiğinin durumunun &quot;forklanmasını&quot; gerektirir ve aynı anda birden fazla beklemede geçişi desteklemek de faydalı olabilir. Tartışma <a href="https://github.com/proposal-signals/proposal-signals/issues/73">Issue #73</a> adresindedir.</li>
+</ul>
+<p>Bazı olası <a href="https://github.com/proposal-signals/proposal-signals/issues/32">kolaylık yöntemleri</a> de atlanmıştır.</p>
+<h2>Durum ve Geliştirme Planı</h2>
+<p>Bu teklif, Nisan 2024 TC39 gündeminde Aşama 1 için yer almaktadır. Şu anda &quot;Aşama 0&quot; olarak düşünülebilir.</p>
+<p><a href="https://github.com/proposal-signals/signal-polyfill">Bir polyfill</a> bu teklif için mevcuttur ve bazı temel testlerle birlikte gelir. Bazı framework yazarları bu signal uygulamasını ikame etmek üzerinde denemelere başlamıştır, ancak bu kullanım erken bir aşamadadır.</p>
+<p>Signal teklifi üzerinde çalışan işbirlikçiler, bu teklifi nasıl ilerleteceğimiz konusunda özellikle <strong>temkinli</strong> olmak istiyorlar, böylece sonunda pişman olacağımız ve aslında kullanmayacağımız bir şeyin yayımlanması tuzağına düşmeyelim. Planımız, bu teklifin yolunda olduğundan emin olmak için TC39 süreci tarafından gerekmeyen aşağıdaki ekstra görevleri yapmak:</p>
+<p>Aşama 2 için teklif vermeden önce şunları yapmayı planlıyoruz:</p>
+<ul>
+<li>Sağlam, iyi test edilmiş (örneğin, çeşitli frameworklerden alınan testleri ve test262 tarzı testleri geçen), performans açısından rekabetçi (kapsamlı bir signal/framework kıyaslama seti ile doğrulanmış) birden fazla üretim kalitesinde polyfill uygulamaları geliştirmek.</li>
+<li>Önerilen Signal API'sini, bize bir ölçüde temsil edici görünen çok sayıda JS framework'e entegre etmek ve bazı büyük uygulamaların bu temelle çalışmasını sağlamak. Bu bağlamlarda verimli ve doğru şekilde çalıştığını test etmek.</li>
+<li>API'ye yapılabilecek olası genişletmelerin alanında sağlam bir anlayışa sahip olmak ve bunlardan hangilerinin (varsa) bu teklife eklenmesi gerektiğine karar vermiş olmak.</li>
+</ul>
+<h2>Signal algoritmaları</h2>
+<p>Bu bölüm, JavaScript'e açığa çıkan her bir API'yi, uyguladıkları algoritmalar açısından açıklar. Bu, bir proto-şartname olarak düşünülebilir ve olası bir anlamlar kümesini belirlemek için bu erken aşamada dahil edilmiştir, ancak değişikliklere çok açıktır.</p>
+<p>Algoritmanın bazı yönleri:</p>
+<ul>
+<li>Bir hesaplananda Signal'ların okunma sırası önemlidir ve bazı geri çağırımların (örneğin <code>Watcher</code>'ın tetiklenme sırası, <code>equals</code>, <code>new Signal.Computed</code>'a ilk parametre ve <code>watched</code>/<code>unwatched</code> geri çağırımları) yürütülme sırası ile gözlemlenebilir. Bu, bir hesaplanan Signal'ın kaynaklarının sıralı depolanması gerektiği anlamına gelir.</li>
+<li>Bu dört geri çağırımın hepsi istisna fırlatabilir ve bu istisnalar öngörülebilir şekilde çağıran JS koduna iletilir. İstisnalar, bu algoritmanın yürütülmesini durdurmaz veya grafiği yarı işlenmiş bir durumda bırakmaz. Bir Watcher'ın <code>notify</code> geri çağırımında fırlatılan hatalar için, bu istisna, onu tetikleyen <code>.set()</code> çağrısına iletilir, eğer birden fazla istisna fırlatıldıysa bunlar AggregateError ile paketlenir. Diğerleri (dahil <code>watched</code>/<code>unwatched</code>?) Signal'in değerinde saklanır, okunurken tekrar fırlatılır ve böyle tekrar fırlatan bir Signal, normal bir değeri olanlar gibi <code>~clean~</code> olarak işaretlenebilir.</li>
+<li>&quot;Watched&quot; olmayan (herhangi bir Watcher tarafından gözlemlenmeyen) hesaplanan signal'lerde döngüselliği önlemek için özen gösterilir, böylece bunlar signal grafiğinin diğer bölümlerinden bağımsız olarak garbage collection ile toplanabilir. Dahili olarak, bu her zaman toplanan nesil numaraları sistemiyle uygulanabilir; optimize edilmiş uygulamalarda yerel düğüm başına nesil numaraları da bulunabilir veya izlenen signal'larda bazı numaraların izlenmesinden kaçınılabilir.</li>
+</ul>
+<h3>Gizli Global Durum</h3>
+<p>Signal algoritmalarının bazı global durumlara başvurması gerekir. Bu durum, tüm thread ya da &quot;ajan&quot; için globaldir.</p>
+<ul>
+<li><code>computing</code>: Şu anda bir <code>.get</code> veya <code>.run</code> çağrısı nedeniyle yeniden değerlendirilen en içteki hesaplanan ya da etki signal'ı, ya da <code>null</code>. Başlangıçta <code>null</code>.</li>
+<li><code>frozen</code>: Grafiğin değiştirilmemesini gerektiren bir geri çağırım şu anda yürütülüyorsa boolean. Başlangıçta <code>false</code>.</li>
+<li><code>generation</code>: Döngüsellikten kaçınırken bir değerin ne kadar güncel olduğunu izlemek için kullanılan, 0'dan başlayan artan bir tam sayı.</li>
+</ul>
+<h3><code>Signal</code> Ad Alanı</h3>
+<p><code>Signal</code>, Signal ile ilgili sınıf ve fonksiyonlar için ad alanı olarak görev yapan sıradan bir nesnedir.</p>
+<p><code>Signal.subtle</code> ise benzer bir iç ad alanı nesnesidir.</p>
+<h3><code>Signal.State</code> Sınıfı</h3>
+<h4><code>Signal.State</code> dahili slotları</h4>
+<ul>
+<li><code>value</code>: Durum signal'ının mevcut değeri</li>
+<li><code>equals</code>: Değer değiştirildiğinde kullanılan karşılaştırma fonksiyonu</li>
+<li><code>watched</code>: Signal bir etki tarafından gözlemlendiğinde çağrılacak geri çağırım</li>
+<li><code>unwatched</code>: Signal artık bir etki tarafından gözlemlenmediğinde çağrılacak geri çağırım</li>
+<li><code>sinks</code>: Buna bağlı olan izlenen signal'lar kümesi</li>
+</ul>
+<h4>Kurucu: <code>Signal.State(initialValue, options)</code></h4>
+<ol>
+<li>Bu Signal'ın <code>value</code> değerini <code>initialValue</code> olarak ayarla.</li>
+<li>Bu Signal'ın <code>equals</code> değerini options?.equals olarak ayarla</li>
+<li>Bu Signal'ın <code>watched</code> değerini options?.[Signal.subtle.watched] olarak ayarla</li>
+<li>Bu Signal'ın <code>unwatched</code> değerini options?.[Signal.subtle.unwatched] olarak ayarla</li>
+<li>Bu Signal'ın <code>sinks</code> değerini boş küme olarak ayarla</li>
+</ol>
+<h4>Metot: <code>Signal.State.prototype.get()</code></h4>
+<ol>
+<li>Eğer <code>frozen</code> true ise, bir istisna fırlat.</li>
+<li>Eğer <code>computing</code> tanımsız değilse, bu Signal'ı <code>computing</code>'in <code>sources</code> kümesine ekle.</li>
+<li>NOT: Bu Signal'ın <code>sinks</code> kümesine, bir Watcher tarafından izlenene kadar <code>computing</code> eklemiyoruz.</li>
+<li>Bu Signal'ın <code>value</code> değerini döndür.</li>
+</ol>
+<h4>Metot: <code>Signal.State.prototype.set(newValue)</code></h4>
+<ol>
+<li>Mevcut yürütme bağlamı <code>frozen</code> ise, bir istisna fırlat.</li>
+<li>Bu Signal ve değer için &quot;Signal değeri ayarla&quot; algoritmasını çalıştır.</li>
+<li>Bu algoritma <code>~clean~</code> döndürdüyse, undefined döndür.</li>
+<li>Bu Signal'ın tüm <code>sinks</code>'lerinin durumunu (eğer bir Hesaplanan Signal ise) önceden temizse <code>~dirty~</code>, (eğer bir Watcher ise) önceden <code>~watching~</code> ise <code>~pending~</code> olarak ayarla.</li>
+<li>Tüm sinks'lerin Hesaplanan Signal bağımlılıklarının (özyinelemeli olarak) durumunu önceden <code>~clean~</code> ise <code>~checked~</code> olarak ayarla (yani, kirli işaretleri olduğu gibi bırak), Watcher'lar için ise önceden <code>~watching~</code> ise <code>~pending~</code> olarak ayarla.</li>
+<li>Bu özyinelemeli aramada karşılaşılan her önceki <code>~watching~</code> Watcher için, daha sonra derinlik öncelikli sırayla,
+<ol>
+<li><code>frozen</code>'ı true olarak ayarla.</li>
+<li><code>notify</code> geri çağırımını çağır (fırlatılan istisnayı kenara kaydet, ancak <code>notify</code>'ın dönüş değerini yoksay).</li>
+<li><code>frozen</code>'ı false olarak geri yükle.</li>
+<li>Watcher'ın durumunu <code>~waiting~</code> olarak ayarla.</li>
+</ol>
+</li>
+<li><code>notify</code> geri çağırımlarından herhangi birinde istisna fırlatıldıysa, tüm <code>notify</code> geri çağırımları çalıştıktan sonra onu çağırana ilet. Birden fazla istisna varsa, bunları AggregateError ile paketle ve öyle fırlat.</li>
+<li>undefined döndür.</li>
+</ol>
+<h3><code>Signal.Computed</code> Sınıfı</h3>
+<h4><code>Signal.Computed</code> Durum Makinesi</h4>
+<p>Bir Hesaplanmış Signal'in <code>state</code> durumu aşağıdakilerden biri olabilir:</p>
+<ul>
+<li><code>~clean~</code>: Signal'in değeri mevcuttur ve bayat olmadığı biliniyor.</li>
+<li><code>~checked~</code>: Bu Signal'in (dolaylı) bir kaynağı değişti; bu Signal'in bir değeri var ama <em>bayat</em> olabilir. Bayat olup olmadığı ancak tüm doğrudan kaynaklar değerlendirildiğinde bilinecek.</li>
+<li><code>~computing~</code>: Bu Signal'in callback'i şu anda bir <code>.get()</code> çağrısının yan etkisi olarak yürütülüyor.</li>
+<li><code>~dirty~</code>: Ya bu Signal'in değeri bayat olduğu biliniyor, ya da hiç değerlendirilmemiş.</li>
+</ul>
+<p>Geçiş grafiği aşağıdaki gibidir:</p>
+<pre><code class="language-mermaid">stateDiagram-v2
+    [*] --&gt; dirty
+    dirty --&gt; computing: [4]
+    computing --&gt; clean: [5]
+    clean --&gt; dirty: [2]
+    clean --&gt; checked: [3]
+    checked --&gt; clean: [6]
+    checked --&gt; dirty: [1]
+</code></pre>
+<p>Geçişler şunlardır:
+| Numara | Nereden | Nereye | Koşul | Algoritma |
+| ------ | ------- | ------ | ----- | --------- |
+| 1 | <code>~checked~</code> | <code>~dirty~</code> | Bu signal'in doğrudan kaynağı olan bir hesaplanmış signal değerlendirildi ve değeri değişti. | Algoritma: bayat hesaplanmış Signal'i yeniden hesapla |
+| 2 | <code>~clean~</code> | <code>~dirty~</code> | Bu signal'in doğrudan kaynağı olan bir State ayarlandı ve yeni değer önceki değerden farklı. | Yöntem: <code>Signal.State.prototype.set(newValue)</code> |
+| 3 | <code>~clean~</code> | <code>~checked~</code> | Bu signal'in yinelemeli fakat doğrudan olmayan bir kaynağı olan bir State ayarlandı ve yeni değer önceki değerden farklı. | Yöntem: <code>Signal.State.prototype.set(newValue)</code> |
+| 4 | <code>~dirty~</code> | <code>~computing~</code> | <code>callback</code> yürütülmek üzere. | Algoritma: bayat hesaplanmış Signal'i yeniden hesapla |
+| 5 | <code>~computing~</code> | <code>~clean~</code> | <code>callback</code> değerlendirmeyi bitirdi ve ya bir değer döndürdü ya da bir istisna fırlattı. | Algoritma: bayat hesaplanmış Signal'i yeniden hesapla |
+| 6 | <code>~checked~</code> | <code>~clean~</code> | Bu signal'in tüm doğrudan kaynakları değerlendirildi ve hepsi değişmediği belirlendi, bu yüzden artık bayat olmadığı biliniyor. | Algoritma: bayat hesaplanmış Signal'i yeniden hesapla |</p>
+<h4><code>Signal.Computed</code> İçsel slotları</h4>
+<ul>
+<li><code>value</code>: Signal'in önceki önbelleğe alınmış değeri veya hiç okunmamış bir hesaplanmış Signal için <code>~uninitialized~</code>. Değer, okunduğunda yeniden fırlatılan bir istisna olabilir. Etki sinyalleri için her zaman <code>undefined</code>.</li>
+<li><code>state</code>: <code>~clean~</code>, <code>~checked~</code>, <code>~computing~</code> veya <code>~dirty~</code> olabilir.</li>
+<li><code>sources</code>: Bu Signal'in bağlı olduğu Signal'lerden oluşan sıralı bir küme.</li>
+<li><code>sinks</code>: Bu Signal'e bağlı Signal'lerden oluşan sıralı bir küme.</li>
+<li><code>equals</code>: Seçeneklerde sağlanan eşitlik yöntemi.</li>
+<li><code>callback</code>: Hesaplanmış Signal'in değerini almak için çağrılan callback. Oluşturucuya geçirilen ilk parametre olarak ayarlanır.</li>
+</ul>
+<h4><code>Signal.Computed</code> Oluşturucu</h4>
+<p>Oluşturucu şunları ayarlar:</p>
+<ul>
+<li><code>callback</code> ilk parametresine</li>
+<li><code>equals</code>, seçeneklere göre, yoksa varsayılan olarak <code>Object.is</code></li>
+<li><code>state</code> <code>~dirty~</code> olarak</li>
+<li><code>value</code> <code>~uninitialized~</code> olarak</li>
+</ul>
+<p><a href="https://github.com/tc39/proposal-async-context">AsyncContext</a> ile, <code>new Signal.Computed</code>'a geçirilen callback oluşturucu çağrıldığında alınan snapshot'u kapatır ve yürütülürken bu snapshot'u geri yükler.</p>
+<h4>Yöntem: <code>Signal.Computed.prototype.get</code></h4>
+<ol>
+<li>Geçerli yürütme bağlamı <code>frozen</code> ise veya bu Signal'in durumu <code>~computing~</code> ise ya da bu signal bir Watcher ise ve bir hesaplanmış Signal <code>computing</code> durumundaysa, bir istisna fırlat.</li>
+<li><code>computing</code> <code>null</code> değilse, bu Signal'i <code>computing</code>'in <code>sources</code> kümesine ekle.</li>
+<li>NOT: Bu Signal'in <code>sinks</code> kümesine, bir Watcher tarafından izlenene kadar/eklenene kadar <code>computing</code> eklenmez.</li>
+<li>Bu Signal'in durumu <code>~dirty~</code> veya <code>~checked~</code> ise: Bu Signal <code>~clean~</code> olana kadar aşağıdaki adımları tekrarla:
+<ol>
+<li><code>sources</code> üzerinden yukarı doğru yineleme yaparak, bir Hesaplanmış Signal olup <code>~dirty~</code> olarak işaretlenmiş en derin, soldaki (yani en erken gözlemlenen) yinelemeli kaynağı bul (bir <code>~clean~</code> Hesaplanmış Signal'e ulaşınca aramayı kes ve bu Hesaplanmış Signal'i aranacak son şey olarak dahil et).</li>
+<li>O Signal üzerinde &quot;bayat hesaplanmış Signal'i yeniden hesapla&quot; algoritmasını uygula.</li>
+</ol>
+</li>
+<li>Bu noktada, bu Signal'in durumu <code>~clean~</code> olacaktır ve hiçbir yinelemeli kaynak <code>~dirty~</code> veya <code>~checked~</code> olmayacaktır. Signal'in <code>value</code> değerini döndür. Eğer değer bir istisnaysa, o istisnayı yeniden fırlat.</li>
+</ol>
+<h3><code>Signal.subtle.Watcher</code> sınıfı</h3>
+<h4><code>Signal.subtle.Watcher</code> Durum makinesi</h4>
+<p>Bir Watcher'ın <code>state</code> durumu aşağıdakilerden biri olabilir:</p>
+<ul>
+<li><code>~waiting~</code>: <code>notify</code> callback'i çalıştırıldı veya Watcher yenidir fakat aktif olarak hiçbir signal izlemiyor.</li>
+<li><code>~watching~</code>: Watcher aktif olarak signal izliyor fakat henüz bir değişiklik olmadı ve <code>notify</code> callback'inin çağrılması gerekmiyor.</li>
+<li><code>~pending~</code>: Watcher'ın bir bağımlılığı değişti, fakat <code>notify</code> callback'i henüz çalıştırılmadı.</li>
+</ul>
+<p>Geçiş grafiği aşağıdaki gibidir:</p>
+<pre><code class="language-mermaid">stateDiagram-v2
+    [*] --&gt; waiting
+    waiting --&gt; watching: [1]
+    watching --&gt; waiting: [2]
+    watching --&gt; pending: [3]
+    pending --&gt; waiting: [4]
+</code></pre>
+<p>Geçişler şunlardır:
+| Numara | Nereden | Nereye | Koşul | Algoritma |
+| ------ | ------- | ------ | ----- | --------- |
+| 1 | <code>~waiting~</code> | <code>~watching~</code> | Watcher'ın <code>watch</code> yöntemi çağrıldı. | Yöntem: <code>Signal.subtle.Watcher.prototype.watch(...signals)</code> |
+| 2 | <code>~watching~</code> | <code>~waiting~</code> | Watcher'ın <code>unwatch</code> yöntemi çağrıldı ve son izlenen signal kaldırıldı. | Yöntem: <code>Signal.subtle.Watcher.prototype.unwatch(...signals)</code> |
+| 3 | <code>~watching~</code> | <code>~pending~</code> | İzlenen bir signal'in değeri değişmiş olabilir. | Yöntem: <code>Signal.State.prototype.set(newValue)</code> |
+| 4 | <code>~pending~</code> | <code>~waiting~</code> | <code>notify</code> callback'i çalıştırıldı. | Yöntem: <code>Signal.State.prototype.set(newValue)</code> |</p>
+<h4><code>Signal.subtle.Watcher</code> içsel slotları</h4>
+<ul>
+<li><code>state</code>: <code>~watching~</code>, <code>~pending~</code> veya <code>~waiting~</code> olabilir</li>
+<li><code>signals</code>: Bu Watcher'ın izlediği Signal'lerden oluşan sıralı bir küme</li>
+<li><code>notifyCallback</code>: Bir şey değiştiğinde çağrılan callback. Oluşturucuya geçirilen ilk parametre olarak ayarlanır.</li>
+</ul>
+<h4>Oluşturucu: <code>new Signal.subtle.Watcher(callback)</code></h4>
+<ol>
+<li><code>state</code> <code>~waiting~</code> olarak ayarlanır.</li>
+<li><code>signals</code> boş bir küme olarak başlatılır.</li>
+<li><code>notifyCallback</code> callback parametresine ayarlanır.
+<a href="https://github.com/tc39/proposal-async-context">AsyncContext</a> ile, <code>new Signal.subtle.Watcher</code>'a geçirilen callback, yapıcı çağrıldığında alınan anlık görüntüye <em>kapanmaz</em>, böylece yazma sırasında çevresel bilgiler görülebilir olur.</li>
+</ol>
+<h4>Metod: <code>Signal.subtle.Watcher.prototype.watch(...signals)</code></h4>
+<ol>
+<li>Eğer <code>frozen</code> true ise, bir istisna fırlat.</li>
+<li>Argümanlardan herhangi biri bir signal değilse, bir istisna fırlat.</li>
+<li>Tüm argümanları bu nesnenin <code>signals</code>'ının sonuna ekle.</li>
+<li>Her yeni izlenen signal için, soldan sağa sırasıyla,
+<ol>
+<li>Bu watcher’ı o signal’e bir <code>sink</code> olarak ekle.</li>
+<li>Eğer bu ilk sink ise, kaynaklara kadar rekürsif olarak o signal’i bir sink olarak ekle.</li>
+<li><code>frozen</code>'ı true olarak ayarla.</li>
+<li>Varsa <code>watched</code> callback’ini çağır.</li>
+<li><code>frozen</code>'ı tekrar false olarak ayarla.</li>
+</ol>
+</li>
+<li>Eğer Signal’in <code>state</code>’i <code>~waiting~</code> ise, onu <code>~watching~</code> olarak ayarla.</li>
+</ol>
+<h4>Metod: <code>Signal.subtle.Watcher.prototype.unwatch(...signals)</code></h4>
+<ol>
+<li>Eğer <code>frozen</code> true ise, bir istisna fırlat.</li>
+<li>Argümanlardan herhangi biri bir signal değilse veya bu watcher tarafından izlenmiyorsa, bir istisna fırlat.</li>
+<li>Argümanlardaki her bir signal için, soldan sağa sırasıyla,
+<ol>
+<li>O signal’i bu Watcher’ın <code>signals</code> kümesinden çıkar.</li>
+<li>Bu Watcher’ı o Signal’in <code>sink</code> kümesinden çıkar.</li>
+<li>Eğer o Signal’in <code>sink</code> kümesi boş kaldıysa, o Signal’i her bir kaynağından bir sink olarak çıkar.</li>
+<li><code>frozen</code>'ı true olarak ayarla.</li>
+<li>Varsa <code>unwatched</code> callback’ini çağır.</li>
+<li><code>frozen</code>'ı tekrar false olarak ayarla.</li>
+</ol>
+</li>
+<li>Eğer watcher’ın artık hiç <code>signals</code>’ı yoksa ve <code>state</code>’i <code>~watching~</code> ise, onu <code>~waiting~</code> olarak ayarla.</li>
+</ol>
+<h4>Metod: <code>Signal.subtle.Watcher.prototype.getPending()</code></h4>
+<ol>
+<li><code>signals</code> kümesinin, durumu <code>~dirty~</code> veya <code>~pending~</code> olan Hesaplanmış Signal'lerinden oluşan bir Dizi döndür.</li>
+</ol>
+<h3>Metod: <code>Signal.subtle.untrack(cb)</code></h3>
+<ol>
+<li><code>c</code>'yi yürütme bağlamının mevcut <code>computing</code> durumu olarak ayarla.</li>
+<li><code>computing</code>’i null olarak ayarla.</li>
+<li><code>cb</code>’yi çağır.</li>
+<li><code>computing</code>’i <code>c</code>’ye geri yükle (cb bir istisna fırlatsa bile).</li>
+<li><code>cb</code>’nin dönüş değerini döndür (herhangi bir istisnayı yeniden fırlat).</li>
+</ol>
+<p>Not: untrack seni <code>frozen</code> durumundan çıkarmaz, bu durum kesin olarak korunur.</p>
+<h3>Metod: <code>Signal.subtle.currentComputed()</code></h3>
+<ol>
+<li>Mevcut <code>computing</code> değerini döndür.</li>
+</ol>
+<h3>Ortak algoritmalar</h3>
+<h5>Algoritma: kirli hesaplanmış Signal’i yeniden hesapla</h5>
+<ol>
+<li>Bu Signal’in <code>sources</code> kümesini temizle ve kendisini o kaynakların <code>sinks</code> kümelerinden çıkar.</li>
+<li>Önceki <code>computing</code> değerini kaydet ve <code>computing</code>’i bu Signal olarak ayarla.</li>
+<li>Bu Signal’in durumunu <code>~computing~</code> olarak ayarla.</li>
+<li>Bu hesaplanmış Signal’in callback’ini, this değeri olarak bu Signal’i kullanarak çalıştır. Dönüş değerini kaydet ve eğer callback bir istisna fırlatırsa, yeniden fırlatmak üzere onu kaydet.</li>
+<li>Önceki <code>computing</code> değerini geri yükle.</li>
+<li>Callback’in dönüş değerine &quot;Signal değerini ayarla&quot; algoritmasını uygula.</li>
+<li>Bu Signal’in durumunu <code>~clean~</code> olarak ayarla.</li>
+<li>Eğer bu algoritma <code>~dirty~</code> döndürdüyse: Bu Signal’in tüm sink’lerini <code>~dirty~</code> olarak işaretle (önceden, sink’ler kontrol edilmiş ve kirli bir karışımda olabilirdi). (Ya da, eğer bu izlenmiyorsa, kirlenmişliği göstermek için yeni bir nesil numarası ata, ya da buna benzer bir şey yap.)</li>
+<li>Aksi halde, algoritma <code>~clean~</code> döndürdü: Bu durumda, bu Signal’in her bir <code>~checked~</code> sink’i için, eğer o Signal’in tüm kaynakları artık temizse, o Signal’i de <code>~clean~</code> olarak işaretle. Bu temizlik adımını, kontrol edilmiş sink’leri olan yeni temiz Signal’lere özyinelemeli olarak uygula. (Ya da, bu izlenmiyorsa, temizlik gecikmeli ilerleyebilsin diye aynı şekilde bir işaretleme yap.)</li>
+</ol>
+<h5>Signal değeri ayarlama algoritması</h5>
+<ol>
+<li>Eğer bu algoritmaya bir değer (kirli hesaplanmış Signal algoritmasından yeniden fırlatılacak bir istisna yerine) iletildiyse:
+<ol>
+<li>Bu Signal’in <code>equals</code> fonksiyonunu, mevcut <code>value</code>, yeni değer ve bu Signal parametreleriyle çağır. Eğer bir istisna fırlatılırsa, bu istisnayı (okunurken yeniden fırlatılmak üzere) Signal’in değeri olarak kaydet ve callback false döndürmüş gibi devam et.</li>
+<li>Eğer bu fonksiyon true döndürdüyse, <code>~clean~</code> döndür.</li>
+</ol>
+</li>
+<li>Bu Signal’in <code>value</code>’sini parametre ile ayarla.</li>
+<li><code>~dirty~</code> döndür</li>
+</ol>
+<h2>SSS</h2>
+<p><strong>S</strong>: Sinyallerle ilgili bir şeyi standartlaştırmak için biraz erken değil mi, daha yeni 2022’de gündem oldular? Onların evrilip istikrar kazanmasına daha fazla zaman tanımamız gerekmiyor mu?</p>
+<p><strong>C</strong>: Web framework’lerinde Sinyallerin mevcut hali, 10 yılı aşkın sürekli bir gelişimin sonucudur. Yatırımlar son yıllarda arttıkça, neredeyse tüm web framework’leri çok benzer bir Signal çekirdek modeline yaklaşmaktadır. Bu öneri, web framework’lerinde şu anda lider olan çok sayıda kişi arasında yapılan ortak bir tasarım çalışmasının ürünüdür ve farklı bağlamlarda o alanın uzmanlarının onayı olmadan standartlaştırmaya taşınmayacaktır.</p>
+<h4>Sinyaller nasıl kullanılır?</h4>
+<p><strong>S</strong>: Dahili Sinyaller, render ve sahiplik ile bu kadar sıkı entegre olduklarından framework’ler tarafından gerçekten kullanılabilir mi?</p>
+<p><strong>C</strong>: Daha framework’e özgü olan kısımlar genellikle etkiler, zamanlama ve sahiplik/bertaraf alanlarındadır, ki bu öneri onları çözmeyi amaçlamaz. Standartları izleyen Sinyallerle prototiplemedeki ilk önceliğimiz, mevcut framework’lerin “altında” uyumlu ve iyi performansla çalışabildiklerini doğrulamaktır.</p>
+<p><strong>S</strong>: Signal API’si doğrudan uygulama geliştiricileri tarafından mı, yoksa framework’ler tarafından sarmalanarak mı kullanılacak?</p>
+<p><strong>C</strong>: Bu API doğrudan uygulama geliştiricileri tarafından da kullanılabilir (en azından <code>Signal.subtle</code> ad alanında olmayan kısmı), ancak özellikle ergonomik olması için tasarlanmamıştır. Bunun yerine, kütüphane/framework yazarlarının ihtiyaçları ön plandadır. Çoğu framework’ün, temel <code>Signal.State</code> ve <code>Signal.Computed</code> API’lerini bile, kendi ergonomik yaklaşımlarını yansıtan bir şeyle sarmalaması beklenir. Pratikte, Sinyaller genellikle bir framework aracılığıyla kullanılır; bu framework, daha karmaşık özellikleri (örn. Watcher, <code>untrack</code>) ve sahiplik ile bertarafı (örn. sinyallerin ne zaman watcher’lara eklenip çıkarılacağını bulma), ayrıca DOM’a render zamanlamasını yönetir—bu öneri bu problemleri çözmeyi amaçlamaz.</p>
+<p><strong>S</strong>: Bir widget yok edildiğinde, ona bağlı Sinyalleri de yok etmek zorunda mıyım? Bunun API’si nedir?</p>
+<p><strong>C</strong>: Buradaki ilgili yok etme işlemi <code>Signal.subtle.Watcher.prototype.unwatch</code>’tır. Sadece izlenen Sinyaller temizlenmelidir (unwatch edilerek), izlenmeyen Sinyaller ise otomatik olarak garbage collector tarafından yok edilebilir.</p>
+<p><strong>S</strong>: Sinyaller VDOM ile mi, yoksa doğrudan temel HTML DOM ile mi çalışır?</p>
+<p><strong>C</strong>: Evet! Sinyaller render teknolojisinden bağımsızdır. Signal-benzeri yapılar kullanan mevcut JavaScript framework’leri, VDOM (örn. Preact), yerel DOM (örn. Solid) ve bir kombinasyonunu (örn. Vue) entegre eder. Aynı şey dahili Sinyaller ile de mümkün olacaktır.</p>
+<p><strong>S</strong>: Sinyaller, Angular ve Lit gibi sınıf tabanlı framework’ler bağlamında ergonomik olacak mı? Ya da Svelte gibi derleyici tabanlı framework’ler için?</p>
+<p><strong>C</strong>: Sınıf alanları, <a href="https://github.com/proposal-signals/signal-polyfill#combining-signals-and-decorators">Signal polyfill readme’sinde</a> gösterildiği gibi, basit bir accessor decorator ile Signal tabanlı hale getirilebilir. Sinyaller, Svelte 5’in Runes’ları ile çok yakın hizalanır—bir derleyicinin runes’ları burada tanımlanan Signal API’sine dönüştürmesi kolaydır ve aslında Svelte 5 bunu dahili olarak yapar (ama kendi Sinyal kütüphanesiyle).</p>
+<p><strong>S</strong>: Sinyaller SSR ile çalışır mı? Hydration? Resumability?</p>
+<p><strong>C</strong>: Evet. Qwik, bu özelliklerin her ikisinde de Sinyalleri iyi bir şekilde kullanır ve diğer framework’ler de Sinyallerle hydration konusunda farklı dengelerle gelişmiş yaklaşımlara sahiptir. Qwik’in devam ettirilebilir Sinyallerinin, birbirine bağlı bir State ve Computed signal ile modellenebileceğini ve bunu kodda kanıtlamayı planlıyoruz.
+<strong>S</strong>: Sinyaller, React gibi tek yönlü veri akışıyla çalışır mı?</p>
+<p><strong>C</strong>: Evet, Sinyaller tek yönlü veri akışı için bir mekanizmadır. Sinyal tabanlı UI framework'leri, görünümünüzü modelin (modelin Sinyalleri içerdiği yerde) bir fonksiyonu olarak ifade etmenizi sağlar. Durum ve hesaplanmış Sinyallerden oluşan bir grafik, yapısı gereği döngüsüzdür. Sinyaller içinde React antipattern'lerini yeniden oluşturmak da mümkündür (!), örneğin <code>useEffect</code> içinde bir <code>setState</code>'in Sinyal karşılığı, bir Watcher kullanarak bir State sinyaline yazma planlamaktır.</p>
+<p><strong>S</strong>: Sinyaller, Redux gibi durum yönetim sistemleriyle nasıl ilişkilidir? Sinyaller yapılandırılmamış durumu mu teşvik eder?</p>
+<p><strong>C</strong>: Sinyaller, mağaza-benzeri (store-like) durum yönetimi soyutlamaları için verimli bir temel oluşturabilir. Birden fazla framework'te bulunan yaygın bir desen, dahili olarak özellikleri Sinyaller kullanarak temsil eden, Proxy tabanlı bir nesnedir; örneğin <a href="https://vuejs.org/api/reactivity-core.html#reactive">Vue <code>reactive()</code></a> veya <a href="https://docs.solidjs.com/concepts/stores">Solid stores</a>. Bu sistemler, belirli bir uygulama için doğru soyutlama düzeyinde durumun esnek şekilde gruplanmasını sağlar.</p>
+<p><strong>S</strong>: Sinyallerin sunduğu ama şu anda <code>Proxy</code>'nin ele almadığı şey nedir?</p>
+<p><strong>C</strong>: Proxy'ler ve Sinyaller birbirini tamamlar ve birlikte iyi çalışır. Proxy'ler sığ nesne işlemlerini yakalamanıza olanak tanır ve sinyaller bir bağımlılık grafiğini (hücrelerden oluşan) koordine eder. Proxy'yi Sinyaller ile desteklemek, mükemmel ergonomiye sahip iç içe reaktif bir yapı oluşturmanın harika bir yoludur.</p>
+<p>Bu örnekte, <code>get</code> ve <code>set</code> yöntemleri yerine sinyalin bir getter ve setter özelliğine sahip olmasını sağlamak için bir proxy kullanabiliriz:</p>
+<pre><code class="language-js">const a = new Signal.State(0);
+const b = new Proxy(a, {
+  get(target, property, receiver) {
+    if (property === 'value') {
+      return target.get():
+    }
+  }
+  set(target, property, value, receiver) {
+    if (property === 'value') {
+      target.set(value)!
+    }
+  }
+});
+
+// varsayımsal bir reaktif bağlamda kullanım:
+&lt;template&gt;
+  {b.value}
+
+  &lt;button onclick={() =&gt; {
+    b.value++;
+  }}&gt;change&lt;/button&gt;
+&lt;/template&gt;
+</code></pre>
+<p>İnce taneli reaktiviteye optimize edilmiş bir renderlayıcı kullanırken, butona tıklamak <code>b.value</code> hücresinin güncellenmesine neden olur.</p>
+<p>Bakınız:</p>
+<ul>
+<li>Hem Sinyaller hem de Proxy'lerle oluşturulan iç içe reaktif yapı örnekleri: <a href="https://github.com/NullVoxPopuli/signal-utils/tree/main/src">signal-utils</a></li>
+<li>Reaktif veri ile proxy'ler arasındaki ilişkiyi gösteren önceki uygulama örnekleri: <a href="https://github.com/tracked-tools/tracked-built-ins/tree/master/addon/src/-private">tracked-built-ins</a></li>
+<li><a href="https://github.com/proposal-signals/proposal-signals/issues/101#issuecomment-2029802574">tartışma</a>.</li>
+</ul>
+<h4>Sinyaller nasıl çalışır?</h4>
+<p><strong>S</strong>: Sinyaller push-tabanlı mı yoksa pull-tabanlı mı çalışır?</p>
+<p><strong>C</strong>: Hesaplanmış Sinyallerin değerlendirilmesi pull-tabanlıdır: Hesaplanmış Sinyaller yalnızca <code>.get()</code> çağrıldığında değerlendirilir, temel durum çok daha önce değişmiş olsa bile. Aynı zamanda, bir State sinyalini değiştirmek hemen bir Watcher'ın callback'ini tetikleyebilir, bildirimi &quot;iterek&quot; iletebilir. Bu nedenle, Sinyaller &quot;push-pull&quot; bir yapı olarak düşünülebilir.</p>
+<p><strong>S</strong>: Sinyaller JavaScript çalışmasına belirlenimsizlik (nondeterminism) getirir mi?</p>
+<p><strong>C</strong>: Hayır. Birincisi, tüm Sinyal işlemlerinin iyi tanımlanmış anlamları ve sıralamaları vardır ve uyumlu uygulamalar arasında farklılık göstermezler. Daha yüksek seviyede, Sinyaller belirli bir dizi değişmez kurala uyar ve bu kurallara göre &quot;sağlamdır&quot;. Bir hesaplanmış Sinyal, Sinyal grafiğini her zaman tutarlı bir durumda gözlemler ve yürütmesi, başka bir Sinyal'i değiştiren kodlar tarafından (kendi çağrıları hariç) kesintiye uğratılmaz. Yukarıdaki açıklamaya bakınız.</p>
+<p><strong>S</strong>: Bir state Sinyaline yazdığımda, hesaplanmış Sinyal için güncelleme ne zaman planlanır?</p>
+<p><strong>C</strong>: Planlanmaz! Hesaplanmış Sinyal, bir sonraki okunduğunda kendini yeniden hesaplayacaktır. Senkron olarak, bir Watcher'ın <code>notify</code> callback'i çağrılabilir, bu da framework'lerin uygun gördükleri zamanda bir okuma planlamasına olanak tanır.</p>
+<p><strong>S</strong>: State Sinyaline yapılan yazmalar ne zaman etkili olur? Hemen mi, yoksa toplu olarak mı?</p>
+<p><strong>C</strong>: State Sinyaline yapılan yazmalar hemen yansıtılır—state Sinyaline bağımlı bir hesaplanmış Sinyal bir sonraki okunduğunda, gerekirse kendini hemen yeniden hesaplar, hatta kodun hemen ardından gelen satırda bile. Bununla birlikte, bu mekanizmanın doğasında bulunan tembellik (hesaplanmış Sinyaller yalnızca okunduğunda hesaplanır), pratikte hesaplamaların toplu şekilde gerçekleşmesine yol açabilir.</p>
+<p><strong>S</strong>: Sinyallerin &quot;glitch-free&quot; (aksaklıksız) çalışmayı mümkün kılması ne anlama gelir?</p>
+<p><strong>C</strong>: Reaktivite için önceki push-tabanlı modeller, gereksiz hesaplama sorunu yaşardı: Bir state Sinyaline yapılan bir güncelleme, hesaplanmış Sinyalin isteksizce çalışmasına neden olursa, nihayetinde bu, UI'ya bir güncelleme gönderebilir. Ancak, eğer bir sonraki kareden önce kaynak state Sinyaline başka bir değişiklik olacaksa, bu UI'ya yapılan yazma erken olabilir. Bazen, bu tür <a href="https://en.wikipedia.org/wiki/Reactive_programming#Glitches">glitch'ler</a> nedeniyle kullanıcıya hatalı ara değerler bile gösterilirdi. Sinyaller, push-tabanlı olmak yerine pull-tabanlı olarak bu dinamiği önler: Framework, UI'nın renderlanmasını planladığı anda, uygun güncellemeleri çeker ve hem hesaplamada hem de DOM'a yazmada boşa harcanan işi önler.</p>
+<p><strong>S</strong>: Sinyallerin &quot;lossy&quot; (kayıplı) olması ne anlama gelir?</p>
+<p><strong>C</strong>: Bu, aksaklıksız çalışmanın ters yüzüdür: Sinyaller, bir veri hücresini temsil eder—yalnızca anlık mevcut değeri (değişebilir), zaman içinde bir veri akışını değil. Yani, bir state Sinyaline arka arkaya iki kez yazarsanız ve başka bir şey yapmazsanız, ilk yazma &quot;kaybolur&quot; ve hiçbir hesaplanmış Sinyal veya etki tarafından görülmez. Bunun bir hata değil, bir özellik olduğu anlaşılır—diğer yapılar (ör. async iterables, observables) veri akışları için daha uygundur.</p>
+<p><strong>S</strong>: Yerel Sinyaller, mevcut JS Sinyal uygulamalarından daha hızlı olacak mı?</p>
+<p><strong>C</strong>: Umarız öyle olur (küçük bir sabit katsayıyla), fakat bunun kodla kanıtlanması gerekir. JS motorları sihirli değildir ve nihayetinde Sinyallerin JS uygulamalarındakiyle aynı tür algoritmaları uygulamaları gerekecektir. Performans ile ilgili yukarıdaki bölüme bakınız.</p>
+<h4>Sinyaller neden bu şekilde tasarlandı?</h4>
+<p><strong>S</strong>: Etkiler, Sinyallerin pratikte kullanılabilmesi için gerekli iken, neden bu teklif bir <code>effect()</code> fonksiyonu içermiyor?</p>
+<p><strong>C</strong>: Etkiler, doğası gereği planlama ve yok etmeye (disposal) bağlıdır ve bunlar framework'ler tarafından yönetilir; bu teklifin kapsamı dışındadır. Bunun yerine, bu teklif, etkilerin daha düşük seviyeli <code>Signal.subtle.Watcher</code> API'siyle uygulanmasının temelini sunar.</p>
+<p><strong>S</strong>: Neden abonelikler otomatik, elle bir arayüz sağlanmıyor?</p>
+<p><strong>C</strong>: Deneyimler, reaktivite için manuel abonelik arayüzlerinin ergonomik olmadığını ve hata yapmaya açık olduğunu göstermiştir. Otomatik izleme daha fazla bileşenleştirilebilir ve Sinyallerin temel bir özelliğidir.</p>
+<p><strong>S</strong>: Neden <code>Watcher</code>'ın callback'i senkron çalışıyor, bir mikro görevde planlanmıyor?</p>
+<p><strong>C</strong>: Çünkü callback Sinyalleri okuyamaz veya yazamaz, senkron olarak çağrılması herhangi bir tutarsızlığa yol açmaz. Tipik bir callback, daha sonra okunacak bir Sinyali bir Array'e ekleyecek veya bir yerde bir biti işaretleyecektir. Bu tür işlemler için ayrı bir mikro görev yapmak gereksiz ve pratikte oldukça pahalıdır.</p>
+<p><strong>S</strong>: Bu API, favori framework'ümün sağladığı ve Sinyallerle programlamayı kolaylaştıran bazı güzel şeyleri eksik bırakmış. Bunlar da standarda eklenebilir mi?</p>
+<p><strong>C</strong>: Belki. Çeşitli uzantılar hâlâ değerlendiriliyor. Önemli bulduğunuz eksik bir özellik için lütfen tartışma başlatmak üzere bir issue açın.</p>
+<p><strong>S</strong>: Bu API boyut veya karmaşıklık açısından azaltılabilir mi?</p>
+<p><strong>C</strong>: Bu API'yi minimumda tutmak kesinlikle bir hedef, ve yukarıda sunulanlarla bunu yapmaya çalıştık. Çıkarılabilecek başka şeyler için fikirleriniz varsa, tartışmak üzere lütfen bir issue açın.</p>
+<h4>Sinyaller nasıl standartlaştırılıyor?</h4>
+<p><strong>S</strong>: Bu alanda standardizasyon çalışmasına, gözlemlenebilirler (observables) gibi daha ilkel bir kavramla başlamamız gerekmez mi?
+<strong>A</strong>: Gözlemlenebilirler (Observables) bazı şeyler için iyi bir fikir olabilir, ancak Signals'ın çözmeyi amaçladığı sorunları çözmezler. Yukarıda açıklandığı gibi, gözlemlenebilirler veya diğer yayınla/abone ol (publish/subscribe) mekanizmaları, geliştiriciler için çok fazla hataya açık yapılandırma çalışması ve tembellik eksikliği nedeniyle boşa harcanan işler gibi sorunlardan dolayı, birçok UI programlama türü için eksiksiz bir çözüm değildir.</p>
+<p><strong>S</strong>: Çoğu uygulamasının web tabanlı olmasına rağmen, Signals neden DOM yerine TC39'da öneriliyor?</p>
+<p><strong>C</strong>: Bu teklifin bazı ortak yazarları, bir hedef olarak web dışı UI ortamlarıyla da ilgileniyor, ancak günümüzde her iki ortam da bunun için uygun olabilir, çünkü web API'leri giderek daha sık web dışında da uygulanıyor. Sonuç olarak, Signals herhangi bir DOM API'sine bağlı olmak zorunda değil, bu yüzden her iki yol da işe yarar. Eğer bu grubun yön değiştirmesi için güçlü bir nedeniniz varsa, lütfen bir issue açarak bize bildirin. Şu anda, tüm katkıda bulunanlar TC39 fikri mülkiyet anlaşmalarını imzaladı ve plan, bu teklifi TC39'a sunmak.</p>
+<p><strong>S</strong>: Standart Signals'ı kullanabilmem ne kadar sürecek?</p>
+<p><strong>C</strong>: Bir polyfill zaten mevcut, ancak bu API inceleme sürecinde evrildiği için stabilitesine güvenmemek en iyisidir. Birkaç ay veya bir yıl içinde, yüksek kaliteli, yüksek performanslı ve stabil bir polyfill kullanılabilir olmalı, ancak bu yine de komite revizyonlarına tabi olacak ve henüz standart olmayacak. TC39 tekliflerinin tipik sürecini takip edersek, Signals'ın tüm tarayıcılarda, birkaç sürüm geriye dönük olarak yerel olarak kullanılabilir olması için, polyfill'lere ihtiyaç duyulmaması adına, mutlak minimumda bile en az 2-3 yıl gerekeceği öngörülüyor.</p>
+<p><strong>S</strong>: {{JS/sevmediğiniz web özelliği}} gibi yanlış türde Signals'ın çok erken standartlaştırılmasını nasıl önleyeceğiz?</p>
+<p><strong>C</strong>: Bu teklifin yazarları, TC39'da aşama ilerlemesi talep etmeden önce, prototipleme ve kanıtlama konusunda fazladan çaba göstermeyi planlıyor. Yukarıda &quot;Durum ve geliştirme planı&quot; bölümüne bakın. Eğer bu planda eksiklikler veya iyileştirme fırsatları görüyorsanız, lütfen açıklayan bir issue oluşturun.</p>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-28</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

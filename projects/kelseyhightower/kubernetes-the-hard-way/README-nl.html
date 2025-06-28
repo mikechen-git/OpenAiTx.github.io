@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kubernetes-the-hard-way - kelseyhightower/kubernetes-the-hard-way nl</title>
+    <meta name="title" content="kubernetes-the-hard-way - kelseyhightower/kubernetes-the-hard-way nl | Kubernetes The Hard Way Deze tutorial leidt je stap voor stap door het opzetten van Kubernetes op de moeilijke manier. Deze gids is niet bedoeld voor iemand die...">
+    <meta name="description" content="kelseyhightower/kubernetes-the-hard-way - GitHub repository nl documentation and information | Kubernetes The Hard Way Deze tutorial leidt je stap voor stap door het opzetten van Kubernetes op de moeilijke manier. Deze gids is niet bedoeld voor iemand die...">
+    <meta name="keywords" content="kelseyhightower, kubernetes-the-hard-way, GitHub, repository, nl documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/kelseyhightower/kubernetes-the-hard-way/README-nl.html">
+    <meta property="og:title" content="kubernetes-the-hard-way - kelseyhightower/kubernetes-the-hard-way nl | Kubernetes The Hard Way Deze tutorial leidt je stap voor stap door het opzetten van Kubernetes op de moeilijke manier. Deze gids is niet bedoeld voor iemand die...">
+    <meta property="og:description" content="kelseyhightower/kubernetes-the-hard-way - GitHub repository nl documentation and information | Kubernetes The Hard Way Deze tutorial leidt je stap voor stap door het opzetten van Kubernetes op de moeilijke manier. Deze gids is niet bedoeld voor iemand die...">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div style="position: fixed; top: 2px; left: 2px; z-index: 2000; background: rgba(255,255,255,0.95); border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 4px 14px; font-size: 15px; color: #222; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 500; letter-spacing: 0.5px;">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank" style="color: #0366d6; text-decoration: none; font-weight: 600;">Open AI Tx</a>
+    </div>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way" id="githubRepoLink" target="_blank">kelseyhightower/kubernetes-the-hard-way</a>
+<h1 style="display: none;">Kubernetes The Hard Way Deze tutorial leidt je stap voor stap door het opzetten van Kubernetes op de moeilijke manier. Deze gids is niet bedoeld voor iemand die...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Kubernetes The Hard Way</h1>
+<p>Deze tutorial leidt je stap voor stap door het opzetten van Kubernetes op de moeilijke manier. Deze gids is niet bedoeld voor iemand die op zoek is naar een volledig geautomatiseerd hulpmiddel om een Kubernetes-cluster op te zetten. Kubernetes The Hard Way is geoptimaliseerd voor leren, wat betekent dat je de lange route neemt om ervoor te zorgen dat je elke taak begrijpt die nodig is om een Kubernetes-cluster te bootstrappen.</p>
+<blockquote>
+<p>De resultaten van deze tutorial moeten niet als productie-klaar worden beschouwd, en kunnen beperkte ondersteuning van de community ontvangen, maar laat dat je er niet van weerhouden om te leren!</p>
+</blockquote>
+<h2>Copyright</h2>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Dit werk is gelicentieerd onder een <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Naamsvermelding-NietCommercieel-GelijkDelen 4.0 Internationaal Licentie</a>.</p>
+<h2>Doelgroep</h2>
+<p>De doelgroep voor deze tutorial is iemand die de basisprincipes van Kubernetes wil begrijpen en hoe de kerncomponenten samenhangen.</p>
+<h2>Clusterdetails</h2>
+<p>Kubernetes The Hard Way begeleidt je bij het bootstrappen van een basis Kubernetes-cluster waarbij alle control plane-componenten op één node draaien, en twee worker nodes, wat voldoende is om de kernconcepten te leren.</p>
+<p>Componentversies:</p>
+<ul>
+<li><a href="https://github.com/kubernetes/kubernetes">kubernetes</a> v1.32.x</li>
+<li><a href="https://github.com/containerd/containerd">containerd</a> v2.1.x</li>
+<li><a href="https://github.com/containernetworking/cni">cni</a> v1.6.x</li>
+<li><a href="https://github.com/etcd-io/etcd">etcd</a> v3.6.x</li>
+</ul>
+<h2>Labs</h2>
+<p>Deze tutorial vereist vier (4) ARM64- of AMD64-gebaseerde virtuele of fysieke machines die met hetzelfde netwerk zijn verbonden.</p>
+<ul>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/01-prerequisites.md">Vereisten</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/02-jumpbox.md">Jumpbox instellen</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/03-compute-resources.md">Provisioneren van compute resources</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/04-certificate-authority.md">Provisioneren van de CA en genereren van TLS-certificaten</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/05-kubernetes-configuration-files.md">Genereren van Kubernetes configuratiebestanden voor authenticatie</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/06-data-encryption-keys.md">Genereren van de Data Encryption Config en Key</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/07-bootstrapping-etcd.md">Bootstrappen van de etcd-cluster</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/08-bootstrapping-kubernetes-controllers.md">Bootstrappen van het Kubernetes Control Plane</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/09-bootstrapping-kubernetes-workers.md">Bootstrappen van de Kubernetes Worker Nodes</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/10-configuring-kubectl.md">kubectl configureren voor externe toegang</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/11-pod-network-routes.md">Provisioneren van Pod-netwerkroutes</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/12-smoke-test.md">Smoke Test</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/13-cleanup.md">Opruimen</a></li>
+</ul>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-28</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

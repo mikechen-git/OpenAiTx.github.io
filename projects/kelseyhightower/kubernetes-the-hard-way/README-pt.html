@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kubernetes-the-hard-way - kelseyhightower/kubernetes-the-hard-way pt</title>
+    <meta name="title" content="kubernetes-the-hard-way - kelseyhightower/kubernetes-the-hard-way pt | Kubernetes Da Maneira Difícil Este tutorial orienta você na configuração do Kubernetes da maneira difícil. Este guia não é destinado a quem procura uma ferramen...">
+    <meta name="description" content="kelseyhightower/kubernetes-the-hard-way - GitHub repository pt documentation and information | Kubernetes Da Maneira Difícil Este tutorial orienta você na configuração do Kubernetes da maneira difícil. Este guia não é destinado a quem procura uma ferramen...">
+    <meta name="keywords" content="kelseyhightower, kubernetes-the-hard-way, GitHub, repository, pt documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/kelseyhightower/kubernetes-the-hard-way/README-pt.html">
+    <meta property="og:title" content="kubernetes-the-hard-way - kelseyhightower/kubernetes-the-hard-way pt | Kubernetes Da Maneira Difícil Este tutorial orienta você na configuração do Kubernetes da maneira difícil. Este guia não é destinado a quem procura uma ferramen...">
+    <meta property="og:description" content="kelseyhightower/kubernetes-the-hard-way - GitHub repository pt documentation and information | Kubernetes Da Maneira Difícil Este tutorial orienta você na configuração do Kubernetes da maneira difícil. Este guia não é destinado a quem procura uma ferramen...">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div style="position: fixed; top: 2px; left: 2px; z-index: 2000; background: rgba(255,255,255,0.95); border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 4px 14px; font-size: 15px; color: #222; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 500; letter-spacing: 0.5px;">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank" style="color: #0366d6; text-decoration: none; font-weight: 600;">Open AI Tx</a>
+    </div>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way" id="githubRepoLink" target="_blank">kelseyhightower/kubernetes-the-hard-way</a>
+<h1 style="display: none;">Kubernetes Da Maneira Difícil Este tutorial orienta você na configuração do Kubernetes da maneira difícil. Este guia não é destinado a quem procura uma ferramen...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>Kubernetes Da Maneira Difícil</h1>
+<p>Este tutorial orienta você na configuração do Kubernetes da maneira difícil. Este guia não é destinado a quem procura uma ferramenta totalmente automatizada para criar um cluster Kubernetes. Kubernetes Da Maneira Difícil é otimizado para aprendizado, o que significa seguir o caminho mais longo para garantir que você compreenda cada tarefa necessária para inicializar um cluster Kubernetes.</p>
+<blockquote>
+<p>Os resultados deste tutorial não devem ser considerados prontos para produção e podem receber suporte limitado da comunidade, mas não deixe que isso o impeça de aprender!</p>
+</blockquote>
+<h2>Direitos Autorais</h2>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licença Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Este trabalho está licenciado sob uma <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Licença Creative Commons Atribuição-NãoComercial-CompartilhaIgual 4.0 Internacional</a>.</p>
+<h2>Público-Alvo</h2>
+<p>O público-alvo deste tutorial é alguém que deseja entender os fundamentos do Kubernetes e como os componentes principais se encaixam.</p>
+<h2>Detalhes do Cluster</h2>
+<p>Kubernetes Da Maneira Difícil orienta você na inicialização de um cluster Kubernetes básico com todos os componentes do plano de controle rodando em um único nó, e dois nós de trabalho, o que é suficiente para aprender os conceitos principais.</p>
+<p>Versões dos componentes:</p>
+<ul>
+<li><a href="https://github.com/kubernetes/kubernetes">kubernetes</a> v1.32.x</li>
+<li><a href="https://github.com/containerd/containerd">containerd</a> v2.1.x</li>
+<li><a href="https://github.com/containernetworking/cni">cni</a> v1.6.x</li>
+<li><a href="https://github.com/etcd-io/etcd">etcd</a> v3.6.x</li>
+</ul>
+<h2>Laboratórios</h2>
+<p>Este tutorial requer quatro (4) máquinas virtuais ou físicas baseadas em ARM64 ou AMD64 conectadas à mesma rede.</p>
+<ul>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/01-prerequisites.md">Pré-requisitos</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/02-jumpbox.md">Configurando o Jumpbox</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/03-compute-resources.md">Provisionando Recursos de Computação</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/04-certificate-authority.md">Provisionando a CA e Gerando Certificados TLS</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/05-kubernetes-configuration-files.md">Gerando Arquivos de Configuração do Kubernetes para Autenticação</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/06-data-encryption-keys.md">Gerando a Configuração e a Chave de Criptografia de Dados</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/07-bootstrapping-etcd.md">Inicializando o Cluster etcd</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/08-bootstrapping-kubernetes-controllers.md">Inicializando o Plano de Controle do Kubernetes</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/09-bootstrapping-kubernetes-workers.md">Inicializando os Nós de Trabalho do Kubernetes</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/10-configuring-kubectl.md">Configurando o kubectl para Acesso Remoto</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/11-pod-network-routes.md">Provisionando Rotas de Rede de Pod</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/12-smoke-test.md">Teste de Fumaça</a></li>
+<li><a href="https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/docs/13-cleanup.md">Limpando</a></li>
+</ul>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-28</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

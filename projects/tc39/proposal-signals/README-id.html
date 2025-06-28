@@ -1,0 +1,792 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>proposal-signals - tc39/proposal-signals id</title>
+    <meta name="title" content="proposal-signals - tc39/proposal-signals id | 🚦 Proposal Standar Sinyal JavaScript 🚦 Tahap 1 (penjelasan) Pendukung proposal TC39: Daniel Ehrenberg, Yehuda Katz, Jatin Ramanathan, Shay Lewis, Kristen Hewe...">
+    <meta name="description" content="tc39/proposal-signals - GitHub repository id documentation and information | 🚦 Proposal Standar Sinyal JavaScript 🚦 Tahap 1 (penjelasan) Pendukung proposal TC39: Daniel Ehrenberg, Yehuda Katz, Jatin Ramanathan, Shay Lewis, Kristen Hewe...">
+    <meta name="keywords" content="tc39, proposal-signals, GitHub, repository, id documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/tc39/proposal-signals/README-id.html">
+    <meta property="og:title" content="proposal-signals - tc39/proposal-signals id | 🚦 Proposal Standar Sinyal JavaScript 🚦 Tahap 1 (penjelasan) Pendukung proposal TC39: Daniel Ehrenberg, Yehuda Katz, Jatin Ramanathan, Shay Lewis, Kristen Hewe...">
+    <meta property="og:description" content="tc39/proposal-signals - GitHub repository id documentation and information | 🚦 Proposal Standar Sinyal JavaScript 🚦 Tahap 1 (penjelasan) Pendukung proposal TC39: Daniel Ehrenberg, Yehuda Katz, Jatin Ramanathan, Shay Lewis, Kristen Hewe...">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div style="position: fixed; top: 2px; left: 2px; z-index: 2000; background: rgba(255,255,255,0.95); border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 4px 14px; font-size: 15px; color: #222; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 500; letter-spacing: 0.5px;">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank" style="color: #0366d6; text-decoration: none; font-weight: 600;">Open AI Tx</a>
+    </div>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/tc39/proposal-signals" id="githubRepoLink" target="_blank">tc39/proposal-signals</a>
+<h1 style="display: none;">🚦 Proposal Standar Sinyal JavaScript 🚦 Tahap 1 (penjelasan) Pendukung proposal TC39: Daniel Ehrenberg, Yehuda Katz, Jatin Ramanathan, Shay Lewis, Kristen Hewe...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>🚦 Proposal Standar Sinyal JavaScript 🚦</h1>
+<img align=right src="https://raw.githubusercontent.com/tc39/proposal-signals/main/Signals.svg" alt="Signals logo" width=100>
+<p>Tahap 1 (<a href="https://tc39.es/process-document/">penjelasan</a>)</p>
+<p>Pendukung proposal TC39: Daniel Ehrenberg, Yehuda Katz, Jatin Ramanathan, Shay Lewis, Kristen Hewell Garrett, Dominic Gannaway, Preston Sego, Milo M, Rob Eisenberg</p>
+<p>Penulis asli: Rob Eisenberg dan Daniel Ehrenberg</p>
+<p>Dokumen ini menjelaskan arah awal yang umum untuk sinyal dalam JavaScript, mirip dengan upaya Promises/A+ yang mendahului Promises yang distandarisasi oleh TC39 di ES2015. Coba sendiri menggunakan <a href="https://github.com/proposal-signals/signal-polyfill">polyfill</a>.</p>
+<p>Serupa dengan Promises/A+, upaya ini berfokus pada penyelarasan ekosistem JavaScript. Jika penyelarasan ini berhasil, maka standar bisa muncul berdasarkan pengalaman tersebut. Beberapa penulis framework berkolaborasi di sini pada model umum yang dapat mendukung inti reaktivitas mereka. Draf saat ini didasarkan pada masukan desain dari penulis/pemelihara <a href="https://angular.io/">Angular</a>, <a href="https://bubble.io/">Bubble</a>, <a href="https://emberjs.com/">Ember</a>, <a href="https://www.fast.design/">FAST</a>, <a href="https://mobx.js.org/">MobX</a>, <a href="https://preactjs.com/">Preact</a>, <a href="https://qwik.dev/">Qwik</a>, <a href="https://rxjs.dev/">RxJS</a>, <a href="https://www.solidjs.com/">Solid</a>, <a href="https://www.starbeamjs.com/">Starbeam</a>, <a href="https://svelte.dev/">Svelte</a>, <a href="https://vuejs.org/">Vue</a>, <a href="https://blog.angular.io/angular-and-wiz-are-better-together-91e633d8cd5a">Wiz</a>, dan lainnya...</p>
+<p>Berbeda dari Promises/A+, kami tidak mencoba menyelesaikan permukaan API yang umum untuk pengembang, melainkan semantik inti yang tepat dari grafik sinyal yang mendasari. Proposal ini memang mencakup API yang sepenuhnya konkret, tetapi API ini tidak ditujukan untuk sebagian besar pengembang aplikasi. Sebagai gantinya, API sinyal di sini lebih cocok untuk dibangun di atasnya oleh framework, menyediakan interoperabilitas melalui grafik sinyal umum dan mekanisme pelacakan otomatis.</p>
+<p>Rencana proposal ini adalah melakukan prototipe awal secara signifikan, termasuk integrasi ke beberapa framework, sebelum melanjutkan ke Tahap 1. Kami hanya tertarik untuk menstandarisasi Sinyal jika memang cocok digunakan secara praktis di berbagai framework, dan memberikan manfaat nyata dibandingkan sinyal yang disediakan oleh framework. Kami berharap bahwa prototipe awal yang signifikan akan memberi kami informasi ini. Lihat &quot;Status dan rencana pengembangan&quot; di bawah untuk detail lebih lanjut.</p>
+<h2>Latar Belakang: Mengapa Sinyal?</h2>
+<p>Untuk mengembangkan antarmuka pengguna (UI) yang rumit, pengembang aplikasi JavaScript perlu menyimpan, menghitung, membatalkan, menyinkronkan, dan mendorong status ke lapisan tampilan aplikasi secara efisien. UI umumnya melibatkan lebih dari sekadar mengelola nilai sederhana, tetapi sering kali melibatkan perenderan status terhitung yang bergantung pada pohon kompleks nilai lain atau status yang juga dihitung sendiri. Tujuan Sinyal adalah menyediakan infrastruktur untuk mengelola status aplikasi seperti itu agar pengembang dapat fokus pada logika bisnis alih-alih detail yang berulang ini.</p>
+<p>Konstruk mirip sinyal telah secara independen ditemukan berguna dalam konteks non-UI juga, khususnya dalam sistem build untuk menghindari build ulang yang tidak perlu.</p>
+<p>Sinyal digunakan dalam pemrograman reaktif untuk menghilangkan kebutuhan dalam mengelola pembaruan di aplikasi.</p>
+<blockquote>
+<p>Model pemrograman deklaratif untuk memperbarui berdasarkan perubahan status.</p>
+</blockquote>
+<p>dari <em><a href="https://www.pzuraq.com/blog/what-is-reactivity">Apa itu Reaktivitas?</a></em>.</p>
+<h4>Contoh - Counter VanillaJS</h4>
+<p>Diberikan sebuah variabel, <code>counter</code>, Anda ingin merender ke dalam DOM apakah counter itu genap atau ganjil. Setiap kali <code>counter</code> berubah, Anda ingin memperbarui DOM dengan paritas terbaru. Dalam Vanilla JS, Anda mungkin memiliki kode seperti ini:</p>
+<pre><code class="language-js">let counter = 0;
+const setCounter = (value) =&gt; {
+  counter = value;
+  render();
+};
+
+const isEven = () =&gt; (counter &amp; 1) == 0;
+const parity = () =&gt; isEven() ? &quot;even&quot; : &quot;odd&quot;;
+const render = () =&gt; element.innerText = parity();
+
+// Simulasikan pembaruan eksternal ke counter...
+setInterval(() =&gt; setCounter(counter + 1), 1000);
+</code></pre>
+<blockquote>
+<p>[!CATATAN]<br />
+Global digunakan di sini hanya untuk tujuan demonstrasi. Manajemen status yang benar memiliki banyak solusi, dan contoh dalam proposal ini dimaksudkan agar seminimal mungkin. Proposal ini tidak menganjurkan penggunaan variabel global.</p>
+</blockquote>
+<p>Ini memiliki sejumlah masalah...</p>
+<ul>
+<li>Pengaturan <code>counter</code> berisik dan penuh boilerplate.</li>
+<li>Status <code>counter</code> sangat terikat dengan sistem rendering.</li>
+<li>Jika <code>counter</code> berubah tetapi <code>parity</code> tidak (misal: counter dari 2 ke 4), maka kita melakukan komputasi parity dan rendering yang tidak perlu.</li>
+<li>Bagaimana jika bagian lain dari UI kita hanya ingin merender ketika <code>counter</code> diperbarui?</li>
+<li>Bagaimana jika bagian lain dari UI kita bergantung hanya pada <code>isEven</code> atau <code>parity</code>?</li>
+</ul>
+<p>Bahkan dalam skenario yang relatif sederhana ini, sejumlah masalah muncul dengan cepat. Kita bisa mencoba mengatasinya dengan menambahkan pub/sub untuk <code>counter</code>. Ini memungkinkan konsumen tambahan dari <code>counter</code> dapat berlangganan untuk menambahkan reaksi mereka sendiri terhadap perubahan status.</p>
+<p>Namun, kita masih terjebak dengan masalah berikut:</p>
+<ul>
+<li>Fungsi render, yang hanya bergantung pada <code>parity</code>, malah harus &quot;tahu&quot; bahwa sebenarnya ia perlu berlangganan ke <code>counter</code>.</li>
+<li>Tidak mungkin memperbarui UI hanya berdasarkan <code>isEven</code> atau <code>parity</code>, tanpa langsung berinteraksi dengan <code>counter</code>.</li>
+<li>Boilerplate kita bertambah. Setiap kali Anda menggunakan sesuatu, bukan hanya sekadar memanggil fungsi atau membaca variabel, tetapi harus berlangganan dan melakukan pembaruan di sana. Mengelola unsubscription juga sangat rumit.</li>
+</ul>
+<p>Sekarang, kita bisa menyelesaikan beberapa masalah dengan menambahkan pub/sub tidak hanya pada <code>counter</code> tetapi juga ke <code>isEven</code> dan <code>parity</code>. Kita kemudian harus membuat <code>isEven</code> berlangganan ke <code>counter</code>, <code>parity</code> ke <code>isEven</code>, dan <code>render</code> ke <code>parity</code>. Sayangnya, bukan hanya kode boilerplate kita yang meledak, tetapi juga kita harus mengelola banyak langganan dan potensi kebocoran memori jika tidak membersihkan semuanya dengan benar. Jadi, kita telah menyelesaikan beberapa masalah tetapi menciptakan kategori masalah baru dan banyak kode. Lebih buruknya lagi, kita harus melalui seluruh proses ini untuk setiap bagian status di sistem kita.</p>
+<h3>Memperkenalkan Sinyal</h3>
+<p>Abstraksi data binding dalam UI untuk model dan tampilan telah lama menjadi inti framework UI di berbagai bahasa pemrograman, meskipun tidak ada mekanisme seperti itu yang dibangun dalam JS atau platform web. Dalam framework dan pustaka JS, telah banyak eksperimen dalam berbagai cara untuk merepresentasikan binding ini, dan pengalaman telah menunjukkan kekuatan alur data satu arah bersamaan dengan tipe data kelas satu yang merepresentasikan sel status atau komputasi yang diturunkan dari data lain, yang kini sering disebut &quot;Sinyal&quot;.
+Pendekatan nilai reaktif kelas satu ini tampaknya pertama kali populer muncul di framework web JavaScript open-source dengan <a href="https://knockoutjs.com/">Knockout</a> <a href="https://blog.stevensanderson.com/2010/07/05/introducing-knockout-a-ui-library-for-javascript/">pada 2010</a>. Dalam beberapa tahun setelahnya, banyak variasi dan implementasi telah dibuat. Dalam 3-4 tahun terakhir, primitif Sinyal dan pendekatan terkait semakin berkembang, dengan hampir setiap pustaka atau framework JavaScript modern memiliki sesuatu yang serupa, dengan nama yang berbeda-beda.</p>
+<p>Untuk memahami Sinyal, mari kita lihat contoh di atas, dibayangkan ulang dengan API Sinyal yang dijelaskan lebih lanjut di bawah ini.</p>
+<h4>Contoh - Counter Signals</h4>
+<pre><code class="language-js">const counter = new Signal.State(0);
+const isEven = new Signal.Computed(() =&gt; (counter.get() &amp; 1) == 0);
+const parity = new Signal.Computed(() =&gt; isEven.get() ? &quot;even&quot; : &quot;odd&quot;);
+
+// Sebuah library atau framework mendefinisikan efek berdasarkan primitif Signal lain
+declare function effect(cb: () =&gt; void): (() =&gt; void);
+
+effect(() =&gt; element.innerText = parity.get());
+
+// Simulasikan pembaruan eksternal ke counter...
+setInterval(() =&gt; counter.set(counter.get() + 1), 1000);
+</code></pre>
+<p>Ada beberapa hal yang langsung dapat kita lihat:</p>
+<ul>
+<li>Kita telah menghilangkan boilerplate yang berisik pada variabel <code>counter</code> dari contoh sebelumnya.</li>
+<li>Ada satu API terpadu untuk menangani nilai, komputasi, dan efek samping.</li>
+<li>Tidak ada masalah referensi melingkar atau ketergantungan terbalik antara <code>counter</code> dan <code>render</code>.</li>
+<li>Tidak ada langganan manual, juga tidak ada kebutuhan untuk pencatatan.</li>
+<li>Ada cara untuk mengontrol waktu/penjadwalan efek samping.</li>
+</ul>
+<p>Sinyal memberi kita jauh lebih banyak daripada yang terlihat di permukaan API:</p>
+<ul>
+<li><strong>Pelacakan Ketergantungan Otomatis</strong> - Sebuah Signal terhitung secara otomatis menemukan Signal lain yang menjadi ketergantungannya, baik itu Signal berupa nilai sederhana atau komputasi lain.</li>
+<li><strong>Evaluasi Malas (Lazy Evaluation)</strong> - Komputasi tidak dievaluasi secara langsung saat dideklarasikan, ataupun segera dievaluasi ketika ketergantungannya berubah. Komputasi hanya dievaluasi ketika nilainya secara eksplisit diminta.</li>
+<li><strong>Memoisasi</strong> - Signal terhitung menyimpan cache nilai terakhirnya sehingga komputasi yang tidak memiliki perubahan pada ketergantungannya tidak perlu dievaluasi ulang, berapa pun kali mereka diakses.</li>
+</ul>
+<h2>Motivasi standarisasi Signals</h2>
+<h4>Interoperabilitas</h4>
+<p>Setiap implementasi Signal memiliki mekanisme auto-tracking sendiri untuk melacak sumber yang ditemui saat mengevaluasi Signal terhitung. Hal ini menyulitkan untuk berbagi model, komponen, dan pustaka antar framework berbeda—karena biasanya Signal diimplementasikan sebagai bagian dari framework JS.</p>
+<p>Salah satu tujuan proposal ini adalah memisahkan sepenuhnya model reaktif dari tampilan render, memungkinkan developer bermigrasi ke teknologi render baru tanpa menulis ulang kode non-UI mereka, atau mengembangkan model reaktif bersama di JS untuk digunakan dalam berbagai konteks. Sayangnya, karena masalah versi dan duplikasi, berbagi pada tingkat pustaka JS ternyata tidak praktis—built-in menawarkan jaminan berbagi yang lebih kuat.</p>
+<h4>Performa/Penggunaan Memori</h4>
+<p>Selalu ada potensi peningkatan performa dengan mengirimkan lebih sedikit kode karena pustaka yang umum digunakan sudah built-in, namun implementasi Signal umumnya cukup kecil sehingga efek ini tidak diharapkan terlalu besar.</p>
+<p>Kami menduga bahwa implementasi native C++ untuk struktur data dan algoritma terkait Signal dapat sedikit lebih efisien dibanding yang dapat dicapai di JS, dalam skala faktor konstanta. Namun, tidak ada perubahan algoritma yang diantisipasi dibandingkan dengan apa yang ada pada polyfill; engine tidak diharapkan &quot;ajaib&quot; di sini, dan algoritma reaktivitasnya sendiri akan terdefinisi dengan baik dan tidak ambigu.</p>
+<p>Kelompok champion berharap dapat mengembangkan berbagai implementasi Signal, dan menggunakannya untuk menyelidiki kemungkinan performa ini.</p>
+<h4>DevTools</h4>
+<p>Dengan pustaka Signal berbasis JS yang ada saat ini, sulit untuk melacak hal seperti:</p>
+<ul>
+<li>Callstack di sepanjang rantai Signal terhitung, memperlihatkan rantai kausal untuk sebuah error</li>
+<li>Grafik referensi antar Signal, ketika satu bergantung pada yang lain—penting saat debugging penggunaan memori</li>
+</ul>
+<p>Signal bawaan memungkinkan runtime JS dan DevTools untuk kemungkinan memiliki dukungan yang lebih baik dalam menginspeksi Signal, terutama untuk debugging atau analisis performa, baik ini dibangun ke dalam browser atau melalui ekstensi bersama. Alat yang sudah ada seperti inspector elemen, snapshot performa, dan profiler memori bisa diperbarui untuk menyorot Signal secara khusus dalam penyajian informasinya.</p>
+<h4>Manfaat Sekunder</h4>
+<h5>Manfaat pustaka standar</h5>
+<p>Secara umum, JavaScript memiliki pustaka standar yang cukup minimal, namun tren di TC39 adalah membuat JS lebih seperti bahasa &quot;baterai-termasuk&quot;, dengan fungsi built-in berkualitas tinggi. Contohnya, Temporal menggantikan moment.js, dan sejumlah fitur kecil, misalnya, <code>Array.prototype.flat</code> dan <code>Object.groupBy</code> menggantikan banyak kasus penggunaan lodash. Manfaatnya meliputi ukuran bundle yang lebih kecil, stabilitas dan kualitas yang lebih baik, lebih sedikit yang harus dipelajari saat bergabung ke proyek baru, dan kosakata yang umum di antara developer JS.</p>
+<h5>Integrasi HTML/DOM (kemungkinan di masa depan)</h5>
+<p>Pekerjaan saat ini di W3C dan oleh pengembang browser berupaya menghadirkan templating native ke HTML (<a href="https://github.com/WICG/webcomponents/pull/1023">DOM Parts</a> dan <a href="https://github.com/WICG/webcomponents/blob/gh-pages/proposals/Template-Instantiation.md">Template Instantiation</a>). Selain itu, W3C Web Components CG sedang mengeksplorasi kemungkinan memperluas Web Components untuk menawarkan API HTML deklaratif sepenuhnya. Untuk mencapai kedua tujuan ini, pada akhirnya primitif reaktif akan dibutuhkan oleh HTML. Selain itu, banyak peningkatan ergonomis pada DOM melalui integrasi Signal dapat dibayangkan dan telah diminta oleh komunitas.</p>
+<blockquote>
+<p>Catatan, integrasi ini akan menjadi upaya terpisah di kemudian hari, bukan bagian dari proposal ini sendiri.</p>
+</blockquote>
+<h5>Pertukaran informasi ekosistem (<em>bukan</em> alasan untuk diadopsi)</h5>
+<p>Upaya standarisasi kadang-kadang dapat berguna hanya di tingkat &quot;komunitas&quot;, bahkan tanpa perubahan di browser. Upaya Signals mempertemukan banyak penulis framework berbeda untuk diskusi mendalam tentang sifat reaktivitas, algoritma, dan interoperabilitas. Ini sudah bermanfaat, namun tidak menjadi alasan untuk memasukkan ke dalam engine JS dan browser; Signal hanya boleh ditambahkan ke standar JavaScript jika ada manfaat signifikan <em>di luar</em> pertukaran informasi ekosistem yang dimungkinkan.</p>
+<h2>Tujuan desain untuk Signals</h2>
+<p>Ternyata pustaka Signal yang ada tidak terlalu berbeda satu sama lain, pada intinya. Proposal ini bertujuan membangun keberhasilan mereka dengan mengimplementasikan kualitas penting dari banyak pustaka tersebut.</p>
+<h3>Fitur inti</h3>
+<ul>
+<li>Tipe Signal yang merepresentasikan state, yaitu Signal yang dapat ditulis. Ini adalah nilai yang dapat dibaca oleh pihak lain.</li>
+<li>Tipe Signal terhitung/memo/derived, yang bergantung pada Signal lain dan dihitung secara malas serta di-cache.
+<ul>
+<li>Komputasi bersifat malas, artinya Signal terhitung tidak dihitung ulang secara default saat salah satu ketergantungannya berubah, namun hanya dijalankan jika memang ada yang membacanya.</li>
+<li>Komputasi bebas &quot;<a href="https://en.wikipedia.org/wiki/Reactive_programming#Glitches">glitch</a>&quot;, artinya tidak ada perhitungan yang tidak perlu dilakukan. Ini mengimplikasikan bahwa, ketika aplikasi membaca Signal terhitung, terdapat penyortiran topologis bagian-bagian grafik yang mungkin &quot;kotor&quot; untuk dijalankan, guna menghilangkan duplikasi.</li>
+<li>Komputasi di-cache, artinya jika, setelah perubahan terakhir pada ketergantungan, tidak ada yang berubah, maka Signal terhitung <em>tidak</em> dihitung ulang saat diakses.</li>
+<li>Perbandingan kustom dimungkinkan untuk Signal terhitung maupun Signal state, untuk menandai kapan Signal terhitung lain yang bergantung padanya perlu diperbarui.</li>
+</ul>
+</li>
+<li>Reaksi terhadap kondisi di mana sebuah Signal terhitung memiliki salah satu (atau turunan) ketergantungannya menjadi &quot;kotor&quot; dan berubah, artinya nilai Signal mungkin sudah usang.
+<ul>
+<li>Reaksi ini dimaksudkan untuk menjadwalkan pekerjaan yang lebih signifikan untuk dilakukan nanti.</li>
+<li>Efek diimplementasikan dalam hal reaksi ini, plus penjadwalan pada tingkat framework.</li>
+<li>Signal terhitung memerlukan kemampuan untuk bereaksi terhadap apakah mereka terdaftar sebagai (turunan) ketergantungan dari salah satu reaksi ini.</li>
+</ul>
+</li>
+<li>Memungkinkan framework JS melakukan penjadwalan sendiri. Tidak ada penjadwalan built-in gaya Promise yang dipaksakan.
+<ul>
+<li>Reaksi sinkron diperlukan untuk memungkinkan penjadwalan pekerjaan selanjutnya berdasarkan logika framework.</li>
+<li>Penulisan bersifat sinkron dan langsung berlaku (framework yang melakukan batching penulisan dapat melakukannya di atas ini).</li>
+<li>Memungkinkan pemisahan antara pengecekan apakah sebuah efek &quot;kotor&quot; dari benar-benar menjalankan efek (memungkinkan scheduler efek dua tahap).</li>
+</ul>
+</li>
+<li>Kemampuan membaca Signal <em>tanpa</em> memicu pencatatan ketergantungan (<code>untrack</code>)</li>
+<li>Memungkinkan komposisi berbagai basis kode yang menggunakan Signal/reaktivitas, misalnya,
+<ul>
+<li>Menggunakan beberapa framework bersama selama pelacakan/reaktivitas itu sendiri (modulo pengecualian, lihat di bawah)</li>
+<li>Struktur data reaktif independen framework (misal, proxy store reaktif rekursif, Map dan Set dan Array reaktif, dll.)</li>
+</ul>
+</li>
+</ul>
+<h3>Soundness</h3>
+<ul>
+<li>Mencegah/melarang penggunaan naif reaksi sinkron.
+<ul>
+<li>Risiko soundness: dapat memunculkan &quot;<a href="https://en.wikipedia.org/wiki/Reactive_programming#Glitches">glitch</a>&quot; jika digunakan secara tidak benar: Jika rendering dilakukan langsung saat Signal di-set, dapat memperlihatkan state aplikasi yang belum lengkap ke pengguna akhir. Oleh karena itu, fitur ini hanya boleh digunakan untuk menjadwalkan pekerjaan cerdas untuk nanti, setelah logika aplikasi selesai.</li>
+<li>Solusi: Melarang membaca dan menulis Signal apa pun dari dalam callback reaksi sinkron</li>
+</ul>
+</li>
+<li>Mencegah penggunaan <code>untrack</code> dan menandai sifatnya yang tidak sound
+<ul>
+<li>Risiko soundness: memungkinkan pembuatan Signal terhitung yang nilainya bergantung pada Signal lain, namun tidak diperbarui ketika Signal tersebut berubah. Harus digunakan ketika akses yang tidak dilacak tidak mengubah hasil komputasi.</li>
+<li>Solusi: API diberi tanda &quot;unsafe&quot; pada namanya.</li>
+</ul>
+</li>
+<li>Catatan: Proposal ini memang memperbolehkan Signal untuk dibaca dan ditulis baik dari Signal terhitung maupun efek, tanpa membatasi penulisan yang datang setelah pembacaan, meskipun ada risiko soundness. Keputusan ini diambil untuk menjaga fleksibilitas dan kompatibilitas dalam integrasi dengan framework.</li>
+</ul>
+<h3>Surface API</h3>
+<ul>
+<li>Harus menjadi fondasi kokoh bagi berbagai framework untuk mengimplementasikan mekanisme Signal/reaktivitas mereka.
+<ul>
+<li>Harus menjadi dasar yang baik untuk proxy store rekursif, reaktivitas field class berbasis decorator, dan API gaya <code>.value</code> maupun <code>[state, setState]</code>.</li>
+<li>Semantik harus bisa mengekspresikan pola valid yang diaktifkan oleh berbagai framework. Misalnya, harus memungkinkan Signal ini menjadi dasar untuk penulisan yang langsung tercermin maupun penulisan yang di-batch dan diterapkan kemudian.</li>
+</ul>
+</li>
+<li>Akan lebih baik jika API ini dapat digunakan langsung oleh developer JavaScript.
+<ul>
+<li>Jika sebuah fitur sesuai dengan konsep ekosistem, menggunakan kosakata umum adalah hal yang baik.
+<ul>
+<li>Namun, penting untuk tidak secara literal meniru nama yang sama persis!</li>
+</ul>
+</li>
+<li>Terdapat ketegangan antara &quot;keterpakaiannya untuk dev JS&quot; dan &quot;menyediakan semua hook ke framework&quot;
+<ul>
+<li>Ide: Sediakan semua hook, namun sertakan error jika disalahgunakan jika memungkinkan.</li>
+<li>Ide: Tempatkan API yang halus di namespace <code>subtle</code>, mirip dengan <a href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto/subtle"><code>crypto.subtle</code></a>, untuk menandai perbedaan antara API yang diperlukan untuk penggunaan tingkat lanjut seperti implementasi framework atau alat dev vs penggunaan pengembangan aplikasi sehari-hari seperti menginstansiasi signal untuk digunakan dengan framework.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Dapat diimplementasikan dan digunakan dengan performa baik—Surface API tidak menimbulkan overhead berlebih
+<ul>
+<li>Memungkinkan subclassing, sehingga framework dapat menambahkan metode dan field sendiri, termasuk field privat. Ini penting untuk menghindari kebutuhan alokasi tambahan pada tingkat framework. Lihat &quot;manajemen memori&quot; di bawah.</li>
+</ul>
+</li>
+</ul>
+<h3>Manajemen memori</h3>
+<ul>
+<li>Jika memungkinkan: Signal terhitung harus dapat di-garbage collect jika tidak ada referensi aktif untuk pembacaan di masa mendatang, meskipun terhubung ke grafik yang lebih luas yang tetap hidup (misal, dengan membaca state yang tetap hidup).</li>
+<li>Perhatikan bahwa sebagian besar framework saat ini memerlukan pembuangan eksplisit dari Signal terkomputasi jika mereka memiliki referensi ke atau dari grafik Signal lain yang tetap hidup.</li>
+<li>Ini akhirnya tidak terlalu buruk ketika masa hidupnya terkait dengan masa hidup komponen UI, dan efek memang perlu dibuang.</li>
+<li>Jika terlalu mahal untuk dijalankan dengan semantik ini, maka kita sebaiknya menambahkan pembuangan eksplisit (atau &quot;unlinking&quot;) dari Signal terkomputasi ke API di bawah, yang saat ini belum memilikinya.</li>
+<li>Tujuan terkait yang terpisah: Meminimalkan jumlah alokasi, misalnya,
+<ul>
+<li>untuk membuat Signal yang dapat ditulis (menghindari dua closure terpisah + array)</li>
+<li>untuk mengimplementasikan efek (menghindari closure untuk setiap reaksi)</li>
+<li>Dalam API untuk mengamati perubahan Signal, hindari pembuatan struktur data sementara tambahan</li>
+<li>Solusi: API berbasis kelas yang memungkinkan penggunaan ulang metode dan field yang didefinisikan di subclass</li>
+</ul>
+</li>
+</ul>
+<h2>Sketsa API</h2>
+<p>Ide awal dari API Signal terdapat di bawah ini. Perlu dicatat bahwa ini hanyalah draf awal, dan kami memperkirakan akan ada perubahan seiring waktu. Mari mulai dengan file <code>.d.ts</code> lengkap untuk mendapatkan gambaran bentuk keseluruhannya, lalu kita akan membahas detail tentang maknanya.</p>
+<pre><code class="language-ts">interface Signal&lt;T&gt; {
+    // Mengambil nilai signal
+    get(): T;
+}
+
+namespace Signal {
+    // Signal baca-tulis
+    class State&lt;T&gt; implements Signal&lt;T&gt; {
+        // Membuat Signal state yang dimulai dengan nilai t
+        constructor(t: T, options?: SignalOptions&lt;T&gt;);
+
+        // Mengambil nilai signal
+        get(): T;
+
+        // Mengatur nilai Signal state ke t
+        set(t: T): void;
+    }
+
+    // Signal yang merupakan rumus berdasarkan Signal lain
+    class Computed&lt;T = unknown&gt; implements Signal&lt;T&gt; {
+        // Membuat Signal yang mengevaluasi nilai yang dikembalikan oleh callback.
+        // Callback dipanggil dengan signal ini sebagai nilai this.
+        constructor(cb: (this: Computed&lt;T&gt;) =&gt; T, options?: SignalOptions&lt;T&gt;);
+
+        // Mengambil nilai signal
+        get(): T;
+    }
+
+    // Namespace ini mencakup fitur &quot;lanjutan&quot; yang lebih baik
+    // diserahkan untuk penulis framework daripada pengembang aplikasi.
+    // Analog dengan `crypto.subtle`
+    namespace subtle {
+        // Menjalankan callback dengan semua pelacakan dinonaktifkan
+        function untrack&lt;T&gt;(cb: () =&gt; T): T;
+
+        // Mengambil signal computed saat ini yang sedang melacak pembacaan signal, jika ada
+        function currentComputed(): Computed | null;
+
+        // Mengembalikan daftar berurutan dari semua signal yang dirujuk oleh signal ini
+        // selama terakhir kali dievaluasi.
+        // Untuk Watcher, mencantumkan set signal yang diawasi.
+        function introspectSources(s: Computed | Watcher): (State | Computed)[];
+
+        // Mengembalikan Watcher yang mencakup signal ini, plus semua
+        // Signal Computed yang membaca signal ini terakhir kali dievaluasi,
+        // jika signal computed tersebut (secara rekursif) diawasi.
+        function introspectSinks(s: State | Computed): (Computed | Watcher)[];
+
+        // True jika signal ini &quot;hidup&quot;, yaitu diawasi oleh Watcher,
+        // atau dibaca oleh signal Computed yang (secara rekursif) hidup.
+        function hasSinks(s: State | Computed): boolean;
+
+        // True jika elemen ini &quot;reaktif&quot;, yaitu bergantung
+        // pada signal lain. Computed di mana hasSources bernilai false
+        // akan selalu mengembalikan nilai konstan yang sama.
+        function hasSources(s: Computed | Watcher): boolean;
+
+        class Watcher {
+            // Ketika sumber (rekursif) dari Watcher ditulis, panggil callback ini,
+            // jika belum dipanggil sejak pemanggilan `watch` terakhir.
+            // Tidak ada signal yang boleh dibaca atau ditulis selama notify.
+            constructor(notify: (this: Watcher) =&gt; void);
+
+            // Tambahkan signal-signal ini ke dalam set Watcher, dan atur Watcher agar menjalankan
+            // callback notify pada saat berikutnya salah satu signal dalam set (atau salah satu dependensinya) berubah.
+            // Dapat dipanggil tanpa argumen hanya untuk mereset status &quot;notified&quot;, sehingga
+            // callback notify akan dipanggil lagi.
+            watch(...s: Signal[]): void;
+
+            // Menghapus signal-signal ini dari set yang diawasi (misalnya, untuk efek yang dibuang)
+            unwatch(...s: Signal[]): void;
+
+            // Mengembalikan set sumber dalam set Watcher yang masih dirty, atau merupakan signal computed
+            // dengan sumber yang dirty atau pending dan belum dievaluasi ulang
+            getPending(): Signal[];
+        }
+
+        // Hook untuk mengamati saat mulai diawasi atau tidak lagi diawasi
+        var watched: Symbol;
+        var unwatched: Symbol;
+    }
+
+    interface SignalOptions&lt;T&gt; {
+        // Fungsi perbandingan khusus antara nilai lama dan baru. Default: Object.is.
+        // Signal diberikan sebagai nilai this untuk konteks.
+        equals?: (this: Signal&lt;T&gt;, t: T, t2: T) =&gt; boolean;
+</code></pre>
+<pre><code class="language-ts">// Callback dipanggil ketika isWatched menjadi true, jika sebelumnya false
+[Signal.subtle.watched]?: (this: Signal&lt;T&gt;) =&gt; void;
+
+// Callback dipanggil setiap kali isWatched menjadi false, jika sebelumnya true
+[Signal.subtle.unwatched]?: (this: Signal&lt;T&gt;) =&gt; void;
+}
+}
+</code></pre>
+<h3>Cara Kerja Signal</h3>
+<p>Sebuah Signal merepresentasikan sebuah sel data yang dapat berubah seiring waktu. Signal dapat berupa &quot;state&quot; (hanya sebuah nilai yang diatur secara manual) atau &quot;computed&quot; (sebuah rumus berdasarkan Signal lain).</p>
+<p>Signal computed bekerja dengan secara otomatis melacak Signal lain mana yang dibaca selama evaluasinya. Ketika sebuah computed dibaca, ia memeriksa apakah salah satu dependensi yang telah tercatat sebelumnya telah berubah, dan melakukan evaluasi ulang jika ya. Ketika beberapa Signal computed disusun secara bersarang, semua atribusi pelacakan diarahkan ke yang paling dalam.</p>
+<p>Signal computed bersifat lazy, yaitu berbasis tarik (pull-based): mereka hanya dievaluasi ulang ketika diakses, meskipun salah satu dependensinya telah berubah sebelumnya.</p>
+<p>Callback yang diberikan ke Signal computed sebaiknya &quot;pure&quot; dalam arti merupakan fungsi deterministik tanpa efek samping dari Signal lain yang diaksesnya. Namun, waktu callback dipanggil juga deterministik, sehingga efek samping tetap dapat digunakan dengan hati-hati.</p>
+<p>Signal memiliki fitur caching/memoisasi yang menonjol: baik Signal state maupun computed mengingat nilai saat ini, dan hanya memicu perhitungan ulang pada Signal computed yang merujuk padanya jika memang terjadi perubahan. Perbandingan berulang antara nilai lama dan baru bahkan tidak diperlukan--perbandingan dilakukan sekali ketika Signal sumber di-reset/dievaluasi ulang, dan mekanisme Signal melacak siapa saja yang merujuk ke Signal tersebut yang belum diperbarui berdasarkan nilai baru. Secara internal, hal ini umumnya direpresentasikan melalui &quot;graph coloring&quot; seperti dijelaskan dalam (Milo's blog post).</p>
+<p>Signal computed melacak dependensinya secara dinamis--setiap kali dijalankan, mereka mungkin bergantung pada hal yang berbeda, dan himpunan dependensi yang tepat tetap diperbarui dalam graph Signal. Ini berarti jika Anda memiliki dependensi yang hanya dibutuhkan pada satu cabang, dan perhitungan sebelumnya mengambil cabang lain, maka perubahan pada nilai yang sementara tidak digunakan tersebut tidak akan menyebabkan Signal computed dihitung ulang, bahkan ketika diakses.</p>
+<p>Tidak seperti JavaScript Promises, semua hal dalam Signal berjalan secara sinkron:</p>
+<ul>
+<li>Mengatur Signal ke nilai baru bersifat sinkron, dan langsung tercermin ketika membaca Signal computed yang bergantung padanya. Tidak ada batching perubahan bawaan.</li>
+<li>Membaca Signal computed bersifat sinkron--nilainya selalu tersedia.</li>
+<li>Callback <code>notify</code> di Watcher, seperti dijelaskan di bawah, dijalankan secara sinkron, selama pemanggilan <code>.set()</code> yang memicunya (tetapi setelah graph coloring selesai).</li>
+</ul>
+<p>Seperti Promise, Signal dapat merepresentasikan keadaan error: Jika callback Signal computed melempar error, maka error tersebut disimpan seperti nilai lain, dan dilempar ulang setiap kali Signal dibaca.</p>
+<h3>Memahami Kelas Signal</h3>
+<p>Sebuah instance <code>Signal</code> merepresentasikan kemampuan untuk membaca nilai yang berubah secara dinamis yang perubahannya dilacak seiring waktu. Ini juga secara implisit mencakup kemampuan untuk subscribe ke Signal, secara implisit melalui akses yang dilacak dari Signal computed lain.</p>
+<p>API di sini dirancang agar sesuai dengan konsensus ekosistem yang sangat kasar di antara sebagian besar pustaka Signal dalam penggunaan nama seperti &quot;signal&quot;, &quot;computed&quot; dan &quot;state&quot;. Namun, akses ke Signal Computed dan State melalui metode <code>.get()</code>, yang berbeda dengan semua API Signal populer, yang menggunakan akses bergaya <code>.value</code> atau sintaks pemanggilan <code>signal()</code>.</p>
+<p>API ini dirancang untuk mengurangi jumlah alokasi, agar Signal cocok untuk disematkan dalam framework JavaScript sambil mencapai performa yang sama atau lebih baik dibandingkan Signal yang dikustomisasi framework. Implikasinya:</p>
+<ul>
+<li>Signal State adalah satu objek yang dapat ditulis, yang dapat diakses dan diatur dari referensi yang sama. (Lihat implikasi di bawah pada bagian &quot;Pemilahan Kapabilitas&quot;.)</li>
+<li>Baik Signal State maupun Computed dirancang agar dapat di-subclass, untuk memudahkan framework menambah properti tambahan melalui field class publik dan privat (juga metode untuk menggunakan state tersebut).</li>
+<li>Berbagai callback (misal, <code>equals</code>, callback computed) dipanggil dengan Signal terkait sebagai nilai <code>this</code> untuk konteks, sehingga closure baru tidak diperlukan per Signal. Sebagai gantinya, konteks dapat disimpan dalam properti ekstra pada signal itu sendiri.</li>
+</ul>
+<p>Beberapa kondisi error yang dipaksakan oleh API ini:</p>
+<ul>
+<li>Membaca computed secara rekursif adalah error.</li>
+<li>Callback <code>notify</code> dari Watcher tidak boleh membaca atau menulis signal apa pun.</li>
+<li>Jika callback Signal computed melempar error, maka akses berikutnya ke Signal akan melempar error yang di-cache, hingga salah satu dependensi berubah dan ia dihitung ulang.</li>
+</ul>
+<p>Beberapa kondisi yang <em>tidak</em> dipaksakan:</p>
+<ul>
+<li>Signal computed dapat menulis ke Signal lain, secara sinkron dalam callback-nya.</li>
+<li>Pekerjaan yang diantrekan oleh callback <code>notify</code> Watcher dapat membaca atau menulis signal, sehingga memungkinkan untuk mereplikasi <a href="https://react.dev/learn/you-might-not-need-an-effect">pola antipattern klasik React</a> dalam istilah Signal!</li>
+</ul>
+<h3>Mengimplementasikan efek</h3>
+<p>Interface <code>Watcher</code> yang didefinisikan di atas memberikan dasar untuk mengimplementasikan API JS tipikal untuk efek: callback yang dijalankan ulang ketika Signal lain berubah, semata-mata untuk efek sampingnya. Fungsi <code>effect</code> yang digunakan di atas dalam contoh awal dapat didefinisikan sebagai berikut:</p>
+<pre><code class="language-ts">// Fungsi ini biasanya berada di pustaka/framework, bukan kode aplikasi
+// CATATAN: Logika penjadwalan ini terlalu dasar untuk digunakan. Jangan copy/paste.
+let pending = false;
+
+let w = new Signal.subtle.Watcher(() =&gt; {
+    if (!pending) {
+        pending = true;
+        queueMicrotask(() =&gt; {
+            pending = false;
+            for (let s of w.getPending()) s.get();
+            w.watch();
+        });
+    }
+});
+
+// Sebuah Signal effect yang menilai ke cb, yang menjadwalkan pembacaan dirinya
+// sendiri pada antrean microtask setiap kali salah satu dependensinya mungkin berubah
+export function effect(cb) {
+    let destructor;
+    let c = new Signal.Computed(() =&gt; { destructor?.(); destructor = cb(); });
+    w.watch(c);
+    c.get();
+    return () =&gt; { destructor?.(); w.unwatch(c) };
+}
+</code></pre>
+<p>API Signal tidak menyertakan fungsi bawaan seperti <code>effect</code>. Ini karena penjadwalan efek bersifat rumit dan sering terikat pada siklus rendering framework serta strategi atau state framework tingkat tinggi lain yang tidak dapat diakses JS.</p>
+<p>Penjelasan operasi berbeda yang digunakan di sini: Callback <code>notify</code> yang diberikan ke konstruktor <code>Watcher</code> adalah fungsi yang dipanggil ketika Signal berubah dari status &quot;clean&quot; (cache telah diinisialisasi dan valid) menjadi status &quot;checked&quot; atau &quot;dirty&quot; (cache mungkin valid atau tidak karena setidaknya salah satu state yang secara rekursif bergantung telah berubah).</p>
+<p>Pemanggilan ke <code>notify</code> pada akhirnya dipicu oleh pemanggilan <code>.set()</code> pada suatu Signal state. Pemanggilan ini sinkron: terjadi sebelum <code>.set</code> mengembalikan nilai. Namun tidak perlu khawatir callback ini mengamati graph Signal dalam keadaan setengah diproses, karena selama callback <code>notify</code>, tidak ada Signal yang dapat dibaca atau ditulis, bahkan dalam pemanggilan <code>untrack</code>. Karena <code>notify</code> dipanggil selama <code>.set()</code>, ini menginterupsi thread logika lain, yang mungkin belum selesai. Untuk membaca atau menulis Signal dari <code>notify</code>, jadwalkan pekerjaan untuk dijalankan nanti, misal dengan menulis Signal ke dalam list untuk diakses nanti, atau dengan <code>queueMicrotask</code> seperti di atas.</p>
+<p>Perlu dicatat bahwa sangat mungkin menggunakan Signal secara efektif tanpa <code>Signal.subtle.Watcher</code> dengan menjadwalkan polling pada Signal computed, seperti yang dilakukan Glimmer. Namun, banyak framework yang menemukan bahwa seringkali berguna jika logika penjadwalan ini dijalankan secara sinkron, sehingga API Signal menyertakannya.</p>
+<p>Baik Signal computed maupun state akan dikumpulkan oleh garbage collector seperti nilai JS lainnya. Namun Watcher memiliki cara khusus untuk menjaga sesuatu tetap hidup: Signal apa pun yang diawasi oleh Watcher akan tetap hidup selama salah satu state dasarnya masih dapat dijangkau, karena ini dapat memicu pemanggilan <code>notify</code> di masa depan (dan kemudian pemanggilan <code>.get()</code>). Untuk alasan ini, ingatlah untuk memanggil <code>Watcher.prototype.unwatch</code> untuk membersihkan efek.</p>
+<h3>Jalur pelarian tidak sound</h3>
+<p><code>Signal.subtle.untrack</code> adalah jalur pelarian yang memungkinkan pembacaan Signal <em>tanpa</em> melacak pembacaan tersebut. Kapabilitas ini tidak aman karena memungkinkan pembuatan Signal computed yang nilainya bergantung pada Signal lain, namun tidak diperbarui ketika Signal tersebut berubah. Ini sebaiknya hanya digunakan ketika akses yang tidak dilacak tidak akan mengubah hasil perhitungan.</p>
+<!--
+TODO: Tampilkan contoh di mana sebaiknya menggunakan untrack
+
+### Menggunakan watched/unwatched
+TODO: Tunjukkan contoh mengonversi sebuah Observable menjadi sebuah computed signal, yang hanya berlangganan ketika digunakan oleh sebuah efek
+
+TODO: Tunjukkan contoh sebuah computed signal yang merepresentasikan hasil dari fetch yang diarahkan ke sebuah state, yang dapat dibatalkan
+
+### Introspeksi untuk SSR
+
+TODO: Tunjukkan bagaimana proses serialisasi grafik signal bekerja
+
+TODO: Tunjukkan bagaimana Anda dapat "menghidupkan kembali" (hydrate) sebuah signal dari state ke computed di kemudian hari, menggunakan beberapa signal.
+-->
+<h3>Diabaikan untuk saat ini</h3>
+<p>Fitur-fitur ini mungkin akan ditambahkan nanti, namun tidak termasuk dalam draft saat ini. Penghilangan ini disebabkan oleh kurangnya konsensus yang mapan di ruang desain antar framework, serta kemampuan yang telah terbukti untuk mengatasi ketidakhadiran mereka dengan mekanisme di atas konsep Signals yang dijelaskan dalam dokumen ini. Namun, sayangnya, penghilangan ini membatasi potensi interoperabilitas antar framework. Seiring dengan diproduksinya prototipe Signals seperti yang dijelaskan dalam dokumen ini, akan ada upaya untuk meninjau kembali apakah penghilangan ini adalah keputusan yang tepat.</p>
+<ul>
+<li><strong>Async</strong>: Signals selalu tersedia secara sinkron untuk evaluasi, dalam model ini. Namun, sering kali berguna untuk memiliki proses asinkron tertentu yang menyebabkan sebuah signal diset, dan untuk mengetahui kapan sebuah signal masih dalam keadaan &quot;loading&quot;. Salah satu cara sederhana untuk memodelkan keadaan loading adalah dengan pengecualian (exception), dan perilaku caching exception pada computed signal cukup masuk akal dikombinasikan dengan teknik ini. Teknik yang lebih baik dibahas di <a href="https://github.com/proposal-signals/proposal-signals/issues/30">Issue #30</a>.</li>
+<li><strong>Transactions</strong>: Untuk transisi antar tampilan, sering kali berguna untuk mempertahankan status aktif untuk kedua state &quot;from&quot; dan &quot;to&quot;. State &quot;to&quot; dirender di latar belakang, hingga siap untuk diubah (commit transaction), sementara state &quot;from&quot; tetap interaktif. Mempertahankan kedua state secara bersamaan memerlukan &quot;forking&quot; state dari grafik signal, dan mungkin juga berguna untuk mendukung beberapa transisi yang sedang berjalan sekaligus. Diskusi di <a href="https://github.com/proposal-signals/proposal-signals/issues/73">Issue #73</a>.</li>
+</ul>
+<p>Beberapa <a href="https://github.com/proposal-signals/proposal-signals/issues/32">metode kemudahan</a> juga dihilangkan.</p>
+<h2>Status dan rencana pengembangan</h2>
+<p>Proposal ini ada dalam agenda TC39 April 2024 untuk Tahap 1. Saat ini dapat dianggap sebagai &quot;Tahap 0&quot;.</p>
+<p><a href="https://github.com/proposal-signals/signal-polyfill">Sebuah polyfill</a> untuk proposal ini tersedia, dengan beberapa pengujian dasar. Beberapa penulis framework telah mulai bereksperimen dengan mengganti implementasi signal ini, namun penggunaannya masih dalam tahap awal.</p>
+<p>Kolaborator pada proposal Signal ingin menjadi sangat <strong>konservatif</strong> dalam mendorong proposal ini ke depan, agar tidak terjebak dalam situasi di mana sesuatu sudah dirilis namun akhirnya disesali dan tidak benar-benar digunakan. Rencana kami adalah melakukan tugas-tugas tambahan berikut, yang tidak diwajibkan oleh proses TC39, untuk memastikan bahwa proposal ini berada di jalur yang benar:</p>
+<p>Sebelum mengajukan ke Tahap 2, kami berencana untuk:</p>
+<ul>
+<li>Mengembangkan beberapa implementasi polyfill tingkat produksi yang solid, diuji dengan baik (misalnya, lulus pengujian dari berbagai framework serta pengujian bergaya test262), dan kompetitif dalam hal performa (sebagaimana diverifikasi dengan rangkaian benchmark signal/framework yang menyeluruh).</li>
+<li>Mengintegrasikan API Signal yang diusulkan ke dalam sejumlah besar framework JS yang kami anggap cukup representatif, dan beberapa aplikasi besar bekerja dengan dasar ini. Menguji bahwa ia bekerja secara efisien dan benar dalam konteks-konteks tersebut.</li>
+<li>Memiliki pemahaman yang solid tentang ruang kemungkinan ekstensi API, dan telah menyimpulkan mana (jika ada) yang harus ditambahkan ke proposal ini.</li>
+</ul>
+<h2>Algoritme Signal</h2>
+<p>Bagian ini menjelaskan masing-masing API yang diekspos ke JavaScript, dalam hal algoritme yang mereka implementasikan. Ini dapat dianggap sebagai proto-spesifikasi, dan disertakan pada tahap awal ini untuk menentukan satu set kemungkinan semantik, sambil tetap sangat terbuka untuk perubahan.</p>
+<p>Beberapa aspek dari algoritme:</p>
+<ul>
+<li>Urutan pembacaan Signal dalam sebuah computed itu signifikan, dan dapat diamati dalam urutan callback tertentu (yang mana <code>Watcher</code> dipanggil, <code>equals</code>, parameter pertama ke <code>new Signal.Computed</code>, dan callback <code>watched</code>/<code>unwatched</code>) dieksekusi. Artinya, sumber dari computed Signal harus disimpan secara berurutan.</li>
+<li>Keempat callback ini semuanya mungkin melempar pengecualian, dan pengecualian ini diteruskan dengan cara yang dapat diprediksi ke kode JS pemanggil. Pengecualian <em>tidak</em> menghentikan eksekusi algoritme ini atau membuat grafik dalam keadaan setengah proses. Untuk error yang dilempar dalam callback <code>notify</code> dari Watcher, pengecualian tersebut dikirim ke pemanggilan <code>.set()</code> yang memicunya, menggunakan AggregateError jika beberapa pengecualian dilempar. Yang lainnya (termasuk <code>watched</code>/<code>unwatched</code>?) disimpan dalam nilai Signal, untuk dilempar ulang saat dibaca, dan Signal yang dilempar ulang seperti itu dapat ditandai <code>~clean~</code> seperti halnya dengan nilai normal lainnya.</li>
+<li>Perhatian diberikan untuk menghindari sirkularitas dalam kasus computed signal yang tidak &quot;watched&quot; (diamati oleh Watcher manapun), sehingga dapat dikoleksi sampah (garbage collected) secara independen dari bagian lain grafik signal. Secara internal, ini dapat diimplementasikan dengan sistem nomor generasi yang selalu dikoleksi; perlu dicatat bahwa implementasi yang dioptimalkan mungkin juga mencakup nomor generasi lokal per-node, atau menghindari pelacakan beberapa nomor pada signal yang sedang diawasi.</li>
+</ul>
+<h3>Status global tersembunyi</h3>
+<p>Algoritme Signal perlu mereferensikan status global tertentu. Status ini bersifat global untuk seluruh thread, atau &quot;agent&quot;.</p>
+<ul>
+<li><code>computing</code>: Computed atau Effect Signal terdalam yang sedang dievaluasi ulang karena pemanggilan <code>.get</code> atau <code>.run</code>, atau <code>null</code>. Awalnya <code>null</code>.</li>
+<li><code>frozen</code>: Boolean yang menunjukkan apakah saat ini ada callback yang sedang dieksekusi yang mengharuskan grafik tidak dimodifikasi. Awalnya <code>false</code>.</li>
+<li><code>generation</code>: Integer yang meningkat, mulai dari 0, digunakan untuk melacak seberapa mutakhir sebuah nilai sambil menghindari sirkularitas.</li>
+</ul>
+<h3>Namespace <code>Signal</code></h3>
+<p><code>Signal</code> adalah objek biasa yang berfungsi sebagai namespace untuk kelas dan fungsi terkait Signal.</p>
+<p><code>Signal.subtle</code> adalah objek namespace dalam yang serupa.</p>
+<h3>Kelas <code>Signal.State</code></h3>
+<h4>Slot internal <code>Signal.State</code></h4>
+<ul>
+<li><code>value</code>: Nilai saat ini dari state signal</li>
+<li><code>equals</code>: Fungsi pembanding yang digunakan saat mengubah nilai</li>
+<li><code>watched</code>: Callback yang dipanggil ketika signal mulai diamati oleh efek</li>
+<li><code>unwatched</code>: Callback yang dipanggil ketika signal tidak lagi diamati oleh efek</li>
+<li><code>sinks</code>: Set dari signal yang sedang diawasi yang bergantung pada signal ini</li>
+</ul>
+<h4>Konstruktor: <code>Signal.State(initialValue, options)</code></h4>
+<ol>
+<li>Set nilai <code>value</code> Signal ini ke <code>initialValue</code>.</li>
+<li>Set <code>equals</code> Signal ini ke options?.equals</li>
+<li>Set <code>watched</code> Signal ini ke options?.[Signal.subtle.watched]</li>
+<li>Set <code>unwatched</code> Signal ini ke options?.[Signal.subtle.unwatched]</li>
+<li>Set <code>sinks</code> Signal ini ke set kosong</li>
+</ol>
+<h4>Metode: <code>Signal.State.prototype.get()</code></h4>
+<ol>
+<li>Jika <code>frozen</code> bernilai true, lempar pengecualian.</li>
+<li>Jika <code>computing</code> tidak <code>undefined</code>, tambahkan Signal ini ke set <code>sources</code> milik <code>computing</code>.</li>
+<li>CATATAN: Kita tidak menambahkan <code>computing</code> ke set <code>sinks</code> Signal ini sampai diawasi oleh Watcher.</li>
+<li>Kembalikan nilai <code>value</code> Signal ini.</li>
+</ol>
+<h4>Metode: <code>Signal.State.prototype.set(newValue)</code></h4>
+<ol>
+<li>Jika konteks eksekusi saat ini adalah <code>frozen</code>, lempar pengecualian.</li>
+<li>Jalankan algoritme &quot;set Signal value&quot; dengan Signal ini dan parameter pertama sebagai nilainya.</li>
+<li>Jika algoritme tersebut mengembalikan <code>~clean~</code>, maka kembalikan undefined.</li>
+<li>Set <code>state</code> semua <code>sinks</code> dari Signal ini menjadi (jika sebuah Computed Signal) <code>~dirty~</code> jika sebelumnya bersih, atau (jika sebuah Watcher) <code>~pending~</code> jika sebelumnya <code>~watching~</code>.</li>
+<li>Set <code>state</code> semua dependensi Computed Signal dari sinks (secara rekursif) menjadi <code>~checked~</code> jika sebelumnya <code>~clean~</code> (artinya, biarkan penandaan dirty tetap ada), atau untuk Watcher, <code>~pending~</code> jika sebelumnya <code>~watching~</code>.</li>
+<li>Untuk setiap Watcher yang sebelumnya <code>~watching~</code> yang ditemukan dalam pencarian rekursif tersebut, lalu dalam urutan depth-first,
+<ol>
+<li>Set <code>frozen</code> menjadi true.</li>
+<li>Panggil callback <code>notify</code> mereka (simpan pengecualian yang dilempar, tetapi abaikan nilai pengembalian dari <code>notify</code>).</li>
+<li>Kembalikan <code>frozen</code> menjadi false.</li>
+<li>Set <code>state</code> Watcher menjadi <code>~waiting~</code>.</li>
+</ol>
+</li>
+<li>Jika ada pengecualian yang dilempar dari callback <code>notify</code>, propagasikan ke pemanggil setelah semua callback <code>notify</code> dijalankan. Jika ada beberapa pengecualian, maka gabungkan menjadi AggregateError dan lempar itu.</li>
+<li>Kembalikan undefined.</li>
+</ol>
+<h3>Kelas <code>Signal.Computed</code></h3>
+<h4>State machine <code>Signal.Computed</code></h4>
+<p>Status <code>state</code> dari Computed Signal dapat berupa salah satu dari berikut:</p>
+<ul>
+<li><code>~clean~</code>: Nilai Signal ada dan diketahui tidak usang.</li>
+<li><code>~checked~</code>: Sumber (tidak langsung) dari Signal ini telah berubah; Signal ini memiliki nilai tetapi <em>mungkin</em> usang. Apakah nilainya usang atau tidak hanya akan diketahui setelah semua sumber langsung dievaluasi.</li>
+<li><code>~computing~</code>: Callback Signal ini sedang dieksekusi sebagai efek samping dari pemanggilan <code>.get()</code>.</li>
+<li><code>~dirty~</code>: Signal ini memiliki nilai yang diketahui usang, atau belum pernah dievaluasi.</li>
+</ul>
+<p>Graf transisi adalah sebagai berikut:</p>
+<pre><code class="language-mermaid">stateDiagram-v2
+    [*] --&gt; dirty
+    dirty --&gt; computing: [4]
+    computing --&gt; clean: [5]
+    clean --&gt; dirty: [2]
+    clean --&gt; checked: [3]
+    checked --&gt; clean: [6]
+    checked --&gt; dirty: [1]
+</code></pre>
+<p>Transisi-transisinya adalah:
+| Nomor | Dari | Ke | Kondisi | Algoritma |
+| ----- | ---- | -- | ------- | --------- |
+| 1 | <code>~checked~</code> | <code>~dirty~</code> | Sumber langsung dari signal ini, yang merupakan computed signal, telah dievaluasi, dan nilainya berubah. | Algoritma: hitung ulang dirty computed Signal |
+| 2 | <code>~clean~</code> | <code>~dirty~</code> | Sumber langsung dari signal ini, yang merupakan State, telah di-set, dengan nilai yang tidak sama dengan nilai sebelumnya. | Metode: <code>Signal.State.prototype.set(newValue)</code> |
+| 3 | <code>~clean~</code> | <code>~checked~</code> | Sumber rekursif, tapi bukan langsung, dari signal ini, yang merupakan State, telah di-set, dengan nilai yang tidak sama dengan nilai sebelumnya. | Metode: <code>Signal.State.prototype.set(newValue)</code> |
+| 4 | <code>~dirty~</code> | <code>~computing~</code> | Akan mengeksekusi <code>callback</code>. | Algoritma: hitung ulang dirty computed Signal |
+| 5 | <code>~computing~</code> | <code>~clean~</code> | <code>callback</code> telah selesai dievaluasi dan mengembalikan nilai atau melempar exception. | Algoritma: hitung ulang dirty computed Signal |
+| 6 | <code>~checked~</code> | <code>~clean~</code> | Semua sumber langsung dari signal ini telah dievaluasi, dan semuanya tidak berubah, sehingga sekarang diketahui tidak usang. | Algoritma: hitung ulang dirty computed Signal |</p>
+<h4>Slot internal <code>Signal.Computed</code></h4>
+<ul>
+<li><code>value</code>: Nilai cache sebelumnya dari Signal, atau <code>~uninitialized~</code> untuk computed Signal yang belum pernah dibaca. Nilai bisa berupa exception yang akan dilempar ulang saat nilai dibaca. Selalu <code>undefined</code> untuk effect signals.</li>
+<li><code>state</code>: Dapat berupa <code>~clean~</code>, <code>~checked~</code>, <code>~computing~</code>, atau <code>~dirty~</code>.</li>
+<li><code>sources</code>: Set berurutan dari Signals yang menjadi dependensi Signal ini.</li>
+<li><code>sinks</code>: Set berurutan dari Signals yang bergantung pada Signal ini.</li>
+<li><code>equals</code>: Metode equals yang disediakan dalam opsi.</li>
+<li><code>callback</code>: Callback yang dipanggil untuk mendapatkan nilai computed Signal. Diatur ke parameter pertama yang diberikan ke konstruktor.</li>
+</ul>
+<h4>Konstruktor <code>Signal.Computed</code></h4>
+<p>Konstruktor mengatur</p>
+<ul>
+<li><code>callback</code> ke parameter pertamanya</li>
+<li><code>equals</code> berdasarkan opsi, default ke <code>Object.is</code> jika tidak ada</li>
+<li><code>state</code> ke <code>~dirty~</code></li>
+<li><code>value</code> ke <code>~uninitialized~</code></li>
+</ul>
+<p>Dengan <a href="https://github.com/tc39/proposal-async-context">AsyncContext</a>, callback yang diberikan ke <code>new Signal.Computed</code> menutup snapshot dari saat konstruktor dipanggil, dan mengembalikan snapshot ini selama eksekusinya.</p>
+<h4>Metode: <code>Signal.Computed.prototype.get</code></h4>
+<ol>
+<li>Jika context eksekusi saat ini adalah <code>frozen</code> atau jika Signal ini memiliki state <code>~computing~</code>, atau jika signal ini adalah Watcher dan sedang <code>computing</code> sebuah computed Signal, lempar exception.</li>
+<li>Jika <code>computing</code> bukan <code>null</code>, tambahkan Signal ini ke set <code>sources</code> milik <code>computing</code>.</li>
+<li>CATATAN: Kita tidak menambahkan <code>computing</code> ke set <code>sinks</code> Signal ini sampai/selama belum menjadi watched oleh Watcher.</li>
+<li>Jika state Signal ini adalah <code>~dirty~</code> atau <code>~checked~</code>: Ulangi langkah berikut sampai Signal ini <code>~clean~</code>:
+<ol>
+<li>Rekursi ke atas melalui <code>sources</code> untuk menemukan sumber rekursif terdalam, paling kiri (yaitu yang diamati paling awal) yang merupakan Computed Signal bertanda <code>~dirty~</code> (hentikan pencarian saat menemukan Computed Signal <code>~clean~</code>, dan sertakan Computed Signal ini sebagai pencarian terakhir).</li>
+<li>Lakukan algoritma &quot;hitung ulang dirty computed Signal&quot; pada Signal tersebut.</li>
+</ol>
+</li>
+<li>Pada titik ini, state Signal ini akan <code>~clean~</code>, dan tidak ada sumber rekursif yang <code>~dirty~</code> atau <code>~checked~</code>. Kembalikan <code>value</code> Signal ini. Jika nilainya adalah exception, lempar ulang exception tersebut.</li>
+</ol>
+<h3>Kelas <code>Signal.subtle.Watcher</code></h3>
+<h4>State machine <code>Signal.subtle.Watcher</code></h4>
+<p><code>state</code> dari Watcher dapat berupa salah satu dari berikut:</p>
+<ul>
+<li><code>~waiting~</code>: Callback <code>notify</code> telah dijalankan, atau Watcher baru, namun belum secara aktif mengamati signal apapun.</li>
+<li><code>~watching~</code>: Watcher sedang aktif mengamati signals, namun belum ada perubahan yang memerlukan callback <code>notify</code>.</li>
+<li><code>~pending~</code>: Salah satu dependensi Watcher telah berubah, namun callback <code>notify</code> belum dijalankan.</li>
+</ul>
+<p>Graf transisi adalah sebagai berikut:</p>
+<pre><code class="language-mermaid">stateDiagram-v2
+    [*] --&gt; waiting
+    waiting --&gt; watching: [1]
+    watching --&gt; waiting: [2]
+    watching --&gt; pending: [3]
+    pending --&gt; waiting: [4]
+</code></pre>
+<p>Transisi-transisinya adalah:
+| Nomor | Dari | Ke | Kondisi | Algoritma |
+| ----- | ---- | -- | ------- | --------- |
+| 1 | <code>~waiting~</code> | <code>~watching~</code> | Metode <code>watch</code> milik Watcher telah dipanggil. | Metode: <code>Signal.subtle.Watcher.prototype.watch(...signals)</code> |
+| 2 | <code>~watching~</code> | <code>~waiting~</code> | Metode <code>unwatch</code> milik Watcher telah dipanggil, dan signal terakhir yang diamati telah dihapus. | Metode: <code>Signal.subtle.Watcher.prototype.unwatch(...signals)</code> |
+| 3 | <code>~watching~</code> | <code>~pending~</code> | Signal yang diamati kemungkinan telah berubah nilai. | Metode: <code>Signal.State.prototype.set(newValue)</code> |
+| 4 | <code>~pending~</code> | <code>~waiting~</code> | Callback <code>notify</code> telah dijalankan. | Metode: <code>Signal.State.prototype.set(newValue)</code> |</p>
+<h4>Slot internal <code>Signal.subtle.Watcher</code></h4>
+<ul>
+<li><code>state</code>: Dapat berupa <code>~watching~</code>, <code>~pending~</code> atau <code>~waiting~</code></li>
+<li><code>signals</code>: Set berurutan dari Signals yang sedang diamati oleh Watcher ini</li>
+<li><code>notifyCallback</code>: Callback yang dipanggil ketika ada perubahan. Diatur ke parameter pertama yang diberikan ke konstruktor.</li>
+</ul>
+<h4>Konstruktor: <code>new Signal.subtle.Watcher(callback)</code></h4>
+<ol>
+<li><code>state</code> diatur ke <code>~waiting~</code>.</li>
+<li>Inisialisasi <code>signals</code> sebagai set kosong.</li>
+<li><code>notifyCallback</code> diatur ke parameter callback.
+Dengan <a href="https://github.com/tc39/proposal-async-context">AsyncContext</a>, callback yang diberikan ke <code>new Signal.subtle.Watcher</code> <em>tidak</em> menutup snapshot dari saat konstruktor dipanggil, sehingga informasi kontekstual di sekitar penulisan dapat terlihat.</li>
+</ol>
+<h4>Metode: <code>Signal.subtle.Watcher.prototype.watch(...signals)</code></h4>
+<ol>
+<li>Jika <code>frozen</code> bernilai true, lemparkan sebuah exception.</li>
+<li>Jika salah satu argumen bukan sebuah signal, lemparkan sebuah exception.</li>
+<li>Tambahkan semua argumen ke akhir <code>signals</code> objek ini.</li>
+<li>Untuk setiap signal yang baru dipantau, dari kiri ke kanan,
+<ol>
+<li>Tambahkan watcher ini sebagai <code>sink</code> ke signal tersebut.</li>
+<li>Jika ini adalah sink pertama, lakukan rekursi ke sumber untuk menambahkan signal itu sebagai sink.</li>
+<li>Setel <code>frozen</code> ke true.</li>
+<li>Panggil callback <code>watched</code> jika ada.</li>
+<li>Kembalikan <code>frozen</code> ke false.</li>
+</ol>
+</li>
+<li>Jika <code>state</code> Signal adalah <code>~waiting~</code>, maka setel menjadi <code>~watching~</code>.</li>
+</ol>
+<h4>Metode: <code>Signal.subtle.Watcher.prototype.unwatch(...signals)</code></h4>
+<ol>
+<li>Jika <code>frozen</code> bernilai true, lemparkan sebuah exception.</li>
+<li>Jika salah satu argumen bukan sebuah signal, atau tidak sedang dipantau oleh watcher ini, lemparkan sebuah exception.</li>
+<li>Untuk setiap signal dalam argumen, dari kiri ke kanan,
+<ol>
+<li>Hapus signal tersebut dari set <code>signals</code> milik Watcher ini.</li>
+<li>Hapus Watcher ini dari set <code>sink</code> milik Signal tersebut.</li>
+<li>Jika set <code>sink</code> milik Signal itu menjadi kosong, hapus Signal itu sebagai sink dari setiap sumbernya.</li>
+<li>Setel <code>frozen</code> ke true.</li>
+<li>Panggil callback <code>unwatched</code> jika ada.</li>
+<li>Kembalikan <code>frozen</code> ke false.</li>
+</ol>
+</li>
+<li>Jika watcher sekarang tidak memiliki <code>signals</code>, dan <code>state</code>-nya adalah <code>~watching~</code>, maka setel menjadi <code>~waiting~</code>.</li>
+</ol>
+<h4>Metode: <code>Signal.subtle.Watcher.prototype.getPending()</code></h4>
+<ol>
+<li>Kembalikan sebuah Array yang berisi subset dari <code>signals</code> yang merupakan Computed Signals dalam state <code>~dirty~</code> atau <code>~pending~</code>.</li>
+</ol>
+<h3>Metode: <code>Signal.subtle.untrack(cb)</code></h3>
+<ol>
+<li>Biarkan <code>c</code> sebagai state <code>computing</code> saat ini dari context eksekusi.</li>
+<li>Setel <code>computing</code> ke null.</li>
+<li>Panggil <code>cb</code>.</li>
+<li>Kembalikan <code>computing</code> ke <code>c</code> (meskipun <code>cb</code> melempar exception).</li>
+<li>Kembalikan nilai return dari <code>cb</code> (melempar ulang exception jika ada).</li>
+</ol>
+<p>Catatan: untrack tidak membuatmu keluar dari state <code>frozen</code>, yang dijaga secara ketat.</p>
+<h3>Metode: <code>Signal.subtle.currentComputed()</code></h3>
+<ol>
+<li>Kembalikan nilai <code>computing</code> saat ini.</li>
+</ol>
+<h3>Algoritma umum</h3>
+<h5>Algoritma: menghitung ulang Signal computed yang dirty</h5>
+<ol>
+<li>Kosongkan set <code>sources</code> milik Signal ini, dan hapus Signal ini dari set <code>sinks</code> milik sumber-sumber tersebut.</li>
+<li>Simpan nilai <code>computing</code> sebelumnya dan setel <code>computing</code> ke Signal ini.</li>
+<li>Setel state Signal ini menjadi <code>~computing~</code>.</li>
+<li>Jalankan callback Signal computed ini, menggunakan Signal ini sebagai nilai this. Simpan nilai return-nya, dan jika callback melempar exception, simpan exception tersebut untuk dilempar ulang.</li>
+<li>Kembalikan nilai <code>computing</code> sebelumnya.</li>
+<li>Terapkan algoritma &quot;set Signal value&quot; pada nilai return callback.</li>
+<li>Setel state Signal ini menjadi <code>~clean~</code>.</li>
+<li>Jika algoritma itu mengembalikan <code>~dirty~</code>: tandai semua sink dari Signal ini sebagai <code>~dirty~</code> (sebelumnya, sink bisa jadi campuran antara checked dan dirty). (Atau, jika ini tidak dipantau, adopsi nomor generasi baru untuk menandai kekotoran, atau sesuatu seperti itu.)</li>
+<li>Jika tidak, algoritma itu mengembalikan <code>~clean~</code>: Dalam kasus ini, untuk setiap sink <code>~checked~</code> dari Signal ini, jika semua sumber Signal itu sekarang bersih, maka tandai Signal itu sebagai <code>~clean~</code> juga. Terapkan langkah pembersihan ini ke sink lebih lanjut secara rekursif, ke Signal yang baru saja bersih yang memiliki sink checked. (Atau, jika ini tidak dipantau, berikan indikasi yang sama, sehingga pembersihan dapat dilakukan secara lazy.)</li>
+</ol>
+<h5>Algoritma set Signal value</h5>
+<ol>
+<li>Jika algoritma ini diberikan sebuah nilai (bukan exception untuk dilempar ulang, dari algoritma recalculate dirty computed Signal):
+<ol>
+<li>Panggil fungsi <code>equals</code> milik Signal ini, dengan parameter <code>value</code> saat ini, nilai baru, dan Signal ini. Jika terjadi exception, simpan exception tersebut (untuk dilempar saat dibaca) sebagai nilai Signal dan lanjutkan seolah-olah callback mengembalikan false.</li>
+<li>Jika fungsi tersebut mengembalikan true, kembalikan <code>~clean~</code>.</li>
+</ol>
+</li>
+<li>Setel <code>value</code> dari Signal ini ke parameter.</li>
+<li>Kembalikan <code>~dirty~</code></li>
+</ol>
+<h2>FAQ</h2>
+<p><strong>T:</strong> Bukankah terlalu cepat untuk melakukan standarisasi sesuatu yang berkaitan dengan Signals, padahal mereka baru mulai populer pada tahun 2022? Bukankah sebaiknya kita memberi mereka lebih banyak waktu untuk berkembang dan stabil?</p>
+<p><strong>J:</strong> Keadaan Signals saat ini di framework web adalah hasil dari lebih dari 10 tahun pengembangan berkelanjutan. Seiring meningkatnya investasi, seperti yang terjadi dalam beberapa tahun terakhir, hampir semua framework web mendekati model inti Signals yang sangat mirip. Proposal ini adalah hasil dari latihan desain bersama antara banyak pemimpin framework web saat ini, dan tidak akan didorong ke proses standarisasi tanpa validasi dari kelompok pakar domain tersebut di berbagai konteks.</p>
+<h4>Bagaimana Signals digunakan?</h4>
+<p><strong>T:</strong> Apakah Signals bawaan bahkan bisa digunakan oleh framework, mengingat integrasi mereka yang erat dengan rendering dan kepemilikan?</p>
+<p><strong>J:</strong> Bagian yang lebih spesifik framework cenderung berada di area efek, penjadwalan, dan kepemilikan/penghapusan, yang tidak dicoba untuk dipecahkan oleh proposal ini. Prioritas utama kami dengan prototipe Signals standar adalah memvalidasi bahwa mereka dapat duduk &quot;di bawah&quot; framework yang ada secara kompatibel dan dengan performa baik.</p>
+<p><strong>T:</strong> Apakah API Signal memang dimaksudkan untuk digunakan langsung oleh pengembang aplikasi, atau dibungkus oleh framework?</p>
+<p><strong>J:</strong> Meski API ini bisa digunakan langsung oleh pengembang aplikasi (setidaknya bagian yang tidak berada di namespace <code>Signal.subtle</code>), ia tidak didesain agar sangat ergonomis. Sebaliknya, kebutuhan penulis library/framework menjadi prioritas. Sebagian besar framework diharapkan membungkus bahkan API dasar seperti <code>Signal.State</code> dan <code>Signal.Computed</code> dengan sesuatu yang lebih ergonomis menurut gaya mereka. Dalam praktiknya, biasanya terbaik menggunakan Signals melalui framework, yang mengelola fitur yang lebih rumit (misal, Watcher, <code>untrack</code>), serta mengatur kepemilikan dan penghapusan (misal, menentukan kapan signals harus ditambahkan dan dihapus dari watcher), dan penjadwalan rendering ke DOM—proposal ini tidak berusaha menyelesaikan masalah-masalah tersebut.</p>
+<p><strong>T:</strong> Apakah saya harus membongkar Signals yang terkait dengan sebuah widget ketika widget itu dihancurkan? Apa API-nya untuk itu?</p>
+<p><strong>J:</strong> Operasi teardown yang relevan di sini adalah <code>Signal.subtle.Watcher.prototype.unwatch</code>. Hanya Signals yang dipantau yang perlu dibersihkan (dengan unwatch), sementara Signals yang tidak dipantau bisa di-garbage collect secara otomatis.</p>
+<p><strong>T:</strong> Apakah Signals bekerja dengan VDOM, atau langsung dengan HTML DOM yang mendasarinya?</p>
+<p><strong>J:</strong> Ya! Signals independen dari teknologi rendering. Framework JavaScript yang sudah ada dan menggunakan konstruksi seperti Signal dapat terintegrasi dengan VDOM (misal, Preact), native DOM (misal, Solid) dan kombinasi (misal, Vue). Hal yang sama juga akan mungkin dengan Signals bawaan.</p>
+<p><strong>T:</strong> Apakah akan ergonomis menggunakan Signals dalam konteks framework berbasis kelas seperti Angular dan Lit? Bagaimana dengan framework berbasis compiler seperti Svelte?</p>
+<p><strong>J:</strong> Field pada class bisa dibuat berbasis Signal dengan decorator accessor sederhana, seperti yang ditunjukkan dalam <a href="https://github.com/proposal-signals/signal-polyfill#combining-signals-and-decorators">readme Signal polyfill</a>. Signals sangat selaras dengan Runes di Svelte 5—sangat mudah bagi compiler untuk mengubah runes menjadi API Signal yang didefinisikan di sini, dan faktanya itulah yang dilakukan Svelte 5 secara internal (tetapi dengan library Signals milik mereka sendiri).</p>
+<p><strong>T:</strong> Apakah Signals bekerja dengan SSR? Hydration? Resumability?</p>
+<p><strong>J:</strong> Ya. Qwik menggunakan Signals dengan baik untuk kedua properti ini, dan framework lain memiliki pendekatan lain yang juga sudah matang untuk hydration dengan Signals dengan berbagai trade-off. Kami yakin bahwa memungkinkan untuk memodelkan Signals Qwik yang resumable menggunakan State dan Computed signal yang dihubungkan bersama, dan berencana membuktikannya dalam kode.
+<strong>Q</strong>: Apakah Signals bekerja dengan alur data satu arah seperti React?</p>
+<p><strong>A</strong>: Ya, Signals adalah mekanisme untuk alur data satu arah. Framework UI berbasis Signal memungkinkan Anda mengekspresikan tampilan sebagai fungsi dari model (di mana model menggabungkan Signals). Grafik dari state dan computed Signals bersifat asiklik secara konstruksi. Juga memungkinkan untuk mereplikasi antipola React di dalam Signals (!), misalnya, padanan Signal dari <code>setState</code> di dalam <code>useEffect</code> adalah menggunakan Watcher untuk menjadwalkan penulisan ke signal State.</p>
+<p><strong>Q</strong>: Bagaimana hubungan signals dengan sistem manajemen state seperti Redux? Apakah signals mendorong state yang tidak terstruktur?</p>
+<p><strong>A</strong>: Signals dapat menjadi basis yang efisien untuk abstraksi manajemen state seperti store. Pola umum yang ditemukan di beberapa framework adalah objek berbasis Proxy yang secara internal merepresentasikan properti menggunakan Signals, misalnya <a href="https://vuejs.org/api/reactivity-core.html#reactive">Vue <code>reactive()</code></a>, atau <a href="https://docs.solidjs.com/concepts/stores">Solid stores</a>. Sistem-sistem ini memungkinkan pengelompokan state yang fleksibel pada tingkat abstraksi yang tepat sesuai aplikasi tertentu.</p>
+<p><strong>Q</strong>: Apa yang ditawarkan Signals yang saat ini tidak dapat ditangani oleh <code>Proxy</code>?</p>
+<p><strong>A</strong>: Proxy dan Signals bersifat saling melengkapi dan sangat cocok digunakan bersama. Proxy memungkinkan Anda mencegat operasi objek secara dangkal, dan signals mengoordinasikan grafik dependensi (sel). Menggunakan Signals sebagai backend Proxy adalah cara yang bagus untuk membuat struktur reaktif bersarang dengan ergonomi yang baik.</p>
+<p>Pada contoh ini, kita dapat menggunakan proxy untuk membuat signal memiliki properti getter dan setter daripada menggunakan metode <code>get</code> dan <code>set</code>:</p>
+<pre><code class="language-js">const a = new Signal.State(0);
+const b = new Proxy(a, {
+  get(target, property, receiver) {
+    if (property === 'value') {
+      return target.get():
+    }
+  }
+  set(target, property, value, receiver) {
+    if (property === 'value') {
+      target.set(value)!
+    }
+  }
+});
+
+// penggunaan dalam konteks reaktif hipotetis:
+&lt;template&gt;
+  {b.value}
+
+  &lt;button onclick={() =&gt; {
+    b.value++;
+  }}&gt;change&lt;/button&gt;
+&lt;/template&gt;
+</code></pre>
+<p>ketika menggunakan renderer yang dioptimalkan untuk reaktivitas granular, menekan tombol akan menyebabkan sel <code>b.value</code> diperbarui.</p>
+<p>Lihat:</p>
+<ul>
+<li>contoh struktur reaktif bersarang yang dibuat dengan Signals dan Proxy: <a href="https://github.com/NullVoxPopuli/signal-utils/tree/main/src">signal-utils</a></li>
+<li>contoh implementasi sebelumnya yang menunjukkan hubungan antara data reaktif dan proxy: <a href="https://github.com/tracked-tools/tracked-built-ins/tree/master/addon/src/-private">tracked-built-ins</a></li>
+<li><a href="https://github.com/proposal-signals/proposal-signals/issues/101#issuecomment-2029802574">diskusi</a>.</li>
+</ul>
+<h4>Bagaimana cara kerja Signals?</h4>
+<p><strong>Q</strong>: Apakah Signals berbasis push atau pull?</p>
+<p><strong>A</strong>: Evaluasi computed Signals bersifat pull-based: computed Signals hanya dievaluasi saat <code>.get()</code> dipanggil, meskipun state dasarnya telah berubah jauh lebih awal. Pada saat yang sama, mengubah state signal dapat langsung memicu callback Watcher, &quot;mendorong&quot; notifikasi. Jadi Signals bisa dianggap sebagai konstruksi &quot;push-pull&quot;.</p>
+<p><strong>Q</strong>: Apakah Signals memperkenalkan nondeterminisme ke dalam eksekusi JavaScript?</p>
+<p><strong>A</strong>: Tidak. Pertama, semua operasi Signal memiliki semantik dan urutan yang terdefinisi dengan baik, dan tidak akan berbeda di antara implementasi yang sesuai. Pada tingkat yang lebih tinggi, Signals mengikuti sejumlah invarian tertentu, yang terhadapnya mereka &quot;sound&quot;. Sebuah computed Signal selalu mengamati grafik Signal dalam keadaan konsisten, dan eksekusinya tidak terganggu oleh kode lain yang memodifikasi Signal (kecuali hal-hal yang dipanggil oleh dirinya sendiri). Lihat deskripsi di atas.</p>
+<p><strong>Q</strong>: Ketika saya menulis ke state Signal, kapan update ke computed Signal dijadwalkan?</p>
+<p><strong>A</strong>: Tidak dijadwalkan! Computed Signal akan menghitung ulang sendiri saat berikutnya seseorang membacanya. Secara sinkron, callback <code>notify</code> Watcher dapat dipanggil, sehingga framework dapat menjadwalkan pembacaan pada waktu yang dianggap sesuai.</p>
+<p><strong>Q</strong>: Kapan penulisan ke state Signals berlaku? Langsung, atau dikelompokkan (batched)?</p>
+<p><strong>A</strong>: Penulisan ke state Signals langsung tercermin—pada saat berikutnya computed Signal yang bergantung pada state Signal tersebut dibaca, ia akan menghitung ulang dirinya sendiri jika diperlukan, bahkan jika pada baris kode berikutnya. Namun, sifat lazy dari mekanisme ini (bahwa computed Signals hanya dihitung saat dibaca) berarti bahwa, dalam praktiknya, perhitungan dapat terjadi secara batched.</p>
+<p><strong>Q</strong>: Apa arti Signals memungkinkan eksekusi &quot;bebas-glitch&quot;?</p>
+<p><strong>A</strong>: Model reaktivitas berbasis push sebelumnya menghadapi masalah komputasi berulang: Jika update pada state Signal menyebabkan computed Signal langsung dijalankan, pada akhirnya ini dapat mendorong update ke UI. Tapi penulisan ke UI ini bisa saja terlalu dini, jika akan ada perubahan lain pada state Signal asal sebelum frame berikutnya. Kadang, nilai antara yang tidak akurat bahkan ditampilkan ke pengguna karena <a href="https://en.wikipedia.org/wiki/Reactive_programming#Glitches">glitches</a> semacam itu. Signals menghindari dinamika ini dengan menjadi pull-based, bukan push-based: Pada saat framework menjadwalkan rendering UI, ia akan menarik update yang sesuai, menghindari pekerjaan yang sia-sia baik dalam komputasi maupun penulisan ke DOM.</p>
+<p><strong>Q</strong>: Apa arti Signals bersifat &quot;lossy&quot;?</p>
+<p><strong>A</strong>: Ini adalah sisi lain dari eksekusi bebas-glitch: Signals merepresentasikan sel data—hanya nilai saat ini (yang dapat berubah), bukan aliran data seiring waktu. Jadi, jika Anda menulis ke state Signal dua kali berturut-turut, tanpa melakukan apa pun, penulisan pertama akan &quot;hilang&quot; dan tidak pernah terlihat oleh computed Signals atau efek apa pun. Ini dianggap sebagai fitur, bukan bug—konstruk lain (misalnya, async iterable, observable) lebih cocok untuk aliran data.</p>
+<p><strong>Q</strong>: Apakah Signals native akan lebih cepat daripada implementasi Signal JS yang ada?</p>
+<p><strong>A</strong>: Kami berharap demikian (dengan faktor konstan yang kecil), tetapi ini masih perlu dibuktikan dalam kode. Mesin JS bukanlah sihir, dan pada akhirnya harus mengimplementasikan algoritma yang sama seperti implementasi JS dari Signals. Lihat bagian di atas tentang performa.</p>
+<h4>Mengapa Signals dirancang seperti ini?</h4>
+<p><strong>Q</strong>: Mengapa proposal ini tidak menyertakan fungsi <code>effect()</code>, padahal efek diperlukan untuk penggunaan Signals yang praktis?</p>
+<p><strong>A</strong>: Efek secara inheren berkaitan dengan penjadwalan dan pembuangan, yang dikelola oleh framework dan di luar cakupan proposal ini. Sebagai gantinya, proposal ini menyertakan dasar untuk mengimplementasikan efek melalui API tingkat rendah <code>Signal.subtle.Watcher</code>.</p>
+<p><strong>Q</strong>: Mengapa langganan bersifat otomatis dan tidak menyediakan antarmuka manual?</p>
+<p><strong>A</strong>: Pengalaman telah menunjukkan bahwa antarmuka langganan manual untuk reaktivitas tidak ergonomis dan rawan kesalahan. Pelacakan otomatis lebih dapat dikomposisi dan menjadi fitur inti dari Signals.</p>
+<p><strong>Q</strong>: Mengapa callback <code>Watcher</code> dijalankan secara sinkron, bukan dijadwalkan dalam microtask?</p>
+<p><strong>A</strong>: Karena callback tidak dapat membaca atau menulis Signals, tidak ada ketidakkonsistenan yang muncul dengan memanggilnya secara sinkron. Callback tipikal akan menambahkan Signal ke Array untuk dibaca nanti, atau menandai bit di suatu tempat. Tidak perlu dan tidak praktis untuk membuat microtask terpisah untuk semua tindakan semacam ini.</p>
+<p><strong>Q</strong>: API ini kurang beberapa hal menarik yang disediakan framework favorit saya, yang membuat pemrograman dengan Signals lebih mudah. Bisakah itu juga ditambahkan ke standar?</p>
+<p><strong>A</strong>: Mungkin. Berbagai ekstensi masih sedang dipertimbangkan. Silakan buat issue untuk mendiskusikan fitur yang Anda anggap penting jika tidak ada di sini.</p>
+<p><strong>Q</strong>: Bisakah API ini diperkecil ukuran atau kompleksitasnya?</p>
+<p><strong>A</strong>: Menjaga API ini tetap minimal memang menjadi tujuan, dan kami telah mencoba melakukannya seperti yang dipresentasikan di atas. Jika Anda punya ide untuk hal lain yang bisa dihapus, silakan buat issue untuk didiskusikan.</p>
+<h4>Bagaimana proses standarisasi Signals?</h4>
+<p><strong>Q</strong>: Bukankah kita sebaiknya memulai pekerjaan standarisasi di area ini dengan konsep yang lebih primitif, seperti observables?
+<strong>A</strong>: Observables mungkin merupakan ide yang baik untuk beberapa hal, tetapi mereka tidak menyelesaikan masalah yang ingin dipecahkan oleh Signals. Seperti dijelaskan di atas, observables atau mekanisme publish/subscribe lainnya bukanlah solusi lengkap untuk banyak jenis pemrograman UI, karena terlalu banyak pekerjaan konfigurasi yang rawan kesalahan bagi pengembang, serta pekerjaan yang terbuang akibat kurangnya sifat malas (laziness), dan masalah-masalah lainnya.</p>
+<p><strong>Q</strong>: Mengapa Signals diusulkan di TC39, bukan di DOM, mengingat sebagian besar penerapannya berbasis web?</p>
+<p><strong>A</strong>: Beberapa rekan penulis proposal ini tertarik pada lingkungan UI non-web sebagai tujuan, tetapi saat ini, kedua wadah tersebut mungkin sesuai, karena API web kini semakin sering diimplementasikan di luar web. Pada akhirnya, Signals tidak perlu bergantung pada API DOM apa pun, jadi keduanya bisa saja digunakan. Jika ada alasan kuat bagi grup ini untuk berpindah, silakan beri tahu kami melalui issue. Untuk saat ini, semua kontributor telah menandatangani perjanjian kekayaan intelektual TC39, dan rencananya adalah untuk mempresentasikan ini ke TC39.</p>
+<p><strong>Q</strong>: Berapa lama waktu yang dibutuhkan hingga saya bisa menggunakan Signals standar?</p>
+<p><strong>A</strong>: Polyfill sudah tersedia, tetapi sebaiknya jangan mengandalkan stabilitasnya, karena API ini masih berkembang selama proses peninjauannya. Dalam beberapa bulan atau satu tahun, polyfill yang stabil, berkualitas tinggi, dan berperforma tinggi seharusnya bisa digunakan, tetapi tetap akan tunduk pada revisi komite dan belum menjadi standar. Mengikuti trajektori tipikal proposal TC39, diperkirakan akan memakan waktu setidaknya 2-3 tahun sebagai waktu minimum mutlak agar Signals tersedia secara native di semua browser, bahkan untuk beberapa versi ke belakang, sehingga polyfill tidak lagi diperlukan.</p>
+<p><strong>Q</strong>: Bagaimana kita mencegah standarisasi jenis Signals yang salah terlalu cepat, seperti halnya {{fitur web JS yang tidak Anda sukai}}?</p>
+<p><strong>A</strong>: Penulis proposal ini berencana melakukan upaya ekstra dengan membuat prototipe dan melakukan pembuktian sebelum meminta kenaikan tahap di TC39. Lihat &quot;Status dan rencana pengembangan&quot; di atas. Jika Anda melihat adanya celah dalam rencana ini atau peluang untuk perbaikan, silakan ajukan issue dan jelaskan.</p>
+<hr />
+<p>Tranlated By <a href="https://github.com/OpenAiTx/OpenAiTx">Open Ai Tx</a> | Last indexed: 2025-06-28</p>
+<hr />
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>
