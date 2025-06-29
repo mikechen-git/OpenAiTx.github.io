@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SinGAN - tamarott/SinGAN zh-CN</title>
+    <meta name="title" content="SinGAN - tamarott/SinGAN zh-CN | SinGAN 项目 | Arxiv | CVF | 补充材料 | 报告 (ICCV`19) 论文官方 pytorch 实现：“SinGAN: Learning a Generative Model from a Single Natural Image” ICCV 2019 最佳论文奖（Marr 奖） 来自单张图像的随...">
+    <meta name="description" content="tamarott/SinGAN - GitHub repository zh-CN documentation and information | SinGAN 项目 | Arxiv | CVF | 补充材料 | 报告 (ICCV`19) 论文官方 pytorch 实现：“SinGAN: Learning a Generative Model from a Single Natural Image” ICCV 2019 最佳论文奖（Marr 奖） 来自单张图像的随...">
+    <meta name="keywords" content="tamarott, SinGAN, GitHub, repository, zh-CN documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/tamarott/SinGAN/README-zh-CN.html">
+    <meta property="og:title" content="SinGAN - tamarott/SinGAN zh-CN | SinGAN 项目 | Arxiv | CVF | 补充材料 | 报告 (ICCV`19) 论文官方 pytorch 实现：“SinGAN: Learning a Generative Model from a Single Natural Image” ICCV 2019 最佳论文奖（Marr 奖） 来自单张图像的随...">
+    <meta property="og:description" content="tamarott/SinGAN - GitHub repository zh-CN documentation and information | SinGAN 项目 | Arxiv | CVF | 补充材料 | 报告 (ICCV`19) 论文官方 pytorch 实现：“SinGAN: Learning a Generative Model from a Single Natural Image” ICCV 2019 最佳论文奖（Marr 奖） 来自单张图像的随...">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div style="position: fixed; top: 2px; left: 2px; z-index: 2000; background: rgba(255,255,255,0.95); border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 4px 14px; font-size: 15px; color: #222; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 500; letter-spacing: 0.5px;">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank" style="color: #0366d6; text-decoration: none; font-weight: 600;">Open AI Tx</a>
+    </div>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/tamarott/SinGAN" id="githubRepoLink" target="_blank">tamarott/SinGAN</a>
+<h1 style="display: none;">SinGAN 项目 | Arxiv | CVF | 补充材料 | 报告 (ICCV`19) 论文官方 pytorch 实现：“SinGAN: Learning a Generative Model from a Single Natural Image” ICCV 2019 最佳论文奖（Marr 奖） 来自单张图像的随...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>SinGAN</h1>
+<p><a href="https://tamarott.github.io/SinGAN.htm">项目</a> | <a href="https://arxiv.org/pdf/1905.01164.pdf">Arxiv</a> | <a href="http://openaccess.thecvf.com/content_ICCV_2019/papers/Shaham_SinGAN_Learning_a_Generative_Model_From_a_Single_Natural_Image_ICCV_2019_paper.pdf">CVF</a> | <a href="https://openaccess.thecvf.com/content_ICCV_2019/supplemental/Shaham_SinGAN_Learning_a_ICCV_2019_supplemental.pdf">补充材料</a> | <a href="https://youtu.be/mdAcPe74tZI?t=3191">报告 (ICCV`19)</a></p>
+<h3>论文官方 pytorch 实现：“SinGAN: Learning a Generative Model from a Single Natural Image”</h3>
+<h4>ICCV 2019 最佳论文奖（Marr 奖）</h4>
+<h2>来自<em>单张</em>图像的随机样本</h2>
+<p>使用 SinGAN，你可以从单张自然图像训练生成模型，然后从该图像生成随机样本，例如：</p>
+<p><img src="https://raw.githubusercontent.com/tamarott/SinGAN/master/imgs/teaser.PNG" alt="" /></p>
+<h2>SinGAN 的应用</h2>
+<p>SinGAN 还可以用于一系列图像操作任务，例如：
+<img src="https://raw.githubusercontent.com/tamarott/SinGAN/master/imgs/manipulation.PNG" alt="" />
+通过将一张图像注入已训练好的模型实现。更多细节请参见我们<a href="https://arxiv.org/pdf/1905.01164.pdf">论文</a>的第4节。</p>
+<h3>引用</h3>
+<p>如果你在研究中使用了本代码，请引用我们的论文：</p>
+<pre><code>@inproceedings{rottshaham2019singan,
+  title={SinGAN: Learning a Generative Model from a Single Natural Image},
+  author={Rott Shaham, Tamar and Dekel, Tali and Michaeli, Tomer},
+  booktitle={Computer Vision (ICCV), IEEE International Conference on},
+  year={2019}
+}
+</code></pre>
+<h2>代码</h2>
+<h3>安装依赖项</h3>
+<pre><code>python -m pip install -r requirements.txt
+</code></pre>
+<p>本代码在 python 3.6, torch 1.4 下测试通过</p>
+<p>请注意：由于优化方案，目前代码仅支持 torch 1.4 或更早版本。</p>
+<p>对于更高版本的 torch，可以尝试此仓库：https://github.com/kligvasser/SinGAN（结果不一定与官方实现完全一致）。</p>
+<h3>训练</h3>
+<p>要在自己的图像上训练 SinGAN 模型，请将所需训练图像放入 Input/Images 目录下，并运行</p>
+<pre><code>python main_train.py --input_name &lt;input_file_name&gt;
+</code></pre>
+<p>这还会利用训练好的模型，从最粗尺度（n=0）开始生成随机样本。</p>
+<p>如需在 CPU 机器上运行代码，调用 <code>main_train.py</code> 时加上 <code>--not_cuda</code> 参数</p>
+<h3>随机样本</h3>
+<p>要从任意起始生成尺度生成随机样本，请先按上述方式在目标图像上训练 SinGAN 模型，然后运行</p>
+<pre><code>python random_samples.py --input_name &lt;training_image_file_name&gt; --mode random_samples --gen_start_scale &lt;generation start scale number&gt;
+</code></pre>
+<p>注意：如需使用完整模型，将生成起始尺度指定为 0；如需从第二个尺度开始，指定为 1，依此类推。</p>
+<h3>任意尺寸的随机样本</h3>
+<p>要生成任意尺寸的随机样本，请先按上述方式在目标图像上训练 SinGAN 模型，然后运行</p>
+<pre><code>python random_samples.py --input_name &lt;training_image_file_name&gt; --mode random_samples_arbitrary_sizes --scale_h &lt;horizontal scaling factor&gt; --scale_v &lt;vertical scaling factor&gt;
+</code></pre>
+<h3>单张图片生成动画</h3>
+<p>要从单张图片生成短动画，运行</p>
+<pre><code>python animation.py --input_name &lt;input_file_name&gt; 
+</code></pre>
+<p>这会自动用噪声填充模式开始新的训练阶段。</p>
+<h3>协调（Harmonization）</h3>
+<p>要将粘贴的对象协调到一张图片中（见我们<a href="https://arxiv.org/pdf/1905.01164.pdf">论文</a>中图13的示例），请先按上述方式在目标背景图像上训练 SinGAN 模型，然后将简单粘贴的参考图像及其二值掩码保存在 &quot;Input/Harmonization&quot; 目录下（可参考已保存图片示例）。运行命令</p>
+<pre><code>python harmonization.py --input_name &lt;training_image_file_name&gt; --ref_name &lt;naively_pasted_reference_image_file_name&gt; --harmonization_start_scale &lt;scale to inject&gt;
+
+</code></pre>
+<p>请注意，不同注入尺度会产生不同的协调效果。最粗的注入尺度为 1。</p>
+<h3>编辑</h3>
+<p>要编辑图片（见我们<a href="https://arxiv.org/pdf/1905.01164.pdf">论文</a>中图12的示例），请先按上述方式在目标未编辑图像上训练 SinGAN 模型，然后将简单编辑的图片作为参考图像保存在 &quot;Input/Editing&quot; 目录下，并配以相应的二值图（可参考已保存图片示例）。运行命令</p>
+<pre><code>python editing.py --input_name &lt;training_image_file_name&gt; --ref_name &lt;edited_image_file_name&gt; --editing_start_scale &lt;scale to inject&gt;
+</code></pre>
+<p>掩码和非掩码的输出都会被保存。
+同样，不同的注入尺度会产生不同的编辑效果。最粗的注入尺度为1。</p>
+<h3>画作转图像</h3>
+<p>要将一幅画作转换为逼真的图像（参见<a href="https://arxiv.org/pdf/1905.01164.pdf">我们的论文</a>中的图11示例），请首先在目标图像上训练SinGAN模型（如上所述），然后将你的画作保存在 &quot;Input/Paint&quot; 文件夹下，并运行以下命令：</p>
+<pre><code>python paint2image.py --input_name &lt;training_image_file_name&gt; --ref_name &lt;paint_image_file_name&gt; --paint_start_scale &lt;scale to inject&gt;
+</code></pre>
+<p>同样，不同的注入尺度会产生不同的编辑效果。最粗的注入尺度为1。</p>
+<p>高级选项：将 quantization_flag 指定为 True，仅对模型的注入层进行重新训练，以便对上一尺度上采样生成图像的颜色进行量化。对于某些图像，这可能会带来更真实的结果。</p>
+<h3>超分辨率</h3>
+<p>要对图像进行超分辨率处理，请运行：</p>
+<pre><code>python SR.py --input_name &lt;LR_image_file_name&gt;
+</code></pre>
+<p>这将自动训练一个与4倍上采样因子对应的SinGAN模型（如果尚未存在）。
+如需不同的超分辨率因子，请在调用函数时通过参数 <code>--sr_factor</code> 指定。
+SinGAN在BSD100数据集上的结果可在 'Downloads' 文件夹中下载。</p>
+<h2>附加数据和功能</h2>
+<h3>单图像Fréchet Inception距离（SIFID分数）</h3>
+<p>要计算真实图像与其对应的生成样本之间的SIFID分数，请运行：</p>
+<pre><code>python SIFID/sifid_score.py --path2real &lt;real images path&gt; --path2fake &lt;fake images path&gt; 
+</code></pre>
+<p>请确保每个生成图像的文件名与其对应的真实图像文件名完全相同。图像应以 <code>.jpg</code> 格式保存。</p>
+<h3>超分辨率结果</h3>
+<p>SinGAN在BSD100数据集上的超分辨率结果可在 'Downloads' 文件夹中下载。</p>
+<h3>用户研究</h3>
+<p>用于用户研究的数据可在 Downloads 文件夹中找到。</p>
+<p>real 文件夹：50张真实图像，随机选自 <a href="http://places.csail.mit.edu/">places database</a></p>
+<p>fake_high_variance 文件夹：对每张真实图像从 n=N 开始的随机样本</p>
+<p>fake_mid_variance 文件夹：对每张真实图像从 n=N-1 开始的随机样本</p>
+<p>更多细节请参见我们<a href="https://arxiv.org/pdf/1905.01164.pdf">论文</a>的第3.1节。</p>
+<pre><code>
+
+---
+
+
+Tranlated By [Open Ai Tx](https://github.com/OpenAiTx/OpenAiTx) | Last indexed: 2025-06-29
+
+
+---
+</code></pre>
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>

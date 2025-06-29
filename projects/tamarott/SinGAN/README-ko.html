@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SinGAN - tamarott/SinGAN ko</title>
+    <meta name="title" content="SinGAN - tamarott/SinGAN ko | SinGAN 프로젝트 | Arxiv | CVF | 보조 자료 | 강연 (ICCV`19) 논문 공식 pytorch 구현: &quot;SinGAN: Learning a Generative Model from a Single Natural Image&quot; ICCV 2019 최우수 논문상...">
+    <meta name="description" content="tamarott/SinGAN - GitHub repository ko documentation and information | SinGAN 프로젝트 | Arxiv | CVF | 보조 자료 | 강연 (ICCV`19) 논문 공식 pytorch 구현: &quot;SinGAN: Learning a Generative Model from a Single Natural Image&quot; ICCV 2019 최우수 논문상...">
+    <meta name="keywords" content="tamarott, SinGAN, GitHub, repository, ko documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/tamarott/SinGAN/README-ko.html">
+    <meta property="og:title" content="SinGAN - tamarott/SinGAN ko | SinGAN 프로젝트 | Arxiv | CVF | 보조 자료 | 강연 (ICCV`19) 논문 공식 pytorch 구현: &quot;SinGAN: Learning a Generative Model from a Single Natural Image&quot; ICCV 2019 최우수 논문상...">
+    <meta property="og:description" content="tamarott/SinGAN - GitHub repository ko documentation and information | SinGAN 프로젝트 | Arxiv | CVF | 보조 자료 | 강연 (ICCV`19) 논문 공식 pytorch 구현: &quot;SinGAN: Learning a Generative Model from a Single Natural Image&quot; ICCV 2019 최우수 논문상...">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div style="position: fixed; top: 2px; left: 2px; z-index: 2000; background: rgba(255,255,255,0.95); border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 4px 14px; font-size: 15px; color: #222; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 500; letter-spacing: 0.5px;">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank" style="color: #0366d6; text-decoration: none; font-weight: 600;">Open AI Tx</a>
+    </div>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/tamarott/SinGAN" id="githubRepoLink" target="_blank">tamarott/SinGAN</a>
+<h1 style="display: none;">SinGAN 프로젝트 | Arxiv | CVF | 보조 자료 | 강연 (ICCV`19) 논문 공식 pytorch 구현: &quot;SinGAN: Learning a Generative Model from a Single Natural Image&quot; ICCV 2019 최우수 논문상...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>SinGAN</h1>
+<p><a href="https://tamarott.github.io/SinGAN.htm">프로젝트</a> | <a href="https://arxiv.org/pdf/1905.01164.pdf">Arxiv</a> | <a href="http://openaccess.thecvf.com/content_ICCV_2019/papers/Shaham_SinGAN_Learning_a_Generative_Model_From_a_Single_Natural_Image_ICCV_2019_paper.pdf">CVF</a> | <a href="https://openaccess.thecvf.com/content_ICCV_2019/supplemental/Shaham_SinGAN_Learning_a_ICCV_2019_supplemental.pdf">보조 자료</a> | <a href="https://youtu.be/mdAcPe74tZI?t=3191">강연 (ICCV`19)</a></p>
+<h3>논문 공식 pytorch 구현: &quot;SinGAN: Learning a Generative Model from a Single Natural Image&quot;</h3>
+<h4>ICCV 2019 최우수 논문상 (Marr prize)</h4>
+<h2><em>단일</em> 이미지로부터의 랜덤 샘플</h2>
+<p>SinGAN을 사용하면 단일 자연 이미지로부터 생성 모델을 학습할 수 있으며, 이후 주어진 이미지로부터 랜덤 샘플을 생성할 수 있습니다. 예를 들어:</p>
+<p><img src="https://raw.githubusercontent.com/tamarott/SinGAN/master/imgs/teaser.PNG" alt="" /></p>
+<h2>SinGAN의 응용</h2>
+<p>SinGAN은 다양한 이미지 조작 작업에도 사용할 수 있습니다. 예를 들어:
+<img src="https://raw.githubusercontent.com/tamarott/SinGAN/master/imgs/manipulation.PNG" alt="" />
+이 작업은 이미 학습된 모델에 이미지를 주입하여 수행합니다. 자세한 내용은 <a href="https://arxiv.org/pdf/1905.01164.pdf">논문</a> 4장을 참고하세요.</p>
+<h3>인용</h3>
+<p>이 코드를 연구에 사용하신다면 논문을 인용해 주세요:</p>
+<pre><code>@inproceedings{rottshaham2019singan,
+  title={SinGAN: Learning a Generative Model from a Single Natural Image},
+  author={Rott Shaham, Tamar and Dekel, Tali and Michaeli, Tomer},
+  booktitle={Computer Vision (ICCV), IEEE International Conference on},
+  year={2019}
+}
+</code></pre>
+<h2>코드</h2>
+<h3>의존성 설치</h3>
+<pre><code>python -m pip install -r requirements.txt
+</code></pre>
+<p>이 코드는 python 3.6, torch 1.4에서 테스트되었습니다.</p>
+<p>참고: 현재 코드는 최적화 방식으로 인해 torch 1.4 이하만 지원합니다.</p>
+<p>더 최신 버전의 torch를 사용하려면 다음 저장소를 시도해 볼 수 있습니다: https://github.com/kligvasser/SinGAN (결과는 공식 구현과 반드시 동일하지 않을 수 있습니다).</p>
+<h3>학습</h3>
+<p>사용자 이미지로 SinGAN 모델을 학습하려면, 원하는 학습 이미지를 Input/Images 폴더에 넣고 아래 명령어를 실행하세요.</p>
+<pre><code>python main_train.py --input_name &lt;input_file_name&gt;
+</code></pre>
+<p>이 명령은 결과로 생성된 학습된 모델을 사용해, 가장 거친 스케일(n=0)부터 랜덤 샘플도 생성합니다.</p>
+<p>cpu 환경에서 코드를 실행하려면 <code>main_train.py</code> 호출 시 <code>--not_cuda</code> 옵션을 지정하세요.</p>
+<h3>랜덤 샘플</h3>
+<p>원하는 시작 생성 스케일에서 랜덤 샘플을 생성하려면, 먼저 위에서 설명한 대로 SinGAN 모델을 원하는 이미지로 학습한 뒤, 아래 명령을 실행하세요.</p>
+<pre><code>python random_samples.py --input_name &lt;training_image_file_name&gt; --mode random_samples --gen_start_scale &lt;generation start scale number&gt;
+</code></pre>
+<p>주의: 전체 모델을 사용하려면 생성 시작 스케일을 0으로 지정하세요. 두 번째 스케일부터 시작하려면 1로 지정하면 됩니다.</p>
+<h3>임의 크기의 랜덤 샘플</h3>
+<p>임의의 크기로 랜덤 샘플을 생성하려면, 먼저 위에서 설명한 대로 SinGAN 모델을 원하는 이미지로 학습한 뒤, 아래 명령을 실행하세요.</p>
+<pre><code>python random_samples.py --input_name &lt;training_image_file_name&gt; --mode random_samples_arbitrary_sizes --scale_h &lt;horizontal scaling factor&gt; --scale_v &lt;vertical scaling factor&gt;
+</code></pre>
+<h3>단일 이미지로 애니메이션 생성</h3>
+<p>단일 이미지로 짧은 애니메이션을 생성하려면, 아래 명령을 실행하세요.</p>
+<pre><code>python animation.py --input_name &lt;input_file_name&gt; 
+</code></pre>
+<p>이 명령은 자동으로 noise padding 모드로 새로운 학습 단계를 시작합니다.</p>
+<h3>조화화(Harmonization)</h3>
+<p>오브젝트를 이미지에 자연스럽게 합성하려면(<a href="https://arxiv.org/pdf/1905.01164.pdf">논문</a> Fig. 13 참고), 먼저 SinGAN 모델을 원하는 배경 이미지로 학습하고(위와 동일), 단순히 합성한 참조 이미지와 해당 바이너리 마스크를 &quot;Input/Harmonization&quot; 폴더에 저장하세요(예시는 저장된 이미지를 참고). 아래 명령어를 실행하세요.</p>
+<pre><code>python harmonization.py --input_name &lt;training_image_file_name&gt; --ref_name &lt;naively_pasted_reference_image_file_name&gt; --harmonization_start_scale &lt;scale to inject&gt;
+
+</code></pre>
+<p>주입 스케일에 따라 서로 다른 조화화 효과가 나옵니다. 가장 거친 주입 스케일은 1입니다.</p>
+<h3>편집</h3>
+<p>이미지를 편집하려면(<a href="https://arxiv.org/pdf/1905.01164.pdf">논문</a> Fig. 12 참고), 먼저 SinGAN 모델을 원하는 비편집 이미지로 학습하고(위와 동일), 간단히 편집한 이미지를 &quot;Input/Editing&quot;에 해당 바이너리 맵과 함께 참조 이미지로 저장하세요(예시는 저장된 이미지를 참고). 아래 명령어를 실행하세요.</p>
+<pre><code>python editing.py --input_name &lt;training_image_file_name&gt; --ref_name &lt;edited_image_file_name&gt; --editing_start_scale &lt;scale to inject&gt;
+</code></pre>
+<p>마스크된 출력과 마스크되지 않은 출력이 모두 저장됩니다.
+여기서도, 서로 다른 injection scale은 서로 다른 편집 효과를 만듭니다. 가장 거친 injection scale은 1입니다.</p>
+<h3>Paint to Image</h3>
+<p>페인팅을 실제 이미지로 변환하려면(<a href="https://arxiv.org/pdf/1905.01164.pdf">논문</a> Fig. 11 예시 참조), 먼저 원하는 이미지에서 SinGAN 모델을 학습한 후(위에서 설명한 대로), 당신의 페인팅을 &quot;Input/Paint&quot;에 저장하고 아래 명령어를 실행하세요.</p>
+<pre><code>python paint2image.py --input_name &lt;training_image_file_name&gt; --ref_name &lt;paint_image_file_name&gt; --paint_start_scale &lt;scale to inject&gt;
+</code></pre>
+<p>여기서도, 서로 다른 injection scale은 서로 다른 편집 효과를 만듭니다. 가장 거친 injection scale은 1입니다.</p>
+<p>고급 옵션: quantization_flag을 True로 지정하면, 모델의 injection 레벨만 재학습하여, 이전 스케일에서 업샘플된 생성 이미지의 컬러 양자화 버전을 얻을 수 있습니다. 일부 이미지의 경우, 이 방법이 더 현실적인 결과를 가져올 수 있습니다.</p>
+<h3>Super Resolution</h3>
+<p>이미지를 초해상도로 변환하려면 아래 명령어를 실행하세요:</p>
+<pre><code>python SR.py --input_name &lt;LR_image_file_name&gt;
+</code></pre>
+<p>이 명령어는 자동으로 4배 업샘플링 팩터에 해당하는 SinGAN 모델을 학습합니다(이미 존재하지 않는 경우).
+다른 초해상도 배율이 필요하다면, 함수 호출 시 파라미터 <code>--sr_factor</code>를 지정하세요.
+SinGAN의 BSD100 데이터셋에 대한 결과는 'Downloads' 폴더에서 다운로드할 수 있습니다.</p>
+<h2>추가 데이터 및 기능</h2>
+<h3>Single Image Fréchet Inception Distance (SIFID score)</h3>
+<p>실제 이미지와 이에 대응하는 생성 샘플 간의 SIFID를 계산하려면 다음 명령어를 실행하세요:</p>
+<pre><code>python SIFID/sifid_score.py --path2real &lt;real images path&gt; --path2fake &lt;fake images path&gt;
+</code></pre>
+<p>각 생성 이미지 파일 이름이 해당 실제 이미지 파일 이름과 동일해야 합니다. 이미지는 <code>.jpg</code> 포맷으로 저장되어야 합니다.</p>
+<h3>Super Resolution Results</h3>
+<p>SinGAN의 BSD100 데이터셋에 대한 초해상도 결과는 'Downloads' 폴더에서 다운로드할 수 있습니다.</p>
+<h3>사용자 연구</h3>
+<p>사용자 연구에 사용된 데이터는 Downloads 폴더에서 찾을 수 있습니다.</p>
+<p>real 폴더: <a href="http://places.csail.mit.edu/">places database</a>에서 무작위로 선택한 50개의 실제 이미지</p>
+<p>fake_high_variance 폴더: 각 실제 이미지마다 n=N부터 시작한 무작위 샘플</p>
+<p>fake_mid_variance 폴더: 각 실제 이미지마다 n=N-1부터 시작한 무작위 샘플</p>
+<p>자세한 내용은 논문(<a href="https://arxiv.org/pdf/1905.01164.pdf">paper</a>)의 3.1절을 참조하세요.</p>
+<pre><code>
+
+---
+
+
+Tranlated By [Open Ai Tx](https://github.com/OpenAiTx/OpenAiTx) | Last indexed: 2025-06-29
+
+
+---
+</code></pre>
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>
