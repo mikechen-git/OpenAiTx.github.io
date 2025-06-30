@@ -299,12 +299,12 @@ https://openaitx.github.io/ -->
                 'poweredBy': 'Powered by',
                 'projectUrlTitle': 'Submit GitHub Project URL',
                 'projectUrlPlaceholder': 'e.g. https://github.com/google-gemini/gemini-cli',
-                'projectUrlSubmit': 'Submit',
+                'projectUrlSubmit': 'Submit via GitHub Issue',
                 'projectUrlInvalid': 'Please enter a valid GitHub project URL, e.g. https://github.com/google-gemini/gemini-cli',
-                'projectUrlSubmitting': 'Submitting...',
-                'projectUrlSuccess': 'Submitted successfully! Please wait for processing.',
-                'projectUrlSubmitted': 'Submitted',
-                'projectUrlFailed': 'Submission failed: '
+                'projectUrlSubmitting': 'Opening GitHub...',
+                'projectUrlSuccess': 'GitHub issue page opened! Please complete the submission there.',
+                'projectUrlSubmitted': 'Redirected to GitHub',
+                'projectUrlFailed': 'Failed to open GitHub: '
             },
             'zh-CN': {
                 'title': 'Open AI Tx - 语言自动 AI 翻译徽章生成器',
@@ -323,12 +323,12 @@ https://openaitx.github.io/ -->
                 'poweredBy': '技术支持',
                 'projectUrlTitle': '提交 GitHub 项目 URL',
                 'projectUrlPlaceholder': '例如 https://github.com/google-gemini/gemini-cli',
-                'projectUrlSubmit': '提交',
+                'projectUrlSubmit': '通过 GitHub Issue 提交',
                 'projectUrlInvalid': '请输入有效的 GitHub 项目 URL，例如 https://github.com/google-gemini/gemini-cli',
-                'projectUrlSubmitting': '提交中...',
-                'projectUrlSuccess': '提交成功！请等待处理。',
-                'projectUrlSubmitted': '已提交',
-                'projectUrlFailed': '提交失败：'
+                'projectUrlSubmitting': '正在打开 GitHub...',
+                'projectUrlSuccess': 'GitHub issue 页面已打开！请在那里完成提交。',
+                'projectUrlSubmitted': '已跳转到 GitHub',
+                'projectUrlFailed': '打开 GitHub 失败：'
             },
             'zh-TW': {
                 'title': 'Open AI Tx - 語言自動 AI 翻譯徽章生成器',
@@ -345,14 +345,14 @@ https://openaitx.github.io/ -->
                 'style2Title': '樣式選項 2（HTML 鏈接）',
                 'style3Title': '樣式選項 3（下拉菜單）',
                 'poweredBy': '技術支持',
-                'projectUrlTitle': '提交 GitHub 项目 URL',
+                'projectUrlTitle': '提交 GitHub 項目 URL',
                 'projectUrlPlaceholder': '例如 https://github.com/google-gemini/gemini-cli',
-                'projectUrlSubmit': '提交',
+                'projectUrlSubmit': '通過 GitHub Issue 提交',
                 'projectUrlInvalid': '請輸入有效的 GitHub 項目 URL，例如 https://github.com/google-gemini/gemini-cli',
-                'projectUrlSubmitting': '提交中...',
-                'projectUrlSuccess': '提交成功！請等待處理。',
-                'projectUrlSubmitted': '已提交',
-                'projectUrlFailed': '提交失敗：'
+                'projectUrlSubmitting': '正在打開 GitHub...',
+                'projectUrlSuccess': 'GitHub issue 頁面已打開！請在那裡完成提交。',
+                'projectUrlSubmitted': '已跳轉到 GitHub',
+                'projectUrlFailed': '打開 GitHub 失敗：'
             },
             'ja': {
                 'title': 'Open AI Tx - 言語自動 AI 翻訳バッジジェネレーター',
@@ -861,69 +861,58 @@ https://openaitx.github.io/ -->
         document.addEventListener('DOMContentLoaded', function () {
             const submitBtn = document.getElementById('projectUrlSubmitBtn');
             if (submitBtn) {
-                submitBtn.onclick = async function () {
+                submitBtn.onclick = function () {
                     const lang = document.getElementById('languageSelect').value;
                     const t = translations[lang] || translations['en'];
                     const input = document.getElementById('projectUrlInput');
                     const msgDiv = document.getElementById('projectUrlSubmitMsg');
                     const url = input.value.trim();
                     msgDiv.textContent = '';
+                    
                     if (!url.match(/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/)) {
                         msgDiv.style.color = 'red';
                         msgDiv.textContent = t.projectUrlInvalid;
                         return;
                     }
-                    submitBtn.disabled = true;
-                    submitBtn.textContent = t.projectUrlSubmitting;
-                    try {
-                        const response = await fetch('https://openaitxapi.azurewebsites.net/api/submit-project', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ project: url })
-                        });
-                        const data = await response.json();
-                        if (!response.ok) {
-                            throw new Error(data.error || `HTTP error! status: ${response.status}`);
-                        }
-                        msgDiv.style.color = '#2ea44f';
-                        msgDiv.textContent = t.projectUrlSuccess;
-                        submitBtn.textContent = t.projectUrlSubmitted;
-                        // Parse userOrOrg and project
-                        const match = url.match(/^https:\/\/github\.com\/([\w.-]+)\/([\w.-]+)$/);
-                        if (match) {
-                            const userOrOrg = match[1];
-                            const project = match[2];
-                            
-                            // Set userOrOrg and project values
-                            document.getElementById('userOrOrg').value = userOrOrg;
-                            document.getElementById('project').value = project;
-                            
-                            // Hide Project URL submission block
-                            document.getElementById('projectUrlSubmitContainer').style.display = 'none';
-                            
-                            // Show style blocks
-                            document.querySelectorAll('.style-option').forEach(el => el.style.display = 'block');
-                            
-                            // Generate badges with updated userOrOrg and project values
-                            const style1Html = generateStyle1(userOrOrg, project);
-                            document.getElementById('style1Preview').innerHTML = style1Html;
-                            document.getElementById('style1Html').value = style1Html;
+                    
+                    // Create GitHub issue URL
+                    const title = encodeURIComponent(`Submit Project: ${url}`);
+                    const body = encodeURIComponent('I understand and agree to follow the guidelines of the open-source community.\nThe system will automatically create a PR in the project using your information after the translation is completed.\nClick the button below to create once confirmed.');
+                    const issueUrl = `https://github.com/openaitx/openaitx/issues/new?title=${title}&body=${body}`;
+                    
+                    // Open GitHub issue page in new tab
+                    window.open(issueUrl, '_blank');
+                    
+                    // Parse userOrOrg and project
+                    const match = url.match(/^https:\/\/github\.com\/([\w.-]+)\/([\w.-]+)$/);
+                    if (match) {
+                        const userOrOrg = match[1];
+                        const project = match[2];
+                        
+                        // Set userOrOrg and project values
+                        document.getElementById('userOrOrg').value = userOrOrg;
+                        document.getElementById('project').value = project;
+                        
+                        // Hide Project URL submission block
+                        document.getElementById('projectUrlSubmitContainer').style.display = 'none';
+                        
+                        // Show style blocks
+                        document.querySelectorAll('.style-option').forEach(el => el.style.display = 'block');
+                        
+                        // Generate badges with updated userOrOrg and project values
+                        const style1Html = generateStyle1(userOrOrg, project);
+                        document.getElementById('style1Preview').innerHTML = style1Html;
+                        document.getElementById('style1Html').value = style1Html;
 
-                            const style2Markdown = generateStyle2(userOrOrg, project);
-                            document.getElementById('style2Preview').innerHTML = style2Markdown;
-                            document.getElementById('style2Markdown').value = style2Markdown;
+                        const style2Markdown = generateStyle2(userOrOrg, project);
+                        document.getElementById('style2Preview').innerHTML = style2Markdown;
+                        document.getElementById('style2Markdown').value = style2Markdown;
 
-                            const style3Html = generateStyle3(userOrOrg, project);
-                            document.getElementById('style3Preview').innerHTML = style3Html;
-                            document.getElementById('style3Html').value = style3Html;
+                        const style3Html = generateStyle3(userOrOrg, project);
+                        document.getElementById('style3Preview').innerHTML = style3Html;
+                        document.getElementById('style3Html').value = style3Html;
 
-                            // Skip project status check for URL submissions to avoid showing "documentation not found" message
-                        }
-                    } catch (error) {
-                        msgDiv.style.color = 'red';
-                        msgDiv.textContent = t.projectUrlFailed + error.message;
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = t.projectUrlSubmit;
+                        // Skip project status check for URL submissions to avoid showing "documentation not found" message
                     }
                 };
             }
@@ -990,51 +979,15 @@ https://openaitx.github.io/ -->
                         const submitButton = document.createElement('button');
                         submitButton.textContent = t.submit;
                         submitButton.style.cssText = 'padding: 8px 16px; background: #2ea44f; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; margin-top: 20px;';
-                        submitButton.onclick = async () => {
-                            try {
-                                // Check if we've already submitted this project
-                                const submissionKey = `submitted_${userOrOrg}_${project}`;
-                                const alreadySubmitted = localStorage.getItem(submissionKey);
-                                
-                                if (alreadySubmitted) {
-                                    alert('Project already submitted. Please wait for processing.');
-                                    return;
-                                }
-                                
-                                // Disable button to prevent multiple clicks
-                                submitButton.disabled = true;
-                                submitButton.textContent = 'Submitting...';
-                                
-                                // Mark as submitted
-                                localStorage.setItem(submissionKey, Date.now().toString());
-                                
-                                const response = await fetch('https://openaitxapi.azurewebsites.net/api/submit-project', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({
-                                        project: `https://github.com/${userOrOrg}/${project}`
-                                    })
-                                });
-
-                                const data = await response.json();
-
-                                if (!response.ok) {
-                                    throw new Error(data.error || `HTTP error! status: ${response.status}`);
-                                }
-
-                                alert(t.submissionCompleted);
-                                // Change button text to show completion
-                                submitButton.textContent = 'Submitted';
-                                submitButton.style.background = '#6c757d';
-                            } catch (error) {
-                                alert(`${t.submissionFailed}${error.message}`);
-                                // Re-enable button and remove submission flag on error
-                                submitButton.disabled = false;
-                                submitButton.textContent = t.submit;
-                                localStorage.removeItem(`submitted_${userOrOrg}_${project}`);
-                            }
+                        submitButton.onclick = () => {
+                            // Create GitHub issue URL
+                            const projectUrl = `https://github.com/${userOrOrg}/${project}`;
+                            const title = encodeURIComponent(`Submit Project: ${projectUrl}`);
+                            const body = encodeURIComponent('I understand and agree to follow the guidelines of the open-source community.\nThe system will automatically create a PR in the project using your information after the translation is completed.\nClick the button below to create once confirmed.');
+                            const issueUrl = `https://github.com/openaitx/openaitx/issues/new?title=${title}&body=${body}`;
+                            
+                            // Open GitHub issue page in new tab
+                            window.open(issueUrl, '_blank');
                         };
                         const statusDiv = document.createElement('div');
                         statusDiv.style.cssText = 'text-align: center; padding: 20px; margin-top: 20px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;';
