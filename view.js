@@ -673,6 +673,9 @@ function generateTableOfContents() {
     const lang = urlParams.get('lang') || 'en';
     const t = translations[lang] || translations['en'];
     
+    // Check if it's mobile device
+    const isMobile = window.innerWidth <= 768;
+    
     // Update TOC title with translation
     if (tocTitle) {
         tocTitle.textContent = t.tableOfContents;
@@ -681,15 +684,18 @@ function generateTableOfContents() {
     // Clear existing TOC
     tocList.innerHTML = '';
     
-    if (headings.length === 0) {
+    // Hide TOC on mobile or when no headings
+    if (headings.length === 0 || isMobile) {
         tocSidebar.style.display = 'none';
         mainContainer.classList.add('full-width');
-        return;
+        if (headings.length === 0) {
+            return;
+        }
+    } else {
+        // Show sidebar and remove full-width class on desktop
+        tocSidebar.style.display = 'block';
+        mainContainer.classList.remove('full-width');
     }
-    
-    // Show sidebar and remove full-width class
-    tocSidebar.style.display = 'block';
-    mainContainer.classList.remove('full-width');
     
     headings.forEach((heading, index) => {
         // Generate unique ID for the heading
@@ -778,3 +784,22 @@ function setupScrollSpy(headings) {
     // Initial call
     updateActiveSection();
 }
+
+// Handle window resize to show/hide TOC on mobile
+window.addEventListener('resize', function() {
+    const tocSidebar = document.getElementById('tocSidebar');
+    const mainContainer = document.querySelector('.main-container');
+    
+    if (!tocSidebar || !mainContainer) return;
+    
+    const isMobile = window.innerWidth <= 768;
+    const hasContent = document.querySelectorAll('#content h1, #content h2, #content h3, #content h4, #content h5, #content h6').length > 0;
+    
+    if (isMobile || !hasContent) {
+        tocSidebar.style.display = 'none';
+        mainContainer.classList.add('full-width');
+    } else {
+        tocSidebar.style.display = 'block';
+        mainContainer.classList.remove('full-width');
+    }
+});
