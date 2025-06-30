@@ -461,39 +461,6 @@ document.addEventListener('DOMContentLoaded', function() {
         githubRepoLink.textContent = `${user}/${project}`;
     }
 
-    // Generate language badges
-    const languageBadges = document.getElementById('languageBadges');
-    if (languageBadges && user && project) {
-        const languages = [
-            { code: 'en', name: 'EN' },
-            { code: 'zh-CN', name: '简中' },
-            { code: 'zh-TW', name: '繁中' },
-            { code: 'ja', name: '日本語' },
-            { code: 'ko', name: '한국어' },
-            { code: 'th', name: 'ไทย' },
-            { code: 'fr', name: 'Français' },
-            { code: 'de', name: 'Deutsch' },
-            { code: 'es', name: 'Español' },
-            { code: 'it', name: 'Italiano' },
-            { code: 'ru', name: 'Русский' },
-            { code: 'pt', name: 'Português' },
-            { code: 'nl', name: 'Nederlands' },
-            { code: 'pl', name: 'Polski' },
-            { code: 'ar', name: 'العربية' },
-            { code: 'tr', name: 'Türkçe' },
-            { code: 'vi', name: 'Tiếng Việt' },
-            { code: 'hi', name: 'हिंदी' },
-            { code: 'fa', name: 'فارسی' },
-            { code: 'id', name: 'Bahasa Indonesia' }
-        ];
-
-        const badges = languages.map(lang =>
-            `<a href="https://openaitx.github.io/view.html?user=${user}&project=${project}&lang=${lang.code}"><img src="https://img.shields.io/badge/${lang.name}-white" alt="version"></a>`
-        ).join(' ');
-
-        languageBadges.innerHTML = badges;
-    }
-
     // Validate required parameters
     if (!user || !project) {
         document.getElementById('content').innerHTML = `
@@ -802,4 +769,170 @@ window.addEventListener('resize', function() {
         tocSidebar.style.display = 'block';
         mainContainer.classList.remove('full-width');
     }
+});
+
+// Theme toggle functionality
+function toggleTheme() {
+    const body = document.body;
+    const themeIcon = document.getElementById('themeIcon');
+    
+    if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        themeIcon.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+    } else {
+        body.setAttribute('data-theme', 'dark');
+        themeIcon.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+// Initialize theme on page load
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const shouldUseDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+    
+    if (shouldUseDark) {
+        document.body.setAttribute('data-theme', 'dark');
+        document.getElementById('themeIcon').textContent = '☀️';
+    } else {
+        document.getElementById('themeIcon').textContent = '🌙';
+    }
+}
+
+// Function to change language
+function changeLanguage(lang) {
+    const t = translations[lang] || translations['en'];
+
+    // Update page title based on content
+    if (window.currentUser && window.currentProject) {
+        document.title = `${window.currentProject} - ${window.currentUser} | Open AI Tx`;
+    } else {
+        document.title = 'Open AI Tx';
+    }
+
+    // Update text content in the page
+    const tocTitle = document.querySelector('.toc-title');
+    if (tocTitle) {
+        tocTitle.textContent = t.tableOfContents;
+    }
+
+    // Store selected language
+    localStorage.setItem('preferredLanguage', lang);
+
+    // Update any other translatable content
+    updateUILanguage(lang);
+}
+
+// Update UI elements based on language
+function updateUILanguage(lang) {
+    const t = translations[lang] || translations['en'];
+    
+    // Update any error messages or loading text that might be visible
+    const loadingElement = document.querySelector('.loading');
+    if (loadingElement && loadingElement.textContent === 'Loading...') {
+        loadingElement.textContent = t.errorLoading || 'Loading...';
+    }
+}
+
+// Language selector functions
+function toggleLanguageDropdown() {
+    const dropdown = document.getElementById('languageDropdown');
+    dropdown.classList.toggle('show');
+}
+
+function generateLanguageLinks() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentUser = urlParams.get('user');
+    const currentProject = urlParams.get('project');
+    
+    const languages = [
+        { code: 'en', name: 'English' },
+        { code: 'zh-CN', name: '简体中文' },
+        { code: 'zh-TW', name: '繁體中文' },
+        { code: 'ja', name: '日本語' },
+        { code: 'ko', name: '한국어' },
+        { code: 'th', name: 'ไทย' },
+        { code: 'hi', name: 'हिन्दी' },
+        { code: 'vi', name: 'Tiếng Việt' },
+        { code: 'ar', name: 'العربية' },
+        { code: 'es', name: 'Español' },
+        { code: 'fr', name: 'Français' },
+        { code: 'de', name: 'Deutsch' },
+        { code: 'pt', name: 'Português' },
+        { code: 'ru', name: 'Русский' },
+        { code: 'it', name: 'Italiano' },
+        { code: 'pl', name: 'Polski' },
+        { code: 'tr', name: 'Türkçe' },
+        { code: 'nl', name: 'Nederlands' }
+    ];
+    
+    const dropdown = document.getElementById('languageDropdown');
+    if (!dropdown) return;
+    
+    dropdown.innerHTML = '';
+    
+    languages.forEach(lang => {
+        const link = document.createElement('a');
+        link.className = 'language-option';
+        link.href = `view.html?user=${encodeURIComponent(currentUser || '')}&project=${encodeURIComponent(currentProject || '')}&lang=${lang.code}`;
+        link.textContent = lang.name;
+        link.setAttribute('data-lang', lang.code);
+        
+        // Check if this is the current language
+        const currentLang = getCurrentLanguage();
+        if (lang.code === currentLang) {
+            link.classList.add('active');
+        }
+        
+        dropdown.appendChild(link);
+    });
+}
+
+function getCurrentLanguage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const langFromUrl = urlParams.get('lang');
+    const savedLang = localStorage.getItem('preferredLanguage');
+    const browserLang = navigator.language || navigator.userLanguage;
+    
+    if (langFromUrl && translations[langFromUrl]) {
+        return langFromUrl;
+    } else if (savedLang && translations[savedLang]) {
+        return savedLang;
+    } else if (translations[browserLang]) {
+        return browserLang;
+    } else if (translations[browserLang.split('-')[0]]) {
+        return browserLang.split('-')[0];
+    }
+    
+    return 'en';
+}
+
+function selectLanguage(lang) {
+    // This function is no longer needed with link approach, but kept for compatibility
+    changeLanguage(lang);
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const selector = document.querySelector('.language-selector');
+    if (selector && !selector.contains(event.target)) {
+        document.getElementById('languageDropdown').classList.remove('show');
+    }
+});
+
+// Initialize theme and language on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize theme
+    initializeTheme();
+    
+    // Generate language links in dropdown
+    generateLanguageLinks();
+    
+    // Initialize language from URL or localStorage
+    const selectedLang = getCurrentLanguage();
+    
+    // Set initial language
+    changeLanguage(selectedLang);
 });

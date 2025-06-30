@@ -33,11 +33,48 @@
     <link rel="stylesheet" href="view.css?v=20250613">
 
     <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --border-color: #e1e4e8;
+            --card-bg: #ffffff;
+            --preview-bg: #f5f5f5;
+            --sidebar-bg: #f6f8fa;
+            --header-bg: #f6f8fa;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --link-color: #0366d6;
+            --meta-color: #586069;
+            --toc-hover-bg: #e1e4e8;
+            --toc-active-bg: #0366d6;
+            --back-button-bg: #fff;
+            --back-button-hover-bg: #f6f8fa;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0d1117;
+            --text-color: #e6edf3;
+            --border-color: #30363d;
+            --card-bg: #161b22;
+            --preview-bg: #21262d;
+            --sidebar-bg: #161b22;
+            --header-bg: #161b22;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --link-color: #58a6ff;
+            --meta-color: #8b949e;
+            --toc-hover-bg: #21262d;
+            --toc-active-bg: #238636;
+            --back-button-bg: #21262d;
+            --back-button-hover-bg: #30363d;
+        }
+
         /* Layout */
         body {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .content-wrapper {
@@ -48,8 +85,8 @@
         /* Table of Contents Sidebar */
         .toc-sidebar {
             width: 240px;
-            background-color: #f6f8fa;
-            border-right: 1px solid #e1e4e8;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
             padding: 20px 15px;
             box-sizing: border-box;
             position: sticky;
@@ -61,10 +98,10 @@
         .toc-title {
             font-size: 16px;
             font-weight: 600;
-            color: #24292e;
+            color: var(--text-color);
             margin-bottom: 15px;
             padding-bottom: 8px;
-            border-bottom: 1px solid #e1e4e8;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .toc-list {
@@ -80,7 +117,7 @@
         .toc-link {
             display: block;
             padding: 4px 8px;
-            color: #586069;
+            color: var(--meta-color);
             text-decoration: none;
             font-size: 14px;
             border-radius: 4px;
@@ -88,12 +125,12 @@
         }
 
         .toc-link:hover {
-            background-color: #e1e4e8;
-            color: #0366d6;
+            background-color: var(--toc-hover-bg);
+            color: var(--link-color);
         }
 
         .toc-link.active {
-            background-color: #0366d6;
+            background-color: var(--toc-active-bg);
             color: #fff;
         }
 
@@ -182,8 +219,8 @@
             text-align: center;
             margin-bottom: 30px;
             padding: 20px;
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
             position: relative;
         }
 
@@ -192,20 +229,20 @@
             left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: #0366d6;
+            color: var(--link-color);
             text-decoration: none;
             display: flex;
             align-items: center;
             font-size: 14px;
             padding: 5px 10px;
-            border: 1px solid #e1e4e8;
+            border: 1px solid var(--border-color);
             border-radius: 6px;
-            background-color: #fff;
+            background-color: var(--back-button-bg);
         }
 
         .back-button:hover {
-            background-color: #f6f8fa;
-            border-color: #0366d6;
+            background-color: var(--back-button-hover-bg);
+            border-color: var(--link-color);
         }
 
         .back-button::before {
@@ -220,7 +257,7 @@
         }
 
         .header .links a {
-            color: #0366d6;
+            color: var(--link-color);
             text-decoration: none;
             margin-left: 5px;
         }
@@ -229,36 +266,197 @@
             text-decoration: underline;
         }
         
-        /* Language badges styles */
-        .language-badges {
-            margin-top: 15px;
-            text-align: center;
+        /* Language selector styles */
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
         }
-        .language-badges a {
-            display: inline-block;
-            margin: 2px;
+
+        .language-selector-button {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+            color: var(--text-color);
+        }
+
+        .language-selector-button:hover {
+            border-color: var(--link-color);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            margin-top: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+            min-width: 160px;
+            display: none;
+        }
+
+        .language-dropdown.show {
+            display: block;
+        }
+
+        .language-option {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s ease;
+            color: var(--text-color);
             text-decoration: none;
+            display: block;
         }
-        .language-badges img {
-            height: 20px;
-            border-radius: 3px;
+
+        .language-option:last-child {
+            border-bottom: none;
         }
-        .language-badges a:hover img {
-            opacity: 0.8;
+
+        .language-option:hover {
+            background-color: var(--preview-bg);
+        }
+
+        .language-option.active {
+            background-color: var(--preview-bg);
+            color: var(--link-color);
+        }
+
+        /* Open AI Tx link positioning */
+        .openaitx-link {
+            position: fixed;
+            top: 2px;
+            left: 2px;
+            z-index: 2000;
+            background: rgba(255,255,255,0.95);
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 4px 14px;
+            font-size: 15px;
+            color: #222;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .openaitx-link {
+            background: rgba(22, 27, 34, 0.95);
+            color: var(--text-color);
+        }
+
+        .openaitx-link a {
+            color: #0366d6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        [data-theme="dark"] .openaitx-link a {
+            color: var(--link-color);
+        }
+
+        /* Dark mode toggle styles */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 80px;
+            z-index: 1000;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+            color: var(--text-color);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--link-color);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .theme-toggle-icon {
+            font-size: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .language-selector {
+                top: auto;
+                bottom: 20px;
+                right: 15px;
+            }
+            
+            .language-selector-button {
+                padding: 6px 8px;
+                font-size: 14px;
+            }
+            
+            .language-dropdown {
+                min-width: 140px;
+                bottom: 100%;
+                top: auto;
+                margin-bottom: 4px;
+                margin-top: 0;
+            }
+
+            .theme-toggle {
+                top: auto;
+                bottom: 20px;
+                right: 80px;
+                left: auto;
+                padding: 6px 8px;
+                font-size: 14px;
+            }
+
+            .openaitx-link {
+                top: auto;
+                bottom: 20px;
+                left: 15px;
+                font-size: 13px;
+                padding: 4px 10px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div style="position: fixed; top: 2px; left: 2px; z-index: 2000; background: rgba(255,255,255,0.95); border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 4px 14px; font-size: 15px; color: #222; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 500; letter-spacing: 0.5px;">
-        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank" style="color: #0366d6; text-decoration: none; font-weight: 600;">Open AI Tx</a>
+    <div class="openaitx-link">
+        <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </div>
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <span class="theme-toggle-icon" id="themeIcon">🌙</span>
+    </div>
+    <div class="language-selector">
+        <div class="language-selector-button" onclick="toggleLanguageDropdown()">
+            <span id="languageIcon">🌐</span>
+        </div>
+        <div class="language-dropdown" id="languageDropdown">
+            <!-- Language badges will be dynamically generated here -->
+        </div>
     </div>
     <div class="header">
         <div class="links">
             GitHub Repository: <a href="#" id="githubRepoLink" target="_blank">Repository</a>
-        </div>
-        <div class="language-badges" id="languageBadges">
-            <!-- Language badges will be dynamically generated here -->
         </div>
     </div>
 
