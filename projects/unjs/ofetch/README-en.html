@@ -1,0 +1,378 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ofetch - unjs/ofetch en</title>
+    <meta name="title" content="ofetch - unjs/ofetch en | ofetch [![npm version][npm-version-src]][npm-version-href] [![npm downloads][npm-downloads-src]][npm-downloads-href] [![bundle][bundle-src]][bundle-href] [![Cod...">
+    <meta name="description" content="unjs/ofetch - GitHub repository en documentation and information | ofetch [![npm version][npm-version-src]][npm-version-href] [![npm downloads][npm-downloads-src]][npm-downloads-href] [![bundle][bundle-src]][bundle-href] [![Cod...">
+    <meta name="keywords" content="unjs, ofetch, GitHub, repository, en documentation">
+    <meta name="author" content="Open AI Tx">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openaitx.github.io/projects/unjs/ofetch/README-en.html">
+    <meta property="og:title" content="ofetch - unjs/ofetch en | ofetch [![npm version][npm-version-src]][npm-version-href] [![npm downloads][npm-downloads-src]][npm-downloads-href] [![bundle][bundle-src]][bundle-href] [![Cod...">
+    <meta property="og:description" content="unjs/ofetch - GitHub repository en documentation and information | ofetch [![npm version][npm-version-src]][npm-version-href] [![npm downloads][npm-downloads-src]][npm-downloads-href] [![bundle][bundle-src]][bundle-href] [![Cod...">
+    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
+    <link rel="icon" type="image/jpeg" href="/icon.jpg">
+    <link rel="apple-touch-icon" href="/icon.jpg">
+    <script src="/js/marked.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/css/github.min.css?v=20250613">
+    <script src="/js/highlight.min.js?v=20250613"></script>
+    <link rel="stylesheet" href="/view.css?v=20250613">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-container { margin: 0 auto; width: 100%; max-width: 980px; padding: 0 20px; }
+        @media (max-width: 768px) { .main-container { padding: 0 15px; } }
+        .markdown-body img { max-width: 100%; height: auto; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; position: relative; }
+        .header .links { margin-top: 10px; font-size: 16px; }
+        .header .links a { color: #0366d6; text-decoration: none; margin-left: 5px; }
+        .header .links a:hover { text-decoration: underline; }
+        .language-badges { margin-top: 15px; text-align: center; }
+        .language-badges a { display: inline-block; margin: 2px; text-decoration: none; }
+        .language-badges img { height: 20px; border-radius: 3px; }
+        .language-badges a:hover img { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div style="position: fixed; top: 2px; left: 2px; z-index: 2000; background: rgba(255,255,255,0.95); border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 4px 14px; font-size: 15px; color: #222; font-family: 'Segoe UI', Arial, sans-serif; font-weight: 500; letter-spacing: 0.5px;">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank" style="color: #0366d6; text-decoration: none; font-weight: 600;">Open AI Tx</a>
+    </div>
+    <div class="header">
+        <div class="links">
+            GitHub Repository: <a href="https://github.com/unjs/ofetch" id="githubRepoLink" target="_blank">unjs/ofetch</a>
+<h1 style="display: none;">ofetch [![npm version][npm-version-src]][npm-version-href] [![npm downloads][npm-downloads-src]][npm-downloads-href] [![bundle][bundle-src]][bundle-href] [![Cod...</h1>
+        </div>
+        <div class="language-badges" id="languageBadges">
+            <!-- You can generate language badges here if needed -->
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="markdown-body" id="content">
+            <h1>ofetch</h1>
+<p>[![npm version][npm-version-src]][npm-version-href]
+[![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![bundle][bundle-src]][bundle-href]
+[![Codecov][codecov-src]][codecov-href]
+[![License][license-src]][license-href]
+[![JSDocs][jsdocs-src]][jsdocs-href]</p>
+<p>A better fetch API. Works on node, browser, and workers.</p>
+<details>
+  <summary>Spoiler</summary>
+  <img src="https://media.giphy.com/media/Dn1QRA9hqMcoMz9zVZ/giphy.gif">
+</details>
+<h2>🚀 Quick Start</h2>
+<p>Install:</p>
+<pre><code class="language-bash"># npm
+npm i ofetch
+
+# yarn
+yarn add ofetch
+</code></pre>
+<p>Import:</p>
+<pre><code class="language-js">// ESM / Typescript
+import { ofetch } from &quot;ofetch&quot;;
+
+// CommonJS
+const { ofetch } = require(&quot;ofetch&quot;);
+</code></pre>
+<h2>✔️ Works with Node.js</h2>
+<p>We use <a href="https://nodejs.org/api/packages.html#packages_conditional_exports">conditional exports</a> to detect Node.js
+and automatically use <a href="https://github.com/unjs/node-fetch-native">unjs/node-fetch-native</a>. If <code>globalThis.fetch</code> is available, will be used instead. To leverage Node.js 17.5.0 experimental native fetch API use <a href="https://nodejs.org/dist/latest-v17.x/docs/api/cli.html#--experimental-fetch"><code>--experimental-fetch</code> flag</a>.</p>
+<h2>✔️ Parsing Response</h2>
+<p><code>ofetch</code> will smartly parse JSON and native values using <a href="https://github.com/unjs/destr">destr</a>, falling back to the text if it fails to parse.</p>
+<pre><code class="language-js">const { users } = await ofetch(&quot;/api/users&quot;);
+</code></pre>
+<p>For binary content types, <code>ofetch</code> will instead return a <code>Blob</code> object.</p>
+<p>You can optionally provide a different parser than <code>destr</code>, or specify <code>blob</code>, <code>arrayBuffer</code>, or <code>text</code> to force parsing the body with the respective <code>FetchResponse</code> method.</p>
+<pre><code class="language-js">// Use JSON.parse
+await ofetch(&quot;/movie?lang=en&quot;, { parseResponse: JSON.parse });
+
+// Return text as is
+await ofetch(&quot;/movie?lang=en&quot;, { parseResponse: (txt) =&gt; txt });
+
+// Get the blob version of the response
+await ofetch(&quot;/api/generate-image&quot;, { responseType: &quot;blob&quot; });
+</code></pre>
+<h2>✔️ JSON Body</h2>
+<p>If an object or a class with a <code>.toJSON()</code> method is passed to the <code>body</code> option, <code>ofetch</code> automatically stringifies it.</p>
+<p><code>ofetch</code> utilizes <code>JSON.stringify()</code> to convert the passed object. Classes without a <code>.toJSON()</code> method have to be converted into a string value in advance before being passed to the <code>body</code> option.</p>
+<p>For <code>PUT</code>, <code>PATCH</code>, and <code>POST</code> request methods, when a string or object body is set, <code>ofetch</code> adds the default <code>content-type: &quot;application/json&quot;</code> and <code>accept: &quot;application/json&quot;</code> headers (which you can always override).</p>
+<p>Additionally, <code>ofetch</code> supports binary responses with <code>Buffer</code>, <code>ReadableStream</code>, <code>Stream</code>, and <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch#body">compatible body types</a>. <code>ofetch</code> will automatically set the <code>duplex: &quot;half&quot;</code> option for streaming support!</p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-js">const { users } = await ofetch(&quot;/api/users&quot;, {
+  method: &quot;POST&quot;,
+  body: { some: &quot;json&quot; },
+});
+</code></pre>
+<h2>✔️ Handling Errors</h2>
+<p><code>ofetch</code> Automatically throws errors when <code>response.ok</code> is <code>false</code> with a friendly error message and compact stack (hiding internals).</p>
+<p>A parsed error body is available with <code>error.data</code>. You may also use <code>FetchError</code> type.</p>
+<pre><code class="language-ts">await ofetch(&quot;https://google.com/404&quot;);
+// FetchError: [GET] &quot;https://google/404&quot;: 404 Not Found
+//     at async main (/project/playground.ts:4:3)
+</code></pre>
+<p>To catch error response:</p>
+<pre><code class="language-ts">await ofetch(&quot;/url&quot;).catch((error) =&gt; error.data);
+</code></pre>
+<p>To bypass status error catching you can set the <code>ignoreResponseError</code> option:</p>
+<pre><code class="language-ts">await ofetch(&quot;/url&quot;, { ignoreResponseError: true });
+</code></pre>
+<h2>✔️ Auto Retry</h2>
+<p><code>ofetch</code> automatically retries the request if an error occurs and if the response status code is included in the <code>retryStatusCodes</code> list:</p>
+<p><strong>Retry status codes:</strong></p>
+<ul>
+<li><code>408</code> - Request Timeout</li>
+<li><code>409</code> - Conflict</li>
+<li><code>425</code> - Too Early (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Early-Data">Experimental</a>)</li>
+<li><code>429</code> - Too Many Requests</li>
+<li><code>500</code> - Internal Server Error</li>
+<li><code>502</code> - Bad Gateway</li>
+<li><code>503</code> - Service Unavailable</li>
+<li><code>504</code> - Gateway Timeout</li>
+</ul>
+<p>You can specify the number of retries and the delay between them using the <code>retry</code> and <code>retryDelay</code> options, and also provide a custom array of codes using the <code>retryStatusCodes</code> option.</p>
+<p>The default for <code>retry</code> is <code>1</code> retry, except for <code>POST</code>, <code>PUT</code>, <code>PATCH</code>, and <code>DELETE</code> methods, where <code>ofetch</code> does not retry by default to avoid introducing side effects. If you set a custom value for <code>retry</code>, it will <strong>always retry</strong> for all requests.</p>
+<p>The default for <code>retryDelay</code> is <code>0</code> ms.</p>
+<pre><code class="language-ts">await ofetch(&quot;http://google.com/404&quot;, {
+  retry: 3,
+  retryDelay: 500, // ms
+  retryStatusCodes: [ 404, 500 ], // response status codes to retry
+});
+</code></pre>
+<h2>✔️ Timeout</h2>
+<p>You can specify <code>timeout</code> in milliseconds to automatically abort a request after a timeout (default is disabled).</p>
+<pre><code class="language-ts">await ofetch(&quot;http://google.com/404&quot;, {
+  timeout: 3000, // Timeout after 3 seconds
+});
+</code></pre>
+<h2>✔️ Type Friendly</h2>
+<p>The response can be type assisted:</p>
+<pre><code class="language-ts">const article = await ofetch&lt;Article&gt;(`/api/article/${id}`);
+// Auto complete working with article.id
+</code></pre>
+<h2>✔️ Adding <code>baseURL</code></h2>
+<p>By using the <code>baseURL</code> option, <code>ofetch</code> prepends it for trailing/leading slashes and query search params for baseURL using <a href="https://github.com/unjs/ufo">ufo</a>:</p>
+<pre><code class="language-js">await ofetch(&quot;/config&quot;, { baseURL });
+</code></pre>
+<h2>✔️ Adding Query Search Params</h2>
+<p>By using the <code>query</code> option (or <code>params</code> as an alias), <code>ofetch</code> adds query search params to the URL while preserving the query in the request itself using <a href="https://github.com/unjs/ufo">ufo</a>:</p>
+<pre><code class="language-js">await ofetch(&quot;/movie?lang=en&quot;, { query: { id: 123 } });
+</code></pre>
+<h2>✔️ Interceptors</h2>
+<p>It is possible to provide async interceptors to hook into lifecycle events of the <code>ofetch</code> call.</p>
+<p>You may want to use <code>ofetch.create</code> to set shared interceptors.</p>
+<h3><code>onRequest({ request, options })</code></h3>
+<p><code>onRequest</code> is called as soon as <code>ofetch</code> is called, allowing you to modify options or do simple logging.</p>
+<pre><code class="language-js">await ofetch(&quot;/api&quot;, {
+  async onRequest({ request, options }) {
+    // Log request
+    console.log(&quot;[fetch request]&quot;, request, options);
+
+    // Add `?t=1640125211170` to query search params
+    options.query = options.query || {};
+    options.query.t = new Date();
+  },
+});
+</code></pre>
+<h3><code>onRequestError({ request, options, error })</code></h3>
+<p><code>onRequestError</code> will be called when the fetch request fails.</p>
+<pre><code class="language-js">await ofetch(&quot;/api&quot;, {
+  async onRequestError({ request, options, error }) {
+    // Log error
+    console.log(&quot;[fetch request error]&quot;, request, error);
+  },
+});
+</code></pre>
+<h3><code>onResponse({ request, options, response })</code></h3>
+<p><code>onResponse</code> will be called after the <code>fetch</code> call and body parsing.</p>
+<pre><code class="language-js">await ofetch(&quot;/api&quot;, {
+  async onResponse({ request, response, options }) {
+    // Log response
+    console.log(&quot;[fetch response]&quot;, request, response.status, response.body);
+  },
+});
+</code></pre>
+<h3><code>onResponseError({ request, options, response })</code></h3>
+<p><code>onResponseError</code> works the same as <code>onResponse</code> but will be called when fetch occurs but <code>response.ok</code> is not <code>true</code>.</p>
+<pre><code class="language-js">await ofetch(&quot;/api&quot;, {
+  async onResponseError({ request, response, options }) {
+    // Log error
+    console.log(
+      &quot;[fetch response error]&quot;,
+      request,
+      response.status,
+      response.body
+    );
+  },
+});
+</code></pre>
+<h3>Passing array of interceptors</h3>
+<p>If necessary, it is also possible to pass an array of functions that will be called sequentially.</p>
+<pre><code class="language-js">await ofetch(&quot;/api&quot;, {
+  onRequest: [
+    () =&gt; {
+      /* Do something */
+    },
+    () =&gt; {
+      /* Do something else */
+    },
+  ],
+});
+</code></pre>
+<h2>✔️ Create fetch with default options</h2>
+<p>This utility is useful if you need to use common options across several fetch calls.</p>
+<p><strong>Note:</strong> Defaults will be cloned at one level and inherited. Be careful about nested options like <code>headers</code>.</p>
+<pre><code class="language-js">const apiFetch = ofetch.create({ baseURL: &quot;/api&quot; });
+
+apiFetch(&quot;/test&quot;); // Same as ofetch('/test', { baseURL: '/api' })
+</code></pre>
+<h2>💡 Adding headers</h2>
+<p>By using the <code>headers</code> option, <code>ofetch</code> adds extra headers in addition to the request's default headers:</p>
+<pre><code class="language-js">await ofetch(&quot;/movies&quot;, {
+  headers: {
+    Accept: &quot;application/json&quot;,
+    &quot;Cache-Control&quot;: &quot;no-cache&quot;,
+  },
+});
+</code></pre>
+<h2>🍣 Access to Raw Response</h2>
+<p>If you need to access the raw response (for headers, etc), you can use <code>ofetch.raw</code>:</p>
+<pre><code class="language-js">const response = await ofetch.raw(&quot;/sushi&quot;);
+
+// response._data
+// response.headers
+// ...
+</code></pre>
+<h2>🌿 Using Native Fetch</h2>
+<p>As a shortcut, you can use <code>ofetch.native</code> which provides the native <code>fetch</code> API</p>
+<pre><code class="language-js">const json = await ofetch.native(&quot;/sushi&quot;).then((r) =&gt; r.json());
+</code></pre>
+<pre><code>
+## 🕵️ Adding HTTP(S) Agent
+
+In Node.js (&gt;= 18) environments, you can provide a custom dispatcher to intercept requests and support features such as Proxy and self-signed certificates. This feature is enabled by [undici](https://undici.nodejs.org/) built-in Node.js. [read more](https://undici.nodejs.org/#/docs/api/Dispatcher) about the Dispatcher API.
+
+Some available agents:
+
+- `ProxyAgent`: A Proxy Agent class that implements the Agent API. It allows the connection through a proxy in a simple way. ([docs](https://undici.nodejs.org/#/docs/api/ProxyAgent))
+- `MockAgent`: A mocked Agent class that implements the Agent API. It allows one to intercept HTTP requests made through undici and return mocked responses instead. ([docs](https://undici.nodejs.org/#/docs/api/MockAgent))
+- `Agent`: Agent allows dispatching requests against multiple different origins. ([docs](https://undici.nodejs.org/#/docs/api/Agent))
+
+**Example:** Set a proxy agent for one request:
+
+```ts
+import { ProxyAgent } from &quot;undici&quot;;
+import { ofetch } from &quot;ofetch&quot;;
+
+const proxyAgent = new ProxyAgent(&quot;http://localhost:3128&quot;);
+const data = await ofetch(&quot;https://icanhazip.com&quot;, { dispatcher: proxyAgent });
+</code></pre>
+<p><strong>Example:</strong> Create a custom fetch instance that has proxy enabled:</p>
+<pre><code class="language-ts">import { ProxyAgent, setGlobalDispatcher } from &quot;undici&quot;;
+import { ofetch } from &quot;ofetch&quot;;
+
+const proxyAgent = new ProxyAgent(&quot;http://localhost:3128&quot;);
+const fetchWithProxy = ofetch.create({ dispatcher: proxyAgent });
+
+const data = await fetchWithProxy(&quot;https://icanhazip.com&quot;);
+</code></pre>
+<p><strong>Example:</strong> Set a proxy agent for all requests:</p>
+<pre><code class="language-ts">import { ProxyAgent, setGlobalDispatcher } from &quot;undici&quot;;
+import { ofetch } from &quot;ofetch&quot;;
+
+const proxyAgent = new ProxyAgent(&quot;http://localhost:3128&quot;);
+setGlobalDispatcher(proxyAgent);
+
+const data = await ofetch(&quot;https://icanhazip.com&quot;);
+</code></pre>
+<p><strong>Example:</strong> Allow self-signed certificates (USE AT YOUR OWN RISK!)</p>
+<pre><code class="language-ts">import { ProxyAgent } from &quot;undici&quot;;
+import { ofetch } from &quot;ofetch&quot;;
+
+// Note: This makes fetch unsecure against MITM attacks. USE AT YOUR OWN RISK!
+const unsecureProxyAgent = new ProxyAgent({ requestTls: { rejectUnauthorized: false } });
+const unsecureFetch = ofetch.create({ dispatcher: unsecureProxyAgent });
+
+const data = await unsecureFetch(&quot;https://www.squid-cache.org/&quot;);
+</code></pre>
+<p>On older Node.js version (&lt;18), you might also use use <code>agent</code>:</p>
+<pre><code class="language-ts">import { HttpsProxyAgent } from &quot;https-proxy-agent&quot;;
+
+await ofetch(&quot;/api&quot;, {
+  agent: new HttpsProxyAgent(&quot;http://example.com&quot;),
+});
+</code></pre>
+<h3><code>keepAlive</code> support (only works for Node &lt; 18)</h3>
+<p>By setting the <code>FETCH_KEEP_ALIVE</code> environment variable to <code>true</code>, an HTTP/HTTPS agent will be registered that keeps sockets around even when there are no outstanding requests, so they can be used for future requests without having to re-establish a TCP connection.</p>
+<p><strong>Note:</strong> This option can potentially introduce memory leaks. Please check <a href="https://github.com/node-fetch/node-fetch/pull/1325">node-fetch/node-fetch#1325</a>.</p>
+<h2>📦 Bundler Notes</h2>
+<ul>
+<li>All targets are exported with Module and CommonJS format and named exports</li>
+<li>No export is transpiled for the sake of modern syntax
+<ul>
+<li>You probably need to transpile <code>ofetch</code>, <code>destr</code>, and <code>ufo</code> packages with Babel for ES5 support</li>
+</ul>
+</li>
+<li>You need to polyfill <code>fetch</code> global for supporting legacy browsers like using <a href="https://github.com/developit/unfetch">unfetch</a></li>
+</ul>
+<h2>❓ FAQ</h2>
+<p><strong>Why export is called <code>ofetch</code> instead of <code>fetch</code>?</strong></p>
+<p>Using the same name of <code>fetch</code> can be confusing since API is different but still, it is a fetch so using the closest possible alternative. You can, however, import <code>{ fetch }</code> from <code>ofetch</code> which is auto-polyfill for Node.js and using native otherwise.</p>
+<p><strong>Why not have default export?</strong></p>
+<p>Default exports are always risky to be mixed with CommonJS exports.</p>
+<p>This also guarantees we can introduce more utils without breaking the package and also encourage using <code>ofetch</code> name.</p>
+<p><strong>Why not transpiled?</strong></p>
+<p>By transpiling libraries, we push the web backward with legacy code which is unneeded for most of the users.</p>
+<p>If you need to support legacy users, you can optionally transpile the library in your build pipeline.</p>
+<pre><code>## License
+
+MIT. Made with 💖
+
+&lt;!-- Badges --&gt;
+
+[npm-version-src]: https://img.shields.io/npm/v/ofetch?style=flat&amp;colorA=18181B&amp;colorB=F0DB4F
+[npm-version-href]: https://npmjs.com/package/ofetch
+[npm-downloads-src]: https://img.shields.io/npm/dm/ofetch?style=flat&amp;colorA=18181B&amp;colorB=F0DB4F
+[npm-downloads-href]: https://npmjs.com/package/ofetch
+[codecov-src]: https://img.shields.io/codecov/c/gh/unjs/ofetch/main?style=flat&amp;colorA=18181B&amp;colorB=F0DB4F
+[codecov-href]: https://codecov.io/gh/unjs/ofetch
+[bundle-src]: https://img.shields.io/bundlephobia/minzip/ofetch?style=flat&amp;colorA=18181B&amp;colorB=F0DB4F
+[bundle-href]: https://bundlephobia.com/result?p=ofetch
+[license-src]: https://img.shields.io/github/license/unjs/ofetch.svg?style=flat&amp;colorA=18181B&amp;colorB=F0DB4F
+[license-href]: https://github.com/unjs/ofetch/blob/main/LICENSE
+[jsdocs-src]: https://img.shields.io/badge/jsDocs.io-reference-18181B?style=flat&amp;colorA=18181B&amp;colorB=F0DB4F
+[jsdocs-href]: https://www.jsdocs.io/package/ofetch
+
+
+---
+
+
+Tranlated By [Open Ai Tx](https://github.com/OpenAiTx/OpenAiTx) | Last indexed: 2025-06-30
+
+
+---
+</code></pre>
+
+        </div>
+    </div>
+    <footer class="footer">
+        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
+    </footer>
+    <!-- Default Statcounter code for openaitx
+https://openaitx.github.io/ -->
+    <script type="text/javascript">
+        var sc_project = 13142514;
+        var sc_invisible = 1;
+        var sc_security = "d03a31d8"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+</html>
