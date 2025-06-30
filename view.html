@@ -32,10 +32,6 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="view.css?v=20250613">
 
-    <!-- AD for OpenAI cost -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6348425407579134"
-     crossorigin="anonymous"></script>
-     
     <style>
         /* Layout */
         body {
@@ -44,17 +40,138 @@
             min-height: 100vh;
         }
 
+        .content-wrapper {
+            display: flex;
+            flex: 1;
+        }
+
+        /* Table of Contents Sidebar */
+        .toc-sidebar {
+            width: 240px;
+            background-color: #f6f8fa;
+            border-right: 1px solid #e1e4e8;
+            padding: 20px 15px;
+            box-sizing: border-box;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .toc-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #24292e;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e1e4e8;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-item {
+            margin: 4px 0;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 4px 8px;
+            color: #586069;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-link:hover {
+            background-color: #e1e4e8;
+            color: #0366d6;
+        }
+
+        .toc-link.active {
+            background-color: #0366d6;
+            color: #fff;
+        }
+
+        .toc-link.level-1 {
+            font-weight: 600;
+            padding-left: 8px;
+        }
+
+        .toc-link.level-2 {
+            padding-left: 20px;
+        }
+
+        .toc-link.level-3 {
+            padding-left: 32px;
+            font-size: 13px;
+        }
+
+        .toc-link.level-4 {
+            padding-left: 44px;
+            font-size: 13px;
+        }
+
+        .toc-link.level-5 {
+            padding-left: 56px;
+            font-size: 12px;
+        }
+
+        .toc-link.level-6 {
+            padding-left: 68px;
+            font-size: 12px;
+        }
+
         .main-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 980px;
+            flex: 1;
+            margin: 0;
+            width: auto;
+            max-width: none;
             padding: 0 20px;
         }
 
         @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+            
+            .toc-sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                border-right: none;
+                border-bottom: 1px solid #e1e4e8;
+                max-height: 200px;
+            }
+            
             .main-container {
                 padding: 0 15px;
             }
+        }
+
+        /* Hide TOC when empty */
+        .toc-sidebar:empty,
+        .toc-sidebar[style*="display: none"] ~ .main-container {
+            width: 100%;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        /* Adjust main container when TOC is hidden */
+        .content-wrapper:has(.toc-sidebar[style*="display: none"]) .main-container,
+        .content-wrapper:has(.toc-sidebar:empty) .main-container {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        /* Fallback for browsers that don't support :has() */
+        .main-container.full-width {
+            max-width: 980px;
+            margin: 0 auto;
         }
 
         /* Image size restrictions */
@@ -141,16 +258,25 @@
     </div>
     <div class="header">
         <div class="links">
-            GitHub Repository: <a href="#" id="githubRepoLink" target="_blank"></a>
+            GitHub Repository: <a href="#" id="githubRepoLink" target="_blank">Repository</a>
         </div>
         <div class="language-badges" id="languageBadges">
             <!-- Language badges will be dynamically generated here -->
         </div>
     </div>
 
-    <div class="main-container">
-        <div class="markdown-body" id="content">
-            <div class="loading">Loading...</div>
+    <div class="content-wrapper">
+        <div class="toc-sidebar" id="tocSidebar">
+            <div class="toc-title">Table of Contents</div>
+            <ul class="toc-list" id="tocList">
+                <!-- Table of contents will be generated here -->
+            </ul>
+        </div>
+
+        <div class="main-container">
+            <div class="markdown-body" id="content">
+                <div class="loading">Loading...</div>
+            </div>
         </div>
     </div>
 

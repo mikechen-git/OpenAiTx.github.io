@@ -1,38 +1,24 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Clean up old submission records (older than 24 hours)
-    const now = Date.now();
-    const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-    
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith('submitted_')) {
-            const timestamp = parseInt(localStorage.getItem(key));
-            if (timestamp && (now - timestamp) > oneDay) {
-                localStorage.removeItem(key);
-            }
-        }
-    }
-    
-    // Add translations object
-    const translations = {
-        'en': {
-            'missingParams': 'Missing Parameters',
-            'missingParamsDesc': 'Please provide both \'user\' and \'project\' parameters in the URL.',
-            'missingParamsExample': 'Example: view.html?user=mini-software&project=MiniExcel&lang=zh-CN',
-            'errorLoading': 'Error Loading Content',
-            'errorLoadingDesc': 'Failed to load the markdown content. Please check:',
-            'errorLoadingList1': 'The URL parameters are correct',
-            'errorLoadingList2': 'The file exists at the specified path',
-            'errorLoadingList3': 'You have an active internet connection',
-            'errorDetails': 'Error details:',
-            'repoNotFound': 'Repository Not Found',
-            'repoNotFoundDesc': 'This GitHub repository does not exist. Please check the repository name and try again.',
-            'docNotFound': 'Project Documentation Not Found',
-            'docNotFoundDesc': 'The documentation for this project has not been indexed yet. Click the button below to submit for indexing.',
-            'submit': 'Submit',
-            'submissionCompleted': 'Submission completed',
-            'submissionFailed': 'Submission failed: '
-        },
+// Add translations object - Global scope
+const translations = {
+    'en': {
+        'missingParams': 'Missing Parameters',
+        'missingParamsDesc': 'Please provide both \'user\' and \'project\' parameters in the URL.',
+        'missingParamsExample': 'Example: view.html?user=mini-software&project=MiniExcel&lang=zh-CN',
+        'errorLoading': 'Error Loading Content',
+        'errorLoadingDesc': 'Failed to load the markdown content. Please check:',
+        'errorLoadingList1': 'The URL parameters are correct',
+        'errorLoadingList2': 'The file exists at the specified path',
+        'errorLoadingList3': 'You have an active internet connection',
+        'errorDetails': 'Error details:',
+        'repoNotFound': 'Repository Not Found',
+        'repoNotFoundDesc': 'This GitHub repository does not exist. Please check the repository name and try again.',
+        'docNotFound': 'Project Documentation Not Found',
+        'docNotFoundDesc': 'The documentation for this project has not been indexed yet. Click the button below to submit for indexing.',
+        'submit': 'Submit',
+        'submissionCompleted': 'Submission completed',
+        'submissionFailed': 'Submission failed: ',
+        'tableOfContents': 'Table of Contents'
+    },
         'zh-CN': {
             'missingParams': '缺少参数',
             'missingParamsDesc': '请在URL中提供\'user\'和\'project\'参数。',
@@ -49,7 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'docNotFoundDesc': '此项目的文档尚未被索引。点击下方按钮提交索引。',
             'submit': '提交',
             'submissionCompleted': '提交完成',
-            'submissionFailed': '提交失败：'
+            'submissionFailed': '提交失败：',
+            'tableOfContents': '目录'
         },
         'zh-TW': {
             'missingParams': '缺少參數',
@@ -67,7 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'docNotFoundDesc': '此項目的文檔尚未被索引。點擊下方按鈕提交索引。',
             'submit': '提交',
             'submissionCompleted': '提交完成',
-            'submissionFailed': '提交失敗：'
+            'submissionFailed': '提交失敗：',
+            'tableOfContents': '目錄'
         },
         'ja': {
             'missingParams': 'パラメータが不足しています',
@@ -85,7 +73,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'docNotFoundDesc': 'このプロジェクトのドキュメントはまだインデックスされていません。下のボタンをクリックしてインデックスを提出してください。',
             'submit': '提出',
             'submissionCompleted': '提出完了',
-            'submissionFailed': '提出失敗：'
+            'submissionFailed': '提出失敗：',
+            'tableOfContents': '目次'
         },
         'ko': {
             'missingParams': '매개변수 누락',
@@ -103,7 +92,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'docNotFoundDesc': '이 프로젝트의 문서가 아직 인덱싱되지 않았습니다. 아래 버튼을 클릭하여 인덱싱을 제출하세요.',
             'submit': '제출',
             'submissionCompleted': '제출 완료',
-            'submissionFailed': '제출 실패: '
+            'submissionFailed': '제출 실패: ',
+            'tableOfContents': '목차'
         },
         'hi': {
             'missingParams': 'गुम पैरामीटर',
@@ -121,7 +111,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'docNotFoundDesc': 'इस प्रोजेक्ट का दस्तावेज़ अभी तक अनुक्रमित नहीं हुआ है। अनुक्रमण के लिए नीचे दिए गए बटन पर क्लिक करें।',
             'submit': 'सबमिट करें',
             'submissionCompleted': 'सबमिशन पूर्ण',
-            'submissionFailed': 'सबमिशन विफल: '
+            'submissionFailed': 'सबमिशन विफल: ',
+            'tableOfContents': 'सूची'
         },
         'fa': {
             'missingParams': 'پارامترهای گمشده',
@@ -139,7 +130,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'docNotFoundDesc': 'مستندات این پروژه هنوز فهرست‌بندی نشده است. برای ارسال فهرست‌بندی روی دکمه زیر کلیک کنید.',
             'submit': 'ارسال',
             'submissionCompleted': 'ارسال تکمیل شد',
-            'submissionFailed': 'ارسال ناموفق: '
+            'submissionFailed': 'ارسال ناموفق: ',
+            'tableOfContents': 'فهرست مطالب'
         },
         'id': {
             'missingParams': 'Parameter Hilang',
@@ -157,7 +149,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'docNotFoundDesc': 'Dokumentasi untuk proyek ini belum diindeks. Klik tombol di bawah untuk mengirimkan indeks.',
             'submit': 'Kirim',
             'submissionCompleted': 'Pengiriman selesai',
-            'submissionFailed': 'Pengiriman gagal: '
+            'submissionFailed': 'Pengiriman gagal: ',
+            'tableOfContents': 'Daftar Isi'
         },
         'th': {
             'missingParams': 'พารามิเตอร์หายไป',
@@ -175,7 +168,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'docNotFoundDesc': 'เอกสารสำหรับโครงการนี้ยังไม่ได้รับการจัดทำดัชนี คลิกปุ่มด้านล่างเพื่อส่งการจัดทำดัชนี',
             'submit': 'ส่ง',
             'submissionCompleted': 'การส่งเสร็จสิ้น',
-            'submissionFailed': 'การส่งล้มเหลว: '
+            'submissionFailed': 'การส่งล้มเหลว: ',
+            'tableOfContents': 'สารบัญ'
         },
         'fr': {
             'missingParams': 'Paramètres manquants',
@@ -193,7 +187,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'docNotFoundDesc': 'La documentation pour ce projet n\'a pas encore été indexée. Cliquez sur le bouton ci-dessous pour soumettre l\'indexation.',
             'submit': 'Soumettre',
             'submissionCompleted': 'Soumission terminée',
-            'submissionFailed': 'Échec de la soumission: '
+            'submissionFailed': 'Échec de la soumission: ',
+            'tableOfContents': 'Table des matières'
         },
         'de': {
             'missingParams': 'Fehlende Parameter',
@@ -211,7 +206,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'docNotFoundDesc': 'Die Dokumentation für dieses Projekt wurde noch nicht indiziert. Klicken Sie auf die Schaltfläche unten, um die Indizierung zu übermitteln.',
             'submit': 'Übermitteln',
             'submissionCompleted': 'Übermittlung abgeschlossen',
-            'submissionFailed': 'Übermittlung fehlgeschlagen: '
+            'submissionFailed': 'Übermittlung fehlgeschlagen: ',
+            'tableOfContents': 'Inhaltsverzeichnis'
         },
         'es': {
             'missingParams': 'Parámetros faltantes',
@@ -229,7 +225,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'docNotFoundDesc': 'La documentación para este proyecto aún no ha sido indexada. Haga clic en el botón de abajo para enviar la indexación.',
             'submit': 'Enviar',
             'submissionCompleted': 'Envío completado',
-            'submissionFailed': 'Envío fallido: '
+            'submissionFailed': 'Envío fallido: ',
+            'tableOfContents': 'Tabla de contenidos'
         },
         'it': {
             'missingParams': 'Parametri mancanti',
@@ -247,7 +244,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'docNotFoundDesc': 'La documentazione per questo progetto non è ancora stata indicizzata. Clicca sul pulsante qui sotto per inviare l\'indicizzazione.',
             'submit': 'Invia',
             'submissionCompleted': 'Invio completato',
-            'submissionFailed': 'Invio fallito: '
+            'submissionFailed': 'Invio fallito: ',
+            'tableOfContents': 'Sommario'
         },
         'ru': {
             'missingParams': 'Отсутствующие параметры',
@@ -265,7 +263,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'docNotFoundDesc': 'Документация для этого проекта еще не проиндексирована. Нажмите кнопку ниже, чтобы отправить индексацию.',
             'submit': 'Отправить',
             'submissionCompleted': 'Отправка завершена',
-            'submissionFailed': 'Отправка не удалась: '
+            'submissionFailed': 'Отправка не удалась: ',
+            'tableOfContents': 'Содержание'
         },
         'pt': {
             'missingParams': 'Parâmetros ausentes',
@@ -376,6 +375,21 @@ document.addEventListener('DOMContentLoaded', function() {
             'submissionFailed': 'Gửi thất bại: '
         }
     };
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Clean up old submission records (older than 24 hours)
+    const now = Date.now();
+    const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('submitted_')) {
+            const timestamp = parseInt(localStorage.getItem(key));
+            if (timestamp && (now - timestamp) > oneDay) {
+                localStorage.removeItem(key);
+            }
+        }
+    }
 
     // Configure marked options
     marked.setOptions({
@@ -595,6 +609,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const content = marked.parse(markdown);
             document.getElementById('content').innerHTML = content;
 
+            // Generate table of contents
+            generateTableOfContents();
+
             // Apply syntax highlighting to all code blocks
             document.querySelectorAll('pre code').forEach((block) => {
                 hljs.highlightBlock(block);
@@ -641,3 +658,123 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         });
 }); 
+
+// Generate table of contents from headings
+function generateTableOfContents() {
+    const content = document.getElementById('content');
+    const tocList = document.getElementById('tocList');
+    const tocSidebar = document.getElementById('tocSidebar');
+    const tocTitle = document.querySelector('.toc-title');
+    const mainContainer = document.querySelector('.main-container');
+    const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    
+    // Get current language and translations
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang') || 'en';
+    const t = translations[lang] || translations['en'];
+    
+    // Update TOC title with translation
+    if (tocTitle) {
+        tocTitle.textContent = t.tableOfContents;
+    }
+    
+    // Clear existing TOC
+    tocList.innerHTML = '';
+    
+    if (headings.length === 0) {
+        tocSidebar.style.display = 'none';
+        mainContainer.classList.add('full-width');
+        return;
+    }
+    
+    // Show sidebar and remove full-width class
+    tocSidebar.style.display = 'block';
+    mainContainer.classList.remove('full-width');
+    
+    headings.forEach((heading, index) => {
+        // Generate unique ID for the heading
+        const id = `heading-${index}`;
+        heading.id = id;
+        
+        // Create TOC item
+        const li = document.createElement('li');
+        li.className = 'toc-item';
+        
+        const link = document.createElement('a');
+        link.href = `#${id}`;
+        link.className = `toc-link level-${heading.tagName.charAt(1)}`;
+        link.textContent = heading.textContent.trim();
+        
+        // Smooth scroll to heading
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById(id);
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Update active state
+                updateActiveTocItem(link);
+            }
+        });
+        
+        li.appendChild(link);
+        tocList.appendChild(li);
+    });
+    
+    // Add scroll spy functionality
+    setupScrollSpy(headings);
+}
+
+// Update active TOC item
+function updateActiveTocItem(activeLink) {
+    const tocLinks = document.querySelectorAll('.toc-link');
+    tocLinks.forEach(link => link.classList.remove('active'));
+    activeLink.classList.add('active');
+}
+
+// Setup scroll spy to highlight current section
+function setupScrollSpy(headings) {
+    const tocLinks = document.querySelectorAll('.toc-link');
+    
+    function updateActiveSection() {
+        let current = '';
+        const scrollPosition = window.scrollY + 100; // Offset for better UX
+        
+        headings.forEach(heading => {
+            const rect = heading.getBoundingClientRect();
+            const offsetTop = window.scrollY + rect.top;
+            
+            if (offsetTop <= scrollPosition) {
+                current = heading.id;
+            }
+        });
+        
+        // Update active state
+        tocLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+    }
+    
+    // Throttle scroll event for better performance
+    let ticking = false;
+    function handleScroll() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateActiveSection();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    // Initial call
+    updateActiveSection();
+}
