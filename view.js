@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Check if GitHub repository exists first
     const githubApiUrl = `https://api.github.com/repos/${user}/${project}`;
-    debugger
+
     fetch(githubApiUrl)
         .then(response => response.json())
         .then(data => {
