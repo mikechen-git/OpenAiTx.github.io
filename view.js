@@ -475,10 +475,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Check if GitHub repository exists first
     const githubApiUrl = `https://api.github.com/repos/${user}/${project}`;
-    
+    debugger
     fetch(githubApiUrl)
         .then(response => response.json())
         .then(data => {
+            
             if (data.message === "Not Found") {
                 // Repository doesn't exist
                 document.getElementById('content').innerHTML = `
@@ -828,11 +829,14 @@ function changeLanguage(lang) {
 // Update UI elements based on language
 function updateUILanguage(lang) {
     const t = translations[lang] || translations['en'];
-    
     // Update any error messages or loading text that might be visible
     const loadingElement = document.querySelector('.loading');
-    if (loadingElement && loadingElement.textContent === 'Loading...') {
-        loadingElement.textContent = t.errorLoading || 'Loading...';
+    if (loadingElement) {
+        if(loadingElement.textContent === 'Loading...'){
+            loadingElement.textContent = 'Loading...';
+        }else{
+            loadingElement.textContent = t.errorLoading || 'Loading...';
+        }
     }
 }
 
