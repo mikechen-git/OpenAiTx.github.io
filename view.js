@@ -495,7 +495,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateSEO(data);
 
             // Repository exists, now check if README exists
-            const apiUrl = `https://raw.githubusercontent.com/OpenAiTx/OpenAiTx/refs/heads/main/projects/${user}/${project}/README-${lang}.md`;
+            const apiUrl = `https://openaitx.github.io/OpenAiTx/projects/${user}/${project}/README-${lang}.md`;
             
             return fetch(apiUrl);
         })
