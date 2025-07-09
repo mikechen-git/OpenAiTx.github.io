@@ -461,17 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
         githubRepoLink.textContent = `${user}/${project}`;
     }
 
-    // Update DeepWiki link with current user and project
-    function updateDeepWikiLink() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const currentUser = urlParams.get('user');
-        const currentProject = urlParams.get('project');
-        
-        const deepwikiLink = document.getElementById('deepwikiLink');
-        if (deepwikiLink && currentUser && currentProject) {
-            deepwikiLink.href = `https://deepwiki.com/${encodeURIComponent(currentUser)}/${encodeURIComponent(currentProject)}`;
-        }
-    }
+
     
     // Validate required parameters
     if (!user || !project) {
@@ -937,6 +927,18 @@ document.addEventListener('click', function(event) {
         document.getElementById('languageDropdown').classList.remove('show');
     }
 });
+
+// Update DeepWiki link with current user and project
+function updateDeepWikiLink() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentUser = urlParams.get('user');
+    const currentProject = urlParams.get('project');
+    
+    const deepwikiLink = document.getElementById('deepwikiLink');
+    if (deepwikiLink && currentUser && currentProject) {
+        deepwikiLink.href = `https://deepwiki.com/${encodeURIComponent(currentUser)}/${encodeURIComponent(currentProject)}`;
+    }
+}
 
 // Initialize theme and language on page load
 document.addEventListener('DOMContentLoaded', function() {
