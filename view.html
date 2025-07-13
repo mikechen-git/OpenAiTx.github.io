@@ -1,648 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AI Tx</title>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Open AI Tx">
-    <meta name="description" content="Open AI Tx projects">
-    <meta name="keywords" content="Open AI Tx, Markdown, GitHub Style, Documentation">
-    <meta name="author" content="Open AI Tx">
-    <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openaitx.github.io/view.html">
-    <meta property="og:title" content="Open AI Tx">
-    <meta property="og:description" content="Open AI Tx">
-    <meta property="og:image" content="https://openaitx.github.io/logo_crop.png">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" href="icon.jpg">
-    <link rel="apple-touch-icon" href="icon.jpg">
-
-    <!-- Marked.js for Markdown rendering -->
-    <script src="js/marked.min.js?v=20250613"></script>
-    <!-- Highlight.js for code syntax highlighting -->
-    <link rel="stylesheet" href="css/github.min.css?v=20250613">
-    <script src="js/highlight.min.js?v=20250613"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="view.css?v=20250613">
-
-    <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #333333;
-            --border-color: #e1e4e8;
-            --card-bg: #ffffff;
-            --preview-bg: #f5f5f5;
-            --sidebar-bg: #f6f8fa;
-            --header-bg: #f6f8fa;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --link-color: #0366d6;
-            --meta-color: #586069;
-            --toc-hover-bg: #e1e4e8;
-            --toc-active-bg: #0366d6;
-            --back-button-bg: #fff;
-            --back-button-hover-bg: #f6f8fa;
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #0d1117;
-            --text-color: #e6edf3;
-            --border-color: #30363d;
-            --card-bg: #161b22;
-            --preview-bg: #21262d;
-            --sidebar-bg: #161b22;
-            --header-bg: #161b22;
-            --shadow-color: rgba(0, 0, 0, 0.3);
-            --link-color: #58a6ff;
-            --meta-color: #8b949e;
-            --toc-hover-bg: #21262d;
-            --toc-active-bg: #238636;
-            --back-button-bg: #21262d;
-            --back-button-hover-bg: #30363d;
-        }
-
-        /* Layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .content-wrapper {
-            display: flex;
-            flex: 1;
-        }
-
-        /* Table of Contents Sidebar */
-        .toc-sidebar {
-            width: 240px;
-            background-color: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
-            padding: 20px 15px;
-            box-sizing: border-box;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow-y: auto;
-        }
-
-        .toc-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-color);
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .toc-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .toc-item {
-            margin: 4px 0;
-        }
-
-        .toc-link {
-            display: block;
-            padding: 4px 8px;
-            color: var(--meta-color);
-            text-decoration: none;
-            font-size: 14px;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-        }
-
-        .toc-link:hover {
-            background-color: var(--toc-hover-bg);
-            color: var(--link-color);
-        }
-
-        .toc-link.active {
-            background-color: var(--toc-active-bg);
-            color: #fff;
-        }
-
-        .toc-link.level-1 {
-            font-weight: 600;
-            padding-left: 8px;
-        }
-
-        .toc-link.level-2 {
-            padding-left: 20px;
-        }
-
-        .toc-link.level-3 {
-            padding-left: 32px;
-            font-size: 13px;
-        }
-
-        .toc-link.level-4 {
-            padding-left: 44px;
-            font-size: 13px;
-        }
-
-        .toc-link.level-5 {
-            padding-left: 56px;
-            font-size: 12px;
-        }
-
-        .toc-link.level-6 {
-            padding-left: 68px;
-            font-size: 12px;
-        }
-
-        .main-container {
-            flex: 1;
-            margin: 0;
-            width: auto;
-            max-width: none;
-            padding: 0 20px;
-        }
-
-        @media (max-width: 768px) {
-            .content-wrapper {
-                flex-direction: column;
-            }
-            
-            .toc-sidebar {
-                display: none !important;
-            }
-            
-            .main-container {
-                padding: 0 15px;
-                max-width: 100%;
-                margin: 0 auto;
-            }
-        }
-
-        /* Hide TOC when empty */
-        .toc-sidebar:empty,
-        .toc-sidebar[style*="display: none"] ~ .main-container {
-            width: 100%;
-            max-width: 980px;
-            margin: 0 auto;
-        }
-
-        /* Adjust main container when TOC is hidden */
-        .content-wrapper:has(.toc-sidebar[style*="display: none"]) .main-container,
-        .content-wrapper:has(.toc-sidebar:empty) .main-container {
-            max-width: 980px;
-            margin: 0 auto;
-        }
-
-        /* Fallback for browsers that don't support :has() */
-        .main-container.full-width {
-            max-width: 980px;
-            margin: 0 auto;
-        }
-
-        /* Image size restrictions */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Existing styles */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-            background: linear-gradient(135deg, #100b0c 0%, hsl(205deg, 20%, 94%) 100%);
-        }
-
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--link-color);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 5px 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            background-color: var(--back-button-bg);
-        }
-
-        .back-button:hover {
-            background-color: var(--back-button-hover-bg);
-            border-color: var(--link-color);
-        }
-
-        .back-button::before {
-            content: "←";
-            margin-right: 5px;
-            font-size: 16px;
-        }
-
-        .header .links {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .header .links a {
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .header .links a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Language selector styles */
-        .language-selector {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1001;
-        }
-
-        .language-selector-button {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 8px 12px;
-            cursor: pointer;
-            font-size: 16px;
-            box-shadow: 0 2px 4px var(--shadow-color);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            transition: all 0.2s ease;
-            color: var(--text-color);
-        }
-
-        .language-selector-button:hover {
-            border-color: var(--link-color);
-            box-shadow: 0 4px 8px var(--shadow-color);
-        }
-
-        .language-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            margin-top: 4px;
-            max-height: 300px;
-            overflow-y: auto;
-            min-width: 160px;
-            display: none;
-        }
-
-        .language-dropdown.show {
-            display: block;
-        }
-
-        .language-option {
-            padding: 8px 12px;
-            cursor: pointer;
-            font-size: 14px;
-            border-bottom: 1px solid var(--border-color);
-            transition: background-color 0.2s ease;
-            color: var(--text-color);
-            text-decoration: none;
-            display: block;
-        }
-
-        .language-option:last-child {
-            border-bottom: none;
-        }
-
-        .language-option:hover {
-            background-color: var(--preview-bg);
-        }
-
-        .language-option.active {
-            background-color: var(--preview-bg);
-            color: var(--link-color);
-        }
-
-        /* Open AI Tx link positioning */
-        .openaitx-link {
-            position: fixed;
-            top: 2px;
-            left: 2px;
-            z-index: 2000;
-            background: rgba(255,255,255,0.95);
-            border-radius: 6px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            padding: 4px 14px;
-            font-size: 15px;
-            color: #222;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        }
-
-        [data-theme="dark"] .openaitx-link {
-            background: rgba(22, 27, 34, 0.95);
-            color: var(--text-color);
-        }
-
-        .openaitx-link a {
-            color: #0366d6;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        [data-theme="dark"] .openaitx-link a {
-            color: var(--link-color);
-        }
-
-        /* Dark mode code styles */
-        [data-theme="dark"] .markdown-body pre {
-            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
-            border: 1px solid var(--border-color);
-            color: #f0f6fc;
-        }
-
-        [data-theme="dark"] .markdown-body pre::before {
-            background: linear-gradient(135deg, #58a6ff 0%, #7c3aed 100%);
-        }
-
-        [data-theme="dark"] .markdown-body pre code {
-            color: #f0f6fc;
-        }
-
-        [data-theme="dark"] .markdown-body code {
-            background: linear-gradient(135deg, #21262d 0%, #161b22 100%);
-            border: 1px solid var(--border-color);
-            color: #58a6ff;
-        }
-
-        /* Improve syntax highlighting for dark mode */
-        [data-theme="dark"] .hljs {
-            background: transparent !important;
-            color: #f0f6fc !important;
-        }
-
-        [data-theme="dark"] .hljs-keyword,
-        [data-theme="dark"] .hljs-selector-tag,
-        [data-theme="dark"] .hljs-built_in {
-            color: #ff7b72 !important;
-        }
-
-        .hljs-subst,
-        .hljs-string,
-        .hljs-attr,
-        .hljs-number,
-        [data-theme="dark"] .hljs-string,
-        [data-theme="dark"] .hljs-attr {
-            color: #a5d6ff !important;
-        }
-
-        [data-theme="dark"] .hljs-function,
-        [data-theme="dark"] .hljs-title {
-            color: #d2a8ff !important;
-        }
-
-        [data-theme="dark"] .hljs-number,
-        [data-theme="dark"] .hljs-literal {
-            color: #79c0ff !important;
-        }
-
-        [data-theme="dark"] .hljs-comment {
-            color: #8b949e !important;
-        }
-
-        [data-theme="dark"] .hljs-variable,
-        [data-theme="dark"] .hljs-property {
-            color: #ffa657 !important;
-        }
-
-        /* Dark mode toggle styles */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 80px;
-            z-index: 1000;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 8px 12px;
-            cursor: pointer;
-            font-size: 16px;
-            box-shadow: 0 2px 4px var(--shadow-color);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            transition: all 0.2s ease;
-            color: var(--text-color);
-        }
-
-        .theme-toggle:hover {
-            border-color: var(--link-color);
-            box-shadow: 0 4px 8px var(--shadow-color);
-        }
-
-        .theme-toggle-icon {
-            font-size: 18px;
-        }
-
-        @media (max-width: 768px) {
-            .language-selector {
-            top: auto;
-            bottom: 20px;
-            right: 15px;
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Redirecting...</title>
+        <style>
+            :root {
+                --background: 0 0% 100%;
+                --foreground: 222.2 84% 4.9%;
+                --card: 0 0% 100%;
+                --card-foreground: 222.2 84% 4.9%;
+                --border: 214.3 31.8% 91.4%;
+                --muted: 210 40% 98%;
+                --muted-foreground: 215.4 16.3% 46.9%;
+                --primary: 222.2 47.4% 11.2%;
             }
 
-            .language-selector-button {
-            padding: 6px 8px;
-            font-size: 18px;
+            @media (prefers-color-scheme: dark) {
+                :root {
+                    --background: 222.2 84% 4.9%;
+                    --foreground: 210 40% 98%;
+                    --card: 222.2 84% 4.9%;
+                    --card-foreground: 210 40% 98%;
+                    --border: 217.2 32.6% 17.5%;
+                    --muted: 217.2 32.6% 17.5%;
+                    --muted-foreground: 215 20.2% 65.1%;
+                    --primary: 210 40% 98%;
+                }
             }
 
-            .language-dropdown {
-            min-width: 140px;
-            bottom: 100%;
-            top: auto;
-            margin-bottom: 4px;
-            margin-top: 0;
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                background-color: hsl(var(--background));
+                color: hsl(var(--foreground));
+                line-height: 1.5;
             }
-
-            .theme-toggle {
-            top: auto;
-            bottom: 20px;
-            right: 70px;
-            left: auto;
-            padding: 6px 8px;
-            font-size: 14px;
+            .container {
+                text-align: center;
+                padding: 2rem;
+                background-color: hsl(var(--card));
+                border: 1px solid hsl(var(--border));
+                border-radius: 0.5rem;
+                box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+                max-width: 400px;
+                width: 90%;
             }
-
-            .right-third-party-container {
-                position: fixed;
-                top: auto;
-                left: 0px; 
-                bottom: 5px;
-                z-index: 1000;
-                min-width: auto;
+            .spinner {
+                width: 24px;
+                height: 24px;
+                border: 2px solid hsl(var(--muted));
+                border-top: 2px solid hsl(var(--primary));
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                margin: 0 auto 1rem;
             }
-
-            .deepwiki-badge {
-                height: 28px;
-                min-width: 28px;
-                padding: 0 6px;
-                gap: 4px;
+            h2 {
+                font-size: 1.25rem;
+                font-weight: 600;
+                margin: 0 0 0.5rem 0;
+                color: hsl(var(--foreground));
             }
-
-            .openaitx-link {
-                top: auto;
-                left: 15px;
-                bottom: 15px;
-                font-size: 13px;
-                padding: 4px 10px;
+            p {
+                font-size: 0.875rem;
+                color: hsl(var(--muted-foreground));
+                margin: 0;
             }
-        }
-
-        /* Right third-party container styles */
-        .right-third-party-container {
-            position: fixed;
-            right: 0px;
-            z-index: 1000;
-            min-width: 180px;
-        }
-
-        .deepwiki-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            height: 32px;
-            min-width: 110px;
-            padding: 0 8px 0 12px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 9999px;
-            text-decoration: none;
-            color: var(--text-color);
-            font-size: 12px;
-            font-weight: 500;
-            box-shadow: 0 2px 4px var(--shadow-color);
-            transition: all 0.2s ease;
-        }
-
-        .deepwiki-badge:hover {
-            text-decoration: underline;
-            box-shadow: 0 4px 8px var(--shadow-color);
-            transform: translateY(-1px);
-        }
-
-        .deepwiki-icon {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            flex-shrink: 0;
-        }
-
-        .deepwiki-text {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .deepwiki-dropdown-toggle {
-            border-left: 1px solid var(--border-color);
-            padding: 0 6px;
-            margin-left: 6px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .deepwiki-dropdown-toggle svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        /* Dark mode adjustments for DeepWiki badge */
-        [data-theme="dark"] .deepwiki-badge {
-            background: var(--card-bg);
-            border-color: var(--border-color);
-            color: var(--text-color);
-        }
-    </style>
-</head>
-
-<body>
-    <div class="theme-toggle" onclick="toggleTheme()">
-        <span class="theme-toggle-icon" id="themeIcon">🌙</span>
-    </div>
-    <div class="language-selector">
-        <div class="language-selector-button" onclick="toggleLanguageDropdown()">
-            <span id="languageIcon">🌐</span>
-        </div>
-        <div class="language-dropdown" id="languageDropdown">
-            <!-- Language badges will be dynamically generated here -->
-        </div>
-    </div>
-    <div class="header">
-        <div class="links">
-            GitHub Repository: <a href="#" id="githubRepoLink" target="_blank">Repository</a>
-        </div>
-    </div>
-
-    <div class="content-wrapper">
-        <div class="toc-sidebar" id="tocSidebar">
-            <div class="toc-title">Table of Contents</div>
-            <ul class="toc-list" id="tocList">
-                <!-- Table of contents will be generated here -->
-            </ul>
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="spinner"></div>
+            <h2>Redirecting...</h2>
+            <p>Please wait while we redirect you to the translation page.</p>
         </div>
 
-        <div class="main-container">
-            <div class="markdown-body" id="content">
-                <div class="loading">Loading...</div>
-            </div>
-        </div>
-        <div class="right-third-party-container">
-            <a href="#" id="deepwikiLink" target="_blank" class="deepwiki-badge">
-                <span class="deepwiki-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor">
-                        <title>DeepWiki</title>
-                        <circle cx="10" cy="10" r="5" fill="black" />
-                    </svg>
-                </span>
-                <span class="deepwiki-text">Ask DeepWiki</span>                
-            </a>
-        </div>
-    </div>
+        <script>
+            // 獲取當前 URL 的參數
+            const currentUrl = new URL(window.location.href);
+            const params = currentUrl.searchParams;
 
-    <footer class="footer">
-        Powered by <a href="https://github.com/OpenAiTx/OpenAiTx" target="_blank">Open AI Tx</a>
-    </footer>
-    <!-- Default Statcounter code for openaitx
-https://openaitx.github.io/ -->
-    <script type="text/javascript">
-        var sc_project = 13142514;
-        var sc_invisible = 1;
-        var sc_security = "d03a31d8"; 
-    </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
-    <noscript>
-        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
-                    class="statcounter" src="https://c.statcounter.com/13142514/0/d03a31d8/1/" alt="Web Analytics"
-                    referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
-    <!-- End of Statcounter Code -->
-    <script src="view.js?v=20250709213405"></script>
-</body>
+            // 構建目標 URL
+            const baseUrl = window.location.origin + window.location.pathname.replace("/view.html", "/");
+            let targetUrl = baseUrl + "#view";
 
+            // 如果有參數，添加到 hash 後面
+            if (params.toString()) {
+                targetUrl += "?" + params.toString();
+            }
+
+            // 立即重定向
+            window.location.href = targetUrl;
+        </script>
+    </body>
 </html>
